@@ -1,0 +1,12 @@
+{
+  "version": "1.0.0",
+  "name": "hive-frontend",
+  "private": true,
+  "devDependencies": {
+    "del": "^5.1.0",
+    "gulp": "^4.0.2"
+  },
+  "dependencies": {
+    "@myob-fma/hex-renderer": "^1.1.2"
+  }
+}

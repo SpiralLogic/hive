@@ -1,0 +1,8 @@
+# Project exclude paths
+/Hive/node_modules/
+/.idea/.idea.Hive/
+/.vs/Hive/xs/
+/Hive.Domain/obj/
+/Hive.Domain/bin/Debug/netstandard2.0/
+/Hive/bin/Debug/netcoreapp3.1/
+/Hive/obj/
