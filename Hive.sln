@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29911.84
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hive", "Hive\Hive.csproj", "{763BFC54-27D8-43A5-BDB5-3F9D9877153B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hive.Api", "Hive.Api\Hive.Api.csproj", "{763BFC54-27D8-43A5-BDB5-3F9D9877153B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hive.Domain", "Hive.Domain\Hive.Domain.csproj", "{F7213AA5-B802-495E-A357-24C9C84EC0C1}"
 EndProject

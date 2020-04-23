@@ -3,7 +3,7 @@
   "name": "hive-frontend",
   "private": true,
   "scripts": {
-    "clean": "rm -rf node_modules && rm -rf wwwroot/*",
+    "clean": "npm ci",
     "build": "npm install && parcel build --out-dir wwwroot scripts/src/index.html",
     "rebuild": "npm run clean && npm run build "
   },

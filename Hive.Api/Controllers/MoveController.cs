@@ -1,5 +1,4 @@
 ﻿using System.Drawing;
-using System.Linq;
 using Hive.Domain;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -11,12 +10,11 @@ namespace Hive.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class NewController : Controller
+    public class MoveController : ControllerBase
     {
-        private readonly ILogger<NewController> _logger;
-        public static GameState GameState;
+        private readonly ILogger<MoveController> _logger;
 
-        public NewController(ILogger<NewController> logger)
+        public MoveController(ILogger<MoveController> logger)
         {
             _logger = logger;
         }
@@ -25,15 +23,6 @@ namespace Hive.Controllers
         [Produces("application/json")]
         public GameState Post()
         {
-            var gameState = new GameState();
-            gameState.Cells.Add(new Cell(new GameCoordinate(1, 1), ColorTranslator.ToHtml(Color.Chartreuse)));
-
-            var player = new Player("test", ColorTranslator.ToHtml(Color.Aquamarine), ColorTranslator.ToHtml(Color.Aquamarine));
-
-            var tile = new Tile("test", new TextContent("bug"), ColorTranslator.ToHtml(Color.Aqua));
-            tile.AvailableMoves.Add(new GameCoordinate(1, 1));
-            player.AvailableTiles.Add(tile);
-            gameState.Players.Add(player);
             var set = new JsonSerializerSettings
             {
                 ContractResolver = new DefaultContractResolver
@@ -42,6 +31,11 @@ namespace Hive.Controllers
                 },
                 Formatting = Formatting.Indented
             };
+            
+            var gameState = JsonConvert.DeserializeObject<GameState>(HttpContext.Session.GetString("game"), set);
+
+            gameState.Cells.Add(new Cell(new GameCoordinate(1, 2), ColorTranslator.ToHtml(Color.Chartreuse)));
+
             var json = JsonConvert.SerializeObject(gameState, set);
             HttpContext.Session.SetString("game", json);
             return gameState;
