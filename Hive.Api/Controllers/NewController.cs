@@ -1,6 +1,5 @@
 ﻿using System.Drawing;
-using System.Linq;
-using Hive.Domain;
+using Hive.Domain.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;

@@ -1,5 +1,5 @@
 import { createContext, useEffect, useState } from 'react';
-import { coordId } from './coordinateHelpers';
+import { coordinateAsId } from './coordinateHelpers';
 import { ICell, IEngine, IGameCoordinate, IGameState, IMove } from './domain';
 import { generateStyles, IHexStyles } from './styles/hex';
 
@@ -27,7 +27,7 @@ interface ICellMap {
 }
 
 const getAdditionalCells = ({ cells, players }: IGameState): ICell[] => {
-  const cellMap: ICellMap = cells.reduce((cm: ICellMap, { position }) => ({ ...cm, [coordId(position)]: true }), {});
+  const cellMap: ICellMap = cells.reduce((cm: ICellMap, { coordinates }) => ({ ...cm, [coordinateAsId(coordinates)]: true }), {});
 
   const playerTiles = players.flatMap(p => p.availableTiles);
   const cellTiles = cells.flatMap(c => c.tiles);
@@ -38,10 +38,10 @@ const getAdditionalCells = ({ cells, players }: IGameState): ICell[] => {
     .concat(cellTiles)
     .flatMap(t => t.availableMoves)
     .forEach(position => {
-      const id = coordId(position);
+      const id = coordinateAsId(position);
       if (!cellMap[id]) {
         targetCells.push({
-          position,
+          coordinates: position,
           color: 'rgba(0, 0, 0,0.02)',
           tiles: [],
         });
@@ -70,7 +70,7 @@ const getStyles = (allCells: ICell[], screenSize: IScreenSize) => {
     return generateStyles('1px', screenSize);
   }
 
-  const screenCoords = allCells.map(c => gameToScreen(c.position));
+  const screenCoords = allCells.map(c => gameToScreen(c.coordinates));
 
   const [minX, maxX] = minMax(screenCoords.map(c => c.x).sort((a, b) => a - b));
   const [minY, maxY] = minMax(screenCoords.map(c => c.y).sort((a, b) => a - b));

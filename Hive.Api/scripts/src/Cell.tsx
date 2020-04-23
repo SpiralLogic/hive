@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useDrop } from 'react-dnd';
-import { validMove } from './coordinateHelpers';
+import { isValidMove } from './coordinateHelpers';
 import { IGameCoordinate, ITile } from './domain';
 import { TILE_TYPE } from './dragTypes';
 import { Context } from './GameContext';
@@ -9,21 +9,21 @@ import { Tile } from './Tile';
 interface CellProps {
   color?: string,
   tiles: ITile[],
-  position: IGameCoordinate
+  coordinates: IGameCoordinate
 }
 
 export const Cell: React.FunctionComponent<CellProps> = ({
                                                            color,
                                                            tiles,
-                                                           position,
+                                                           coordinates,
                                                          }) => {
   const { styles } = React.useContext(Context);
   const [{ isOver, canDrop }, drop] = useDrop({
     accept: TILE_TYPE,
-    drop: () => position,
+    drop: () => coordinates,
     canDrop: (item, monitor) => {
       const { availableMoves: validDestinations } = monitor.getItem() as ITile;
-      return validMove(position, validDestinations);
+      return isValidMove(coordinates, validDestinations);
     },
     collect: monitor => ({
       isOver: monitor.isOver(),
@@ -32,7 +32,7 @@ export const Cell: React.FunctionComponent<CellProps> = ({
   });
 
   return (
-    <div className={styles.cell(color, position, canDrop, isOver)} ref={drop}>
+    <div className={styles.cell(color, coordinates, canDrop, isOver)} ref={drop}>
       {tiles.length > 0 && <Tile {...tiles[0]} />}
     </div>
   );

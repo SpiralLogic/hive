@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Cell } from './Cell';
-import { coordId } from './coordinateHelpers';
+import { coordinateAsId } from './coordinateHelpers';
 import { Context } from './GameContext';
 
 export const Grid: React.FunctionComponent = () => {
@@ -8,7 +8,7 @@ export const Grid: React.FunctionComponent = () => {
   return (
     <>
       {allCells.map(cell => (
-        <Cell key={coordId(cell.position)} {...cell} />
+        <Cell key={coordinateAsId(cell.coordinates)} {...cell} />
       ))}
     </>
   );

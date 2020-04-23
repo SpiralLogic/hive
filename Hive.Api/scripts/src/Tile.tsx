@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useDrag } from 'react-dnd';
-import { Color, IGameCoordinate, PlayerId, TileContent } from './domain';
+import {Color, IGameCoordinate, PlayerId, TileContent, TileId} from './domain';
 import { TILE_TYPE } from './dragTypes';
 import { Context } from './GameContext';
 import log from './logger';
@@ -16,7 +16,7 @@ const TileContent: React.FunctionComponent<{
 
   switch (content.type) {
     case 'image':
-      return <img className={className} src={content.image}/>;
+      return <img className={className} src={content.url}/>;
 
     case 'react':
       const Component = content.component;
@@ -43,28 +43,28 @@ const useDefaults = (color: Color | undefined, owner: PlayerId) => {
 
 
 interface TileProps {
-  color?: string,
-  owner: string,
-  id: string,
+  color?: Color,
+  playerId: PlayerId,
+  id: TileId,
   availableMoves: IGameCoordinate[],
   content?: TileContent
 }
 
 export const Tile: React.FunctionComponent<TileProps> = ({
                                                            color,
-                                                           owner,
+                                                           playerId,
                                                            id,
                                                            content,
                                                            availableMoves,
                                                          }) => {
-  const safeColor = useDefaults(color, owner);
+  const safeColor = useDefaults(color, playerId);
   const { styles, moveTile } = React.useContext(Context);
   const [{ isDragging }, drag] = useDrag({
-    item: { type: TILE_TYPE, id, availableMoves, owner },
+    item: { type: TILE_TYPE, id, availableMoves, playerId },
     end: (item, monitor) => {
       if (monitor.didDrop()) {
         const position = monitor.getDropResult() as IGameCoordinate;
-        moveTile({ tileId: id, position });
+        moveTile({ tileId: id, coordinates: position });
       }
     },
     canDrag: () => availableMoves.length > 0,

@@ -1,3 +1,5 @@
+import * as React from "react";
+
 export type PlayerId = string;
 export type PlayerName = string;
 export type TileId = string;
@@ -58,7 +60,7 @@ export interface ICell {
   /**
    * The axial-coordinate position of the cell
    */
-  position: IGameCoordinate;
+  coordinates: IGameCoordinate;
   /**
    * Optional color to use when displaying the cell
    */
@@ -83,7 +85,7 @@ export interface ITile {
   /**
    * The ID of the player that owns this tile
    */
-  owner: PlayerId;
+  playerId: PlayerId;
   /**
    * Optional display color of this tile. If none is provided,
    * will default to the owning player's color.
@@ -114,7 +116,7 @@ export interface IImageContent extends IContent {
   /**
    * Url of the image to be displayed
    */
-  image: ImageUrl;
+  url: ImageUrl;
 }
 
 /**
@@ -167,7 +169,7 @@ export interface IMove {
   /**
    * The coordinate to which the tile was moved
    */
-  position: IGameCoordinate;
+  coordinates: IGameCoordinate;
 }
 
 /**

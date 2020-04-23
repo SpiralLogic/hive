@@ -8,6 +8,7 @@
     "rebuild": "npm run clean && npm run build "
   },
   "devDependencies": {
+    "@types/react-dom": "^16.9.6",
     "parcel": "^1.12.4",
     "typescript": "^3.8.3"
   },
