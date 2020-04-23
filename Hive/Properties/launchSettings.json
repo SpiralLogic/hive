@@ -3,7 +3,7 @@
     "windowsAuthentication": false, 
     "anonymousAuthentication": true,
     "iisExpress": {
-      "applicationUrl": "http://dev.sorijen.net.au:45118",
+      "applicationUrl": "http://localhost:45118",
       "sslPort": 44316
     }
   },
@@ -18,7 +18,7 @@
     "Hive": {
       "commandName": "Project",
       "launchBrowser": true,
-      "applicationUrl": "https://dev.sorijen.net.au:5001;http://dev.sorijen.net.au:5000",
+      "applicationUrl": "https://localhost:5001;http://localhost:5000",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }

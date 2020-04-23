@@ -3,7 +3,9 @@
   "name": "hive-frontend",
   "private": true,
   "scripts": {
-    "start": "npm install && parcel build --out-dir wwwroot scripts/src/index.html"
+    "clean": "rm -rf node_modules && rm -rf wwwroot/*",
+    "build": "npm install && parcel build --out-dir wwwroot scripts/src/index.html",
+    "rebuild": "npm run clean && npm run build "
   },
   "devDependencies": {
     "parcel": "^1.12.4",
