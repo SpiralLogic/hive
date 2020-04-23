@@ -1,1 +1,1 @@
-export * from './dist';
+xport * from './dist';

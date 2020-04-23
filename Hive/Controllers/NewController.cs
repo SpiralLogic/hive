@@ -29,8 +29,8 @@ namespace Hive.Controllers
             gameState.Cells.Add(new Cell(new GameCoordinate(1, 1), ColorTranslator.ToHtml(Color.Chartreuse)));
 
             var player = new Player("test", ColorTranslator.ToHtml(Color.Aquamarine), ColorTranslator.ToHtml(Color.Aquamarine));
+
             var tile = new Tile("test", new TextContent("bug"), ColorTranslator.ToHtml(Color.Aqua));
-            gameState.Cells.First().Tiles.Add(tile);
             tile.AvailableMoves.Add(new GameCoordinate(1, 1));
             player.AvailableTiles.Add(tile);
             gameState.Players.Add(player);

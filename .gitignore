@@ -6,3 +6,6 @@
 /Hive.Domain/bin/Debug/netstandard2.0/
 /Hive/bin/Debug/netcoreapp3.1/
 /Hive/obj/
+/Hive/wwwroot/
+/Hive/.cache/
+/Hive/scripts/dist/

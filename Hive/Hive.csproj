@@ -5,25 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="scripts\hex\dist\**" />
-    <Content Remove="scripts\hex\dist\**" />
-    <EmbeddedResource Remove="scripts\hex\dist\**" />
-    <None Remove="scripts\hex\dist\**" />
-    <TypeScriptCompile Remove="scripts\hex\dist\**" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <TypeScriptCompile Remove="scripts\index.d.ts" />
-    <TypeScriptCompile Remove="scripts\dist\app.d.ts" />
-    <TypeScriptCompile Remove="scripts\src\app.ts" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.2.0" />
-    <PackageReference Include="Microsoft.TypeScript.MSBuild" Version="3.8.3">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
   </ItemGroup>
 
@@ -32,16 +14,18 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="scripts\app.js" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Include="scripts\index.html" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="scripts\hex\" />
+    <Folder Include="wwwroot" />
     <Folder Include="wwwroot\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="scripts\fma-hex-renderer\examples\simpleEngine\package-lock.json" />
+    <_ContentIncludedByDefault Remove="scripts\fma-hex-renderer\examples\simpleEngine\package.json" />
+    <_ContentIncludedByDefault Remove="scripts\fma-hex-renderer\examples\simpleEngine\tsconfig.json" />
+    <_ContentIncludedByDefault Remove="scripts\fma-hex-renderer\package-lock.json" />
+    <_ContentIncludedByDefault Remove="scripts\fma-hex-renderer\package.json" />
+    <_ContentIncludedByDefault Remove="scripts\fma-hex-renderer\tsconfig.json" />
+    <_ContentIncludedByDefault Remove="scripts\fma-hex-renderer\tslint.json" />
   </ItemGroup>
 
 </Project>
