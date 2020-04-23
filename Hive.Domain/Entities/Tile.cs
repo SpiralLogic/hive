@@ -1,21 +1,21 @@
 using System.Collections.Generic;
 
-namespace Hive.Domain
+namespace Hive.Domain.Entities
 {
     public class Tile
     {
-        private int _count=0;
+        private static int _count=0;
 
-        public Tile(string owner, TextContent content, string color)
+        public Tile(string playerId, TextContent content, string color)
         {
             Id = (++_count).ToString();
-            Owner = owner;
+            PlayerId = playerId;
             Content = content;
             Color = color;
         }
 
         public string Id { get; }
-        public string Owner { get; }
+        public string PlayerId { get; }
         public TextContent Content { get; }
         public string Color { get; }
         public ICollection<GameCoordinate> AvailableMoves { get; } = new List<GameCoordinate>();

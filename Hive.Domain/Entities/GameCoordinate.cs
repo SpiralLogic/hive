@@ -1,4 +1,4 @@
-namespace Hive.Domain
+namespace Hive.Domain.Entities
 {
     public class GameCoordinate
     {
