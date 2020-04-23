@@ -14,18 +14,21 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot" />
     <Folder Include="wwwroot\" />
   </ItemGroup>
+  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+    <Exec Command="rmdir /s /q &quot;$(ProjectDir)wwwroot&quot;" />
+  </Target>
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="cd &quot;$(ProjectDir)&quot;  &amp;&amp; npm run build" />
+  </Target>
 
   <ItemGroup>
-    <_ContentIncludedByDefault Remove="scripts\fma-hex-renderer\examples\simpleEngine\package-lock.json" />
-    <_ContentIncludedByDefault Remove="scripts\fma-hex-renderer\examples\simpleEngine\package.json" />
-    <_ContentIncludedByDefault Remove="scripts\fma-hex-renderer\examples\simpleEngine\tsconfig.json" />
-    <_ContentIncludedByDefault Remove="scripts\fma-hex-renderer\package-lock.json" />
-    <_ContentIncludedByDefault Remove="scripts\fma-hex-renderer\package.json" />
-    <_ContentIncludedByDefault Remove="scripts\fma-hex-renderer\tsconfig.json" />
-    <_ContentIncludedByDefault Remove="scripts\fma-hex-renderer\tslint.json" />
+    <Folder Include="scripts" />
   </ItemGroup>
 
+  <PropertyGroup >
+    <PreBuildEventUseInBuild>true</PreBuildEventUseInBuild>
+    <PostBuildEventUseInBuild>true</PostBuildEventUseInBuild>
+  </PropertyGroup>
 </Project>
