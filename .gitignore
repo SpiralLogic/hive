@@ -1,6 +1,7 @@
 # Project exclude paths
 /Hive/node_modules/
 /.idea
+**/*/.DS_Store
 /.vs/
 /Hive.Domain/obj/
 /Hive.Domain/bin/Debug/netstandard2.0/
