@@ -1,16 +1,16 @@
 # Project exclude paths
-/Hive/node_modules/
+/Hive.Api/node_modules/
 /.idea
 **/*/.DS_Store
 /.vs/
 /Hive.Domain/obj/
-/Hive.Domain/bin/Debug/netstandard2.0/
-/Hive/bin/Debug/netcoreapp3.1/
-/Hive/obj/
-/Hive/wwwroot/
-/Hive/.cache/
-/Hive/scripts/dist/*
-/Hive/.parcel-cache/*
-/Hive/dist/*
-/Hive/scripts/src/**/*.map
-/Hive/scripts/src/**/*.js
+/Hive.Domain/bin/
+/Hive.Api/obj/
+/Hive.Api/wwwroot/
+/Hive.Api/.cache/
+/Hive.Api/scripts/dist/*
+/Hive.Api/.parcel-cache/*
+/Hive.Api/dist/*
+/Hive.Api/scripts/src/**/*.map
+/Hive.Api/scripts/src/**/*.js
+/Hive.Api/bin/
