@@ -5,62 +5,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <TypeScriptCompile Remove="scripts\hex\Cell.ts" />
-    <TypeScriptCompile Remove="scripts\hex\coordinateHelpers.ts" />
-    <TypeScriptCompile Remove="scripts\hex\domain.ts" />
-    <TypeScriptCompile Remove="scripts\hex\dragTypes.ts" />
-    <TypeScriptCompile Remove="scripts\hex\GameArea.ts" />
-    <TypeScriptCompile Remove="scripts\hex\GameContext.ts" />
-    <TypeScriptCompile Remove="scripts\hex\Grid.ts" />
-    <TypeScriptCompile Remove="scripts\hex\index.ts" />
-    <TypeScriptCompile Remove="scripts\hex\logger.ts" />
-    <TypeScriptCompile Remove="scripts\hex\Player.ts" />
-    <TypeScriptCompile Remove="scripts\hex\PlayerList.ts" />
-    <TypeScriptCompile Remove="scripts\hex\Renderer.ts" />
-    <TypeScriptCompile Remove="scripts\hex\styles\hex.ts" />
-    <TypeScriptCompile Remove="scripts\hex\styles\layout.ts" />
-    <TypeScriptCompile Remove="scripts\hex\styles\measures.ts" />
-    <TypeScriptCompile Remove="scripts\hex\styles\player.ts" />
-    <TypeScriptCompile Remove="scripts\hex\Tile.ts" />
+    <Compile Remove="scripts\hex\dist\**" />
+    <Content Remove="scripts\hex\dist\**" />
+    <EmbeddedResource Remove="scripts\hex\dist\**" />
+    <None Remove="scripts\hex\dist\**" />
+    <TypeScriptCompile Remove="scripts\hex\dist\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <TypeScriptCompile Remove="scripts\index.d.ts" />
-    <TypeScriptCompile Include="scripts\hex\dist\Cell.d.ts" />
-    <TypeScriptCompile Include="scripts\hex\dist\domain.d.ts" />
-    <TypeScriptCompile Remove="scripts\hex\dist\Cell.d.ts" />
-    <TypeScriptCompile Remove="scripts\hex\dist\coordinateHelpers.d.ts" />
-    <TypeScriptCompile Remove="scripts\hex\dist\domain.d.ts" />
-    <TypeScriptCompile Remove="scripts\hex\dist\dragTypes.d.ts" />
-    <TypeScriptCompile Remove="scripts\hex\dist\GameArea.d.ts" />
-    <TypeScriptCompile Remove="scripts\hex\dist\GameContext.d.ts" />
-    <TypeScriptCompile Remove="scripts\hex\dist\Grid.d.ts" />
-    <TypeScriptCompile Remove="scripts\hex\dist\index.d.ts" />
-    <TypeScriptCompile Remove="scripts\hex\dist\logger.d.ts" />
-    <TypeScriptCompile Remove="scripts\hex\dist\Player.d.ts" />
-    <TypeScriptCompile Remove="scripts\hex\dist\PlayerList.d.ts" />
-    <TypeScriptCompile Remove="scripts\hex\dist\Renderer.d.ts" />
-    <TypeScriptCompile Remove="scripts\hex\dist\styles\hex.d.ts" />
-    <TypeScriptCompile Remove="scripts\hex\dist\styles\layout.d.ts" />
-    <TypeScriptCompile Remove="scripts\hex\dist\styles\measures.d.ts" />
-    <TypeScriptCompile Remove="scripts\hex\dist\styles\player.d.ts" />
-    <TypeScriptCompile Remove="scripts\hex\dist\Tile.d.ts" />
-    <TypeScriptCompile Remove="scripts\hex\index.d.ts" />
-    <TypeScriptCompile Remove="wwwroot\scripts\hex\Cell.ts" />
-    <TypeScriptCompile Remove="wwwroot\scripts\hex\coordinateHelpers.ts" />
-    <TypeScriptCompile Remove="wwwroot\scripts\hex\domain.ts" />
-    <TypeScriptCompile Remove="wwwroot\scripts\hex\dragTypes.ts" />
-    <TypeScriptCompile Remove="wwwroot\scripts\hex\GameArea.ts" />
-    <TypeScriptCompile Remove="wwwroot\scripts\hex\GameContext.ts" />
-    <TypeScriptCompile Remove="wwwroot\scripts\hex\Grid.ts" />
-    <TypeScriptCompile Remove="wwwroot\scripts\hex\index.ts" />
-    <TypeScriptCompile Remove="wwwroot\scripts\hex\logger.ts" />
-    <TypeScriptCompile Remove="wwwroot\scripts\hex\Player.ts" />
-    <TypeScriptCompile Remove="wwwroot\scripts\hex\PlayerList.ts" />
-    <TypeScriptCompile Remove="wwwroot\scripts\hex\Renderer.ts" />
-    <TypeScriptCompile Remove="wwwroot\scripts\hex\styles\hex.ts" />
-    <TypeScriptCompile Remove="wwwroot\scripts\hex\styles\layout.ts" />
-    <TypeScriptCompile Remove="wwwroot\scripts\hex\styles\measures.ts" />
-    <TypeScriptCompile Remove="wwwroot\scripts\hex\styles\player.ts" />
-    <TypeScriptCompile Remove="wwwroot\scripts\hex\Tile.ts" />
-    <TypeScriptCompile Remove="wwwroot\scripts\app.ts" />
     <TypeScriptCompile Remove="scripts\dist\app.d.ts" />
     <TypeScriptCompile Remove="scripts\src\app.ts" />
   </ItemGroup>
@@ -80,6 +33,15 @@
 
   <ItemGroup>
     <None Remove="scripts\app.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="scripts\index.html" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="scripts\hex\" />
+    <Folder Include="wwwroot\" />
   </ItemGroup>
 
 </Project>

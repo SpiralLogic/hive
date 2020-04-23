@@ -2,11 +2,28 @@
   "version": "1.0.0",
   "name": "hive-frontend",
   "private": true,
+  "scripts": {
+    "dev": "parcel watch --out-dir wwwroot scripts/index.html",
+    "build": "parcel build --out-dir wwwroot scripts/index.html"
+  },
   "devDependencies": {
-    "del": "^5.1.0",
-    "gulp": "^4.0.2"
+    "parcel": "^1.12.2",
+    "@types/react": "^16.8.2",
+    "@types/react-dom": "^16.8.0",
+    "awesome-typescript-loader": "^5.2.1",
+    "babel-core": "^6.26.3",
+    "prettier": "^1.16.4",
+    "tslint": "^5.12.1",
+    "tslint-config-prettier": "^1.18.0",
+    "tslint-react": "^3.6.0",
+    "typescript": "^3.3.3"
   },
   "dependencies": {
-    "@myob-fma/hex-renderer": "^1.1.2"
+    "tslib": "^1.11.1",
+    "cxs": "^6.2.0",
+    "react": "^16.8.1",
+    "react-dnd": "^7.0.2",
+    "react-dnd-html5-backend": "^7.0.2",
+    "react-dom": "^16.8.1"
   }
 }

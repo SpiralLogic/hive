@@ -1,0 +1,54 @@
+{
+  "name": "@myob-fma/hex-renderer",
+  "version": "1.1.2",
+  "description": "Simple react-based renderer for a hexagonal grid based boardgame",
+  "keywords": [
+    "hexagon",
+    "hexagonal",
+    "renderer"
+  ],
+  "homepage": "https://github.com/MYOB-Technology/fma-hex-renderer",
+  "bugs": {
+    "url": "https://github.com/MYOB-Technology/fma-hex-renderer/issues"
+  },
+  "license": "MIT",
+  "author": "dan.scott@myob.com",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/MYOB-Technology/fma-hex-renderer.git"
+  },
+  "files": [
+    "LICENCE",
+    "README.md",
+    "index.d.ts",
+    "dist/"
+  ],
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "publishConfig": {
+    "registry": "https://npm.cloudsmith.io/myob/future-makers-academy/"
+  },
+  "scripts": {
+    "clean": "rm -rf dist",
+    "build": "npm run clean && tsc",
+    "prepublishOnly": "npm ci && npm run build"
+  },
+  "dependencies": {
+    "cxs": "^6.2.0",
+    "react": "^16.13.1",
+    "react-dnd": "^10.0.2",
+    "react-dnd-html5-backend": "^10.0.2",
+    "react-dom": "^16.13.1"
+  },
+  "devDependencies": {
+    "@types/react": "^16.9.34",
+    "@types/react-dom": "^16.9.6",
+    "awesome-typescript-loader": "^5.2.1",
+    "babel-core": "^6.26.3",
+    "prettier": "^2.0.5",
+    "tslint": "^6.1.1",
+    "tslint-config-prettier": "^1.18.0",
+    "tslint-react": "^5.0.0",
+    "typescript": "^3.8.3"
+  }
+}
