@@ -16,19 +16,13 @@
   <ItemGroup>
     <Folder Include="wwwroot\" />
   </ItemGroup>
-  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
-    <Exec Command="rmdir /s /q &quot;$(ProjectDir)wwwroot&quot;" />
+
+  <Target  Name="PreBuild" BeforeTargets="PreBuildEvent">
+	<RemoveDir Directories="wwwroot" />
   </Target>
-  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+
+  <Target  Name="PostBuild" BeforeTargets="PostBuildEvent">
     <Exec Command="cd &quot;$(ProjectDir)&quot;  &amp;&amp; npm run build" />
   </Target>
 
-  <ItemGroup>
-    <Folder Include="scripts" />
-  </ItemGroup>
-
-  <PropertyGroup >
-    <PreBuildEventUseInBuild>true</PreBuildEventUseInBuild>
-    <PostBuildEventUseInBuild>true</PostBuildEventUseInBuild>
-  </PropertyGroup>
 </Project>
