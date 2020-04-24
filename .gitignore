@@ -1,16 +1,14 @@
 # Project exclude paths
-/Hive.Api/node_modules/
+**/node_modules
+**/obj
+**/bin
+**/.cache/
 /.idea
-**/*/.DS_Store
 /.vs/
-/Hive.Domain/obj/
-/Hive.Domain/bin/
-/Hive.Api/obj/
+.DS_Store
 /Hive.Api/wwwroot/
-/Hive.Api/.cache/
 /Hive.Api/scripts/dist/*
 /Hive.Api/.parcel-cache/*
 /Hive.Api/dist/*
 /Hive.Api/scripts/src/**/*.map
 /Hive.Api/scripts/src/**/*.js
-/Hive.Api/bin/
