@@ -1,4 +1,4 @@
-import * as React from "react";
+import * as React from 'react';
 
 export type PlayerId = string;
 export type PlayerName = string;
@@ -183,11 +183,12 @@ export interface IEngine {
    * Will be called before the initial render.
    * @returns Promise<IGameState>
    */
-  initialState(): Promise<IGameState>;
+  initialState (): Promise<IGameState>;
+
   /**
    * When provided with a move, will return a promise resolving the
    * resulting 'next' game state.
    * @param move A tile move performed by a plaer
    */
-  playMove(move: IMove): Promise<IGameState>;
+  playMove (move: IMove): Promise<IGameState>;
 }

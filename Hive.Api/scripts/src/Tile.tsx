@@ -1,10 +1,9 @@
 import * as React from 'react';
 import { useDrag } from 'react-dnd';
-import {Color, IGameCoordinate, PlayerId, TileContent, TileId} from './domain';
+import { Color, IGameCoordinate, PlayerId, TileContent, TileId } from './domain';
 import { TILE_TYPE } from './dragTypes';
 import { Context } from './GameContext';
 import log from './logger';
-import { IHexStyles } from './styles/hex';
 
 const TileContent: React.FunctionComponent<{
   content?: TileContent;
@@ -15,19 +14,19 @@ const TileContent: React.FunctionComponent<{
   }
 
   switch (content.type) {
-    case 'image':
-      return <img className={className} src={content.url}/>;
+  case 'image':
+    return <img className={className} src={content.url}/>;
 
-    case 'react':
-      const Component = content.component;
-      return <Component/>;
+  case 'react':
+    const Component = content.component;
+    return <Component/>;
 
-    case 'text':
-      return <span>{content.text}</span>;
+  case 'text':
+    return <span>{content.text}</span>;
 
-    default:
-      log.error('Unknown content type passed to cell', content);
-      return null;
+  default:
+    log.error('Unknown content type passed to cell', content);
+    return null;
   }
 };
 
@@ -41,7 +40,6 @@ const useDefaults = (color: Color | undefined, owner: PlayerId) => {
   return player ? player.color : '#fff';
 };
 
-
 interface TileProps {
   color?: Color,
   playerId: PlayerId,
@@ -51,12 +49,12 @@ interface TileProps {
 }
 
 export const Tile: React.FunctionComponent<TileProps> = ({
-                                                           color,
-                                                           playerId,
-                                                           id,
-                                                           content,
-                                                           availableMoves,
-                                                         }) => {
+  color,
+  playerId,
+  id,
+  content,
+  availableMoves,
+}) => {
   const safeColor = useDefaults(color, playerId);
   const { styles, moveTile } = React.useContext(Context);
   const [{ isDragging }, drag] = useDrag({

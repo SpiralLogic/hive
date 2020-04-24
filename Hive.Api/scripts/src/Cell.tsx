@@ -13,10 +13,10 @@ interface CellProps {
 }
 
 export const Cell: React.FunctionComponent<CellProps> = ({
-                                                           color,
-                                                           tiles,
-                                                           coordinates,
-                                                         }) => {
+  color,
+  tiles,
+  coordinates,
+}) => {
   const { styles } = React.useContext(Context);
   const [{ isOver, canDrop }, drop] = useDrop({
     accept: TILE_TYPE,
