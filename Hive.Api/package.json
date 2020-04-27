@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "clean": "npm ci",
-    "build": "npm install && parcel build --out-dir wwwroot scripts/src/index.html",
+    "build": "npm install &&  parcel build --no-minify --out-dir wwwroot scripts/src/index.html",
     "rebuild": "npm run clean && npm run build "
   },
   "devDependencies": {

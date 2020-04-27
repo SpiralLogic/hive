@@ -16,12 +16,11 @@ export interface IHexStyles {
 }
 
 export const generateStyles = (
-  unit: string,
   screenSize?: { width: number; height: number },
   ratio: number = 1,
   shift: { x: number; y: number } = { x: 0, y: 0 },
 ): IHexStyles => {
-  const { cellSizes, tileSizes, gameToScreen } = generateMeasures(`calc(${unit} * ${ratio})`, screenSize, shift);
+  const { cellSizes, tileSizes, gameToScreen } = generateMeasures(`calc(1px* ${ratio})`, screenSize, shift);
 
   const hex = ({ height, width, margin, border }: ISizes, color: Color) => {
     const beforeAfter = {

@@ -1,9 +1,9 @@
-import * as React from 'react';
-import { IEngine } from './domain';
-import { Context, IGameContext, useGameContext } from './GameContext';
-import { Grid } from './Grid';
-import { PlayerList } from './PlayerList';
-import { gridContainer, playerContainer, root } from './styles/layout';
+import * as React from 'react'
+import { IEngine } from './domain'
+import { Context, IGameContext, useGameContext } from './GameContext'
+import { Grid } from './Grid'
+import { PlayerList } from './PlayerList'
+import { gridContainer, playerContainer, root } from './styles/layout'
 
 export interface IProps {
   engine: IEngine;
@@ -48,7 +48,7 @@ const useContainerSize = ({ setSize }: IGameContext): ContainerRef => {
   return refContainer;
 };
 
-export const GameArea: React.StatelessComponent<IProps> = ({ engine }) => {
+export const GameArea: React.FunctionComponent<IProps> = ({ engine }) => {
   const [loading, gameContext] = useGameContext(engine);
 
   const ref = useContainerSize(gameContext);

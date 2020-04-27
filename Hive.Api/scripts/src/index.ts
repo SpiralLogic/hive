@@ -1,5 +1,5 @@
-import {IEngine, IGameState, IMove} from "./domain";
-import {renderGame} from "./Renderer";
+import { renderGame } from './components/Renderer'
+import { IEngine, IGameState, IMove } from './domain'
 
 const moveRequest = async (move: IMove) => {
   let response = await fetch('https://localhost:5001/move', {

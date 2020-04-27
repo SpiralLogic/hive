@@ -1,8 +1,7 @@
 import { createContext, useEffect, useState } from 'react';
-import { coordinateAsId } from './coordinateHelpers';
-import { ICell, IEngine, IGameCoordinate, IGameState, IMove } from './domain';
 import { generateStyles, IHexStyles } from './styles/hex';
-
+import { coordinateAsId, ICell, IEngine, IGameCoordinate, IGameState, IMove } from './domain'
+ 
 export interface IGameContext {
   gameState: IGameState;
   allCells: ICell[];
@@ -17,7 +16,7 @@ export const Context = createContext<IGameContext>({
     players: [],
   },
   allCells: [],
-  styles: generateStyles('1px', { width: 100, height: 100 }),
+  styles: generateStyles( { width: 100, height: 100 }),
   moveTile: () => undefined,
   setSize: () => undefined,
 });
@@ -67,7 +66,7 @@ const minMax = <T>(arr: T[]) => [arr[0], arr.slice(-1)[0]];
 
 const getStyles = (allCells: ICell[], screenSize: IScreenSize) => {
   if (!allCells.length) {
-    return generateStyles('1px', screenSize);
+    return generateStyles( screenSize);
   }
 
   const screenCoords = allCells.map(c => gameToScreen(c.coordinates));
@@ -89,7 +88,7 @@ const getStyles = (allCells: ICell[], screenSize: IScreenSize) => {
 
     ratio = Math.min(widthRatio, heightRatio);
   }
-  return generateStyles('1px', screenSize, ratio, { x: midX, y: midY });
+  return generateStyles( screenSize, ratio, { x: midX, y: midY });
 };
 
 interface IScreenSize {

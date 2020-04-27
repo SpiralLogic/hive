@@ -1,4 +1,12 @@
-import { IGameCoordinate } from './domain';
+/**
+ * Game space axial coordinates
+ * @see https://www.redblobgames.com/grids/hexagons/#coordinates-axial
+ */
+export interface IGameCoordinate {
+  q: number;
+  r: number;
+}
+
 
 export const areEqual = (a: IGameCoordinate, b: IGameCoordinate) => {
   return a && b && a.q === b.q && a.r === b.r;
