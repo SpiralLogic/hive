@@ -1,5 +1,5 @@
-import { IPlayer } from './IPlayer'
-import { ICell } from './ICell'
+import { IPlayer } from './IPlayer';
+import { ICell } from './ICell';
 
 /**
  * Represents a single, complete, point-in-time snapshot of a game

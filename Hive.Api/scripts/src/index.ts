@@ -1,11 +1,11 @@
-import { renderGame } from './components/Renderer'
-import { IEngine, IGameState, IMove } from './domain'
+import { IEngine, IGameState, IMove } from './domain';
+import { renderGame } from './components/Renderer';
 
 const moveRequest = async (move: IMove) => {
   let response = await fetch('https://localhost:5001/move', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    mode: "no-cors",
+    mode: 'no-cors',
     body: JSON.stringify(move)
   });
 
@@ -19,21 +19,18 @@ const newRequest = async () => {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
     },
-    mode: "cors",
-    body: JSON.stringify(""),
+    mode: 'no-cors',
+    body: JSON.stringify(''),
   });
 
   return await response.json();
 };
 
-const biancasEngine = (): IEngine => {
+const engine = (): IEngine => {
   return {
     async initialState(): Promise<IGameState> {
-      let r = await newRequest();
-      console.log(r);
-      return r;
+      return await newRequest();
     },
-
     async playMove(move: IMove): Promise<IGameState> {
       return await moveRequest(move);
     }
@@ -41,6 +38,6 @@ const biancasEngine = (): IEngine => {
 };
 
 renderGame({
-  engine: biancasEngine(),
+  engine: engine(),
   container: document.getElementById('board') as Element,
 });

@@ -1,6 +1,6 @@
 import { createContext, useEffect, useState } from 'react';
 import { generateStyles, IHexStyles } from './styles/hex';
-import { coordinateAsId, ICell, IEngine, IGameCoordinate, IGameState, IMove } from './domain'
+import { coordinateAsId, ICell, IEngine, IGameCoordinate, IGameState, IMove } from './domain';
  
 export interface IGameContext {
   gameState: IGameState;

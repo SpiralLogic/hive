@@ -18,8 +18,3 @@ export const gridContainer = cxs({
   height: '100%',
   position: 'relative',
 });
-
-export const playerContainer = cxs({
-  flex: 'initial',
-  height: '100%',
-});

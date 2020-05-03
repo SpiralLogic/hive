@@ -1,6 +1,6 @@
-import { IGameCoordinate } from './IGameCoordinate'
-import { PlayerId } from './IPlayer'
-import { Color, TileContent } from './IContent'
+import { IGameCoordinate } from './IGameCoordinate';
+import { PlayerId } from './IPlayer';
+import { Color, TileContent } from './IContent';
 
 /**
  * A player owned tile, containing ownership and style information,

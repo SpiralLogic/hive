@@ -1,15 +1,15 @@
-import * as React from 'react'
-import { IEngine } from './domain'
-import { Context, IGameContext, useGameContext } from './GameContext'
-import { Grid } from './Grid'
-import { PlayerList } from './PlayerList'
-import { gridContainer, playerContainer, root } from './styles/layout'
-
-export interface IProps {
-  engine: IEngine;
-}
+import * as React from 'react';
+import { Grid } from './Grid';
+import { PlayerList } from './PlayerList';
+import { IEngine } from '../domain';
+import { Context, IGameContext, useGameContext } from '../GameContext';
+import { gridContainer, root } from '../styles/GameArea';
 
 type ContainerRef = React.RefObject<HTMLDivElement>;
+
+interface IProps {
+  engine: IEngine;
+}
 
 const useContainerSize = ({ setSize }: IGameContext): ContainerRef => {
   const refContainer = React.useRef<HTMLDivElement>(null);
@@ -60,15 +60,11 @@ export const GameArea: React.FunctionComponent<IProps> = ({ engine }) => {
   return (
     <div className={root}>
       <Context.Provider value={gameContext}>
-        <div className={playerContainer}>
-          <PlayerList />
-        </div>
+        <PlayerList/>
         <div ref={ref} className={gridContainer}>
-          <Grid />
+          <Grid/>
         </div>
       </Context.Provider>
     </div>
   );
 };
-
-GameArea.displayName = 'GameArea';

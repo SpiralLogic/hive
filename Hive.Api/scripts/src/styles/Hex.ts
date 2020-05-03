@@ -1,13 +1,9 @@
 import cxs from 'cxs';
 import { Color, IGameCoordinate } from '../domain';
-import { generateMeasures, ISizes } from './measures';
+import { generateMeasures, ISizes } from './GameContext';
 
 const textColor = '#ffffff';
 const cellColor = '#ababab';
-
-export interface IStyleDict {
-  [k: string]: string | IStyleDict;
-}
 
 export interface IHexStyles {
   cell: (color: Color | undefined, position: IGameCoordinate, canDrop: boolean, isOver: boolean) => string;
@@ -53,7 +49,7 @@ export const generateStyles = (
       '::after': {
         ...beforeAfter,
         'border-top': `${border} solid ${color}`,
-        top: `100%`,
+        top: '100%',
       },
     };
   };

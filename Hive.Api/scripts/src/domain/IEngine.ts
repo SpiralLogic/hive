@@ -1,5 +1,5 @@
-import { IGameState } from './IGameState'
-import { IMove } from './IMove'
+import { IGameState } from './IGameState';
+import { IMove } from './IMove';
 
 /**
  * A rules engine to plug into the renderer. Allows the renderer

@@ -1,6 +1,6 @@
-import { ITile } from './ITile'
-import { IGameCoordinate } from './IGameCoordinate'
-import { Color } from './IContent'
+import { ITile } from './ITile';
+import { IGameCoordinate } from './IGameCoordinate';
+import { Color } from './IContent';
 
 /**
  * A single position on the hexagonal grid. May contain

@@ -1,9 +1,7 @@
 import * as React from 'react';
 import { useDrag } from 'react-dnd';
-import { Color, IGameCoordinate, PlayerId, TileContent, TileId } from './domain';
-import { TILE_TYPE } from './dragTypes';
-import { Context } from './GameContext';
-import log from './logger';
+import { Color, IGameCoordinate, PlayerId, TileContent, TileId } from '../domain';
+import { Context } from '../GameContext';
 
 const TileContent: React.FunctionComponent<{
   content?: TileContent;
@@ -17,15 +15,11 @@ const TileContent: React.FunctionComponent<{
   case 'image':
     return <img className={className} src={content.url}/>;
 
-  case 'react':
-    const Component = content.component;
-    return <Component/>;
-
   case 'text':
     return <span>{content.text}</span>;
 
   default:
-    log.error('Unknown content type passed to cell', content);
+    console.error('Unknown content type passed to cell', content);
     return null;
   }
 };
@@ -47,6 +41,8 @@ interface TileProps {
   availableMoves: IGameCoordinate[],
   content?: TileContent
 }
+
+export const TILE_TYPE = Symbol();
 
 export const Tile: React.FunctionComponent<TileProps> = ({
   color,
@@ -77,5 +73,3 @@ export const Tile: React.FunctionComponent<TileProps> = ({
     </div>
   );
 };
-
-

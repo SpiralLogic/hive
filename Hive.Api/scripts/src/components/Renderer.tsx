@@ -1,18 +1,18 @@
-import cxs from 'cxs'
-import * as React from 'react'
-import Backend from 'react-dnd-html5-backend'
-import { DndProvider } from 'react-dnd'
-import * as ReactDOM from 'react-dom'
-import { IEngine } from '../domain'
-import { GameArea } from './GameArea'
+import cxs from 'cxs';
+import * as React from 'react';
+import Backend from 'react-dnd-html5-backend';
+import { DndProvider } from 'react-dnd';
+import * as ReactDOM from 'react-dom';
+import { IEngine } from '../domain';
+import { GameArea } from './GameArea';
 
-cxs.prefix('hgr')
+cxs.prefix('hgr');
 
 /**
  * Options to pass to the renderGame method, including the rules engine
  * and containing dom element
  */
-export interface IRenderOptions {
+interface IRenderOptions {
   /**
    * The rules engine that the renderer will request initial and subsequent
    * game states from.
@@ -30,7 +30,7 @@ export interface IRenderOptions {
  */
 export const renderGame = ({ engine, container }: IRenderOptions) => {
   if (!container) {
-    throw new Error('Unable to render game. No container provided.')
+    throw new Error('Unable to render game. No container provided.');
   }
-  ReactDOM.render(<DndProvider backend={Backend}><GameArea engine={engine}/></DndProvider>, container)
-}
+  ReactDOM.render(<DndProvider backend={Backend}><GameArea engine={engine}/></DndProvider>, container);
+};

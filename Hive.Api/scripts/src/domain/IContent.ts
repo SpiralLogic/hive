@@ -31,6 +31,5 @@ export interface ITextContent extends IContent {
 }
 
 export type TileContent = IImageContent | ITextContent;
-export type Color = string;
 export type ImageUrl = string | undefined;
-
+export type Color = string;

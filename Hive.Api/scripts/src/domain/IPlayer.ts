@@ -1,5 +1,5 @@
-import { ITile } from './ITile'
-import { Color } from './IContent'
+import { ITile } from './ITile';
+import { Color } from './IContent';
 
 /**
  * Represents a single player, including identifying data, colors,

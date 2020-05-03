@@ -1,6 +1,6 @@
 import cxs from 'cxs';
 import { Color } from '../domain';
-import { generateMeasures } from './measures';
+import { generateMeasures } from './GameContext';
 
 const { units, tileSizes } = generateMeasures('1px', undefined);
 

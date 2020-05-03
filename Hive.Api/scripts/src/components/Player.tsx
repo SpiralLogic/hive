@@ -1,8 +1,7 @@
 import * as React from 'react';
-import { IPlayer } from './domain';
-import { player, playerContainer, playerTile } from './styles/player';
 import { Tile } from './Tile';
-
+import { IPlayer } from '../domain';
+import { player, playerContainer, playerTile } from '../styles/player';
 
 export const Player: React.FunctionComponent<IPlayer> = ({ name, color, tileListColor, availableTiles }) => {
   return (
@@ -17,5 +16,3 @@ export const Player: React.FunctionComponent<IPlayer> = ({ name, color, tileList
     </div>
   );
 };
-
-Player.displayName = 'Player';

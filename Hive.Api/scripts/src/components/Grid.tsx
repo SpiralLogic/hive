@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Cell } from './Cell';
-import { Context } from './GameContext';
-import { coordinateAsId } from './domain'
+import { coordinateAsId } from '../domain';
+import { Context } from '../GameContext';
 
 export const Grid: React.FunctionComponent = () => {
   const { allCells } = React.useContext(Context);
@@ -13,5 +13,3 @@ export const Grid: React.FunctionComponent = () => {
     </>
   );
 };
-
-Grid.displayName = 'Grid';

@@ -13,10 +13,13 @@
     <ItemGroup>
         <Folder Include="wwwroot\" />
     </ItemGroup>
+    <ItemGroup>
+      <None Remove="scripts\src\logger.ts" />
+    </ItemGroup>
     <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
         <RemoveDir Directories="wwwroot" />
     </Target>
     <Target Name="PostBuild" BeforeTargets="PostBuildEvent">
-        <Exec Command="cd &quot;$(ProjectDir)&quot;  &amp;&amp; npm run build" />
+        <Exec Command="npm run build" />
     </Target>
 </Project>

@@ -1,5 +1,5 @@
-import { IGameCoordinate } from './IGameCoordinate'
-import { TileId } from './ITile'
+import { IGameCoordinate } from './IGameCoordinate';
+import { TileId } from './ITile';
 
 /**
  * Describes a single game move
