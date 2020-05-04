@@ -17,18 +17,13 @@ export interface ITile {
    */
   playerId: PlayerId;
   /**
-   * Optional display color of this tile. If none is provided,
-   * will default to the owning player's color.
-   */
-  color?: Color;
-  /**
    * Optional content to display for the tile
    */
-  content?: TileContent;
+  content: TileContent;
   /**
    * A list of cell coordinates that this tile may currently be moved to
    */
   availableMoves: IGameCoordinate[];
 }
 
-export type TileId = string;
+export type TileId = number;

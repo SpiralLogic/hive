@@ -21,15 +21,11 @@ export interface IPlayer {
    */
   color: Color;
   /**
-   * Optional background color to use for this players tile list box
-   */
-  tileListColor?: Color;
-  /**
    * A list of tiles owned by this player that are available but not
    * yet placed in a cell.
    */
   availableTiles: ITile[];
 }
 
-export type PlayerId = string;
+export type PlayerId = number;
 export type PlayerName = string;

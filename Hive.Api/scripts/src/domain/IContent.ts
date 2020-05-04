@@ -1,25 +1,4 @@
-export interface IContent {
-  type: 'image' | 'text';
-}
-
-/**
- * Specifies an image to display in a tile
- */
-export interface IImageContent extends IContent {
-  /**
-   * Must be `'image'`
-   */
-  type: 'image';
-  /**
-   * Url of the image to be displayed
-   */
-  url: ImageUrl;
-}
-
-/**
- * Specifies text to be displayed within the tile
- */
-export interface ITextContent extends IContent {
+export interface ITextContent {
   /**
    * Must be `'text'`
    */
@@ -30,6 +9,5 @@ export interface ITextContent extends IContent {
   text: string;
 }
 
-export type TileContent = IImageContent | ITextContent;
-export type ImageUrl = string | undefined;
+export type TileContent = ITextContent;
 export type Color = string;

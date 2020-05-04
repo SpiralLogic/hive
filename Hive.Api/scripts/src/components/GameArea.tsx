@@ -1,70 +1,29 @@
-import * as React from 'react';
-import { Grid } from './Grid';
-import { PlayerList } from './PlayerList';
-import { IEngine } from '../domain';
-import { Context, IGameContext, useGameContext } from '../GameContext';
-import { gridContainer, root } from '../styles/GameArea';
+import { CSSProperties } from 'react'
+import * as React from 'react'
+import { Board } from './Board'
+import { PlayerList } from './PlayerList'
+import { IEngine } from '../domain'
+import { Context, useGameContext } from '../GameContext'
 
-type ContainerRef = React.RefObject<HTMLDivElement>;
 
 interface IProps {
   engine: IEngine;
 }
 
-const useContainerSize = ({ setSize }: IGameContext): ContainerRef => {
-  const refContainer = React.useRef<HTMLDivElement>(null);
-  const [width, setWidth] = React.useState(0);
-  const [height, setHeight] = React.useState(0);
-
-  const updateSizes = React.useCallback(() => {
-    if (!refContainer.current) {
-      return;
-    }
-    let changed = false;
-    const { clientHeight, clientWidth } = refContainer.current;
-    if (width !== clientWidth) {
-      changed = true;
-      setWidth(clientWidth);
-    }
-    if (height !== clientHeight) {
-      changed = true;
-      setHeight(clientHeight);
-    }
-    if (changed) {
-      setSize(clientWidth, clientHeight);
-    }
-  }, []);
-
-  React.useLayoutEffect(updateSizes, [
-    refContainer.current ? refContainer.current.clientWidth : Math.random(),
-    refContainer.current ? refContainer.current.clientHeight : Math.random(),
-  ]);
-
-  React.useEffect(() => {
-    window.addEventListener('resize', updateSizes);
-    return () => window.removeEventListener('resize', updateSizes);
-  }, []);
-
-  return refContainer;
-};
 
 export const GameArea: React.FunctionComponent<IProps> = ({ engine }) => {
-  const [loading, gameContext] = useGameContext(engine);
-
-  const ref = useContainerSize(gameContext);
+  const [loading, gameContext] = useGameContext(engine)
 
   if (loading) {
-    return <h1>loading</h1>;
+    return <h1>loading</h1>
   }
-
+  const styles= {'--cell-size': '60px'} as CSSProperties;
   return (
-    <div className={root}>
+    <div className="game" style={styles}>
       <Context.Provider value={gameContext}>
         <PlayerList/>
-        <div ref={ref} className={gridContainer}>
-          <Grid/>
-        </div>
+          <Board/>     
       </Context.Provider>
     </div>
-  );
-};
+  )
+}

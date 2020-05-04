@@ -1,0 +1,106 @@
+.game {
+    display: flex;
+    height: 100%;
+    min-height: 600px;
+    --margin: 4px;
+    --tile-size: calc(var(--cell-size) * .85);
+    --cell-size: var(--cell-size, 60px);
+}
+
+.players {
+    display: flex;
+    flex-direction: row;
+}
+
+.player {
+    display: flex;
+    flex-direction: column;
+    padding: 30px 0 30px 0;
+    background-color: aqua;
+    margin: 3px;
+    border-radius: 3px;
+}
+
+.player .tile {
+    margin: 3px 3px var(--tile-size);
+}
+
+.board {
+    width: 100%;
+    height: 99%;
+    background: yellow;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 4px;
+    border-radius: 4px;
+}
+
+.hex-row {
+    clear: left;
+}
+
+.hex-row:nth-child(even) {
+    margin-left: calc(1.8 * var(--cell-size) / 2);
+}
+
+.cell {
+    --width: calc(1.732 * var(--size));
+    width: var(--width);
+    height: calc(var(--size));
+    position: relative;
+    float: left;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    background-color: var(--color);
+}
+
+.cell {
+    --size: var(--cell-size);
+    --color: rgba(0, 0, 0, 0.2);
+    margin: calc((var(--cell-size) / 2) + var(--margin)) 0 0 var(--margin);
+}
+
+
+.cell:before, .cell:after {
+    content: " ";
+    width: 0;
+    height: 0;
+    position: absolute;
+    border: 0 solid transparent;
+}
+
+.cell:before, .cell:after {
+    border-width: 0 calc(var(--width) / 2) 0;
+}
+
+.cell:before {
+    border-bottom: calc(var(--size) / 2) solid var(--color);
+    top: calc(var(--size) / -2);
+}
+
+.cell:after {
+    border-top: calc(var(--size) / 2) solid var(--color);
+    bottom: calc(var(--size) / -2);
+}
+
+.tile {
+    --size: var(--tile-size);
+    --color: blue;
+    margin: 0;
+    z-index: 10;
+}
+
+.tile:hover {
+    box-shadow: 0 0 20px black;
+    transition: all .1s ease-in;
+}
+
+.active {
+    --color: green;
+}
+
+.inactive {
+    --color: red;
+}

@@ -4,20 +4,17 @@ namespace Hive.Domain.Entities
 {
     public class Tile
     {
-        private static int _count=0;
-
-        public Tile(string playerId, TextContent content, string color)
+        public Tile(int id, int playerId, TextContent content, ICollection<GameCoordinate> availableMoves = null)
         {
-            Id = (++_count).ToString();
+            Id = id;
             PlayerId = playerId;
             Content = content;
-            Color = color;
+            AvailableMoves = availableMoves ?? new List<GameCoordinate>();
         }
 
-        public string Id { get; }
-        public string PlayerId { get; }
+        public int Id { get; }
+        public int PlayerId { get; }
         public TextContent Content { get; }
-        public string Color { get; }
-        public ICollection<GameCoordinate> AvailableMoves { get; } = new List<GameCoordinate>();
+        public ICollection<GameCoordinate> AvailableMoves { get; }
     }
 }

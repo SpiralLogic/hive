@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "clean": "npm ci",
-    "build": "npm install &&  parcel build --no-minify --out-dir wwwroot scripts/src/index.html",
+    "build": "npm install &&  parcel build --no-minify  --no-cache --out-dir wwwroot scripts/src/index.html",
     "rebuild": "npm run clean && npm run build "
   },
   "devDependencies": {
@@ -17,7 +17,6 @@
     "typescript": "^3.8.3"
   },
   "dependencies": {
-    "cxs": "^6.2.0",
     "react": "^16.13.1",
     "react-dnd": "^10.0.2",
     "react-dnd-html5-backend": "^10.0.2",

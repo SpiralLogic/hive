@@ -1,12 +1,9 @@
-import cxs from 'cxs';
 import * as React from 'react';
 import Backend from 'react-dnd-html5-backend';
 import { DndProvider } from 'react-dnd';
 import * as ReactDOM from 'react-dom';
 import { IEngine } from '../domain';
 import { GameArea } from './GameArea';
-
-cxs.prefix('hgr');
 
 /**
  * Options to pass to the renderGame method, including the rules engine

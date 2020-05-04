@@ -4,14 +4,13 @@ namespace Hive.Domain.Entities
 {
     public class Cell
     {
-        public Cell(GameCoordinate coordinates, string color)
+        public Cell(GameCoordinate coordinates, ICollection<Tile> tiles = null)
         {
             Coordinates = coordinates;
-            Color = color;
+            Tiles = tiles ??  new List<Tile>();
         }
 
         public GameCoordinate Coordinates { get; }
-        public string Color { get; }
-        public ICollection<Tile> Tiles { get; } = new List<Tile>();
+        public ICollection<Tile> Tiles { get; }
     }
 }

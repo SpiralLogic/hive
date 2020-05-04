@@ -4,21 +4,19 @@ namespace Hive.Domain.Entities
 {
     public class Player
     {
-        private static int _count = 0;
-        
-        public Player(string name, string color, string tileListColor)
+        public Player(int id, string name, string color, ICollection<Tile> availableTiles = null)
         {
-            Id = (++_count).ToString();
+            Id = id;
             Name = name;
             Color = color;
-            TileListColor = tileListColor;
+            AvailableTiles = availableTiles ?? new List<Tile>();
         }
 
-        public string Id { get; }
-        public string Name { get; }
         public string Color { get; }
-        public string TileListColor { get; }
-        
-        public ICollection<Tile> AvailableTiles { get; } = new List<Tile>();
+
+        public int Id { get; }
+        public string Name { get; }
+
+        public ICollection<Tile> AvailableTiles { get; }
     }
 }

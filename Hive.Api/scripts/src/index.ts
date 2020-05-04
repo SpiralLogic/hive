@@ -39,5 +39,5 @@ const engine = (): IEngine => {
 
 renderGame({
   engine: engine(),
-  container: document.getElementById('board') as Element,
+  container: document.getElementById('game') as Element,
 });
