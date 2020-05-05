@@ -41,7 +41,7 @@
 }
 
 .hex-row:nth-child(even) {
-    margin-left: calc(1.8 * var(--cell-size) / 2);
+    margin-left: calc(1.8 * var(--cell-size) / -2);
 }
 
 .cell {

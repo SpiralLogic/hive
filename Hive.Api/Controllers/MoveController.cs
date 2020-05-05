@@ -40,6 +40,8 @@ namespace Hive.Controllers
             var gameState = JsonConvert.DeserializeObject<GameState>(HttpContext.Session.GetString("game"), set);
 
             gameState.Cells.Add(new Cell(new GameCoordinate(1, 2)));
+            gameState.Cells.Add(new Cell(new GameCoordinate(2, 2)));
+            gameState.Cells.Add(new Cell(new GameCoordinate(1, 1)));
             gameState.Cells.First().Tiles.Add(gameState.Players.First().AvailableTiles.First());
 
             var json = JsonConvert.SerializeObject(gameState, set);

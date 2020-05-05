@@ -26,14 +26,28 @@ namespace Hive.Controllers
         {
             var gameState = new GameState();
 
+            gameState.Cells.Add(new Cell(new GameCoordinate(2, 1)));
+            gameState.Cells.Add(new Cell(new GameCoordinate(3, 1)));
             gameState.Cells.Add(new Cell(new GameCoordinate(1, 1)));
+            gameState.Cells.Add(new Cell(new GameCoordinate(1, 1)));
+            gameState.Cells.Add(new Cell(new GameCoordinate(1, 1)));
+            gameState.Cells.Add(new Cell(new GameCoordinate(2, 1)));
+            gameState.Cells.Add(new Cell(new GameCoordinate(2, 1)));
+            gameState.Cells.Add(new Cell(new GameCoordinate(1, 1)));
+            gameState.Cells.Add(new Cell(new GameCoordinate(2, 1)));
+            gameState.Cells.Add(new Cell(new GameCoordinate(3, 1)));
+            gameState.Cells.Add(new Cell(new GameCoordinate(4, 1)));
+            gameState.Cells.Add(new Cell(new GameCoordinate(4, 1)));
+            gameState.Cells.Add(new Cell(new GameCoordinate(4, 1)));
 
-            var player = new Player(1, "test", ColorTranslator.ToHtml(Color.Aquamarine));
+            var player = new Player(21, "test", ColorTranslator.ToHtml(Color.Aquamarine));
+            var player2 = new Player(2, "test2", ColorTranslator.ToHtml(Color.Aquamarine));
 
             var tile = new Tile(1, player.Id, new TextContent("bug"));
             tile.AvailableMoves.Add(new GameCoordinate(1, 1));
             player.AvailableTiles.Add(tile);
             gameState.Players.Add(player);
+            gameState.Players.Add(player2);
             
             var set = new JsonSerializerSettings
             {
