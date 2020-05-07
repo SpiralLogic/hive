@@ -1,7 +1,6 @@
 import { createContext, useEffect, useState } from 'react';
-import { coordinateAsId, ICell, IEngine, IGameState, IMove, PlayerId } from './domain'
-import { IPlayer } from './domain/IPlayer'
- 
+import { coordinateAsId, ICell, IEngine, IGameState, IMove, PlayerId } from './domain';
+
 export interface IGameContext {
   gameState: IGameState;
   allCells: ICell[];
