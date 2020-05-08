@@ -10,6 +10,5 @@
     "inlineSources": true,
     "removeComments": true
   },
-  
-  "include": ["src/**/*"]
+  "include": ["src/js/**/*"]
 }

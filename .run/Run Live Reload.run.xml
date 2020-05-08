@@ -1,0 +1,7 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Run Live Reload" type="CompoundRunConfigurationType">
+    <toRun name="Hive" type="LaunchSettings" />
+    <toRun name="Live Rebuild" type="js.build_tools.gulp" />
+    <method v="2" />
+  </configuration>
+</component>

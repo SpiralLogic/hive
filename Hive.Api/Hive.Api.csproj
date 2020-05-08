@@ -11,10 +11,9 @@
         <ProjectReference Include="..\Hive.Domain\Hive.Domain.csproj" />
     </ItemGroup>
     <ItemGroup>
-        <!-- extends watching group to include *.js files -->
-        <Watch Include="scripts\**\*" Exclude="**/*.cs" />
+      <_ContentIncludedByDefault Remove="scripts\tsconfig.json" />
     </ItemGroup>
-    <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
-        <Exec Command="npm run build" />
-    </Target>
+    <ItemGroup>
+      <Folder Include="wwwroot" />
+    </ItemGroup>
 </Project>
