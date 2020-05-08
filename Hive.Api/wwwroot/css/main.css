@@ -1,0 +1,115 @@
+.game {
+    display: flex;
+    height: 100%;
+    min-height: 600px;
+    --margin: 4px;
+    --hex-size: var(--hex-size, 60px);
+    --tile-size: calc(var(--hex-size) * .7);
+}
+
+.players {
+    display: flex;
+    flex-direction: row;
+    height: 99%;
+    border-radius: 4px;
+}
+
+.player {
+    display: flex;
+    flex-direction: column;
+    background-color: #000000;
+    margin-right: 1px;
+    border-radius: 3px;
+}
+
+.player .name {
+    display: block;
+    background-color: var(--color);
+    text-align: center;
+    color: white;
+    padding: 5px;
+    font-weight: bold;
+    border-radius: 4px 4px 0 0;
+}
+.player .tiles {
+    margin: 3px;
+}
+.board {
+    width: 100%;
+    height: 99%;
+    background: #1A1A1D;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+}
+
+.hex-row {
+    clear: left;
+}
+
+.hex-row:nth-child(even) {
+    margin-left: calc(1.8 * var(--hex-size) / -2);
+}
+
+.hex {
+    --width: calc(1.732 * var(--size));
+    --color: rgba(0, 0, 0, 0.2);
+    width: var(--width);
+    height: calc(var(--size));
+    position: relative;
+    float: left;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    background-color: var(--color);
+    margin-top: calc(var(--size) / 2);
+}
+
+.cell {
+    --size: var(--hex-size);
+    margin: calc((var(--size) / 2) + var(--margin)) 0 0 var(--margin);
+}
+
+.hex:before, .hex:after {
+    content: " ";
+    width: 0;
+    height: 0;
+    position: absolute;
+    border: 0 solid transparent;
+}
+
+.hex:before, .hex:after {
+    border-width: 0 calc(var(--width) / 2) 0;
+}
+
+.hex:before {
+    border-bottom: calc(var(--size) / 2) solid var(--color);
+    top: calc(var(--size) / -2);
+}
+
+.hex:after {
+    border-top: calc(var(--size) / 2) solid var(--color);
+    bottom: calc(var(--size) / -2);
+}
+
+.tile {
+    --size: var(--tile-size);
+    z-index: 10;
+}
+.cell > .tile {
+    margin: 0;
+
+}
+.tile:hover {
+    box-shadow: 0 0 20px black;
+    transition: all .1s ease-in;
+}
+
+.active {
+    --color: #AFD275;
+}
+
+.inactive {
+    --color: #5D001E;
+}

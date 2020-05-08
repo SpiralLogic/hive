@@ -6,7 +6,7 @@
 /.idea
 /.vs/
 .DS_Store
-/Hive.Api/wwwroot/
+/Hive.Api/wwwroot/js
 /Hive.Api/scripts/dist/*
 /Hive.Api/.parcel-cache/*
 /Hive.Api/dist/*
