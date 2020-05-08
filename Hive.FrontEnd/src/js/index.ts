@@ -39,5 +39,5 @@ const engine = (): IEngine => {
 
 renderGame({
   engine: engine(),
-  container: document.getElementById('game') as Element,
+  container: document.getElementById('hive') as Element,
 });

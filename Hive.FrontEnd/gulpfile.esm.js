@@ -1,11 +1,11 @@
-var gulp = require('gulp');
-var browserify = require('browserify');
-var watchify = require('watchify');
-var source = require('vinyl-source-stream');
-var tsify = require('tsify');
-var fancy_log = require('fancy-log');
+import gulp from 'gulp';
+import browserify from 'browserify';
+import watchify from 'watchify';
+import source from 'vinyl-source-stream';
+import tsify from 'tsify';
+import fancy_log from 'fancy-log';
 
-var paths = {
+const paths = {
   pages: ['src/*.html'],
   css: ['src/css/*'],
   dist: ['dist/**/*']
@@ -26,13 +26,13 @@ gulp.task('copy-to-api', () =>
     .pipe(gulp.dest('../Hive.Api/wwwroot/'))
 );
 
-var watcher = watchify(browserify({
+const watcher = watchify(browserify({
   basedir: '.',
   debug: true,
   entries: ['src/js/index.ts']
 }).plugin(tsify, { p: 'src/js' }));
 
-var bundle = () => watcher.bundle()
+const bundle = () => watcher.bundle()
   .pipe(source('index.js'))
   .pipe(gulp.dest('dist/js'));
 
