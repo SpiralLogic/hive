@@ -2,6 +2,11 @@ import { IEngine, IGameState, IMove } from './domain';
 import { renderGame } from './components/Renderer';
 
 const moveRequest = async (move: IMove) => {
+  var f = new URLSearchParams();
+  const { tileId, coordinates } = move;
+  f.append('tileId', tileId.toString());
+  f.append('coordinates[q]',move.coordinates.q.toString());
+  f.append('coordinates[r]',move.coordinates.r.toString());
   let response = await fetch('https://localhost:5001/move', {
     method: 'POST',
     headers: {
@@ -9,7 +14,7 @@ const moveRequest = async (move: IMove) => {
       'Content-Type': 'application/x-www-form-urlencoded'
     },
     mode: 'no-cors',
-    body: JSON.stringify(move)
+    body: f
   });
 
   return await response.json();

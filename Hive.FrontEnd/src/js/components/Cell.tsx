@@ -14,7 +14,7 @@ const areEqual = (a: IGameCoordinate, b: IGameCoordinate) => {
 };
 
 const isValidMove = (move: IGameCoordinate, validMoves: IGameCoordinate[]) => {
-  return validMoves.some(dest => areEqual(move, dest));
+  return true; //validMoves.some(dest => areEqual(move, dest));
 };
 
 export const Cell: React.FunctionComponent<CellProps> = ({
