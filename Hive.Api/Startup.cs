@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace Hive
 {
@@ -13,12 +15,10 @@ namespace Hive
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDistributedMemoryCache();
-            services.AddSession(options =>
-            {
-                options.IdleTimeout = TimeSpan.FromSeconds(600);
-            });
+            services.AddSession(options => { options.IdleTimeout = TimeSpan.FromSeconds(600); });
             services.AddControllers();
-          }
+            AddDefaultSerializeSettings();
+        }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -27,14 +27,25 @@ namespace Hive
             {
                 app.UseDeveloperExceptionPage();
             }
-            
+
             app.UseHttpsRedirection();
             app.UseDefaultFiles();
             app.UseStaticFiles();
             app.UseRouting();
             app.UseSession();
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
+        }
 
+        private static void AddDefaultSerializeSettings()
+        {
+            JsonConvert.DefaultSettings = () => new JsonSerializerSettings
+            {
+                ContractResolver = new DefaultContractResolver
+                {
+                    NamingStrategy = new CamelCaseNamingStrategy(),
+                },
+                Formatting = Formatting.Indented
+            };
         }
     }
 }

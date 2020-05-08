@@ -34,7 +34,7 @@ export const Cell: React.FunctionComponent<CellProps> = ({
     }),
   })
   
-  const className = 'cell' + (isOver && canDrop ?  ' active' : isOver ? ' inactive' : '')
+  const className = 'hex cell' + (isOver && canDrop ?  ' active' : isOver ? ' inactive' : '')
 
   return (
     <div className={className} ref={drop}>

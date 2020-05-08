@@ -1,5 +1,5 @@
 import { createContext, useEffect, useState } from 'react';
-import { coordinateAsId, ICell, IEngine, IGameState, IMove, PlayerId } from './domain';
+import { coordinateAsId, ICell, IEngine, IGameState, IMove, PlayerId } from './domain'
 
 export interface IGameContext {
   gameState: IGameState;
@@ -44,7 +44,10 @@ const getAdditionalCells = ({ cells, players }: IGameState): ICell[] => {
 
   return targetCells.concat(cells);
 };
-
+export const getPlayerColor = (playerId:PlayerId) => {
+  const playerColors = ["#85dcbc","#f64c72"]
+  return playerColors[playerId] || "red";
+}
 
 export const useGameContext = (engine: IEngine): [boolean, IGameContext] => {
   const [loading, setLoading] = useState(true);

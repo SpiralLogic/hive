@@ -16,8 +16,8 @@ export const Board: React.FunctionComponent = () => {
   return (
     <div className="board">
       <div>
-        {Array.from(rows.values()).map((cells) => (
-          <div className="hex-row">
+        {Array.from(rows.values()).map((cells, index) => (
+          <div key={index} className="hex-row">
             {cells.map(cell => (
               <Cell key={coordinateAsId(cell.coordinates)} {...cell} />
             ))}

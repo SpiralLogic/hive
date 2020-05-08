@@ -11,16 +11,10 @@
         <ProjectReference Include="..\Hive.Domain\Hive.Domain.csproj" />
     </ItemGroup>
     <ItemGroup>
-        <Folder Include="wwwroot" />
-        <Folder Include="wwwroot\" />
-    </ItemGroup>
-    <ItemGroup>
-      <None Remove="scripts\src\logger.ts" />
+        <!-- extends watching group to include *.js files -->
+        <Watch Include="scripts\**\*" Exclude="**/*.cs" />
     </ItemGroup>
     <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
-        <RemoveDir Directories="wwwroot" />
-    </Target>
-    <Target Name="PostBuild" BeforeTargets="PostBuildEvent">
         <Exec Command="npm run build" />
     </Target>
 </Project>

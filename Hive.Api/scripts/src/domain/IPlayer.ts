@@ -1,5 +1,4 @@
 import { ITile } from './ITile';
-import { Color } from './IContent';
 
 /**
  * Represents a single player, including identifying data, colors,
@@ -19,11 +18,7 @@ export interface IPlayer {
    * The identifying color of the player. Used as a default for any tiles
    * owned by the player.
    */
-  color: Color;
-  /**
-   * A list of tiles owned by this player that are available but not
-   * yet placed in a cell.
-   */
+
   availableTiles: ITile[];
 }
 

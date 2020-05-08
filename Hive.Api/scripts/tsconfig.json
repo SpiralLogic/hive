@@ -1,7 +1,5 @@
 {
   "compilerOptions": {
-    "target": "es5",
-    "module": "es2015",
     "lib": ["es2019", "dom"],
     "jsx": "react",
     "strict": true,
@@ -10,10 +8,8 @@
     "moduleResolution": "node",
     "sourceMap": true,
     "inlineSources": true,
-    "removeComments": true,
-    "importHelpers": false,
-    "downlevelIteration": true
+    "removeComments": true
   },
-  "include": ["src/**/*"],
-  "exclude": ["node_modules/**/*", "dist", "**/*.spec.ts", "**/*.spec.tsx"]
+  
+  "include": ["src/**/*"]
 }

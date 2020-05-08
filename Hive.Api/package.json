@@ -3,9 +3,7 @@
   "name": "hive-frontend",
   "private": true,
   "scripts": {
-    "clean": "npm ci",
-    "build": "npm install &&  parcel build --no-minify  --no-cache --out-dir wwwroot scripts/src/index.html",
-    "rebuild": "npm run clean && npm run build "
+    "build": "browserify scripts\\src\\index.ts -p [tsify -p scripts] -o wwwroot\\js\\main.js --debug "
   },
   "devDependencies": {
     "@types/react-dom": "^16.9.6",
@@ -13,14 +11,14 @@
     "@typescript-eslint/parser": "^2.29.0",
     "eslint": "^6.8.0",
     "eslint-plugin-react": "^7.19.0",
-    "parcel": "^1.12.4",
-    "typescript": "^3.8.3"
+    "typescript": "^3.8.3",
+    "browserify": "^16.5.1",
+    "tsify": "^4.0.1"
   },
   "dependencies": {
     "react": "^16.13.1",
     "react-dnd": "^10.0.2",
     "react-dnd-html5-backend": "^10.0.2",
-    "react-dom": "^16.13.1",
-    "tslib": "^1.11.1"
+    "react-dom": "^16.13.1"
   }
 }

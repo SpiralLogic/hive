@@ -17,7 +17,7 @@ export const GameArea: React.FunctionComponent<IProps> = ({ engine }) => {
   if (loading) {
     return <h1>loading</h1>
   }
-  const styles= {'--cell-size': '60px'} as CSSProperties;
+  const styles= {'--hex-size': '50px'} as CSSProperties;
   return (
     <div className="game" style={styles}>
       <Context.Provider value={gameContext}>
