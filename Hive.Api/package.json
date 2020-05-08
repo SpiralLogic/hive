@@ -3,7 +3,7 @@
   "name": "hive-frontend",
   "private": true,
   "scripts": {
-    "build": "browserify scripts\\src\\index.ts -p [tsify -p scripts] -o wwwroot\\js\\main.js --debug "
+    "build": "browserify scripts/src/index.ts -p [tsify -p scripts] -o wwwroot/js/main.js --debug "
   },
   "devDependencies": {
     "@types/react-dom": "^16.9.6",
