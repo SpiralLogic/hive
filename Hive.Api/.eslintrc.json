@@ -38,7 +38,7 @@
   "overrides": [
     {
       "files": [
-        "src/**/*"
+        "./scripts/src/**/*"
       ]
     }
   ]

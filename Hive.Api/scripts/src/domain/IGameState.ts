@@ -1,5 +1,5 @@
-import { IPlayer, PlayerId } from './IPlayer'
-import { ICell } from './ICell'
+import { IPlayer, PlayerId } from './IPlayer';
+import { ICell } from './ICell';
 
 /**
  * Represents a single, complete, point-in-time snapshot of a game
@@ -18,5 +18,5 @@ export interface IGameState {
 }
 
 export const getPlayer = (gameState: IGameState, playerId: PlayerId): IPlayer | null => {
-  return gameState.players.find(p => p.id === playerId) || null
-}
+  return gameState.players.find(p => p.id === playerId) || null;
+};
