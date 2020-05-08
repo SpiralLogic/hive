@@ -41,8 +41,8 @@ export const Tile: React.FunctionComponent<TileProps> = ({
     item: { type: TILE_TYPE, id, availableMoves, playerId },
     end: (item, monitor) => {
       if (monitor.didDrop()) {
-        const position = monitor.getDropResult() as IGameCoordinate;
-        moveTile({ tileId: id, coordinates: position });
+        const { q, r } = monitor.getDropResult() as IGameCoordinate;
+        moveTile({ tileId: id, coordinates: { q, r } });
       }
     },
     canDrag: () => availableMoves.length > 0,
@@ -51,9 +51,9 @@ export const Tile: React.FunctionComponent<TileProps> = ({
       isDragging: monitor.isDragging(),
     }),
   });
-  
-  const styles = { '--color':  getPlayerColor(playerId) } as CSSProperties;
-  
+
+  const styles = { '--color': getPlayerColor(playerId) } as CSSProperties;
+
   return (
     <div ref={drag} className="hex tile" title={content as ITextContent && content.text} style={styles}>
       <TileContent content={content}/>

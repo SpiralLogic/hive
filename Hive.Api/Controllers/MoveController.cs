@@ -1,9 +1,13 @@
-﻿ using System.Linq;
- using Hive.Domain.Entities;
+﻿using System.Linq;
+using System.Net.Mime;
+using Hive.Domain;
+using Hive.Domain.Entities;
+using Hive.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+
 namespace Hive.Controllers
 {
     [ApiController]
@@ -18,8 +22,7 @@ namespace Hive.Controllers
         }
 
         [HttpPost]
-        [Produces("application/json")]
-        public GameState Post()
+        public GameState Post([FromForm] Move move)
         {
             var gameState = JsonConvert.DeserializeObject<GameState>(HttpContext.Session.GetString("game"));
 

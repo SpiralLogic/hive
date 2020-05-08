@@ -4,7 +4,10 @@ import { renderGame } from './components/Renderer';
 const moveRequest = async (move: IMove) => {
   let response = await fetch('https://localhost:5001/move', {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/x-www-form-urlencoded'
+    },
     mode: 'no-cors',
     body: JSON.stringify(move)
   });
@@ -17,7 +20,7 @@ const newRequest = async () => {
     method: 'POST',
     headers: {
       'Accept': 'application/json',
-      'Content-Type': 'application/json',
+      'Content-Type': 'application/x-www-form-urlencoded',
     },
     mode: 'no-cors',
     body: JSON.stringify(''),
@@ -28,10 +31,10 @@ const newRequest = async () => {
 
 const engine = (): IEngine => {
   return {
-    async initialState(): Promise<IGameState> {
+    async initialState (): Promise<IGameState> {
       return await newRequest();
     },
-    async playMove(move: IMove): Promise<IGameState> {
+    async playMove (move: IMove): Promise<IGameState> {
       return await moveRequest(move);
     }
   };
