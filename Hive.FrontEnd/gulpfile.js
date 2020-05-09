@@ -42,13 +42,16 @@ const bundle = () =>
 gulp.task('watch',
   gulp.parallel(
     () =>
-      gulp.watch([sourceFiles.css, sourceFiles.html],
-        { usePolling: true, interval: 100, events: 'all' },
-        gulp.series(gulp.parallel('build-html', 'build-css'), 'deploy')
-      ),
+      gulp.watch([sourceFiles.css, sourceFiles.html], {
+        usePolling: true,
+        interval: 100,
+        events: 'all'
+      }, gulp.series(gulp.parallel('build-html', 'build-css'), 'deploy')),
     () =>
       b.plugin(watchify, { delay: 100, ignoreWatch: ['**/node_modules/**'] })
-        .on('update', gulp.series('build-js', 'deploy')).bundle().on('log', fancy_log)
+        .on('update', gulp.series('build-js', 'deploy'))
+        .bundle()
+        .on('log', fancy_log)
   )
 );
 
@@ -70,27 +73,23 @@ gulp.task('clean',
   gulp.parallel(
     (cb) => rimraf(outputDirs.deploy + '**', cb),
     (cb) => rimraf(sourceFiles.build, cb),
-    (cb) => rimraf(FRONTEND_DIR +'src/**/*.js', cb),
-    (cb) => rimraf(FRONTEND_DIR +'src/**/*.js.map', cb),
+    (cb) => rimraf(FRONTEND_DIR + 'src/**/*.js', cb),
+    (cb) => rimraf(FRONTEND_DIR + 'src/**/*.js.map', cb),
   )
 );
 
 gulp.task('build', gulp.parallel('build-js', 'build-css', 'build-html'));
 
 gulp.task('deploy',
-  () =>
+  (cb) => {
     gulp.src(sourceFiles.build)
-      .pipe(gulp.dest(outputDirs.deploy))
+      .pipe(gulp.dest(outputDirs.deploy));
+    cb();
+  }
 );
 
 gulp.task('build-deploy', gulp.series('build', 'deploy'));
 
 gulp.task('rebuild', gulp.series('clean', 'build-deploy'));
-
-/*gulp.task('link', (cb) => {
-    gulp.src('../Hive.FrontEnd/'+'gulpfile.js').pipe(gulp.symlink('../Hive.Api/' + ''));
-    gulp.src('../Hive.FrontEnd/'+'node_modules').pipe(gulp.symlink('../Hive.Api/' + ''));
-    cb();
-});*/
 
 gulp.task('default', gulp.series('rebuild', 'watch'));

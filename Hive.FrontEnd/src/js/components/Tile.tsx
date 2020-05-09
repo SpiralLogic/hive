@@ -53,7 +53,7 @@ export const Tile: React.FunctionComponent<TileProps> = ({
   });
 
   return (
-      <div ref={drag} className="hex tile" title={content.text} style={{ '--color': getPlayerColor(playerId) }}>
+    <div ref={drag} className="hex tile" title={content.text} style={{ '--color': getPlayerColor(playerId) }}>
       <TileContent content={content}/>
     </div>
   );

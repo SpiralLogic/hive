@@ -2,7 +2,7 @@ import { IEngine, IGameState, IMove } from './domain';
 import { renderGame } from './components/Renderer';
 
 const moveRequest = async (move: IMove) => {
-  var f = new URLSearchParams();
+  const f = new URLSearchParams();
   const { tileId, coordinates } = move;
   f.append('tileId', tileId.toString());
   f.append('coordinates[q]', move.coordinates.q.toString());
@@ -28,7 +28,6 @@ const newRequest = async () => {
         'Accept': 'application/json',
         'Content-Type': 'application/x-www-form-urlencoded',
       },
-      mode: 'no-cors',
       body: JSON.stringify(''),
     });
 
