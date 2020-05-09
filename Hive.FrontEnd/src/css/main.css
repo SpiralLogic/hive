@@ -99,8 +99,8 @@
 }
 .cell > .tile {
     margin: 0;
-
 }
+
 .tile:hover {
     box-shadow: 0 0 20px black;
     transition: all .1s ease-in;

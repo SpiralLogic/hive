@@ -1,20 +1,21 @@
 {
   "version": "1.0.0",
-  "name": "hive-frontend",
+  "name": "hive-FRONTEND_DIR",
   "private": true,
   "scripts": {
     "build": "npx browserify src/index.ts -p [tsify -p src] -o bin/js/main.js --debug "
   },
   "devDependencies": {
+    "@types/react": "^16.9.34",
     "@types/react-dom": "^16.9.6",
     "@typescript-eslint/eslint-plugin": "^2.29.0",
     "@typescript-eslint/parser": "^2.29.0",
     "browserify": "^16.5.1",
     "eslint": "^6.8.0",
     "eslint-plugin-react": "^7.19.0",
-    "esm": "^3.2.25",
     "fancy-log": "^1.3.3",
     "gulp": "^4.0.0",
+    "gulp-cli": "^2.2.0",
     "gulp-typescript": "^6.0.0-alpha.1",
     "tsify": "^4.0.1",
     "typescript": "^3.8.3",

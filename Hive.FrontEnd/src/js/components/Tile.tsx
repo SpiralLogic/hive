@@ -52,10 +52,8 @@ export const Tile: React.FunctionComponent<TileProps> = ({
     }),
   });
 
-  const styles = { '--color': getPlayerColor(playerId) } as CSSProperties;
-
   return (
-    <div ref={drag} className="hex tile" title={content as ITextContent && content.text} style={styles}>
+      <div ref={drag} className="hex tile" title={content.text} style={{ '--color': getPlayerColor(playerId) }}>
       <TileContent content={content}/>
     </div>
   );
