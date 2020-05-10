@@ -4,7 +4,7 @@ import { IGameCoordinate, ITile } from '../domain';
 import { Tile, TILE_TYPE } from './Tile';
 
 interface CellProps {
-  color?: string,
+  hidden?: boolean,
   tiles: ITile[],
   coordinates: IGameCoordinate
 }
@@ -14,12 +14,13 @@ const areEqual = (a: IGameCoordinate, b: IGameCoordinate) => {
 };
 
 const isValidMove = (move: IGameCoordinate, validMoves: IGameCoordinate[]) => {
-  return true; //validMoves.some(dest => areEqual(move, dest));
+  return validMoves.some(dest => areEqual(move, dest));
 };
 
 export const Cell: React.FunctionComponent<CellProps> = ({
   tiles,
   coordinates,
+  hidden
 }) => {
   const [{ isOver, canDrop }, drop] = useDrop({
     accept: TILE_TYPE,
@@ -33,11 +34,11 @@ export const Cell: React.FunctionComponent<CellProps> = ({
       canDrop: monitor.canDrop(),
     }),
   });
-  
-  const className = 'hex cell' + (isOver && canDrop ?  ' active' : isOver ? ' inactive' : '');
 
+  const className = hidden ? ' hidden ' : (isOver && canDrop) ? ' active' : (isOver) ? ' inactive' : '';
+ 
   return (
-    <div className={className} ref={drop}>
+    <div className={'hex cell' + className} ref={drop}>
       {tiles.length > 0 && <Tile {...tiles[0]} />}
     </div>
   );

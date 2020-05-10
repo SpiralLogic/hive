@@ -6,5 +6,5 @@ export interface IGameCoordinate {
   q: number;
   r: number;
 }
-
+ 
 export const coordinateAsId = ({ q, r }: IGameCoordinate) => `${q}-${r}`;

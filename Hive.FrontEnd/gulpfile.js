@@ -43,12 +43,12 @@ gulp.task('watch',
   gulp.parallel(
     () =>
       gulp.watch([sourceFiles.css, sourceFiles.html], {
-        usePolling: true,
-        interval: 100,
-        events: 'all'
+        interval: 1000,
+        ignoredFiles: [sourceFiles.js],
+        events: ['add', 'change']
       }, gulp.series(gulp.parallel('build-html', 'build-css'), 'deploy')),
     () =>
-      b.plugin(watchify, { delay: 100, ignoreWatch: ['**/node_modules/**'] })
+      b.plugin(watchify, { delay: 1000, ignoreInitial: true, ignoreWatch: ['**/node_modules/**', '*.css', '*.html'] })
         .on('update', gulp.series('build-js', 'deploy'))
         .bundle()
         .on('log', fancy_log)

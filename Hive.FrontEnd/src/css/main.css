@@ -5,6 +5,7 @@
     --margin: 4px;
     --hex-size: var(--hex-size, 60px);
     --tile-size: calc(var(--hex-size) * .7);
+    --row-shift: -1;
 }
 
 .players {
@@ -31,9 +32,11 @@
     font-weight: bold;
     border-radius: 4px 4px 0 0;
 }
+
 .player .tiles {
     margin: 3px;
 }
+
 .board {
     width: 100%;
     height: 99%;
@@ -49,7 +52,7 @@
 }
 
 .hex-row:nth-child(even) {
-    margin-left: calc(1.8 * var(--hex-size) / -2);
+    margin-left: calc(1.8 * var(--hex-size) / (var(--row-shift) * 2));
 }
 
 .hex {
@@ -64,6 +67,10 @@
     display: flex;
     background-color: var(--color);
     margin-top: calc(var(--size) / 2);
+}
+
+.hex.hidden {
+    --color: transparent;
 }
 
 .cell {
@@ -97,6 +104,7 @@
     --size: var(--tile-size);
     z-index: 10;
 }
+
 .cell > .tile {
     margin: 0;
 }

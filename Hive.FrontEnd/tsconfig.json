@@ -1,6 +1,10 @@
 {
   "compilerOptions": {
-    "lib": ["es2019", "dom"],
+    "lib": [
+      "es2019",
+      "dom"
+    ],
+    "downlevelIteration": true,
     "jsx": "react",
     "strict": true,
     "checkJs": false,
@@ -10,5 +14,7 @@
     "inlineSources": true,
     "removeComments": true
   },
-  "include": ["src/js/**/*"]
+  "include": [
+    "src/js/**/*"
+  ]
 }
