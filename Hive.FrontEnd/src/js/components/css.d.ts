@@ -1,6 +1,9 @@
-﻿declare module 'react' {
+﻿// noinspection ES6UnusedImports
+import * as React from 'react';
+
+declare module 'react' {
   interface CSSProperties {
     '--color'?: string;
-    '--row-shift'?: number;
+    '--col-shift'?: number;
   }
 }

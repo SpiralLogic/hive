@@ -5,7 +5,7 @@
     --margin: 4px;
     --hex-size: var(--hex-size, 60px);
     --tile-size: calc(var(--hex-size) * .7);
-    --row-shift: -1;
+    --col-shift: -1;
 }
 
 .players {
@@ -52,7 +52,7 @@
 }
 
 .hex-row:nth-child(even) {
-    margin-left: calc(1.8 * var(--hex-size) / (var(--row-shift) * 2));
+    margin-left: calc(1.8 * var(--hex-size) / (var(--col-shift) * 2));
 }
 
 .hex {

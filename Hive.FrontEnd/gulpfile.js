@@ -13,15 +13,21 @@ const API_DIR = '../Hive.Api/';
 const sourceFiles = {
   html: FRONTEND_DIR + 'src/**/*.html',
   css: FRONTEND_DIR + 'src/css/**/*.css',
-  js: FRONTEND_DIR + 'dist/js/**/*.js',
-  build: FRONTEND_DIR + 'dist/**'
+  ts: FRONTEND_DIR + 'src/js/**',
 };
 
 const outputDirs = {
   js: FRONTEND_DIR + 'dist/js/',
   css: FRONTEND_DIR + 'dist/css/',
   html: FRONTEND_DIR + 'dist/',
-  deploy: API_DIR + 'wwwroot/'
+  root: FRONTEND_DIR + 'dist/',
+};
+
+const deployDirs = {
+  root: API_DIR + 'wwwroot/',
+  js: API_DIR + 'wwwroot/js/',
+  css: API_DIR + 'wwwroot/css/',
+  html: API_DIR + 'wwwroot/',
 };
 
 const b = browserify({
@@ -43,13 +49,17 @@ gulp.task('watch',
   gulp.parallel(
     () =>
       gulp.watch([sourceFiles.css, sourceFiles.html], {
-        interval: 1000,
+        delay: 1000,
         ignoredFiles: [sourceFiles.js],
         events: ['add', 'change']
       }, gulp.series(gulp.parallel('build-html', 'build-css'), 'deploy')),
     () =>
-      b.plugin(watchify, { delay: 1000, ignoreInitial: true, ignoreWatch: ['**/node_modules/**', '*.css', '*.html'] })
-        .on('update', gulp.series('build-js', 'deploy'))
+      b.plugin(watchify, {
+        delay: 1000,
+        ignoreInitial: true,
+        ignoreWatch: ['**/node_modules/**', sourceFiles.css, sourceFiles.html]
+      })
+        .on('update', gulp.series('build-js', 'deploy-js'))
         .bundle()
         .on('log', fancy_log)
   )
@@ -71,8 +81,8 @@ gulp.task('build-js', bundle);
 
 gulp.task('clean',
   gulp.parallel(
-    (cb) => rimraf(outputDirs.deploy + '**', cb),
-    (cb) => rimraf(sourceFiles.build, cb),
+    (cb) => rimraf(deployDirs.root + '**', cb),
+    (cb) => rimraf(outputDirs.root, cb),
     (cb) => rimraf(FRONTEND_DIR + 'src/**/*.js', cb),
     (cb) => rimraf(FRONTEND_DIR + 'src/**/*.js.map', cb),
   )
@@ -80,13 +90,23 @@ gulp.task('clean',
 
 gulp.task('build', gulp.parallel('build-js', 'build-css', 'build-html'));
 
-gulp.task('deploy',
+gulp.task('deploy-assets',
   (cb) => {
-    gulp.src(sourceFiles.build)
-      .pipe(gulp.dest(outputDirs.deploy));
+    gulp.src(outputDirs.css + '**').pipe(gulp.dest(deployDirs.css));
+    gulp.src(outputDirs.html + '**').pipe(gulp.dest(deployDirs.html));
     cb();
   }
 );
+
+gulp.task('deploy-js',
+  (cb) => {
+    gulp.src(outputDirs.js+'**')
+      .pipe(gulp.dest(deployDirs.js));
+    cb();
+  }
+);
+
+gulp.task('deploy', gulp.parallel('deploy-js', 'deploy-assets'));
 
 gulp.task('build-deploy', gulp.series('build', 'deploy'));
 
