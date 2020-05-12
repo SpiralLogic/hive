@@ -26,8 +26,8 @@ interface IRenderOptions {
  * @param options
  */
 export const renderGame = ({ engine, container }: IRenderOptions) => {
-  if (!container) {
-    throw new Error('Unable to render game. No container provided.');
-  }
-  ReactDOM.render(<DndProvider backend={Backend}><GameArea engine={engine}/></DndProvider>, container);
+    if (!container) {
+        throw new Error('Unable to render game. No container provided.');
+    }
+    ReactDOM.render(<DndProvider backend={Backend}><GameArea engine={engine}/></DndProvider>, container);
 };

@@ -8,12 +8,12 @@ export interface IGameContext {
 }
 
 export const Context = createContext<IGameContext>({
-  gameState: {
-    cells: [],
-    players: [],
-  },
-  allCells: [],
-  moveTile: () => undefined
+    gameState: {
+        cells: [],
+        players: [],
+    },
+    allCells: [],
+    moveTile: () => undefined
 });
 
 interface ICellMap {
@@ -21,55 +21,55 @@ interface ICellMap {
 }
 
 const getAdditionalCells = ({ cells, players }: IGameState): ICell[] => {
-  const cellMap: ICellMap = cells.reduce((cm: ICellMap, { coordinates }) => ({ ...cm, [coordinateAsId(coordinates)]: true }), {});
+    const cellMap: ICellMap = cells.reduce((cm: ICellMap, { coordinates }) => ({ ...cm, [coordinateAsId(coordinates)]: true }), {});
 
-  const playerTiles = players.flatMap(p => p.availableTiles);
-  const cellTiles = cells.flatMap(c => c.tiles);
+    const playerTiles = players.flatMap(p => p.availableTiles);
+    const cellTiles = cells.flatMap(c => c.tiles);
 
-  const targetCells: ICell[] = [];
+    const targetCells: ICell[] = [];
 
-  playerTiles
-    .concat(cellTiles)
-    .flatMap(t => t.availableMoves)
-    .forEach(position => {
-      const id = coordinateAsId(position);
-      if (!cellMap[id]) {
-        targetCells.push({
-          coordinates: position,
-          tiles: [],
+    playerTiles
+        .concat(cellTiles)
+        .flatMap(t => t.availableMoves)
+        .forEach(position => {
+            const id = coordinateAsId(position);
+            if (!cellMap[id]) {
+                targetCells.push({
+                    coordinates: position,
+                    tiles: [],
+                });
+                cellMap[id] = true;
+            }
         });
-        cellMap[id] = true;
-      }
-    });
 
-  return targetCells.concat(cells);
+    return targetCells.concat(cells);
 };
 export const getPlayerColor = (playerId:PlayerId) => {
-  const playerColors = ['#85dcbc','#f64c72'];
-  return playerColors[playerId] || 'red';
+    const playerColors = ['#85dcbc','#f64c72'];
+    return playerColors[playerId] || 'red';
 };
 
 export const useGameContext = (engine: IEngine): [boolean, IGameContext] => {
-  const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(true);
 
-  const [gameState, setGameState] = useState<IGameState>({
-    cells: [],
-    players: [],
-  });
-
-  useEffect(() => {
-    setLoading(true);
-    engine.initialState().then(state => {
-      setGameState(state);
-      setLoading(false);
+    const [gameState, setGameState] = useState<IGameState>({
+        cells: [],
+        players: [],
     });
-  }, [engine]);
 
-  const moveTile = (move: IMove) => {
-    engine.playMove(move).then(nextState => setGameState(nextState));
-  };
+    useEffect(() => {
+        setLoading(true);
+        engine.initialState().then(state => {
+            setGameState(state);
+            setLoading(false);
+        });
+    }, [engine]);
 
-  const allCells = getAdditionalCells(gameState);
+    const moveTile = (move: IMove) => {
+        engine.playMove(move).then(nextState => setGameState(nextState));
+    };
 
-  return [loading, { allCells, gameState, moveTile}];
+    const allCells = getAdditionalCells(gameState);
+
+    return [loading, { allCells, gameState, moveTile}];
 };

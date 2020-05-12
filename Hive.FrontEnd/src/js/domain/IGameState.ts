@@ -18,5 +18,5 @@ export interface IGameState {
 }
 
 export const getPlayer = (gameState: IGameState, playerId: PlayerId): IPlayer | null => {
-  return gameState.players.find(p => p.id === playerId) || null;
+    return gameState.players.find(p => p.id === playerId) || null;
 };

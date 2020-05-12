@@ -5,7 +5,7 @@
     --margin: 4px;
     --hex-size: var(--hex-size, 60px);
     --tile-size: calc(var(--hex-size) * .7);
-    --col-shift: -1;
+    --hex-offset: -1;
 }
 
 .players {
@@ -45,14 +45,20 @@
     align-items: center;
     justify-content: center;
     border-radius: 4px;
+    flex-direction: column;
 }
 
 .hex-row {
-    clear: left;
+    display: flex;
+    flex-direction: row
 }
 
 .hex-row:nth-child(even) {
-    margin-left: calc(1.8 * var(--hex-size) / (var(--col-shift) * 2));
+    margin-left: calc(1.8 * var(--hex-size) / (var(--hex-offset) * 2));
+}
+
+.hex-row:nth-child(odd) {
+    margin-left: calc(1.8 * var(--hex-size) / (var(--hex-offset) * -2));
 }
 
 .hex {
@@ -61,7 +67,6 @@
     width: var(--width);
     height: calc(var(--size));
     position: relative;
-    float: left;
     align-items: center;
     justify-content: center;
     display: flex;
@@ -69,8 +74,8 @@
     margin-top: calc(var(--size) / 2);
 }
 
-.hex.hidden {
-    --color: transparent;
+.hidden {
+    width: calc(1.732 * var(--hex-size) + var(--margin));
 }
 
 .cell {
