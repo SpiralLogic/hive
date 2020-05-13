@@ -7,7 +7,7 @@ const getHextilleWidthDimensions = (cells: ICell[]) => {
     const [min, max] = cells
         .reduce(([min, max], c) => [Math.min(min, c.coordinates.q), Math.max(max, c.coordinates.q)], [0, 0]);
 
-    return [min, max - min+1];
+    return [min, max - min + 1];
 };
 export const Board: React.FunctionComponent = () => {
     const { allCells } = React.useContext(Context);
@@ -15,10 +15,10 @@ export const Board: React.FunctionComponent = () => {
     const firstRow = sortedCells[0].coordinates.r;
     const height = sortedCells[sortedCells.length - 1].coordinates.r - firstRow + 1;
     const [minQ, width] = getHextilleWidthDimensions(sortedCells);
-    const columnShift = { '--hex-offset': (firstRow%2) ? -1 : 1 };
+    const columnShift = { '--hex-offset': (firstRow % 2) ? -1 : 1 };
 
     const rowCells = sortedCells.reduce((rows, cell) => {
-        rows[cell.coordinates.r - firstRow][cell.coordinates.q-minQ]=cell;
+        rows[cell.coordinates.r - firstRow][cell.coordinates.q - minQ] = cell;
         return rows;
     }, Array.from(Array(height), () => new Array(width).fill(false)));
 
@@ -27,7 +27,8 @@ export const Board: React.FunctionComponent = () => {
             {rowCells.map((cells, r) => (
                 <div key={r} className="hex-row">
                     {cells.map((cell, q) =>
-                        cell ? <Cell key={coordinateAsId(cell.coordinates)} {...cell}/> :  <div key={q+' '+r} className={'hidden'}/>)}
+                        cell ? <Cell key={coordinateAsId(cell.coordinates)} {...cell}/> :
+                            <div key={q + ' ' + r} className={'hidden'}/>)}
                 </div>
             ))}
         </div>

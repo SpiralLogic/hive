@@ -3,10 +3,9 @@
 **/obj
 **/bin
 **/.cache/
-/.idea
+**/.idea
 /.vs/
-.DS_Store
+**/.DS_Store
 /Hive.Api/wwwroot/**
 /Hive.Api/scripts/dist/*
-
 /Hive.FrontEnd/dist

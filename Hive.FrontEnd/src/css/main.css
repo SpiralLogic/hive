@@ -119,10 +119,14 @@
     transition: all .1s ease-in;
 }
 
-.active {
+.hex.valid-cell {
+    --color: rgba(175,210,117,0.2);
+}
+
+.hex.valid-cell:hover {
     --color: #AFD275;
 }
 
-.inactive {
+.hex.invalid-cell {
     --color: #5D001E;
 }
