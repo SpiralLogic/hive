@@ -12,6 +12,6 @@
     </ItemGroup>
     <ItemGroup>
       <Content Remove="wwwroot\**" />
+      <Content Remove="obj\**" />
     </ItemGroup>
-
 </Project>
