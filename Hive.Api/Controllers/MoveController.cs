@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using Hive.Domain;
 using Hive.Domain.Entities;
+using Hive.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -21,12 +22,12 @@ namespace Hive.Controllers
         }
 
         [HttpPost]
-        public GameState Post([FromForm] int tileId, [FromForm] GameCoordinate coordinates)
+        public GameState Post([FromBody] Move move)
         {
             var gameState = JsonConvert.DeserializeObject<GameState>(HttpContext.Session.GetString("game"));
             var game = new Game(gameState);
 
-            game.Move(tileId, new Domain.Entities.GameCoordinate(coordinates.Q, coordinates.R));
+            game.Move(move.TileId, new Domain.Entities.GameCoordinate(move.Coordinates.Q, move.Coordinates.R));
             var json = JsonConvert.SerializeObject(game.State);
             HttpContext.Session.SetString("game", json);
             return game.State;
