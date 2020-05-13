@@ -5,7 +5,7 @@ namespace Hive.Domain.Entities
 {
     public class Tile
     {
-        public Tile(int id, int playerId, TextContent content, IEnumerable<GameCoordinate> availableMoves = null)
+        public Tile(int id, int playerId, string content, IEnumerable<GameCoordinate> availableMoves = null)
         {
             Id = id;
             PlayerId = playerId;
@@ -15,7 +15,7 @@ namespace Hive.Domain.Entities
 
         public int Id { get; }
         public int PlayerId { get; }
-        public TextContent Content { get; }
+        public string Content { get; }
         public ICollection<GameCoordinate> AvailableMoves { get; }
     }
 }

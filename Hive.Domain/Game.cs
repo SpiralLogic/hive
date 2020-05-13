@@ -19,11 +19,11 @@ namespace Hive.Domain
 
         public void Move(int tileId, GameCoordinate coordinates)
         {
-            State.Cells
+            State.Hexagons
                 .Single(c => c.Coordinates == coordinates)
                 .Tiles.Add(State.Players.SelectMany(p => p.AvailableTiles)
                     .Single(t => t.Id == tileId));
-            var newCells = State.Cells.Where(c2 => c2.Tiles.Any()).ToList();
+            var newCells = State.Hexagons.Where(c2 => c2.Tiles.Any()).ToList();
 
             var neighbours = newCells.SelectMany(c => GetNeighbours(c.Coordinates));
 
@@ -35,7 +35,7 @@ namespace Hive.Domain
 
         private static IEnumerable<Tile> CreateStartingTiles(int playerId)
         {
-            return new[] {new Tile(playerId, playerId, new TextContent("bug"), new List<GameCoordinate> {new GameCoordinate(1, 1)})};
+            return new[] {new Tile(playerId, playerId, "bug", new List<GameCoordinate> {new GameCoordinate(1, 1)})};
         }
 
         public GameState State { get; private set; }

@@ -1,20 +1,13 @@
 import * as React from 'react';
 import { useDrop } from 'react-dnd';
-import { IGameCoordinate, ITile } from '../domain';
+import { Hexagon, HexCoordinates } from '../domain';
 import { Tile, TILE_TYPE } from './Tile';
 
-interface CellProps {
-    tiles: ITile[],
-    coordinates: IGameCoordinate
-}
+type CellProps = Hexagon
 
-const areEqual = (a: IGameCoordinate, b: IGameCoordinate) => {
-    return a && b && a.q === b.q && a.r === b.r;
-};
-
-const isValidMove = (move: IGameCoordinate, validMoves: IGameCoordinate[]) => {
-    return validMoves.some(dest => areEqual(move, dest));
-};
+const areEqual = (a: HexCoordinates, b: HexCoordinates) => a && b && a.q === b.q && a.r === b.r;
+const isValidMove = (move: HexCoordinates, validMoves: HexCoordinates[]) => validMoves.some(dest => areEqual(move, dest));
+const coordinateToString = ({ q, r }: HexCoordinates) => `${q}-${r}`;
 
 export const Cell: React.FunctionComponent<CellProps> = ({
     tiles,
@@ -28,18 +21,20 @@ export const Cell: React.FunctionComponent<CellProps> = ({
             isOver: monitor.isOver(),
             canDrop: monitor.canDrop(),
         }),
-    })
-    ;
+    });
 
-    const color = () => {
-        if (canDrop) return ' valid-cell';
+    const backGroundColor = () => {
+        if (canDrop && isOver) return ' valid-cell active';
         if (isOver) return ' invalid-cell';
+        if (canDrop) return ' valid-cell';
         return '';
     };
-
+    const id = coordinateToString(coordinates);
     return (
-        <div className={'hex cell' + color()} ref={drop}>
-            {tiles.length > 0 && <Tile {...tiles[0]} />}
+        <div className={'hex cell' + backGroundColor()} ref={drop}>
+            {tiles.length > 0 && <Tile key={'tile' + id} {...tiles[0]} />}
         </div>
     );
 };
+
+Cell.displayName = 'Cell';

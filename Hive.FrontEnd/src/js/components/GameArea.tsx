@@ -1,29 +1,25 @@
-import { CSSProperties } from 'react';
 import * as React from 'react';
-import { Board } from './Board';
-import { PlayerList } from './PlayerList';
-import { IEngine } from '../domain';
-import { Context, useGameContext } from '../GameContext';
+import { DndProvider } from 'react-dnd';
+import Backend from 'react-dnd-html5-backend';
+import { Hextille } from './Hextille';
+import { HexEngine } from '../domain';
+import { PlayerList } from './playerList';
+import { Context, useGameContext } from '../gameContext';
 
-interface IProps {
-    engine: IEngine;
-}
-
-export const GameArea: React.FunctionComponent<IProps> = ({ engine }) => {
+export const GameArea: React.FunctionComponent<{ engine: HexEngine; }> = ({ engine }) => {
     const [loading, gameContext] = useGameContext(engine);
 
     if (loading) {
         return <h1>loading</h1>;
     }
-    const styles = { '--hex-size': '50px' } as CSSProperties;
     return (
-        <div className="game" style={styles}>
-            <Context.Provider value={gameContext}>
-                <PlayerList/>
-            </Context.Provider>
-            <Context.Provider value={gameContext}>
-                <Board/>
-            </Context.Provider>
-        </div>
+        <DndProvider backend={Backend}>
+            <div className="hive" style={{ '--hex-size': '50px' }}>
+                <Context.Provider value={gameContext}>
+                    <PlayerList/>
+                    <Hextille/>
+                </Context.Provider>
+            </div>
+        </DndProvider>
     );
 };

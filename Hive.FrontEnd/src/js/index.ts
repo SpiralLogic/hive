@@ -1,7 +1,7 @@
-import { IEngine, IGameState, IMove } from './domain';
-import { renderGame } from './components/Renderer';
+import { HexEngine, GameState, Move } from './domain';
+import { renderGame } from './components';
 
-const moveRequest = async (move: IMove) => {
+const moveRequest = async (move: Move) => {
     const f = new URLSearchParams();
     const { tileId, coordinates } = move;
     f.append('tileId', tileId.toString());
@@ -34,12 +34,12 @@ const newRequest = async () => {
     return await response.json();
 };
 
-const engine = (): IEngine => {
+const engine = (): HexEngine => {
     return {
-        async initialState (): Promise<IGameState> {
+        async initialState (): Promise<GameState> {
             return await newRequest();
         },
-        async playMove (move: IMove): Promise<IGameState> {
+        async moveTile (move: Move): Promise<GameState> {
             return await moveRequest(move);
         }
     };

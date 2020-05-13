@@ -4,13 +4,13 @@ namespace Hive.Domain.Entities
 {
     public class GameState
     {
-        public GameState(IEnumerable<Player> players, IEnumerable<Cell> cells)
+        public GameState(IEnumerable<Player> players, IEnumerable<Cell> hexagons)
         {
             Players = players ?? new List<Player>();
-            Cells = cells ?? new List<Cell>();
+            Hexagons = hexagons ?? new List<Cell>();
         }
 
-        public IEnumerable<Cell> Cells { get; }
+        public IEnumerable<Cell> Hexagons { get; }
         public IEnumerable<Player> Players { get; }
     }
 }
