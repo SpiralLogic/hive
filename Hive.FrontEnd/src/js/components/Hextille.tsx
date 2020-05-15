@@ -16,7 +16,7 @@ function getHeight (sortedHexagons: Hexagon[]) {
 }
 
 const createEmptyRows = (height: number, width: number, firstRow: number) => {
-    const createEmptyRow = (i: number) => ({ id: firstRow+i, row: new Array(width).fill(false) });
+    const createEmptyRow = (i: number) => ({ id: firstRow + i, row: new Array(width).fill(false) });
     return Array.from(Array(height).keys(), createEmptyRow);
 };
 
@@ -26,14 +26,13 @@ export const Hextille: React.FunctionComponent = () => {
     const [firstRow, height] = getHeight(sortedHexagons);
     const [firstColumn, width] = getWidth(sortedHexagons);
     const columnShift = { '--hex-offset': (firstRow % 2) ? -1 : 1 };
-
     const rowCells = sortedHexagons.reduce((rows, hexagon) => {
-        rows[hexagon.coordinates.r].row[hexagon.coordinates.q - firstColumn] = hexagon;
+        rows[hexagon.coordinates.r-firstRow].row[hexagon.coordinates.q - firstColumn] = hexagon;
         return rows;
     }, createEmptyRows(height, width, firstRow)) as RowProps[];
 
     return (
-        <div className="Hextille" style={columnShift}>
+        <div className="hextille" style={columnShift}>
             {rowCells.map((row) => (
                 <Row key={row.id} {...row}/>
             ))}

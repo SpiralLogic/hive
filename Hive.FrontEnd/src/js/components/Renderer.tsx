@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { HexEngine } from '../domain';
-import { GameArea } from './gameArea';
+import { GameArea } from './GameArea';
 
 interface IRenderOptions {
   engine: HexEngine;

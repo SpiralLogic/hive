@@ -1,8 +1,8 @@
-.hive {
+#hive {
     display: flex;
     height: 100%;
     min-height: 600px;
-    --margin: 4px;
+    --margin: calc(var(--hex-size) / 12.5);
     --hex-size: var(--hex-size, 60px);
     --tile-size: calc(var(--hex-size) * .7);
     --hex-offset: -1;
@@ -37,7 +37,7 @@
     margin: 3px;
 }
 
-.Hextille {
+.hextille {
     width: 100%;
     height: 99%;
     background: #1A1A1D;
@@ -65,7 +65,7 @@
     --width: calc(1.732 * var(--size));
     --color: rgba(0, 0, 0, 0.2);
     width: var(--width);
-    height: calc(var(--size));
+    height: var(--size);
     position: relative;
     align-items: center;
     justify-content: center;
@@ -108,8 +108,11 @@
 .tile {
     --size: var(--tile-size);
     z-index: 10;
+    font-size: var(--tile-size);
 }
-
+.tile span {
+    font-size: 50%;
+}
 .cell > .tile {
     margin: 0;
 }
