@@ -41,3 +41,5 @@ export const Tile: React.FunctionComponent<TileProps> = ({
         </div>
     );
 };
+
+Tile.displayName = 'Tile';

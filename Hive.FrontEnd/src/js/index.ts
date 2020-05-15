@@ -7,7 +7,7 @@ const moveRequest = async (move: Move) => {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
-                'Content-Type': 'application/x-www-form-urlencoded'
+                'Content-Type':'application/json',
             },
             body: JSON.stringify(move)
         });
@@ -21,7 +21,7 @@ const newRequest = async () => {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
-                'Content-Type': 'application/x-www-form-urlencoded',
+                'Content-Type': 'application/json',
             },
             body: JSON.stringify(''),
         });

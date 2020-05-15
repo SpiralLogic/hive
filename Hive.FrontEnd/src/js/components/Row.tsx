@@ -3,11 +3,13 @@ import { Hexagon, HexCoordinates } from '../domain';
 import { Cell } from './Cell';
 
 export type RowProps = {
-    id: string | number,
-    row: Array<Hexagon|false>
+    id: number,
+    row: Array<Hexagon | false>
 }
-const cellComponent = (cell: Hexagon) => <Cell   {...cell}/>;
-const emptyCell = (id: string) => <div key={'b'+id} className={'hidden'}/>;
+const coordinateToString = ({ q, r }: HexCoordinates) => `${q}-${r}`;
+
+const cellComponent = (cell: Hexagon) => <Cell key={coordinateToString(cell.coordinates)}  {...cell}/>;
+const emptyCell = (id: string) => <div key={'b' + id} className={'hidden'}/>;
 
 export const Row: React.FunctionComponent<RowProps> = ({
     id,
@@ -15,7 +17,7 @@ export const Row: React.FunctionComponent<RowProps> = ({
 }) => {
     return (
         <div className="hex-row">
-            {row.map((cell, q) => cell!==false && cellComponent(cell) || emptyCell(id + ' ' + q))}
+            {row.map((cell, q) => cell !== false && cellComponent(cell) || emptyCell(coordinateToString({q,r:id})))}
         </div>
     );
 };

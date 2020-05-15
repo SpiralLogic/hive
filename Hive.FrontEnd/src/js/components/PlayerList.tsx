@@ -7,7 +7,7 @@ export const PlayerList: React.FunctionComponent = () => {
     return (
         <div className="players">
             {players.map(player => (
-                <PlayerTiles {...player} />
+                <PlayerTiles key={player.id} {...player} />
             ))}
         </div>
     );
