@@ -4,7 +4,7 @@ import Backend from 'react-dnd-html5-backend';
 import { Hextille } from './Hextille';
 import { HexEngine } from '../domain';
 import { PlayerList } from './playerList';
-import { Context, useGameContext } from '../gameContext';
+import { HiveContext, useGameContext } from '../gameContext';
 
 export const GameArea: React.FunctionComponent<{ engine: HexEngine; }> = ({ engine }) => {
     const [loading, gameContext] = useGameContext(engine);
@@ -15,11 +15,14 @@ export const GameArea: React.FunctionComponent<{ engine: HexEngine; }> = ({ engi
     return (
         <DndProvider backend={Backend}>
             <div className="hive" style={{ '--hex-size': '50px' }}>
-                <Context.Provider value={gameContext}>
+                <HiveContext.Provider value={gameContext}>
                     <PlayerList/>
                     <Hextille/>
-                </Context.Provider>
+                </HiveContext.Provider>
             </div>
         </DndProvider>
     );
 };
+
+GameArea.displayName = 'GameArea';
+DndProvider.displayName = 'Drag and Drop Provider';

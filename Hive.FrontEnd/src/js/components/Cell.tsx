@@ -28,6 +28,7 @@ export const Cell: React.FunctionComponent<CellProps> = ({
         if (canDrop) return ' valid-cell';
         return '';
     };
+    
     return (
         <div className={'hex cell' + backGroundColor()} ref={drop}>
             {tiles.length > 0 && <Tile {...tiles[0]} />}

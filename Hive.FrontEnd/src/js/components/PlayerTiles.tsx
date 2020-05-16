@@ -7,8 +7,10 @@ export const PlayerTiles: React.FunctionComponent<Player> = ({ name, availableTi
         <div className="player" title={name}>
             <span className="name"> {name} </span>
             <div className="tiles">
-                {availableTiles.map(tile => <Tile  key={tile.id} {...tile}/>)}
+                {availableTiles.map(tile => <Tile key={tile.id} {...tile}/>)}
             </div>
         </div>
     );
 };
+
+PlayerTiles.displayName='Player Tiles';

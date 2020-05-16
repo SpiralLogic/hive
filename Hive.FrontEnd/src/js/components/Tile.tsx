@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useDrag } from 'react-dnd';
 import { HexCoordinates, PlayerId, TextContent, TileId } from '../domain';
-import { Context } from '../gameContext';
+import { HiveContext } from '../gameContext';
 
 interface TileProps {
     id: TileId,
@@ -18,7 +18,7 @@ export const Tile: React.FunctionComponent<TileProps> = ({
     content,
     availableMoves,
 }) => {
-    const { getPlayerColor, moveTile } = React.useContext(Context);
+    const { getPlayerColor, moveTile } = React.useContext(HiveContext);
     const [, drag] = useDrag({
         item: { type: TILE_TYPE, id, availableMoves, playerId },
         end: (item, monitor) => {
@@ -36,7 +36,7 @@ export const Tile: React.FunctionComponent<TileProps> = ({
     const style = { '--color': getPlayerColor(playerId) };
 
     return (
-        <div key={id} ref={drag} className="hex tile" title={content} style={style}>
+        <div ref={drag} className="hex tile" title={content} style={style}>
             <span>{content}</span>
         </div>
     );

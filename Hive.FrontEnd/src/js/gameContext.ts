@@ -7,7 +7,7 @@ export interface GameContext {
     getPlayerColor: (playerId: PlayerId) => Color;
 }
 
-export const Context = createContext<GameContext>({
+export const HiveContext = createContext<GameContext>({
     gameState: {
         hexagons: [],
         players: [],
@@ -43,3 +43,5 @@ export const useGameContext = (engine: HexEngine): [boolean, GameContext] => {
 
     return [loading, { gameState, moveTile, getPlayerColor }];
 };
+
+HiveContext.displayName = 'Hive Context';

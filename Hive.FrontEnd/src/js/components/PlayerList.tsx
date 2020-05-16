@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { PlayerTiles } from './PlayerTiles';
-import { Context } from '../gameContext';
+import { HiveContext } from '../gameContext';
 
 export const PlayerList: React.FunctionComponent = () => {
-    const { players } = React.useContext(Context).gameState;
+    const { players } = React.useContext(HiveContext).gameState;
     return (
         <div className="players">
             {players.map(player => (
@@ -12,3 +12,5 @@ export const PlayerList: React.FunctionComponent = () => {
         </div>
     );
 };
+
+PlayerList.displayName='Player List';

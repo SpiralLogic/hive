@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Hexagon } from '../domain';
 import { Row, RowProps } from './Row';
-import { Context } from '../gameContext';
+import { HiveContext } from '../gameContext';
 
 const getWidth = (hexagons: Hexagon[]) => {
     const [min, max] = hexagons.reduce(([min, max], c) =>
@@ -21,13 +21,15 @@ const createEmptyRows = (height: number, width: number, firstRow: number) => {
 };
 
 export const Hextille: React.FunctionComponent = () => {
-    const { hexagons } = React.useContext(Context).gameState;
+    const { hexagons } = React.useContext(HiveContext).gameState;
+    if (!hexagons.length) throw Error('Nothing to render !');
+    
     const sortedHexagons = hexagons.sort((c1, c2) => c1.coordinates.r - c2.coordinates.r || c1.coordinates.q - c2.coordinates.q);
     const [firstRow, height] = getHeight(sortedHexagons);
     const [firstColumn, width] = getWidth(sortedHexagons);
     const columnShift = { '--hex-offset': (firstRow % 2) ? -1 : 1 };
     const rowCells = sortedHexagons.reduce((rows, hexagon) => {
-        rows[hexagon.coordinates.r-firstRow].row[hexagon.coordinates.q - firstColumn] = hexagon;
+        rows[hexagon.coordinates.r - firstRow].row[hexagon.coordinates.q - firstColumn] = hexagon;
         return rows;
     }, createEmptyRows(height, width, firstRow)) as RowProps[];
 
@@ -39,3 +41,5 @@ export const Hextille: React.FunctionComponent = () => {
         </div>
     );
 };
+
+Hextille.displayName = 'Hextille';
