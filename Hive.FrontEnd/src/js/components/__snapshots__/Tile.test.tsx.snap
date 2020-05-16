@@ -1,0 +1,35 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Tile Snapshot 1`] = `
+<div
+  className="hex tile"
+  style={
+    Object {
+      "--color": "pink",
+    }
+  }
+  title="ant"
+>
+  <span>
+    ant
+  </span>
+</div>
+`;
+
+exports[`Tile component matches current snapshot 1`] = `
+<div
+  className="hex tile"
+  style={
+    Object {
+      "--color": undefined,
+    }
+  }
+  title="ant"
+>
+  <span>
+    ant
+  </span>
+</div>
+`;
+
+exports[`Tile has players color 1`] = `null`;

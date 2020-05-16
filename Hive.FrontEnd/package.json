@@ -3,7 +3,7 @@
   "name": "hive-frontend",
   "private": true,
   "scripts": {
-    "build": "npx browserify src/index.ts -p [tsify -p src] -o bin/js/main.js --debug "
+    "test": "jest"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.9.6",

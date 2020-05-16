@@ -1,0 +1,41 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Game area shows loading 1`] = `
+<h1>
+  loading
+</h1>
+`;
+
+exports[`Game shows board after fetch 1`] = `
+<div
+  className="hive"
+  style={
+    Object {
+      "--hex-size": "50px",
+    }
+  }
+>
+  <div
+    className="players"
+  />
+  <div
+    className="hextille"
+    style={
+      Object {
+        "--hex-offset": -1,
+      }
+    }
+  >
+    <div
+      className="hex-row"
+    >
+      <div
+        className="hidden"
+      />
+      <div
+        className="hex cell"
+      />
+    </div>
+  </div>
+</div>
+`;
