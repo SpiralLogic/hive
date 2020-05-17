@@ -9,6 +9,7 @@ exports[`Game area shows loading 1`] = `
 exports[`Game shows board after fetch 1`] = `
 <div
   className="hive"
+  onDragEnd={[Function]}
   style={
     Object {
       "--hex-size": "50px",
@@ -20,11 +21,7 @@ exports[`Game shows board after fetch 1`] = `
   />
   <div
     className="hextille"
-    style={
-      Object {
-        "--hex-offset": -1,
-      }
-    }
+    data-shift="left"
   >
     <div
       className="hex-row"
@@ -34,6 +31,12 @@ exports[`Game shows board after fetch 1`] = `
       />
       <div
         className="hex cell"
+        data-coords="1,1"
+        onDragEnd={[Function]}
+        onDragEnter={[Function]}
+        onDragLeave={[Function]}
+        onDragOver={[Function]}
+        onDrop={[Function]}
       />
     </div>
   </div>
