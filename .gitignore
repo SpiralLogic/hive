@@ -4,7 +4,7 @@
 **/bin
 **/.cache/
 **/.idea
-/.vs/
+**/.vs
 **/.DS_Store
 /Hive.Api/wwwroot/**
 /Hive.Api/scripts/dist/*

@@ -1,15 +1,16 @@
 import * as React from 'react';
-import { Hexagon, HexCoordinates } from '../domain';
-import { Cell } from './Cell';
+import { HexCoordinates } from '../domain';
+import { Cell, CellProps } from './Cell';
 
 export type RowProps = {
     id: number,
-    row: Array<Hexagon | false>
+    row: Array<CellProps | false>,
+    shift: string,
 }
 const cellKey = ({ q, r }: HexCoordinates) => `${q}-${r}`;
 
-const cellComponent = (cell: Hexagon) => <Cell key={cellKey(cell.coordinates)}  {...cell}/>;
-const emptyCell = (id: string) => <div key={id} className={'hidden'}/>;
+const cellComponent = (cell: CellProps) => <Cell key={cellKey(cell.coordinates)}  {...cell}/>;
+const emptyCell = (id: number) => <div key={id} className={'hidden'}/>;
 
 export const Row: React.FunctionComponent<RowProps> = ({
     id,
@@ -17,7 +18,7 @@ export const Row: React.FunctionComponent<RowProps> = ({
 }) => {
     return (
         <div className="hex-row">
-            {row.map((cell, q) => cell !== false && cellComponent(cell) || emptyCell(cellKey({ q, r: id })))}
+            {row.map((cell, q) => cell !== false && cellComponent(cell) || emptyCell(id + q))}
         </div>
     );
 };

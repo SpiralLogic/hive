@@ -1,0 +1,40 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Cell Snapshot matches current snapshot 1`] = `
+Array [
+  <div
+    className="hex cell"
+    data-coords="0,0"
+    onDragEnd={[Function]}
+    onDragEnter={[Function]}
+    onDragLeave={[Function]}
+    onDragOver={[Function]}
+    onDrop={[Function]}
+  />,
+  <div
+    className="hex cell"
+    data-coords="1,1"
+    onDragEnd={[Function]}
+    onDragEnter={[Function]}
+    onDragLeave={[Function]}
+    onDragOver={[Function]}
+    onDrop={[Function]}
+  >
+    <div
+      className="hex tile"
+      draggable={true}
+      onDragStart={[Function]}
+      style={
+        Object {
+          "--color": undefined,
+        }
+      }
+      title="fly"
+    >
+      <span>
+        fly
+      </span>
+    </div>
+  </div>,
+]
+`;

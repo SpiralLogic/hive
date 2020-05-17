@@ -1,38 +1,58 @@
 import * as React from 'react';
-import { useDrop } from 'react-dnd';
-import { Hexagon, HexCoordinates } from '../domain';
-import { Tile, TILE_TYPE } from './Tile';
+import { Hexagon } from '../domain';
+import { HiveContext } from '../gameContext';
+import { Tile } from './Tile';
 
-type CellProps = Hexagon
+export type CellProps = Hexagon
 
-const areEqual = (a: HexCoordinates, b: HexCoordinates) => a && b && a.q === b.q && a.r === b.r;
-const isValidMove = (move: HexCoordinates, validMoves: HexCoordinates[]) => validMoves.some(dest => areEqual(move, dest));
+function dragover_handler (ev: React.DragEvent<HTMLDivElement>) {
+    ev.preventDefault();
+    return false;
+}
+
+function dragleave_handler (ev: React.DragEvent<HTMLDivElement>) {
+    ev.currentTarget.classList.remove('active', 'invalid-cell');
+    ev.stopPropagation();
+}
+
+function dragenter_handler (ev: React.DragEvent<HTMLDivElement>) {
+    ev.currentTarget.classList.contains('valid-cell')
+        ? ev.currentTarget.classList.add('active')
+        : ev.currentTarget.classList.add('invalid-cell');
+    ev.stopPropagation();
+}
+
+function dragend_handler (ev: React.DragEvent<HTMLDivElement>) {
+    ev.currentTarget.classList.remove('valid-cell', 'active', 'invalid-cell');
+    return false;
+}
 
 export const Cell: React.FunctionComponent<CellProps> = ({
     tiles,
     coordinates,
 }) => {
-    const [{ isOver, canDrop }, drop] = useDrop({
-        accept: TILE_TYPE,
-        drop: () => coordinates,
-        canDrop: (item, monitor) => isValidMove(coordinates, monitor.getItem().availableMoves),
-        collect: monitor => ({
-            isOver: monitor.isOver(),
-            canDrop: monitor.canDrop(),
-        }),
-    });
+    const moveTile = React.useContext(HiveContext).moveTile;
 
-    const backGroundColor = () => {
-        if (canDrop && isOver) return ' valid-cell active';
-        if (isOver) return ' invalid-cell';
-        if (canDrop) return ' valid-cell';
-        return '';
+    const attributes = {
+        className: 'hex cell',
+        'data-coords': coordinates.q + ',' + coordinates.r,
+        onDragOver: dragover_handler,
+        onDrop: drop_handler,
+        onDragLeave: dragleave_handler,
+        onDragEnter: dragenter_handler,
+        onDragEnd: dragend_handler,
     };
-    
+
+    function drop_handler (ev: React.DragEvent<HTMLDivElement>) {
+        ev.preventDefault();
+        if (ev.currentTarget as HTMLDivElement && ev.currentTarget.classList.contains('valid-cell')) {
+            const tileId = parseInt(ev.dataTransfer.getData('hex-tile'));
+            moveTile({ coordinates, tileId });
+        }
+    }
+
     return (
-        <div className={'hex cell' + backGroundColor()} ref={drop}>
-            {tiles.length > 0 && <Tile {...tiles[0]} />}
-        </div>
+        <div {...attributes}>{tiles.length > 0 && <Tile {...tiles[0]} />}</div>
     );
 };
 

@@ -21,7 +21,7 @@ const getPlayerColor = (playerId: PlayerId) => {
     return playerColors[playerId] || 'red';
 };
 
-export const useGameContext = (engine: HexEngine): [boolean, GameContext] => {
+export  const useGameContext = (engine: HexEngine): [boolean, GameContext] => {
     const [loading, setLoading] = useState(true);
 
     const [gameState, setGameState] = useState<GameState>({

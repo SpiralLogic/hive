@@ -1,9 +1,8 @@
 import * as React from 'react';
-import { useDrag } from 'react-dnd';
 import { HexCoordinates, PlayerId, TextContent, TileId } from '../domain';
 import { HiveContext } from '../gameContext';
 
-interface TileProps {
+export interface TileProps {
     id: TileId,
     content: TextContent
     playerId: PlayerId,
@@ -12,31 +11,38 @@ interface TileProps {
 
 export const TILE_TYPE = Symbol();
 
+const areEqual = (a: HexCoordinates, b: HexCoordinates) => a && b && a.q === b.q && a.r === b.r;
+const isValidMove = (move: HexCoordinates, validMoves: HexCoordinates[]) => validMoves.some(dest => areEqual(move, dest));
+
 export const Tile: React.FunctionComponent<TileProps> = ({
     id,
     playerId,
     content,
     availableMoves,
 }) => {
-    const { getPlayerColor, moveTile } = React.useContext(HiveContext);
-    const [, drag] = useDrag({
-        item: { type: TILE_TYPE, id, availableMoves, playerId },
-        end: (item, monitor) => {
-            if (monitor.didDrop()) {
-                const { q, r } = monitor.getDropResult();
-                moveTile({ tileId: id, coordinates: { q, r } });
-            }
-        },
-        canDrag: () => availableMoves.length > 0,
-        collect: (monitor) => ({
-            isDragging: monitor.isDragging(),
-        }),
-    });
+    const getPlayerColor = React.useContext(HiveContext).getPlayerColor;
 
-    const style = { '--color': getPlayerColor(playerId) };
+    function dragstart_handler (ev: React.DragEvent<HTMLDivElement>) {
+        ev.dataTransfer.setData('hex-tile', id.toString());
+        document.querySelectorAll('.cell').forEach((cell) => {
+            if (cell instanceof HTMLDivElement && cell.dataset.coords) {
+                const [q, r] = cell.dataset.coords.split(',').map(v => parseInt(v));
+                if (!isValidMove({ q, r }, availableMoves)) return;
+                cell.classList.add('valid-cell');
+            }
+        });
+    }
+
+    const attributes = {
+        title: content,
+        style: { '--color': getPlayerColor(playerId) },
+        className: 'hex tile',
+        draggable: !!availableMoves.length,
+        onDragStart: dragstart_handler,
+    };
 
     return (
-        <div ref={drag} className="hex tile" title={content} style={style}>
+        <div {...attributes}>
             <span>{content}</span>
         </div>
     );

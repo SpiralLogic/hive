@@ -53,12 +53,12 @@
     flex-direction: row
 }
 
-.hex-row:nth-child(even) {
-    margin-left: calc(1.8 * var(--hex-size) / (var(--hex-offset) * 2));
+[data-shift='right'] > .hex-row:nth-child(even), [data-shift='left'] > .hex-row:nth-child(odd) {
+    margin-left: calc(1.8 * var(--hex-size) / 2);
 }
 
-.hex-row:nth-child(odd) {
-    margin-left: calc(1.8 * var(--hex-size) / (var(--hex-offset) * -2));
+[data-shift='left'] > .hex-row:nth-child(even), [data-shift='right'] > .hex-row:nth-child(odd)  {
+    margin-left: calc(1.8 * var(--hex-size) / -2);
 }
 
 .hex {
@@ -110,9 +110,11 @@
     z-index: 10;
     font-size: var(--tile-size);
 }
+
 .tile span {
     font-size: 50%;
 }
+
 .cell > .tile {
     margin: 0;
 }
@@ -123,7 +125,7 @@
 }
 
 .hex.valid-cell {
-    --color: rgba(175,210,117,0.2);
+    --color: rgba(175, 210, 117, 0.2);
 }
 
 .hex.valid-cell.active {

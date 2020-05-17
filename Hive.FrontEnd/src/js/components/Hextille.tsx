@@ -1,3 +1,4 @@
+import { useRef } from 'react';
 import * as React from 'react';
 import { Hexagon } from '../domain';
 import { Row, RowProps } from './Row';
@@ -16,27 +17,28 @@ function getHeight (sortedHexagons: Hexagon[]) {
 }
 
 const createEmptyRows = (height: number, width: number, firstRow: number) => {
-    const createEmptyRow = (i: number) => ({ id: firstRow + i, row: new Array(width).fill(false) });
+    const createEmptyRow = (i: number) => ({
+        id: firstRow + i,
+        row: new Array(width).fill(false)
+    });
     return Array.from(Array(height).keys(), createEmptyRow);
 };
 
 export const Hextille: React.FunctionComponent = () => {
     const { hexagons } = React.useContext(HiveContext).gameState;
     if (!hexagons.length) throw Error('Nothing to render !');
-    
     const sortedHexagons = hexagons.sort((c1, c2) => c1.coordinates.r - c2.coordinates.r || c1.coordinates.q - c2.coordinates.q);
     const [firstRow, height] = getHeight(sortedHexagons);
     const [firstColumn, width] = getWidth(sortedHexagons);
-    const columnShift = { '--hex-offset': (firstRow % 2) ? -1 : 1 };
     const rowCells = sortedHexagons.reduce((rows, hexagon) => {
         rows[hexagon.coordinates.r - firstRow].row[hexagon.coordinates.q - firstColumn] = hexagon;
         return rows;
     }, createEmptyRows(height, width, firstRow)) as RowProps[];
-
+    const shift = (firstRow % 2) ? 'left' : 'right';
     return (
-        <div className="hextille" style={columnShift}>
-            {rowCells.map((row) => (
-                <Row key={row.id} {...row}/>
+        <div className="hextille" data-shift={shift}>
+            {rowCells.map((row, i) => (
+                <Row key={row.id} {...row} />
             ))}
         </div>
     );
