@@ -1,32 +1,34 @@
-import { GameArea } from './GameArea';
-import { act, create } from 'react-test-renderer';
+import {GameArea} from './GameArea';
+import {act, create, ReactTestRenderer} from 'react-test-renderer';
 import * as React from 'react';
-import { Hexagon } from '../domain';
+import {HexEngine} from "../domain";
 
-jest.mock('../domain/engine');
-const hexagon: Hexagon = { coordinates: { q: 1, r: 1 }, tiles: [] };
-const gameState = Promise.resolve({ hexagons: [hexagon], players: [] });
+let engine: HexEngine;
+let component: ReactTestRenderer;
 
-test('Game area shows loading', () => {
-    const state = jest.fn(() => gameState);
-    const move = jest.fn(() => gameState);
-
-    const engine = { initialState: state, moveTile: move };
-    const component = create(<GameArea engine={engine}/>);
-    let tree = component.toJSON();
-
-    expect(tree).toMatchSnapshot();
+beforeEach(() => {
+    const hexagon = {coordinates: {q: 1, r: 1}, tiles: []};
+    const gameState = {hexagons: [hexagon], players: []};
+    engine = {
+        initialState: jest.fn(async () => gameState),
+        moveTile: jest.fn().mockResolvedValue(gameState)
+    }
 });
 
-test('Game shows board after fetch', async () => {
-    const state = jest.fn(() => gameState);
-    const move = jest.fn(() => gameState);
-
-    const engine = { initialState: state, moveTile: move };
-    const component = create(<GameArea engine={engine}/>);
-
-    await act(async () => { await state;});
-    let tree = component.toJSON();
+test('Game area shows initial loading', () => {
+    component = create(<GameArea engine={engine}/>)
+    const tree = component.toJSON();
 
     expect(tree).toMatchSnapshot();
+})
+;
+
+test('Game area shows board after fetch', async () => {
+    await act(async () => {
+        component = create(<GameArea engine={engine}/>, )
+        await engine.initialState();
+    });
+
+    expect(component.toJSON()).toMatchSnapshot();
 });
+

@@ -22,11 +22,6 @@ function dragenter_handler (ev: React.DragEvent<HTMLDivElement>) {
     ev.stopPropagation();
 }
 
-function dragend_handler (ev: React.DragEvent<HTMLDivElement>) {
-    ev.currentTarget.classList.remove('valid-cell', 'active', 'invalid-cell');
-    return false;
-}
-
 export const Cell: React.FunctionComponent<CellProps> = ({
     tiles,
     coordinates,
@@ -40,7 +35,6 @@ export const Cell: React.FunctionComponent<CellProps> = ({
         onDrop: drop_handler,
         onDragLeave: dragleave_handler,
         onDragEnter: dragenter_handler,
-        onDragEnd: dragend_handler,
     };
 
     function drop_handler (ev: React.DragEvent<HTMLDivElement>) {

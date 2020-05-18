@@ -1,15 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Game area shows loading 1`] = `
-<h1>
-  loading
-</h1>
-`;
-
-exports[`Game shows board after fetch 1`] = `
+exports[`Game area shows board after fetch 1`] = `
 <div
   className="hive"
-  onDragEnd={[Function]}
   style={
     Object {
       "--hex-size": "50px",
@@ -32,7 +25,6 @@ exports[`Game shows board after fetch 1`] = `
       <div
         className="hex cell"
         data-coords="1,1"
-        onDragEnd={[Function]}
         onDragEnter={[Function]}
         onDragLeave={[Function]}
         onDragOver={[Function]}
@@ -41,4 +33,10 @@ exports[`Game shows board after fetch 1`] = `
     </div>
   </div>
 </div>
+`;
+
+exports[`Game area shows initial loading 1`] = `
+<h1>
+  loading
+</h1>
 `;

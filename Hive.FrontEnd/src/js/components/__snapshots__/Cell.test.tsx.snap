@@ -5,7 +5,6 @@ Array [
   <div
     className="hex cell"
     data-coords="0,0"
-    onDragEnd={[Function]}
     onDragEnter={[Function]}
     onDragLeave={[Function]}
     onDragOver={[Function]}
@@ -14,7 +13,6 @@ Array [
   <div
     className="hex cell"
     data-coords="1,1"
-    onDragEnd={[Function]}
     onDragEnter={[Function]}
     onDragLeave={[Function]}
     onDragOver={[Function]}
@@ -23,6 +21,7 @@ Array [
     <div
       className="hex tile"
       draggable={true}
+      onDragEnd={[Function]}
       onDragStart={[Function]}
       style={
         Object {

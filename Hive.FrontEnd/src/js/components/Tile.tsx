@@ -21,7 +21,7 @@ export const Tile: React.FunctionComponent<TileProps> = ({
     availableMoves,
 }) => {
     const getPlayerColor = React.useContext(HiveContext).getPlayerColor;
-
+    
     function dragstart_handler (ev: React.DragEvent<HTMLDivElement>) {
         ev.dataTransfer.setData('hex-tile', id.toString());
         document.querySelectorAll('.cell').forEach((cell) => {
@@ -33,12 +33,21 @@ export const Tile: React.FunctionComponent<TileProps> = ({
         });
     }
 
+    function dragend_handler(ev: React.DragEvent<HTMLDivElement>) {
+        document.querySelectorAll('.cell').forEach(cell => {
+            cell.classList.remove('valid-cell', 'active', 'invalid-cell');
+        });
+        
+        return false;
+    }
+
     const attributes = {
         title: content,
         style: { '--color': getPlayerColor(playerId) },
         className: 'hex tile',
         draggable: !!availableMoves.length,
         onDragStart: dragstart_handler,
+        onDragEnd: dragend_handler,
     };
 
     return (

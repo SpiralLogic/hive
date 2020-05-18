@@ -1,9 +1,9 @@
 import * as React from 'react';
-import { render, unmountComponentAtNode } from 'react-dom';
-import { act, Simulate } from 'react-dom/test-utils';
-import { create } from 'react-test-renderer';
-import { GameContext, HiveContext } from '../gameContext';
-import { Tile } from './Tile';
+import {render, unmountComponentAtNode} from 'react-dom';
+import {act, Simulate} from 'react-dom/test-utils';
+import {create} from 'react-test-renderer';
+import {Tile} from './Tile';
+import {GameContext, HiveContext} from "../gameContext";
 
 const mockContext = (): GameContext => ({
     getPlayerColor: jest.fn().mockReturnValueOnce('pink').mockReturnValueOnce('sky'),
@@ -61,18 +61,36 @@ describe('Tile drag and drop', () => {
         expect(tiles[1].attributes.getNamedItem('draggable')).toHaveProperty('value', 'false');
     });
 
-    test('on drag available cells are given \'valid-cell\' class', () => {
+    test('on drag start available cells are given \'valid-cell\' class', () => {
         const availableCell = attachCellToDom('1', '1');
         const tiles = document.querySelectorAll<HTMLDivElement>('.tile');
-        Simulate.dragStart(tiles[0]);
+        const mockDataTransfer = {setData: jest.fn().mockReturnValueOnce(2)};
+
+        // @ts-ignore
+        Simulate.dragStart(tiles[0], {dataTransfer: mockDataTransfer});
 
         expect(availableCell.classList).toContain('valid-cell');
+    });
+
+    test('on dragEnd cells have drag class removed', () => {
+        const cell = attachCellToDom('1', '1');
+        cell.classList.add('active', 'valid-cell', 'invalid-cell')
+
+        const tiles = document.querySelectorAll<HTMLDivElement>('.tile');
+        Simulate.dragEnd(tiles[0]);
+
+        expect(cell.classList).not.toContain('valid-cell');
+        expect(cell.classList).not.toContain('invalid-cell');
+        expect(cell.classList).not.toContain('active');
     });
 
     test('on drag unavailable cells don\'t have \'valid-cell\' class', () => {
         const unavailableCell = attachCellToDom('0', '0');
         const tiles = document.querySelectorAll<HTMLDivElement>('.tile');
-        Simulate.dragStart(tiles[0]);
+        const mockDataTransfer = {setData: jest.fn().mockReturnValueOnce(2)};
+
+        // @ts-ignore
+        Simulate.dragStart(tiles[0], {dataTransfer: mockDataTransfer});
 
         expect(unavailableCell.classList).not.toContain('valid-cell');
     });

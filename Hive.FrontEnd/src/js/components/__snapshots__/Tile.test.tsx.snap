@@ -5,6 +5,7 @@ Array [
   <div
     className="hex tile"
     draggable={true}
+    onDragEnd={[Function]}
     onDragStart={[Function]}
     style={
       Object {
@@ -20,6 +21,7 @@ Array [
   <div
     className="hex tile"
     draggable={false}
+    onDragEnd={[Function]}
     onDragStart={[Function]}
     style={
       Object {
