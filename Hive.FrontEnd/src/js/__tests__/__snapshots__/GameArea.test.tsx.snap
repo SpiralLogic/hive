@@ -1,0 +1,74 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Game area shows board after fetch 1`] = `
+<div
+  className="hive"
+  onDragOver={[Function]}
+  style={
+    Object {
+      "--hex-size": "50px",
+    }
+  }
+>
+  <div
+    className="players"
+  >
+    <div
+      className="player"
+      title="adsf"
+    >
+      <span
+        className="name"
+      >
+         
+        adsf
+         
+      </span>
+      <div
+        className="tiles"
+      >
+        <div
+          className="hex tile"
+          draggable={false}
+          onDragEnd={[Function]}
+          onDragStart={[Function]}
+          onDrop={[Function]}
+          style={
+            Object {
+              "--color": "#f64c72",
+            }
+          }
+          title="ant"
+        >
+          <span>
+            ant
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    className="hextille left"
+  >
+    <div
+      className="hex-row"
+    >
+      <div
+        className="hidden"
+      />
+      <div
+        className="hex cell"
+        onDragEnter={[Function]}
+        onDragLeave={[Function]}
+        onDragOver={[Function]}
+      />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Game area shows initial loading 1`] = `
+<h1>
+  loading
+</h1>
+`;

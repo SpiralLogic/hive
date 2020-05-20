@@ -1,19 +1,22 @@
-import { createContext, useEffect, useState } from 'react';
-import { Color, GameState, HexEngine, Move, PlayerId } from './domain';
+import {createContext, useEffect, useState} from 'react';
+import {Color, Hexagon, HexEngine, Move, Player, PlayerId} from './domain';
+import TileDragEmitter from "./emitter/tileDragEmitter";
 
 export interface GameContext {
-    gameState: GameState;
-    moveTile: (move: Move) => void;
-    getPlayerColor: (playerId: PlayerId) => Color;
+    
+    players: Player[],
+    hexagons: Hexagon[],
+    moveTile: (move: Move) => void,
+    getPlayerColor: (playerId: PlayerId) => Color,
+    tileDragEmitter: TileDragEmitter;
 }
 
 export const HiveContext = createContext<GameContext>({
-    gameState: {
-        hexagons: [],
-        players: [],
-    },
+    hexagons: [],
+    players: [],
     moveTile: () => undefined,
-    getPlayerColor: (): string => '',
+    getPlayerColor: (): string => 'red',
+    tileDragEmitter: new TileDragEmitter()
 });
 
 const getPlayerColor = (playerId: PlayerId) => {
@@ -21,26 +24,30 @@ const getPlayerColor = (playerId: PlayerId) => {
     return playerColors[playerId] || 'red';
 };
 
+const tileDragEmitter = new TileDragEmitter();
+
 export const useGameContext = (engine: HexEngine): [boolean, GameContext] => {
     const [loading, setLoading] = useState(true);
-    const [gameState, setGameState] = useState<GameState>({
-        hexagons: [],
-        players: [],
-    });
+    const [hexagons, setHexagons] = useState<Hexagon[]>([]);
+    const [players, setPlayers] = useState<Player[]>([]);
 
     useEffect(() => {
         setLoading(true);
         engine.initialState().then(state => {
-            setGameState(state);
+            setHexagons(state.hexagons);
+            setPlayers(state.players);
             setLoading(false);
         });
     }, [engine]);
 
     const moveTile = (move: Move) => {
-        engine.moveTile(move).then(nextState => setGameState(nextState));
+        engine.moveTile(move).then(state => {
+            setHexagons(state.hexagons);
+            setPlayers(state.players);
+        })
     };
 
-    return [loading, { gameState, moveTile, getPlayerColor }];
+    return [loading, {hexagons, players, moveTile, getPlayerColor, tileDragEmitter}];
 };
 
 HiveContext.displayName = 'Hive Context';

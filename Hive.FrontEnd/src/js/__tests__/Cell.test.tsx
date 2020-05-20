@@ -1,14 +1,15 @@
 import * as React from 'react';
-import { render, unmountComponentAtNode } from 'react-dom';
+import {render, unmountComponentAtNode} from 'react-dom';
 import * as TestUtils from 'react-dom/test-utils';
-import { create } from 'react-test-renderer';
-import { GameContext, HiveContext } from '../gameContext';
-import { Cell } from './Cell';
+import {create} from 'react-test-renderer';
+import Cell from '../components/Cell';
+import TileDragEmitter from '../emitter/tileDragEmitter';
+import {GameContext, HiveContext} from '../gameContext';
 
-const emptyCell = { coordinates: { q: 0, r: 0 }, tiles: [] };
+const emptyCell = {coordinates: {q: 0, r: 0}, tiles: []};
 const cellWithTile = {
-    coordinates: { q: 1, r: 1 },
-    tiles: [{ id: 2, playerId: 2, content: 'fly', availableMoves: [{ q: 0, r: 0 }] }]
+    coordinates: {q: 1, r: 1},
+    tiles: [{id: 2, playerId: 2, content: 'fly', availableMoves: [{q: 0, r: 0}]}]
 };
 
 const hexagonJSX = (context: GameContext) =>
@@ -19,17 +20,20 @@ const hexagonJSX = (context: GameContext) =>
 
 let container: HTMLDivElement;
 let context: GameContext;
-
 beforeEach(() => {
     context = ({
         getPlayerColor: jest.fn(),
         moveTile: jest.fn(),
-        gameState: jest.genMockFromModule('../domain/gameState'),
+        players: [],
+        hexagons: [],
+        tileDragEmitter: new TileDragEmitter()
     });
 
     container = document.createElement('div');
     document.body.appendChild(container);
-    TestUtils.act(() => { render(hexagonJSX(context), container);});
+    TestUtils.act(() => {
+        render(hexagonJSX(context), container);
+    });
 });
 
 describe('Cell Render', () => {
@@ -47,32 +51,30 @@ describe('Cell Render', () => {
 });
 
 describe('Cell drag and drop', () => {
-    const attachTileToDom = () => {
-        const tile = document.createElement('div');
-        tile.classList.add('tile');
-        document.body.appendChild(tile);
-        return tile;
-    };
-
     test('dragover allows drop', () => {
         const cell = document.querySelectorAll<HTMLDivElement>('.cell')[1];
         cell.classList.add('valid-cell');
         const preventDefault = jest.fn();
-        TestUtils.Simulate.dragOver(cell, { preventDefault });
+        TestUtils.Simulate.dragOver(cell, {preventDefault});
 
         expect(preventDefault).toBeCalled();
     });
 
     test('drop sends move tile request', () => {
-        const cell = document.querySelectorAll<HTMLDivElement>('.cell')[1];
-        cell.classList.add('valid-cell');
-        const mockDataTransfer = { getData: jest.fn().mockReturnValueOnce(2) };
+        const cells = document.querySelectorAll<HTMLDivElement>('.cell');
+        cells[1].classList.add('active');
+        context.tileDragEmitter.emit({type: 'end', source: 2, data: [{q: 1, r: 1}]})
 
-        // @ts-ignore
-        TestUtils.Simulate.drop(cell, { dataTransfer: mockDataTransfer });
+        expect(context.moveTile).toBeCalledWith({tileId: 2, coordinates: {q: 1, r: 1}});
+    });
 
-        expect(context.moveTile).toBeCalled();
-        expect(context.moveTile).toBeCalledWith({ tileId: 2, coordinates: { q: 1, r: 1 } });
+    test('cell is valid on drag start', () => {
+        const cells = document.querySelectorAll<HTMLDivElement>('.cell');
+        cells.forEach(c => TestUtils.Simulate.dragEnter(c));
+
+        context.tileDragEmitter.emit({type: 'start', source: 2, data: [{q: 0, r: 0}]})
+
+        expect(cells[0].classList).toContain('valid-cell');
     });
 
     test('valid cell is active on tile drag enter', () => {

@@ -15,6 +15,7 @@ export const GameArea: React.FunctionComponent<GameArea> = ({engine}) => {
         return <h1>loading</h1>;
     }
     const attributes = {
+        onDragOver: (e:React.DragEvent<HTMLDivElement>) => { e.preventDefault(); return false;},   
         className: 'hive',
         style: {'--hex-size': '50px'},
     };
@@ -22,8 +23,8 @@ export const GameArea: React.FunctionComponent<GameArea> = ({engine}) => {
     return (
         <div {...attributes}>
             <HiveContext.Provider value={gameContext}>
-                <PlayerList/>
-                <Hextille/>
+                <PlayerList players={gameContext.players}/>
+                <Hextille hexagons={gameContext.hexagons}/>
             </HiveContext.Provider>
         </div>
     );

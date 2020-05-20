@@ -2,20 +2,25 @@ import * as React from 'react';
 import {render, unmountComponentAtNode} from 'react-dom';
 import {act, Simulate} from 'react-dom/test-utils';
 import {create} from 'react-test-renderer';
-import {Tile} from './Tile';
 import {GameContext, HiveContext} from "../gameContext";
+import TileDragEmitter from "../emitter/tileDragEmitter";
+import * as TestUtils from "react-dom/test-utils";
+import {Tile} from "../components";
 
 const mockContext = (): GameContext => ({
     getPlayerColor: jest.fn().mockReturnValueOnce('pink').mockReturnValueOnce('sky'),
     moveTile: jest.fn(),
-    gameState: jest.genMockFromModule('../domain/gameState'),
+    players: jest.genMockFromModule('../domain/gameState'),
+    hexagons: jest.genMockFromModule('../domain/gameState'),
+    tileDragEmitter: new TileDragEmitter()
 });
 
-const player1Tile = { id: 1, playerId: 1, content: 'ant', availableMoves: [{ q: 1, r: 1 }] };
-const player2Tile = { id: 2, playerId: 2, content: 'fly', availableMoves: [] };
+const player1Tile = {id: 1, playerId: 1, content: 'ant', availableMoves: [{q: 1, r: 1}]};
+const player2Tile = {id: 2, playerId: 2, content: 'fly', availableMoves: []};
+let context: GameContext;
 
-const tileJSX = () =>
-    <HiveContext.Provider value={mockContext()}>
+const tileJSX = (context: GameContext) =>
+    <HiveContext.Provider value={context}>
         <Tile key="1" {...player1Tile}/>
         <Tile key="2" {...player2Tile}/>
     </HiveContext.Provider>;
@@ -23,9 +28,12 @@ const tileJSX = () =>
 let container: HTMLDivElement;
 
 beforeEach(() => {
+    context = mockContext();
     container = document.createElement('div');
     document.body.appendChild(container);
-    act(() => { render(tileJSX(), container);});
+    act(() => {
+        render(tileJSX(context), container);
+    });
 });
 
 describe('Tile Render', () => {
@@ -43,14 +51,13 @@ describe('Tile Render', () => {
 });
 
 describe('Tile drag and drop', () => {
-    const attachCellToDom = (q: string, r: string) => {
-        const cell = document.createElement('div');
-        cell.classList.add('cell');
-        cell.dataset['coords'] = `${q},${r}`;
-        document.body.appendChild(cell);
-        return cell;
-    };
+    const emitSpy = jest.fn();
+    beforeEach(() => {
+        emitSpy.mockClear();
+        context.tileDragEmitter.add(emitSpy);
 
+    });
+    
     test('Tile is draggable when there are available moves', () => {
         const tiles = document.querySelectorAll<HTMLDivElement>('.tile');
         expect(tiles[0].attributes.getNamedItem('draggable')).toHaveProperty('value', 'true');
@@ -61,44 +68,35 @@ describe('Tile drag and drop', () => {
         expect(tiles[1].attributes.getNamedItem('draggable')).toHaveProperty('value', 'false');
     });
 
-    test('on drag start available cells are given \'valid-cell\' class', () => {
-        const availableCell = attachCellToDom('1', '1');
+    test('on drag emits start event', () => {
         const tiles = document.querySelectorAll<HTMLDivElement>('.tile');
-        const mockDataTransfer = {setData: jest.fn().mockReturnValueOnce(2)};
+        Simulate.dragStart(tiles[0]);
 
-        // @ts-ignore
-        Simulate.dragStart(tiles[0], {dataTransfer: mockDataTransfer});
+        const expectedEvent = {type: 'start', source: player1Tile.id, data: player1Tile.availableMoves};
 
-        expect(availableCell.classList).toContain('valid-cell');
+        expect(emitSpy).toBeCalledWith(expectedEvent)
     });
 
-    test('on dragEnd cells have drag class removed', () => {
-        const cell = attachCellToDom('1', '1');
-        cell.classList.add('active', 'valid-cell', 'invalid-cell')
-
+    test('on dragEnd emits end event', () => {
         const tiles = document.querySelectorAll<HTMLDivElement>('.tile');
         Simulate.dragEnd(tiles[0]);
+        const expectedEvent = {type: 'end', source: player1Tile.id, data: player1Tile.availableMoves};
 
-        expect(cell.classList).not.toContain('valid-cell');
-        expect(cell.classList).not.toContain('invalid-cell');
-        expect(cell.classList).not.toContain('active');
+        expect(emitSpy).toBeCalledWith(expectedEvent)
     });
 
-    test('on drag unavailable cells don\'t have \'valid-cell\' class', () => {
-        const unavailableCell = attachCellToDom('0', '0');
-        const tiles = document.querySelectorAll<HTMLDivElement>('.tile');
-        const mockDataTransfer = {setData: jest.fn().mockReturnValueOnce(2)};
+    test('default on drop is prevented', () => {
+        const tile = document.querySelectorAll<HTMLDivElement>('.tile')[1];
+        const preventDefault = jest.fn();
+        TestUtils.Simulate.drop(tile, {preventDefault});
 
-        // @ts-ignore
-        Simulate.dragStart(tiles[0], {dataTransfer: mockDataTransfer});
-
-        expect(unavailableCell.classList).not.toContain('valid-cell');
+        expect(preventDefault).toBeCalled();
     });
 });
 
 describe('Tile Snapshot', () => {
     test('matches current snapshot', () => {
-        const component = create(tileJSX());
+        const component = create(tileJSX(context));
 
         let tree = component.toJSON();
         expect(tree).toMatchSnapshot();

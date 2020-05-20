@@ -1,9 +1,8 @@
 import * as React from 'react';
 import { PlayerTiles } from './PlayerTiles';
-import { HiveContext } from '../gameContext';
+import {Player} from "../domain";
 
-export const PlayerList: React.FunctionComponent = () => {
-    const { players } = React.useContext(HiveContext).gameState;
+export const PlayerList: React.FunctionComponent<{players:Player[]}> = ({players}) => {
     return (
         <div className="players">
             {players.map(player => (

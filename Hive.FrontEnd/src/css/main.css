@@ -1,9 +1,13 @@
+body {
+    margin: 1px;
+}
+
 .hive {
     display: flex;
     height: 100%;
     min-height: 600px;
-    --margin: calc(var(--hex-size) / 12.5);
     --hex-size: var(--hex-size, 60px);
+    --margin: calc(var(--hex-size) / 12.5);
     --tile-size: calc(var(--hex-size) * .7);
     --hex-offset: -1;
 }
@@ -53,11 +57,11 @@
     flex-direction: row
 }
 
-[data-shift='right'] > .hex-row:nth-child(even), [data-shift='left'] > .hex-row:nth-child(odd) {
+.right > .hex-row:nth-child(even), .left > .hex-row:nth-child(odd) {
     margin-left: calc(1.8 * var(--hex-size) / 2);
 }
 
-[data-shift='left'] > .hex-row:nth-child(even), [data-shift='right'] > .hex-row:nth-child(odd)  {
+.left > .hex-row:nth-child(even), .right > .hex-row:nth-child(odd) {
     margin-left: calc(1.8 * var(--hex-size) / -2);
 }
 

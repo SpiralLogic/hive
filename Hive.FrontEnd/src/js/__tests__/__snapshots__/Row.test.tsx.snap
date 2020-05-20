@@ -1,0 +1,42 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Row snapshot 1`] = `
+<div
+  className="hex-row"
+>
+  <Cell
+    coordinates={
+      Object {
+        "q": 0,
+        "r": 1,
+      }
+    }
+    tiles={Array []}
+  />
+</div>
+`;
+
+exports[`snapshot 1`] = `
+<Row
+  r={1}
+  row={
+    Array [
+      Object {
+        "coordinates": Object {
+          "q": 0,
+          "r": 1,
+        },
+        "tiles": Array [],
+      },
+      Object {
+        "coordinates": Object {
+          "q": 1,
+          "r": 1,
+        },
+        "tiles": Array [],
+      },
+      false,
+    ]
+  }
+/>
+`;
