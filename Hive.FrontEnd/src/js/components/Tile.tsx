@@ -13,11 +13,11 @@ export const TILE_TYPE = Symbol();
 
 export const Tile: React.FunctionComponent<TileProps> =
     ({
-         id,
-         playerId,
-         content,
-         availableMoves,
-     }) => {
+        id,
+        playerId,
+        content,
+        availableMoves,
+    }) => {
         const {getPlayerColor, tileDragEmitter} = React.useContext(HiveContext);
 
         function onDragStart(ev: React.DragEvent<HTMLDivElement>) {
@@ -35,7 +35,7 @@ export const Tile: React.FunctionComponent<TileProps> =
             draggable: !!availableMoves.length,
             onDragStart: onDragStart,
             onDragEnd: onDragEnd,
-            onDrop: (ev: React.DragEvent<HTMLDivElement>) => {ev.preventDefault();return false}
+            onDrop: (ev: React.DragEvent<HTMLDivElement>) => {ev.preventDefault();return false;}
         };
 
         return (

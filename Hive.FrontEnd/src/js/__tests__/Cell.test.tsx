@@ -63,7 +63,7 @@ describe('Cell drag and drop', () => {
     test('drop sends move tile request', () => {
         const cells = document.querySelectorAll<HTMLDivElement>('.cell');
         cells[1].classList.add('active');
-        context.tileDragEmitter.emit({type: 'end', source: 2, data: [{q: 1, r: 1}]})
+        context.tileDragEmitter.emit({type: 'end', source: 2, data: [{q: 1, r: 1}]});
 
         expect(context.moveTile).toBeCalledWith({tileId: 2, coordinates: {q: 1, r: 1}});
     });
@@ -72,7 +72,7 @@ describe('Cell drag and drop', () => {
         const cells = document.querySelectorAll<HTMLDivElement>('.cell');
         cells.forEach(c => TestUtils.Simulate.dragEnter(c));
 
-        context.tileDragEmitter.emit({type: 'start', source: 2, data: [{q: 0, r: 0}]})
+        context.tileDragEmitter.emit({type: 'start', source: 2, data: [{q: 0, r: 0}]});
 
         expect(cells[0].classList).toContain('valid-cell');
     });

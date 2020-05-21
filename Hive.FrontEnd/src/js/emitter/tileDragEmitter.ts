@@ -1,5 +1,5 @@
-import {HexCoordinates, TileId} from "../domain";
-import {EventEmitter, EventListener} from "./interface";
+import {HexCoordinates, TileId} from '../domain';
+import {EventEmitter, EventListener} from './interface';
 
 export type TileDragListener = EventListener<TileDragEvent>;
 
@@ -17,7 +17,7 @@ export default class TileDragEmitter implements EventEmitter<TileDragEvent> {
     }
 
     emit(event: TileDragEvent) {
-        this.listeners.forEach(l => l(event))
+        this.listeners.forEach(l => l(event));
     }
 
     remove(listener: TileDragListener) {

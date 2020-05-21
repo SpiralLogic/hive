@@ -1,6 +1,6 @@
 import {createContext, useEffect, useState} from 'react';
 import {Color, Hexagon, HexEngine, Move, Player, PlayerId} from './domain';
-import TileDragEmitter from "./emitter/tileDragEmitter";
+import TileDragEmitter from './emitter/tileDragEmitter';
 
 export interface GameContext {
     
@@ -44,7 +44,7 @@ export const useGameContext = (engine: HexEngine): [boolean, GameContext] => {
         engine.moveTile(move).then(state => {
             setHexagons(state.hexagons);
             setPlayers(state.players);
-        })
+        });
     };
 
     return [loading, {hexagons, players, moveTile, getPlayerColor, tileDragEmitter}];

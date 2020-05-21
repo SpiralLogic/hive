@@ -2,10 +2,10 @@ import * as React from 'react';
 import {render, unmountComponentAtNode} from 'react-dom';
 import {act, Simulate} from 'react-dom/test-utils';
 import {create} from 'react-test-renderer';
-import {GameContext, HiveContext} from "../gameContext";
-import TileDragEmitter from "../emitter/tileDragEmitter";
-import * as TestUtils from "react-dom/test-utils";
-import {Tile} from "../components";
+import {GameContext, HiveContext} from '../gameContext';
+import TileDragEmitter from '../emitter/tileDragEmitter';
+import * as TestUtils from 'react-dom/test-utils';
+import {Tile} from '../components';
 
 const mockContext = (): GameContext => ({
     getPlayerColor: jest.fn().mockReturnValueOnce('pink').mockReturnValueOnce('sky'),
@@ -74,7 +74,7 @@ describe('Tile drag and drop', () => {
 
         const expectedEvent = {type: 'start', source: player1Tile.id, data: player1Tile.availableMoves};
 
-        expect(emitSpy).toBeCalledWith(expectedEvent)
+        expect(emitSpy).toBeCalledWith(expectedEvent);
     });
 
     test('on dragEnd emits end event', () => {
@@ -82,7 +82,7 @@ describe('Tile drag and drop', () => {
         Simulate.dragEnd(tiles[0]);
         const expectedEvent = {type: 'end', source: player1Tile.id, data: player1Tile.availableMoves};
 
-        expect(emitSpy).toBeCalledWith(expectedEvent)
+        expect(emitSpy).toBeCalledWith(expectedEvent);
     });
 
     test('default on drop is prevented', () => {

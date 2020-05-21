@@ -2,8 +2,8 @@ import * as React from 'react';
 import {Hexagon, HexCoordinates} from '../domain';
 import {HiveContext} from '../gameContext';
 import {Tile} from './Tile';
-import {useEffect, useRef} from "react";
-import {TileDragEvent} from "../emitter/tileDragEmitter";
+import {useEffect, useRef} from 'react';
+import {TileDragEvent} from '../emitter/tileDragEmitter';
 
 type CellProps = Hexagon
 
@@ -32,7 +32,7 @@ export const Cell: React.FunctionComponent<CellProps> =
 
         useEffect(() => {
             tileDragEmitter.add(canDrop);
-            return () => tileDragEmitter.remove(canDrop)
+            return () => tileDragEmitter.remove(canDrop);
         });
         const isValidMove = (validMoves: HexCoordinates[]) => validMoves.some(dest => areEqual(coordinates, dest));
 
@@ -47,8 +47,8 @@ export const Cell: React.FunctionComponent<CellProps> =
             if (e.type === 'end' && cellNode.classList.contains('active')) {
                 moveTile({coordinates, tileId: e.source});
             }
-            cellNode.classList.remove('invalid-cell', 'valid-cell', 'active')
-        }
+            cellNode.classList.remove('invalid-cell', 'valid-cell', 'active');
+        };
 
         const attributes = {
             ref: cellRef,
