@@ -2,22 +2,21 @@ import * as React from 'react';
 import {render, unmountComponentAtNode} from 'react-dom';
 import {act, Simulate} from 'react-dom/test-utils';
 import {create} from 'react-test-renderer';
-import {GameContext, HiveContext} from '../gameContext';
 import TileDragEmitter from '../emitter/tileDragEmitter';
+import {GameContext, HiveContext} from '../gameContext';
 import * as TestUtils from 'react-dom/test-utils';
 import {Tile} from '../components';
 
 const mockContext = (): GameContext => ({
-    getPlayerColor: jest.fn().mockReturnValueOnce('pink').mockReturnValueOnce('sky'),
     moveTile: jest.fn(),
     players: jest.genMockFromModule('../domain/gameState'),
     hexagons: jest.genMockFromModule('../domain/gameState'),
-    tileDragEmitter: new TileDragEmitter()
 });
 
 const player1Tile = {id: 1, playerId: 1, content: 'ant', availableMoves: [{q: 1, r: 1}]};
 const player2Tile = {id: 2, playerId: 2, content: 'fly', availableMoves: []};
 let context: GameContext;
+let tileDragEmitter = new TileDragEmitter();
 
 const tileJSX = (context: GameContext) =>
     <HiveContext.Provider value={context}>
@@ -30,7 +29,7 @@ let container: HTMLDivElement;
 beforeEach(() => {
     context = mockContext();
     container = document.createElement('div');
-    document.body.appendChild(container);
+    tileDragEmitter = new TileDragEmitter();  document.body.appendChild(container);
     act(() => {
         render(tileJSX(context), container);
     });
@@ -54,8 +53,6 @@ describe('Tile drag and drop', () => {
     const emitSpy = jest.fn();
     beforeEach(() => {
         emitSpy.mockClear();
-        context.tileDragEmitter.add(emitSpy);
-
     });
     
     test('Tile is draggable when there are available moves', () => {

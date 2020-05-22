@@ -2,6 +2,6 @@ import { Tile } from './tile';
 import { HexCoordinates } from './hexCoordinates';
 
 export interface Hexagon {
-  coordinates: HexCoordinates;
-  tiles: Tile[];
+    readonly coordinates: HexCoordinates;
+    readonly  tiles: Tile[];
 }

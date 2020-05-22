@@ -1,6 +1,6 @@
 import * as React from 'react';
-import {HexCoordinates, PlayerId, TextContent, TileId} from '../domain';
-import {HiveContext} from '../gameContext';
+import { HexCoordinates, PlayerId, TextContent, TileId } from '../domain';
+import { tileDragEmitter } from '../gameContext';
 
 export interface TileProps {
     id: TileId,
@@ -9,7 +9,10 @@ export interface TileProps {
     availableMoves: HexCoordinates[],
 }
 
-export const TILE_TYPE = Symbol();
+const getPlayerColor = (playerId: PlayerId) => {
+    const playerColors = ['#85dcbc', '#f64c72'];
+    return playerColors[playerId] || 'red';
+};
 
 export const Tile: React.FunctionComponent<TileProps> =
     ({
@@ -18,24 +21,27 @@ export const Tile: React.FunctionComponent<TileProps> =
         content,
         availableMoves,
     }) => {
-        const {getPlayerColor, tileDragEmitter} = React.useContext(HiveContext);
-
-        function onDragStart(ev: React.DragEvent<HTMLDivElement>) {
-            tileDragEmitter.emit({type: 'start', source: id, data: availableMoves});
+        function handleDragStart (ev: React.DragEvent<HTMLDivElement>) {
+            tileDragEmitter.emit({ type: 'start', source: id, data: availableMoves });
         }
 
-        function onDragEnd(ev: React.DragEvent<HTMLDivElement>) {
-            tileDragEmitter.emit({type: 'end', source: id, data: availableMoves});
+        function handleDragEnd (ev: React.DragEvent<HTMLDivElement>) {
+            tileDragEmitter.emit({ type: 'end', source: id, data: availableMoves });
+        }
+
+        function handleDrop (ev: React.DragEvent<HTMLDivElement>) {
+            ev.preventDefault();
+            return false;
         }
 
         const attributes = {
             title: content,
-            style: {'--color': getPlayerColor(playerId)},
+            style: { '--color': getPlayerColor(playerId) },
             className: 'hex tile',
             draggable: !!availableMoves.length,
-            onDragStart: onDragStart,
-            onDragEnd: onDragEnd,
-            onDrop: (ev: React.DragEvent<HTMLDivElement>) => {ev.preventDefault();return false;}
+            onDragStart: handleDragStart,
+            onDragEnd: handleDragEnd,
+            onDrop: handleDrop
         };
 
         return (

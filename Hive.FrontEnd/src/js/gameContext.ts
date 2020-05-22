@@ -1,53 +1,50 @@
-import {createContext, useEffect, useState} from 'react';
-import {Color, Hexagon, HexEngine, Move, Player, PlayerId} from './domain';
+import { createContext, useEffect, useReducer, useState } from 'react';
+import { Color, Hexagon, HexEngine, Move, Player, PlayerId } from './domain';
 import TileDragEmitter from './emitter/tileDragEmitter';
+import { Engine } from './index';
 
 export interface GameContext {
-    
     players: Player[],
     hexagons: Hexagon[],
     moveTile: (move: Move) => void,
-    getPlayerColor: (playerId: PlayerId) => Color,
-    tileDragEmitter: TileDragEmitter;
 }
 
 export const HiveContext = createContext<GameContext>({
     hexagons: [],
     players: [],
     moveTile: () => undefined,
-    getPlayerColor: (): string => 'red',
-    tileDragEmitter: new TileDragEmitter()
 });
 
-const getPlayerColor = (playerId: PlayerId) => {
-    const playerColors = ['#85dcbc', '#f64c72'];
-    return playerColors[playerId] || 'red';
-};
+export const tileDragEmitter = new TileDragEmitter();
 
-const tileDragEmitter = new TileDragEmitter();
+function reducer (prev: Hexagon[], next: Hexagon[]) {
+    const added = next.filter(h => !prev.some(p => p.coordinates.q == h.coordinates.q && h.coordinates.r == p.coordinates.r && p.tiles.length === h.tiles.length));
+    console.log(added,next);
+    return prev.concat(added);
+}
 
-export const useGameContext = (engine: HexEngine): [boolean, GameContext] => {
+export const useGameContext = (): [boolean, GameContext] => {
     const [loading, setLoading] = useState(true);
-    const [hexagons, setHexagons] = useState<Hexagon[]>([]);
     const [players, setPlayers] = useState<Player[]>([]);
+    const [hexagons, setHexagons] = useReducer(reducer, [] as Hexagon[]);
 
     useEffect(() => {
         setLoading(true);
-        engine.initialState().then(state => {
+        Engine.initialState().then(state => {
             setHexagons(state.hexagons);
             setPlayers(state.players);
             setLoading(false);
         });
-    }, [engine]);
+    }, [Engine]);
 
     const moveTile = (move: Move) => {
-        engine.moveTile(move).then(state => {
+        Engine.moveTile(move).then(state => {
             setHexagons(state.hexagons);
             setPlayers(state.players);
         });
     };
 
-    return [loading, {hexagons, players, moveTile, getPlayerColor, tileDragEmitter}];
+    return [loading, { hexagons, players, moveTile }];
 };
 
 HiveContext.displayName = 'Hive Context';

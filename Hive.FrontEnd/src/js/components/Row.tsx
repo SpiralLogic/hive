@@ -7,12 +7,14 @@ type RowProps = {
     row: Array<Hexagon | false>
 }
 const cellKey = ({ q, r }: HexCoordinates) => `${q}-${r}`;
-const cellComponent = (cell:Hexagon) => <Cell key={cellKey(cell.coordinates)}  {...cell}/>;
 const emptyCell = (key:number) => <div key={key} className='hidden'/>;
 
 const  Row: React.FunctionComponent<RowProps> = ({
     row,
 }) => {
+
+    const cellComponent = (cell:Hexagon) =>  <Cell key={cellKey(cell.coordinates)}  {...cell}/>;
+
     return (
         <div className="hex-row">
             {row.map((cell,i) => cell !== false && cellComponent(cell) || emptyCell(i))}

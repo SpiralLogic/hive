@@ -1,5 +1,7 @@
-import { HexEngine, GameState, Move } from './domain';
-import { renderGame } from './components';
+import * as React from 'react';
+import * as ReactDOM from 'react-dom';
+import { GameState, Move } from './domain';
+import { App } from './components';
 
 const moveRequest = async (move: Move) => {
     let response = await fetch('https://localhost:5001/move',
@@ -7,12 +9,12 @@ const moveRequest = async (move: Move) => {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
-                'Content-Type':'application/json',
+                'Content-Type': 'application/json',
             },
             body: JSON.stringify(move)
         });
 
-    return await response.json();
+    return response.json();
 };
 
 const newRequest = async () => {
@@ -26,21 +28,16 @@ const newRequest = async () => {
             body: JSON.stringify(''),
         });
 
-    return await response.json();
+    return response.json();
 };
 
-const engine = (): HexEngine => {
-    return {
-        async initialState (): Promise<GameState> {
-            return await newRequest();
-        },
-        async moveTile (move: Move): Promise<GameState> {
-            return await moveRequest(move);
-        }
-    };
+export const Engine = {
+    initialState (): Promise<GameState> {
+        return newRequest();
+    },
+    moveTile (move: Move): Promise<GameState> {
+        return moveRequest(move);
+    }
 };
 
-renderGame({
-    engine: engine(),
-    container: document.getElementById('hive') as Element,
-});
+ReactDOM.render(React.createElement(App), document.getElementById('hive'));

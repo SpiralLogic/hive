@@ -1,15 +1,15 @@
 import * as React from 'react';
-import {render, unmountComponentAtNode} from 'react-dom';
+import { render, unmountComponentAtNode } from 'react-dom';
 import * as TestUtils from 'react-dom/test-utils';
-import {create} from 'react-test-renderer';
+import { create } from 'react-test-renderer';
 import Cell from '../components/Cell';
 import TileDragEmitter from '../emitter/tileDragEmitter';
-import {GameContext, HiveContext} from '../gameContext';
+import { GameContext, HiveContext } from '../gameContext';
 
-const emptyCell = {coordinates: {q: 0, r: 0}, tiles: []};
+const emptyCell = { coordinates: { q: 0, r: 0 }, tiles: [] };
 const cellWithTile = {
-    coordinates: {q: 1, r: 1},
-    tiles: [{id: 2, playerId: 2, content: 'fly', availableMoves: [{q: 0, r: 0}]}]
+    coordinates: { q: 1, r: 1 },
+    tiles: [{ id: 2, playerId: 2, content: 'fly', availableMoves: [{ q: 0, r: 0 }] }]
 };
 
 const hexagonJSX = (context: GameContext) =>
@@ -17,16 +17,15 @@ const hexagonJSX = (context: GameContext) =>
         <Cell key="1-1" {...emptyCell}/>
         <Cell key="0-0" {...cellWithTile}/>
     </HiveContext.Provider>;
-
 let container: HTMLDivElement;
 let context: GameContext;
+let tileDragEmitter = new TileDragEmitter();
 beforeEach(() => {
+    tileDragEmitter = new TileDragEmitter();
     context = ({
-        getPlayerColor: jest.fn(),
         moveTile: jest.fn(),
         players: [],
         hexagons: [],
-        tileDragEmitter: new TileDragEmitter()
     });
 
     container = document.createElement('div');
@@ -55,7 +54,7 @@ describe('Cell drag and drop', () => {
         const cell = document.querySelectorAll<HTMLDivElement>('.cell')[1];
         cell.classList.add('valid-cell');
         const preventDefault = jest.fn();
-        TestUtils.Simulate.dragOver(cell, {preventDefault});
+        TestUtils.Simulate.dragOver(cell, { preventDefault });
 
         expect(preventDefault).toBeCalled();
     });
@@ -63,16 +62,16 @@ describe('Cell drag and drop', () => {
     test('drop sends move tile request', () => {
         const cells = document.querySelectorAll<HTMLDivElement>('.cell');
         cells[1].classList.add('active');
-        context.tileDragEmitter.emit({type: 'end', source: 2, data: [{q: 1, r: 1}]});
+        tileDragEmitter.emit({ type: 'end', source: 2, data: [{ q: 1, r: 1 }] });
 
-        expect(context.moveTile).toBeCalledWith({tileId: 2, coordinates: {q: 1, r: 1}});
+        expect(context.moveTile).toBeCalledWith({ tileId: 2, coordinates: { q: 1, r: 1 } });
     });
 
     test('cell is valid on drag start', () => {
         const cells = document.querySelectorAll<HTMLDivElement>('.cell');
         cells.forEach(c => TestUtils.Simulate.dragEnter(c));
 
-        context.tileDragEmitter.emit({type: 'start', source: 2, data: [{q: 0, r: 0}]});
+        tileDragEmitter.emit({ type: 'start', source: 2, data: [{ q: 0, r: 0 }] });
 
         expect(cells[0].classList).toContain('valid-cell');
     });

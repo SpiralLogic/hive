@@ -1,23 +1,23 @@
 import * as React from 'react';
 import {Hexagon, HexCoordinates} from '../domain';
-import {HiveContext} from '../gameContext';
+import { HiveContext, tileDragEmitter } from '../gameContext';
 import {Tile} from './Tile';
 import {useEffect, useRef} from 'react';
 import {TileDragEvent} from '../emitter/tileDragEmitter';
 
 type CellProps = Hexagon
 
-function onDragOver(ev: React.DragEvent<HTMLDivElement>) {
+function handleDragOver(ev: React.DragEvent<HTMLDivElement>) {
     ev.preventDefault();
     return false;
 }
 
-function onDragLeave(ev: React.DragEvent<HTMLDivElement>) {
+function handleDragLeave(ev: React.DragEvent<HTMLDivElement>) {
     ev.currentTarget.classList.remove('active', 'invalid-cell');
     ev.stopPropagation();
 }
 
-function onDragEnter(ev: React.DragEvent<HTMLDivElement>) {
+function handleDragEnter(ev: React.DragEvent<HTMLDivElement>) {
     const classList = ev.currentTarget.classList;
     classList.contains('valid-cell') ? classList.add('active') : classList.add('invalid-cell');
     ev.stopPropagation();
@@ -27,7 +27,7 @@ const areEqual = (a: HexCoordinates, b: HexCoordinates) => a && b && a.q === b.q
 
 export const Cell: React.FunctionComponent<CellProps> =
     ({tiles, coordinates,}) => {
-        const {moveTile, tileDragEmitter} = React.useContext(HiveContext);
+        const {moveTile} = React.useContext(HiveContext);
         const cellRef = useRef<HTMLDivElement>(null);
 
         useEffect(() => {
@@ -53,15 +53,13 @@ export const Cell: React.FunctionComponent<CellProps> =
         const attributes = {
             ref: cellRef,
             className: 'hex cell',
-            onDragOver: onDragOver,
-            onDragLeave: onDragLeave,
-            onDragEnter: onDragEnter,
+            onDragOver: handleDragOver,
+            onDragLeave: handleDragLeave,
+            onDragEnter: handleDragEnter,
         };
 
         return (
-            <>
-                <div {...attributes}>{tiles.length > 0 && <Tile {...tiles[0]} />}</div>
-            </>
+            <div {...attributes}>{tiles.length > 0 && <Tile {...tiles[0]} />}</div>
         );
     }
 ;

@@ -1,16 +1,11 @@
 import * as React from 'react';
-import * as ReactDOM from 'react-dom';
-import { HexEngine } from '../domain';
 import { GameArea } from './GameArea';
+import { HiveContext, useGameContext } from '../gameContext';
 
-interface IRenderOptions {
-  engine: HexEngine;
-  container: Element;
-}
-
-export const renderGame = ({ engine, container }: IRenderOptions) => {
-    if (!container) {
-        throw new Error('Unable to render game. No container provided.');
-    }
-    ReactDOM.render(<GameArea engine={engine}/>, container);
+export const App = () => {
+    const [loading, gameContext] = useGameContext();
+    const { players, hexagons } = gameContext;
+    return <HiveContext.Provider value={gameContext}>
+        <GameArea loading={loading} players={players} hexagons={hexagons}/>
+    </HiveContext.Provider>;
 };
