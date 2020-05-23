@@ -4,7 +4,7 @@ import Tile from './Tile';
 
 type Props = Player;
 
-function PlayerTiles(props: Props) {
+function PlayerTiles (props: Props) {
     const { name, availableTiles } = props;
     return (
         <div className="player" title={name}>
@@ -19,4 +19,4 @@ function PlayerTiles(props: Props) {
 }
 
 PlayerTiles.displayName = 'Player Tiles';
-export default React.memo(PlayerTiles, (p, n) => p.id === n.id && p.availableTiles.length === n.availableTiles.length);
+export default React.memo(PlayerTiles, (p, n) => p.id === n.id && p.availableTiles.length === n.availableTiles.length && p.availableTiles.every((t, i) => t.availableMoves.length == n.availableTiles[i].availableMoves.length));

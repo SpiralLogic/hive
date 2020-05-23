@@ -1,6 +1,6 @@
 import { create } from 'react-test-renderer';
 import * as React from 'react';
-import { Hexagon, HexEngine, Player } from '../domain';
+import { Hexagon,  Player } from '../domain';
 import * as TestUtils from 'react-dom/test-utils';
 import { render } from 'react-dom';
 import { GameArea } from '../components';

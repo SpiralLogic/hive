@@ -21,7 +21,6 @@ function createRows(sortedHexagons: Hexagon[]) {
     const createEmptyRow = (i: number) => ({
         id: firstRow + i,
         row: new Array(width).fill(false),
-        firstColumn,
     });
 
     const createEmptyRows = () => {

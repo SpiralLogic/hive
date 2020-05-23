@@ -1,5 +1,5 @@
 import { HexCoordinates, TileId } from '../domain';
-import { EventEmitter, EventListener } from './interface';
+import { EventEmitter, EventListener } from './event-emitter';
 
 export type TileDragListener = EventListener<TileDragEvent>;
 

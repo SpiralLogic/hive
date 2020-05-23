@@ -20,5 +20,5 @@ function Row(props: Props) {
 Row.displayName = 'Row';
 export default React.memo(
     Row,
-    (p, n) => p.row.length == n.row.length && p.row.every((c, i) => (n.row[i] as Hexagon)?.tiles?.length == (c as Hexagon)?.tiles?.length),
+    (p, n) => p.row.length == n.row.length && p.row.every((c, i) => typeof n.row[i] === typeof c && (n.row[i] as Hexagon)?.tiles?.length == (c as Hexagon)?.tiles?.length)
 );
