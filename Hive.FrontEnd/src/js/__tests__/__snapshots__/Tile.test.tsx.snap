@@ -1,17 +1,40 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`row snapshot current snapshot 1`] = `
-<div
-  className="hex-row"
->
-  <Cell
-    coordinates={
+exports[`Tile Snapshot matches current snapshot 1`] = `
+Array [
+  <div
+    className="hex tile"
+    draggable={true}
+    onDragEnd={[Function]}
+    onDragStart={[Function]}
+    onDrop={[Function]}
+    style={
       Object {
-        "q": 0,
-        "r": 1,
+        "--color": "#f64c72",
       }
     }
-    tiles={Array []}
-  />
-</div>
+    title="ant"
+  >
+    <span>
+      ant
+    </span>
+  </div>,
+  <div
+    className="hex tile"
+    draggable={false}
+    onDragEnd={[Function]}
+    onDragStart={[Function]}
+    onDrop={[Function]}
+    style={
+      Object {
+        "--color": "#85dcbc",
+      }
+    }
+    title="fly"
+  >
+    <span>
+      fly
+    </span>
+  </div>,
+]
 `;

@@ -22,7 +22,7 @@ Array [
       onDrop={[Function]}
       style={
         Object {
-          "--color": undefined,
+          "--color": "red",
         }
       }
       title="fly"
