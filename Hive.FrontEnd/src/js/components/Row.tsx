@@ -25,6 +25,6 @@ function haveCellTilesBeenUpdated(prevProps: Props, newProps: Props) {
 
 const RowMemo = React.memo(Row, (p, n) =>
     p.row.length == n.row.length &&
-    !haveCellTilesBeenUpdated(p, n));
+    haveCellTilesBeenUpdated(p, n));
 
 export default RowMemo;
