@@ -4,34 +4,32 @@ import * as TestUtils from 'react-dom/test-utils';
 import { create } from 'react-test-renderer';
 import Cell from '../components/Cell';
 import TileDragEmitter from '../emitter/tileDragEmitter';
-import { GameContext, HiveContext } from '../gameContext';
+import * as CTX from '../gameContext';
 
-const emptyCell = { coordinates: { q: 0, r: 0 }, tiles: [] };
+const emptyCell = {
+    coordinates: { q: 0, r: 0 },
+    tiles: []
+};
 const cellWithTile = {
     coordinates: { q: 1, r: 1 },
     tiles: [{ id: 2, playerId: 2, content: 'fly', availableMoves: [{ q: 0, r: 0 }] }]
 };
 
-const hexagonJSX = (context: GameContext) =>
-    <HiveContext.Provider value={context}>
-        <Cell key="1-1" {...emptyCell}/>
-        <Cell key="0-0" {...cellWithTile}/>
-    </HiveContext.Provider>;
+const hexagonJSX = (tileDragEmitter: TileDragEmitter) => <>
+    <Cell key="1-1" {...emptyCell} tileDragEmitter={tileDragEmitter}/>
+    <Cell key="0-0" {...cellWithTile} tileDragEmitter={tileDragEmitter}/>
+</>;
 let container: HTMLDivElement;
-let context: GameContext;
-let tileDragEmitter = new TileDragEmitter();
+let tileDragEmitter: TileDragEmitter;
+let moveTileSpy = jest.fn();
 beforeEach(() => {
+    moveTileSpy = jest.fn().mockImplementation(() => Promise.resolve({ players: [], hexagons: [] }));
+    jest.spyOn(CTX, 'useGameContext').mockImplementation(()=>({ moveTile: moveTileSpy, hexagons: [], players: [] }));
     tileDragEmitter = new TileDragEmitter();
-    context = ({
-        moveTile: jest.fn(),
-        players: [],
-        hexagons: [],
-    });
-
     container = document.createElement('div');
     document.body.appendChild(container);
     TestUtils.act(() => {
-        render(hexagonJSX(context), container);
+        render(hexagonJSX(tileDragEmitter), container);
     });
 });
 
@@ -52,7 +50,7 @@ describe('Cell Render', () => {
 describe('Cell drag and drop', () => {
     test('dragover allows drop', () => {
         const cell = document.querySelectorAll<HTMLDivElement>('.cell')[1];
-        cell.classList.add('valid-cell');
+        cell.classList.add('can-drop');
         const preventDefault = jest.fn();
         TestUtils.Simulate.dragOver(cell, { preventDefault });
 
@@ -62,34 +60,35 @@ describe('Cell drag and drop', () => {
     test('drop sends move tile request', () => {
         const cells = document.querySelectorAll<HTMLDivElement>('.cell');
         cells[1].classList.add('active');
-        tileDragEmitter.emit({ type: 'end', source: 2, data: [{ q: 1, r: 1 }] });
+        TestUtils.act(() => tileDragEmitter.emit({ type: 'end', tileId: 2, tileMoves: [{ q: 0, r: 0 }] }));
 
-        expect(context.moveTile).toBeCalledWith({ tileId: 2, coordinates: { q: 1, r: 1 } });
+        expect(moveTileSpy).toBeCalledWith({ tileId: 2, coordinates: { q: 1, r: 1 } });
     });
 
     test('cell is valid on drag start', () => {
         const cells = document.querySelectorAll<HTMLDivElement>('.cell');
-        cells.forEach(c => TestUtils.Simulate.dragEnter(c));
+        TestUtils. act(() => {
+            tileDragEmitter.emit({ type: 'start', tileId: 2, tileMoves: [{ q: 0, r: 0 }] });
+            cells.forEach(c => TestUtils.Simulate.dragEnter(c));
+        });
 
-        tileDragEmitter.emit({ type: 'start', source: 2, data: [{ q: 0, r: 0 }] });
-
-        expect(cells[0].classList).toContain('valid-cell');
+        expect(cells[0].classList).toContain('can-drop');
     });
 
     test('valid cell is active on tile drag enter', () => {
         const cells = document.querySelectorAll<HTMLDivElement>('.cell');
-        cells[0].classList.add('valid-cell');
+        cells[0].classList.add('can-drop');
         cells.forEach(c => TestUtils.Simulate.dragEnter(c));
 
         expect(cells[0].classList).toContain('active');
-        expect(cells[0].classList).not.toContain('invalid-cell');
+        expect(cells[0].classList).not.toContain('no-drop');
     });
 
     test('cell is invalid on drag enter', () => {
         const cells = document.querySelectorAll<HTMLDivElement>('.cell');
         cells.forEach(c => TestUtils.Simulate.dragEnter(c));
 
-        expect(cells[0].classList).toContain('invalid-cell');
+        expect(cells[0].classList).toContain('no-drop');
         expect(cells[0].classList).not.toContain('active');
     });
 
@@ -99,14 +98,14 @@ describe('Cell drag and drop', () => {
         cells.forEach(c => TestUtils.Simulate.dragLeave(c));
 
         expect(Array.from(cells).flatMap(c => c.classList)).not.toContain('active');
-        expect(Array.from(cells).flatMap(c => c.classList)).not.toContain('invalid-cell');
+        expect(Array.from(cells).flatMap(c => c.classList)).not.toContain('no-drop');
     });
 
 });
 
 describe('Cell Snapshot', () => {
     test('matches current snapshot', () => {
-        const component = create(hexagonJSX(context));
+        const component = create(hexagonJSX(tileDragEmitter));
 
         let tree = component.toJSON();
         expect(tree).toMatchSnapshot();

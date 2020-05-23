@@ -1,42 +1,26 @@
-import { createContext, useEffect, useReducer, useState } from 'react';
-import { Color, Hexagon, HexEngine, Move, Player, PlayerId } from './domain';
+import { createContext, useContext, useEffect, useState } from 'react';
+import { Hexagon, Move, Player } from './domain';
 import TileDragEmitter from './emitter/tileDragEmitter';
-import { Engine } from './index';
+import { Engine } from './engine';
 
-export interface GameContext {
+interface GameContext {
     players: Player[],
     hexagons: Hexagon[],
     moveTile: (move: Move) => void,
 }
 
-export const HiveContext = createContext<GameContext>({
-    hexagons: [],
-    players: [],
-    moveTile: () => undefined,
-});
-
-export const tileDragEmitter = new TileDragEmitter();
-
-function reducer (prev: Hexagon[], next: Hexagon[]) {
-    const added = next.filter(h => !prev.some(p => p.coordinates.q == h.coordinates.q && h.coordinates.r == p.coordinates.r && p.tiles.length === h.tiles.length));
-    console.log(added,next);
-    return prev.concat(added);
-}
-
-export const useGameContext = (): [boolean, GameContext] => {
+export const createGameContext = (): [boolean, GameContext] => {
     const [loading, setLoading] = useState(true);
+    const [hexagons, setHexagons] = useState<Hexagon[]>([]);
     const [players, setPlayers] = useState<Player[]>([]);
-    const [hexagons, setHexagons] = useReducer(reducer, [] as Hexagon[]);
 
     useEffect(() => {
-        setLoading(true);
         Engine.initialState().then(state => {
             setHexagons(state.hexagons);
             setPlayers(state.players);
             setLoading(false);
         });
-    }, [Engine]);
-
+    }, []);
     const moveTile = (move: Move) => {
         Engine.moveTile(move).then(state => {
             setHexagons(state.hexagons);
@@ -47,4 +31,11 @@ export const useGameContext = (): [boolean, GameContext] => {
     return [loading, { hexagons, players, moveTile }];
 };
 
+export const HiveContext = createContext<GameContext>({
+    hexagons: [],
+    players: [],
+    moveTile: () => undefined,
+});
+export const tileDragEmitter = new TileDragEmitter();
+export const useGameContext = () => useContext(HiveContext);
 HiveContext.displayName = 'Hive Context';

@@ -1,54 +1,55 @@
 import * as React from 'react';
 import { HexCoordinates, PlayerId, TextContent, TileId } from '../domain';
 import { tileDragEmitter } from '../gameContext';
+import Cell from './Cell';
 
-export interface TileProps {
+type Props = {
     id: TileId,
     content: TextContent
     playerId: PlayerId,
     availableMoves: HexCoordinates[],
-}
+} & typeof defaultProps;
+const defaultProps = {
+    tileDragEmitter: tileDragEmitter
+};
 
 const getPlayerColor = (playerId: PlayerId) => {
     const playerColors = ['#85dcbc', '#f64c72'];
     return playerColors[playerId] || 'red';
 };
 
-export const Tile: React.FunctionComponent<TileProps> =
-    ({
-        id,
-        playerId,
-        content,
-        availableMoves,
-    }) => {
-        function handleDragStart (ev: React.DragEvent<HTMLDivElement>) {
-            tileDragEmitter.emit({ type: 'start', source: id, data: availableMoves });
-        }
+function Tile (props: Props) {
+    const { id, availableMoves, content, playerId, tileDragEmitter } = props;
 
-        function handleDragEnd (ev: React.DragEvent<HTMLDivElement>) {
-            tileDragEmitter.emit({ type: 'end', source: id, data: availableMoves });
-        }
+    function handleDragStart (ev: React.DragEvent<HTMLDivElement>) {
+        tileDragEmitter.emit({ type: 'start', tileId: id, tileMoves: availableMoves });
+    }
 
-        function handleDrop (ev: React.DragEvent<HTMLDivElement>) {
-            ev.preventDefault();
-            return false;
-        }
+    function handleDragEnd (ev: React.DragEvent<HTMLDivElement>) {
+        tileDragEmitter.emit({ type: 'end', tileId: id, tileMoves: availableMoves });
+    }
 
-        const attributes = {
-            title: content,
-            style: { '--color': getPlayerColor(playerId) },
-            className: 'hex tile',
-            draggable: !!availableMoves.length,
-            onDragStart: handleDragStart,
-            onDragEnd: handleDragEnd,
-            onDrop: handleDrop
-        };
+    function handleDrop (ev: React.DragEvent<HTMLDivElement>) {
+        ev.preventDefault();
+        return false;
+    }
 
-        return (
-            <div {...attributes}>
-                <span>{content}</span>
-            </div>
-        );
+    const attributes = {
+        title: content,
+        style: { '--color': getPlayerColor(playerId) },
+        className: 'hex tile',
+        draggable: !!availableMoves.length,
+        onDragStart: handleDragStart,
+        onDragEnd: handleDragEnd,
+        onDrop: handleDrop
     };
 
+    return <div {...attributes}><span>{content}</span></div>;
+}
+
 Tile.displayName = 'Tile';
+Tile.defaultProps = defaultProps;
+
+React.memo(Tile, ((p, n) => p.id == n.id && p.availableMoves.length == n.availableMoves.length));
+
+export default Tile;

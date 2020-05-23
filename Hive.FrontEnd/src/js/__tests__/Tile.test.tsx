@@ -1,45 +1,39 @@
 import * as React from 'react';
-import {render, unmountComponentAtNode} from 'react-dom';
-import {act, Simulate} from 'react-dom/test-utils';
-import {create} from 'react-test-renderer';
-import TileDragEmitter from '../emitter/tileDragEmitter';
-import {GameContext, HiveContext} from '../gameContext';
+import { render, unmountComponentAtNode } from 'react-dom';
+import { act, Simulate } from 'react-dom/test-utils';
+import { create } from 'react-test-renderer';
+import Tile from '../components/Tile';
+import TileDragEmitter, { TileDragEvent } from '../emitter/tileDragEmitter';
 import * as TestUtils from 'react-dom/test-utils';
-import {Tile} from '../components';
+import * as CTX from '../gameContext';
 
-const mockContext = (): GameContext => ({
-    moveTile: jest.fn(),
-    players: jest.genMockFromModule('../domain/gameState'),
-    hexagons: jest.genMockFromModule('../domain/gameState'),
-});
+const player1Tile = { id: 1, playerId: 1, content: 'ant', availableMoves: [{ q: 1, r: 1 }] };
+const player2Tile = { id: 2, playerId: 0, content: 'fly', availableMoves: [] };
+let tileDragEmitter: TileDragEmitter;
+let moveTileSpy = jest.fn();
 
-const player1Tile = {id: 1, playerId: 1, content: 'ant', availableMoves: [{q: 1, r: 1}]};
-const player2Tile = {id: 2, playerId: 2, content: 'fly', availableMoves: []};
-let context: GameContext;
-let tileDragEmitter = new TileDragEmitter();
-
-const tileJSX = (context: GameContext) =>
-    <HiveContext.Provider value={context}>
-        <Tile key="1" {...player1Tile}/>
-        <Tile key="2" {...player2Tile}/>
-    </HiveContext.Provider>;
+const tileJSX = (tileDragEmitter: TileDragEmitter) => <>
+    <Tile key="1" {...player1Tile} tileDragEmitter={tileDragEmitter}/>
+    <Tile key="2" {...player2Tile} tileDragEmitter={tileDragEmitter}/></>;
 
 let container: HTMLDivElement;
 
 beforeEach(() => {
-    context = mockContext();
+    moveTileSpy = jest.fn().mockImplementation(() => Promise.resolve({ players: [], hexagons: [] }));
+    jest.spyOn(CTX, 'useGameContext').mockImplementation(() => ({ moveTile: moveTileSpy, hexagons: [], players: [] }));
+    tileDragEmitter = new TileDragEmitter();
     container = document.createElement('div');
-    tileDragEmitter = new TileDragEmitter();  document.body.appendChild(container);
+    document.body.appendChild(container);
     act(() => {
-        render(tileJSX(context), container);
+        render(tileJSX(tileDragEmitter), container);
     });
 });
 
 describe('Tile Render', () => {
     test('tile color is the player\'s color', () => {
         const tiles = document.querySelectorAll<HTMLDivElement>('.tile');
-        expect(tiles[0].style.getPropertyValue('--color')).toBe('pink');
-        expect(tiles[1].style.getPropertyValue('--color')).toBe('sky');
+        expect(tiles[0].style.getPropertyValue('--color')).toBe('#f64c72');
+        expect(tiles[1].style.getPropertyValue('--color')).toBe('#85dcbc');
     });
 
     test('tile has content', () => {
@@ -53,8 +47,9 @@ describe('Tile drag and drop', () => {
     const emitSpy = jest.fn();
     beforeEach(() => {
         emitSpy.mockClear();
+        tileDragEmitter.add(emitSpy);
     });
-    
+
     test('Tile is draggable when there are available moves', () => {
         const tiles = document.querySelectorAll<HTMLDivElement>('.tile');
         expect(tiles[0].attributes.getNamedItem('draggable')).toHaveProperty('value', 'true');
@@ -67,17 +62,17 @@ describe('Tile drag and drop', () => {
 
     test('on drag emits start event', () => {
         const tiles = document.querySelectorAll<HTMLDivElement>('.tile');
-        Simulate.dragStart(tiles[0]);
+        TestUtils.act(() => Simulate.dragStart(tiles[0]));
 
-        const expectedEvent = {type: 'start', source: player1Tile.id, data: player1Tile.availableMoves};
+        const expectedEvent:TileDragEvent = { type: 'start', tileId: player1Tile.id, tileMoves: player1Tile.availableMoves };
 
         expect(emitSpy).toBeCalledWith(expectedEvent);
     });
 
     test('on dragEnd emits end event', () => {
         const tiles = document.querySelectorAll<HTMLDivElement>('.tile');
-        Simulate.dragEnd(tiles[0]);
-        const expectedEvent = {type: 'end', source: player1Tile.id, data: player1Tile.availableMoves};
+        TestUtils.act(() => Simulate.dragEnd(tiles[0]));
+        const expectedEvent:TileDragEvent = { type: 'end', tileId: player1Tile.id, tileMoves: player1Tile.availableMoves };
 
         expect(emitSpy).toBeCalledWith(expectedEvent);
     });
@@ -85,7 +80,7 @@ describe('Tile drag and drop', () => {
     test('default on drop is prevented', () => {
         const tile = document.querySelectorAll<HTMLDivElement>('.tile')[1];
         const preventDefault = jest.fn();
-        TestUtils.Simulate.drop(tile, {preventDefault});
+        TestUtils.Simulate.drop(tile, { preventDefault });
 
         expect(preventDefault).toBeCalled();
     });
@@ -93,7 +88,7 @@ describe('Tile drag and drop', () => {
 
 describe('Tile Snapshot', () => {
     test('matches current snapshot', () => {
-        const component = create(tileJSX(context));
+        const component = create(tileJSX(tileDragEmitter));
 
         let tree = component.toJSON();
         expect(tree).toMatchSnapshot();

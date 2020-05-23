@@ -1,6 +1,6 @@
-import { useReducer } from 'react';
 import * as React from 'react';
-import {Hexagon} from '../domain';
+import { Hexagon } from '../domain';
+import {  useGameContext } from '../gameContext';
 import Row from './Row';
 
 const getWidth = (hexagons: Hexagon[]) => {
@@ -9,14 +9,13 @@ const getWidth = (hexagons: Hexagon[]) => {
     return [min, max - min + 1];
 };
 
-function getHeight(sortedHexagons: Hexagon[]) {
+function getHeight (sortedHexagons: Hexagon[]) {
     const firstRow = sortedHexagons[0].coordinates.r;
     const height = sortedHexagons[sortedHexagons.length - 1].coordinates.r - firstRow + 1;
     return [firstRow, height];
 }
 
-
-function createRows(sortedHexagons: Hexagon[]) {
+function createRows (sortedHexagons: Hexagon[]) {
     const [firstRow, height] = getHeight(sortedHexagons);
     const [firstColumn, width] = getWidth(sortedHexagons);
 
@@ -35,8 +34,8 @@ function createRows(sortedHexagons: Hexagon[]) {
     }, createEmptyRows());
 }
 
-export const Hextille: React.FunctionComponent<{ hexagons: Hexagon[] }> = ({hexagons}) => {
-
+export const Hextille = () => {
+    const { hexagons } = useGameContext();
     if (!hexagons.length) throw Error('Nothing to render !');
     const sortedHexagons = hexagons.sort((c1, c2) => c1.coordinates.r - c2.coordinates.r || c1.coordinates.q - c2.coordinates.q);
     const shiftClass = (sortedHexagons[0].coordinates.r % 2) ? 'left' : 'right';

@@ -4,9 +4,9 @@ import {EventEmitter, EventListener} from './interface';
 export type TileDragListener = EventListener<TileDragEvent>;
 
 export type TileDragEvent = {
-    type: 'start' | 'end',
-    source: TileId,
-    data: HexCoordinates[]
+    type: 'start' | 'end' | 'enter' | 'leave';
+    tileId: TileId;
+    tileMoves: HexCoordinates[];
 }
 
 export default class TileDragEmitter implements EventEmitter<TileDragEvent> {

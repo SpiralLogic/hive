@@ -128,14 +128,14 @@ body {
     transition: all .1s ease-in;
 }
 
-.hex.valid-cell {
+.hex.can-drop {
     --color: rgba(175, 210, 117, 0.2);
 }
 
-.hex.valid-cell.active {
+.hex.can-drop.active {
     --color: #AFD275;
 }
 
-.hex.invalid-cell {
+.hex.no-drop {
     --color: #5D001E;
 }

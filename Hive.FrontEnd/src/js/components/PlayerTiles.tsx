@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { Tile } from './Tile';
 import { Player } from '../domain';
+import Tile from './Tile';
 
 export const PlayerTiles: React.FunctionComponent<Player> = ({ name, availableTiles }) => {
     return (

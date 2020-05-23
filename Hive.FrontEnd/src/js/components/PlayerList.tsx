@@ -1,8 +1,9 @@
 import * as React from 'react';
+import {  useGameContext } from '../gameContext';
 import { PlayerTiles } from './PlayerTiles';
-import {Player} from '../domain';
 
-export const PlayerList: React.FunctionComponent<{players:Player[]}> = ({players}) => {
+export const PlayerList: React.FunctionComponent = () => {
+    const { players } = useGameContext();
     return (
         <div className="players">
             {players.map(player => (
@@ -12,4 +13,4 @@ export const PlayerList: React.FunctionComponent<{players:Player[]}> = ({players
     );
 };
 
-PlayerList.displayName='Player List';
+PlayerList.displayName = 'Player List';
