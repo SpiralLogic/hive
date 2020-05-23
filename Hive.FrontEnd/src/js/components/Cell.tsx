@@ -67,6 +67,6 @@ function Cell(props: Props) {
 
 Cell.displayName = 'Cell';
 Cell.defaultProps = defaultProps;
-React.memo(Cell, (p, n) => p.coordinates.q == n.coordinates.r && p.coordinates.q == n.coordinates.q && p.tiles.length == n.tiles.length);
+const CellMemo = React.memo(Cell, (p, n) => p.coordinates.q == n.coordinates.r && p.coordinates.q == n.coordinates.q && p.tiles.length == n.tiles.length);
 
-export default Cell;
+export default CellMemo;

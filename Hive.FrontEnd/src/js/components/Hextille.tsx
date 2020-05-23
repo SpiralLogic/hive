@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { Hexagon } from '../domain';
-import { useHiveContext } from '../game-context';
+import {Hexagon} from '../domain';
+import {useHiveContext} from '../game-context';
 import Row from './Row';
 
 function getWidth(hexagons: Hexagon[]) {
@@ -34,16 +34,14 @@ function createRows(sortedHexagons: Hexagon[]) {
 }
 
 function Hextille() {
-    const { hexagons } = useHiveContext();
+    const {hexagons} = useHiveContext();
     const sortedHexagons = hexagons.sort((c1, c2) => c1.coordinates.r - c2.coordinates.r || c1.coordinates.q - c2.coordinates.q);
     const shiftClass = sortedHexagons[0].coordinates.r % 2 ? 'left' : 'right';
     const rows = createRows(sortedHexagons);
 
     return (
         <div className={'hextille ' + shiftClass}>
-            {rows.map((row) => (
-                <Row key={row.id} {...row} />
-            ))}
+            {rows.map((row) => <Row key={row.id} {...row} />)}
         </div>
     );
 }

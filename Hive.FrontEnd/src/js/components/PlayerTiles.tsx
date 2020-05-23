@@ -19,4 +19,6 @@ function PlayerTiles (props: Props) {
 }
 
 PlayerTiles.displayName = 'Player Tiles';
-export default React.memo(PlayerTiles, (p, n) => p.id === n.id && p.availableTiles.length === n.availableTiles.length && p.availableTiles.every((t, i) => t.availableMoves.length == n.availableTiles[i].availableMoves.length));
+const PlayerTilesMemo = React.memo(PlayerTiles, (p, n) => p.id === n.id && p.availableTiles.length === n.availableTiles.length && p.availableTiles.every((t, i) => t.availableMoves.length == n.availableTiles[i].availableMoves.length));
+
+export default PlayerTilesMemo;

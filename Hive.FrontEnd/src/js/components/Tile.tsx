@@ -50,6 +50,6 @@ function Tile(props: Props) {
 Tile.displayName = 'Tile';
 Tile.defaultProps = defaultProps;
 
-React.memo(Tile, (p, n) => p.id == n.id && p.availableMoves.length == n.availableMoves.length);
+const TileMemo = React.memo(Tile, (p, n) => p.id == n.id && p.availableMoves.length == n.availableMoves.length);
 
-export default Tile;
+export default TileMemo;

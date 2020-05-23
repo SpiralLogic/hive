@@ -10,6 +10,7 @@ const emptyCell = {
     coordinates: { q: 0, r: 0 },
     tiles: [],
 };
+
 const cellWithTile = {
     coordinates: { q: 1, r: 1 },
     tiles: [{ id: 2, playerId: 2, content: 'fly', availableMoves: [{ q: 0, r: 0 }] }],
@@ -21,9 +22,11 @@ const hexagonJSX = (tileDragEmitter: TileDragEmitter) => (
         <Cell key="0-0" {...cellWithTile} tileDragEmitter={tileDragEmitter} />
     </>
 );
+
 let container: HTMLDivElement;
 let tileDragEmitter: TileDragEmitter;
 let moveTileSpy = jest.fn();
+
 beforeEach(() => {
     moveTileSpy = jest.fn().mockImplementation(() => Promise.resolve({ players: [], hexagons: [] }));
     jest.spyOn(CTX, 'useHiveContext').mockImplementation(() => ({ moveTile: moveTileSpy, hexagons: [], players: [] }));

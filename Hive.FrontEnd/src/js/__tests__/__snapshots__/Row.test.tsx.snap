@@ -4,33 +4,17 @@ exports[`snapshot 1`] = `
 <div
   className="hex-row"
 >
-  <Cell
-    coordinates={
-      Object {
-        "q": 0,
-        "r": 1,
-      }
-    }
-    tileDragEmitter={
-      TileDragEmitter {
-        "listeners": Set {},
-      }
-    }
-    tiles={Array []}
+  <div
+    className="hex cell"
+    onDragEnter={[Function]}
+    onDragLeave={[Function]}
+    onDragOver={[Function]}
   />
-  <Cell
-    coordinates={
-      Object {
-        "q": 1,
-        "r": 1,
-      }
-    }
-    tileDragEmitter={
-      TileDragEmitter {
-        "listeners": Set {},
-      }
-    }
-    tiles={Array []}
+  <div
+    className="hex cell"
+    onDragEnter={[Function]}
+    onDragLeave={[Function]}
+    onDragOver={[Function]}
   />
   <div
     className="hidden"
