@@ -1,8 +1,8 @@
-import { Tile } from './Tile';
+import { Tile } from './tile';
 export interface Player {
-  id: PlayerId;
-  name: PlayerName;
-  availableTiles: Tile[];
+    id: PlayerId;
+    name: PlayerName;
+    availableTiles: Tile[];
 }
 
 export type PlayerId = number;

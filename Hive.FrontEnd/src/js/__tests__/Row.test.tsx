@@ -1,19 +1,15 @@
 import * as React from 'react';
-import {shallow, configure} from 'enzyme';
+import { shallow, configure } from 'enzyme';
 import * as ReactSixteenAdapter from 'enzyme-adapter-react-16';
 import Row from '../components/Row';
 
-configure({adapter: new ReactSixteenAdapter()});
+configure({ adapter: new ReactSixteenAdapter() });
 
 const rowJsx = (
     <Row
         {...{
             r: 1,
-            row: [
-                {coordinates: {q: 0, r: 1}, tiles: []},
-                {coordinates: {q: 1, r: 1}, tiles: []},
-                false,
-            ],
+            row: [{ coordinates: { q: 0, r: 1 }, tiles: [] }, { coordinates: { q: 1, r: 1 }, tiles: [] }, false],
         }}
     />
 );

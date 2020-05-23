@@ -1,12 +1,12 @@
 import { PlayerId } from './player';
-import { HexCoordinates } from './hexCoordinates';
-import { TextContent } from './textContent';
+import { HexCoordinates } from './hex-coordinates';
 
 export interface Tile {
     id: TileId;
     playerId: PlayerId;
-    content: TextContent;
+    content: TileContent;
     availableMoves: HexCoordinates[];
 }
 
 export type TileId = number;
+export type TileContent = string;

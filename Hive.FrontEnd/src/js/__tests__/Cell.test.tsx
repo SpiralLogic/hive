@@ -3,28 +3,30 @@ import { render, unmountComponentAtNode } from 'react-dom';
 import * as TestUtils from 'react-dom/test-utils';
 import { create } from 'react-test-renderer';
 import Cell from '../components/Cell';
-import TileDragEmitter from '../emitter/tileDragEmitter';
-import * as CTX from '../gameContext';
+import TileDragEmitter from '../emitter/tile-drag-emitter';
+import * as CTX from '../game-context';
 
 const emptyCell = {
     coordinates: { q: 0, r: 0 },
-    tiles: []
+    tiles: [],
 };
 const cellWithTile = {
     coordinates: { q: 1, r: 1 },
-    tiles: [{ id: 2, playerId: 2, content: 'fly', availableMoves: [{ q: 0, r: 0 }] }]
+    tiles: [{ id: 2, playerId: 2, content: 'fly', availableMoves: [{ q: 0, r: 0 }] }],
 };
 
-const hexagonJSX = (tileDragEmitter: TileDragEmitter) => <>
-    <Cell key="1-1" {...emptyCell} tileDragEmitter={tileDragEmitter}/>
-    <Cell key="0-0" {...cellWithTile} tileDragEmitter={tileDragEmitter}/>
-</>;
+const hexagonJSX = (tileDragEmitter: TileDragEmitter) => (
+    <>
+        <Cell key="1-1" {...emptyCell} tileDragEmitter={tileDragEmitter} />
+        <Cell key="0-0" {...cellWithTile} tileDragEmitter={tileDragEmitter} />
+    </>
+);
 let container: HTMLDivElement;
 let tileDragEmitter: TileDragEmitter;
 let moveTileSpy = jest.fn();
 beforeEach(() => {
     moveTileSpy = jest.fn().mockImplementation(() => Promise.resolve({ players: [], hexagons: [] }));
-    jest.spyOn(CTX, 'useGameContext').mockImplementation(()=>({ moveTile: moveTileSpy, hexagons: [], players: [] }));
+    jest.spyOn(CTX, 'useHiveContext').mockImplementation(() => ({ moveTile: moveTileSpy, hexagons: [], players: [] }));
     tileDragEmitter = new TileDragEmitter();
     container = document.createElement('div');
     document.body.appendChild(container);
@@ -54,7 +56,7 @@ describe('Cell drag and drop', () => {
         const preventDefault = jest.fn();
         TestUtils.Simulate.dragOver(cell, { preventDefault });
 
-        expect(preventDefault).toBeCalled();
+        expect(preventDefault).toHaveBeenCalled();
     });
 
     test('drop sends move tile request', () => {
@@ -62,14 +64,14 @@ describe('Cell drag and drop', () => {
         cells[1].classList.add('active');
         TestUtils.act(() => tileDragEmitter.emit({ type: 'end', tileId: 2, tileMoves: [{ q: 0, r: 0 }] }));
 
-        expect(moveTileSpy).toBeCalledWith({ tileId: 2, coordinates: { q: 1, r: 1 } });
+        expect(moveTileSpy).toHaveBeenCalledWith({ tileId: 2, coordinates: { q: 1, r: 1 } });
     });
 
     test('cell is valid on drag start', () => {
         const cells = document.querySelectorAll<HTMLDivElement>('.cell');
-        TestUtils. act(() => {
+        TestUtils.act(() => {
             tileDragEmitter.emit({ type: 'start', tileId: 2, tileMoves: [{ q: 0, r: 0 }] });
-            cells.forEach(c => TestUtils.Simulate.dragEnter(c));
+            cells.forEach((c) => TestUtils.Simulate.dragEnter(c));
         });
 
         expect(cells[0].classList).toContain('can-drop');
@@ -78,7 +80,7 @@ describe('Cell drag and drop', () => {
     test('valid cell is active on tile drag enter', () => {
         const cells = document.querySelectorAll<HTMLDivElement>('.cell');
         cells[0].classList.add('can-drop');
-        cells.forEach(c => TestUtils.Simulate.dragEnter(c));
+        cells.forEach((c) => TestUtils.Simulate.dragEnter(c));
 
         expect(cells[0].classList).toContain('active');
         expect(cells[0].classList).not.toContain('no-drop');
@@ -86,7 +88,7 @@ describe('Cell drag and drop', () => {
 
     test('cell is invalid on drag enter', () => {
         const cells = document.querySelectorAll<HTMLDivElement>('.cell');
-        cells.forEach(c => TestUtils.Simulate.dragEnter(c));
+        cells.forEach((c) => TestUtils.Simulate.dragEnter(c));
 
         expect(cells[0].classList).toContain('no-drop');
         expect(cells[0].classList).not.toContain('active');
@@ -94,20 +96,19 @@ describe('Cell drag and drop', () => {
 
     test('active and invalid are removed on drag leave', () => {
         const cells = document.querySelectorAll<HTMLDivElement>('.cell');
-        cells.forEach(c => TestUtils.Simulate.dragEnter(c));
-        cells.forEach(c => TestUtils.Simulate.dragLeave(c));
+        cells.forEach((c) => TestUtils.Simulate.dragEnter(c));
+        cells.forEach((c) => TestUtils.Simulate.dragLeave(c));
 
-        expect(Array.from(cells).flatMap(c => c.classList)).not.toContain('active');
-        expect(Array.from(cells).flatMap(c => c.classList)).not.toContain('no-drop');
+        expect(Array.from(cells).flatMap((c) => c.classList)).not.toContain('active');
+        expect(Array.from(cells).flatMap((c) => c.classList)).not.toContain('no-drop');
     });
-
 });
 
 describe('Cell Snapshot', () => {
     test('matches current snapshot', () => {
         const component = create(hexagonJSX(tileDragEmitter));
 
-        let tree = component.toJSON();
+        const tree = component.toJSON();
         expect(tree).toMatchSnapshot();
     });
 });
