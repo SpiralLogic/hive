@@ -12,7 +12,8 @@
     "moduleResolution": "node",
     "sourceMap": true,
     "inlineSources": true,
-    "removeComments": true
+    "removeComments": true,
+    "noImplicitAny": true
   },
   "include": [
     "src/js/**/*"

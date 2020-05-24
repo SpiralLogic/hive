@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Hive.Domain.Entities;
@@ -28,8 +29,10 @@ namespace Hive.Domain
             var neighbours = newCells.SelectMany(c => GetNeighbours(c.Coordinates));
 
             newCells = newCells.Union(neighbours).ToList();
-          
-            var players = State.Players.Select(p => new Player(p.Id, p.Name, p.AvailableTiles.Select(t => new Tile(t.Id, t.PlayerId, t.Content, newCells.Select(nc => nc.Coordinates)))));
+
+            var players = State.Players.Select(p => new Player(p.Id, p.Name,
+                p.AvailableTiles.Select(t => new Tile(t.Id, t.PlayerId, t.Content, newCells.Select(nc => nc.Coordinates).ToList().OrderBy(x => Guid.NewGuid()).Take(newCells.Count / 2)
+                ))));
             State = new GameState(players, newCells);
         }
 
