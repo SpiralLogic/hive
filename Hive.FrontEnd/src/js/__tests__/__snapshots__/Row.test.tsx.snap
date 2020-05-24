@@ -1,5 +1,27 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Row test snapshot 1`] = `
+<div
+  className="hex-row"
+>
+  <div
+    className="hex cell"
+    onDragEnter={[Function]}
+    onDragLeave={[Function]}
+    onDragOver={[Function]}
+  />
+  <div
+    className="hex cell"
+    onDragEnter={[Function]}
+    onDragLeave={[Function]}
+    onDragOver={[Function]}
+  />
+  <div
+    className="hidden"
+  />
+</div>
+`;
+
 exports[`snapshot 1`] = `
 <div
   className="hex-row"

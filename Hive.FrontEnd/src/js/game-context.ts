@@ -45,6 +45,5 @@ export const HiveContext = createContext<GameContext>({
     moveTile: () => undefined,
 });
 
-export const tileDragEmitter = new TileDragEmitter();
 export const useHiveContext = () => useContext(HiveContext);
 HiveContext.displayName = 'Hive Context';

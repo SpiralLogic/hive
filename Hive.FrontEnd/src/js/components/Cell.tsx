@@ -2,18 +2,13 @@ import { useState } from 'react';
 import * as React from 'react';
 import * as isEqual from 'react-fast-compare';
 import { Hexagon, HexCoordinates, MoveTile } from '../domain';
-import { tileDragEmitter, useHiveContext } from '../game-context';
 import { TileDragEvent } from '../emitter/tile-drag-emitter';
-import Tile from './Tile';
-
-function handleDragOver (ev: React.DragEvent<HTMLDivElement>) {
-    ev.preventDefault();
-    return false;
-}
+import { handleDragOver } from '../handlers';
+import Tile, { tileDragEmitter } from './Tile';
 
 const defaultProps = {
     tileDragEmitter: tileDragEmitter,
-}
+};
 
 type Props = Hexagon & { moveTile: MoveTile } & typeof defaultProps;
 
@@ -39,7 +34,7 @@ function Cell (props: Props) {
         }
 
         if (e.type === 'end') {
-            valid && classes.includes("active") && moveTile({ coordinates, tileId: e.tileId });
+            valid && classes.includes('active') && moveTile({ coordinates, tileId: e.tileId });
             setClasses('hex cell');
         }
     };
