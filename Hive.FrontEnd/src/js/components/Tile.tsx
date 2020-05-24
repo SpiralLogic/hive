@@ -2,6 +2,7 @@ import * as React from 'react';
 import { HexCoordinates, PlayerId, TileContent, TileId } from '../domain';
 import { tileDragEmitter } from '../game-context';
 import { handleDrop } from '../handlers';
+import isEqual = require('react-fast-compare');
 
 const defaultProps = {
     tileDragEmitter: tileDragEmitter,
@@ -50,6 +51,6 @@ function Tile(props: Props) {
 Tile.displayName = 'Tile';
 Tile.defaultProps = defaultProps;
 
-const TileMemo = React.memo(Tile, (p, n) => p.id == n.id && p.availableMoves.length == n.availableMoves.length);
+const TileMemo = React.memo(Tile, isEqual);
 
 export default TileMemo;

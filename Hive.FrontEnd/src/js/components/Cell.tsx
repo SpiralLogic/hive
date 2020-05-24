@@ -1,60 +1,47 @@
+import { useState } from 'react';
 import * as React from 'react';
-import { Hexagon, HexCoordinates } from '../domain';
+import * as isEqual from 'react-fast-compare';
+import { Hexagon, HexCoordinates, MoveTile } from '../domain';
 import { tileDragEmitter, useHiveContext } from '../game-context';
 import { TileDragEvent } from '../emitter/tile-drag-emitter';
 import Tile from './Tile';
 
-const defaultProps = {
-    tileDragEmitter: tileDragEmitter,
-};
-
-type Props = Hexagon & typeof defaultProps;
-
-const areEqual = (a: HexCoordinates, b: HexCoordinates) => a && b && a.q === b.q && a.r === b.r;
-
-function handleDragOver(ev: React.DragEvent<HTMLDivElement>) {
+function handleDragOver (ev: React.DragEvent<HTMLDivElement>) {
     ev.preventDefault();
     return false;
 }
 
-function handleDragLeave(ev: React.DragEvent<HTMLDivElement>) {
-    ev.currentTarget.classList.remove('active', 'no-drop');
-    ev.stopPropagation();
+const defaultProps = {
+    tileDragEmitter: tileDragEmitter,
 }
 
-function handleDragEnter(ev: React.DragEvent<HTMLDivElement>) {
-    const classList = ev.currentTarget.classList;
-    classList.contains('can-drop') ? classList.add('active') : classList.add('no-drop');
-    ev.stopPropagation();
-}
+type Props = Hexagon & { moveTile: MoveTile } & typeof defaultProps;
 
-function Cell(props: Props) {
-    const { tiles, coordinates, tileDragEmitter } = props;
-    const { moveTile } = useHiveContext();
-    const cellRef = React.useRef<HTMLDivElement>(null);
+function Cell (props: Props) {
+    const { tiles, coordinates, tileDragEmitter, moveTile } = props;
+    const isValidMove = (validMoves: HexCoordinates[]) => validMoves.some((dest) => isEqual(coordinates, dest));
+    const [classes, setClasses] = useState('hex cell');
 
-    const isValidMove = (validMoves: HexCoordinates[]) => validMoves.some((dest) => areEqual(coordinates, dest));
+    function handleDragLeave (ev: React.DragEvent<HTMLDivElement>) {
+        ev.stopPropagation();
+        setClasses(classes.replace(' active', ''));
+    }
+
+    function handleDragEnter (ev: React.DragEvent<HTMLDivElement>) {
+        ev.stopPropagation();
+        setClasses(classes + ' active');
+    }
 
     const canDrop = (e: TileDragEvent) => {
-        const cellNode = cellRef.current;
-        if (!cellNode) return;
-
-        if (e.type === 'start' && isValidMove(e.tileMoves)) {
-            cellNode.classList.add('can-drop');
-            return;
+        const valid = isValidMove(e.tileMoves);
+        if (e.type === 'start' && valid) {
+            setClasses(classes + ' can-drop');
         }
-        if (e.type === 'end' && cellNode.classList.contains('active')) {
-            moveTile({ coordinates, tileId: e.tileId });
-        }
-        cellNode.classList.remove('no-drop', 'can-drop', 'active');
-    };
 
-    const attributes = {
-        ref: cellRef,
-        className: 'hex cell',
-        onDragOver: handleDragOver,
-        onDragLeave: handleDragLeave,
-        onDragEnter: handleDragEnter,
+        if (e.type === 'end') {
+            valid && classes.includes("active") && moveTile({ coordinates, tileId: e.tileId });
+            setClasses('hex cell');
+        }
     };
 
     React.useEffect(() => {
@@ -62,11 +49,18 @@ function Cell(props: Props) {
         return () => tileDragEmitter.remove(canDrop);
     });
 
+    const attributes = {
+        className: classes,
+        onDragOver: handleDragOver,
+        onDragLeave: handleDragLeave,
+        onDragEnter: handleDragEnter,
+    };
+
     return <div {...attributes}>{tiles.length > 0 && <Tile {...tiles[0]} />}</div>;
 }
 
 Cell.displayName = 'Cell';
 Cell.defaultProps = defaultProps;
-const CellMemo = React.memo(Cell, (p, n) => p.coordinates.q == n.coordinates.r && p.coordinates.q == n.coordinates.q && p.tiles.length == n.tiles.length);
+const CellMemo = React.memo(Cell, (prevProps, nextProps) => isEqual(prevProps.coordinates, nextProps.coordinates) && !prevProps.tiles.length && !nextProps.tiles.length);
 
 export default CellMemo;

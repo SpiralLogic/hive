@@ -9,3 +9,4 @@
 /Hive.Api/wwwroot/**
 /Hive.Api/scripts/dist/*
 /Hive.FrontEnd/dist
+/Hive.FrontEnd/src/js/coverage/

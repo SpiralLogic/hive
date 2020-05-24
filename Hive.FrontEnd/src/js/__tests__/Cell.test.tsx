@@ -4,32 +4,30 @@ import * as TestUtils from 'react-dom/test-utils';
 import { create } from 'react-test-renderer';
 import Cell from '../components/Cell';
 import TileDragEmitter from '../emitter/tile-drag-emitter';
-import * as CTX from '../game-context';
 
-const emptyCell = {
+const cellWithNoTile = {
     coordinates: { q: 0, r: 0 },
     tiles: [],
+    moveTile: jest.fn(),
 };
 
 const cellWithTile = {
     coordinates: { q: 1, r: 1 },
     tiles: [{ id: 2, playerId: 2, content: 'fly', availableMoves: [{ q: 0, r: 0 }] }],
+    moveTile: jest.fn(),
 };
 
 const hexagonJSX = (tileDragEmitter: TileDragEmitter) => (
     <>
-        <Cell key="1-1" {...emptyCell} tileDragEmitter={tileDragEmitter} />
-        <Cell key="0-0" {...cellWithTile} tileDragEmitter={tileDragEmitter} />
+        <Cell key="0-0" {...cellWithNoTile} tileDragEmitter={tileDragEmitter}/>
+        <Cell key="1-1" {...cellWithTile} tileDragEmitter={tileDragEmitter}/>
     </>
 );
 
 let container: HTMLDivElement;
 let tileDragEmitter: TileDragEmitter;
-let moveTileSpy = jest.fn();
 
 beforeEach(() => {
-    moveTileSpy = jest.fn().mockImplementation(() => Promise.resolve({ players: [], hexagons: [] }));
-    jest.spyOn(CTX, 'useHiveContext').mockImplementation(() => ({ moveTile: moveTileSpy, hexagons: [], players: [] }));
     tileDragEmitter = new TileDragEmitter();
     container = document.createElement('div');
     document.body.appendChild(container);
@@ -53,52 +51,56 @@ describe('Cell Render', () => {
 });
 
 describe('Cell drag and drop', () => {
+    function emitTileEvent (type: 'start' | 'end') {
+        TestUtils.act(() => {
+            tileDragEmitter.emit({ type, tileId: 2, tileMoves: [{ q: 0, r: 0 }] });
+        });
+    }
     test('dragover allows drop', () => {
         const cell = document.querySelectorAll<HTMLDivElement>('.cell')[1];
-        cell.classList.add('can-drop');
+        emitTileEvent('start');
         const preventDefault = jest.fn();
         TestUtils.Simulate.dragOver(cell, { preventDefault });
 
         expect(preventDefault).toHaveBeenCalled();
     });
 
-    test('drop sends move tile request', () => {
-        const cells = document.querySelectorAll<HTMLDivElement>('.cell');
-        cells[1].classList.add('active');
-        TestUtils.act(() => tileDragEmitter.emit({ type: 'end', tileId: 2, tileMoves: [{ q: 0, r: 0 }] }));
-
-        expect(moveTileSpy).toHaveBeenCalledWith({ tileId: 2, coordinates: { q: 1, r: 1 } });
-    });
-
     test('cell is valid on drag start', () => {
         const cells = document.querySelectorAll<HTMLDivElement>('.cell');
-        TestUtils.act(() => {
-            tileDragEmitter.emit({ type: 'start', tileId: 2, tileMoves: [{ q: 0, r: 0 }] });
-            cells.forEach((c) => TestUtils.Simulate.dragEnter(c));
-        });
+        emitTileEvent('start');
+        cells.forEach((c) => TestUtils.Simulate.dragEnter(c));
 
         expect(cells[0].classList).toContain('can-drop');
     });
 
     test('valid cell is active on tile drag enter', () => {
         const cells = document.querySelectorAll<HTMLDivElement>('.cell');
-        cells[0].classList.add('can-drop');
+        emitTileEvent('start');
         cells.forEach((c) => TestUtils.Simulate.dragEnter(c));
 
         expect(cells[0].classList).toContain('active');
         expect(cells[0].classList).not.toContain('no-drop');
     });
 
-    test('cell is invalid on drag enter', () => {
+    test('drop sends move tile request', () => {
+        const cells = document.querySelectorAll<HTMLDivElement>('.cell');
+        emitTileEvent('start');
+        cells.forEach((c) => TestUtils.Simulate.dragEnter(c));
+        emitTileEvent('end');
+
+        expect(cellWithNoTile.moveTile).toHaveBeenCalledWith({ tileId: 2, coordinates: { q: 0, r: 0 } });
+    });
+
+    test('invalid cell doesnt sent move request', () => {
         const cells = document.querySelectorAll<HTMLDivElement>('.cell');
         cells.forEach((c) => TestUtils.Simulate.dragEnter(c));
 
-        expect(cells[0].classList).toContain('no-drop');
-        expect(cells[0].classList).not.toContain('active');
+        expect(cellWithTile.moveTile).not.toBeCalled();
     });
 
     test('active and invalid are removed on drag leave', () => {
         const cells = document.querySelectorAll<HTMLDivElement>('.cell');
+        emitTileEvent('start');
         cells.forEach((c) => TestUtils.Simulate.dragEnter(c));
         cells.forEach((c) => TestUtils.Simulate.dragLeave(c));
 

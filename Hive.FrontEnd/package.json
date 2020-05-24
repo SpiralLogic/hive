@@ -27,6 +27,7 @@
         "gulp-typescript": "^6.0.0-alpha.1",
         "jest": "^26.0.1",
         "jest-cli": "^26.0.1",
+        "prettier": "^2.0.5",
         "react-test-renderer": "^16.13.1",
         "ts-jest": "^26.0.0",
         "tsify": "^4.0.1",
@@ -37,6 +38,7 @@
     "dependencies": {
         "react": "^16.13.1",
         "react-dnd-html5-backend": "^10.0.2",
-        "react-dom": "^16.13.1"
+        "react-dom": "^16.13.1",
+        "react-fast-compare": "^3.1.1"
     }
 }

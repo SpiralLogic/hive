@@ -1,42 +1,42 @@
-import { createContext, useContext, useEffect, useState } from 'react';
-import { Hexagon, Move, Player } from './domain';
+import { createContext, useContext, useEffect, useMemo, useState } from 'react';
+import { GameState, Hexagon, Move, MoveTile, Player } from './domain';
 import TileDragEmitter from './emitter/tile-drag-emitter';
 import { Engine } from './game-engine';
 
 interface GameContext {
     players: Player[];
     hexagons: Hexagon[];
-    moveTile: (move: Move) => void;
+    moveTile: MoveTile;
 }
 
-export const useNewHiveContext = (): [boolean, GameContext] => {
+export const useNewHiveContext = (): [boolean, GameContext?] => {
     const [loading, setLoading] = useState(true);
-    const [hexagons, setHexagons] = useState<Hexagon[]>([]);
-    const [players, setPlayers] = useState<Player[]>([]);
+    const [gameState, setGameState] = useState<GameState>(undefined!);
 
     useEffect(() => {
         Engine.initialState()
             .then((state) => {
-                setHexagons(state.hexagons);
-                setPlayers(state.players);
+                setGameState(state);
                 return setLoading(false);
             })
             .catch((reason) => {
                 throw new Error(reason);
             });
     }, []);
-    const moveTile = (move: Move) => {
+
+    const moveTile = useMemo(() => (move: Move) => {
         Engine.moveTile(move)
             .then((state) => {
-                setHexagons(state.hexagons);
-                return setPlayers(state.players);
+                return setGameState(state);
             })
             .catch((reason) => {
                 throw new Error(reason);
             });
-    };
+    }, [setGameState]);
+    
+    if (loading) return [loading];
 
-    return [loading, { hexagons, players, moveTile }];
+    return [loading, { ...gameState, moveTile }];
 };
 
 export const HiveContext = createContext<GameContext>({

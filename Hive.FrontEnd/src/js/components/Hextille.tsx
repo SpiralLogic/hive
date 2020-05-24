@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {Hexagon} from '../domain';
+import { Hexagon, MoveTile } from '../domain';
 import {useHiveContext} from '../game-context';
 import Row from './Row';
 
@@ -14,7 +14,7 @@ function getHeight(sortedHexagons: Hexagon[]) {
     return [firstRow, height];
 }
 
-function createRows(sortedHexagons: Hexagon[]) {
+function createRows(sortedHexagons: Hexagon[], moveTile:MoveTile) {
     const [firstRow, height] = getHeight(sortedHexagons);
     const [firstColumn, width] = getWidth(sortedHexagons);
 
@@ -28,16 +28,16 @@ function createRows(sortedHexagons: Hexagon[]) {
     };
 
     return sortedHexagons.reduce((rows, hexagon) => {
-        rows[hexagon.coordinates.r - firstRow].row[hexagon.coordinates.q - firstColumn] = hexagon;
+        rows[hexagon.coordinates.r - firstRow].row[hexagon.coordinates.q - firstColumn] = {...hexagon, moveTile};
         return rows;
     }, createEmptyRows());
 }
 
 function Hextille() {
-    const {hexagons} = useHiveContext();
+    const {hexagons, moveTile} = useHiveContext();
     const sortedHexagons = hexagons.sort((c1, c2) => c1.coordinates.r - c2.coordinates.r || c1.coordinates.q - c2.coordinates.q);
     const shiftClass = sortedHexagons[0].coordinates.r % 2 ? 'left' : 'right';
-    const rows = createRows(sortedHexagons);
+    const rows = createRows(sortedHexagons, moveTile);
 
     return (
         <div className={'hextille ' + shiftClass}>

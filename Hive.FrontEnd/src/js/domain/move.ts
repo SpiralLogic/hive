@@ -5,3 +5,5 @@ export interface Move {
     tileId: TileId;
     coordinates: HexCoordinates;
 }
+
+export type MoveTile = (move: Move) => void;

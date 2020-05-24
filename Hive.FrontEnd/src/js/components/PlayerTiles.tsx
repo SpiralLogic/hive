@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Player } from '../domain';
 import Tile from './Tile';
+import isEqual = require('react-fast-compare');
 
 type Props = Player;
 
@@ -19,6 +20,6 @@ function PlayerTiles (props: Props) {
 }
 
 PlayerTiles.displayName = 'Player Tiles';
-const PlayerTilesMemo = React.memo(PlayerTiles, (p, n) => p.id === n.id && p.availableTiles.length === n.availableTiles.length && p.availableTiles.every((t, i) => t.availableMoves.length == n.availableTiles[i].availableMoves.length));
+const PlayerTilesMemo = React.memo(PlayerTiles, isEqual);
 
 export default PlayerTilesMemo;
