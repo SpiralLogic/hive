@@ -1,10 +1,10 @@
-import { useState } from 'react';
+import {useState} from 'react';
 import * as React from 'react';
-import * as isEqual from 'react-fast-compare';
-import { Hexagon, HexCoordinates, MoveTile } from '../domain';
-import { TileDragEvent } from '../emitter/tile-drag-emitter';
-import { handleDragOver } from '../handlers';
-import Tile, { tileDragEmitter } from './Tile';
+import {Hexagon, HexCoordinates, MoveTile} from '../domain';
+import {tileDragEmitter, TileDragEvent} from '../emitter/tile-drag-emitter';
+import {handleDragOver} from '../handlers';
+import isEqual from 'react-fast-compare';
+import Tile from './Tile';
 
 const defaultProps = {
     tileDragEmitter: tileDragEmitter,
@@ -12,17 +12,17 @@ const defaultProps = {
 
 type Props = Hexagon & { moveTile: MoveTile } & typeof defaultProps;
 
-function Cell (props: Props) {
-    const { tiles, coordinates, tileDragEmitter, moveTile } = props;
+function Cell(props: Props) {
+    const {tiles, coordinates, tileDragEmitter, moveTile} = props;
     const isValidMove = (validMoves: HexCoordinates[]) => validMoves.some((dest) => isEqual(coordinates, dest));
     const [classes, setClasses] = useState('hex cell');
 
-    function handleDragLeave (ev: React.DragEvent<HTMLDivElement>) {
+    function handleDragLeave(ev: React.DragEvent<HTMLDivElement>) {
         ev.stopPropagation();
         setClasses(classes.replace(' active', ''));
     }
 
-    function handleDragEnter (ev: React.DragEvent<HTMLDivElement>) {
+    function handleDragEnter(ev: React.DragEvent<HTMLDivElement>) {
         ev.stopPropagation();
         setClasses(classes + ' active');
     }
@@ -34,7 +34,7 @@ function Cell (props: Props) {
         }
 
         if (e.type === 'end') {
-            valid && classes.includes('active') && moveTile({ coordinates, tileId: e.tileId });
+            valid && classes.includes('active') && moveTile({coordinates, tileId: e.tileId});
             setClasses('hex cell');
         }
     };

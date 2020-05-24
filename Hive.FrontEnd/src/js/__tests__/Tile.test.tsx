@@ -33,7 +33,7 @@ beforeEach(() => {
 });
 
 describe('Tile Render', () => {
-    test("tile color is the player's color", () => {
+    test('tile color is the player\'s color', () => {
         const tiles = document.querySelectorAll<HTMLDivElement>('.tile');
         expect(tiles[0].style.getPropertyValue('--color')).toBe('#f64c72');
         expect(tiles[1].style.getPropertyValue('--color')).toBe('#85dcbc');

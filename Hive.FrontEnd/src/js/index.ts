@@ -1,5 +1,6 @@
-import * as React from 'react';
-import * as ReactDOM from 'react-dom';
-import { App } from './components';
+import {createElement} from 'react';
+import {render} from 'react-dom';
+import App from './components/App';
+require('../index.html');
 
-ReactDOM.render(React.createElement(App), document.getElementById('hive'));
+render(createElement(App), document.getElementById('hive'));

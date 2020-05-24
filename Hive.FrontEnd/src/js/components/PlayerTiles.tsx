@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Player } from '../domain';
 import Tile from './Tile';
-import isEqual = require('react-fast-compare');
+import isEqual from 'react-fast-compare';
 
 type Props = Player;
 

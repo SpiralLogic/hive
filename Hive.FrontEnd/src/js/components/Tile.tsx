@@ -1,10 +1,8 @@
 import * as React from 'react';
 import { HexCoordinates, PlayerId, TileContent, TileId } from '../domain';
-import TileDragEmitter from '../emitter/tile-drag-emitter';
 import { handleDrop } from '../handlers';
-import isEqual = require('react-fast-compare');
-
-export const tileDragEmitter = new TileDragEmitter();
+import isEqual from 'react-fast-compare';
+import {tileDragEmitter} from '../emitter/tile-drag-emitter';
 
 const defaultProps = {
     tileDragEmitter: tileDragEmitter,

@@ -1,7 +1,7 @@
 import * as React from 'react';
-import * as isEqual from 'react-fast-compare';
 import { Hexagon, HexCoordinates } from '../domain';
 import Cell from './Cell';
+import isEqual from 'react-fast-compare';
 
 const cellKey = ({ q, r }: HexCoordinates) => `${q}-${r}`;
 const cellComponent = (cell: typeof Cell.arguments['props']) => <Cell key={cellKey(cell.coordinates)} {...cell} />;

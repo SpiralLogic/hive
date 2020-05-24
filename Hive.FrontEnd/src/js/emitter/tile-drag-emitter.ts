@@ -24,3 +24,5 @@ export default class TileDragEmitter implements EventEmitter<TileDragEvent> {
         listeners.forEach((l) => this.listeners.delete(l));
     }
 }
+
+export const tileDragEmitter = new TileDragEmitter();
