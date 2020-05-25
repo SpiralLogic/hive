@@ -3,7 +3,7 @@
 exports[`Game area shows board after fetch 1`] = `
 <div
   className="hive"
-  onDragOver={[Function]}
+  ondragover={[Function]}
   style={
     Object {
       "--hex-size": "50px",
@@ -20,9 +20,9 @@ exports[`Game area shows board after fetch 1`] = `
       <span
         className="name"
       >
-         
+
         adsf
-         
+
       </span>
       <div
         className="tiles"
@@ -58,9 +58,9 @@ exports[`Game area shows board after fetch 1`] = `
       />
       <div
         className="hex cell"
-        onDragEnter={[Function]}
-        onDragLeave={[Function]}
-        onDragOver={[Function]}
+        ondragenter={[Function]}
+        ondragleave={[Function]}
+        ondragover={[Function]}
       />
     </div>
   </div>

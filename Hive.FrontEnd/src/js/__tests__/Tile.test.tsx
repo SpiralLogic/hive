@@ -1,11 +1,9 @@
-import * as React from 'react';
-import { render, unmountComponentAtNode } from 'react-dom';
-import { act, Simulate } from 'react-dom/test-utils';
-import { create } from 'react-test-renderer';
+import { RenderResult, render, cleanup, fireEvent } from '@testing-library/preact';
+import React from 'preact/compat';
 import Tile from '../components/Tile';
 import TileDragEmitter, { TileDragEvent } from '../emitter/tile-drag-emitter';
-import * as TestUtils from 'react-dom/test-utils';
 import * as CTX from '../game-context';
+import { Fragment } from 'preact';
 
 const player1Tile = { id: 1, playerId: 1, content: 'ant', availableMoves: [{ q: 1, r: 1 }] };
 const player2Tile = { id: 2, playerId: 0, content: 'fly', availableMoves: [] };
@@ -13,23 +11,19 @@ let tileDragEmitter: TileDragEmitter;
 let moveTileSpy = jest.fn();
 
 const tileJSX = (tileDragEmitter: TileDragEmitter) => (
-    <>
-        <Tile key="1" {...player1Tile} tileDragEmitter={tileDragEmitter} />
-        <Tile key="2" {...player2Tile} tileDragEmitter={tileDragEmitter} />
-    </>
+    <Fragment>
+        <Tile key="1" {...player1Tile} tileDragEmitter={tileDragEmitter}/>
+        <Tile key="2" {...player2Tile} tileDragEmitter={tileDragEmitter}/>
+    </Fragment>
 );
 
-let container: HTMLDivElement;
+let container: RenderResult;
 
 beforeEach(() => {
     moveTileSpy = jest.fn().mockImplementation(() => Promise.resolve({ players: [], hexagons: [] }));
     jest.spyOn(CTX, 'useHiveContext').mockImplementation(() => ({ moveTile: moveTileSpy, hexagons: [], players: [] }));
     tileDragEmitter = new TileDragEmitter();
-    container = document.createElement('div');
-    document.body.appendChild(container);
-    act(() => {
-        render(tileJSX(tileDragEmitter), container);
-    });
+    container = render(tileJSX(tileDragEmitter));
 });
 
 describe('Tile Render', () => {
@@ -47,6 +41,16 @@ describe('Tile Render', () => {
 });
 
 describe('Tile drag and drop', () => {
+
+    function simulateEvent (target: HTMLElement, type: string) {
+        const preventDefault = jest.fn();
+        const e = new MouseEvent(type, {bubbles:true});
+        Object.assign(e, {preventDefault});
+        fireEvent(target, e);
+
+        return preventDefault;
+    }
+
     const emitSpy = jest.fn();
     beforeEach(() => {
         emitSpy.mockClear();
@@ -65,8 +69,8 @@ describe('Tile drag and drop', () => {
 
     test('on drag emits start event', () => {
         const tiles = document.querySelectorAll<HTMLDivElement>('.tile');
-        TestUtils.act(() => Simulate.dragStart(tiles[0]));
 
+        fireEvent.dragStart(tiles[0]);
         const expectedEvent: TileDragEvent = { type: 'start', tileId: player1Tile.id, tileMoves: player1Tile.availableMoves };
 
         expect(emitSpy).toHaveBeenCalledWith(expectedEvent);
@@ -74,7 +78,7 @@ describe('Tile drag and drop', () => {
 
     test('on dragEnd emits end event', () => {
         const tiles = document.querySelectorAll<HTMLDivElement>('.tile');
-        TestUtils.act(() => Simulate.dragEnd(tiles[0]));
+        fireEvent.dragEnd(tiles[0]);
         const expectedEvent: TileDragEvent = { type: 'end', tileId: player1Tile.id, tileMoves: player1Tile.availableMoves };
 
         expect(emitSpy).toHaveBeenCalledWith(expectedEvent);
@@ -82,23 +86,17 @@ describe('Tile drag and drop', () => {
 
     test('default on drop is prevented', () => {
         const tile = document.querySelectorAll<HTMLDivElement>('.tile')[1];
-        const preventDefault = jest.fn();
-        TestUtils.Simulate.drop(tile, { preventDefault });
+        const preventDefault = simulateEvent(tile, 'drop');
 
         expect(preventDefault).toHaveBeenCalled();
     });
 });
-
 describe('Tile Snapshot', () => {
     test('matches current snapshot', () => {
-        const component = create(tileJSX(tileDragEmitter));
-
-        const tree = component.toJSON();
-        expect(tree).toMatchSnapshot();
+        expect(render(tileJSX(tileDragEmitter)).baseElement).toMatchSnapshot();
     });
 });
 
 afterEach(() => {
-    unmountComponentAtNode(container);
-    container.remove();
+    cleanup();
 });

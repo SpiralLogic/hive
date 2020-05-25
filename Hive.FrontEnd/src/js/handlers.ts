@@ -1,11 +1,10 @@
-import * as React from 'react';
 
-export function handleDragOver(e: React.DragEvent<HTMLDivElement>): boolean {
-    e.preventDefault();
+export function handleDragOver(ev: { preventDefault: () => void; }): boolean {
+    ev.preventDefault();
     return false;
 }
 
-export function handleDrop(ev: React.DragEvent<HTMLDivElement>) {
+export function handleDrop(ev: { preventDefault: () => void; }) {
     ev.preventDefault();
     return false;
 }

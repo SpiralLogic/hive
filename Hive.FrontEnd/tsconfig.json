@@ -1,7 +1,6 @@
 {
   "compilerOptions": {
     "target": "es6",
-    "module": "ESNext",
     "lib": [
       "es2019",
       "dom"
@@ -16,7 +15,8 @@
     "inlineSources": true,
     "removeComments": true,
     "noImplicitAny": true,
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "types": ["node", "jest"]
   },
   "include": [
     "src/js/**/*"

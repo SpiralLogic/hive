@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'preact/compat';
 import { Player } from '../domain';
 import Tile from './Tile';
 import isEqual from 'react-fast-compare';

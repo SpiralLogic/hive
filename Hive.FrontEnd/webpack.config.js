@@ -47,28 +47,10 @@ module.exports = {
         ]
     },
     resolve: {
-        'alias': {
-            'react': 'preact/compat',
-            'react-dom/test-utils': 'preact/test-utils',
-            'react-dom': 'preact/compat',
-            // Must be below test-utils
-        },
-        externals: {
-            // Use external version of React
-            'react': 'React',
-            'react-dom': 'ReactDOM',
-        },
         extensions: ['.tsx', '.ts'],
     },
     externals: {
         // Use external version of React
-        'react': 'React',
-        'react-dom': 'ReactDOM',
-    },
-    watch: true,
-    watchOptions: {
-        aggregateTimeout: 200,
-        poll: 1000,
-        ignored: [/node_modules/, /__tests__/, /coverage/],
+   //    'preact/compat': 'preact/compat',
     }
 }

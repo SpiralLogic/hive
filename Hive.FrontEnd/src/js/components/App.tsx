@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'preact/compat';
 import { GameArea } from './GameArea';
 import { HiveContext, useNewHiveContext } from '../game-context';
 

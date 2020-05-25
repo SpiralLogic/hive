@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useMemo, useState } from 'react';
+import { createContext, useContext, useEffect, useMemo, useState } from 'preact/compat';
 import { GameState, Hexagon, Move, MoveTile, Player } from './domain';
 import { Engine } from './game-engine';
 
@@ -32,7 +32,7 @@ export const useNewHiveContext = (): [boolean, GameContext?] => {
                 throw new Error(reason);
             });
     }, [setGameState]);
-    
+
     if (loading) return [loading];
 
     return [loading, { ...gameState, moveTile }];
@@ -45,4 +45,5 @@ export const HiveContext = createContext<GameContext>({
 });
 
 export const useHiveContext = () => useContext(HiveContext);
+// @ts-ignore
 HiveContext.displayName = 'Hive Context';

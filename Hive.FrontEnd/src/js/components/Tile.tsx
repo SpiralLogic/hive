@@ -1,7 +1,8 @@
-import * as React from 'react';
+import React from 'preact/compat';
+import isEqual from 'react-fast-compare';
+
 import { HexCoordinates, PlayerId, TileContent, TileId } from '../domain';
 import { handleDrop } from '../handlers';
-import isEqual from 'react-fast-compare';
 import {tileDragEmitter} from '../emitter/tile-drag-emitter';
 
 const defaultProps = {
@@ -36,9 +37,9 @@ function Tile(props: Props) {
         style: { '--color': getPlayerColor(playerId) },
         className: 'hex tile',
         draggable: !!availableMoves.length,
-        onDragStart: handleDragStart,
-        onDragEnd: handleDragEnd,
-        onDrop: handleDrop,
+        ondragstart: handleDragStart,
+        ondragend: handleDragEnd,
+        ondrop: handleDrop,
     };
 
     return (

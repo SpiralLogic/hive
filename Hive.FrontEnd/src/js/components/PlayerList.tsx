@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'preact/compat';
 import { useHiveContext } from '../game-context';
 import PlayerTiles from './PlayerTiles';
 

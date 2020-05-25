@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'preact/compat';
 import { Hexagon, MoveTile } from '../domain';
 import {useHiveContext} from '../game-context';
 import Row from './Row';

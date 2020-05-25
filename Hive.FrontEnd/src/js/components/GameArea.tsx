@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'preact/compat';
 import { handleDragOver } from '../handlers';
 import Hextille from './Hextille';
 import PlayerList from './PlayerList';
@@ -14,7 +14,7 @@ export const GameArea = (props: Props) => {
     }
 
     const attributes = {
-        onDragOver: handleDragOver,
+        ondragover: handleDragOver,
         className: 'hive',
         style: { '--hex-size': '50px' },
     };

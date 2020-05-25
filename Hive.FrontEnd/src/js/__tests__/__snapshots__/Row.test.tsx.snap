@@ -6,15 +6,15 @@ exports[`Row test snapshot 1`] = `
 >
   <div
     className="hex cell"
-    onDragEnter={[Function]}
-    onDragLeave={[Function]}
-    onDragOver={[Function]}
+    ondragenter={[Function]}
+    ondragleave={[Function]}
+    ondragover={[Function]}
   />
   <div
     className="hex cell"
-    onDragEnter={[Function]}
-    onDragLeave={[Function]}
-    onDragOver={[Function]}
+    ondragenter={[Function]}
+    ondragleave={[Function]}
+    ondragover={[Function]}
   />
   <div
     className="hidden"
@@ -28,15 +28,15 @@ exports[`snapshot 1`] = `
 >
   <div
     className="hex cell"
-    onDragEnter={[Function]}
-    onDragLeave={[Function]}
-    onDragOver={[Function]}
+    ondragenter={[Function]}
+    ondragleave={[Function]}
+    ondragover={[Function]}
   />
   <div
     className="hex cell"
-    onDragEnter={[Function]}
-    onDragLeave={[Function]}
-    onDragOver={[Function]}
+    ondragenter={[Function]}
+    ondragleave={[Function]}
+    ondragover={[Function]}
   />
   <div
     className="hidden"
