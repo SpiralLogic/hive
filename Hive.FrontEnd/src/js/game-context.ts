@@ -1,6 +1,5 @@
 import { createContext, useContext, useEffect, useMemo, useState } from 'react';
 import { GameState, Hexagon, Move, MoveTile, Player } from './domain';
-import TileDragEmitter from './emitter/tile-drag-emitter';
 import { Engine } from './game-engine';
 
 interface GameContext {

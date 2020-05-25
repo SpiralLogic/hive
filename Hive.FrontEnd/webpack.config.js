@@ -47,6 +47,17 @@ module.exports = {
         ]
     },
     resolve: {
+        'alias': {
+            'react': 'preact/compat',
+            'react-dom/test-utils': 'preact/test-utils',
+            'react-dom': 'preact/compat',
+            // Must be below test-utils
+        },
+        externals: {
+            // Use external version of React
+            'react': 'React',
+            'react-dom': 'ReactDOM',
+        },
         extensions: ['.tsx', '.ts'],
     },
     externals: {
