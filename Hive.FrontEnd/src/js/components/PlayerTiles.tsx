@@ -1,7 +1,7 @@
-import React from 'preact/compat';
 import { Player } from '../domain';
 import Tile from './Tile';
 import { deepEqual } from 'fast-equals';
+import * as React from 'preact/compat';
 
 type Props = Player;
 

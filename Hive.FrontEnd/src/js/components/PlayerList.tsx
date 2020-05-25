@@ -1,6 +1,6 @@
-import React from 'preact/compat';
 import { useHiveContext } from '../game-context';
 import PlayerTiles from './PlayerTiles';
+import * as React from 'preact/compat';
 
 function PlayerList() {
     const { players } = useHiveContext();

@@ -1,6 +1,6 @@
-import React from 'preact/compat';
 import { GameArea } from './GameArea';
 import { HiveContext, useNewHiveContext } from '../game-context';
+import * as React from 'preact/compat';
 
 const App = () => {
     const [loading, gameContext] = useNewHiveContext();
