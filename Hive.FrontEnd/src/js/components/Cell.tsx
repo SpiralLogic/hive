@@ -1,10 +1,10 @@
-import { useState } from 'preact/compat';
-import React from 'preact/compat';
-import { Hexagon, HexCoordinates, MoveTile } from '../domain';
-import { tileDragEmitter, TileDragEvent } from '../emitter/tile-drag-emitter';
-import { handleDragOver } from '../handlers';
-import isEqual from 'react-fast-compare';
+import {useState, memo} from 'preact/compat';
+import * as React from 'preact/compat';
+import {Hexagon, HexCoordinates, MoveTile} from '../domain';
+import {tileDragEmitter, TileDragEvent} from '../emitter/tile-drag-emitter';
+import {handleDragOver} from '../handlers';
 import Tile from './Tile';
+import {deepEqual} from 'fast-equals';
 
 const defaultProps = {
     tileDragEmitter: tileDragEmitter,
@@ -12,17 +12,17 @@ const defaultProps = {
 
 type Props = Hexagon & { moveTile: MoveTile } & typeof defaultProps;
 
-function Cell (props: Props) {
-    const { tiles, coordinates, tileDragEmitter, moveTile } = props;
-    const isValidMove = (validMoves: HexCoordinates[]) => validMoves.some((dest) => isEqual(coordinates, dest));
+function Cell(props: Props) {
+    const {tiles, coordinates, tileDragEmitter, moveTile} = props;
+    const isValidMove = (validMoves: HexCoordinates[]) => validMoves.some((dest) => deepEqual(coordinates, dest));
     const [classes, setClasses] = useState('hex cell');
 
-    function handleDragLeave (ev: { stopPropagation: () => void; }) {
+    function handleDragLeave(ev: { stopPropagation: () => void; }) {
         ev.stopPropagation();
         setClasses(classes.replace(' active', ''));
     }
 
-    function handleDragEnter (ev: { stopPropagation: () => void; }) {
+    function handleDragEnter(ev: { stopPropagation: () => void; }) {
         ev.stopPropagation();
         setClasses(classes + ' active');
     }
@@ -34,7 +34,7 @@ function Cell (props: Props) {
         }
 
         if (e.type === 'end') {
-            valid && classes.includes('active') && moveTile({ coordinates, tileId: e.tileId });
+            valid && classes.includes('active') && moveTile({coordinates, tileId: e.tileId});
             setClasses('hex cell');
         }
     };
@@ -56,6 +56,6 @@ function Cell (props: Props) {
 
 Cell.displayName = 'Cell';
 Cell.defaultProps = defaultProps;
-const CellMemo = React.memo(Cell, (prevProps, nextProps) => isEqual(prevProps.coordinates, nextProps.coordinates) && !prevProps.tiles.length && !nextProps.tiles.length);
+const CellMemo = memo(Cell, (p, n) => deepEqual(p.coordinates, n.coordinates) && !p.tiles.length && !n.tiles.length);
 
 export default CellMemo;

@@ -1,9 +1,9 @@
 import { RenderResult, render, cleanup, fireEvent } from '@testing-library/preact';
-import React from 'preact/compat';
 import Tile from '../components/Tile';
 import TileDragEmitter, { TileDragEvent } from '../emitter/tile-drag-emitter';
 import * as CTX from '../game-context';
 import { Fragment } from 'preact';
+import * as React from 'preact/compat';
 
 const player1Tile = { id: 1, playerId: 1, content: 'ant', availableMoves: [{ q: 1, r: 1 }] };
 const player2Tile = { id: 2, playerId: 0, content: 'fly', availableMoves: [] };

@@ -3,7 +3,7 @@
 
 module.exports = {
     // All imported modules in your tests should be mocked automatically
-    // automock: false,
+    // automock: true,
 
     // Stop running tests after `n` failures
     // bail: 0,
@@ -12,7 +12,7 @@ module.exports = {
     // cacheDirectory: "/private/var/folders/xd/d8pb3p7x6mj5ltxhrm1cb3p5nnn2sc/T/jest_tsbqjw",
 
     // Automatically clear mock calls and instances between every test
-   clearMocks: true,
+    clearMocks: true,
 
     // Indicates whether the coverage information should be collected while executing the test
     // collectCoverage: false,
@@ -61,9 +61,9 @@ module.exports = {
     // maxWorkers: "50%",
 
     // An array of directory names to be searched recursively up from the requiring module's location
-     moduleDirectories: [
-       "node_modules"
-     ],
+    moduleDirectories: [
+        'node_modules'
+    ],
 
     // An array of file extensions your modules use
     moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],

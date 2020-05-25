@@ -1,45 +1,21 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Row test snapshot 1`] = `
-<div
-  className="hex-row"
->
-  <div
-    className="hex cell"
-    ondragenter={[Function]}
-    ondragleave={[Function]}
-    ondragover={[Function]}
-  />
-  <div
-    className="hex cell"
-    ondragenter={[Function]}
-    ondragleave={[Function]}
-    ondragover={[Function]}
-  />
-  <div
-    className="hidden"
-  />
-</div>
-`;
-
-exports[`snapshot 1`] = `
-<div
-  className="hex-row"
->
-  <div
-    className="hex cell"
-    ondragenter={[Function]}
-    ondragleave={[Function]}
-    ondragover={[Function]}
-  />
-  <div
-    className="hex cell"
-    ondragenter={[Function]}
-    ondragleave={[Function]}
-    ondragover={[Function]}
-  />
-  <div
-    className="hidden"
-  />
-</div>
+<body>
+  <div>
+    <div
+      class="hex-row"
+    >
+      <div
+        class="hex cell"
+      />
+      <div
+        class="hex cell"
+      />
+      <div
+        class="hidden"
+      />
+    </div>
+  </div>
+</body>
 `;

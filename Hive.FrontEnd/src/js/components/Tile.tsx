@@ -1,9 +1,8 @@
-import React from 'preact/compat';
-import isEqual from 'react-fast-compare';
-
-import { HexCoordinates, PlayerId, TileContent, TileId } from '../domain';
-import { handleDrop } from '../handlers';
+import * as React from 'preact/compat';
+import {HexCoordinates, PlayerId, TileContent, TileId} from '../domain';
+import {handleDrop} from '../handlers';
 import {tileDragEmitter} from '../emitter/tile-drag-emitter';
+import {deepEqual} from 'fast-equals';
 
 const defaultProps = {
     tileDragEmitter: tileDragEmitter,
@@ -22,19 +21,19 @@ const getPlayerColor = (playerId: PlayerId) => {
 };
 
 function Tile(props: Props) {
-    const { id, availableMoves, content, playerId, tileDragEmitter } = props;
+    const {id, availableMoves, content, playerId, tileDragEmitter} = props;
 
     function handleDragStart() {
-        tileDragEmitter.emit({ type: 'start', tileId: id, tileMoves: availableMoves });
+        tileDragEmitter.emit({type: 'start', tileId: id, tileMoves: availableMoves});
     }
 
     function handleDragEnd() {
-        tileDragEmitter.emit({ type: 'end', tileId: id, tileMoves: availableMoves });
+        tileDragEmitter.emit({type: 'end', tileId: id, tileMoves: availableMoves});
     }
 
     const attributes = {
         title: content,
-        style: { '--color': getPlayerColor(playerId) },
+        style: {'--color': getPlayerColor(playerId)},
         className: 'hex tile',
         draggable: !!availableMoves.length,
         ondragstart: handleDragStart,
@@ -52,6 +51,6 @@ function Tile(props: Props) {
 Tile.displayName = 'Tile';
 Tile.defaultProps = defaultProps;
 
-const TileMemo = React.memo(Tile, isEqual);
+const TileMemo = React.memo(Tile, deepEqual);
 
 export default TileMemo;

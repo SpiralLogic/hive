@@ -1,7 +1,7 @@
-import React from 'preact/compat';
 import { handleDragOver } from '../handlers';
 import Hextille from './Hextille';
 import PlayerList from './PlayerList';
+import * as React from 'preact/compat';
 
 type Props = {
     loading: boolean;

@@ -1,74 +1,67 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Game area shows board after fetch 1`] = `
-<div
-  className="hive"
-  ondragover={[Function]}
-  style={
-    Object {
-      "--hex-size": "50px",
-    }
-  }
->
-  <div
-    className="players"
-  >
+<body>
+  <div>
     <div
-      className="player"
-      title="adsf"
+      class="hive"
+      style="--hex-size: 50px;"
     >
-      <span
-        className="name"
-      >
-
-        adsf
-
-      </span>
       <div
-        className="tiles"
+        class="players"
       >
         <div
-          className="hex tile"
-          draggable={false}
-          onDragEnd={[Function]}
-          onDragStart={[Function]}
-          onDrop={[Function]}
-          style={
-            Object {
-              "--color": "#f64c72",
-            }
-          }
-          title="ant"
+          class="player"
+          title="adsf"
         >
-          <span>
-            ant
+          <span
+            class="name"
+          >
+             
+            adsf
+             
           </span>
+          <div
+            class="tiles"
+          >
+            <div
+              class="hex tile"
+              draggable="false"
+              style="--color: #f64c72;"
+              title="ant"
+            >
+              <span>
+                ant
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="hextille left"
+      >
+        <div
+          class="hex-row"
+        >
+          <div
+            class="hidden"
+          />
+          <div
+            class="hex cell"
+          />
         </div>
       </div>
     </div>
   </div>
-  <div
-    className="hextille left"
-  >
-    <div
-      className="hex-row"
-    >
-      <div
-        className="hidden"
-      />
-      <div
-        className="hex cell"
-        ondragenter={[Function]}
-        ondragleave={[Function]}
-        ondragover={[Function]}
-      />
-    </div>
-  </div>
-</div>
+</body>
 `;
 
-exports[`Game area shows initial loading 1`] = `
-<h1>
-  loading
-</h1>
+exports[`Game area shows loading 1`] = `
+<body>
+  <div>
+    <h1>
+      loading
+    </h1>
+  </div>
+</body>
 `;

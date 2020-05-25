@@ -1,7 +1,7 @@
 import React from 'preact/compat';
 import { Player } from '../domain';
 import Tile from './Tile';
-import isEqual from 'react-fast-compare';
+import { deepEqual } from 'fast-equals';
 
 type Props = Player;
 
@@ -20,6 +20,6 @@ function PlayerTiles (props: Props) {
 }
 
 PlayerTiles.displayName = 'Player Tiles';
-const PlayerTilesMemo = React.memo(PlayerTiles, isEqual);
+const PlayerTilesMemo = React.memo(PlayerTiles, deepEqual);
 
 export default PlayerTilesMemo;

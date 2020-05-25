@@ -2,7 +2,7 @@
   "compilerOptions": {
     "target": "es6",
     "lib": [
-      "es2019",
+      "es2020",
       "dom"
     ],
     "downlevelIteration": true,
@@ -14,9 +14,7 @@
     "sourceMap": true,
     "inlineSources": true,
     "removeComments": true,
-    "noImplicitAny": true,
-    "esModuleInterop": true,
-    "types": ["node", "jest"]
+    "noImplicitAny": true
   },
   "include": [
     "src/js/**/*"

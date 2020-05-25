@@ -1,7 +1,7 @@
-import React from 'preact/compat';
-import { Hexagon, MoveTile } from '../domain';
+import {Hexagon, MoveTile} from '../domain';
 import {useHiveContext} from '../game-context';
 import Row from './Row';
+import * as React from 'preact/compat';
 
 function getWidth(hexagons: Hexagon[]) {
     const [min, max] = hexagons.reduce(([min, max], c) => [Math.min(min, c.coordinates.q), Math.max(max, c.coordinates.q)], [0, 0]);
@@ -14,7 +14,7 @@ function getHeight(sortedHexagons: Hexagon[]) {
     return [firstRow, height];
 }
 
-function createRows(sortedHexagons: Hexagon[], moveTile:MoveTile) {
+function createRows(sortedHexagons: Hexagon[], moveTile: MoveTile) {
     const [firstRow, height] = getHeight(sortedHexagons);
     const [firstColumn, width] = getWidth(sortedHexagons);
 
