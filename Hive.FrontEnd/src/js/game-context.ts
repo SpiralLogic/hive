@@ -1,6 +1,6 @@
 import {createContext, useContext, useEffect, useMemo, useState} from 'preact/compat';
 import {GameState, Hexagon, Move, MoveTile, Player} from './domain';
-import {Engine} from './game-engine';
+import Engine from './game-engine';
 
 interface GameContext {
     players: Player[];
@@ -18,8 +18,8 @@ export const useNewHiveContext = (): [boolean, GameContext?] => {
                 setGameState(state);
                 return setLoading(false);
             })
-            .catch((reason) => {
-                throw new Error(reason);
+            .catch(() => {
+                return setLoading(true);
             });
     }, []);
 
@@ -27,21 +27,17 @@ export const useNewHiveContext = (): [boolean, GameContext?] => {
         Engine.moveTile(move)
             .then((state) => {
                 return setGameState(state);
-            })
-            .catch((reason) => {
-                throw new Error(reason);
             });
     }, [setGameState]);
 
-    if (loading) return [loading];
-
-    return [loading, {...gameState!, moveTile}];
+    if (loading || !gameState) return [loading] ;
+    return [loading, {...gameState, moveTile}];
 };
 
 export const HiveContext = createContext<GameContext>({
     hexagons: [],
     players: [],
     moveTile: () => undefined,
-}); 
+});
 
-export const useHiveContext = () => useContext(HiveContext);
+export const useHiveContext = () => useContext<GameContext>(HiveContext);

@@ -1,6 +1,4 @@
-import {createElement,render} from 'preact/compat';
+import 'preact/debug';
+import {h, render} from 'preact' ;
 import App from './components/App';
-import "preact/debug";
-
-// @ts-ignore
-render(createElement(App), document.getElementById('hive'));
+render(h(App,{}), document.body);

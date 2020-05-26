@@ -17,12 +17,12 @@ function Cell(props: Props) {
     const isValidMove = (validMoves: HexCoordinates[]) => validMoves.some((dest) => deepEqual(coordinates, dest));
     const [classes, setClasses] = useState('hex cell');
 
-    function handleDragLeave(ev: { stopPropagation: () => void; }) {
+    function handleDragLeave(ev: { stopPropagation: () => void }) {
         ev.stopPropagation();
         setClasses(classes.replace(' active', ''));
     }
 
-    function handleDragEnter(ev: { stopPropagation: () => void; }) {
+    function handleDragEnter(ev: { stopPropagation: () => void }) {
         ev.stopPropagation();
         setClasses(classes + ' active');
     }

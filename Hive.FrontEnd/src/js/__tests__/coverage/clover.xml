@@ -1,30 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1590474072679" clover="3.2.0">
-  <project timestamp="1590474072679" name="All files">
-    <metrics statements="169" coveredstatements="149" conditionals="31" coveredconditionals="26" methods="60" coveredmethods="44" elements="260" coveredelements="219" complexity="0" loc="169" ncloc="169" packages="3" files="13" classes="13"/>
+<coverage generated="1590491825649" clover="3.2.0">
+  <project timestamp="1590491825649" name="All files">
+    <metrics statements="168" coveredstatements="162" conditionals="33" coveredconditionals="30" methods="59" coveredmethods="52" elements="260" coveredelements="244" complexity="0" loc="168" ncloc="168" packages="3" files="13" classes="13"/>
     <package name="js">
-      <metrics statements="34" coveredstatements="14" conditionals="2" coveredconditionals="0" methods="18" coveredmethods="3"/>
+      <metrics statements="33" coveredstatements="27" conditionals="4" coveredconditionals="4" methods="17" coveredmethods="11"/>
       <file name="game-context.ts" path="/Users/sol.jennings/Dev/FMA/hive-fma/Hive.FrontEnd/src/js/game-context.ts">
-        <metrics statements="19" coveredstatements="5" conditionals="2" coveredconditionals="0" methods="10" coveredmethods="1"/>
-        <line num="1" count="1" type="stmt"/>
-        <line num="3" count="1" type="stmt"/>
-        <line num="11" count="1" type="stmt"/>
-        <line num="12" count="0" type="stmt"/>
-        <line num="13" count="0" type="stmt"/>
-        <line num="15" count="0" type="stmt"/>
-        <line num="16" count="0" type="stmt"/>
-        <line num="18" count="0" type="stmt"/>
-        <line num="19" count="0" type="stmt"/>
-        <line num="22" count="0" type="stmt"/>
-        <line num="26" count="0" type="stmt"/>
-        <line num="27" count="0" type="stmt"/>
-        <line num="29" count="0" type="stmt"/>
-        <line num="32" count="0" type="stmt"/>
-        <line num="36" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="38" count="0" type="stmt"/>
-        <line num="41" count="1" type="stmt"/>
-        <line num="44" count="0" type="stmt"/>
-        <line num="47" count="2" type="stmt"/>
+        <metrics statements="18" coveredstatements="18" conditionals="4" coveredconditionals="4" methods="9" coveredmethods="9"/>
+        <line num="1" count="2" type="stmt"/>
+        <line num="3" count="2" type="stmt"/>
+        <line num="11" count="2" type="stmt"/>
+        <line num="12" count="10" type="stmt"/>
+        <line num="13" count="10" type="stmt"/>
+        <line num="15" count="10" type="stmt"/>
+        <line num="16" count="5" type="stmt"/>
+        <line num="18" count="4" type="stmt"/>
+        <line num="19" count="4" type="stmt"/>
+        <line num="22" count="1" type="stmt"/>
+        <line num="26" count="10" type="stmt"/>
+        <line num="27" count="1" type="stmt"/>
+        <line num="29" count="1" type="stmt"/>
+        <line num="33" count="10" type="cond" truecount="4" falsecount="0"/>
+        <line num="34" count="5" type="stmt"/>
+        <line num="37" count="2" type="stmt"/>
+        <line num="40" count="2" type="stmt"/>
+        <line num="43" count="4" type="stmt"/>
       </file>
       <file name="game-engine.ts" path="/Users/sol.jennings/Dev/FMA/hive-fma/Hive.FrontEnd/src/js/game-engine.ts">
         <metrics statements="9" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="6" coveredmethods="0"/>

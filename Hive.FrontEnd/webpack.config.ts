@@ -1,11 +1,14 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ProgressBarPlugin = require('progress-bar-webpack-plugin');
+const ForkTsCheckerNotifierWebpackPlugin = require('fork-ts-checker-notifier-webpack-plugin');
+const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const path = require('path');
 const chalk = require('chalk');
 const {CleanWebpackPlugin} = require('clean-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 
 module.exports = {
+    context: process.cwd(), // to automatically find tsconfig.json
     entry: './src/js/index.ts',
     output: {
         filename: 'js/index.js',
@@ -18,16 +21,20 @@ module.exports = {
             verbose: true,
             cleanStaleWebpackAssets: true,
         }),
+        new ForkTsCheckerWebpackPlugin({
+            eslint: true
+        }),
+        new ForkTsCheckerNotifierWebpackPlugin({ title: 'TypeScript', excludeWarnings: false }),
         new CopyPlugin({
                 patterns: [
                     {from: './src/css', to: 'css'},
-                    {from: './src/index.html', to: './'}
+                 //   {from: './src/index.html', to: './'}
                 ]
             }
         ),
         new HtmlWebpackPlugin({
             filename: 'index.html',
-            template: 'src/index.html'
+            template: './src/index.html'
         }),
         new ProgressBarPlugin({
             format: '  build [:bar] ' + chalk.green.bold(':percent') + ' (:elapsed seconds)',
@@ -36,21 +43,23 @@ module.exports = {
     ],
     target: 'web', // enum
     module: {
-        rules: [{
-            test: /\.ts(x)?$/,
-            use: ['awesome-typescript-loader'],
-            exclude: [/node_modules/, /__tests__/, /coverage/],
-                }, {
-            test: /\.html$/,
-            loader: 'raw-loader'
-        }
+        rules: [
+            {
+                test: /.tsx?$/,
+                use: [
+                    { loader: 'ts-loader', options: { transpileOnly: true } }
+                ]
+            },
+            {
+                test: /\.html$/,
+                loader: 'raw-loader'
+            }
         ]
     },
     resolve: {
-        extensions: ['.tsx', '.ts'],
+        extensions: ['.tsx', '.ts', '.js'],
     },
-    externals: {
-        // Use external version of React
-   //    'preact/compat': 'preact/compat',
+    optimization: {
+        usedExports: true,
     }
 }
