@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<coverage generated="1590474072679" clover="3.2.0">
+  <project timestamp="1590474072679" name="All files">
+    <metrics statements="169" coveredstatements="149" conditionals="31" coveredconditionals="26" methods="60" coveredmethods="44" elements="260" coveredelements="219" complexity="0" loc="169" ncloc="169" packages="3" files="13" classes="13"/>
+    <package name="js">
+      <metrics statements="34" coveredstatements="14" conditionals="2" coveredconditionals="0" methods="18" coveredmethods="3"/>
+      <file name="game-context.ts" path="/Users/sol.jennings/Dev/FMA/hive-fma/Hive.FrontEnd/src/js/game-context.ts">
+        <metrics statements="19" coveredstatements="5" conditionals="2" coveredconditionals="0" methods="10" coveredmethods="1"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="3" count="1" type="stmt"/>
+        <line num="11" count="1" type="stmt"/>
+        <line num="12" count="0" type="stmt"/>
+        <line num="13" count="0" type="stmt"/>
+        <line num="15" count="0" type="stmt"/>
+        <line num="16" count="0" type="stmt"/>
+        <line num="18" count="0" type="stmt"/>
+        <line num="19" count="0" type="stmt"/>
+        <line num="22" count="0" type="stmt"/>
+        <line num="26" count="0" type="stmt"/>
+        <line num="27" count="0" type="stmt"/>
+        <line num="29" count="0" type="stmt"/>
+        <line num="32" count="0" type="stmt"/>
+        <line num="36" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="38" count="0" type="stmt"/>
+        <line num="41" count="1" type="stmt"/>
+        <line num="44" count="0" type="stmt"/>
+        <line num="47" count="2" type="stmt"/>
+      </file>
+      <file name="game-engine.ts" path="/Users/sol.jennings/Dev/FMA/hive-fma/Hive.FrontEnd/src/js/game-engine.ts">
+        <metrics statements="9" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="6" coveredmethods="0"/>
+        <line num="3" count="1" type="stmt"/>
+        <line num="4" count="0" type="stmt"/>
+        <line num="13" count="0" type="stmt"/>
+        <line num="16" count="1" type="stmt"/>
+        <line num="17" count="0" type="stmt"/>
+        <line num="26" count="0" type="stmt"/>
+        <line num="29" count="1" type="stmt"/>
+        <line num="31" count="0" type="stmt"/>
+        <line num="34" count="0" type="stmt"/>
+      </file>
+      <file name="handlers.ts" path="/Users/sol.jennings/Dev/FMA/hive-fma/Hive.FrontEnd/src/js/handlers.ts">
+        <metrics statements="6" coveredstatements="6" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
+        <line num="2" count="7" type="stmt"/>
+        <line num="3" count="2" type="stmt"/>
+        <line num="4" count="2" type="stmt"/>
+        <line num="7" count="7" type="stmt"/>
+        <line num="8" count="2" type="stmt"/>
+        <line num="9" count="2" type="stmt"/>
+      </file>
+    </package>
+    <package name="js.components">
+      <metrics statements="128" coveredstatements="128" conditionals="29" coveredconditionals="26" methods="34" coveredmethods="33"/>
+      <file name="App.tsx" path="/Users/sol.jennings/Dev/FMA/hive-fma/Hive.FrontEnd/src/js/components/App.tsx">
+        <metrics statements="11" coveredstatements="11" conditionals="6" coveredconditionals="6" methods="1" coveredmethods="1"/>
+        <line num="1" count="2" type="stmt"/>
+        <line num="2" count="2" type="stmt"/>
+        <line num="3" count="2" type="stmt"/>
+        <line num="5" count="2" type="stmt"/>
+        <line num="6" count="5" type="stmt"/>
+        <line num="8" count="5" type="cond" truecount="2" falsecount="0"/>
+        <line num="9" count="2" type="stmt"/>
+        <line num="12" count="3" type="cond" truecount="4" falsecount="0"/>
+        <line num="13" count="2" type="stmt"/>
+        <line num="16" count="1" type="stmt"/>
+        <line num="19" count="2" type="stmt"/>
+      </file>
+      <file name="Cell.tsx" path="/Users/sol.jennings/Dev/FMA/hive-fma/Hive.FrontEnd/src/js/components/Cell.tsx">
+        <metrics statements="30" coveredstatements="30" conditionals="14" coveredconditionals="14" methods="9" coveredmethods="9"/>
+        <line num="1" count="4" type="stmt"/>
+        <line num="2" count="4" type="stmt"/>
+        <line num="4" count="4" type="stmt"/>
+        <line num="5" count="4" type="stmt"/>
+        <line num="6" count="4" type="stmt"/>
+        <line num="7" count="4" type="stmt"/>
+        <line num="9" count="4" type="stmt"/>
+        <line num="16" count="56" type="stmt"/>
+        <line num="17" count="56" type="stmt"/>
+        <line num="18" count="56" type="stmt"/>
+        <line num="21" count="4" type="stmt"/>
+        <line num="22" count="4" type="stmt"/>
+        <line num="26" count="10" type="stmt"/>
+        <line num="27" count="10" type="stmt"/>
+        <line num="30" count="56" type="stmt"/>
+        <line num="31" count="12" type="stmt"/>
+        <line num="32" count="12" type="cond" truecount="4" falsecount="0"/>
+        <line num="33" count="10" type="stmt"/>
+        <line num="36" count="12" type="cond" truecount="2" falsecount="0"/>
+        <line num="37" count="2" type="cond" truecount="3" falsecount="0"/>
+        <line num="38" count="2" type="stmt"/>
+        <line num="42" count="56" type="stmt"/>
+        <line num="43" count="56" type="stmt"/>
+        <line num="44" count="56" type="stmt"/>
+        <line num="47" count="56" type="stmt"/>
+        <line num="54" count="56" type="cond" truecount="2" falsecount="0"/>
+        <line num="57" count="4" type="stmt"/>
+        <line num="58" count="4" type="stmt"/>
+        <line num="59" count="4" type="cond" truecount="3" falsecount="0"/>
+        <line num="61" count="4" type="stmt"/>
+      </file>
+      <file name="GameArea.tsx" path="/Users/sol.jennings/Dev/FMA/hive-fma/Hive.FrontEnd/src/js/components/GameArea.tsx">
+        <metrics statements="8" coveredstatements="8" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
+        <line num="1" count="2" type="stmt"/>
+        <line num="2" count="2" type="stmt"/>
+        <line num="3" count="2" type="stmt"/>
+        <line num="4" count="2" type="stmt"/>
+        <line num="6" count="2" type="stmt"/>
+        <line num="7" count="3" type="stmt"/>
+        <line num="13" count="3" type="stmt"/>
+        <line num="21" count="2" type="stmt"/>
+      </file>
+      <file name="Hextille.tsx" path="/Users/sol.jennings/Dev/FMA/hive-fma/Hive.FrontEnd/src/js/components/Hextille.tsx">
+        <metrics statements="24" coveredstatements="24" conditionals="4" coveredconditionals="1" methods="10" coveredmethods="9"/>
+        <line num="2" count="1" type="stmt"/>
+        <line num="3" count="1" type="stmt"/>
+        <line num="4" count="1" type="stmt"/>
+        <line num="7" count="1" type="stmt"/>
+        <line num="8" count="1" type="stmt"/>
+        <line num="12" count="1" type="stmt"/>
+        <line num="13" count="1" type="stmt"/>
+        <line num="14" count="1" type="stmt"/>
+        <line num="18" count="1" type="stmt"/>
+        <line num="19" count="1" type="stmt"/>
+        <line num="21" count="1" type="stmt"/>
+        <line num="26" count="1" type="stmt"/>
+        <line num="27" count="1" type="stmt"/>
+        <line num="30" count="1" type="stmt"/>
+        <line num="31" count="1" type="stmt"/>
+        <line num="32" count="1" type="stmt"/>
+        <line num="37" count="1" type="stmt"/>
+        <line num="38" count="1" type="cond" truecount="0" falsecount="2"/>
+        <line num="39" count="1" type="cond" truecount="1" falsecount="1"/>
+        <line num="40" count="1" type="stmt"/>
+        <line num="42" count="1" type="stmt"/>
+        <line num="44" count="1" type="stmt"/>
+        <line num="49" count="1" type="stmt"/>
+        <line num="51" count="1" type="stmt"/>
+      </file>
+      <file name="PlayerList.tsx" path="/Users/sol.jennings/Dev/FMA/hive-fma/Hive.FrontEnd/src/js/components/PlayerList.tsx">
+        <metrics statements="8" coveredstatements="8" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
+        <line num="1" count="3" type="stmt"/>
+        <line num="2" count="3" type="stmt"/>
+        <line num="3" count="3" type="stmt"/>
+        <line num="6" count="5" type="stmt"/>
+        <line num="7" count="5" type="stmt"/>
+        <line num="10" count="5" type="stmt"/>
+        <line num="16" count="3" type="stmt"/>
+        <line num="17" count="3" type="stmt"/>
+      </file>
+      <file name="PlayerTiles.tsx" path="/Users/sol.jennings/Dev/FMA/hive-fma/Hive.FrontEnd/src/js/components/PlayerTiles.tsx">
+        <metrics statements="9" coveredstatements="9" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
+        <line num="2" count="4" type="stmt"/>
+        <line num="3" count="4" type="stmt"/>
+        <line num="4" count="4" type="stmt"/>
+        <line num="9" count="10" type="stmt"/>
+        <line num="10" count="10" type="stmt"/>
+        <line num="15" count="23" type="stmt"/>
+        <line num="22" count="4" type="stmt"/>
+        <line num="23" count="4" type="stmt"/>
+        <line num="25" count="4" type="stmt"/>
+      </file>
+      <file name="Row.tsx" path="/Users/sol.jennings/Dev/FMA/hive-fma/Hive.FrontEnd/src/js/components/Row.tsx">
+        <metrics statements="13" coveredstatements="13" conditionals="3" coveredconditionals="3" methods="5" coveredmethods="5"/>
+        <line num="1" count="3" type="stmt"/>
+        <line num="3" count="3" type="stmt"/>
+        <line num="4" count="3" type="stmt"/>
+        <line num="5" count="3" type="stmt"/>
+        <line num="7" count="11" type="stmt"/>
+        <line num="8" count="11" type="stmt"/>
+        <line num="9" count="5" type="stmt"/>
+        <line num="17" count="7" type="stmt"/>
+        <line num="18" count="16" type="cond" truecount="3" falsecount="0"/>
+        <line num="20" count="7" type="stmt"/>
+        <line num="23" count="3" type="stmt"/>
+        <line num="24" count="3" type="stmt"/>
+        <line num="26" count="3" type="stmt"/>
+      </file>
+      <file name="Tile.tsx" path="/Users/sol.jennings/Dev/FMA/hive-fma/Hive.FrontEnd/src/js/components/Tile.tsx">
+        <metrics statements="17" coveredstatements="17" conditionals="2" coveredconditionals="2" methods="4" coveredmethods="4"/>
+        <line num="1" count="7" type="stmt"/>
+        <line num="3" count="7" type="stmt"/>
+        <line num="4" count="7" type="stmt"/>
+        <line num="5" count="7" type="stmt"/>
+        <line num="7" count="7" type="stmt"/>
+        <line num="18" count="7" type="stmt"/>
+        <line num="19" count="45" type="stmt"/>
+        <line num="20" count="45" type="cond" truecount="2" falsecount="0"/>
+        <line num="24" count="45" type="stmt"/>
+        <line num="27" count="1" type="stmt"/>
+        <line num="31" count="1" type="stmt"/>
+        <line num="34" count="45" type="stmt"/>
+        <line num="44" count="45" type="stmt"/>
+        <line num="51" count="7" type="stmt"/>
+        <line num="52" count="7" type="stmt"/>
+        <line num="54" count="7" type="stmt"/>
+        <line num="56" count="7" type="stmt"/>
+      </file>
+      <file name="index.ts" path="/Users/sol.jennings/Dev/FMA/hive-fma/Hive.FrontEnd/src/js/components/index.ts">
+        <metrics statements="8" coveredstatements="8" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="2" count="1" type="stmt"/>
+        <line num="3" count="1" type="stmt"/>
+        <line num="4" count="1" type="stmt"/>
+        <line num="5" count="1" type="stmt"/>
+        <line num="6" count="1" type="stmt"/>
+        <line num="7" count="1" type="stmt"/>
+        <line num="8" count="1" type="stmt"/>
+      </file>
+    </package>
+    <package name="js.emitter">
+      <metrics statements="7" coveredstatements="7" conditionals="0" coveredconditionals="0" methods="8" coveredmethods="8"/>
+      <file name="tile-drag-emitter.ts" path="/Users/sol.jennings/Dev/FMA/hive-fma/Hive.FrontEnd/src/js/emitter/tile-drag-emitter.ts">
+        <metrics statements="7" coveredstatements="7" conditionals="0" coveredconditionals="0" methods="8" coveredmethods="8"/>
+        <line num="12" count="7" type="stmt"/>
+        <line num="13" count="7" type="stmt"/>
+        <line num="16" count="56" type="stmt"/>
+        <line num="20" count="12" type="stmt"/>
+        <line num="24" count="56" type="stmt"/>
+        <line num="28" count="7" type="stmt"/>
+        <line num="30" count="16" type="stmt"/>
+      </file>
+    </package>
+  </project>
+</coverage>

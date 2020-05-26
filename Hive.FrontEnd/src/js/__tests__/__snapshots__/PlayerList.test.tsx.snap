@@ -1,0 +1,78 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`snapshot matches current snapshot 1`] = `
+HTMLCollection [
+  <div
+    class="players"
+  >
+    <div
+      class="player"
+      title="Player 1"
+    >
+      <span
+        class="name"
+      >
+        Player 1
+      </span>
+      <div
+        class="tiles"
+      >
+        <div
+          class="hex tile"
+          draggable="true"
+          style="--color: #f64c72;"
+          title="ant"
+        >
+          <span>
+            ant
+          </span>
+        </div>
+        <div
+          class="hex tile"
+          draggable="false"
+          style="--color: #85dcbc;"
+          title="fly"
+        >
+          <span>
+            fly
+          </span>
+        </div>
+        <div
+          class="hex tile"
+          draggable="false"
+          style="--color: #85dcbc;"
+          title="fly"
+        >
+          <span>
+            fly
+          </span>
+        </div>
+      </div>
+    </div>
+    <div
+      class="player"
+      title="Player 2"
+    >
+      <span
+        class="name"
+      >
+        Player 2
+      </span>
+      <div
+        class="tiles"
+      >
+        <div
+          class="hex tile"
+          draggable="true"
+          style="--color: #f64c72;"
+          title="ant"
+        >
+          <span>
+            ant
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>,
+]
+`;
