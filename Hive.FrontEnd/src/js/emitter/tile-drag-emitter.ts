@@ -1,5 +1,5 @@
-import { HexCoordinates, TileId } from '../domain';
-import { EventEmitter, EventListener } from './event-emitter';
+import {HexCoordinates, TileId} from '../domain';
+import {EventEmitter, EventListener} from './event-emitter';
 
 export type TileDragListener = EventListener<TileDragEvent>;
 
@@ -9,7 +9,7 @@ export type TileDragEvent = {
     tileMoves: HexCoordinates[];
 };
 
-export default class TileDragEmitter implements EventEmitter<TileDragEvent> {
+export class TileDragEmitter implements EventEmitter<TileDragEvent> {
     private listeners = new Set<TileDragListener>();
 
     add(...listeners: TileDragListener[]) {
@@ -25,4 +25,6 @@ export default class TileDragEmitter implements EventEmitter<TileDragEvent> {
     }
 }
 
-export const tileDragEmitter = new TileDragEmitter();
+const tileDragEmitter = new TileDragEmitter();
+
+export const useEmitter = () => tileDragEmitter;

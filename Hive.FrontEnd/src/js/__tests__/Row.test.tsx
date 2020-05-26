@@ -1,6 +1,9 @@
 import {render, RenderResult} from '@testing-library/preact';
 import Row from '../components/Row';
-import * as React from 'preact/compat';
+import React from 'preact/compat';
+import {deepEqual} from 'fast-equals';
+
+jest.mock('fast-equals');
 
 type RowProps = typeof Row.arguments.props['row'];
 
@@ -31,6 +34,13 @@ describe('Row test', () => {
     test('row renders hidden div for missing cells', () => {
         const hiddenCell = document.querySelectorAll('.hidden');
         expect(hiddenCell).toHaveLength(1);
+    });
+
+    test('Row is memoized with deep equal', () => {
+        const props = {id: 1, row: []};
+        const row = <Row {...props} />;
+        render(row).rerender(row);
+        expect(deepEqual).toHaveBeenCalledTimes(1);
     });
 
     test('snapshot', () => {

@@ -1,14 +1,19 @@
-import { GameArea } from './GameArea';
-import { HiveContext, useNewHiveContext } from '../game-context';
-import * as React from 'preact/compat';
+import {GameArea} from './GameArea';
+import {HiveContext, useNewHiveContext} from '../game-context';
+import React from 'preact/compat';
 
 const App = () => {
     const [loading, gameContext] = useNewHiveContext();
-    return (
-        <HiveContext.Provider value={gameContext!}>
-            <GameArea loading={loading}/>
-        </HiveContext.Provider>
-    );
+
+    if (loading) {
+        return <h1>loading</h1>;
+    }
+
+    if (!gameContext || !gameContext.hexagons.length) {
+        return <h1>Bad Times !</h1>;
+    }
+
+    return <HiveContext.Provider value={gameContext}><GameArea/></HiveContext.Provider>;
 };
 
 export default App;

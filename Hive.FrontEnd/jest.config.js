@@ -2,6 +2,8 @@
 // https://jestjs.io/docs/en/configuration.html
 
 module.exports = {
+    preset: 'ts-jest',
+    //testEnvironment: ,
     // All imported modules in your tests should be mocked automatically
     // automock: true,
 
@@ -21,7 +23,7 @@ module.exports = {
     // collectCoverageFrom: undefined,
 
     // The directory where Jest should output its coverage files
-//    coverageDirectory: '__tests__/coverage',
+    coverageDirectory: '__tests__/coverage',
 
     // An array of regexp pattern strings used to skip coverage collection
     // coveragePathIgnorePatterns: [

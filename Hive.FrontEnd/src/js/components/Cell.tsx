@@ -1,17 +1,17 @@
 import {useState, memo} from 'preact/compat';
-import * as React from 'preact/compat';
+import React from 'preact/compat';
 import {Hexagon, HexCoordinates, MoveTile} from '../domain';
-import {tileDragEmitter, TileDragEvent} from '../emitter/tile-drag-emitter';
+import {TileDragEvent, useEmitter} from '../emitter/tile-drag-emitter';
 import {handleDragOver} from '../handlers';
 import Tile from './Tile';
 import {deepEqual} from 'fast-equals';
 
 const defaultProps = {
-    tileDragEmitter: tileDragEmitter,
+    tileDragEmitter: useEmitter(),
 };
 
 type Props = Hexagon & { moveTile: MoveTile } & typeof defaultProps;
-
+    
 function Cell(props: Props) {
     const {tiles, coordinates, tileDragEmitter, moveTile} = props;
     const isValidMove = (validMoves: HexCoordinates[]) => validMoves.some((dest) => deepEqual(coordinates, dest));

@@ -1,67 +1,17 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Game area shows board after fetch 1`] = `
-<body>
-  <div>
+<div>
+  <div
+    class="hive"
+    style="--hex-size: 50px;"
+  >
     <div
-      class="hive"
-      style="--hex-size: 50px;"
-    >
-      <div
-        class="players"
-      >
-        <div
-          class="player"
-          title="adsf"
-        >
-          <span
-            class="name"
-          >
-             
-            adsf
-             
-          </span>
-          <div
-            class="tiles"
-          >
-            <div
-              class="hex tile"
-              draggable="false"
-              style="--color: #f64c72;"
-              title="ant"
-            >
-              <span>
-                ant
-              </span>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div
-        class="hextille left"
-      >
-        <div
-          class="hex-row"
-        >
-          <div
-            class="hidden"
-          />
-          <div
-            class="hex cell"
-          />
-        </div>
-      </div>
-    </div>
+      class="players"
+    />
+    <div
+      class="hextille"
+    />
   </div>
-</body>
-`;
-
-exports[`Game area shows loading 1`] = `
-<body>
-  <div>
-    <h1>
-      loading
-    </h1>
-  </div>
-</body>
+</div>
 `;

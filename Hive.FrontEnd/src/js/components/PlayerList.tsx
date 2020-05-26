@@ -1,9 +1,9 @@
-import { useHiveContext } from '../game-context';
+import {useHiveContext} from '../game-context';
 import PlayerTiles from './PlayerTiles';
-import * as React from 'preact/compat';
+import React from 'preact/compat';
 
 function PlayerList() {
-    const { players } = useHiveContext();
+    const {players} = useHiveContext();
     return (
         <div className="players">
             {players.map((player) => (
@@ -14,5 +14,4 @@ function PlayerList() {
 }
 
 PlayerList.displayName = 'Player List';
-
 export default PlayerList;

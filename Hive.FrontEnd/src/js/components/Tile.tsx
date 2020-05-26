@@ -1,11 +1,11 @@
-import * as React from 'preact/compat';
+import React from 'preact/compat';
 import {HexCoordinates, PlayerId, TileContent, TileId} from '../domain';
 import {handleDrop} from '../handlers';
-import {tileDragEmitter} from '../emitter/tile-drag-emitter';
+import {useEmitter} from '../emitter/tile-drag-emitter';
 import {deepEqual} from 'fast-equals';
 
 const defaultProps = {
-    tileDragEmitter: tileDragEmitter,
+    tileDragEmitter: useEmitter(),
 };
 
 type Props = {

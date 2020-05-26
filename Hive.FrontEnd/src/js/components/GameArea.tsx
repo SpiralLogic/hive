@@ -1,18 +1,9 @@
 import { handleDragOver } from '../handlers';
 import Hextille from './Hextille';
 import PlayerList from './PlayerList';
-import * as React from 'preact/compat';
+import React from 'preact/compat';
 
-type Props = {
-    loading: boolean;
-};
-
-export const GameArea = (props: Props) => {
-    const { loading } = props;
-    if (loading) {
-        return <h1>loading</h1>;
-    }
-
+export const GameArea = () => {
     const attributes = {
         ondragover: handleDragOver,
         className: 'hive',
