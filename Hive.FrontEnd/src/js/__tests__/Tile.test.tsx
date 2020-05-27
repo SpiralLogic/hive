@@ -1,7 +1,7 @@
 import {fireEvent, render} from '@testing-library/preact';
 import Tile from '../components/Tile';
 import {TileDragEvent, useEmitter} from '../emitter/tile-drag-emitter';
-import React from 'preact/compat';
+import { h } from 'preact';
 
 const tileCanMove = () => {
     const props = {id: 1, playerId: 1, content: 'ant', availableMoves: [{q: 1, r: 1}]};

@@ -1,7 +1,7 @@
 import {memo} from 'preact/compat';
 import {Hexagon, HexCoordinates} from '../domain';
 import Cell from './Cell';
-import React from 'preact/compat';
+import { h } from 'preact';
 import {deepEqual} from 'fast-equals';
 
 const cellKey = ({q, r}: HexCoordinates) => `${q}-${r}`;
@@ -21,6 +21,4 @@ function Row(props: Props) {
 }
 
 Row.displayName = 'Row';
-const RowMemo = memo(Row, deepEqual);
-
-export default RowMemo;
+export default memo(Row, deepEqual);

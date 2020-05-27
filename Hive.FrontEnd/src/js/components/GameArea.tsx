@@ -1,7 +1,7 @@
 import { handleDragOver } from '../handlers';
 import Hextille from './Hextille';
 import PlayerList from './PlayerList';
-import React from 'preact/compat';
+import { h } from 'preact';
 
 export const GameArea = () => {
     const attributes = {

@@ -9,6 +9,7 @@
     ],
     "downlevelIteration": true,
     "jsx": "react",
+    "jsxFactory": "h",
     "strict": true,
     "checkJs": false,
     "allowJs": false,

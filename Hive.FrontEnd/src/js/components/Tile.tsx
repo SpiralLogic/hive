@@ -1,4 +1,5 @@
-import React from 'preact/compat';
+import { h } from 'preact';
+import { memo } from 'preact/compat';
 import {HexCoordinates, PlayerId, TileContent, TileId} from '../domain';
 import {handleDrop} from '../handlers';
 import {useEmitter} from '../emitter/tile-drag-emitter';
@@ -51,6 +52,4 @@ function Tile(props: Props) {
 Tile.displayName = 'Tile';
 Tile.defaultProps = defaultProps;
 
-const TileMemo = React.memo(Tile, deepEqual);
-
-export default TileMemo;
+export default memo(Tile, deepEqual);

@@ -1,8 +1,8 @@
 import {GameArea} from './GameArea';
 import {HiveContext, useNewHiveContext} from '../game-context';
-import React from 'preact/compat';
+import { h } from 'preact';
 
-const App = () => {
+export default () => {
     const [loading, gameContext] = useNewHiveContext();
 
     if (loading) {
@@ -15,5 +15,3 @@ const App = () => {
 
     return <HiveContext.Provider value={gameContext}><GameArea/></HiveContext.Provider>;
 };
-
-export default App;

@@ -1,5 +1,5 @@
 import {render} from '@testing-library/preact';
-import React from 'preact/compat';
+import { h } from 'preact';
 import {useHiveContext, useNewHiveContext} from '../game-context';
 import App from '../components/App';
 import Mock = jest.Mock;

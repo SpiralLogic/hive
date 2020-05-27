@@ -1,6 +1,6 @@
 import {act, fireEvent, render} from '@testing-library/preact';
 import Cell from '../components/Cell';
-import React from 'preact/compat';
+import { h } from 'preact';
 import {useEmitter} from '../emitter/tile-drag-emitter';
 import {deepEqual} from 'fast-equals';
 

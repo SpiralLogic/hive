@@ -1,7 +1,7 @@
 import {Hexagon, MoveTile} from '../domain';
 import {useHiveContext} from '../game-context';
 import Row from './Row';
-import React from 'preact/compat';
+import { h } from 'preact';
 
 function getWidth(hexagons: Hexagon[]) {
     const [min, max] = hexagons.reduce(([min, max], c) => [Math.min(min, c.coordinates.q), Math.max(max, c.coordinates.q)], [0, 0]);

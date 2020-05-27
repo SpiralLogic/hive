@@ -10,3 +10,4 @@
 /Hive.Api/scripts/dist/*
 /Hive.FrontEnd/dist
 /Hive.FrontEnd/src/js/coverage/
+/Hive.FrontEnd/src/js/__tests__/coverage/

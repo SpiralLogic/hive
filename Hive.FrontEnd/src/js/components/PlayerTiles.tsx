@@ -1,11 +1,12 @@
+import { memo } from 'preact/compat';
 import {Player} from '../domain';
 import Tile from './Tile';
 import {deepEqual} from 'fast-equals';
-import React from 'preact/compat';
+import { h } from 'preact';
 
 type Props = Player;
 
-function PlayerTilesFC(props: Props) {
+function PlayerTiles(props: Props) {
     const {name, availableTiles} = props;
     return (
         <div className="player" title={name}>
@@ -19,7 +20,6 @@ function PlayerTilesFC(props: Props) {
     );
 }
 
-PlayerTilesFC.displayName = 'Player Tiles';
-const PlayerTiles = React.memo(PlayerTilesFC, deepEqual);
+PlayerTiles.displayName = 'Player Tiles';
 
-export default PlayerTiles;
+export default memo(PlayerTiles, deepEqual);

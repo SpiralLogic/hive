@@ -1,6 +1,6 @@
 import {GameArea} from '../components';
 import {fireEvent, render} from '@testing-library/preact';
-import React from 'preact/compat';
+import { h } from 'preact';
 
 function simulateEvent(target: HTMLElement, type: string) {
     const preventDefault = jest.fn();

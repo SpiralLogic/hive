@@ -1,6 +1,6 @@
 import {render, RenderResult} from '@testing-library/preact';
 import Row from '../components/Row';
-import React from 'preact/compat';
+import { h } from 'preact';
 import {deepEqual} from 'fast-equals';
 
 jest.mock('fast-equals');

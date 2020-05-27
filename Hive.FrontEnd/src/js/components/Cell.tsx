@@ -1,5 +1,6 @@
 import {useState, memo} from 'preact/compat';
-import React from 'preact/compat';
+import { h } from 'preact';
+import { useEffect } from 'preact/hooks';
 import {Hexagon, HexCoordinates, MoveTile} from '../domain';
 import {TileDragEvent, useEmitter} from '../emitter/tile-drag-emitter';
 import {handleDragOver} from '../handlers';
@@ -11,7 +12,7 @@ const defaultProps = {
 };
 
 type Props = Hexagon & { moveTile: MoveTile } & typeof defaultProps;
-    
+
 function Cell(props: Props) {
     const {tiles, coordinates, tileDragEmitter, moveTile} = props;
     const isValidMove = (validMoves: HexCoordinates[]) => validMoves.some((dest) => deepEqual(coordinates, dest));
@@ -39,7 +40,7 @@ function Cell(props: Props) {
         }
     };
 
-    React.useEffect(() => {
+    useEffect(() => {
         tileDragEmitter.add(canDrop);
         return () => tileDragEmitter.remove(canDrop);
     });
@@ -56,6 +57,5 @@ function Cell(props: Props) {
 
 Cell.displayName = 'Cell';
 Cell.defaultProps = defaultProps;
-const CellMemo = memo(Cell, (p, n) => deepEqual(p.coordinates, n.coordinates) && !p.tiles.length && !n.tiles.length);
 
-export default CellMemo;
+export default memo(Cell, (p, n) => deepEqual(p.coordinates, n.coordinates) && !p.tiles.length && !n.tiles.length);

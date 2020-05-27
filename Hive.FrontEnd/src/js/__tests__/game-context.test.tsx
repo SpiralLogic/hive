@@ -1,6 +1,6 @@
 import {useHiveContext, useNewHiveContext} from '../game-context';
 import {render} from '@testing-library/preact';
-import React from 'preact/compat';
+import { h } from 'preact';
 import Engine from '../game-engine';
 import Mock = jest.Mock;
 
@@ -55,7 +55,7 @@ describe('Game Engine', () => {
         render(<ContextConsumer/>);
         const {moveTile} = currentContext;
         moveTile(2, {q: 1, r: 1});
-        expect(Engine.moveTile).not.toBeCalled();
+        expect(Engine.moveTile).not.toHaveBeenCalled();
     });
 
     test('fetch move fails', async () => {

@@ -1,6 +1,6 @@
 import PlayerTiles from '../components/PlayerTiles';
 import {render, RenderResult} from '@testing-library/preact';
-import React from 'preact/compat';
+import { h } from 'preact';
 
 const ant = {id: 1, playerId: 1, content: 'ant', availableMoves: [{q: 1, r: 1}]};
 const fly = {id: 2, playerId: 0, content: 'fly', availableMoves: []};
