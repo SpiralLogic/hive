@@ -1,19 +1,14 @@
 import { render } from '@testing-library/preact';
 import { h } from 'preact';
 import Hextille from '../components/Hextille';
-import { useHiveContext } from '../game-context';
-import Mock = jest.Mock;
+import { HexCoordinates } from '../domain';
 
-jest.mock('../game-context');
-
-const createCell = (q: number, r: number) => ({ coordinates: { q, r }, tiles: [{ content: q + '-' + r, tileId: 0, playerId: 0, availableMoves: [] }] });
+const createCell = (q: number, r: number) => ({ coordinates: { q, r }, tiles: [{ content: q + '-' + r, id: 0, playerId: 0, availableMoves: [] as HexCoordinates[] }] });
 const createWithCells = (...coordinates: [number, number][]) => {
-    (useHiveContext as Mock).mockReturnValue(({
+    const props = {
         hexagons: coordinates.map(([q, r]) => createCell(q, r)),
-        players: jest.fn(),
-        moveTile: jest.fn()
-    }));
-    const hextille = render(<Hextille/>).container.firstElementChild;
+    };
+    const hextille = render(<Hextille {...props} />).container.firstElementChild;
     const rows = document.body.getElementsByClassName('hex-row');
     const cells = document.body.getElementsByClassName('cell');
     const hidden = document.body.getElementsByClassName('hidden');
@@ -63,7 +58,7 @@ describe('Row alignment', () => {
 
 describe('Tile Snapshot', () => {
     test('can move matches current snapshot', () => {
-        expect(createWithCells([0, -2],[1, -2], [-1, 3], [0, 4],[5, 2], [3, 3], [1, 4])).toMatchSnapshot();
+        expect(createWithCells([0, -2], [1, -2], [-1, 3], [0, 4], [5, 2], [3, 3], [1, 4])).toMatchSnapshot();
     });
 
 });

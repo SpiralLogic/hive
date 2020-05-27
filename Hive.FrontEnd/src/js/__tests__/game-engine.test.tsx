@@ -1,8 +1,8 @@
 import Engine from '../game-engine';
 
 beforeEach(function () {
-
-    if(global) global.fetch = jest.fn().mockImplementation(() => {
+    // eslint-disable-next-line no-undef
+    global.fetch = jest.fn().mockImplementation(() => {
         return new Promise((resolve, reject) => {
             resolve({
                 ok: true,

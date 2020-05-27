@@ -1,9 +1,18 @@
-export type EventEmitter<Event> = {
-    emit: (event: Event) => void;
-    add: (...listeners: EventListener<Event>[]) => void;
-    remove: (...listeners: EventListener<Event>[]) => void;
-};
+export class EventEmitter<Event> {
+    private listeners = new Set<EventListener<Event>>();
 
-export type EventListener<E> = (event: E) => void;
+    add(...listeners: EventListener<Event>[]) {
+        listeners.forEach((l) => this.listeners.add(l));
+    }
 
-export type Event = { type: string };
+    emit(event: Event) {
+        this.listeners.forEach((l) => l(event));
+    }
+
+    remove(...listeners: EventListener<Event>[]) {
+        listeners.forEach((l) => this.listeners.delete(l));
+    }
+}
+type EventListener<Event> = (event: Event) => void;
+
+export interface Event { type: string }

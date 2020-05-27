@@ -15,3 +15,23 @@ exports[`Game area shows board after fetch 1`] = `
   </div>
 </div>
 `;
+
+exports[`shows game when loaded 1`] = `
+<div
+  class="hive"
+  style="--hex-size: 50px;"
+>
+  <div
+    class="hextille"
+  />
+  <div
+    class="hextille"
+  />
+</div>
+`;
+
+exports[`shows loading 1`] = `
+<h1>
+  loading !
+</h1>
+`;

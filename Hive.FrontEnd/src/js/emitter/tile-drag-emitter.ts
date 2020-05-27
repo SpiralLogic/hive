@@ -1,30 +1,14 @@
 import {HexCoordinates, TileId} from '../domain';
-import {EventEmitter, EventListener} from './event-emitter';
-
-export type TileDragListener = EventListener<TileDragEvent>;
+import {EventEmitter} from './event-emitter';
 
 export type TileDragEvent = {
-    type: 'start' | 'end' | 'enter' | 'leave';
+    type: 'start' | 'end';
     tileId: TileId;
     tileMoves: HexCoordinates[];
 };
 
-export class TileDragEmitter implements EventEmitter<TileDragEvent> {
-    private listeners = new Set<TileDragListener>();
-
-    add(...listeners: TileDragListener[]) {
-        listeners.forEach((l) => this.listeners.add(l));
-    }
-
-    emit(event: TileDragEvent) {
-        this.listeners.forEach((l) => l(event));
-    }
-
-    remove(...listeners: TileDragListener[]) {
-        listeners.forEach((l) => this.listeners.delete(l));
-    }
+export class TileDragEmitter extends EventEmitter<TileDragEvent> {
 }
-
 const tileDragEmitter = new TileDragEmitter();
 
-export const useEmitter = () => tileDragEmitter;
+export const useTileDragEmitter = () => tileDragEmitter;

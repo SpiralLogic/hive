@@ -1,12 +1,12 @@
 import { h } from 'preact';
 import { memo } from 'preact/compat';
-import {HexCoordinates, PlayerId, TileContent, TileId} from '../domain';
-import {handleDrop} from '../handlers';
-import {useEmitter} from '../emitter/tile-drag-emitter';
-import {deepEqual} from 'fast-equals';
+import { HexCoordinates, PlayerId, TileContent, TileId } from '../domain';
+import { handleDrop } from '../handlers';
+import { useTileDragEmitter } from '../emitter/tile-drag-emitter';
+import { deepEqual } from 'fast-equals';
 
 const defaultProps = {
-    tileDragEmitter: useEmitter(),
+    tileDragEmitter: useTileDragEmitter(),
 };
 
 type Props = {
@@ -21,20 +21,20 @@ const getPlayerColor = (playerId: PlayerId) => {
     return playerColors[playerId] || 'red';
 };
 
-function Tile(props: Props) {
-    const {id, availableMoves, content, playerId, tileDragEmitter} = props;
+function Tile (props: Props) {
+    const { id, availableMoves, content, playerId, tileDragEmitter } = props;
 
-    function handleDragStart() {
-        tileDragEmitter.emit({type: 'start', tileId: id, tileMoves: availableMoves});
+    function handleDragStart () {
+        tileDragEmitter.emit({ type: 'start', tileId: id, tileMoves: availableMoves });
     }
 
-    function handleDragEnd() {
-        tileDragEmitter.emit({type: 'end', tileId: id, tileMoves: availableMoves});
+    function handleDragEnd () {
+        tileDragEmitter.emit({ type: 'end', tileId: id, tileMoves: availableMoves });
     }
 
     const attributes = {
         title: content,
-        style: {'--color': getPlayerColor(playerId)},
+        style: { '--color': getPlayerColor(playerId) },
         className: 'hex tile',
         draggable: !!availableMoves.length,
         ondragstart: handleDragStart,

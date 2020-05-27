@@ -1,48 +1,51 @@
-import {useState, memo} from 'preact/compat';
+import { useState, memo } from 'preact/compat';
 import { h } from 'preact';
 import { useEffect } from 'preact/hooks';
-import {Hexagon, HexCoordinates, MoveTile} from '../domain';
-import {TileDragEvent, useEmitter} from '../emitter/tile-drag-emitter';
-import {handleDragOver} from '../handlers';
+import { Hexagon, HexCoordinates } from '../domain';
+import { useCellDropEmitter } from '../emitter/cell-drop-emitter';
+import { TileDragEvent, useTileDragEmitter } from '../emitter/tile-drag-emitter';
+import { handleDragOver } from '../handlers';
 import Tile from './Tile';
-import {deepEqual} from 'fast-equals';
+import { deepEqual } from 'fast-equals';
 
 const defaultProps = {
-    tileDragEmitter: useEmitter(),
+    tileDragEmitter: useTileDragEmitter(),
+    cellDropEmitter: useCellDropEmitter(),
 };
 
-type Props = Hexagon & { moveTile: MoveTile } & typeof defaultProps;
+type Props = Hexagon & typeof defaultProps;
 
-function Cell(props: Props) {
-    const {tiles, coordinates, tileDragEmitter, moveTile} = props;
+function Cell (props: Props) {
+    const { tiles, coordinates, tileDragEmitter, cellDropEmitter } = props;
     const isValidMove = (validMoves: HexCoordinates[]) => validMoves.some((dest) => deepEqual(coordinates, dest));
     const [classes, setClasses] = useState('hex cell');
 
-    function handleDragLeave(ev: { stopPropagation: () => void }) {
+    function handleDragLeave (ev: { stopPropagation: () => void }) {
         ev.stopPropagation();
         setClasses(classes.replace(' active', ''));
     }
 
-    function handleDragEnter(ev: { stopPropagation: () => void }) {
+    function handleDragEnter (ev: { stopPropagation: () => void }) {
         ev.stopPropagation();
         setClasses(classes + ' active');
     }
 
-    const canDrop = (e: TileDragEvent) => {
+    const handleTileEvent = (e: TileDragEvent) => {
         const valid = isValidMove(e.tileMoves);
         if (e.type === 'start' && valid) {
             setClasses(classes + ' can-drop');
         }
 
         if (e.type === 'end') {
-            valid && classes.includes('active') && moveTile({coordinates, tileId: e.tileId});
+            if (valid && classes.includes('active'))
+                cellDropEmitter.emit({ type: 'drop', coordinates, tileId: e.tileId });
             setClasses('hex cell');
         }
     };
 
     useEffect(() => {
-        tileDragEmitter.add(canDrop);
-        return () => tileDragEmitter.remove(canDrop);
+        tileDragEmitter.add(handleTileEvent);
+        return () => tileDragEmitter.remove(handleTileEvent);
     });
 
     const attributes = {

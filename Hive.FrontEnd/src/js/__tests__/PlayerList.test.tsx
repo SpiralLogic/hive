@@ -1,7 +1,6 @@
 import { render } from '@testing-library/preact';
 import { h } from 'preact';
 import PlayerList from '../components/PlayerList';
-import { Hexagon } from '../domain';
 
 const ant = { id: 1, playerId: 1, content: 'ant', availableMoves: [{ q: 1, r: 1 }] };
 const fly = { id: 2, playerId: 0, content: 'fly', availableMoves: [] };
@@ -11,14 +10,11 @@ const players = [
     { id: 2, name: 'Player 2', availableTiles: [ant] }
 ];
 
-const context = { hexagons: [] as Hexagon[], players: players, moveTile: jest.fn() };
-
-jest.mock('../game-context', () => ({ useHiveContext: () => context }));
-
+const props = {players: players };
 let playerList: HTMLElement;
 
 beforeEach(() => {
-    playerList = render(<PlayerList/>).container.firstElementChild as HTMLElement;
+    playerList = render(<PlayerList {...props}/>).container.firstElementChild as HTMLElement;
 });
 
 describe('Player List', () => {

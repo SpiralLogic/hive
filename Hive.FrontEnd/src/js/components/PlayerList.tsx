@@ -1,9 +1,11 @@
-import {useHiveContext} from '../game-context';
+import { Player } from '../domain';
 import PlayerTiles from './PlayerTiles';
 import { h } from 'preact';
 
-function PlayerList() {
-    const {players} = useHiveContext();
+type Props = { players: Player[] };
+
+function PlayerList (props: Props) {
+    const { players } = props;
     return (
         <div className="players">
             {players.map((player) => (
