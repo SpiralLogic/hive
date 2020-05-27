@@ -1,31 +1,33 @@
-import {render} from '@testing-library/preact';
-import PlayerList from '../components/PlayerList';
-import {Hexagon} from '../domain';
+import { render } from '@testing-library/preact';
 import { h } from 'preact';
+import PlayerList from '../components/PlayerList';
+import { Hexagon } from '../domain';
 
-const ant = {id: 1, playerId: 1, content: 'ant', availableMoves: [{q: 1, r: 1}]};
-const fly = {id: 2, playerId: 0, content: 'fly', availableMoves: []};
+const ant = { id: 1, playerId: 1, content: 'ant', availableMoves: [{ q: 1, r: 1 }] };
+const fly = { id: 2, playerId: 0, content: 'fly', availableMoves: [] };
 
 const players = [
-    {id: 1, name: 'Player 1', availableTiles: [ant, fly, fly]},
-    {id: 2, name: 'Player 2', availableTiles: [ant]}
+    { id: 1, name: 'Player 1', availableTiles: [ant, fly, fly] },
+    { id: 2, name: 'Player 2', availableTiles: [ant] }
 ];
 
-const context = {hexagons: [] as Hexagon[], players: players, moveTile: jest.fn()};
+const context = { hexagons: [] as Hexagon[], players: players, moveTile: jest.fn() };
 
-jest.mock('../game-context', () => ({useHiveContext: () => context}));
+jest.mock('../game-context', () => ({ useHiveContext: () => context }));
 
-let playerList: HTMLCollectionOf<Element>;
+let playerList: HTMLElement;
 
 beforeEach(() => {
-    render(<PlayerList/>);
-    playerList = document.getElementsByClassName('players');
+    playerList = render(<PlayerList/>).container.firstElementChild as HTMLElement;
 });
 
 describe('Player List', () => {
+    test('to have class', () => {
+        expect(playerList).toHaveClass('players');
+    });
+
     test('players are rendered', () => {
-        expect(playerList).toHaveLength(1);
-        expect(playerList[0].children).toHaveLength(2);
+        expect(playerList.getElementsByClassName('player')).toHaveLength(2);
     });
 });
 

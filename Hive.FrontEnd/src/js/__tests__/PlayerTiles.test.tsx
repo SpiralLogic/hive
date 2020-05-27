@@ -21,7 +21,7 @@ describe('Player Tiles', () => {
     });
 
     test('is rendered with player name', () => {
-        expect(player.querySelector('.name')?.textContent).toBe('Player 1');
+        expect(player.querySelector('.name')).toHaveTextContent('Player 1');
     });
 
     test('player is rendered with their tiles', () => {

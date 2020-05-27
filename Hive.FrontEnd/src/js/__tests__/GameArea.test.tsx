@@ -1,15 +1,7 @@
 import {GameArea} from '../components';
 import {fireEvent, render} from '@testing-library/preact';
 import { h } from 'preact';
-
-function simulateEvent(target: HTMLElement, type: string) {
-    const preventDefault = jest.fn();
-    const e = new MouseEvent(type, {bubbles: true});
-    Object.assign(e, {preventDefault});
-    fireEvent(target, e);
-
-    return preventDefault;
-}
+import { simulateEvent } from './helpers/helpers';
 
 jest.mock('../components/Hextille', () => () => (<div class="hextille"/>));
 

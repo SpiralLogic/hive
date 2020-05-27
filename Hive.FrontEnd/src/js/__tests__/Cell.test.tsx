@@ -3,6 +3,7 @@ import Cell from '../components/Cell';
 import { h } from 'preact';
 import {useEmitter} from '../emitter/tile-drag-emitter';
 import {deepEqual} from 'fast-equals';
+import { simulateEvent } from './helpers/helpers';
 
 jest.mock('fast-equals', () => ({deepEqual: jest.fn(() => true)}));
 
@@ -61,15 +62,6 @@ describe('Cell drag and drop', () => {
         act(() => emitter.emit({type, tileId: 2, tileMoves: [{q: 0, r: 0}, {q: 2, r: 2}]}));
     }
 
-    function simulateEvent(target: HTMLElement, type: string) {
-        const e = new MouseEvent(type, {bubbles: true});
-        const preventDefault = jest.fn();
-        Object.assign(e, {preventDefault});
-        fireEvent(target, e);
-
-        return preventDefault;
-    }
-
     test('dragover allows drop', () => {
         const preventDefault = simulateEvent(cellWithTile(), 'dragover');
 
@@ -81,8 +73,8 @@ describe('Cell drag and drop', () => {
         const emptyCell = canDropEmptyCell();
         emitTileEvent('start');
 
-        expect(cellWithTile.className).toContain('can-drop');
-        expect(emptyCell.className).toContain('can-drop');
+        expect(cellWithTile).toHaveClass('can-drop');
+        expect(emptyCell).toHaveClass('can-drop');
     });
 
     test('valid cell is active on tile drag enter', () => {
@@ -92,8 +84,8 @@ describe('Cell drag and drop', () => {
         fireEvent.dragEnter(cellWithTile);
         fireEvent.dragEnter(emptyCell);
 
-        expect(cellWithTile.classList).toContain('active');
-        expect(emptyCell.classList).toContain('active');
+        expect(cellWithTile).toHaveClass('active');
+        expect(emptyCell).toHaveClass('active');
     });
 
     test('drop sends move tile request', () => {

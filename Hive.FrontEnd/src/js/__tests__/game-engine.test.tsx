@@ -2,7 +2,7 @@ import Engine from '../game-engine';
 
 beforeEach(function () {
 
-    global.fetch = jest.fn().mockImplementation(() => {
+    if(global) global.fetch = jest.fn().mockImplementation(() => {
         return new Promise((resolve, reject) => {
             resolve({
                 ok: true,

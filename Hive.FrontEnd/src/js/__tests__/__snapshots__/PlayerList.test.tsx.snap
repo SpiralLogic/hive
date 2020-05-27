@@ -1,78 +1,76 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`snapshot matches current snapshot 1`] = `
-HTMLCollection [
+<div
+  class="players"
+>
   <div
-    class="players"
+    class="player"
+    title="Player 1"
   >
-    <div
-      class="player"
-      title="Player 1"
+    <span
+      class="name"
     >
-      <span
-        class="name"
-      >
-        Player 1
-      </span>
+      Player 1
+    </span>
+    <div
+      class="tiles"
+    >
       <div
-        class="tiles"
+        class="hex tile"
+        draggable="true"
+        style="--color: #f64c72;"
+        title="ant"
       >
-        <div
-          class="hex tile"
-          draggable="true"
-          style="--color: #f64c72;"
-          title="ant"
-        >
-          <span>
-            ant
-          </span>
-        </div>
-        <div
-          class="hex tile"
-          draggable="false"
-          style="--color: #85dcbc;"
-          title="fly"
-        >
-          <span>
-            fly
-          </span>
-        </div>
-        <div
-          class="hex tile"
-          draggable="false"
-          style="--color: #85dcbc;"
-          title="fly"
-        >
-          <span>
-            fly
-          </span>
-        </div>
+        <span>
+          ant
+        </span>
+      </div>
+      <div
+        class="hex tile"
+        draggable="false"
+        style="--color: #85dcbc;"
+        title="fly"
+      >
+        <span>
+          fly
+        </span>
+      </div>
+      <div
+        class="hex tile"
+        draggable="false"
+        style="--color: #85dcbc;"
+        title="fly"
+      >
+        <span>
+          fly
+        </span>
       </div>
     </div>
-    <div
-      class="player"
-      title="Player 2"
+  </div>
+  <div
+    class="player"
+    title="Player 2"
+  >
+    <span
+      class="name"
     >
-      <span
-        class="name"
-      >
-        Player 2
-      </span>
+      Player 2
+    </span>
+    <div
+      class="tiles"
+    >
       <div
-        class="tiles"
+        class="hex tile"
+        draggable="true"
+        style="--color: #f64c72;"
+        title="ant"
       >
-        <div
-          class="hex tile"
-          draggable="true"
-          style="--color: #f64c72;"
-          title="ant"
-        >
-          <span>
-            ant
-          </span>
-        </div>
+        <span>
+          ant
+        </span>
       </div>
     </div>
-  </div>,
-]
+  </div>
+</div>
 `;

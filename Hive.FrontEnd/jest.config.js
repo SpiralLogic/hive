@@ -106,20 +106,20 @@ module.exports = {
     rootDir: './src/js/',
 
     // A list of paths to directories that Jest should use to search for files in
-    // roots: [
-    //   "<rootDir>"
-    // ],
+    /*   roots: [
+        '<rootDir>/src/js/'
+    ],*/
 
     // Allows you to use a custom runner instead of Jest's default test runner
     // runner: "jest-runner",
 
     // The paths to modules that run some code to configure or set up the testing environment before each test
-    // setupFiles: [],
-
+    /*   setupFiles: [
+            './__tests__/setup.ts'
+        ],*/
     // A list of paths to modules that run some code to configure or set up the testing framework before each test
     setupFilesAfterEnv: [
-        //   '@testing-library/react/cleanup-after-each',
-        //  '@testing-library/jest-dom/extend-expect'
+        './__tests__/jest.setup.ts'
     ],
     // A list of paths to snapshot serializer modules Jest should use for snapshot testing
     // snapshotSerializers: [],
@@ -134,18 +134,19 @@ module.exports = {
     // testLocationInResults: false,
 
     // The glob patterns Jest uses to detect test files
-    // testMatch: [
-    //   "**/__tests__/**/*.[jt]s?(x)",
-    //   "**/?(*.)+(spec|test).[tj]s?(x)"
-    // ],
+    testMatch: [
+        //   "**/__tests__/**/*.[jt]s?(x)",
+        '**/?(*.)+(spec|test).[tj]s?(x)'
+    ],
 
     // An array of regexp pattern strings that are matched against all test paths, matched tests are skipped
-    // testPathIgnorePatterns: [
-    //   "/node_modules/"
-    // ],
+    /*  testPathIgnorePatterns: [
+          '/node_modules/',
+
+      ],*/
 
     // The regexp pattern or array of patterns that Jest uses to detect test files
-    testRegex: '(/__tests__/.*|(\\.|/)(test|spec))\\.tsx?$',
+    //   testRegex: '(/__tests__/.*|(\\.|/)(test|spec))\\.tsx?$',
 
     // This option allows the use of a custom results processor
     // testResultsProcessor: undefined,

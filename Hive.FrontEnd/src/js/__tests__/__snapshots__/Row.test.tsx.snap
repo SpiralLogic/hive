@@ -1,21 +1,17 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Row test snapshot 1`] = `
-<body>
-  <div>
-    <div
-      class="hex-row"
-    >
-      <div
-        class="hex cell"
-      />
-      <div
-        class="hex cell"
-      />
-      <div
-        class="hidden"
-      />
-    </div>
-  </div>
-</body>
+<div
+  class="hex-row"
+>
+  <div
+    class="hex cell"
+  />
+  <div
+    class="hex cell"
+  />
+  <div
+    class="hidden"
+  />
+</div>
 `;
