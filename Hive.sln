@@ -10,21 +10,8 @@ EndProject
 Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "Hive.FrontEnd", "Hive.FrontEnd\", "{D68A8FF3-8F8B-4898-BC07-AA278705A876}"
 	ProjectSection(WebsiteProperties) = preProject
 		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.0"
-		Debug.AspNetCompiler.VirtualPath = "/localhost_13371"
 		Debug.AspNetCompiler.PhysicalPath = "Hive.FrontEnd\"
-		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_13371\"
-		Debug.AspNetCompiler.Updateable = "true"
-		Debug.AspNetCompiler.ForceOverwrite = "true"
-		Debug.AspNetCompiler.FixedNames = "false"
-		Debug.AspNetCompiler.Debug = "True"
-		Release.AspNetCompiler.VirtualPath = "/localhost_13371"
 		Release.AspNetCompiler.PhysicalPath = "Hive.FrontEnd\"
-		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_13371\"
-		Release.AspNetCompiler.Updateable = "true"
-		Release.AspNetCompiler.ForceOverwrite = "true"
-		Release.AspNetCompiler.FixedNames = "false"
-		Release.AspNetCompiler.Debug = "False"
-		VWDPort = "13371"
 		SlnRelativePath = "Hive.FrontEnd\"
 	EndProjectSection
 EndProject

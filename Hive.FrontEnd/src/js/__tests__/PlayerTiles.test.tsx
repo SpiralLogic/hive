@@ -26,7 +26,6 @@ describe('Player Tiles', () => {
 
     test('player is rendered with their tiles', () => {
         const playerTiles = player.getElementsByClassName('tiles');
-
         expect(playerTiles).toHaveLength(1);
     });
 

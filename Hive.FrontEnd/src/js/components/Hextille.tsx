@@ -37,7 +37,7 @@ type Props = { hexagons: Hexagon[] };
 function Hextille (props: Props) {
     const { hexagons } = props;
     const sortedHexagons = hexagons.sort((c1, c2) => c1.coordinates.r - c2.coordinates.r || c1.coordinates.q - c2.coordinates.q);
-    const shiftClass = sortedHexagons[0].coordinates.r % 2 ? 'left' : 'right';
+    const shiftClass = sortedHexagons[0].coordinates.r % 3 ? 'left' : 'right';
     const rows = createRows(sortedHexagons);
 
     return (

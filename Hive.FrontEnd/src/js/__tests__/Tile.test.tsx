@@ -1,17 +1,17 @@
-import { fireEvent, render } from '@testing-library/preact';
+import { fireEvent } from '@testing-library/preact';
 import Tile from '../components/Tile';
-import { TileDragEvent, useTileDragEmitter } from '../emitter/tile-drag-emitter';
+import { TileDragEvent, useTileDragEmitter } from '../emitters';
 import { h } from 'preact';
-import { simulateEvent } from './helpers/helpers';
+import {renderElement, simulateEvent} from "./helpers";
 
 const tileCanMove = () => {
     const props = { id: 1, playerId: 1, content: 'ant', availableMoves: [{ q: 1, r: 1 }] };
-    return render(<Tile {...props}/>).container.firstElementChild as HTMLElement;
+    return renderElement(<Tile {...props}/>);
 };
 
 const tileNoMove = () => {
     const props = { id: 2, playerId: 0, content: 'fly', availableMoves: [] };
-    return render(<Tile {...props}/>).container.firstElementChild as HTMLElement;
+    return renderElement(<Tile {...props}/>);
 };
 
 describe('Tile Render', () => {

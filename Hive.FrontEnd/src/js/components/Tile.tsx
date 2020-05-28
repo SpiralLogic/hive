@@ -2,7 +2,7 @@ import { h } from 'preact';
 import { memo } from 'preact/compat';
 import { HexCoordinates, PlayerId, TileContent, TileId } from '../domain';
 import { handleDrop } from '../handlers';
-import { useTileDragEmitter } from '../emitter/tile-drag-emitter';
+import { useTileDragEmitter } from '../emitters/tile-drag-emitter';
 import { deepEqual } from 'fast-equals';
 
 const defaultProps = {

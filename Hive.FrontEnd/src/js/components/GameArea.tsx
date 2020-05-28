@@ -2,7 +2,7 @@ import { h } from 'preact';
 import { useState } from 'preact/compat';
 import { useEffect } from 'preact/hooks';
 import { GameState, Move } from '../domain';
-import { useCellDropEmitter } from '../emitter/cell-drop-emitter';
+import { useCellDropEmitter } from '../emitters/cell-drop-emitter';
 import Engine from '../game-engine';
 import { handleDragOver } from '../handlers';
 import Hextille from './Hextille';
@@ -33,7 +33,7 @@ const GameArea = () => {
         return () => cellDropEmitter.remove(cellDropListener);
     }, [gameState]);
 
-    if (!gameState || !gameState.hexagons.length) {
+    if (!gameState) {
         return <h1>loading !</h1>;
     }
 

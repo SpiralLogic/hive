@@ -1,14 +1,14 @@
-import { render } from '@testing-library/preact';
 import { h } from 'preact';
 import Hextille from '../components/Hextille';
 import { HexCoordinates } from '../domain';
+import {renderElement} from "./helpers";
 
 const createCell = (q: number, r: number) => ({ coordinates: { q, r }, tiles: [{ content: q + '-' + r, id: 0, playerId: 0, availableMoves: [] as HexCoordinates[] }] });
 const createWithCells = (...coordinates: [number, number][]) => {
     const props = {
         hexagons: coordinates.map(([q, r]) => createCell(q, r)),
     };
-    const hextille = render(<Hextille {...props} />).container.firstElementChild;
+    const hextille = renderElement(<Hextille {...props} />);
     const rows = document.body.getElementsByClassName('hex-row');
     const cells = document.body.getElementsByClassName('cell');
     const hidden = document.body.getElementsByClassName('hidden');

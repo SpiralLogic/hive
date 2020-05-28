@@ -3,9 +3,9 @@ import { h } from 'preact';
 import GameArea from '../components/GameArea';
 import Hextille from '../components/Hextille';
 import PlayerList from '../components/PlayerList';
-import { CellDropEvent, useCellDropEmitter } from '../emitter/cell-drop-emitter';
+import { CellDropEvent, useCellDropEmitter } from '../emitters';
 import Engine from '../game-engine';
-import { simulateEvent } from './helpers/helpers';
+import {renderElement, simulateEvent} from "./helpers";
 
 jest.mock('../components/Hextille', () => jest.fn(() => <div class="hextille"/>));
 jest.mock('../components/PlayerList', () => jest.fn(() => <div class="playerList"/>));
@@ -22,7 +22,7 @@ beforeEach(() => {
 });
 
 test('shows loading', async () => {
-    const gameArea = render(<GameArea/>).container.firstElementChild;
+    const gameArea = renderElement(<GameArea/>);
     expect(gameArea).toMatchSnapshot();
 });
 

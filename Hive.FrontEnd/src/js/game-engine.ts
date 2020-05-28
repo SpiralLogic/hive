@@ -1,4 +1,4 @@
-import {GameState, Move} from './domain';
+import {Move} from './domain';
 
 const moveRequest = async (move: Move) => {
     const response = await fetch('https://localhost:5001/move', {
@@ -27,10 +27,6 @@ const newRequest = async () => {
 };
 
 export default {
-    initialState(): Promise<GameState> {
-        return newRequest();
-    },
-    moveTile(move: Move): Promise<GameState> {
-        return moveRequest(move);
-    },
+    initialState: newRequest,
+    moveTile: moveRequest
 };

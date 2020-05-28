@@ -1,7 +1,8 @@
-import { render, RenderResult } from '@testing-library/preact';
+import { render } from '@testing-library/preact';
 import Row from '../components/Row';
 import { h } from 'preact';
 import { deepEqual } from 'fast-equals';
+import {renderElement} from "./helpers";
 
 require('@testing-library/jest-dom');
 jest.mock('fast-equals');
@@ -16,7 +17,7 @@ describe('Row test', () => {
             { coordinates: { q: 1, r: 1 }, tiles: [] },
             false
         ];
-        row = render(<Row id={1} row={cells}/>).container.firstElementChild as HTMLElement;
+        row = renderElement(<Row id={1} row={cells}/>);
     });
 
     test('row has class', () => {

@@ -1,6 +1,6 @@
-import { render } from '@testing-library/preact';
 import { h } from 'preact';
 import PlayerList from '../components/PlayerList';
+import {renderElement} from "./helpers";
 
 const ant = { id: 1, playerId: 1, content: 'ant', availableMoves: [{ q: 1, r: 1 }] };
 const fly = { id: 2, playerId: 0, content: 'fly', availableMoves: [] };
@@ -14,7 +14,7 @@ const props = {players: players };
 let playerList: HTMLElement;
 
 beforeEach(() => {
-    playerList = render(<PlayerList {...props}/>).container.firstElementChild as HTMLElement;
+    playerList = renderElement(<PlayerList {...props}/>);
 });
 
 describe('Player List', () => {
