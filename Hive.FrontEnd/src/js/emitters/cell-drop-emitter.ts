@@ -10,7 +10,7 @@ const cellDropEmitter = new CellDropEmitter();
 
 export type CellDropEvent = {
     type: 'drop';
-    coordinates: HexCoordinates;
+    coords: HexCoordinates;
     tileId: TileId;
 };
 

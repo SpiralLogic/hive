@@ -1,19 +1,20 @@
 import { deepEqual } from 'fast-equals';
-import { h } from 'preact';
+import { FunctionComponent, h } from 'preact';
 import { memo } from 'preact/compat';
-import { Hexagon, HexCoordinates } from '../domain';
+import { HexCoordinates } from '../domain';
 import Cell from './Cell';
 
+type CellProps = typeof Cell.arguments['props'];
 const cellKey = ({ q, r }: HexCoordinates) => `${q}-${r}`;
-const createCell = (cell: typeof Cell.arguments['props']) => <Cell key={cellKey(cell.coordinates)} {...cell} />;
+const createCell = (cell: CellProps) => <Cell key={cellKey(cell.coords)} {...cell} />;
 const createPlaceholder = (key: number) => <div key={key} className="hidden"/>;
 
 type Props = {
     id: number;
-    row: Array<Hexagon | false>;
+    row: Array<CellProps>;
 };
 
-function Row(props: Props) {
+const Row: FunctionComponent<Props> = (props: Props) => {
     const { row } = props;
     const cells = row.map((cell, i) => (cell && createCell(cell)) || createPlaceholder(i));
 

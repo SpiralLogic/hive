@@ -27,6 +27,6 @@ const newRequest = async () => {
 };
 
 export default {
-    initialState: newRequest,
+    newGame: newRequest,
     moveTile: moveRequest
 };

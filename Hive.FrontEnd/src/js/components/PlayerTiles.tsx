@@ -1,18 +1,18 @@
 import { deepEqual } from 'fast-equals';
-import { h } from 'preact';
+import { FunctionComponent, h } from 'preact';
 import { memo } from 'preact/compat';
 import { Player } from '../domain';
 import Tile from './Tile';
 
 type Props = Player;
 
-function PlayerTiles(props: Props) {
-    const { name, availableTiles } = props;
+const PlayerTiles: FunctionComponent<Props> = (props: Props) => {
+    const { name, tiles } = props;
     return (
         <div className="player" title={name}>
             <span className="name">{name}</span>
             <div className="tiles">
-                {availableTiles.map((tile) => (
+                {tiles.map((tile) => (
                     <Tile key={tile.id} {...tile}/>
                 ))}
             </div>

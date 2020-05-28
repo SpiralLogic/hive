@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
-using GameCoordinate = Hive.Models.GameCoordinate;
 
 namespace Hive.Controllers
 {
@@ -22,15 +21,15 @@ namespace Hive.Controllers
         }
 
         [HttpPost]
-        public GameState Post([FromBody] Move move)
+        public State Post([FromBody] Move moveTile)
         {
-            var gameState = JsonConvert.DeserializeObject<GameState>(HttpContext.Session.GetString("game"));
-            var game = new Game(gameState);
+            var gameJson = JsonConvert.DeserializeObject<State>(HttpContext.Session.GetString(Constants.GameStateKey));
+            var currentGame = new Domain.Hive(gameJson);
 
-            game.Move(move.TileId, new Domain.Entities.GameCoordinate(move.Coordinates.Q, move.Coordinates.R));
-            var json = JsonConvert.SerializeObject(game.State);
-            HttpContext.Session.SetString("game", json);
-            return game.State;
+            currentGame.Move(moveTile.TileId, new Domain.Entities.Coordinates(moveTile.Coords.Q, moveTile.Coords.R));
+            var json = JsonConvert.SerializeObject(currentGame.State);
+            HttpContext.Session.SetString(Constants.GameStateKey, json);
+            return currentGame.State;
         }
     }
 }

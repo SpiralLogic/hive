@@ -1,8 +1,8 @@
 import { h } from 'preact';
 import { useState } from 'preact/compat';
 import { useEffect } from 'preact/hooks';
-import { GameState, Move } from '../domain';
-import { useCellDropEmitter } from '../emitters/cell-drop-emitter';
+import { GameState } from '../domain';
+import { CellDropEvent, useCellDropEmitter } from '../emitters/cell-drop-emitter';
 import Engine from '../game-engine';
 import { handleDragOver } from '../handlers';
 import Hextille from './Hextille';
@@ -21,13 +21,13 @@ const GameArea = () => {
 
     useEffect(() => {
         const fetch = (async () => {
-            setGameState(await Engine.initialState());
+            setGameState(await Engine.newGame());
         });
         fetch();
     }, []);
 
     useEffect(() => {
-        const cellDropListener = async (e: Move) => setGameState(await Engine.moveTile(e));
+        const cellDropListener = async (e: CellDropEvent) => setGameState(await Engine.moveTile(e));
 
         cellDropEmitter.add(cellDropListener);
         return () => cellDropEmitter.remove(cellDropListener);
@@ -40,7 +40,7 @@ const GameArea = () => {
     return (
         <div {...attributes}>
             <PlayerList players={gameState.players}/>
-            <Hextille hexagons={gameState.hexagons}/>
+            <Hextille cells={gameState.cells}/>
         </div>
     );
 };

@@ -13,8 +13,8 @@ describe('Row test', () => {
     beforeEach(() => {
         type RowProps = typeof Row.arguments.props['row'];
         const cells: RowProps = [
-            { coordinates: { q: 0, r: 1 }, tiles: [] },
-            { coordinates: { q: 1, r: 1 }, tiles: [] },
+            { coords: { q: 0, r: 1 }, tiles: [] },
+            { coords: { q: 1, r: 1 }, tiles: [] },
             false
         ];
         row = renderElement(<Row id={1} row={cells}/>);

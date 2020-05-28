@@ -7,6 +7,6 @@ namespace Hive.Models
         }
 
         public int TileId { get; set; }
-        public GameCoordinate Coordinates { get; set; }
+        public Coords Coords { get; set; }
     }
 }

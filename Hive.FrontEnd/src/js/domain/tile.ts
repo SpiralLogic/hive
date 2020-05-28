@@ -5,7 +5,7 @@ export interface Tile {
     id: TileId;
     playerId: PlayerId;
     content: TileContent;
-    availableMoves: HexCoordinates[];
+    moves: HexCoordinates[];
 }
 
 export type TileId = number;

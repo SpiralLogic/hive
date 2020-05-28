@@ -5,12 +5,12 @@ import { TileDragEvent, useTileDragEmitter } from '../emitters';
 import { renderElement, simulateEvent } from './helpers';
 
 const tileCanMove = () => {
-    const props = { id: 1, playerId: 1, content: 'ant', availableMoves: [{ q: 1, r: 1 }] };
+    const props = { id: 1, playerId: 1, content: 'ant', moves: [{ q: 1, r: 1 }] };
     return renderElement(<Tile {...props}/>);
 };
 
 const tileNoMove = () => {
-    const props = { id: 2, playerId: 0, content: 'fly', availableMoves: [] };
+    const props = { id: 2, playerId: 0, content: 'fly', moves: [] };
     return renderElement(<Tile {...props}/>);
 };
 
@@ -42,7 +42,7 @@ describe('Tile drag and drop', () => {
         const expectedEvent: TileDragEvent = {
             type: 'start',
             tileId: 1,
-            tileMoves: [{ q: 1, r: 1 }]
+            moves: [{ q: 1, r: 1 }]
         };
 
         expect(useTileDragEmitter().emit).toHaveBeenCalledWith(expectedEvent);
@@ -54,7 +54,7 @@ describe('Tile drag and drop', () => {
         const expectedEvent: TileDragEvent = {
             type: 'end',
             tileId: 1,
-            tileMoves: [{ q: 1, r: 1 }]
+            moves: [{ q: 1, r: 1 }]
         };
 
         expect(useTileDragEmitter().emit).toHaveBeenCalledWith(expectedEvent);

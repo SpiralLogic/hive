@@ -1,19 +1,19 @@
-import { h } from 'preact';
-import { Hexagon } from '../domain';
+import { FunctionComponent, h } from 'preact';
+import { Cell } from '../domain';
 import Row from './Row';
 
-function getWidth(hexagons: Hexagon[]) {
-    const [min, max] = hexagons.reduce(([min, max], c) => [Math.min(min, c.coordinates.q), Math.max(max, c.coordinates.q)], [0, 0]);
+function getWidth(cells: Cell[]) {
+    const [min, max] = cells.reduce(([min, max], c) => [Math.min(min, c.coords.q), Math.max(max, c.coords.q)], [0, 0]);
     return [min, max - min + 1];
 }
 
-function getHeight(sortedHexagons: Hexagon[]) {
-    const firstRow = sortedHexagons[0].coordinates.r;
-    const height = sortedHexagons[sortedHexagons.length - 1].coordinates.r - firstRow + 1;
+function getHeight(sortedHexagons: Cell[]) {
+    const firstRow = sortedHexagons[0].coords.r;
+    const height = sortedHexagons[sortedHexagons.length - 1].coords.r - firstRow + 1;
     return [firstRow, height];
 }
 
-function createRows(sortedHexagons: Hexagon[]) {
+function createRows(sortedHexagons: Cell[]) {
     const [firstRow, height] = getHeight(sortedHexagons);
     const [firstColumn, width] = getWidth(sortedHexagons);
 
@@ -26,18 +26,18 @@ function createRows(sortedHexagons: Hexagon[]) {
         return Array.from(Array(height).keys(), createEmptyRow);
     };
 
-    return sortedHexagons.reduce((rows, hexagon) => {
-        rows[hexagon.coordinates.r - firstRow].row[hexagon.coordinates.q - firstColumn] = hexagon;
+    return sortedHexagons.reduce((rows, cell) => {
+        rows[cell.coords.r - firstRow].row[cell.coords.q - firstColumn] = cell;
         return rows;
     }, createEmptyRows());
 }
 
-type Props = { hexagons: Hexagon[] };
+type Props = { cells: Cell[] };
 
-function Hextille(props: Props) {
-    const { hexagons } = props;
-    const sortedHexagons = hexagons.sort((c1, c2) => c1.coordinates.r - c2.coordinates.r || c1.coordinates.q - c2.coordinates.q);
-    const shiftClass = sortedHexagons[0].coordinates.r % 2 ? 'left' : 'right';
+const Hextille: FunctionComponent<Props> = (props: Props) => {
+    const { cells } = props;
+    const sortedHexagons = cells.sort((c1, c2) => c1.coords.r - c2.coords.r || c1.coords.q - c2.coords.q);
+    const shiftClass = sortedHexagons[0].coords.r % 2 ? 'left' : 'right';
     const rows = createRows(sortedHexagons);
 
     return (
@@ -48,5 +48,4 @@ function Hextille(props: Props) {
 }
 
 Hextille.displayName = 'Hextille';
-
 export default Hextille;

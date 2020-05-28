@@ -3,7 +3,7 @@ import { TileId } from './tile';
 
 export type Move = {
     tileId: TileId;
-    coordinates: HexCoordinates;
+    coords: HexCoordinates;
 }
 
 export type MoveTile = (move: Move) => void;

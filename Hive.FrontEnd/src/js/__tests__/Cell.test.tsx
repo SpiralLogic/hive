@@ -10,26 +10,26 @@ jest.mock('fast-equals', () => ({ deepEqual: jest.fn(() => true) }));
 const moveTileSpy = jest.fn();
 
 const cellWithNoTile = () => {
-    const cell = { coordinates: { q: 0, r: 0 }, tiles: [], moveTile: moveTileSpy };
+    const cell = { coords: { q: 0, r: 0 }, tiles: [] };
     return renderElement(<Cell {...cell}/>);
 };
 
 const cellWithTile = () => {
-    const tile = { id: 2, playerId: 2, content: 'fly', availableMoves: [] };
-    const cell = { coordinates: { q: 1, r: 1 }, tiles: [tile], moveTile: moveTileSpy };
+    const tile = { id: 2, playerId: 2, content: 'fly', moves: [] };
+    const cell = { coords: { q: 1, r: 1 }, tiles: [tile] };
 
     return renderElement(<Cell {...cell}/>);
 };
 
 const canDropCellWithTile = () => {
-    const tile = { id: 2, playerId: 2, content: 'ant', availableMoves: [] };
-    const cell = { coordinates: { q: 2, r: 2 }, tiles: [tile], moveTile: moveTileSpy };
+    const tile = { id: 2, playerId: 2, content: 'ant', moves: [] };
+    const cell = { coords: { q: 2, r: 2 }, tiles: [tile] };
 
     return renderElement(<Cell {...cell}/>);
 };
 
 const noDropEmptyCell = () => {
-    const cell = { coordinates: { q: 0, r: 0 }, tiles: [], moveTile: moveTileSpy };
+    const cell = { coords: { q: 0, r: 0 }, tiles: [] };
     return renderElement(<Cell {...cell}/>);
 };
 
@@ -48,7 +48,7 @@ describe('Cell Render', () => {
     });
 
     test('Cell is memoized with deep equal', () => {
-        const props = { coordinates: { q: 0, r: 0 }, tiles: [], moveTile: moveTileSpy };
+        const props = { coords: { q: 0, r: 0 }, tiles: [] };
         const cell = <Cell {...props}/>;
         render(cell).rerender(cell);
         expect(deepEqual).toHaveBeenCalledTimes(1);
@@ -59,7 +59,7 @@ describe('Cell drag and drop', () => {
     const emitter = useTileDragEmitter();
 
     function emitTileEvent (type: 'start' | 'end') {
-        act(() => emitter.emit({ type, tileId: 2, tileMoves: [{ q: 0, r: 0 }, { q: 2, r: 2 }] }));
+        act(() => emitter.emit({ type, tileId: 2, moves: [{ q: 0, r: 0 }, { q: 2, r: 2 }] }));
     }
 
     test('dragover allows drop', () => {
@@ -97,8 +97,8 @@ describe('Cell drag and drop', () => {
         fireEvent.dragEnter(emptyCell);
         emitTileEvent('end');
 
-        expect(useCellDropEmitter().emit).toHaveBeenCalledWith({ type: 'drop', tileId: 2, coordinates: { q: 0, r: 0 } });
-        expect(useCellDropEmitter().emit).toHaveBeenCalledWith({ type: 'drop', tileId: 2, coordinates: { q: 2, r: 2 } });
+        expect(useCellDropEmitter().emit).toHaveBeenCalledWith({ type: 'drop', tileId: 2, coords: { q: 0, r: 0 } });
+        expect(useCellDropEmitter().emit).toHaveBeenCalledWith({ type: 'drop', tileId: 2, coords: { q: 2, r: 2 } });
     });
 
     test('drop doesnt send move tile request when cell is no drop', () => {

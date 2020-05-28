@@ -1,42 +1,34 @@
 import { deepEqual } from 'fast-equals';
-import { h } from 'preact';
+import { FunctionComponent, h } from 'preact';
 import { memo } from 'preact/compat';
-import { HexCoordinates, PlayerId, TileContent, TileId } from '../domain';
+import { PlayerId, Tile } from '../domain';
 import { useTileDragEmitter } from '../emitters/tile-drag-emitter';
 import { handleDrop } from '../handlers';
 
-const defaultProps = {
-    tileDragEmitter: useTileDragEmitter(),
-};
-
-type Props = {
-    id: TileId;
-    content: TileContent;
-    playerId: PlayerId;
-    availableMoves: HexCoordinates[];
-} & typeof defaultProps;
+type Props = Tile;
 
 const getPlayerColor = (playerId: PlayerId) => {
     const playerColors = ['#85dcbc', '#f64c72'];
     return playerColors[playerId] || 'red';
 };
 
-function Tile(props: Props) {
-    const { id, availableMoves, content, playerId, tileDragEmitter } = props;
+const TileFC: FunctionComponent<Props> = (props: Props) => {
+    const { id, moves, content, playerId } = props;
+    const tileDragEmitter = useTileDragEmitter();
 
     function handleDragStart() {
-        tileDragEmitter.emit({ type: 'start', tileId: id, tileMoves: availableMoves });
+        tileDragEmitter.emit({ type: 'start', tileId: id, moves: moves });
     }
 
     function handleDragEnd() {
-        tileDragEmitter.emit({ type: 'end', tileId: id, tileMoves: availableMoves });
+        tileDragEmitter.emit({ type: 'end', tileId: id, moves: moves });
     }
 
     const attributes = {
         title: content,
         style: { '--color': getPlayerColor(playerId) },
-        className: 'hex tile',
-        draggable: !!availableMoves.length,
+        class: 'hex tile',
+        draggable: !!moves.length,
         ondragstart: handleDragStart,
         ondragend: handleDragEnd,
         ondrop: handleDrop,
@@ -49,7 +41,6 @@ function Tile(props: Props) {
     );
 }
 
-Tile.displayName = 'Tile';
-Tile.defaultProps = defaultProps;
+TileFC.displayName = 'Tile';
 
-export default memo(Tile, deepEqual);
+export default memo(TileFC, deepEqual);

@@ -1,14 +1,14 @@
 namespace Hive.Domain.Entities
 {
-    public class GameCoordinate
+    public class Coordinates
     {
-        public GameCoordinate(int q, int r)
+        public Coordinates(int q, int r)
         {
             Q = q;
             R = r;
         }
 
-        protected bool Equals(GameCoordinate other)
+        protected bool Equals(Coordinates other)
         {
             return Q == other.Q && R == other.R;
         }
@@ -18,7 +18,7 @@ namespace Hive.Domain.Entities
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
             if (obj.GetType() != this.GetType()) return false;
-            return Equals((GameCoordinate) obj);
+            return Equals((Coordinates) obj);
         }
 
         public override int GetHashCode()
@@ -29,12 +29,12 @@ namespace Hive.Domain.Entities
             }
         }
 
-        public static bool operator ==(GameCoordinate left, GameCoordinate right)
+        public static bool operator ==(Coordinates left, Coordinates right)
         {
             return Equals(left, right);
         }
 
-        public static bool operator !=(GameCoordinate left, GameCoordinate right)
+        public static bool operator !=(Coordinates left, Coordinates right)
         {
             return !Equals(left, right);
         }

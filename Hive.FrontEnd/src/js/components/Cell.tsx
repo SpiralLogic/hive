@@ -1,23 +1,19 @@
 import { deepEqual } from 'fast-equals';
-import { h } from 'preact';
+import { FunctionComponent, h } from 'preact';
 import { memo, useState } from 'preact/compat';
 import { useEffect } from 'preact/hooks';
-import { Hexagon, HexCoordinates } from '../domain';
-import { useCellDropEmitter } from '../emitters/cell-drop-emitter';
-import { TileDragEvent, useTileDragEmitter } from '../emitters/tile-drag-emitter';
+import { Cell, HexCoordinates } from '../domain';
+import { useCellDropEmitter, useTileDragEmitter } from '../emitters';
+import { TileDragEvent } from '../emitters/tile-drag-emitter';
 import { handleDragOver } from '../handlers';
 import Tile from './Tile';
 
-const defaultProps = {
-    tileDragEmitter: useTileDragEmitter(),
-    cellDropEmitter: useCellDropEmitter(),
-};
+type Props = Cell;
 
-type Props = Hexagon & typeof defaultProps;
-
-function Cell(props: Props) {
-    const { tiles, coordinates, tileDragEmitter, cellDropEmitter } = props;
-    const isValidMove = (validMoves: HexCoordinates[]) => validMoves.some((dest) => deepEqual(coordinates, dest));
+const CellFC: FunctionComponent<Props> = (props: Props) => {
+    const { tiles, coords } = props;
+    const [tileDragEmitter, cellDropEmitter] = [useTileDragEmitter(), useCellDropEmitter()]
+    const isValidMove = (validMoves: HexCoordinates[]) => validMoves.some((dest) => deepEqual(coords, dest));
     const [classes, setClasses] = useState('hex cell');
 
     function handleDragLeave(ev: { stopPropagation: () => void }) {
@@ -31,14 +27,14 @@ function Cell(props: Props) {
     }
 
     const handleTileEvent = (e: TileDragEvent) => {
-        const valid = isValidMove(e.tileMoves);
+        const valid = isValidMove(e.moves);
         if (e.type === 'start' && valid) {
             setClasses(classes + ' can-drop');
         }
 
         if (e.type === 'end') {
             if (valid && classes.includes('active'))
-                cellDropEmitter.emit({ type: 'drop', coordinates, tileId: e.tileId });
+                cellDropEmitter.emit({ type: 'drop', coords: coords, tileId: e.tileId });
             setClasses('hex cell');
         }
     };
@@ -58,7 +54,5 @@ function Cell(props: Props) {
     return <div {...attributes}>{tiles.length > 0 && <Tile {...tiles[0]} />}</div>;
 }
 
-Cell.displayName = 'Cell';
-Cell.defaultProps = defaultProps;
-
-export default memo(Cell, (p, n) => deepEqual(p.coordinates, n.coordinates) && !p.tiles.length && !n.tiles.length);
+CellFC.displayName = 'Cell';
+export default memo(CellFC, (p, n) => deepEqual(p.coords, n.coords) && !p.tiles.length && !n.tiles.length);

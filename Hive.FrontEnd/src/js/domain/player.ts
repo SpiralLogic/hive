@@ -3,7 +3,7 @@ import { Tile } from './tile';
 export interface Player {
     id: PlayerId;
     name: PlayerName;
-    availableTiles: Tile[];
+    tiles: Tile[];
 }
 
 export type PlayerId = number;

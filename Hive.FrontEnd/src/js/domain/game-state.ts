@@ -1,7 +1,7 @@
-import { Hexagon } from './hexagon';
+import { Cell } from './cell';
 import { Player } from './player';
 
 export interface GameState {
-    hexagons: Hexagon[];
+    cells: Cell[];
     players: Player[];
 }

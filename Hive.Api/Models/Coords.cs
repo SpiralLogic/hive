@@ -2,13 +2,13 @@ using System;
 
 namespace Hive.Models
 {
-    public class GameCoordinate
+    public class Coords
     {
-        public GameCoordinate()
+        public Coords()
         {
         }
 
-        protected bool Equals(Domain.Entities.GameCoordinate other)
+        protected bool Equals(Domain.Entities.Coordinates other)
         {
             return Q == other.Q && R == other.R;
         }
@@ -17,8 +17,8 @@ namespace Hive.Models
         {
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
-            if (obj.GetType() != typeof(GameCoordinate)) return false;
-            return Equals((GameCoordinate) obj);
+            if (obj.GetType() != typeof(Coords)) return false;
+            return Equals((Coords) obj);
         }
 
         public override int GetHashCode()
@@ -26,19 +26,19 @@ namespace Hive.Models
             return HashCode.Combine(Q, R);
         }
 
-        public static bool operator ==(Domain.Entities.GameCoordinate left, GameCoordinate right)
+        public static bool operator ==(Domain.Entities.Coordinates left, Coords right)
         {
             return left.Q == right.Q && left.R == right.R;
         }
 
-        public static bool operator !=(Domain.Entities.GameCoordinate left, GameCoordinate right)
+        public static bool operator !=(Domain.Entities.Coordinates left, Coords right)
         {
             return !(left.Q == right.Q && left.R == right.R);
         }
 
         public int Q { get; set; }
         public int R { get; set; }
-        
-        
+
+
     }
 }

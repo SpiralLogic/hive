@@ -2,10 +2,10 @@ import { render, RenderResult } from '@testing-library/preact';
 import { h } from 'preact';
 import PlayerTiles from '../components/PlayerTiles';
 
-const ant = { id: 1, playerId: 1, content: 'ant', availableMoves: [{ q: 1, r: 1 }] };
-const fly = { id: 2, playerId: 0, content: 'fly', availableMoves: [] };
+const ant = { id: 1, playerId: 1, content: 'ant', moves: [{ q: 1, r: 1 }] };
+const fly = { id: 2, playerId: 0, content: 'fly', moves: [] };
 
-const playerProps = { id: 1, name: 'Player 1', availableTiles: [ant, fly, fly] };
+const playerProps = { id: 1, name: 'Player 1', tiles: [ant, fly, fly] };
 
 let container: RenderResult;
 let player: Element;

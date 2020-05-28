@@ -32,13 +32,13 @@ namespace Hive.Domain.Entities
             return !Equals(left, right);
         }
 
-        public Cell(GameCoordinate coordinates, ICollection<Tile> tiles = null)
+        public Cell(Coordinates coords, ICollection<Tile> tiles = null)
         {
-            Coordinates = coordinates;
+            Coordinates = coords;
             Tiles = tiles ??  new List<Tile>();
         }
 
-        public GameCoordinate Coordinates { get; }
+        public Coordinates Coordinates { get; }
         public ICollection<Tile> Tiles { get; }
     }
 }

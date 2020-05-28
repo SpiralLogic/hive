@@ -12,7 +12,7 @@ namespace Hive.Controllers
     public class NewController : Controller
     {
         private readonly ILogger<NewController> _logger;
-        public static GameState GameState;
+        public static State State;
 
         public NewController(ILogger<NewController> logger)
         {
@@ -21,12 +21,12 @@ namespace Hive.Controllers
 
         [HttpPost]
         [Produces("application/json")]
-        public GameState Post()
+        public State Post()
         {
-            var gameState = new Game(new[] {"P1", "P2"}).State;
-            var json = JsonConvert.SerializeObject(gameState);
-            HttpContext.Session.SetString("game", json);
-            return gameState;
+            var newGame = new Domain.Hive(new[] {"P1", "P2"}).State;
+            var json = JsonConvert.SerializeObject(newGame);
+            HttpContext.Session.SetString(Constants.GameStateKey, json);
+            return newGame;
         }
     }
 }

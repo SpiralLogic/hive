@@ -1,10 +1,10 @@
-import { h } from 'preact';
+import { FunctionComponent, h } from 'preact';
 import { Player } from '../domain';
 import PlayerTiles from './PlayerTiles';
 
 type Props = { players: Player[] };
 
-function PlayerList(props: Props) {
+const PlayerList: FunctionComponent<Props> = (props: Props) => {
     const { players } = props;
     return (
         <div className="players">
