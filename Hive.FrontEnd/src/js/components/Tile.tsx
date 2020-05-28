@@ -1,9 +1,9 @@
+import { deepEqual } from 'fast-equals';
 import { h } from 'preact';
 import { memo } from 'preact/compat';
 import { HexCoordinates, PlayerId, TileContent, TileId } from '../domain';
-import { handleDrop } from '../handlers';
 import { useTileDragEmitter } from '../emitters/tile-drag-emitter';
-import { deepEqual } from 'fast-equals';
+import { handleDrop } from '../handlers';
 
 const defaultProps = {
     tileDragEmitter: useTileDragEmitter(),
@@ -21,14 +21,14 @@ const getPlayerColor = (playerId: PlayerId) => {
     return playerColors[playerId] || 'red';
 };
 
-function Tile (props: Props) {
+function Tile(props: Props) {
     const { id, availableMoves, content, playerId, tileDragEmitter } = props;
 
-    function handleDragStart () {
+    function handleDragStart() {
         tileDragEmitter.emit({ type: 'start', tileId: id, tileMoves: availableMoves });
     }
 
-    function handleDragEnd () {
+    function handleDragEnd() {
         tileDragEmitter.emit({ type: 'end', tileId: id, tileMoves: availableMoves });
     }
 

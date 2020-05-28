@@ -1,8 +1,8 @@
 import { render } from '@testing-library/preact';
-import Row from '../components/Row';
-import { h } from 'preact';
 import { deepEqual } from 'fast-equals';
-import {renderElement} from "./helpers";
+import { h } from 'preact';
+import Row from '../components/Row';
+import { renderElement } from './helpers';
 
 require('@testing-library/jest-dom');
 jest.mock('fast-equals');

@@ -1,8 +1,8 @@
 import { fireEvent } from '@testing-library/preact';
+import { h } from 'preact';
 import Tile from '../components/Tile';
 import { TileDragEvent, useTileDragEmitter } from '../emitters';
-import { h } from 'preact';
-import {renderElement, simulateEvent} from "./helpers";
+import { renderElement, simulateEvent } from './helpers';
 
 const tileCanMove = () => {
     const props = { id: 1, playerId: 1, content: 'ant', availableMoves: [{ q: 1, r: 1 }] };
@@ -16,8 +16,8 @@ const tileNoMove = () => {
 
 describe('Tile Render', () => {
     test('tile color is the player\'s color', () => {
-        expect(tileCanMove()).toHaveStyle( '--color: #f64c72');
-        expect(tileNoMove()).toHaveStyle( '--color: #85dcbc');
+        expect(tileCanMove()).toHaveStyle('--color: #f64c72');
+        expect(tileNoMove()).toHaveStyle('--color: #85dcbc');
     });
 
     test('tile has content', () => {

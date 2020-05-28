@@ -1,10 +1,10 @@
+import { h } from 'preact';
 import { Player } from '../domain';
 import PlayerTiles from './PlayerTiles';
-import { h } from 'preact';
 
 type Props = { players: Player[] };
 
-function PlayerList (props: Props) {
+function PlayerList(props: Props) {
     const { players } = props;
     return (
         <div className="players">

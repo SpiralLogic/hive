@@ -1,4 +1,5 @@
 import { Tile } from './tile';
+
 export interface Player {
     id: PlayerId;
     name: PlayerName;

@@ -13,6 +13,7 @@ export class EventEmitter<Event> {
         listeners.forEach((l) => this.listeners.delete(l));
     }
 }
+
 type EventListener<Event> = (event: Event) => void;
 
-export interface Event { type: string }
+export interface Event {type: string}

@@ -1,5 +1,5 @@
-import { PlayerId } from './player';
 import { HexCoordinates } from './hex-coordinates';
+import { PlayerId } from './player';
 
 export interface Tile {
     id: TileId;

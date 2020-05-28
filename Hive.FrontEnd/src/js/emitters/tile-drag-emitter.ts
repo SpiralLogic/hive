@@ -1,5 +1,5 @@
-import {HexCoordinates, TileId} from '../domain';
-import {EventEmitter} from './event-emitter';
+import { HexCoordinates, TileId } from '../domain';
+import { EventEmitter } from './event-emitter';
 
 export type TileDragEvent = {
     type: 'start' | 'end';
@@ -9,6 +9,7 @@ export type TileDragEvent = {
 
 export class TileDragEmitter extends EventEmitter<TileDragEvent> {
 }
+
 const tileDragEmitter = new TileDragEmitter();
 
 export const useTileDragEmitter = () => tileDragEmitter;

@@ -1,13 +1,13 @@
-import { memo } from 'preact/compat';
-import {Player} from '../domain';
-import Tile from './Tile';
-import {deepEqual} from 'fast-equals';
+import { deepEqual } from 'fast-equals';
 import { h } from 'preact';
+import { memo } from 'preact/compat';
+import { Player } from '../domain';
+import Tile from './Tile';
 
 type Props = Player;
 
 function PlayerTiles(props: Props) {
-    const {name, availableTiles} = props;
+    const { name, availableTiles } = props;
     return (
         <div className="player" title={name}>
             <span className="name">{name}</span>

@@ -5,7 +5,7 @@ import Hextille from '../components/Hextille';
 import PlayerList from '../components/PlayerList';
 import { CellDropEvent, useCellDropEmitter } from '../emitters';
 import Engine from '../game-engine';
-import {renderElement, simulateEvent} from "./helpers";
+import { renderElement, simulateEvent } from './helpers';
 
 jest.mock('../components/Hextille', () => jest.fn(() => <div class="hextille"/>));
 jest.mock('../components/PlayerList', () => jest.fn(() => <div class="playerList"/>));

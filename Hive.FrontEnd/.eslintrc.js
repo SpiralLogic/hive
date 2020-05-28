@@ -1,11 +1,10 @@
-const path = require('path');
 module.exports = {
     'env': {
         'browser': true,
         'es6': true
     },
     'extends': [
-        'eslint:recommended', 
+        'eslint:recommended',
         'plugin:@typescript-eslint/recommended',
         'plugin:jest/recommended',
         'plugin:jest/style'
@@ -40,7 +39,7 @@ module.exports = {
     'overrides': [
         {
             'files': [
-                './src/**/*'
+                './src/js/**/*'
             ]
         }
     ],
@@ -69,4 +68,4 @@ module.exports = {
             }
         ]
     }
-}
+};

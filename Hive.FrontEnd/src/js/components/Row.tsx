@@ -1,10 +1,10 @@
-import {memo} from 'preact/compat';
-import {Hexagon, HexCoordinates} from '../domain';
-import Cell from './Cell';
+import { deepEqual } from 'fast-equals';
 import { h } from 'preact';
-import {deepEqual} from 'fast-equals';
+import { memo } from 'preact/compat';
+import { Hexagon, HexCoordinates } from '../domain';
+import Cell from './Cell';
 
-const cellKey = ({q, r}: HexCoordinates) => `${q}-${r}`;
+const cellKey = ({ q, r }: HexCoordinates) => `${q}-${r}`;
 const createCell = (cell: typeof Cell.arguments['props']) => <Cell key={cellKey(cell.coordinates)} {...cell} />;
 const createPlaceholder = (key: number) => <div key={key} className="hidden"/>;
 
@@ -14,7 +14,7 @@ type Props = {
 };
 
 function Row(props: Props) {
-    const {row} = props;
+    const { row } = props;
     const cells = row.map((cell, i) => (cell && createCell(cell)) || createPlaceholder(i));
 
     return <div className="hex-row">{cells}</div>;

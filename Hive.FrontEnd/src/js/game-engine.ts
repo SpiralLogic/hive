@@ -1,4 +1,4 @@
-import {Move} from './domain';
+import { Move } from './domain';
 
 const moveRequest = async (move: Move) => {
     const response = await fetch('https://localhost:5001/move', {

@@ -1,6 +1,6 @@
 import { h } from 'preact';
 import PlayerList from '../components/PlayerList';
-import {renderElement} from "./helpers";
+import { renderElement } from './helpers';
 
 const ant = { id: 1, playerId: 1, content: 'ant', availableMoves: [{ q: 1, r: 1 }] };
 const fly = { id: 2, playerId: 0, content: 'fly', availableMoves: [] };
@@ -10,7 +10,7 @@ const players = [
     { id: 2, name: 'Player 2', availableTiles: [ant] }
 ];
 
-const props = {players: players };
+const props = { players: players };
 let playerList: HTMLElement;
 
 beforeEach(() => {

@@ -1,19 +1,19 @@
+import { h } from 'preact';
 import { Hexagon } from '../domain';
 import Row from './Row';
-import { h } from 'preact';
 
-function getWidth (hexagons: Hexagon[]) {
+function getWidth(hexagons: Hexagon[]) {
     const [min, max] = hexagons.reduce(([min, max], c) => [Math.min(min, c.coordinates.q), Math.max(max, c.coordinates.q)], [0, 0]);
     return [min, max - min + 1];
 }
 
-function getHeight (sortedHexagons: Hexagon[]) {
+function getHeight(sortedHexagons: Hexagon[]) {
     const firstRow = sortedHexagons[0].coordinates.r;
     const height = sortedHexagons[sortedHexagons.length - 1].coordinates.r - firstRow + 1;
     return [firstRow, height];
 }
 
-function createRows (sortedHexagons: Hexagon[]) {
+function createRows(sortedHexagons: Hexagon[]) {
     const [firstRow, height] = getHeight(sortedHexagons);
     const [firstColumn, width] = getWidth(sortedHexagons);
 
@@ -34,10 +34,10 @@ function createRows (sortedHexagons: Hexagon[]) {
 
 type Props = { hexagons: Hexagon[] };
 
-function Hextille (props: Props) {
+function Hextille(props: Props) {
     const { hexagons } = props;
     const sortedHexagons = hexagons.sort((c1, c2) => c1.coordinates.r - c2.coordinates.r || c1.coordinates.q - c2.coordinates.q);
-    const shiftClass = sortedHexagons[0].coordinates.r % 3 ? 'left' : 'right';
+    const shiftClass = sortedHexagons[0].coordinates.r % 2 ? 'left' : 'right';
     const rows = createRows(sortedHexagons);
 
     return (

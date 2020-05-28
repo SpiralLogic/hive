@@ -1,12 +1,12 @@
-import { useState, memo } from 'preact/compat';
+import { deepEqual } from 'fast-equals';
 import { h } from 'preact';
+import { memo, useState } from 'preact/compat';
 import { useEffect } from 'preact/hooks';
 import { Hexagon, HexCoordinates } from '../domain';
 import { useCellDropEmitter } from '../emitters/cell-drop-emitter';
 import { TileDragEvent, useTileDragEmitter } from '../emitters/tile-drag-emitter';
 import { handleDragOver } from '../handlers';
 import Tile from './Tile';
-import { deepEqual } from 'fast-equals';
 
 const defaultProps = {
     tileDragEmitter: useTileDragEmitter(),
@@ -15,17 +15,17 @@ const defaultProps = {
 
 type Props = Hexagon & typeof defaultProps;
 
-function Cell (props: Props) {
+function Cell(props: Props) {
     const { tiles, coordinates, tileDragEmitter, cellDropEmitter } = props;
     const isValidMove = (validMoves: HexCoordinates[]) => validMoves.some((dest) => deepEqual(coordinates, dest));
     const [classes, setClasses] = useState('hex cell');
 
-    function handleDragLeave (ev: { stopPropagation: () => void }) {
+    function handleDragLeave(ev: { stopPropagation: () => void }) {
         ev.stopPropagation();
         setClasses(classes.replace(' active', ''));
     }
 
-    function handleDragEnter (ev: { stopPropagation: () => void }) {
+    function handleDragEnter(ev: { stopPropagation: () => void }) {
         ev.stopPropagation();
         setClasses(classes + ' active');
     }
