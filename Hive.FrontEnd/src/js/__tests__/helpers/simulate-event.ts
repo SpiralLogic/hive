@@ -7,4 +7,4 @@ export const simulateEvent = function (target: HTMLElement, type: string) {
     fireEvent(target, e);
 
     return preventDefault;
-}
+};

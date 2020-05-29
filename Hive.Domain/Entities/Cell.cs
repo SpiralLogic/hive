@@ -6,7 +6,7 @@ namespace Hive.Domain.Entities
     {
         protected bool Equals(Cell other)
         {
-            return Equals(Coordinates, other.Coordinates);
+            return Equals(Coords, other.Coords);
         }
 
         public override bool Equals(object obj)
@@ -19,7 +19,7 @@ namespace Hive.Domain.Entities
 
         public override int GetHashCode()
         {
-            return (Coordinates != null ? Coordinates.GetHashCode() : 0);
+            return (Coords != null ? Coords.GetHashCode() : 0);
         }
 
         public static bool operator ==(Cell left, Cell right)
@@ -34,11 +34,11 @@ namespace Hive.Domain.Entities
 
         public Cell(Coordinates coords, ICollection<Tile> tiles = null)
         {
-            Coordinates = coords;
+            Coords = coords;
             Tiles = tiles ??  new List<Tile>();
         }
 
-        public Coordinates Coordinates { get; }
+        public Coordinates Coords { get; }
         public ICollection<Tile> Tiles { get; }
     }
 }

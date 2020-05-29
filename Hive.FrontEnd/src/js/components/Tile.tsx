@@ -39,8 +39,7 @@ const TileFC: FunctionComponent<Props> = (props: Props) => {
             <span>{content}</span>
         </div>
     );
-}
+};
 
 TileFC.displayName = 'Tile';
-
 export default memo(TileFC, deepEqual);

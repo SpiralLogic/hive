@@ -13,7 +13,7 @@ const PlayerList: FunctionComponent<Props> = (props: Props) => {
             ))}
         </div>
     );
-}
+};
 
 PlayerList.displayName = 'Player List';
 export default PlayerList;

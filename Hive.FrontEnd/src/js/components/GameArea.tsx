@@ -8,10 +8,9 @@ import { handleDragOver } from '../handlers';
 import Hextille from './Hextille';
 import PlayerList from './PlayerList';
 
-const cellDropEmitter = useCellDropEmitter();
-
 const GameArea = () => {
     const [gameState, setGameState] = useState<GameState | undefined>(undefined);
+    const cellDropEmitter = useCellDropEmitter();
 
     const attributes = {
         ondragover: handleDragOver,
@@ -20,10 +19,10 @@ const GameArea = () => {
     };
 
     useEffect(() => {
-        const fetch = (async () => {
+        const fetch = async () => {
             setGameState(await Engine.newGame());
-        });
-        fetch();
+        };
+        fetch().then();
     }, []);
 
     useEffect(() => {
@@ -31,7 +30,7 @@ const GameArea = () => {
 
         cellDropEmitter.add(cellDropListener);
         return () => cellDropEmitter.remove(cellDropListener);
-    }, [gameState]);
+    }, [cellDropEmitter]);
 
     if (!gameState) {
         return <h1>loading !</h1>;
@@ -39,8 +38,8 @@ const GameArea = () => {
 
     return (
         <div {...attributes}>
-            <PlayerList players={gameState.players}/>
-            <Hextille cells={gameState.cells}/>
+            <PlayerList players={gameState.players} />
+            <Hextille cells={gameState.cells} />
         </div>
     );
 };

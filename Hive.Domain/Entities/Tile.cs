@@ -5,12 +5,12 @@ namespace Hive.Domain.Entities
 {
     public class Tile
     {
-        public Tile(int id, int playerId, string content, IEnumerable<Coordinates> availableMoves = null)
+        public Tile(int id, int playerId, string content, IEnumerable<Coordinates> moves = null)
         {
             Id = id;
             PlayerId = playerId;
             Content = content;
-            Moves = availableMoves?.ToList() ?? new List<Coordinates>();
+            Moves = moves?.ToList() ?? new List<Coordinates>();
         }
 
         public int Id { get; }

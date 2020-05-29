@@ -42,10 +42,12 @@ const Hextille: FunctionComponent<Props> = (props: Props) => {
 
     return (
         <div className={'hextille ' + shiftClass}>
-            {rows.map((row) => <Row key={row.id} {...row} />)}
+            {rows.map((row) => (
+                <Row key={row.id} {...row} />
+            ))}
         </div>
     );
-}
+};
 
 Hextille.displayName = 'Hextille';
 export default Hextille;

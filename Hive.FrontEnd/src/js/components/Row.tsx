@@ -7,7 +7,7 @@ import Cell from './Cell';
 type CellProps = typeof Cell.arguments['props'];
 const cellKey = ({ q, r }: HexCoordinates) => `${q}-${r}`;
 const createCell = (cell: CellProps) => <Cell key={cellKey(cell.coords)} {...cell} />;
-const createPlaceholder = (key: number) => <div key={key} className="hidden"/>;
+const createPlaceholder = (key: number) => <div key={key} className="hidden" />;
 
 type Props = {
     id: number;
@@ -19,7 +19,7 @@ const Row: FunctionComponent<Props> = (props: Props) => {
     const cells = row.map((cell, i) => (cell && createCell(cell)) || createPlaceholder(i));
 
     return <div className="hex-row">{cells}</div>;
-}
+};
 
 Row.displayName = 'Row';
 export default memo(Row, deepEqual);

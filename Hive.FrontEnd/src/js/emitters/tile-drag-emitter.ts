@@ -7,8 +7,7 @@ export type TileDragEvent = {
     moves: HexCoordinates[];
 };
 
-export class TileDragEmitter extends EventEmitter<TileDragEvent> {
-}
+export class TileDragEmitter extends EventEmitter<TileDragEvent> {}
 
 const tileDragEmitter = new TileDragEmitter();
 

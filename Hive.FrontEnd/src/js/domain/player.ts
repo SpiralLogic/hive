@@ -1,10 +1,10 @@
 import { Tile } from './tile';
 
-export interface Player {
+export type Player = {
     id: PlayerId;
     name: PlayerName;
     tiles: Tile[];
-}
+};
 
 export type PlayerId = number;
 export type PlayerName = string;

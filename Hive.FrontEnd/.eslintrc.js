@@ -5,9 +5,14 @@ module.exports = {
     },
     'extends': [
         'eslint:recommended',
+        'plugin:@typescript-eslint/eslint-recommended',
         'plugin:@typescript-eslint/recommended',
-        'plugin:jest/recommended',
-        'plugin:jest/style'
+        'plugin:@typescript-eslint/recommended-requiring-type-checking',
+        'plugin:react/recommended',
+        'plugin:react-hooks/recommended',
+        'plugin:prettier/recommended',
+        'prettier/@typescript-eslint',
+        'prettier/react'
     ],
     'globals': {
         'Atomics': 'readonly',
@@ -18,7 +23,7 @@ module.exports = {
         'ecmaFeatures': {
             'jsx': true
         },
-        'tsconfigRootDir': __dirname,
+        'project': './tsconfig.json',
         'ecmaVersion': 2020,
         'sourceType': 'module'
     },
@@ -35,12 +40,15 @@ module.exports = {
         '@typescript-eslint/explicit-function-return-type': 'off',
         '@typescript-eslint/no-var-requires': 'off',
         '@typescript-eslint/no-unused-vars': 'off',
+        'react/no-unknown-property': ['error', { ignore: ['class'] }],
+        'react/react-in-jsx-scope': 'off'
     },
     'overrides': [
         {
-            'files': [
-                './src/js/**/*'
-            ]
+            files: ['*.js'],
+            rules: {
+                '@typescript-eslint/explicit-function-return-type': 'off',
+            }
         }
     ],
     'settings': {

@@ -7,14 +7,14 @@ const fly = { id: 2, playerId: 0, content: 'fly', moves: [] };
 
 const players = [
     { id: 1, name: 'Player 1', tiles: [ant, fly, fly] },
-    { id: 2, name: 'Player 2', tiles: [ant] }
+    { id: 2, name: 'Player 2', tiles: [ant] },
 ];
 
 const props = { players: players };
 let playerList: HTMLElement;
 
 beforeEach(() => {
-    playerList = renderElement(<PlayerList {...props}/>);
+    playerList = renderElement(<PlayerList {...props} />);
 });
 
 describe('Player List', () => {
@@ -27,7 +27,7 @@ describe('Player List', () => {
     });
 });
 
-describe('snapshot', () => {
+describe('PlayerList snapshot', () => {
     test('matches current snapshot', () => {
         expect(playerList).toMatchSnapshot();
     });

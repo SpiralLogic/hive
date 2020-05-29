@@ -13,13 +13,12 @@ const PlayerTiles: FunctionComponent<Props> = (props: Props) => {
             <span className="name">{name}</span>
             <div className="tiles">
                 {tiles.map((tile) => (
-                    <Tile key={tile.id} {...tile}/>
+                    <Tile key={tile.id} {...tile} />
                 ))}
             </div>
         </div>
     );
-}
+};
 
 PlayerTiles.displayName = 'Player Tiles';
-
 export default memo(PlayerTiles, deepEqual);

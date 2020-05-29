@@ -12,7 +12,7 @@ type Props = Cell;
 
 const CellFC: FunctionComponent<Props> = (props: Props) => {
     const { tiles, coords } = props;
-    const [tileDragEmitter, cellDropEmitter] = [useTileDragEmitter(), useCellDropEmitter()]
+    const [tileDragEmitter, cellDropEmitter] = [useTileDragEmitter(), useCellDropEmitter()];
     const isValidMove = (validMoves: HexCoordinates[]) => validMoves.some((dest) => deepEqual(coords, dest));
     const [classes, setClasses] = useState('hex cell');
 
@@ -33,8 +33,7 @@ const CellFC: FunctionComponent<Props> = (props: Props) => {
         }
 
         if (e.type === 'end') {
-            if (valid && classes.includes('active'))
-                cellDropEmitter.emit({ type: 'drop', coords: coords, tileId: e.tileId });
+            if (valid && classes.includes('active')) cellDropEmitter.emit({ type: 'drop', coords: coords, tileId: e.tileId });
             setClasses('hex cell');
         }
     };
@@ -52,7 +51,7 @@ const CellFC: FunctionComponent<Props> = (props: Props) => {
     };
 
     return <div {...attributes}>{tiles.length > 0 && <Tile {...tiles[0]} />}</div>;
-}
+};
 
 CellFC.displayName = 'Cell';
 export default memo(CellFC, (p, n) => deepEqual(p.coords, n.coords) && !p.tiles.length && !n.tiles.length);

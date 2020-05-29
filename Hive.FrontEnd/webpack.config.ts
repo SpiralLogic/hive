@@ -1,6 +1,5 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ProgressBarPlugin = require('progress-bar-webpack-plugin');
-const ForkTsCheckerNotifierWebpackPlugin = require('fork-ts-checker-notifier-webpack-plugin');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const path = require('path');
 const chalk = require('chalk');
@@ -24,7 +23,6 @@ module.exports = {
         new ForkTsCheckerWebpackPlugin({
             eslint: true
         }),
-        new ForkTsCheckerNotifierWebpackPlugin({ title: 'TypeScript', excludeWarnings: false }),
         new CopyPlugin({
                 patterns: [
                     {from: './src/css', to: 'css'},
@@ -60,6 +58,12 @@ module.exports = {
         extensions: ['.tsx', '.ts', '.js'],
     },
     optimization: {
-        usedExports: true,
+        minimize:true,
+        usedExports: true,   concatenateModules: true
+
+    }   ,
+    externals: {
+        'preact': 'preact',
     }
+
 }

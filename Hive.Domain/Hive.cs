@@ -21,17 +21,17 @@ namespace Hive.Domain
         public void Move(int tileId, Coordinates coords)
         {
             State.Cells
-                .Single(c => c.Coordinates == coords)
+                .Single(c => c.Coords == coords)
                 .Tiles.Add(State.Players.SelectMany(p => p.Tiles)
                     .Single(t => t.Id == tileId));
             var newCells = State.Cells.Where(c2 => c2.Tiles.Any()).ToList();
 
-            var neighbours = newCells.SelectMany(c => GetNeighbours(c.Coordinates));
+            var neighbours = newCells.SelectMany(c => GetNeighbours(c.Coords));
 
             newCells = newCells.Union(neighbours).ToList();
 
             var players = State.Players.Select(p => new Player(p.Id, p.Name,
-                p.Tiles.Select(t => new Tile(t.Id, t.PlayerId, t.Content, newCells.Select(nc => nc.Coordinates).ToList().OrderBy(x => Guid.NewGuid()).Take(newCells.Count / 2)
+                p.Tiles.Select(t => new Tile(t.Id, t.PlayerId, t.Content, newCells.Select(nc => nc.Coords).ToList().OrderBy(x => Guid.NewGuid()).Take(newCells.Count / 2)
                 ))));
             State = new State(players, newCells);
         }
@@ -46,7 +46,7 @@ namespace Hive.Domain
         private IEnumerable<Cell> CreateCells()
         {
             var cell = new Cell(new Coordinates(1, 1));
-            return new HashSet<Cell>(GetNeighbours(cell.Coordinates).Append(cell));
+            return new HashSet<Cell>(GetNeighbours(cell.Coords).Append(cell));
         }
 
         private IEnumerable<Cell> GetNeighbours(Coordinates coordinate)
@@ -54,29 +54,29 @@ namespace Hive.Domain
             return GetNeighbourCoordinates(coordinate).Select(c => new Cell(c));
         }
 
-        private static IEnumerable<Coordinates> GetNeighbourCoordinates(Coordinates coordinate)
+        private static IEnumerable<Coordinates> GetNeighbourCoordinates(Coordinates coords)
         {
             var r = new List<Coordinates>
             {
-                new Coordinates(coordinate.Q - 1, coordinate.R),
-                new Coordinates(coordinate.Q + 1, coordinate.R),
+                new Coordinates(coords.Q - 1, coords.R),
+                new Coordinates(coords.Q + 1, coords.R),
             };
-            if (coordinate.R % 2 != 0)
+            if (coords.R % 2 != 0)
             {
-                r.Add(new Coordinates(coordinate.Q, coordinate.R - 1));
-                r.Add(new Coordinates(coordinate.Q + 1, coordinate.R - 1));
+                r.Add(new Coordinates(coords.Q, coords.R - 1));
+                r.Add(new Coordinates(coords.Q + 1, coords.R - 1));
 
-                r.Add(new Coordinates(coordinate.Q, coordinate.R + 1));
-                r.Add(new Coordinates(coordinate.Q + 1, coordinate.R + 1));
+                r.Add(new Coordinates(coords.Q, coords.R + 1));
+                r.Add(new Coordinates(coords.Q + 1, coords.R + 1));
             }
 
-            if (coordinate.R % 2 == 0)
+            if (coords.R % 2 == 0)
             {
-                r.Add(new Coordinates(coordinate.Q, coordinate.R - 1));
-                r.Add(new Coordinates(coordinate.Q - 1, coordinate.R - 1));
+                r.Add(new Coordinates(coords.Q, coords.R - 1));
+                r.Add(new Coordinates(coords.Q - 1, coords.R - 1));
 
-                r.Add(new Coordinates(coordinate.Q, coordinate.R + 1));
-                r.Add(new Coordinates(coordinate.Q - 1, coordinate.R + 1));
+                r.Add(new Coordinates(coords.Q, coords.R + 1));
+                r.Add(new Coordinates(coords.Q - 1, coords.R + 1));
             }
 
             return r;

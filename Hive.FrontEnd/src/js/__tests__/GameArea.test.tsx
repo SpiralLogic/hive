@@ -7,8 +7,8 @@ import { CellDropEvent, useCellDropEmitter } from '../emitters';
 import Engine from '../game-engine';
 import { renderElement, simulateEvent } from './helpers';
 
-jest.mock('../components/Hextille', () => jest.fn(() => <div class="hextille"/>));
-jest.mock('../components/PlayerList', () => jest.fn(() => <div class="playerList"/>));
+jest.mock('../components/Hextille', () => jest.fn(() => <div class="hextille" />));
+jest.mock('../components/PlayerList', () => jest.fn(() => <div class="playerList" />));
 jest.mock('../game-engine');
 const move: CellDropEvent = { coords: { q: 1, r: 1 }, tileId: 1, type: 'drop' };
 
@@ -21,45 +21,45 @@ beforeEach(() => {
     Engine.moveTile = jest.fn().mockResolvedValue(gameAfterMove);
 });
 
-test('shows loading', async () => {
-    const gameArea = renderElement(<GameArea/>);
+test('shows loading', () => {
+    const gameArea = renderElement(<GameArea />);
     expect(gameArea).toMatchSnapshot();
 });
 
 test('shows game when loaded', async () => {
-    const gameArea = render(<GameArea/>);
+    const gameArea = render(<GameArea />);
     await Engine.newGame();
-    gameArea.rerender(<GameArea/>);
+    gameArea.rerender(<GameArea />);
     expect(Hextille).toHaveBeenCalledTimes(1);
     expect(PlayerList).toHaveBeenCalledTimes(1);
 });
 
 test('default on drop is prevented', async () => {
-    const gameArea = render(<GameArea/>);
+    const gameArea = render(<GameArea />);
     await Engine.newGame();
-    gameArea.rerender(<GameArea/>);
+    gameArea.rerender(<GameArea />);
 
     const preventDefault = simulateEvent(gameArea.container.firstElementChild as HTMLElement, 'dragover');
     expect(preventDefault).toHaveBeenCalled();
 });
 
 test('calls update game on cell drop', async () => {
-    const gameArea = render(<GameArea/>);
-    await Engine.newGame;
-    gameArea.rerender(<GameArea/>);
+    const gameArea = render(<GameArea />);
+    await Engine.newGame();
+    gameArea.rerender(<GameArea />);
     useCellDropEmitter().emit({ coords: { q: 1, r: 1 }, tileId: 1, type: 'drop' });
 
     expect(Engine.moveTile).toHaveBeenCalled();
 });
 
 test('renders new state on cell drop', async () => {
-    const gameArea = render(<GameArea/>);
+    const gameArea = render(<GameArea />);
     await Engine.newGame();
-    gameArea.rerender(<GameArea/>);
+    gameArea.rerender(<GameArea />);
 
     useCellDropEmitter().emit(move);
     await Engine.moveTile(move);
-    gameArea.rerender(<GameArea/>);
+    gameArea.rerender(<GameArea />);
 
     expect(Hextille).toHaveBeenCalledTimes(2);
     expect(PlayerList).toHaveBeenCalledTimes(2);

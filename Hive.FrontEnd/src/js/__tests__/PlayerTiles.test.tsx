@@ -11,7 +11,7 @@ let container: RenderResult;
 let player: Element;
 
 beforeEach(() => {
-    container = render(<PlayerTiles {...playerProps}/>);
+    container = render(<PlayerTiles {...playerProps} />);
     player = document.getElementsByClassName('player')[0];
 });
 
@@ -35,7 +35,7 @@ describe('Player Tiles', () => {
     });
 });
 
-describe('snapshot', () => {
+describe('PlayerTiles snapshot', () => {
     test('matches current snapshot', () => {
         expect(container.baseElement).toMatchSnapshot();
     });

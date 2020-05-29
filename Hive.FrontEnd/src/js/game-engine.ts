@@ -1,4 +1,5 @@
 import { Move } from './domain';
+import { HexEngine } from './domain/engine';
 
 const moveRequest = async (move: Move) => {
     const response = await fetch('https://localhost:5001/move', {
@@ -26,7 +27,9 @@ const newRequest = async () => {
     return response.json();
 };
 
-export default {
+const Engine: HexEngine = {
     newGame: newRequest,
-    moveTile: moveRequest
+    moveTile: moveRequest,
 };
+
+export default Engine;

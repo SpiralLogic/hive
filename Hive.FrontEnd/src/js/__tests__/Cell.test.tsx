@@ -9,68 +9,76 @@ jest.mock('fast-equals', () => ({ deepEqual: jest.fn(() => true) }));
 
 const moveTileSpy = jest.fn();
 
-const cellWithNoTile = () => {
+const createCellWithNoTile = () => {
     const cell = { coords: { q: 0, r: 0 }, tiles: [] };
-    return renderElement(<Cell {...cell}/>);
+    return renderElement(<Cell {...cell} />);
 };
 
-const cellWithTile = () => {
+const createCellWithTile = () => {
     const tile = { id: 2, playerId: 2, content: 'fly', moves: [] };
     const cell = { coords: { q: 1, r: 1 }, tiles: [tile] };
 
-    return renderElement(<Cell {...cell}/>);
+    return renderElement(<Cell {...cell} />);
 };
 
-const canDropCellWithTile = () => {
+const createCellWithTileAndDrop = () => {
     const tile = { id: 2, playerId: 2, content: 'ant', moves: [] };
     const cell = { coords: { q: 2, r: 2 }, tiles: [tile] };
 
-    return renderElement(<Cell {...cell}/>);
+    return renderElement(<Cell {...cell} />);
 };
 
-const noDropEmptyCell = () => {
+const createCellNoDrop = () => {
     const cell = { coords: { q: 0, r: 0 }, tiles: [] };
-    return renderElement(<Cell {...cell}/>);
+    return renderElement(<Cell {...cell} />);
 };
 
-const canDropEmptyCell = cellWithNoTile;
-const noDropCellWithTile = cellWithTile;
+const createCellCanDrop = createCellWithNoTile;
+const createCellWithTileNoDrop = createCellWithTile;
 
-describe('Cell Render', () => {
-    test('starts with default classes', () => {
-        expect(cellWithTile().classList.value).toEqual('hex cell');
-        expect(cellWithNoTile().classList.value).toEqual('hex cell');
+describe('Cell render', () => {
+    test('has default classes', () => {
+        expect(createCellWithTile()).toHaveClass('hex cell');
+        expect(createCellWithNoTile()).toHaveClass('hex cell');
     });
 
-    test('top tile is rendered if it exists', () => {
-        const tiles = cellWithTile().getElementsByClassName('tile');
+    test(`top tile is rendered when tiles isn't empty`, () => {
+        const tiles = createCellWithTile().getElementsByClassName('tile');
         expect(tiles).toHaveLength(1);
     });
 
-    test('Cell is memoized with deep equal', () => {
+    test('component is memorized with deep equal', () => {
         const props = { coords: { q: 0, r: 0 }, tiles: [] };
-        const cell = <Cell {...props}/>;
+        const cell = <Cell {...props} />;
         render(cell).rerender(cell);
         expect(deepEqual).toHaveBeenCalledTimes(1);
     });
 });
 
-describe('Cell drag and drop', () => {
+describe('drag and drop', () => {
     const emitter = useTileDragEmitter();
 
-    function emitTileEvent (type: 'start' | 'end') {
-        act(() => emitter.emit({ type, tileId: 2, moves: [{ q: 0, r: 0 }, { q: 2, r: 2 }] }));
+    function emitTileEvent(type: 'start' | 'end') {
+        act(() =>
+            emitter.emit({
+                type,
+                tileId: 2,
+                moves: [
+                    { q: 0, r: 0 },
+                    { q: 2, r: 2 },
+                ],
+            }),
+        );
     }
 
     test('dragover allows drop', () => {
-        const preventDefault = simulateEvent(cellWithTile(), 'dragover');
-
+        const preventDefault = simulateEvent(createCellWithTile(), 'dragover');
         expect(preventDefault).toHaveBeenCalled();
     });
 
     test('cell is valid on drag start', () => {
-        const cellWithTile = canDropCellWithTile();
-        const emptyCell = canDropEmptyCell();
+        const cellWithTile = createCellWithTileAndDrop();
+        const emptyCell = createCellCanDrop();
         emitTileEvent('start');
 
         expect(cellWithTile).toHaveClass('can-drop');
@@ -78,8 +86,8 @@ describe('Cell drag and drop', () => {
     });
 
     test('valid cell is active on tile drag enter', () => {
-        const cellWithTile = canDropCellWithTile();
-        const emptyCell = canDropEmptyCell();
+        const cellWithTile = createCellWithTileAndDrop();
+        const emptyCell = createCellCanDrop();
         emitTileEvent('start');
         fireEvent.dragEnter(cellWithTile);
         fireEvent.dragEnter(emptyCell);
@@ -88,10 +96,10 @@ describe('Cell drag and drop', () => {
         expect(emptyCell).toHaveClass('active');
     });
 
-    test('drop sends move tile request when valid and active', () => {
+    test('drop calls moves tile when valid and active', () => {
         jest.spyOn(useCellDropEmitter(), 'emit');
-        const cellWithTile = canDropCellWithTile();
-        const emptyCell = canDropEmptyCell();
+        const cellWithTile = createCellWithTileAndDrop();
+        const emptyCell = createCellCanDrop();
         emitTileEvent('start');
         fireEvent.dragEnter(cellWithTile);
         fireEvent.dragEnter(emptyCell);
@@ -101,32 +109,32 @@ describe('Cell drag and drop', () => {
         expect(useCellDropEmitter().emit).toHaveBeenCalledWith({ type: 'drop', tileId: 2, coords: { q: 2, r: 2 } });
     });
 
-    test('drop doesnt send move tile request when cell is no drop', () => {
+    test(`drop calls move tile when cell doesn't allow drop`, () => {
         jest.spyOn(useCellDropEmitter(), 'emit');
-        noDropCellWithTile();
-        noDropEmptyCell();
+        createCellWithTileNoDrop();
+        createCellNoDrop();
         emitTileEvent('start');
         emitTileEvent('end');
 
         expect(useCellDropEmitter().emit).not.toHaveBeenCalled();
     });
 
-    test('invalid cell doesnt send move request', () => {
-        noDropCellWithTile();
-        noDropEmptyCell();
-        document.querySelectorAll('.cell').forEach(c => fireEvent.dragEnter(c));
+    test(`invalid cells don't call move tile on drop`, () => {
+        createCellWithTileNoDrop();
+        createCellNoDrop();
+        document.querySelectorAll('.cell').forEach((c) => fireEvent.dragEnter(c));
 
         expect(moveTileSpy).not.toHaveBeenCalled();
     });
 
-    test('active and no-drop are removed on drag leave', () => {
-        cellWithTile();
-        cellWithNoTile();
-        noDropCellWithTile();
-        noDropEmptyCell();
+    test('active and no-drop classes are removed on drag leave', () => {
+        createCellWithTile();
+        createCellWithNoTile();
+        createCellWithTileNoDrop();
+        createCellNoDrop();
         emitTileEvent('start');
-        document.querySelectorAll('.cell').forEach(c => fireEvent.dragEnter(c));
-        document.querySelectorAll('.cell').forEach(c => fireEvent.dragLeave(c));
+        document.querySelectorAll('.cell').forEach((c) => fireEvent.dragEnter(c));
+        document.querySelectorAll('.cell').forEach((c) => fireEvent.dragLeave(c));
 
         expect(document.getElementsByClassName('active')).toHaveLength(0);
         expect(document.getElementsByClassName('no-drop')).toHaveLength(0);
@@ -135,10 +143,10 @@ describe('Cell drag and drop', () => {
 
 describe('Cell Snapshot', () => {
     test('cell with tile matches current snapshot', () => {
-        expect(cellWithTile()).toMatchSnapshot();
+        expect(createCellWithTile()).toMatchSnapshot();
     });
 
     test('cell with no tile matches current snapshot', () => {
-        expect(cellWithNoTile()).toMatchSnapshot();
+        expect(createCellWithNoTile()).toMatchSnapshot();
     });
 });
