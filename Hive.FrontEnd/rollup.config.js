@@ -1,6 +1,9 @@
 //import typescript from '@rollup/plugin-typescript';
 import resolve from '@rollup/plugin-node-resolve';
 
+
+
+
 export default {
     external: ['preact','preact/compat','preact/devtools']
     input: 'src/js/index.js',
