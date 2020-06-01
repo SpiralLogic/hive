@@ -2,7 +2,7 @@ import { deepEqual } from 'fast-equals';
 import { FunctionComponent, h } from 'preact';
 import { memo } from 'preact/compat';
 import { PlayerId, Tile } from '../domain';
-import { useTileDragEmitter } from '../emitters/tile-drag-emitter';
+import { useTileDragEmitter } from '../emitters';
 import { handleDrop } from '../handlers';
 
 type Props = Tile;

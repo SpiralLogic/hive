@@ -1,13 +1,8 @@
 {
   "compilerOptions": {
-    "target": "es6",
+    "target": "ESNext",
     "module": "ESNext",
     "esModuleInterop": true,
-    "lib": [
-      "es2020",
-      "dom"
-    ],
-    "downlevelIteration": true,
     "jsx": "react",
     "jsxFactory": "h",
     "strict": true,
@@ -15,16 +10,20 @@
     "allowJs": false,
     "moduleResolution": "node",
     "sourceMap": true,
-    "inlineSources": true,
     "removeComments": true,
-    "noImplicitAny": true,
+    "incremental": true,
     "types": [
       "jest",
-      "node"
-    ]
+      "node",
+      "testing-library__jest-dom"
+    ],
+    "isolatedModules": true,
+    "noEmitOnError": true,
+    "pretty": true,
   },
   "include": [
-    "src/js/**/*",
+    "src/js/**/*.ts",
+    "src/js/**/*.tsx",
     "jest.setup.ts"
   ]
 }

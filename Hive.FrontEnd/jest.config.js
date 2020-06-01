@@ -63,9 +63,7 @@ module.exports = {
     // maxWorkers: "50%",
 
     // An array of directory names to be searched recursively up from the requiring module's location
-    moduleDirectories: [
-        'node_modules'
-    ],
+    moduleDirectories: ['node_modules'],
 
     // An array of file extensions your modules use
     moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
@@ -118,9 +116,7 @@ module.exports = {
             './__tests__/setup.ts'
         ],*/
     // A list of paths to modules that run some code to configure or set up the testing framework before each test
-    setupFilesAfterEnv: [
-        './__tests__/jest.setup.ts'
-    ],
+    setupFilesAfterEnv: ['./__tests__/jest.setup.ts'],
     // A list of paths to snapshot serializer modules Jest should use for snapshot testing
     // snapshotSerializers: [],
 
@@ -136,7 +132,7 @@ module.exports = {
     // The glob patterns Jest uses to detect test files
     testMatch: [
         //   "**/__tests__/**/*.[jt]s?(x)",
-        '**/?(*.)+(spec|test).[tj]s?(x)'
+        '**/?(*.)+(spec|test).[t]s?(x)',
     ],
 
     // An array of regexp pattern strings that are matched against all test paths, matched tests are skipped
@@ -162,7 +158,7 @@ module.exports = {
 
     // A map from regular expressions to paths to transformers
     transform: {
-        '^.+\\.tsx?$': 'ts-jest'
+        '^.+\\.tsx?$': 'ts-jest',
     },
 
     // An array of regexp pattern strings that are matched against all source file paths, matched files will skip transformation

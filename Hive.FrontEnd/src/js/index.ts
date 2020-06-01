@@ -1,4 +1,4 @@
-import preact from 'preact';
+import 'preact/debug';
+import {h, render} from 'preact' ;
 import GameArea from './components/GameArea';
-
-preact.render(preact.h(GameArea, {}), document.body);
+render(h(GameArea,{}), document.body);

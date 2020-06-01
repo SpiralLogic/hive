@@ -80,6 +80,7 @@ body {
 
 .hidden {
     width: calc(1.732 * var(--hex-size) + var(--margin));
+    background: none;
 }
 
 .cell {

@@ -1,9 +1,9 @@
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const ProgressBarPlugin = require('progress-bar-webpack-plugin');
+import { ErrorInfo } from 'ts-loader/dist/interfaces';
+import { Chalk } from 'chalk';
+
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const path = require('path');
-const chalk = require('chalk');
-const {CleanWebpackPlugin} = require('clean-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 
 module.exports = {
@@ -12,31 +12,23 @@ module.exports = {
     output: {
         filename: 'js/index.js',
         path: path.resolve(__dirname, '../Hive.Api/wwwroot/'),
+        pathinfo: false,
     },
-    mode: 'development',
-    devtool: 'inline-source-map',
+    mode: 'production',
+    devtool: 'eval-cheap-module-source-map',
     plugins: [
         new CleanWebpackPlugin({
             verbose: true,
             cleanStaleWebpackAssets: true,
         }),
         new ForkTsCheckerWebpackPlugin({
-            eslint: true
+            eslint: true,
         }),
         new CopyPlugin({
-                patterns: [
-                    {from: './src/css', to: 'css'},
-                 //   {from: './src/index.html', to: './'}
-                ]
-            }
-        ),
-        new HtmlWebpackPlugin({
-            filename: 'index.html',
-            template: './src/index.html'
-        }),
-        new ProgressBarPlugin({
-            format: '  build [:bar] ' + chalk.green.bold(':percent') + ' (:elapsed seconds)',
-            clear: false
+            patterns: [
+                { from: './src/css', to: 'css' },
+                { from: './src/index.html', to: './' },
+            ],
         }),
     ],
     target: 'web', // enum
@@ -44,26 +36,43 @@ module.exports = {
         rules: [
             {
                 test: /.tsx?$/,
+                include: path.resolve(__dirname, 'src/js'),
                 use: [
-                    { loader: 'ts-loader', options: { transpileOnly: true } }
-                ]
+                    {
+                        loader: 'ts-loader',
+                        options: {
+                            transpileOnly: true,
+                            experimentalWatchApi: true,
+                            logInfoToStdOut: true,
+                            colors: true,
+                            errorFormatter: customErrorFormatter,
+                            onlyCompileBundledFiles: true,
+                        },
+                    },
+                ],
             },
-            {
-                test: /\.html$/,
-                loader: 'raw-loader'
-            }
-        ]
+        ],
     },
     resolve: {
-        extensions: ['.tsx', '.ts', '.js'],
+        extensions: ['.tsx', '.ts', '.mjs', '.js', '.json'],
+        modules: [path.resolve(__dirname), 'node_modules'],
+    },
+    externals: {
+        preact: 'preact',
     },
     optimization: {
-        minimize:true,
-        usedExports: true,   concatenateModules: true
+        usedExports: true,
+    },
+    stats: {
+        // Examine all modules
+        maxModules: Infinity,
+        // Display bailout reasons
+        optimizationBailout: true,
+    },
+};
 
-    }   ,
-    externals: {
-        'preact': 'preact',
-    }
-
+function customErrorFormatter(error: ErrorInfo, colors: Chalk): string {
+    const messageColor = error.severity === 'warning' ? colors.bold.yellow : colors.bold.red;
+    const e = Object.keys(error) as (keyof ErrorInfo)[];
+    return 'Does not compute.... ' + messageColor(e.map((key) => `\n${key}: ${error[key]}`));
 }

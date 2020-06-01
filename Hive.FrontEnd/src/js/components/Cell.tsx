@@ -3,8 +3,7 @@ import { FunctionComponent, h } from 'preact';
 import { memo, useState } from 'preact/compat';
 import { useEffect } from 'preact/hooks';
 import { Cell, HexCoordinates } from '../domain';
-import { useCellDropEmitter, useTileDragEmitter } from '../emitters';
-import { TileDragEvent } from '../emitters/tile-drag-emitter';
+import { TileDragEvent, useCellDropEmitter, useTileDragEmitter } from '../emitters';
 import { handleDragOver } from '../handlers';
 import Tile from './Tile';
 
@@ -33,7 +32,12 @@ const CellFC: FunctionComponent<Props> = (props: Props) => {
         }
 
         if (e.type === 'end') {
-            if (valid && classes.includes('active')) cellDropEmitter.emit({ type: 'drop', coords: coords, tileId: e.tileId });
+            if (valid && classes.includes('active'))
+                cellDropEmitter.emit({
+                    type: 'drop',
+                    coords: coords,
+                    tileId: e.tileId,
+                });
             setClasses('hex cell');
         }
     };
