@@ -21,11 +21,11 @@ export default {
         copy({
             targets: [
                 {
-                    src: 'src/css',
+                    src: 'static/css',
                     dest: '../Hive.Api/wwwroot',
                 },
                 {
-                    src: 'src/index.html',
+                    src: 'static/index.html',
                     dest: '../Hive.Api/wwwroot',
                 },
             ],

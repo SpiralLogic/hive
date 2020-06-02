@@ -7,7 +7,8 @@
     "test": "jest",
     "rollup": "rollup -c rollup.config.js",
     "tsc": "tsc -b src/tsconfig.json",
-    "build": "npm run tsc && npm run rollup "
+    "build": "npm run tsc && npm run rollup ",
+    "start": "npm build && npm test"
   },
   "lint-staged": {
     "*.{css,md,scss}": "prettier --write",
