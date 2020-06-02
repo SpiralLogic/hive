@@ -4,7 +4,7 @@ import copy from 'rollup-plugin-copy';
 import sizes from 'rollup-plugin-sizes';
 
 export default {
-    input: 'src/js/index.js',
+    input: './src/dist/index.js',
     output: {
         dir: '../Hive.Api/wwwroot/js/',
         format: 'es',

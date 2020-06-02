@@ -1,8 +1,8 @@
 import { act, fireEvent, render } from '@testing-library/preact';
 import { deepEqual } from 'fast-equals';
 import { h } from 'preact';
-import Cell from '../components/Cell';
-import { useCellDropEmitter, useTileDragEmitter } from '../emitters';
+import Cell from 'hive/components/Cell';
+import { useCellDropEmitter, useTileDragEmitter } from 'hive/emitters';
 import { renderElement, simulateEvent } from './helpers';
 
 jest.mock('fast-equals', () => ({ deepEqual: jest.fn(() => true) }));
