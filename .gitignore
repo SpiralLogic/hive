@@ -10,3 +10,4 @@
 /Hive.Api/wwwroot/**
 /Hive.FrontEnd/src/js/**/*.js
 /Hive.FrontEnd/src/js/**/*.map
+/Hive.FrontEnd/.build-cache/
