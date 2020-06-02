@@ -4,12 +4,7 @@ module.exports = {
         browser: true,
         es6: true,
     },
-    extends: [
-        'eslint:recommended',
-        'plugin:@typescript-eslint/recommended',
-        'plugin:jest/recommended',
-        'prettier/@typescript-eslint'
-    ],
+    extends: ['eslint:recommended', 'plugin:@typescript-eslint/recommended', 'plugin:jest/recommended', 'prettier/@typescript-eslint'],
     globals: {
         Atomics: 'readonly',
         SharedArrayBuffer: 'readonly',
@@ -28,7 +23,7 @@ module.exports = {
     },
     overrides: [
         {
-            files: ['*.ts'],
+            files: ['*.ts', '*.tsx'],
             rules: {
                 '@typescript-eslint/explicit-function-return-type': 'off',
             },
