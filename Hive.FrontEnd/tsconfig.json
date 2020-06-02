@@ -19,7 +19,7 @@
     ],
     "isolatedModules": true,
     "noEmitOnError": true,
-    "pretty": true,
+    "pretty": true
   },
   "include": [
     "src/js/**/*.ts",

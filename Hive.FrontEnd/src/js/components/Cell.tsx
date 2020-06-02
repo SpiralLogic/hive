@@ -1,7 +1,7 @@
 import { deepEqual } from 'fast-equals';
 import { FunctionComponent, h } from 'preact';
-import { memo, useState } from 'preact/compat';
-import { useEffect } from 'preact/hooks';
+import { memo } from 'preact/compat';
+import { useEffect, useState } from 'preact/hooks';
 import { Cell, HexCoordinates } from '../domain';
 import { TileDragEvent, useCellDropEmitter, useTileDragEmitter } from '../emitters';
 import { handleDragOver } from '../handlers';

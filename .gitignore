@@ -11,3 +11,8 @@
 /Hive.FrontEnd/dist
 /Hive.FrontEnd/src/js/coverage/
 /Hive.FrontEnd/src/js/__tests__/coverage/
+/Hive.FrontEnd/src/js/**/*.js
+/Hive.FrontEnd/src/js/**/*.map
+/Hive.FrontEnd/.yarn/
+/Hive.FrontEnd/.yarnrc.yml
+/Hive.FrontEnd/tsconfig.tsbuildinfo

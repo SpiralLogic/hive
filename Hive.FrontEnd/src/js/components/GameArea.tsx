@@ -1,6 +1,5 @@
 import { h } from 'preact';
-import { useState } from 'preact/compat';
-import { useEffect } from 'preact/hooks';
+import { useEffect, useState } from 'preact/hooks';
 import { GameState } from '../domain';
 import { CellDropEvent, useCellDropEmitter } from '../emitters/cell-drop-emitter';
 import Engine from '../game-engine';
