@@ -143,8 +143,3 @@ body {
 .hex.active {
     --color: #5D001E;
 }
-
-.tile:before, .tile:after, .tile {
-    transition-duration: 5s;
-    height:initial;
-}

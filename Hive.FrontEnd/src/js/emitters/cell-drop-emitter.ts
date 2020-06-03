@@ -13,4 +13,4 @@ export type CellDropEvent = {
     tileId: TileId;
 };
 
-export const useCellDropEmitter = () => cellDropEmitter;
+export const useCellDropEmitter = (): CellDropEmitter => cellDropEmitter;
