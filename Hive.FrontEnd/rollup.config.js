@@ -1,8 +1,6 @@
-import path from 'path';
 import resolve from '@rollup/plugin-node-resolve';
 import cleanup from 'rollup-plugin-cleanup';
 import copy from 'rollup-plugin-copy';
-import { sizeSnapshot } from 'rollup-plugin-size-snapshot';
 
 export default {
     input: './src/dist/index.js',
@@ -12,13 +10,13 @@ export default {
         sourcemap: true,
         compact: true,
     },
+    watch: {clearScreen: false},
     plugins: [
         resolve(),
         cleanup({
             comments: 'none',
             sourceMap: true,
         }),
-        sizeSnapshot(),
         copy({
             targets: [
                 {

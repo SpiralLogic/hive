@@ -3,10 +3,10 @@
   "name": "hive-frontend",
   "private": true,
   "scripts": {
-    "clean": "rm -f src/js/**/*.js && rm -f src/js/**/*.map && rm -f tsconfig.tsbuildinfo",
-    "test": "jest",
+    "clean": "rm -rf ./src/dist",
+    "test": "npm c && npm run tsc && npm it",
     "rollup": "rollup -c rollup.config.js",
-    "tsc": "tsc -b src/tsconfig.json",
+    "tsc": "tsc -b",
     "build": "npm run tsc && npm run rollup ",
     "start": "npm build && npm test"
   },

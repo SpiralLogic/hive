@@ -7,6 +7,7 @@
 **/.vs
 **/.DS_Store
 **/dist
+**/coverage
 /Hive.Api/wwwroot/**
 /Hive.FrontEnd/src/js/**/*.js
 /Hive.FrontEnd/src/js/**/*.map
