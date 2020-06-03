@@ -1,7 +1,8 @@
+import path from 'path';
 import resolve from '@rollup/plugin-node-resolve';
 import cleanup from 'rollup-plugin-cleanup';
 import copy from 'rollup-plugin-copy';
-import sizes from 'rollup-plugin-sizes';
+import { sizeSnapshot } from 'rollup-plugin-size-snapshot';
 
 export default {
     input: './src/dist/index.js',
@@ -17,7 +18,7 @@ export default {
             comments: 'none',
             sourceMap: true,
         }),
-        sizes({ details: true }),
+        sizeSnapshot(),
         copy({
             targets: [
                 {
