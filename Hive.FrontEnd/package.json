@@ -4,11 +4,13 @@
   "private": true,
   "scripts": {
     "clean": "rm -rf ./src/dist",
-    "test": "npm c && npm run tsc && npm it",
-    "rollup": "rollup -c rollup.config.js",
-    "tsc": "tsc -b",
-    "build": "npm run tsc && npm run rollup ",
-    "start": "npm build && npm test"
+    "clean-test": "npm ci && npm run test",
+    "test": "npm run tsc && npx jest --coverage",
+    "rollup": "npx rollup -c rollup.config.js",
+    "tsc": "npx tsc -b",
+    "build": "npm run tsc && npm run rollup",
+    "start": "npm run build && npm test",
+    "watch": "npx rollup -w -c rollup.config.js & npx tsc --build --watch &"
   },
   "lint-staged": {
     "*.{css,md,scss}": "prettier --write",

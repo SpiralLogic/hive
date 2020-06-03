@@ -22,7 +22,7 @@ body {
 .player {
     display: flex;
     flex-direction: column;
-    background-color: #000000;
+    background-color: rgba(0, 0, 0, 0.7);
     margin-right: 1px;
     border-radius: 3px;
 }
@@ -75,7 +75,6 @@ body {
     justify-content: center;
     display: flex;
     background-color: var(--color);
-    margin-top: calc(var(--size) / 2);
 }
 
 .hidden {
@@ -116,6 +115,10 @@ body {
     font-size: var(--tile-size);
 }
 
+.player .tile {
+    margin: calc(var(--size) + var(--margin)) var(--margin);
+}
+
 .tile span {
     font-size: 50%;
 }
@@ -139,4 +142,9 @@ body {
 
 .hex.active {
     --color: #5D001E;
+}
+
+.tile:before, .tile:after, .tile {
+    transition-duration: 5s;
+    height:initial;
 }
