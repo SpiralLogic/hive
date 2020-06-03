@@ -43,7 +43,6 @@
     "typescript": "^3.9.3"
   },
   "dependencies": {
-    "fast-equals": "^2.0.0",
     "preact": "^10.4.4"
   }
 }

@@ -1,4 +1,4 @@
-import { deepEqual } from 'fast-equals';
+import deepEqual from '../deepEqual';
 import { FunctionComponent, h } from 'preact';
 import { memo } from 'preact/compat';
 import { useEffect, useState } from 'preact/hooks';

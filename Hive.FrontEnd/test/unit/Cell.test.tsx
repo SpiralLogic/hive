@@ -1,35 +1,35 @@
-import { act, fireEvent, render } from '@testing-library/preact';
-import { deepEqual } from 'fast-equals';
-import { h } from 'preact';
+import {act, fireEvent, render} from '@testing-library/preact';
+import deepEqual from 'hive/deepEqual';
+import {h} from 'preact';
 import Cell from 'hive/components/Cell';
-import { useCellDropEmitter, useTileDragEmitter } from 'hive/emitters';
-import { renderElement, simulateEvent } from './helpers';
+import {useCellDropEmitter, useTileDragEmitter} from 'hive/emitters';
+import {renderElement, simulateEvent} from './helpers';
 
-jest.mock('fast-equals', () => ({ deepEqual: jest.fn(() => true) }));
+jest.mock('hive/deepEqual', () => jest.fn(() => true));
 
 const moveTileSpy = jest.fn();
 
 const createCellWithNoTile = () => {
-    const cell = { coords: { q: 0, r: 0 }, tiles: [] };
+    const cell = {coords: {q: 0, r: 0}, tiles: []};
     return renderElement(<Cell {...cell} />);
 };
 
 const createCellWithTile = () => {
-    const tile = { id: 2, playerId: 2, content: 'fly', moves: [] };
-    const cell = { coords: { q: 1, r: 1 }, tiles: [tile] };
+    const tile = {id: 2, playerId: 2, content: 'fly', moves: []};
+    const cell = {coords: {q: 1, r: 1}, tiles: [tile]};
 
     return renderElement(<Cell {...cell} />);
 };
 
 const createCellWithTileAndDrop = () => {
-    const tile = { id: 2, playerId: 2, content: 'ant', moves: [] };
-    const cell = { coords: { q: 2, r: 2 }, tiles: [tile] };
+    const tile = {id: 2, playerId: 2, content: 'ant', moves: []};
+    const cell = {coords: {q: 2, r: 2}, tiles: [tile]};
 
     return renderElement(<Cell {...cell} />);
 };
 
 const createCellNoDrop = () => {
-    const cell = { coords: { q: 0, r: 0 }, tiles: [] };
+    const cell = {coords: {q: 0, r: 0}, tiles: []};
     return renderElement(<Cell {...cell} />);
 };
 
@@ -48,7 +48,7 @@ describe('Cell render', () => {
     });
 
     test('component is memorized with deep equal', () => {
-        const props = { coords: { q: 0, r: 0 }, tiles: [] };
+        const props = {coords: {q: 0, r: 0}, tiles: []};
         const cell = <Cell {...props} />;
         render(cell).rerender(cell);
         expect(deepEqual).toHaveBeenCalledTimes(1);
@@ -64,8 +64,8 @@ describe('drag and drop', () => {
                 type,
                 tileId: 2,
                 moves: [
-                    { q: 0, r: 0 },
-                    { q: 2, r: 2 },
+                    {q: 0, r: 0},
+                    {q: 2, r: 2},
                 ],
             }),
         );
@@ -105,8 +105,8 @@ describe('drag and drop', () => {
         fireEvent.dragEnter(emptyCell);
         emitTileEvent('end');
 
-        expect(useCellDropEmitter().emit).toHaveBeenCalledWith({ type: 'drop', tileId: 2, coords: { q: 0, r: 0 } });
-        expect(useCellDropEmitter().emit).toHaveBeenCalledWith({ type: 'drop', tileId: 2, coords: { q: 2, r: 2 } });
+        expect(useCellDropEmitter().emit).toHaveBeenCalledWith({type: 'drop', tileId: 2, coords: {q: 0, r: 0}});
+        expect(useCellDropEmitter().emit).toHaveBeenCalledWith({type: 'drop', tileId: 2, coords: {q: 2, r: 2}});
     });
 
     test(`drop calls move tile when cell doesn't allow drop`, () => {
