@@ -1,31 +1,30 @@
 import resolve from '@rollup/plugin-node-resolve';
 import cleanup from 'rollup-plugin-cleanup';
 import copy from 'rollup-plugin-copy';
-import sizes from 'rollup-plugin-sizes';
 
 export default {
-    input: 'src/js/index.js',
+    input: './src/dist/index.js',
     output: {
         dir: '../Hive.Api/wwwroot/js/',
         format: 'es',
         sourcemap: true,
         compact: true,
     },
+    watch: {clearScreen: false},
     plugins: [
         resolve(),
         cleanup({
             comments: 'none',
             sourceMap: true,
         }),
-        sizes({ details: true }),
         copy({
             targets: [
                 {
-                    src: 'src/css',
+                    src: 'static/css',
                     dest: '../Hive.Api/wwwroot',
                 },
                 {
-                    src: 'src/index.html',
+                    src: 'static/index.html',
                     dest: '../Hive.Api/wwwroot',
                 },
             ],

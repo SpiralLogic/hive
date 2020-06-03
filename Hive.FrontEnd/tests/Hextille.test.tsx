@@ -1,6 +1,6 @@
 import { h } from 'preact';
-import Hextille from '../components/Hextille';
-import { HexCoordinates } from '../domain';
+import Hextille from 'hive/components/Hextille';
+import { HexCoordinates } from 'hive/domain';
 import { renderElement } from './helpers';
 
 const createCell = (q: number, r: number) => ({

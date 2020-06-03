@@ -1,29 +1,8 @@
 {
-  "compilerOptions": {
-    "target": "ESNext",
-    "module": "ESNext",
-    "esModuleInterop": true,
-    "jsx": "react",
-    "jsxFactory": "h",
-    "strict": true,
-    "checkJs": false,
-    "allowJs": false,
-    "moduleResolution": "node",
-    "sourceMap": true,
-    "removeComments": true,
-    "incremental": true,
-    "types": [
-      "jest",
-      "node",
-      "testing-library__jest-dom"
-    ],
-    "isolatedModules": true,
-    "noEmitOnError": true,
-    "pretty": true
-  },
-  "include": [
-    "src/js/**/*.ts",
-    "src/js/**/*.tsx",
-    "jest.setup.ts"
+  "files": [],
+  "include": [],
+  "references": [
+    { "path": "./src" },
+    { "path": "./tests" }
   ]
 }

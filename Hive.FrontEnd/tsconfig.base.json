@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "ESNext",
+    "composite": true,
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
+    "esModuleInterop": true,
+    "jsx": "react",
+    "jsxFactory": "h",
+    "strict": true,
+    "checkJs": false,
+    "allowJs": false,
+    "moduleResolution": "node",
+    "removeComments": true,
+    "noEmitOnError": true,
+    "pretty": true
+  }
+}

@@ -1,7 +1,7 @@
 import { fireEvent } from '@testing-library/preact';
 import { h } from 'preact';
-import Tile from '../components/Tile';
-import { TileDragEvent, useTileDragEmitter } from '../emitters';
+import Tile from 'hive/components/Tile';
+import { TileDragEvent, useTileDragEmitter } from 'hive/emitters';
 import { renderElement, simulateEvent } from './helpers';
 
 const tileCanMove = () => {
