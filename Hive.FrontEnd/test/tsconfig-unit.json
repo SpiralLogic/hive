@@ -8,13 +8,19 @@
       "node",
       "testing-library__jest-dom"
     ],
-    "composite": false,
     "baseUrl": ".",
+    "composite": false,
     "noEmit": true,
     "paths": {
-      "hive/*": ["../src/js/*"]
+      "hive/*": [
+        "../src/js/*"
+      ]
     }
   },
+  "include": [
+    "unit",
+    "jest.setup.ts"
+  ],
   "references": [
     {
       "path": "../src"

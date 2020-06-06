@@ -2,7 +2,7 @@
 // https://jestjs.io/docs/en/configuration.html
 module.exports = {
     preset: 'ts-jest',
-    moduleNameMapper: { '^hive/(.*)$': '../src/js/$1' },
+    moduleNameMapper: { '^hive/(.*)$': '../../src/js/$1' },
     //testEnvironment: ,
     // All imported modules in your tests should be mocked automatically
     // automock: true,
@@ -23,7 +23,7 @@ module.exports = {
     // collectCoverageFrom: undefined,
 
     // The directory where Jest should output its coverage files
-    coverageDirectory: 'tests/coverage',
+    coverageDirectory: 'test/unit/coverage',
 
     // An array of regexp pattern strings used to skip coverage collection
     // coveragePathIgnorePatterns: [
@@ -59,7 +59,7 @@ module.exports = {
     // A set of global variables that need to be available in all test environments
     globals: {
         'ts-jest': {
-            tsconfig: './tests/tsconfig.json',
+            tsconfig: './test/tsconfig-unit.json',
         },
     },
     // The maximum amount of workers used to run your tests. Can be specified as % or a number. E.g. maxWorkers: 10% will use 10% of your CPU amount + 1 as the maximum worker number. maxWorkers: 2 will use a maximum of 2 workers.
@@ -104,10 +104,10 @@ module.exports = {
     // restoreMocks: false,
 
     // The root directory that Jest should scan for tests and modules within
-    //rootDir: './tests',
+    //rootDir: './test/unit',
 
     // A list of paths to directories that Jest should use to search for files in
-    roots: ['src/js/', 'tests/'],
+    roots: ['src/js/', 'test/unit/'],
 
     // Allows you to use a custom runner instead of Jest's default test runner
     // runner: "jest-runner",
@@ -117,7 +117,7 @@ module.exports = {
             './__tests__/setup.ts'
         ],*/
     // A list of paths to modules that run some code to configure or set up the testing framework before each test
-    setupFilesAfterEnv: ['./tests/jest.setup.ts'],
+    setupFilesAfterEnv: ['./test/jest.setup.ts'],
     // A list of paths to snapshot serializer modules Jest should use for snapshot testing
     // snapshotSerializers: [],
 
