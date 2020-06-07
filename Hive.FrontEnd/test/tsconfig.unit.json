@@ -1,0 +1,29 @@
+{
+  "extends": "../tsconfig.base.json",
+  "compilerOptions": {
+    "moduleResolution": "node",
+    "sourceMap": false,
+    "types": [
+      "jest",
+      "node",
+      "testing-library__jest-dom"
+    ],
+    "baseUrl": ".",
+    "composite": false,
+    "noEmit": true,
+    "paths": {
+      "hive/*": [
+        "../src/js/*"
+      ]
+    }
+  },
+  "include": [
+    "unit",
+    "jest.setup.unit.ts"
+  ],
+  "references": [
+    {
+      "path": "../src"
+    }
+  ]
+}

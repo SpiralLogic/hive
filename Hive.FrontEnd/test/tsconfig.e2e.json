@@ -18,8 +18,8 @@
     }
   },
   "include": [
-    "unit",
-    "jest.setup.ts"
+    "e2e",
+    "jest.setup.e2e.ts"
   ],
   "references": [
     {

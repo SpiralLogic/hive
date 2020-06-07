@@ -1,7 +1,7 @@
 // For a detailed explanation regarding each configuration property, visit:
 // https://jestjs.io/docs/en/configuration.html
 module.exports = {
-    preset: 'ts-jest',
+    preset: 'jest-puppeteer',
     moduleNameMapper: { '^hive/(.*)$': '../../src/js/$1' },
     //testEnvironment: ,
     // All imported modules in your tests should be mocked automatically
@@ -23,7 +23,7 @@ module.exports = {
     // collectCoverageFrom: undefined,
 
     // The directory where Jest should output its coverage files
-    coverageDirectory: 'test/unit/coverage',
+    //coverageDirectory: 'test/unit/coverage',
 
     // An array of regexp pattern strings used to skip coverage collection
     // coveragePathIgnorePatterns: [
@@ -57,11 +57,7 @@ module.exports = {
     // globalTeardown: undefined,
 
     // A set of global variables that need to be available in all test environments
-    globals: {
-        'ts-jest': {
-            tsconfig: './test/tsconfig-unit.json',
-        },
-    },
+
     // The maximum amount of workers used to run your tests. Can be specified as % or a number. E.g. maxWorkers: 10% will use 10% of your CPU amount + 1 as the maximum worker number. maxWorkers: 2 will use a maximum of 2 workers.
     // maxWorkers: "50%",
 
@@ -104,10 +100,10 @@ module.exports = {
     // restoreMocks: false,
 
     // The root directory that Jest should scan for tests and modules within
-    //rootDir: './test/unit',
+    rootDir: '..',
 
     // A list of paths to directories that Jest should use to search for files in
-    roots: ['src/js/', 'test/unit/'],
+    roots: ['src/js/', 'test/e2e/'],
 
     // Allows you to use a custom runner instead of Jest's default test runner
     // runner: "jest-runner",
@@ -117,7 +113,7 @@ module.exports = {
             './__tests__/setup.ts'
         ],*/
     // A list of paths to modules that run some code to configure or set up the testing framework before each test
-    setupFilesAfterEnv: ['./test/jest.setup.ts'],
+    setupFilesAfterEnv: ['./test/jest.setup.e2e.ts'],
     // A list of paths to snapshot serializer modules Jest should use for snapshot testing
     // snapshotSerializers: [],
 
