@@ -10,7 +10,8 @@
     "tsc": "npx tsc -b",
     "build": "npm run tsc && npm run rollup",
     "start": "npm run build && npm test",
-    "watch": "npx rollup -w -c rollup.config.js & npx tsc --build --watch & dotnet watch -v -p ../Hive.Api run &"
+    "watch": "npx rollup -w -c rollup.config.js & npx tsc --build --watch & dotnet watch -v -p ../Hive.Api run &",
+    "watch-win": "start npx rollup -w -c rollup.config.js && start npx tsc --build --watch && start dotnet watch -v -p ../Hive.Api run &"
   },
   "lint-staged": {
     "*.{css,md,scss}": "prettier --write",
