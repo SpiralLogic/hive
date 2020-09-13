@@ -1,16 +1,12 @@
-import { HexCoordinates, TileId } from '../domain';
+import { Move } from '../domain';
 import { EventEmitter } from './event-emitter';
 
 export class CellDropEmitter extends EventEmitter<CellDropEvent> {}
 
-export type CellDropListener<CellDropEvent> = (event: CellDropEvent) => void;
+export type CellDropListener<TCellDropEvent> = (event: TCellDropEvent) => void;
 
 const cellDropEmitter = new CellDropEmitter();
 
-export type CellDropEvent = {
-    type: 'drop';
-    coords: HexCoordinates;
-    tileId: TileId;
-};
+export type CellDropEvent = { type: 'drop'; move: Move}
 
 export const useCellDropEmitter = (): CellDropEmitter => cellDropEmitter;

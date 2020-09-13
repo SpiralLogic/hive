@@ -26,7 +26,7 @@ const CellFC: FunctionComponent<Props> = (props: Props) => {
     }
 
     const handleTileEvent = (e: TileDragEvent) => {
-        const valid = isValidMove(e.moves);
+        const valid = isValidMove(e.tile.moves);
         if (e.type === 'start' && valid) {
             setClasses(classes + ' can-drop');
         }
@@ -35,9 +35,9 @@ const CellFC: FunctionComponent<Props> = (props: Props) => {
             if (valid && classes.includes('active'))
                 cellDropEmitter.emit({
                     type: 'drop',
-                    coords: coords,
-                    tileId: e.tileId,
+                    move: { coords, tileId: e.tile.id }
                 });
+
             setClasses('hex cell');
         }
     };

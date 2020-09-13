@@ -61,12 +61,12 @@ describe('drag and drop', () => {
     function emitTileEvent(type: 'start' | 'end') {
         act(() =>
             emitter.emit({
-                type,
-                tileId: 2,
-                moves: [
-                    { q: 0, r: 0 },
-                    { q: 2, r: 2 },
-                ],
+                    type,
+                    tile: { id: 2,
+                    moves: [{ q: 0, r: 0 },{ q: 2, r: 2 },],
+                    content:"",
+                    playerId:1,
+                }
             }),
         );
     }

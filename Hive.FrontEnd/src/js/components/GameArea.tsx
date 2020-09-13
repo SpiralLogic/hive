@@ -25,7 +25,7 @@ const GameArea = () => {
     }, []);
 
     useEffect(() => {
-        const cellDropListener = async (e: CellDropEvent) => setGameState(await Engine.moveTile(e));
+        const cellDropListener = async (e: CellDropEvent) => setGameState(await Engine.moveTile(e.move));
 
         cellDropEmitter.add(cellDropListener);
         return () => cellDropEmitter.remove(cellDropListener);

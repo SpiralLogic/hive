@@ -10,7 +10,8 @@ import { renderElement, simulateEvent } from './helpers';
 jest.mock('hive/components/Hextille', () => jest.fn(() => <div class="hextille" />));
 jest.mock('hive/components/PlayerList', () => jest.fn(() => <div class="playerList" />));
 jest.mock('hive/game-engine');
-const move: CellDropEvent = { coords: { q: 1, r: 1 }, tileId: 1, type: 'drop' };
+
+const cellDropEvent: CellDropEvent = { move: {coords: { q: 1, r: 1 }, tileId: 1 }, type: 'drop' };
 
 beforeEach(() => {
     const emptyCell = { coordinates: { q: 0, r: 0 }, tiles: [] };
@@ -47,7 +48,7 @@ test('calls update game on cell drop', async () => {
     const gameArea = render(<GameArea />);
     await Engine.newGame();
     gameArea.rerender(<GameArea />);
-    useCellDropEmitter().emit({ coords: { q: 1, r: 1 }, tileId: 1, type: 'drop' });
+    useCellDropEmitter().emit(cellDropEvent);
 
     expect(Engine.moveTile).toHaveBeenCalled();
 });
@@ -57,8 +58,8 @@ test('renders new state on cell drop', async () => {
     await Engine.newGame();
     gameArea.rerender(<GameArea />);
 
-    useCellDropEmitter().emit(move);
-    await Engine.moveTile(move);
+    useCellDropEmitter().emit(cellDropEvent);
+    await Engine.moveTile(cellDropEvent.move);
     gameArea.rerender(<GameArea />);
 
     expect(Hextille).toHaveBeenCalledTimes(2);

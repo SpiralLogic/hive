@@ -4,45 +4,45 @@ import Tile from 'hive/components/Tile';
 import { TileDragEvent, useTileDragEmitter } from 'hive/emitters';
 import { renderElement, simulateEvent } from './helpers';
 
-const tileCanMove = () => {
-    const props = { id: 1, playerId: 1, content: 'ant', moves: [{ q: 1, r: 1 }] };
-    return renderElement(<Tile {...props} />);
+const tileCanMove = { id: 1, playerId: 1, content: 'ant', moves: [{ q: 1, r: 1 }] };
+const tileNoMove = { id: 2, playerId: 0, content: 'fly', moves: [] };
+
+const createTileCanMove = () => {
+    return renderElement(<Tile {...tileCanMove} />);
 };
 
-const tileNoMove = () => {
-    const props = { id: 2, playerId: 0, content: 'fly', moves: [] };
-    return renderElement(<Tile {...props} />);
+const createTileNoMove = () => {
+    return renderElement(<Tile {...tileNoMove} />);
 };
 
 describe('Tile Render', () => {
     test("tile color is the player's color", () => {
-        expect(tileCanMove()).toHaveStyle('--color: #f64c72');
-        expect(tileNoMove()).toHaveStyle('--color: #85dcbc');
+        expect(createTileCanMove()).toHaveStyle('--color: #f64c72');
+        expect(createTileNoMove()).toHaveStyle('--color: #85dcbc');
     });
 
     test('has content', () => {
-        expect(tileNoMove()).toHaveTextContent('fly');
-        expect(tileCanMove()).toHaveTextContent('ant');
+        expect(createTileNoMove()).toHaveTextContent('fly');
+        expect(createTileCanMove()).toHaveTextContent('ant');
     });
 });
 
 describe('drag and drop', () => {
     test('Tile is draggable when there are available moves', () => {
-        expect(tileCanMove()).toHaveAttribute('draggable', 'true');
+        expect(createTileCanMove()).toHaveAttribute('draggable', 'true');
     });
 
     test('is *not* draggable when there are no moves available', () => {
-        expect(tileNoMove()).toHaveAttribute('draggable', 'false');
+        expect(createTileNoMove()).toHaveAttribute('draggable', 'false');
     });
 
     test('on drag emits start event', () => {
         jest.spyOn(useTileDragEmitter(), 'emit');
-        fireEvent.dragStart(tileCanMove());
+        fireEvent.dragStart(createTileCanMove());
 
         const expectedEvent: TileDragEvent = {
             type: 'start',
-            tileId: 1,
-            moves: [{ q: 1, r: 1 }],
+            tile: tileNoMove
         };
 
         expect(useTileDragEmitter().emit).toHaveBeenCalledWith(expectedEvent);
@@ -50,28 +50,27 @@ describe('drag and drop', () => {
 
     test('on dragEnd emits end event', () => {
         jest.spyOn(useTileDragEmitter(), 'emit');
-        fireEvent.dragEnd(tileCanMove());
+        fireEvent.dragEnd(createTileCanMove());
         const expectedEvent: TileDragEvent = {
             type: 'end',
-            tileId: 1,
-            moves: [{ q: 1, r: 1 }],
+            tile: tileNoMove
         };
 
         expect(useTileDragEmitter().emit).toHaveBeenCalledWith(expectedEvent);
     });
 
     test('default on drop is prevented', () => {
-        expect(simulateEvent(tileCanMove(), 'drop')).toHaveBeenCalled();
-        expect(simulateEvent(tileNoMove(), 'drop')).toHaveBeenCalled();
+        expect(simulateEvent(createTileCanMove(), 'drop')).toHaveBeenCalled();
+        expect(simulateEvent(createTileNoMove(), 'drop')).toHaveBeenCalled();
     });
 });
 
 describe('Tile Snapshot', () => {
     test('can move matches current snapshot', () => {
-        expect(tileCanMove()).toMatchSnapshot();
+        expect(createTileCanMove()).toMatchSnapshot();
     });
 
     test('no moves matches current snapshot', () => {
-        expect(tileNoMove()).toMatchSnapshot();
+        expect(createTileNoMove()).toMatchSnapshot();
     });
 });

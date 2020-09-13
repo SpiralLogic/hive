@@ -1,10 +1,9 @@
-import { HexCoordinates, TileId } from '../domain';
+import { Tile } from '../domain';
 import { EventEmitter } from './event-emitter';
 
 export type TileDragEvent = {
     type: 'start' | 'end';
-    tileId: TileId;
-    moves: HexCoordinates[];
+    tile: Tile;
 };
 
 export class TileDragEmitter extends EventEmitter<TileDragEvent> {}

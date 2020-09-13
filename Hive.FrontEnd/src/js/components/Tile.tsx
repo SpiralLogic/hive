@@ -17,11 +17,11 @@ const TileFC: FunctionComponent<Props> = (props: Props) => {
     const tileDragEmitter = useTileDragEmitter();
 
     function handleDragStart() {
-        tileDragEmitter.emit({ type: 'start', tileId: id, moves: moves });
+        tileDragEmitter.emit({ type: 'start', tile: props });
     }
 
     function handleDragEnd() {
-        tileDragEmitter.emit({ type: 'end', tileId: id, moves: moves });
+        tileDragEmitter.emit({ type: 'end', tile: props });
     }
 
     const attributes = {
