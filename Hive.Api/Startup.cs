@@ -1,15 +1,22 @@
 using System;
+using System.Text.Json;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 
 namespace Hive
 {
     public class Startup
     {
+        private static JsonSerializerOptions s_serializerOptions = new JsonSerializerOptions(JsonSerializerDefaults.Web)
+        {
+            IncludeFields = true, // NEW: globally include fields for (de)serialization
+            IgnoreReadOnlyProperties = false,
+            PropertyNameCaseInsensitive = true,
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+
+        };
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
@@ -38,14 +45,7 @@ namespace Hive
 
         private static void AddDefaultSerializeSettings()
         {
-            JsonConvert.DefaultSettings = () => new JsonSerializerSettings
-            {
-                ContractResolver = new DefaultContractResolver
-                {
-                    NamingStrategy = new CamelCaseNamingStrategy(),
-                },
-                Formatting = Formatting.Indented
-            };
+            
         }
     }
 }

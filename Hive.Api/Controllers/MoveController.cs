@@ -1,11 +1,9 @@
-﻿using System.Linq;
-using Hive.Domain;
+﻿using System.Text.Json;
 using Hive.Domain.Entities;
 using Hive.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
 
 namespace Hive.Controllers
 {
@@ -21,15 +19,18 @@ namespace Hive.Controllers
         }
 
         [HttpPost]
-        public State Post([FromBody] Move moveTile)
+        public GameState Post([FromBody] Move move)
         {
-            var gameJson = JsonConvert.DeserializeObject<State>(HttpContext.Session.GetString(Constants.GameStateKey));
-            var currentGame = new Domain.Hive(gameJson);
+            var gameState = JsonSerializer.Deserialize<GameState>(HttpContext.Session.GetString(Constants.GameStateKey));
+            var game =  new Domain.Hive(gameState.Players, gameState.Cells);
 
-            currentGame.Move(moveTile.TileId, new Domain.Entities.Coordinates(moveTile.Coords.Q, moveTile.Coords.R));
-            var json = JsonConvert.SerializeObject(currentGame.State);
+            game.Move(move);
+
+            gameState = new GameState(game.Players, game.Cells);
+            var json = JsonSerializer.Serialize(gameState);
             HttpContext.Session.SetString(Constants.GameStateKey, json);
-            return currentGame.State;
+            return gameState;
         }
     }
 }
+    

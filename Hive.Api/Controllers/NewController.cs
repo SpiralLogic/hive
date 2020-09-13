@@ -1,9 +1,8 @@
-﻿using Hive.Domain;
-using Hive.Domain.Entities;
+﻿using Hive.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
+using System.Text.Json;
 
 namespace Hive.Controllers
 {
@@ -12,7 +11,6 @@ namespace Hive.Controllers
     public class NewController : Controller
     {
         private readonly ILogger<NewController> _logger;
-        public static State State;
 
         public NewController(ILogger<NewController> logger)
         {
@@ -21,10 +19,10 @@ namespace Hive.Controllers
 
         [HttpPost]
         [Produces("application/json")]
-        public State Post()
+        public Domain.Hive Post()
         {
-            var newGame = new Domain.Hive(new[] {"P1", "P2"}).State;
-            var json = JsonConvert.SerializeObject(newGame);
+            var newGame = new Domain.Hive(new[] {"P1", "P2"});
+            var json = JsonSerializer.Serialize(new GameState(newGame.Players,newGame.Cells));
             HttpContext.Session.SetString(Constants.GameStateKey, json);
             return newGame;
         }
