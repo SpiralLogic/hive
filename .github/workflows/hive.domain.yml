@@ -1,5 +1,8 @@
 name: 'Hive Domain'
-on: push
+on: 
+  push:
+    paths:
+    - 'src/Domain/'
 jobs:
   domain:
     runs-on: ubuntu-latest
