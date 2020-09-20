@@ -1,7 +1,7 @@
 import { h } from 'preact';
 import { useEffect, useState } from 'preact/hooks';
 import { GameState } from '../domain';
-import { CellDropEvent, useCellDropEmitter } from '../emitters/cell-drop-emitter';
+import { CellDropEvent, useCellDropEmitter } from '../emitters';
 import Engine from '../game-engine';
 import { handleDragOver } from '../handlers';
 import Hextille from './Hextille';

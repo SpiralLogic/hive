@@ -7,10 +7,10 @@
 
   </PropertyGroup>
     <ItemGroup>
-        <ProjectReference Include="..\Hive.Domain\Hive.Domain.csproj" />
-    </ItemGroup>
-    <ItemGroup>
       <Content Remove="wwwroot\**" />
       <Content Remove="obj\**" />
+    </ItemGroup>
+    <ItemGroup>
+      <ProjectReference Include="..\..\Domain\Hive.Domain\Hive.Domain.csproj" />
     </ItemGroup>
 </Project>
