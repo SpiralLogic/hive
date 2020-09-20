@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "name": "hive",
+  "name": "Hive",
   "private": true,
   "scripts": {
     "clean": "rm -rf ./src/dist",
