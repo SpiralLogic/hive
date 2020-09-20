@@ -42,7 +42,7 @@ describe('drag and drop', () => {
 
         const expectedEvent: TileDragEvent = {
             type: 'start',
-            tile: tileNoMove
+            tile: tileCanMove
         };
 
         expect(useTileDragEmitter().emit).toHaveBeenCalledWith(expectedEvent);
@@ -53,7 +53,7 @@ describe('drag and drop', () => {
         fireEvent.dragEnd(createTileCanMove());
         const expectedEvent: TileDragEvent = {
             type: 'end',
-            tile: tileNoMove
+            tile: tileCanMove
         };
 
         expect(useTileDragEmitter().emit).toHaveBeenCalledWith(expectedEvent);

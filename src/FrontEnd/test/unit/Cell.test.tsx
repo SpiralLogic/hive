@@ -105,8 +105,8 @@ describe('drag and drop', () => {
         fireEvent.dragEnter(emptyCell);
         emitTileEvent('end');
 
-        expect(useCellDropEmitter().emit).toHaveBeenCalledWith({ type: 'drop', tileId: 2, coords: { q: 0, r: 0 } });
-        expect(useCellDropEmitter().emit).toHaveBeenCalledWith({ type: 'drop', tileId: 2, coords: { q: 2, r: 2 } });
+        expect(useCellDropEmitter().emit).toHaveBeenCalledWith({ type: 'drop', move: { tileId: 2, coords: { q: 0, r: 0 } } });
+        expect(useCellDropEmitter().emit).toHaveBeenCalledWith({ type: 'drop', move: { tileId: 2, coords: { q: 2, r: 2 } } });
     });
 
     test(`drop calls move tile when cell doesn't allow drop`, () => {
