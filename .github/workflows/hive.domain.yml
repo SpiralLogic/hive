@@ -2,7 +2,7 @@ name: 'Hive Domain'
 on: 
   push:
     paths:
-    - './src/Domain/**'
+    - 'src/Domain/**'
 jobs:
   domain:
     runs-on: ubuntu-latest
