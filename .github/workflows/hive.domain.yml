@@ -1,0 +1,22 @@
+name: 'Hive Domain'
+on: push
+jobs:
+  domain:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+      - name: Setup dotnet
+        uses: actions/setup-dotnet@v1.6.0
+        with: 
+          dotnet-version: '5.0.100-rc.1.20452.10'
+      - name: Build
+        run: dotnet build
+        working-directory: './src/Domain/Hive.Domain/'
+      - name: Test
+        run: dotnet test
+        working-directory: './src/Domain/Hive.Domain.Tests/'
+        

@@ -8,7 +8,8 @@
 **/.DS_Store
 **/dist
 **/coverage
-/Hive.Api/wwwroot/**
-/Hive.FrontEnd/src/js/**/*.js
-/Hive.FrontEnd/src/js/**/*.map
-/Hive.FrontEnd/.build-cache/
+src/Hive.Api/wwwroot/**
+**/js/**/*.js
+**/js/**/*.map
+**/.build-cache/
+package-lock.json

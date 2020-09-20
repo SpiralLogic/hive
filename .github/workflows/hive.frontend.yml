@@ -1,0 +1,20 @@
+name: Hive Frontend
+on: push
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    name: 'Front End'
+    defaults:
+      run:
+        working-directory: './src/FrontEnd/'
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '12.x'
+      - name: Install
+        run: npm install
+      - name: Typecheck
+        run: npm run tsc
+      - name: Test
+        run: npm test 
