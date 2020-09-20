@@ -3,32 +3,36 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29911.84
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hive.Api", "Hive.Api\Hive.Api.csproj", "{763BFC54-27D8-43A5-BDB5-3F9D9877153B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hive.Api", "API\Hive.Api\Hive.Api.csproj", "{763BFC54-27D8-43A5-BDB5-3F9D9877153B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hive.Domain", "Hive.Domain\Hive.Domain.csproj", "{F7213AA5-B802-495E-A357-24C9C84EC0C1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hive.Domain", "Domain\Hive.Domain\Hive.Domain.csproj", "{F7213AA5-B802-495E-A357-24C9C84EC0C1}"
 EndProject
-Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "Hive.FrontEnd", "Hive.FrontEnd\", "{D68A8FF3-8F8B-4898-BC07-AA278705A876}"
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "FrontEnd", "FrontEnd\", "{D68A8FF3-8F8B-4898-BC07-AA278705A876}"
 	ProjectSection(WebsiteProperties) = preProject
 		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.0"
-		Debug.AspNetCompiler.VirtualPath = "/localhost_13371"
-		Debug.AspNetCompiler.PhysicalPath = "Hive.FrontEnd\"
-		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_13371\"
+		Debug.AspNetCompiler.VirtualPath = "/localhost_58202"
+		Debug.AspNetCompiler.PhysicalPath = "FrontEnd\"
+		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_58202\"
 		Debug.AspNetCompiler.Updateable = "true"
 		Debug.AspNetCompiler.ForceOverwrite = "true"
 		Debug.AspNetCompiler.FixedNames = "false"
 		Debug.AspNetCompiler.Debug = "True"
-		Release.AspNetCompiler.VirtualPath = "/localhost_13371"
-		Release.AspNetCompiler.PhysicalPath = "Hive.FrontEnd\"
-		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_13371\"
+		Release.AspNetCompiler.VirtualPath = "/localhost_58202"
+		Release.AspNetCompiler.PhysicalPath = "FrontEnd\"
+		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_58202\"
 		Release.AspNetCompiler.Updateable = "true"
 		Release.AspNetCompiler.ForceOverwrite = "true"
 		Release.AspNetCompiler.FixedNames = "false"
 		Release.AspNetCompiler.Debug = "False"
-		VWDPort = "13371"
-		SlnRelativePath = "Hive.FrontEnd\"
+		VWDPort = "58202"
+		SlnRelativePath = "FrontEnd\"
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hive.Domain.Tests", "Hive.Domain.Tests\Hive.Domain.Tests.csproj", "{0C449EA6-AA70-4F0B-BBE5-B8DB3F0209A9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hive.Domain.Tests", "Domain\Hive.Domain.Tests\Hive.Domain.Tests.csproj", "{0C449EA6-AA70-4F0B-BBE5-B8DB3F0209A9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Api", "Api", "{2356A104-411D-4B24-92BD-B98FDB510380}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Domain", "Domain", "{BA2442AA-64F4-42C0-B366-DCCD22D02B36}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -54,6 +58,11 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{763BFC54-27D8-43A5-BDB5-3F9D9877153B} = {2356A104-411D-4B24-92BD-B98FDB510380}
+		{F7213AA5-B802-495E-A357-24C9C84EC0C1} = {BA2442AA-64F4-42C0-B366-DCCD22D02B36}
+		{0C449EA6-AA70-4F0B-BBE5-B8DB3F0209A9} = {BA2442AA-64F4-42C0-B366-DCCD22D02B36}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {21C1A9F5-7A6D-4629-B567-5553D00896E5}
