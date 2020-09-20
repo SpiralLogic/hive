@@ -2,8 +2,7 @@ name: Hive Frontend
 on: 
   push:
     paths:
-    - 'src/FrontEnd/'
-    - '**.js'
+    - './src/FrontEnd/**'
 jobs:
   build:
     runs-on: ubuntu-latest

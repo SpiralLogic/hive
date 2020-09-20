@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "name": "hive-frontend",
+  "name": "hive",
   "private": true,
   "scripts": {
     "clean": "rm -rf ./src/dist",
