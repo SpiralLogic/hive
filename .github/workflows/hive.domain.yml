@@ -3,9 +3,6 @@ on: push
 jobs:
   domain:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        
     steps:
       - name: Checkout
         uses: actions/checkout@v1
