@@ -8,8 +8,9 @@
 **/.DS_Store
 **/dist
 **/coverage
-src/Hive.Api/wwwroot/**
+**/wwwroot/**
 **/js/**/*.js
 **/js/**/*.map
 **/.build-cache/
 package-lock.json
+*.sln.DotSettings.user
