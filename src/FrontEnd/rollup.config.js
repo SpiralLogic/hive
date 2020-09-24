@@ -5,7 +5,7 @@ import copy from 'rollup-plugin-copy';
 export default {
     input: './src/dist/index.js',
     output: {
-        dir: '../Hive.Api/wwwroot/js/',
+        dir: '../Api/Hive.Api/wwwroot/js/',
         format: 'es',
         sourcemap: true,
         compact: true,
@@ -21,11 +21,11 @@ export default {
             targets: [
                 {
                     src: 'static/css',
-                    dest: '../Hive.Api/wwwroot',
+                    dest: '../Api/Hive.Api/wwwroot',
                 },
                 {
                     src: 'static/index.html',
-                    dest: '../Hive.Api/wwwroot',
+                    dest: '../Api/Hive.Api/wwwroot',
                 },
             ],
         }),
