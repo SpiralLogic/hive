@@ -19,7 +19,7 @@ namespace Hive.Domain.Entities
             Tiles.Add(tile);
         }
 
-        public bool IsEmpty() => Tiles.Any();
+        public bool IsEmpty() => !Tiles.Any();
 
 
         public bool Equals(Cell other)

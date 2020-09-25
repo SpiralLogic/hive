@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace Hive.Domain.Extensions
 {
-    static class Extensions
+   public static class Extensions
     {
         public static Tile FindTileById(this IEnumerable<Player> players, int tileId)
         {
@@ -16,9 +16,9 @@ namespace Hive.Domain.Extensions
             return players.Single(p => p.Id == playerId);
         }
 
-        public static bool RemoveUnplacedTile(this IEnumerable<Player> players, Tile tile)
+        public static void RemoveUnplacedTile(this IEnumerable<Player> players, Tile tile)
         {
-            return players.Select(p => p.Tiles.Remove(tile)).Any();
+            players.Single(p=>p.Tiles.Contains(tile)).Tiles.Remove(tile);
         }
 
         public static Cell FindCell(this IEnumerable<Cell> cells, Coords coords)
@@ -58,9 +58,9 @@ namespace Hive.Domain.Extensions
         public static ISet<Cell> CreateNewEmptyNeighbors(this IEnumerable<Cell> cells)
         {
             return cells
+                .Where(c => !c.IsEmpty())
                 .Select(cell => cell.Coords)
                 .SelectMany(coords => coords.GetNeighbors())
-                .Distinct()
                 .Select(coords => new Cell(coords)).ToHashSet();
         }
     }
