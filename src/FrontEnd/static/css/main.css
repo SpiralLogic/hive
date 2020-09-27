@@ -10,6 +10,7 @@ body {
     --margin: calc(var(--hex-size) / 12.5);
     --tile-size: calc(var(--hex-size) * .7);
     --hex-offset: -1;
+    user-select: none;
 }
 
 .players {
@@ -35,7 +36,6 @@ body {
     padding: 5px;
     font-weight: bold;
     border-radius: 4px 4px 0 0;
-    user-select: none;
 }
 
 .player .tiles {
@@ -114,7 +114,6 @@ body {
     --size: var(--tile-size);
     z-index: 10;
     font-size: var(--tile-size);
-    user-select: none;
 }
 
 .player .tile {

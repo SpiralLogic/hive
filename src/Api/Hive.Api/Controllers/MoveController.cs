@@ -5,6 +5,7 @@ using Hive.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 namespace Hive.Controllers
 {
@@ -13,25 +14,29 @@ namespace Hive.Controllers
     public class MoveController : ControllerBase
     {
         private readonly ILogger<MoveController> _logger;
+        private readonly JsonSerializerOptions _jsonSerializerOptions;
 
-        public MoveController(ILogger<MoveController> logger)
+        public MoveController(ILogger<MoveController> logger, IOptions<JsonOptions> jsonOptions)
         {
             _logger = logger;
+            _jsonSerializerOptions = jsonOptions.Value.JsonSerializerOptions;
         }
 
         [HttpPost]
-        public GameState Post([FromBody] Move move)
+        public ActionResult Post([FromBody] Move move)
         {
-            var gameState = JsonSerializer.Deserialize<GameState>(HttpContext.Session.GetString(Constants.GameStateKey));
-            var game =  new Domain.Hive(gameState.Players.ToHashSet(), gameState.Cells.ToHashSet());
+            var gameState = JsonSerializer.Deserialize<GameState>(HttpContext.Session.GetString(Constants.GameStateSessionKey),
+                _jsonSerializerOptions);
+            if (gameState == null) return NotFound();
+
+            var game = new Domain.Hive(gameState.Players.ToHashSet(), gameState.Cells.ToHashSet());
 
             game.Move(move);
 
-            gameState = new GameState(game.Players.ToHashSet(), game.Cells.ToHashSet());
-            var json = JsonSerializer.Serialize(gameState);
-            HttpContext.Session.SetString(Constants.GameStateKey, json);
-            return gameState;
+            var json = JsonSerializer.Serialize(new GameState(game.Players, game.Cells), _jsonSerializerOptions);
+            HttpContext.Session.SetString(Constants.GameStateSessionKey, json);
+            
+            return Accepted(game);
         }
     }
 }
-    

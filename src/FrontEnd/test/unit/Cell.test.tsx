@@ -15,14 +15,14 @@ const createCellWithNoTile = () => {
 };
 
 const createCellWithTile = () => {
-    const tile = { id: 2, playerId: 2, content: 'fly', moves: [] };
+    const tile = { id: 2, playerId: 2, creature: 'fly', moves: [] };
     const cell = { coords: { q: 1, r: 1 }, tiles: [tile] };
 
     return renderElement(<Cell {...cell} />);
 };
 
 const createCellWithTileAndDrop = () => {
-    const tile = { id: 2, playerId: 2, content: 'ant', moves: [] };
+    const tile = { id: 2, playerId: 2, creature: 'ant', moves: [] };
     const cell = { coords: { q: 2, r: 2 }, tiles: [tile] };
 
     return renderElement(<Cell {...cell} />);
@@ -64,7 +64,7 @@ describe('drag and drop', () => {
                     type,
                     tile: { id: 2,
                     moves: [{ q: 0, r: 0 },{ q: 2, r: 2 },],
-                    content:"",
+                    creature:"",
                     playerId:1,
                 }
             }),

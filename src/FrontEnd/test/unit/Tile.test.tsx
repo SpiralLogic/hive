@@ -4,8 +4,8 @@ import Tile from 'hive/components/Tile';
 import { TileDragEvent, useTileDragEmitter } from 'hive/emitters';
 import { renderElement, simulateEvent } from './helpers';
 
-const tileCanMove = { id: 1, playerId: 1, content: 'ant', moves: [{ q: 1, r: 1 }] };
-const tileNoMove = { id: 2, playerId: 0, content: 'fly', moves: [] };
+const tileCanMove = { id: 1, playerId: 1, creature: 'ant', moves: [{ q: 1, r: 1 }] };
+const tileNoMove = { id: 2, playerId: 0, creature: 'fly', moves: [] };
 
 const createTileCanMove = () => {
     return renderElement(<Tile {...tileCanMove} />);
@@ -21,7 +21,7 @@ describe('Tile Render', () => {
         expect(createTileNoMove()).toHaveStyle('--color: #85dcbc');
     });
 
-    test('has content', () => {
+    test('has creature', () => {
         expect(createTileNoMove()).toHaveTextContent('fly');
         expect(createTileCanMove()).toHaveTextContent('ant');
     });

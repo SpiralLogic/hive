@@ -11,29 +11,33 @@ namespace Hive.Domain.Entities
             Coords = coords;
         }
 
-        public Coords Coords { get; init; }
-        public ISet<Tile> Tiles { get; init; } = new HashSet<Tile>();
+        public  Coords Coords { get; init; }
+        public Stack<Tile> Tiles { get; init; } = new Stack<Tile>();
 
-        public void AddTile(Tile tile)
+        public Cell AddTile(Tile tile)
         {
-            Tiles.Add(tile);
+            Tiles.Push(tile);
+            return this;
         }
 
         public bool IsEmpty() => !Tiles.Any();
 
+        public Tile TopTile() => Tiles.Peek();
 
-        public bool Equals(Cell other)
+        public Tile RemoveTopTile() => Tiles.Pop();
+
+        public bool Equals(Cell? other)
         {
-            if (ReferenceEquals(null, other)) return false;
+            if (other is null) return false;
             if (ReferenceEquals(this, other)) return true;
             return Coords.Equals(other.Coords);
         }
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
-            if (ReferenceEquals(null, obj)) return false;
+            if (obj is null) return false;
             if (ReferenceEquals(this, obj)) return true;
-            if (obj.GetType() != this.GetType()) return false;
+            if (obj.GetType() != GetType()) return false;
             return Equals((Cell) obj);
         }
 

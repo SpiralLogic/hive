@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Hive.Domain.Entities;
@@ -8,8 +7,7 @@ namespace Hive.Domain
 {
     public class Hive
     {
-        private readonly string[] StartingTiles =
-            {"Q", "S", "S", "B", "B", "GH", "GH", "A", "A", "A"};
+        private readonly Creature[] StartingTiles = new[] {Creatures.Queen, Creatures.Queen};
 
         private readonly Coords InitialCoords = new Coords(0, 0);
 
@@ -18,59 +16,91 @@ namespace Hive.Domain
 
         public Hive(IEnumerable<string> playerNames)
         {
-            Players = CreatePlayers(playerNames);
             Cells = CreateCells();
-            UpdateAllTileMoves();
+            Players = CreatePlayers(playerNames);
         }
-
 
         public Hive(ISet<Player> players, ISet<Cell> cells)
         {
-            Players = players;
             Cells = cells;
+            Players = players;
         }
 
         public void Move(Move move)
         {
-            var movedTile = Players.FindTileById(move.TileId);
-            Players.RemoveUnplacedTile(movedTile);
+            var movedTile = FindAndRemoveTile(move.TileId);
+            var nextPlayer = Players.First(p => p.Id != movedTile.PlayerId);
             Cells.FindCell(move.Coords).AddTile(movedTile);
-            Cells.UnionWith(Cells.CreateNewEmptyNeighbors());
+            ClearAllTileMoves();
 
-            UpdateAllTileMoves();
+            UpdatedPlacedTileMoves(nextPlayer);
+
+            Cells.ExceptWith(Cells.WhereEmpty());
+            Cells.UnionWith(Cells.GetEmptyNeighbours());
+
+            UpdatePlayerTileMoves(nextPlayer);
         }
 
-        private void UpdateAllTileMoves() => Players
-            .SelectMany(p => p.Tiles)
-            .Concat(Cells.SelectMany(c => c.Tiles))
-            .Select(t => t.Moves)
-            .ToList()
-            .ForEach(m => m.UnionWith(CreateRandomMoves()));
+        private void UpdatePlayerTileMoves(Player player)
+        {
+            var availableCells = (player.Tiles.Count == StartingTiles.Count())
+                ? Cells.WhereEmpty()
+                : Cells
+                    .WherePlayerOccupies(player)
+                    .GetEmptyNeighbours()
+                    .Except(Cells.WhereOccupied());
 
-        private ISet<Coords> CreateRandomMoves() =>
-            Cells
-                .Select(cell => cell.Coords)
-                .OrderBy(_ => Guid.NewGuid())
-                .Take(Cells.Count / 2)
-                .ToHashSet();
+            var availableMoves = availableCells.ToCoords();
+            foreach (var tile in player.Tiles)
+            {
+                tile.Moves.UnionWith(availableMoves);
+            }
+        }
 
-        private ISet<Tile> CreateStartingTiles(int playerId) =>
-            StartingTiles
-                .Select((name, i) => (name, id: playerId * StartingTiles.Length + i))
-                .Select(t => new Tile(t.id, playerId, t.name))
-                .ToHashSet();
+        private void UpdatedPlacedTileMoves(Player player)
+        {
+            foreach (var cell in Cells.WherePlayerOccupies(player))
+            {
+                var moves = cell.TopTile().Creature.GetAvailableMoves(cell.Coords, Cells);
+                cell.TopTile().Moves.UnionWith(moves);
+            }
+        }
+
+        private void ClearAllTileMoves()
+        {
+            foreach (var tile in Players.SelectMany(p => p.Tiles).Concat(Cells.SelectMany(c => c.Tiles)))
+            {
+                tile.Moves.Clear();
+            }
+        }
+
+        public Tile FindAndRemoveTile(int tileId)
+        {
+            var pTile = Players.SelectMany(p => p.Tiles).FirstOrDefault(t => t.Id == tileId);
+
+            if (pTile != null)
+            {
+                Players.FindPlayerById(pTile.PlayerId).RemoveTile(pTile);
+                return pTile;
+            }
+
+            return Cells.WhereOccupied().First(c => c.TopTile().Id == tileId).RemoveTopTile();
+        }
+
 
         private ISet<Player> CreatePlayers(IEnumerable<string> playerNames) =>
             playerNames.Select(CreatePlayer).ToHashSet();
 
-        private Player CreatePlayer(string name, int id) =>
-            new Player(id, name) {Tiles = CreateStartingTiles(id)};
+        private Player CreatePlayer(string name, int id) => new Player(id, name) {Tiles = CreateStartingTiles(id)};
 
+
+        private ISet<Tile> CreateStartingTiles(int playerId) => StartingTiles
+            .Select((creature, i) => (creature, id: playerId * StartingTiles.Length + i))
+            .Select(t => new Tile(t.id, playerId, t.creature) {Moves = Cells.ToCoords()})
+            .ToHashSet();
 
         private ISet<Cell> CreateCells() => InitialCoords
             .GetNeighbors()
-            .Prepend(InitialCoords)
-            .Select(c => new Cell(c))
-            .ToHashSet();
+            .Prepend(InitialCoords).ToCells();
     }
 }

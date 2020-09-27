@@ -2,8 +2,8 @@ import { render, RenderResult } from '@testing-library/preact';
 import { h } from 'preact';
 import PlayerTiles from 'hive/components/PlayerTiles';
 
-const ant = { id: 1, playerId: 1, content: 'ant', moves: [{ q: 1, r: 1 }] };
-const fly = { id: 2, playerId: 0, content: 'fly', moves: [] };
+const ant = { id: 1, playerId: 1, creature: 'ant', moves: [{ q: 1, r: 1 }] };
+const fly = { id: 2, playerId: 0, creature: 'fly', moves: [] };
 
 const playerProps = { id: 1, name: 'Player 1', tiles: [ant, fly, fly] };
 

@@ -4,31 +4,22 @@ using System.Linq;
 
 namespace Hive.Domain.Extensions
 {
-   public static class Extensions
+    public static class Extensions
     {
-        public static Tile FindTileById(this IEnumerable<Player> players, int tileId)
-        {
-            return players.SelectMany(p => p.Tiles).First(t => t.Id == tileId);
-        }
-
         public static Player FindPlayerById(this IEnumerable<Player> players, int playerId)
         {
             return players.Single(p => p.Id == playerId);
         }
 
-        public static void RemoveUnplacedTile(this IEnumerable<Player> players, Tile tile)
-        {
-            players.Single(p=>p.Tiles.Contains(tile)).Tiles.Remove(tile);
-        }
 
         public static Cell FindCell(this IEnumerable<Cell> cells, Coords coords)
         {
             return cells.Single(c => c.Coords.Equals(coords));
         }
 
-        public static IEnumerable<Coords> GetNeighbors(this Coords coords)
+        public static ISet<Coords> GetNeighbors(this Coords coords)
         {
-            var r = new List<Coords>
+            var r = new HashSet<Coords>
             {
                 new Coords(coords.Q - 1, coords.R),
                 new Coords(coords.Q + 1, coords.R),
@@ -55,13 +46,23 @@ namespace Hive.Domain.Extensions
             return r;
         }
 
-        public static ISet<Cell> CreateNewEmptyNeighbors(this IEnumerable<Cell> cells)
+        public static ISet<Cell> GetEmptyNeighbours(this IEnumerable<Cell> cells)
         {
             return cells
-                .Where(c => !c.IsEmpty())
-                .Select(cell => cell.Coords)
+                .WhereOccupied()
+                .SelectCoords()
                 .SelectMany(coords => coords.GetNeighbors())
-                .Select(coords => new Cell(coords)).ToHashSet();
+                .SelectCells()
+                .WhereEmpty()
+                .ToHashSet();
         }
+
+        public static IEnumerable<Cell> WhereEmpty(this IEnumerable<Cell> cells) => cells.Where(c => c.IsEmpty());
+        public static IEnumerable<Cell> WhereOccupied(this IEnumerable<Cell> cells) => cells.Where(c => !c.IsEmpty());
+        public static IEnumerable<Cell> WherePlayerOccupies(this IEnumerable<Cell> cells, Player player) => cells.WhereOccupied().Where(c => c.TopTile().PlayerId == player.Id);
+        public static IEnumerable<Coords> SelectCoords(this IEnumerable<Cell> cells) => cells.Select(c => c.Coords);
+        public static IEnumerable<Cell> SelectCells(this IEnumerable<Coords> coords) => coords.Select(c => new Cell(c));
+        public static ISet<Cell> ToCells(this IEnumerable<Coords> coords) => coords.SelectCells().ToHashSet();
+        public static ISet<Coords> ToCoords(this IEnumerable<Cell> cells) => cells.SelectCoords().ToHashSet();
     }
 }

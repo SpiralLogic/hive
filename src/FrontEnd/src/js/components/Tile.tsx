@@ -13,7 +13,7 @@ const getPlayerColor = (playerId: PlayerId) => {
 };
 
 const TileFC: FunctionComponent<Props> = (props: Props) => {
-    const { id, moves, content, playerId } = props;
+    const { id, moves, creature, playerId } = props;
     const tileDragEmitter = useTileDragEmitter();
 
     function handleDragStart() {
@@ -25,7 +25,7 @@ const TileFC: FunctionComponent<Props> = (props: Props) => {
     }
 
     const attributes = {
-        title: content,
+        title: creature,
         style: { '--color': getPlayerColor(playerId) },
         class: 'hex tile',
         draggable: !!moves.length,
@@ -36,7 +36,7 @@ const TileFC: FunctionComponent<Props> = (props: Props) => {
 
     return (
         <div {...attributes}>
-            <span>{content}</span>
+            <span>{creature}</span>
         </div>
     );
 };

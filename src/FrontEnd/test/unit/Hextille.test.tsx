@@ -5,7 +5,7 @@ import { renderElement } from './helpers';
 
 const createCell = (q: number, r: number) => ({
     coords: { q, r },
-    tiles: [{ content: q + '-' + r, id: 0, playerId: 0, moves: [] as HexCoordinates[] }],
+    tiles: [{ creature: q + '-' + r, id: 0, playerId: 0, moves: [] as HexCoordinates[] }],
 });
 const createWithCells = (...coords: [number, number][]) => {
     const props: typeof Hextille.arguments.props = {

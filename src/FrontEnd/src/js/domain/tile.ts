@@ -4,9 +4,9 @@ import { PlayerId } from './player';
 export type Tile = {
     id: TileId;
     playerId: PlayerId;
-    content: TileContent;
+    creature: TileCreature;
     moves: HexCoordinates[];
 };
 
 export type TileId = number;
-export type TileContent = string;
+export type TileCreature = string;
