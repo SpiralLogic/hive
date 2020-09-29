@@ -6,8 +6,8 @@ namespace Hive.Domain.Entities
 {
     public record Creature
     {
-    internal readonly IList<IMovement> _movements = new List<IMovement>();
-    internal readonly IList<IRestriction> _restrictions = new List<IRestriction>();
+    internal readonly IList<IMovementRule> _movements = new List<IMovementRule>();
+    internal readonly IList<IRuleRestriction> _restrictions = new List<IRuleRestriction>();
     public string Name { get; init; }
 
     private Creature(string name)
@@ -15,17 +15,18 @@ namespace Hive.Domain.Entities
         Name=name;
     }
 
-    internal Creature(string name, IList<IMovement> movements, IList<IRestriction> restrictions) : this(name)
+    internal Creature(string name, IList<IMovementRule> movements, IList<IRuleRestriction> restrictions) : this(name)
     {
         _movements = movements;
         _restrictions = restrictions;
     }
 
-    internal ISet<Coords> GetAvailableMoves(Coords position, ISet<Cell> cells)
+    internal ISet<Coords> GetAvailableMoves(Cell originCell, ISet<Cell> cells)
     {
-        var allMoves = _movements.SelectMany(m => m.GetAvailableMoves(position, cells));
-        var restrictions = _restrictions.SelectMany(r => r.Restrict(position, cells));
-        return new HashSet<Coords>(allMoves.Except(restrictions));
+        var allMoves = _movements.SelectMany(m => m.GetAvailableMoves(originCell, cells));
+        var restrictions = _restrictions.SelectMany(r => r.ApplyRestriction(originCell, cells));
+
+        return allMoves.Except(restrictions).ToHashSet();
     }
     }
 }

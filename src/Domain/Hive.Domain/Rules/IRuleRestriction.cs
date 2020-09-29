@@ -3,8 +3,8 @@ using Hive.Domain.Entities;
 
 namespace Hive.Domain.Rules
 {
-    interface IRestriction
+    interface IRuleRestriction
     {
-        ISet<Coords> Restrict(Coords position, ISet<Cell> cells);
+        ISet<Coords> ApplyRestriction(Cell originCell, ISet<Cell> allCells);
     }
 }

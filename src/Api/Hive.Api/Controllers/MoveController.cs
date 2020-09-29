@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Text.Json;
 using Hive.Domain.Entities;
+using Hive.DTOs;
 using Hive.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -31,7 +32,7 @@ namespace Hive.Controllers
 
             var game = new Domain.Hive(gameState.Players.ToHashSet(), gameState.Cells.ToHashSet());
 
-            game.Move(move);
+            game.Move(move.TileId, move.Coords);
 
             var json = JsonSerializer.Serialize(new GameState(game.Players, game.Cells), _jsonSerializerOptions);
             HttpContext.Session.SetString(Constants.GameStateSessionKey, json);

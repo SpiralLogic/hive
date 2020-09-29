@@ -1,4 +1,6 @@
-﻿using Hive.Domain.Entities;
+﻿using FluentAssertions;
+using FluentAssertions.Common;
+using Hive.Domain.Entities;
 using Xunit;
 
 namespace Hive.Domain.Tests
@@ -12,7 +14,7 @@ namespace Hive.Domain.Tests
             var coord1 = new Coords(1, 1);
             var coord2 = new Coords(1, 1);
 
-            Assert.Equal(coord1, coord2);
+            coord1.Should().IsSameOrEqualTo(coord2);
         }
 
 
@@ -22,7 +24,7 @@ namespace Hive.Domain.Tests
             var coord1 = new Coords(1, 1);
             var coord2 = new Coords(1, 2);
 
-            Assert.NotEqual(coord1, coord2);
+            coord1.Should().NotBe(coord2);
         }
 
         [Fact]
@@ -33,7 +35,7 @@ namespace Hive.Domain.Tests
             var coord3 = coord2 with { R = 1 };
 
 
-            Assert.Equal(coord1, coord3);
+            coord1.Should().IsSameOrEqualTo(coord3);
         }
 
         [Fact]
@@ -42,7 +44,7 @@ namespace Hive.Domain.Tests
             var coord1 = new Coords(1, 1);
             var coord2 = coord1 with { R = 2 };
 
-            Assert.NotEqual(coord1, coord2);
+            coord1.Should().NotBe(coord2);
         }
     }
 }

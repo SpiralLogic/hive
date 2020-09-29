@@ -4,11 +4,11 @@ using Hive.Domain.Extensions;
 
 namespace Hive.Domain.Rules.Movements
 {
-    internal class AdjacentCells : IMovement
+    public class AdjacentCells : IMovementRule
     {
-        public ISet<Coords> GetAvailableMoves(Coords tileCoords, ISet<Cell> cells)
+        public ISet<Coords> GetAvailableMoves(Cell originCell, ISet<Cell> allCells)
         {
-            return tileCoords.GetNeighbors();
+            return originCell.Coords.GetNeighbors();
         }
     }
 }

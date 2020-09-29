@@ -1,4 +1,6 @@
-﻿using Hive.Domain.Entities;
+﻿using FluentAssertions;
+using FluentAssertions.Common;
+using Hive.Domain.Entities;
 using System.Collections.Generic;
 using Xunit;
 
@@ -11,7 +13,7 @@ namespace Hive.Domain.Tests
         {
             var cell = new Cell(new Coords(1, 1));
 
-            Assert.Empty(cell.Tiles);
+            cell.Tiles.Should().BeEmpty();
         }
 
         [Fact]
@@ -21,7 +23,7 @@ namespace Hive.Domain.Tests
                 .AddTile(new Tile(1, 2, Creatures.Queen))
                 .AddTile(new Tile(1, 2, Creatures.Queen));
 
-            Assert.Equal(2, cell.Tiles.Count);
+            cell.Tiles.Should().HaveCount(2);
         }
 
         [Fact]
@@ -31,27 +33,18 @@ namespace Hive.Domain.Tests
             var cell2 = new Cell(new Coords(1, 1))
                 .AddTile(new Tile(1, 2, Creatures.Queen));
 
-            Assert.Equal(cell1, cell2);
+            cell1.Should().IsSameOrEqualTo(cell2);
         }
 
         [Fact]
-        public void UnionOfCells()
+        public void CellSetsAreUniqueByCoordinate()
         {
-            var cell1 = new HashSet<Cell>(new[] {new Cell(new Coords(1, 1))});
-            var cell2 = new HashSet<Cell>(new[] {new Cell(new Coords(1, 1)).AddTile(new Tile(1, 2, Creatures.Queen))});
+            var cells = new HashSet<Cell>(new[] { new Cell(new Coords(1, 1)) });
+            var cellsWithOverlap = new HashSet<Cell>(new[] { new Cell(new Coords(1, 1)).AddTile(new Tile(1, 2, Creatures.Queen)) });
 
-            cell1.UnionWith(cell2);
-            Assert.Single(cell1);
-        }    
-        
-        [Fact]
-        public void UnionOfCells2()
-        {
-            var cell1 = new HashSet<Cell>(new[] {new Cell(new Coords(1, 2))});
-            var cell2 = new HashSet<Cell>(new[] {new Cell(new Coords(1, 1)).AddTile(new Tile(1, 2, Creatures.Queen))});
+            cells.UnionWith(cellsWithOverlap);
 
-            cell1.UnionWith(cell2);
-            Assert.Equal(2, cell1.Count);
+            cells.Should().ContainSingle(c=>c.Coords == new Coords(1,1));
         }
     }
 }

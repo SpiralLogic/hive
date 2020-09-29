@@ -4,11 +4,12 @@ namespace Hive.Domain.Entities
 {
     public record Player(int Id, string Name)
     {
-    public ISet<Tile> Tiles { get; init; } = new HashSet<Tile>();
+        public ISet<Tile> Tiles { get; init; } = new HashSet<Tile>();
 
-    internal void RemoveTile(Tile tile)
-    {
-        Tiles.Remove(tile);
-    }
+        internal Tile RemoveTile(Tile tile)
+        {
+            Tiles.Remove(tile);
+            return tile;
+        }
     }
 }
