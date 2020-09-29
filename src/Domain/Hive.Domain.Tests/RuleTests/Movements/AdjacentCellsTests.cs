@@ -16,7 +16,7 @@ namespace Hive.Domain.Tests.RuleTests.Movements
 
             var expected = new HiveBuilder();
 
-            expected += " ⬢ ⬢ ";
+            expected += " ⬢ ⬡ ";
             expected += "⬢ ⬡ ⬢";
             expected += " ⬢ ⬢ ";
 
