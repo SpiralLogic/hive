@@ -40,10 +40,10 @@ namespace Hive.Domain.Tests.RuleTests.Movements
             var expected = new ExpectedHiveBuilder();
 
             expected += "✔ ✔ ⬢ ✔ ✔";
-            expected += " ⏣ ✔ ⬢ ⬢ ";
+            expected += " ✔ ⏣ ⬢ ⬢ ";
             expected += "⏣ ✔ ★ ✔ ⬢";
-            expected += " ✔ ⬢ ✔ ✔ ";
-            expected += "⬢ ✔ ✔ ✔ ✔";
+            expected += " ✔ ⬢ ⬢ ✔ ";
+            expected += "⬢ ✔ ⬢ ✔ ✔";
 
             var movement = new OnlyEmptyCells();
 
