@@ -29,7 +29,7 @@ namespace Hive.Domain.Tests.TestUtils
             foreach (var cell in incorrect)
             {
                 var r = actualStrings[cell.R].Split(Separator);
-                r[cell.Q] = $"\033[31m{Invalid}\033[0m";
+                r[cell.Q] = $"\b33[31m{Invalid}\b33[0m";
                 actualStrings[cell.R] = string.Join(Separator, r);
             }
 
