@@ -18,5 +18,6 @@ jobs:
         working-directory: './src/Domain/Hive.Domain/'
       - name: Test
         run: dotnet test
+        shell: bash
         working-directory: './src/Domain/Hive.Domain.Tests/'
         
