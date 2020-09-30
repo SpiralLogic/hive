@@ -1,13 +1,13 @@
 ﻿using System.Linq;
 using System.Collections.Generic;
 using Hive.Domain.Rules;
+using Hive.Domain.Extensions;
 
 namespace Hive.Domain.Entities
 {
     public record Creature
     {
-        internal readonly IList<IRule> _movements = new List<IRule>();
-        internal readonly IList<IRule> _restrictions = new List<IRule>();
+        internal readonly IEnumerable<IRule> _rules = new List<IRule>();
         public string Name { get; init; }
 
         private Creature(string name)
@@ -15,18 +15,15 @@ namespace Hive.Domain.Entities
             Name = name;
         }
 
-        internal Creature(string name, IList<IRule> movements, IList<IRule> restrictions) : this(name)
+        internal Creature(string name, IList<IRule> rules) : this(name)
         {
-            _movements = movements;
-            _restrictions = restrictions;
+            _rules = rules;
         }
 
         internal ISet<Coords> GetAvailableMoves(Cell originCell, ISet<Cell> cells)
         {
-            var allMoves = _movements.SelectMany(m => m.ApplyRule(originCell, cells));
-            var restrictions = _restrictions.SelectMany(r => r.ApplyRule(originCell, cells));
-
-            return allMoves.Except(restrictions).ToHashSet();
+            return _rules.Aggregate(cells.SelectCoords(), (current, rule)=>current.Intersect(rule.ApplyRule(originCell, cells))).ToHashSet();
+            
         }
     }
 }

@@ -24,17 +24,17 @@ namespace Hive.Domain.Tests.TestUtils
             var rowSplit = rowString.Trim().Split(Separator);
             var q = builder.GetStartingQ(rowString.Trim().Length == rowString.Length);
 
-            foreach (var cellString in rowSplit)
+            foreach (var token in rowSplit)
             {
                 var cell = new Cell(new Coords(q, builder.R));
 
-                if (cellString == Origin.Name)
+                if (token == Origin.Name)
                 {
                     cell.AddTile(new Tile(1, 1, Friend));
                     builder.OriginCell = cell;
                 }
 
-                if (cellString != Empty.Name) builder.ModifyCell(cell, cellString);
+                if (token != Empty.Name) builder.ModifyCell(cell, token);
 
                 builder.AllCells.Add(cell);
                 q++;

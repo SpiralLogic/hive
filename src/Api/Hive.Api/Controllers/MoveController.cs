@@ -30,7 +30,7 @@ namespace Hive.Controllers
                 _jsonSerializerOptions);
             if (gameState == null) return NotFound();
 
-            var game = new Domain.Hive(gameState.Players.ToHashSet(), gameState.Cells.ToHashSet());
+            var game = new Domain.Hive(gameState.Players.ToList(), gameState.Cells.ToHashSet());
 
             game.Move(move.TileId, move.Coords);
 

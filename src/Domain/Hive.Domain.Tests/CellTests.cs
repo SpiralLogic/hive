@@ -1,7 +1,7 @@
 ﻿using FluentAssertions;
 using FluentAssertions.Common;
 using Hive.Domain.Entities;
-using System.Collections.Generic;
+using System.Linq;
 using Xunit;
 
 namespace Hive.Domain.Tests
@@ -9,7 +9,7 @@ namespace Hive.Domain.Tests
     public class CellTests
     {
         [Fact]
-        public void CanCreateWithNoTiles()
+        public void CanCreate_WithNoTiles()
         {
             var cell = new Cell(new Coords(1, 1));
 
@@ -17,13 +17,87 @@ namespace Hive.Domain.Tests
         }
 
         [Fact]
-        public void CanCreateWithTiles()
+        public void CanAddTile()
         {
             var cell = new Cell(new Coords(1, 1))
                 .AddTile(new Tile(1, 2, Creatures.Queen))
                 .AddTile(new Tile(1, 2, Creatures.Queen));
 
             cell.Tiles.Should().HaveCount(2);
+        }
+
+        [Fact]
+        public void AddTile_AddsToTop()
+        {
+            var topTile = new Tile(4, 2, Creatures.Queen);
+            var cell = new Cell(new Coords(1, 1))
+                .AddTile(new Tile(1, 2, Creatures.Queen))
+                .AddTile(new Tile(2, 2, Creatures.Queen))
+                .AddTile(new Tile(3, 2, Creatures.Queen))
+                .AddTile(topTile);
+
+            cell.Tiles.Peek().Should().BeSameAs(topTile);
+        }
+
+        [Fact]
+        public void IsEmpty_WithNoTiles()
+        {
+            var cell = new Cell(new Coords(1, 1));
+
+            cell.IsEmpty().Should().BeTrue();
+        }
+
+        [Fact]
+        public void IsNotEmpty_WithTiles()
+        {
+            var cell = new Cell(new Coords(1, 1))
+                .AddTile(new Tile(1, 2, Creatures.Queen));
+
+            cell.IsEmpty().Should().BeFalse();
+        }
+
+        [Fact]
+        public void CanGetTopTile()
+        {
+            var topTile = new Tile(1, 2, Creatures.Queen);
+            var cell = new Cell(new Coords(1, 1))
+                .AddTile(new Tile(1, 2, Creatures.Queen))
+                .AddTile(topTile);
+
+            cell.TopTile().Should().BeSameAs(topTile);
+        }
+
+        [Fact]
+        public void TopTile_DoesntRemoveTile()
+        {
+            var cell = new Cell(new Coords(1, 1))
+                .AddTile(new Tile(1, 2, Creatures.Queen))
+                .AddTile(new Tile(1, 2, Creatures.Queen));
+
+            cell.Tiles.Should().HaveCount(2);
+        }
+
+        [Fact]
+        public void RemoveTopTile_ReturnsTile()
+        {
+            var topTile = new Tile(1, 2, Creatures.Queen);
+            var cell = new Cell(new Coords(1, 1))
+                .AddTile(new Tile(1, 2, Creatures.Queen))
+                .AddTile(topTile);
+
+            cell.RemoveTopTile().Should().BeSameAs(topTile);
+        }
+
+        [Fact]
+        public void RemoveTopTile_RemovesTile()
+        {
+            var topTile = new Tile(1, 2, Creatures.Queen);
+            var cell = new Cell(new Coords(1, 1))
+                .AddTile(new Tile(1, 2, Creatures.Queen))
+                .AddTile(new Tile(1, 2, Creatures.Queen));
+
+            cell.RemoveTopTile();
+            cell.Tiles.Should().NotContain(topTile);
         }
 
         [Fact]
@@ -39,12 +113,12 @@ namespace Hive.Domain.Tests
         [Fact]
         public void CellSetsAreUniqueByCoordinate()
         {
-            var cells = new HashSet<Cell>(new[] { new Cell(new Coords(1, 1)) });
-            var cellsWithOverlap = new HashSet<Cell>(new[] { new Cell(new Coords(1, 1)).AddTile(new Tile(1, 2, Creatures.Queen)) });
+            var cells = new[] { new Cell(new Coords(1, 1)) }.ToHashSet();
+            var cellsWithOverlap = new[] { new Cell(new Coords(1, 1)).AddTile(new Tile(1, 2, Creatures.Queen)) }.ToHashSet();
 
             cells.UnionWith(cellsWithOverlap);
 
-            cells.Should().ContainSingle(c=>c.Coords == new Coords(1,1));
+            cells.Should().ContainSingle(c => c.Coords == new Coords(1, 1));
         }
     }
 }

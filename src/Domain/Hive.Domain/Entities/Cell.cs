@@ -6,13 +6,13 @@ namespace Hive.Domain.Entities
 {
     public class Cell : IEquatable<Cell>
     {
+        public Coords Coords { get; init; }
+        public Stack<Tile> Tiles { get; init; } = new Stack<Tile>();
+     
         public Cell(Coords coords)
         {
             Coords = coords;
         }
-
-        public  Coords Coords { get; init; }
-        public Stack<Tile> Tiles { get; init; } = new Stack<Tile>();
 
         public Cell AddTile(Tile tile)
         {
@@ -38,7 +38,7 @@ namespace Hive.Domain.Entities
             if (obj is null) return false;
             if (ReferenceEquals(this, obj)) return true;
             if (obj.GetType() != GetType()) return false;
-            return Equals((Cell) obj);
+            return Equals((Cell)obj);
         }
 
         public override int GetHashCode()
