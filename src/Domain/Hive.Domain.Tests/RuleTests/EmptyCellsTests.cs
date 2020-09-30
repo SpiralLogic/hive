@@ -1,5 +1,4 @@
 ﻿using Hive.Domain.Rules;
-using Hive.Domain.Rules.Movements;
 using Hive.Domain.Tests.TestUtils;
 using Xunit;
 
@@ -41,10 +40,10 @@ namespace Hive.Domain.Tests.RuleTests.Movements
             var expected = new ExpectedHiveBuilder();
 
             expected += "✔ ✔ ⬢ ✔ ✔";
-            expected += " ✔ ⏣ ⬢ ⬢ ";
+            expected += " ⏣ ✔ ⬢ ⬢ ";
             expected += "⏣ ✔ ★ ✔ ⬢";
-            expected += " ✔ ⬢ ⬢ ✔ ";
-            expected += "⬢ ✔ ⬢ ✔ ✔";
+            expected += " ✔ ⬢ ✔ ✔ ";
+            expected += "⬢ ✔ ✔ ✔ ✔";
 
             var movement = new OnlyEmptyCells();
 
