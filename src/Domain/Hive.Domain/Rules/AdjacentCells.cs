@@ -2,11 +2,11 @@
 using Hive.Domain.Entities;
 using Hive.Domain.Extensions;
 
-namespace Hive.Domain.Rules.Movements
+namespace Hive.Domain.Rules
 {
-    public class AdjacentCells : IMovementRule
+    public class AdjacentCells : IRule
     {
-        public ISet<Coords> GetAvailableMoves(Cell originCell, ISet<Cell> allCells)
+        public ISet<Coords> ApplyRule(Cell originCell, ISet<Cell> allCells)
         {
             return originCell.Coords.GetNeighbors();
         }

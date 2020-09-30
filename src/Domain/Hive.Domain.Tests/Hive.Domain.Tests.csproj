@@ -17,8 +17,4 @@
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
   </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="RuleTests\Restrictions\" />
-  </ItemGroup>
 </Project>

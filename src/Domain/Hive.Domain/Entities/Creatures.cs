@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
 using Hive.Domain.Rules;
-using Hive.Domain.Rules.Movements;
-using Hive.Domain.Rules.Restrictions;
 
 namespace Hive.Domain.Entities
 {
