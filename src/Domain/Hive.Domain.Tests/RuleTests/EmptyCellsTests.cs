@@ -33,7 +33,7 @@ namespace Hive.Domain.Tests.RuleTests.Movements
 
             initial += "⬡ ⬡ ⬢ ⬡ ⬡";
             initial += " ⬡ ⏣ ⬢ ⬢ ";
-            initial += "⏣ ⬡ ★ ⬡ ⬢";
+            initial += "⬡ ⬡ ★ ⬡ ⬢";
             initial += " ⬡ ⬢ ⬢ ⬡ ";
             initial += "⬢ ⬡ ⬢ ⬡ ⬡";
 
