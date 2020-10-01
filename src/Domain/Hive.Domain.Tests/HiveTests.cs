@@ -1,7 +1,6 @@
 ﻿using System.Linq;
 using FluentAssertions;
 using Hive.Domain.Entities;
-using Hive.Domain.Extensions;
 using Xunit;
 
 namespace Hive.Domain.Tests

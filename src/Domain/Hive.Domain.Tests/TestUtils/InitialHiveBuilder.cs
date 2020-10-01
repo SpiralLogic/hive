@@ -5,8 +5,6 @@ namespace Hive.Domain.Tests.TestUtils
 {
     internal class InitialHiveBuilder : HiveBuilder
     {
-        public HashSet<Cell> ValidCells = new();
-
         public static InitialHiveBuilder operator +(InitialHiveBuilder builder, string newRow) => AddRow(builder, newRow);
 
         internal override void ModifyCell(Cell cell, char cellString)

@@ -30,7 +30,9 @@ namespace Hive.Domain.Tests.TestUtils
                 .ForCondition(coords => coords.SetEquals(expecteCoords))
                 .FailWith(
                     "Origin At:{0}\n\nResulting moves did not match expected:\n{1}\n\nActual:\n{2}",
-                    _ => originCell.Coords, _ => new StringBuilder(expected.ToColoredString()), actual => new StringBuilder(expected.GetDiff(actual)));
+                    _ => originCell.Coords, 
+                    _ => new StringBuilder(expected.ToColoredString()), 
+                    actual => new StringBuilder(expected.GetDiff(actual)));
 
             return new AndConstraint<RuleAssertions>(this);
         }

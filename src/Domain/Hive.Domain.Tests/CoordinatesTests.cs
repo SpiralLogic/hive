@@ -7,7 +7,6 @@ namespace Hive.Domain.Tests
 {
     public class CoordinateTests
     {
-
         [Fact]
         public void CoordsAreEqual()
         {
@@ -16,7 +15,6 @@ namespace Hive.Domain.Tests
 
             coord1.Should().IsSameOrEqualTo(coord2);
         }
-
 
         [Fact]
         public void CoordsAreNotEqual()
@@ -33,7 +31,6 @@ namespace Hive.Domain.Tests
             var coord1 = new Coords(1, 1);
             var coord2 = new Coords(1, 2);
             var coord3 = coord2 with { R = 1 };
-
 
             coord1.Should().IsSameOrEqualTo(coord3);
         }

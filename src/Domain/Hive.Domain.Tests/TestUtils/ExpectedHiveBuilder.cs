@@ -36,7 +36,7 @@ namespace Hive.Domain.Tests.TestUtils
                 _rowStrings[coords.R] = string.Join(Separator, rowSplit);
             }
 
-            return ToColoredString();
+            return ToString();
         }
 
     }
