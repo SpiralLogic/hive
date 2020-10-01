@@ -41,7 +41,7 @@ namespace Hive.Domain.Tests.RuleTests
 
             expected += "⬡ ⬡ ⬡ ⬡ ⬡";
             expected += " ⬡ ✔ ✔ ⬡ ";
-            expected += "⬡ ✔ ★ ⬡ ✔";
+            expected += "⬡ ✔ ★ ✔ ⬡";
             expected += " ⬡ ✔ ✔ ⬡ ";
             expected += "⬡ ⬡ ⬡ ⬡ ⬡";
 
