@@ -9,10 +9,10 @@ namespace Hive.Domain.Tests.TestUtils
 
         public static InitialHiveBuilder operator +(InitialHiveBuilder builder, string newRow) => AddRow(builder, newRow);
 
-        internal override void ModifyCell(Cell cell, string cellString)
+        internal override void ModifyCell(Cell cell, char cellString)
         {
-            if (cellString == Friend.Name) cell.AddTile(new Tile(1, 1, Friend));
-            if (cellString == Enemy.Name) cell.AddTile(new Tile(1, 2, Enemy));
+            if (cellString == Friend.Symbol) cell.AddTile(new Tile(1, 1, Friend.Creature));
+            if (cellString == Enemy.Symbol) cell.AddTile(new Tile(1, 2, Enemy.Creature));
         }
     }
 }

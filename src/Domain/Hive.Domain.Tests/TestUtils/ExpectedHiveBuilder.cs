@@ -1,62 +1,43 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using Hive.Domain.Entities;
 
 namespace Hive.Domain.Tests.TestUtils
 {
     internal class ExpectedHiveBuilder : HiveBuilder
     {
-        internal static Creature Valid = Creatures.Queen with { Name = "✔" };
-        internal const string Invalid = "⨯";
+        internal static readonly HiveCharacter Valid = new("Valid", '✔', ConsoleColor.Green);
+        internal static readonly HiveCharacter Invalid = new("Invalid", '⨯', ConsoleColor.Red);
 
-        protected HashSet<Cell> ValidCells = new();
-        protected HashSet<Cell> InvalidCells = new();
+        protected HashSet<Cell> ValidCells => AllCells.Where(c => !c.IsEmpty() && c.TopTile().Creature.Name == Valid.Name).ToHashSet();
+        protected HashSet<Cell> InvalidCells => AllCells.Where(c => !c.IsEmpty() && c.TopTile().Creature.Name == Invalid.Name).ToHashSet();
 
         public static ExpectedHiveBuilder operator +(ExpectedHiveBuilder builder, string newRow) => AddRow(builder, newRow);
 
-        public ISet<Coords> GetValidCoords() => ValidCells.Select(c => c.Coords).ToHashSet();
+        internal ISet<Coords> GetValidCoords() => ValidCells.Select(c => c.Coords).ToHashSet();
 
-        internal override void ModifyCell(Cell cell, string cellString)
+        internal override void ModifyCell(Cell cell, char cellString)
         {
-            if (cellString == Valid.Name) ValidCells.Add(cell);
+            if (cellString == Valid.Symbol) cell.AddTile(new Tile(1, 1, Valid.Creature));
+            if (cellString == Invalid.Symbol) cell.AddTile(new Tile(1, 2, Invalid.Creature));
         }
 
-        internal Actual GetDiff(ISet<Coords> actual)
+        internal string GetDiff(ISet<Coords> actual)
         {
-            return new Actual(this, actual);
-        }
-        internal class Actual
-        {
-            private ExpectedHiveBuilder _expected;
-            private ISet<Coords> _actual;
+            var invalidCoords = GetValidCoords();
+            invalidCoords.SymmetricExceptWith(actual);
 
-            internal Actual(ExpectedHiveBuilder expected, ISet<Coords> actual)
+            foreach (var coords in invalidCoords)
             {
-                _expected = expected;
-                _actual = actual;
+                var rowSplit = _rowStrings[coords.R].Split(Separator);
+                rowSplit[coords.Q] = Invalid.ToString();
+                _rowStrings[coords.R] = string.Join(Separator, rowSplit);
             }
 
-            public override string ToString()
-            {
-                var actualStrings = new List<string>(_expected._inputStrings);
-                var incorrect = _expected.GetValidCoords();
-                incorrect.SymmetricExceptWith(_actual);
-
-                foreach (var cell in incorrect)
-                {
-                    var r = actualStrings[cell.R].Split(Separator);
-                    r[cell.Q] = $"{Invalid}";
-                    actualStrings[cell.R] = string.Join(Separator, r);
-                }
-                var final = $"\u001b[0m{string.Join(Environment.NewLine, actualStrings)}";
-
-                return final.Replace(Invalid, $"\u001b[1;91m{Invalid}\u001b[0m")
-                    .Replace(Origin.Name, $"\u001b[0;93m{Origin.Name}\u001b[0m")
-                    .Replace(Empty.Name, $"\u001b[0;97m{Empty.Name}\u001b[0m")
-                    .Replace(Friend.Name, $"\u001b[0;96m{Friend.Name}\u001b[0m")
-                    .Replace(Valid.Name, $"\u001b[1;92m{Valid.Name}\u001b[0m");
-            }
+            return ToColoredString();
         }
+
     }
 }
