@@ -8,7 +8,7 @@ namespace Hive.Domain.Tests.TestUtils
     internal class ExpectedHiveBuilder : HiveBuilder
     {
         internal static Creature Valid = Creatures.Queen with { Name = "✔" };
-        internal const string Invalid = "⦻";
+        internal const string Invalid = "⨯";
 
         protected HashSet<Cell> ValidCells = new();
         protected HashSet<Cell> InvalidCells = new();
@@ -22,10 +22,12 @@ namespace Hive.Domain.Tests.TestUtils
             if (cellString == Valid.Name) ValidCells.Add(cell);
         }
 
-        internal HiveDiff CreateDiff(ISet<Coords> actual)
+        internal string CreateDiff(ISet<Coords> actual)
         {
             var actualStrings = new List<string>(_inputStrings);
-            var incorrect = GetValidCoords().Except(actual);
+            var incorrect = GetValidCoords();
+            incorrect.SymmetricExceptWith(actual);
+
             foreach (var cell in incorrect)
             {
                 var r = actualStrings[cell.R].Split(Separator);
@@ -33,12 +35,7 @@ namespace Hive.Domain.Tests.TestUtils
                 actualStrings[cell.R] = string.Join(Separator, r);
             }
 
-            return new HiveDiff(string.Join(Environment.NewLine, actualStrings));
+            return string.Join(Environment.NewLine, actualStrings);
         }
-    }
-
-    internal record HiveDiff(string diff)
-    {
-        public override string ToString()=>diff;
     }
 }

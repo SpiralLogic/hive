@@ -21,9 +21,9 @@ namespace Hive.Domain.Tests.RuleTests
             expected += "✔ ⬡ ✔";
             expected += " ✔ ✔ ";
 
-            var movement = new AdjacentCells();
+            var rule = new AdjacentCells();
 
-            movement.Should().CreateMoves(initial, expected);
+            rule.Should().CreateMoves(initial, expected);
         }
 
         [Fact]
@@ -41,13 +41,13 @@ namespace Hive.Domain.Tests.RuleTests
 
             expected += "⬡ ⬡ ⬡ ⬡ ⬡";
             expected += " ⬡ ✔ ✔ ⬡ ";
-            expected += "⬡ ✔ ★ ✔ ✔";
+            expected += "⬡ ✔ ★ ⬡ ✔";
             expected += " ⬡ ✔ ✔ ⬡ ";
             expected += "⬡ ⬡ ⬡ ⬡ ⬡";
 
-            var movement = new AdjacentCells();
+            var rule = new AdjacentCells();
 
-            movement.Should().CreateMoves(initial, expected);
+            rule.Should().CreateMoves(initial, expected);
         }
     }
 }

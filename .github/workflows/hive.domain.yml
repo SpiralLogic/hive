@@ -20,4 +20,7 @@ jobs:
         run: dotnet test
         shell: bash
         working-directory: './src/Domain/Hive.Domain.Tests/'
-        
+      - name: Test
+        run: stty -a
+        shell: bash
+        working-directory: './src/Domain/Hive.Domain.Tests/'
