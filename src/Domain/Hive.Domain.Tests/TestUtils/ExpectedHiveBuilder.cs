@@ -8,36 +8,46 @@ namespace Hive.Domain.Tests.TestUtils
 {
     internal class ExpectedHiveBuilder : HiveBuilder
     {
-        internal static readonly HiveCharacter Valid = new("Valid", '✔', ConsoleColor.Green);
-        internal static readonly HiveCharacter Invalid = new("Invalid", '⨯', ConsoleColor.Red);
+        internal static readonly HiveCharacter Expected = new("Expected", '✔', ConsoleColor.Green);
+        internal static readonly HiveCharacter Unexpected = new("Unexpected", '⨯', ConsoleColor.Red);
 
-        protected HashSet<Cell> ValidCells => AllCells.Where(c => !c.IsEmpty() && c.TopTile().Creature.Name == Valid.Name).ToHashSet();
-        protected HashSet<Cell> InvalidCells => AllCells.Where(c => !c.IsEmpty() && c.TopTile().Creature.Name == Invalid.Name).ToHashSet();
+        internal ExpectedHiveBuilder()
+        {
+            _allSymbols.Add(Expected);
+            _allSymbols.Add(Unexpected);
+        }
+
+        protected HashSet<Cell> ExpectedCells => AllCells.Where(c => !c.IsEmpty() && c.TopTile().Creature.Name == Expected.Name).ToHashSet();
+        protected HashSet<Cell> UnexpecteCells => AllCells.Where(c => !c.IsEmpty() && c.TopTile().Creature.Name == Unexpected.Name).ToHashSet();
 
         public static ExpectedHiveBuilder operator +(ExpectedHiveBuilder builder, string newRow) => AddRow(builder, newRow);
 
-        internal ISet<Coords> GetValidCoords() => ValidCells.Select(c => c.Coords).ToHashSet();
+        internal ISet<Coords> ExpectedMoves() => ExpectedCells.Select(c => c.Coords).ToHashSet();
 
         internal override void ModifyCell(Cell cell, char cellString)
         {
-            if (cellString == Valid.Symbol) cell.AddTile(new Tile(1, 1, Valid.Creature));
-            if (cellString == Invalid.Symbol) cell.AddTile(new Tile(1, 2, Invalid.Creature));
+            if (cellString == Expected.Symbol) cell.AddTile(new Tile(1, 1, Expected.Creature));
+            if (cellString == Unexpected.Symbol) cell.AddTile(new Tile(1, 2, Unexpected.Creature));
         }
 
         internal string GetDiff(ISet<Coords> actual)
         {
-            var invalidCoords = GetValidCoords();
-            invalidCoords.SymmetricExceptWith(actual);
+            var actualRows = new List<string>(_rowStrings);
+            var unexpected = ExpectedMoves();
+            unexpected.SymmetricExceptWith(actual);
 
-            foreach (var coords in invalidCoords)
+            foreach (var coords in unexpected)
             {
-                var rowSplit = _rowStrings[coords.R].Split(Separator);
-                rowSplit[coords.Q] = Invalid.ToString();
-                _rowStrings[coords.R] = string.Join(Separator, rowSplit);
+                var rowSplit = actualRows[coords.R].Split(Separator);
+                var q = coords.Q + GetQOffset(_rowStrings[coords.R]);
+                rowSplit[q] = Unexpected.ToString();
+                actualRows[coords.R] = string.Join(Separator, rowSplit);
             }
+            var coloredRows = ToColoredString().Split("\n");
 
-            return ToString();
+            return $"\u001b[37m{string.Join("\n", actualRows.Select((row, i)=> row + " | " + coloredRows[i]))}\u001b[0m";
         }
 
+        private int GetQOffset(string rowString) => rowString.StartsWith(Separator) ? 1 : 0;
     }
 }

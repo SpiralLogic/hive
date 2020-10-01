@@ -23,15 +23,15 @@ namespace Hive.Domain.Tests.TestUtils
         {
             var allCells = initial.AllCells;
             var originCell = initial.OriginCell;
-            var expecteCoords = expected.GetValidCoords();
+            var expecteCoords = expected.ExpectedMoves();
 
             Execute.Assertion
                 .Given(() => Subject.ApplyRule(originCell, allCells))
                 .ForCondition(coords => coords.SetEquals(expecteCoords))
                 .FailWith(
-                    "Origin At:{0}\n\nResulting moves did not match expected:\n{1}\n\nActual:\n{2}",
+                    "\nResulting moves did not match expected\n\nInitial:\n{1}\n\nActual - Expected:\n{2}\n",
                     _ => originCell.Coords, 
-                    _ => new StringBuilder(expected.ToColoredString()), 
+                    _ => new StringBuilder(initial.ToColoredString()), 
                     actual => new StringBuilder(expected.GetDiff(actual)));
 
             return new AndConstraint<RuleAssertions>(this);

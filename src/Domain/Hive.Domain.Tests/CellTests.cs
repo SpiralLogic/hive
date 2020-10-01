@@ -117,7 +117,6 @@ namespace Hive.Domain.Tests
             var cellsWithOverlap = new[] { new Cell(new Coords(1, 1)).AddTile(new Tile(1, 2, Creatures.Queen)) }.ToHashSet();
 
             cells.UnionWith(cellsWithOverlap);
-
             cells.Should().ContainSingle(c => c.Coords == new Coords(1, 1));
         }
     }

@@ -33,17 +33,17 @@ namespace Hive.Domain.Tests.RuleTests.Movements
 
             initial += "⬡ ⬡ ⬢ ⬡ ⬡";
             initial += " ⬡ ⏣ ⬢ ⬢ ";
-            initial += "⬡ ⬡ ★ ⬡ ⬢";
+            initial += "⬡ ⬡ ★ ⏣ ⬢";
             initial += " ⬡ ⬢ ⬢ ⬡ ";
             initial += "⬢ ⬡ ⬢ ⬡ ⬡";
 
             var expected = new ExpectedHiveBuilder();
 
-            expected += "✔ ✔ ⬢ ✔ ✔";
-            expected += " ✔ ⏣ ⬢ ⬢ ";
-            expected += "⏣ ✔ ★ ✔ ⬢";
-            expected += " ✔ ⬢ ⬢ ✔ ";
-            expected += "⬢ ✔ ⬢ ✔ ✔";
+            expected += "✔ ✔ ⬡ ✔ ✔";
+            expected += " ⬡ ⬡ ⬡ ⬡ ";
+            expected += "✔ ✔ ⬡ ✔ ⬡";
+            expected += " ✔ ⬡ ⬡ ✔ ";
+            expected += "⬡ ✔ ⬡ ✔ ✔";
 
             var rule = new OnlyEmptyCells();
 
