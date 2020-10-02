@@ -108,6 +108,7 @@ namespace Hive.Domain.Tests
                 .AddTile(new Tile(1, 2, Creatures.Queen));
 
             cell1.Should().IsSameOrEqualTo(cell2);
+            cell1.Equals((object)cell2).Should().BeTrue();
         }
 
         [Fact]
@@ -118,6 +119,16 @@ namespace Hive.Domain.Tests
 
             cells.UnionWith(cellsWithOverlap);
             cells.Should().ContainSingle(c => c.Coords == new Coords(1, 1));
+        }
+
+        [Fact]
+        public void Equality()
+        {
+            var cell1 = new Cell(new Coords(1, 1));
+            cell1.Equals((object)cell1).Should().BeTrue();
+            cell1.Equals(null).Should().BeFalse();
+            cell1.Equals(new object()).Should().BeFalse();
+            cell1.Equals(obj:null).Should().BeFalse();
         }
     }
 }

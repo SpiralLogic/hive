@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using Hive.Domain.Entities;
 using Hive.Domain.Extensions;
@@ -7,12 +8,12 @@ namespace Hive.Domain
 {
     public class Hive
     {
-        private readonly Creature[] StartingTiles = new[] { Creatures.Queen, Creatures.Queen };
+        private readonly ImmutableArray<Creature> _startingTiles = ImmutableArray.Create(Creatures.Queen, Creatures.Queen);
 
-        private readonly Coords InitialCoords = new Coords(0, 0);
+        private readonly Coords _initialCoords = new Coords(0, 0);
 
-        public ISet<Cell> Cells { get; private set; }
-        public IList<Player> Players { get; private set; }
+        public ISet<Cell> Cells { get; }
+        public IList<Player> Players { get; }
 
         public Hive(IEnumerable<string> playerNames)
         {
@@ -43,7 +44,7 @@ namespace Hive.Domain
 
         private void UpdatePlayerTileMoves(Player player)
         {
-            var availableCells = (player.Tiles.Count == StartingTiles.Length)
+            var availableCells = (player.Tiles.Count == _startingTiles.Length)
                 ? Cells.WhereEmpty()
                 : Cells.WherePlayerOccupies(player).GetEmptyNeighbours();
 
@@ -72,7 +73,7 @@ namespace Hive.Domain
             }
         }
 
-        public Tile FindAndRemoveTile(int tileId)
+        private Tile FindAndRemoveTile(int tileId)
         {
             var pTile = Players.SelectMany(p => p.Tiles).FirstOrDefault(t => t.Id == tileId);
 
@@ -81,7 +82,10 @@ namespace Hive.Domain
                 return Players.FindPlayerById(pTile.PlayerId).RemoveTile(pTile);
             }
 
-            return Cells.WhereOccupied().First(c => c.TopTile().Id == tileId).RemoveTopTile();
+            return Cells
+                .WhereOccupied()
+                .First(c => c.TopTile().Id == tileId)
+                .RemoveTopTile();
         }
 
 
@@ -91,13 +95,13 @@ namespace Hive.Domain
         private Player CreatePlayer(string name, int id) => new Player(id, name) { Tiles = CreateStartingTiles(id) };
 
 
-        private ISet<Tile> CreateStartingTiles(int playerId) => StartingTiles
-            .Select((creature, i) => (creature, id: playerId * StartingTiles.Length + i))
+        private ISet<Tile> CreateStartingTiles(int playerId) => _startingTiles
+            .Select((creature, i) => (creature, id: playerId * _startingTiles.Length + i))
             .Select(t => new Tile(t.id, playerId, t.creature) { Moves = Cells.ToCoords() })
             .ToHashSet();
 
-        private ISet<Cell> CreateCells() => InitialCoords
+        private ISet<Cell> CreateCells() => _initialCoords
             .GetNeighbors()
-            .Prepend(InitialCoords).ToCells();
+            .Prepend(_initialCoords).ToCells();
     }
 }
