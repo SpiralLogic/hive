@@ -7,8 +7,10 @@ namespace Hive.Domain.Entities
     {
         public static readonly Creature Queen =
             new Creature("Queen",
-                new IRule[] {new AdjacentCells()
-                ,new OnlyEmptyCells()}
+                new IRule[] {
+                    new AdjacentCells(),
+                    new OnlyEmptyCells()
+                    }
             );
     }
 }

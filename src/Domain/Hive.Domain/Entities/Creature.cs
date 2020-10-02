@@ -14,7 +14,7 @@ namespace Hive.Domain.Entities
             _rules = rules;
         }
 
-        internal ISet<Coords> GetAvailableMoves(Cell originCell, ISet<Cell> cells)
+        public ISet<Coords> GetAvailableMoves(Cell originCell, ISet<Cell> cells)
         {
             return _rules.Aggregate(cells.SelectCoords(), (current, rule)=>current.Intersect(rule.ApplyRule(originCell, cells))).ToHashSet();
             

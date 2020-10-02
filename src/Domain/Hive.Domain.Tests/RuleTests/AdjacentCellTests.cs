@@ -23,7 +23,7 @@ namespace Hive.Domain.Tests.RuleTests
 
             var rule = new AdjacentCells();
 
-            rule.Should().CreateMoves(initial, expected);
+            rule.Should().HaveMoves(initial, expected);
         }
 
         [Fact]
@@ -39,15 +39,15 @@ namespace Hive.Domain.Tests.RuleTests
 
             var expected = new ExpectedHiveBuilder();
 
-            expected += "⬡ ⬡ ✔ ⬡ ⬡";
+            expected += "⬡ ⬡ ⬡ ⬡ ⬡";
             expected += " ⬡ ✔ ✔ ⬡ ";
             expected += "⬡ ✔ ★ ✔ ⬡";
-            expected += " ⬡ ✔ ⬡ ⬡ ";
-            expected += "⬡ ⬡ ✔ ⬡ ⬡";
+            expected += " ⬡ ✔ ✔ ⬡ ";
+            expected += "⬡ ⬡ ⬡ ⬡ ⬡";
 
             var rule = new AdjacentCells();
 
-            rule.Should().CreateMoves(initial, expected);
+            rule.Should().HaveMoves(initial, expected);
         }
     }
 }

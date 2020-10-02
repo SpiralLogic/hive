@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace Hive.Domain.Entities
 {
-    public class Cell : IEquatable<Cell>
+        public class Cell : IEquatable<Cell>
     {
         public Coords Coords { get; init; }
         public Stack<Tile> Tiles { get; init; } = new Stack<Tile>();

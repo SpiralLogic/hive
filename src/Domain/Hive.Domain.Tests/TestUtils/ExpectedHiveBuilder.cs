@@ -39,7 +39,7 @@ namespace Hive.Domain.Tests.TestUtils
             foreach (var coords in unexpected)
             {
                 var rowSplit = actualRows[coords.R].Split(Separator);
-                var q = coords.Q + GetQOffset(_rowStrings[coords.R]);
+                var q = coords.Q + GetQOffset(_rowStrings[coords.R],coords.R);
                 rowSplit[q] = Unexpected.ToString();
                 actualRows[coords.R] = string.Join(Separator, rowSplit);
             }
@@ -48,6 +48,6 @@ namespace Hive.Domain.Tests.TestUtils
             return $"\u001b[37m{string.Join("\n", actualRows.Select((row, i)=> row + " | " + coloredRows[i]))}\u001b[0m";
         }
 
-        private int GetQOffset(string rowString) => rowString.StartsWith(Separator) ? 1 : 0;
+        private int GetQOffset(string rowString,int r) => rowString.StartsWith(Separator) && (r%2!=0) ? 1 : 0;
     }
 }

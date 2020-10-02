@@ -2,36 +2,42 @@
 using FluentAssertions.Execution;
 using FluentAssertions.Primitives;
 using Hive.Domain.Entities;
+using System;
+using System.Collections.Generic;
 using System.Text;
 
 namespace Hive.Domain.Tests.TestUtils
 {
-    internal static class RuleExtensions
+    internal static class HiveTestExtensions
     {
-        public static RuleAssertions Should(this IRule rule) => new RuleAssertions(rule);
+        public static RuleAssertions Should(this IRule rule)
+            => new RuleAssertions((initialHiveBuilder)
+                => rule.ApplyRule(initialHiveBuilder.OriginCell, initialHiveBuilder.AllCells));
+
+        public static RuleAssertions Should(this Creature creature)
+            => new RuleAssertions((initialHiveBuilder)
+                => creature.GetAvailableMoves(initialHiveBuilder.OriginCell, initialHiveBuilder.AllCells));
     }
 
-    internal class RuleAssertions : ReferenceTypeAssertions<IRule, RuleAssertions>
+    internal class RuleAssertions : ReferenceTypeAssertions<Func<InitialHiveBuilder, ISet<Coords>>, RuleAssertions>
     {
         protected override string Identifier => "rule";
 
-        public RuleAssertions(IRule subject) : base(subject)
+        public RuleAssertions(Func<InitialHiveBuilder, ISet<Coords>> subject) : base(subject)
         {
         }
 
-        public AndConstraint<RuleAssertions> CreateMoves(InitialHiveBuilder initial, ExpectedHiveBuilder expected)
+        public AndConstraint<RuleAssertions> HaveMoves(InitialHiveBuilder initial, ExpectedHiveBuilder expected)
         {
-            var allCells = initial.AllCells;
-            var originCell = initial.OriginCell;
-            var expecteCoords = expected.ExpectedMoves();
+            var expectedCoords = expected.ExpectedMoves();
 
             Execute.Assertion
-                .Given(() => Subject.ApplyRule(originCell, allCells))
-                .ForCondition(coords => coords.SetEquals(expecteCoords))
+                .Given(() => Subject(initial))
+                .ForCondition(coords => coords.SetEquals(expectedCoords))
                 .FailWith(
                     "\nResulting moves did not match expected\n\nInitial:\n{1}\n\nActual - Expected:\n{2}\n",
-                    _ => originCell.Coords, 
-                    _ => new StringBuilder(initial.ToColoredString()), 
+                    _ => initial.OriginCell.Coords,
+                    _ => new StringBuilder(initial.ToColoredString()),
                     actual => new StringBuilder(expected.GetDiff(actual)));
 
             return new AndConstraint<RuleAssertions>(this);

@@ -32,6 +32,5 @@ namespace Hive.Domain.Entities
 
             return r;
         }
-
     }
 }

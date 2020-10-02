@@ -23,7 +23,7 @@ namespace Hive.Domain.Tests.RuleTests.Movements
 
             var rule = new OnlyEmptyCells();
 
-            rule.Should().CreateMoves(initial, expected);
+            rule.Should().HaveMoves(initial, expected);
         }
 
         [Fact]
@@ -44,10 +44,10 @@ namespace Hive.Domain.Tests.RuleTests.Movements
             expected += "✔ ✔ ⬡ ⬡ ⬡";
             expected += " ✔ ⬡ ⬡ ✔ ";
             expected += "⬡ ✔ ⬡ ✔ ✔";
-
+            
             var rule = new OnlyEmptyCells();
 
-            rule.Should().CreateMoves(initial, expected);
+            rule.Should().HaveMoves(initial, expected);
         }
     }
 }
