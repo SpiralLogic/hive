@@ -5,16 +5,10 @@ using Hive.Domain.Extensions;
 
 namespace Hive.Domain.Entities
 {
-    public record Creature
+    public record Creature(string Name)
     {
         internal readonly IEnumerable<IRule> _rules = new List<IRule>();
-        public string Name { get; init; }
-
-        private Creature(string name)
-        {
-            Name = name;
-        }
-
+     
         internal Creature(string name, IList<IRule> rules) : this(name)
         {
             _rules = rules;

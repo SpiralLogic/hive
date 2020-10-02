@@ -17,10 +17,6 @@ jobs:
         run: dotnet build
         working-directory: './src/Domain/Hive.Domain/'
       - name: Test
-        run: dotnet test
-        shell: bash
-        working-directory: './src/Domain/Hive.Domain.Tests/'
-      - name: Test
-        run: stty -a
+        run: dotnet test dotnet test /p:CollectCoverage=true /p:CoverletOutput=TestResults/ /p:CoverletOutputFormat=lcov
         shell: bash
         working-directory: './src/Domain/Hive.Domain.Tests/'
