@@ -39,11 +39,11 @@ namespace Hive.Domain.Tests.RuleTests
 
             var expected = new ExpectedHiveBuilder();
 
-            expected += "⬡ ⬡ ⬡ ⬡ ⬡";
+            expected += "⬡ ⬡ ✔ ⬡ ⬡";
             expected += " ⬡ ✔ ✔ ⬡ ";
             expected += "⬡ ✔ ★ ✔ ⬡";
-            expected += " ⬡ ✔ ✔ ⬡ ";
-            expected += "⬡ ⬡ ⬡ ⬡ ⬡";
+            expected += " ⬡ ✔ ⬡ ⬡ ";
+            expected += "⬡ ⬡ ✔ ⬡ ⬡";
 
             var rule = new AdjacentCells();
 
