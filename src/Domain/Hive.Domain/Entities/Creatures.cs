@@ -12,5 +12,12 @@ namespace Hive.Domain.Entities
                     new OnlyEmptyCells()
                     }
             );
+        public static readonly Creature Beetle =
+        new Creature("Beetle",
+            new IRule[] {
+                    new AdjacentCells(),
+                    new QueenMustBePlaced()
+                }
+        );
     }
 }

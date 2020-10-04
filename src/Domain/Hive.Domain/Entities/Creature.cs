@@ -7,16 +7,16 @@ namespace Hive.Domain.Entities
 {
     public record Creature(string Name)
     {
-        internal readonly IEnumerable<IRule> _rules = new List<IRule>();
+        private  IEnumerable<IRule> Rules { get; init;} =  new List<IRule>();
      
-        internal Creature(string name, IList<IRule> rules) : this(name)
+        internal Creature(string Name, IList<IRule> rules) : this(Name)
         {
-            _rules = rules;
+            Rules = rules;
         }
 
         public ISet<Coords> GetAvailableMoves(Cell originCell, ISet<Cell> cells)
         {
-            return _rules.Aggregate(cells.SelectCoords(), (current, rule)=>current.Intersect(rule.ApplyRule(originCell, cells))).ToHashSet();
+            return Rules.Aggregate(cells.SelectCoords(), (current, rule)=>current.Intersect(rule.ApplyRule(originCell, cells))).ToHashSet();
             
         }
     }
