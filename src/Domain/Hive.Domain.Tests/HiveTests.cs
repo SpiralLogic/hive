@@ -18,14 +18,42 @@ namespace Hive.Domain.Tests
 
         [Theory]
         [InlineData(-1, -1)]
+        [InlineData(0, -1)]
+        [InlineData(-1, 0)]
+        [InlineData(1, 0)]
+        [InlineData(0, 0)]
         [InlineData(-1, 1)]
         [InlineData(0, 1)]
-        [InlineData(0, -1)]
-        [InlineData(1, 0)]
         public void IsCreatedsWithStartingCells(int q, int r)
         {
-            var cell = new Cell(new Coords(q, r));
             var hive = new Hive(new[] {"player1"});
+            
+            var cell = new Cell(new Coords(q, r));
+
+            hive.Cells.Should().Contain(cell);
+        }
+        
+        [Theory]
+        [InlineData(0, -2)]
+        [InlineData(1, -2)]
+        [InlineData(-1, -1)]
+        [InlineData(0, -1)]
+        [InlineData(1, -1)]
+        [InlineData(-1, 0)]
+        [InlineData(0, 0)]
+        [InlineData(1, 0)]
+        [InlineData(-1, 1)]
+        [InlineData(0, 1)]
+        public void EvenHeightHasCorrectNeibgours(int q, int r)
+        {
+            var hive = new Hive(new[] {"player1","player2"});
+            var p1Queen = hive.Players.First().Tiles.First(t=>t.Creature==Creatures.Queen);
+            var p2Queen = hive.Players.Skip(1).First().Tiles.First(t=>t.Creature==Creatures.Queen);
+
+            hive.Move(p1Queen.Id,new Coords(0,0));
+            hive.Move(p2Queen.Id,new Coords(0,-1));
+            
+            var cell = new Cell(new Coords(q, r));
 
             hive.Cells.Should().Contain(cell);
         }

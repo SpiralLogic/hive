@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 namespace Hive.Domain.Entities
@@ -6,31 +7,34 @@ namespace Hive.Domain.Entities
     {
         internal ISet<Coords> GetNeighbors()
         {
-            var r = new HashSet<Coords>
+            return new HashSet<Coords>
             {
-                new Coords(Q - 1, R),
-                new Coords(Q + 1, R),
+                TopLeft(),
+                TopRight(),
+                Left(),
+                Right(),
+                BottomLeft(),
+                BottomRight(),
             };
 
-            if (R % 2 != 0)
-            {
-                r.Add(new Coords(Q, R - 1));
-                r.Add(new Coords(Q + 1, R - 1));
+        }
 
-                r.Add(new Coords(Q, R + 1));
-                r.Add(new Coords(Q + 1, R + 1));
-            }
+        internal Coords TopLeft() => R % 2 == 0 ? new Coords(Q - 1, R - 1) : new Coords(Q, R - 1);
 
-            if (R % 2 == 0)
-            {
-                r.Add(new Coords(Q, R - 1));
-                r.Add(new Coords(Q - 1, R - 1));
+        internal Coords BottomLeft() => R % 2 == 0 ? new Coords(Q - 1, R + 1) : new Coords(Q, R + 1);
 
-                r.Add(new Coords(Q, R + 1));
-                r.Add(new Coords(Q - 1, R + 1));
-            }
+        internal Coords TopRight() => R % 2 == 0 ? new Coords(Q, R - 1) : new Coords(Q + 1, R - 1);
 
-            return r;
+        internal Coords BottomRight() => R % 2 == 0 ? new Coords(Q, R + 1) : new Coords(Q + 1, R + 1);
+
+        internal Coords Right()
+        {
+            return new Coords(Q + 1, R);
+        }
+
+        internal Coords Left()
+        {
+            return new Coords(Q - 1, R);
         }
     }
 }

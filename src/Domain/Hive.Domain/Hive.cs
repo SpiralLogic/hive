@@ -8,7 +8,13 @@ namespace Hive.Domain
 {
     public class Hive
     {
-        private readonly ImmutableArray<Creature> _startingTiles = ImmutableArray.Create(Creatures.Queen, Creatures.Queen);
+        private readonly ImmutableArray<Creature> _startingTiles = ImmutableArray.Create(
+            Creatures.Queen,
+             Creatures.Beetle,
+             Creatures.Beetle,
+             Creatures.Beetle,
+             Creatures.Beetle
+             );
 
         private readonly Coords _initialCoords = new Coords(0, 0);
 
@@ -37,18 +43,26 @@ namespace Hive.Domain
             UpdatedPlacedTileMoves(nextPlayer);
 
             Cells.ExceptWith(Cells.WhereEmpty());
-            Cells.UnionWith(Cells.GetEmptyNeighbours());
+            Cells.UnionWith(Cells.CreateAllEmptyNeighbours());
 
             UpdatePlayerTileMoves(nextPlayer);
         }
 
         private void UpdatePlayerTileMoves(Player player)
         {
+
             var availableCells = (player.Tiles.Count == _startingTiles.Length)
                 ? Cells.WhereEmpty()
-                : Cells.WherePlayerOccupies(player).GetEmptyNeighbours();
+                : Cells.WherePlayerOccupies(player).SelectMany(c =>Cells.SelectEmptyNeighbors(c));
 
             var availableMoves = availableCells.ToCoords();
+
+            if (player.Tiles.Count == _startingTiles.Length - 3 && player.Tiles.Any(t => t.Creature == Creatures.Queen))
+            {
+                player.Tiles.First(t => t.Creature == Creatures.Queen).Moves.UnionWith(availableMoves);
+                return;
+            }
+
             foreach (var tile in player.Tiles)
             {
                 tile.Moves.UnionWith(availableMoves);

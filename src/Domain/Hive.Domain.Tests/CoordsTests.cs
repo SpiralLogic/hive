@@ -43,5 +43,6 @@ namespace Hive.Domain.Tests
 
             coord1.Should().NotBe(coord2);
         }
+
     }
 }
