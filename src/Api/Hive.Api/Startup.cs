@@ -21,6 +21,7 @@ namespace Hive
                 .AddJsonOptions(options =>
                     {
                         options.JsonSerializerOptions.Converters.Add(new CreatureJsonConverter());
+                        options.JsonSerializerOptions.Converters.Add(new StackJsonConverter());
                     } 
                 );
 
