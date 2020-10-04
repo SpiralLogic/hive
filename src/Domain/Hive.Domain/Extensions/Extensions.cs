@@ -10,12 +10,12 @@ namespace Hive.Domain.Extensions
             => players.Single(p => p.Id == playerId);
         internal static Cell FindCell(this IEnumerable<Cell> cells, Coords coords)
             => cells.Single(c => c.Coords.Equals(coords));
-        internal static ISet<Cell> GetEmptyNeighbours(this IEnumerable<Cell> cells)
+        internal static ISet<Cell> CreateAllEmptyNeighbours(this IEnumerable<Cell> cells)
             => cells.WhereOccupied()
                 .SelectCoords()
                 .SelectMany(coords => coords.GetNeighbors())
                 .SelectCells()
-                .WhereEmpty()
+                .Except(cells.WhereOccupied())
                 .ToHashSet();
 
         
