@@ -101,7 +101,7 @@ namespace Hive.Domain.Tests
         }
 
         [Fact]
-        public void CellsWithSameCoordinatesAreEqual()
+        public void CellsWithSameCoordinatesAreEqual()  
         {
             var cell1 = new Cell(new Coords(1, 1));
             var cell2 = new Cell(new Coords(1, 1))

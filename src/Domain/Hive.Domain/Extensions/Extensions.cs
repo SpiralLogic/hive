@@ -17,6 +17,11 @@ namespace Hive.Domain.Extensions
                 .SelectCells()
                 .WhereEmpty()
                 .ToHashSet();
+
+        
+        internal static IEnumerable<Cell> SelectEmptyNeighbors(this IEnumerable<Cell> cells, Cell originCell)
+            => cells.Intersect(originCell.Coords.GetNeighbors().ToCells()).WhereEmpty();
+
         internal static IEnumerable<Cell> WhereEmpty(this IEnumerable<Cell> cells)
             => cells.Where(c => c.IsEmpty());
         internal static IEnumerable<Cell> WhereOccupied(this IEnumerable<Cell> cells)

@@ -18,7 +18,7 @@ namespace Hive.Domain.Tests.TestUtils
         }
 
         protected HashSet<Cell> ExpectedCells => AllCells.Where(c => !c.IsEmpty() && c.TopTile().Creature.Name == Expected.Name).ToHashSet();
-        protected HashSet<Cell> UnexpecteCells => AllCells.Where(c => !c.IsEmpty() && c.TopTile().Creature.Name == Unexpected.Name).ToHashSet();
+        protected HashSet<Cell> UnexpectedCells => AllCells.Where(c => !c.IsEmpty() && c.TopTile().Creature.Name == Unexpected.Name).ToHashSet();
 
         public static ExpectedHiveBuilder operator +(ExpectedHiveBuilder builder, string newRow) => AddRow(builder, newRow);
 
