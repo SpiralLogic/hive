@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
+using Hive.Domain.Entities;
 
-namespace Hive.Domain.Entities
+namespace Hive.Domain.Rules
 {
     public interface IRule
     {

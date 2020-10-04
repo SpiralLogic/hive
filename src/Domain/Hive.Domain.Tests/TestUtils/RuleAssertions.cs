@@ -5,6 +5,7 @@ using Hive.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Hive.Domain.Rules;
 
 namespace Hive.Domain.Tests.TestUtils
 {

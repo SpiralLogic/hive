@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Hive.Domain.Entities;
 
 namespace Hive.Domain.Rules
