@@ -11,9 +11,9 @@ namespace Hive.Domain
         private readonly ImmutableArray<Creature> _startingTiles = ImmutableArray.Create(
             Creatures.Queen,
              Creatures.Beetle,
-             Creatures.Beetle,
-             Creatures.Beetle,
-             Creatures.Beetle
+             Creatures.Grasshopper,
+             Creatures.Ant,
+             Creatures.Spider
              );
 
         private readonly Coords _initialCoords = new Coords(0, 0);
@@ -40,10 +40,10 @@ namespace Hive.Domain
             Cells.FindCell(coords).AddTile(movedTile);
             ClearAllTileMoves();
 
-            UpdatedPlacedTileMoves(nextPlayer);
-
             Cells.ExceptWith(Cells.WhereEmpty());
             Cells.UnionWith(Cells.CreateAllEmptyNeighbours());
+
+            UpdatedPlacedTileMoves(nextPlayer);
 
             UpdatePlayerTileMoves(nextPlayer);
         }

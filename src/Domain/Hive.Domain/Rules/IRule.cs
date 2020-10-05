@@ -5,6 +5,6 @@ namespace Hive.Domain.Rules
 {
     public interface IRule
     {
-        ISet<Coords> ApplyRule(Cell currentCell, ISet<Cell> alLCells);
+        ISet<Coords> ApplyRule(Cell currentCell, ISet<Cell> allCells);
     }
 }

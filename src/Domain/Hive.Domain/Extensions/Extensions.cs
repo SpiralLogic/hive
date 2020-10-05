@@ -11,7 +11,7 @@ namespace Hive.Domain.Extensions
         internal static Cell FindCell(this IEnumerable<Cell> cells, Coords coords)
             => cells.Single(c => c.Coords.Equals(coords));
         internal static ISet<Cell> CreateAllEmptyNeighbours(this IEnumerable<Cell> cells)
-            => cells.WhereOccupied()
+            => cells
                 .SelectCoords()
                 .SelectMany(coords => coords.GetNeighbors())
                 .SelectCells()
@@ -20,7 +20,9 @@ namespace Hive.Domain.Extensions
 
         
         internal static IEnumerable<Cell> SelectEmptyNeighbors(this IEnumerable<Cell> cells, Cell originCell)
-            => cells.Intersect(originCell.Coords.GetNeighbors().ToCells()).WhereEmpty();
+            => cells.SelectNeighbors(originCell).WhereEmpty();
+        internal static IEnumerable<Cell> SelectNeighbors(this IEnumerable<Cell> cells, Cell originCell)
+            => cells.Intersect(originCell.Coords.GetNeighbors().ToCells());
 
         internal static IEnumerable<Cell> WhereEmpty(this IEnumerable<Cell> cells)
             => cells.Where(c => c.IsEmpty());
