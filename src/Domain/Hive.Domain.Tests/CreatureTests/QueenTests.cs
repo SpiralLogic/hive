@@ -15,7 +15,7 @@ namespace Hive.Domain.Tests.CreatureTests
             initial += " ⬡ ⏣ ⬢ ⬢ ";
             initial += "⬡ ⬡ ★ ⏣ ⬢";
             initial += " ⬡ ⬡ ⬢ ⬡ ";
-            initial += "⬢ ⬡ ⬢ ⬡ ⬡";
+            initial += "⬢ ⬢ ⬢ ⬡ ⬡";
 
             var expected = new ExpectedHiveBuilder();
 
@@ -23,7 +23,7 @@ namespace Hive.Domain.Tests.CreatureTests
             expected += " ⬡ ⏣ ⬢ ⬢ ";
             expected += "⬡ ✔ ★ ⏣ ⬢";
             expected += " ⬡ ✔ ⬢ ⬡ ";
-            expected += "⬢ ⬡ ⬢ ⬡ ⬡";
+            expected += "⬢ ⬢ ⬢ ⬡ ⬡";
             
             var queen = Creatures.Queen;
 

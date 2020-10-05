@@ -11,13 +11,15 @@ namespace Hive.Domain.Entities
                     new AdjacentCells(),
                     new OnlyEmptyCells(),
                     new SlideOnly(),
+                    new AllCellsConnected(),
                     }
             );
         public static readonly Creature Beetle =
         new Creature("Beetle",
             new IRule[] {
                     new AdjacentCells(),
-                    new QueenMustBePlaced()
+                    new QueenMustBePlaced(),
+                    new AllCellsConnected(),
                 }
         );
         public static readonly Creature Grasshopper =
@@ -25,6 +27,7 @@ namespace Hive.Domain.Entities
             new IRule[] {
                     new NextEmpty(),
                     new QueenMustBePlaced(),
+                    new AllCellsConnected(),
                 }
         );
         public static readonly Creature Spider =
@@ -33,6 +36,7 @@ namespace Hive.Domain.Entities
                     new ThreeEmptyCells(),
                     new SlideOnly(),
                     new QueenMustBePlaced(),
+                    new AllCellsConnected(),
                 }
         );
         public static readonly Creature Ant =
@@ -40,6 +44,7 @@ namespace Hive.Domain.Entities
             new IRule[] {
                     new SlideOnly(),
                     new QueenMustBePlaced(),
+                    new AllCellsConnected(),
                 }
         );
     }
