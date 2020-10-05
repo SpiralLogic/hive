@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,12 +11,37 @@ namespace Hive.Domain.Rules
 {
     public class AllCellsConnected : IRule
     {
-        private HashSet<Cell> checkd = new HashSet<Cell>();
+        private ISet<Cell> inHive = new HashSet<Cell>();
+        private ISet<Cell> _allCells = new HashSet<Cell>();
 
         public ISet<Coords> ApplyRule(Cell currentCell, ISet<Cell> allCells)
         {
-            checkd.Clear();
-            return allCells.WhereEmpty().ToCoords();
+            if (!CouldDisconnect(allCells,currentCell)) return allCells.ToCoords();
+            
+            _allCells.Clear();
+            _allCells.UnionWith(allCells.WhereOccupied());
+            _allCells.Remove(currentCell);
+
+            inHive.Clear();
+            var processing = new Stack<Cell>();
+            processing.Push(_allCells.First());
+            Check(processing);
+
+            return inHive.Count == _allCells.Count ? inHive.Union(allCells.WhereEmpty()).ToCoords() : new HashSet<Coords>();
+        }
+
+        private void Check(Stack<Cell> processing)
+        {
+            if (!processing.TryPop(out var cell)) return;
+            inHive.Add(cell);
+
+            _allCells.SelectNeighbors(cell).Except(inHive).ToList().ForEach(c=>processing.Push(c));
+            Check(processing);
+        }
+
+        private bool CouldDisconnect(ISet<Cell> allCells, Cell currentCell)
+        {
+            return allCells.SelectNeighbors(currentCell).WhereOccupied().Count() < 6;
         }
     }
 }
