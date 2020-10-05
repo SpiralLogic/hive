@@ -16,7 +16,7 @@ namespace Hive.Domain.Rules
 
         public ISet<Coords> ApplyRule(Cell currentCell, ISet<Cell> allCells)
         {
-            if (!CouldDisconnect(allCells,currentCell)) return allCells.ToCoords();
+            if (!CouldDisconnect(allCells,currentCell) || currentCell.Tiles.Count>1) return allCells.ToCoords();
             
             _allCells.Clear();
             _allCells.UnionWith(allCells.WhereOccupied());
