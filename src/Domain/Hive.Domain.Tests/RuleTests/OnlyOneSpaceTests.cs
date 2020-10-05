@@ -4,7 +4,7 @@ using Xunit;
 
 namespace Hive.Domain.Tests.RuleTests
 {
-    public class AdjacentCellTests
+    public class OnlyOneSpaceTests
     {
         [Fact]
         public void ReturnsAllAdjacentCells()
@@ -21,7 +21,7 @@ namespace Hive.Domain.Tests.RuleTests
             expected += "✔ ⬡ ✔";
             expected += " ✔ ✔ ";
 
-            var rule = new AdjacentCells();
+            var rule = new OnlyOneSpace();
 
             rule.Should().HaveMoves(initial, expected);
         }
@@ -45,7 +45,7 @@ namespace Hive.Domain.Tests.RuleTests
             expected += " ⬡ ✔ ✔ ⬡ ";
             expected += "⬡ ⬡ ⬡ ⬡ ⬡";
 
-            var rule = new AdjacentCells();
+            var rule = new OnlyOneSpace();
 
             rule.Should().HaveMoves(initial, expected);
         }

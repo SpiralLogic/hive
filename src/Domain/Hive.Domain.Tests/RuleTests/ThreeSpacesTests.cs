@@ -4,7 +4,7 @@ using Xunit;
 
 namespace Hive.Domain.Tests.RuleTests
 {
-    public class ThreeEmptyCellsTests
+    public class ThreeSpacesTests
     {
         [Fact]
         public void Moves3PlacesWithoutBacktracking()
@@ -26,7 +26,7 @@ namespace Hive.Domain.Tests.RuleTests
             expected += "⬡ ⏣ ⬡ ⏣ ⬡";
             expected += " ⬡ ⏣ ✔ ⏣";
 
-            var rule = new ThreeEmptyCells();
+            var rule = new ThreeSpaces();
 
             rule.Should().HaveMoves(initial, expected);
         }
@@ -59,7 +59,7 @@ namespace Hive.Domain.Tests.RuleTests
             expected += "⬡ ⬡ ⬡ ✔ ✔ ✔ ✔ ⬡ ⬡ ⬡";
             expected += " ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
 
-            var rule = new ThreeEmptyCells();
+            var rule = new ThreeSpaces();
 
             rule.Should().HaveMoves(initial, expected);
         }
@@ -92,7 +92,7 @@ namespace Hive.Domain.Tests.RuleTests
             expected += "⬡ ⬡ ⬡ ⬡ ⬡ ✔ ✔ ⬡ ⬡ ⬡";
             expected += " ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
 
-            var rule = new ThreeEmptyCells();
+            var rule = new ThreeSpaces();
 
             rule.Should().HaveMoves(initial, expected);
         }

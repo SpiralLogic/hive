@@ -5,7 +5,7 @@ using Hive.Domain.Entities;
 
 namespace Hive.Domain.Rules
 {
-    public class NextEmpty : IRule
+    public class NextUnoccupied : IRule
     {
         public ISet<Coords> ApplyRule(Cell currentCell, ISet<Cell> allCells)
         {

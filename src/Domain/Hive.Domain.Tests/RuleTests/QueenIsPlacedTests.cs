@@ -7,7 +7,7 @@ using Xunit;
 
 namespace Hive.Domain.Tests.RuleTests
 {
-    public class QueenMustBePlacedTests
+    public class QueenIsPlacedTests
     {
         [Fact]
         public void CantMoveWithNoQueen()
@@ -18,7 +18,7 @@ namespace Hive.Domain.Tests.RuleTests
                 new Cell(new Coords(1, 3)).AddTile(new Tile(3, 1, Creatures.Beetle)),
             };
 
-            var rule = new QueenMustBePlaced();
+            var rule = new QueenIsPlaced();
 
             rule.ApplyRule(cells.First(), cells).Should().BeEmpty();
         }
@@ -33,7 +33,7 @@ namespace Hive.Domain.Tests.RuleTests
                 new Cell(new Coords(1, 4)).AddTile(new Tile(4, 1, Creatures.Queen)),
             };
 
-            var rule = new QueenMustBePlaced();
+            var rule = new QueenIsPlaced();
 
             rule.ApplyRule(cells.First(), cells).Should().NotBeEmpty();
         }

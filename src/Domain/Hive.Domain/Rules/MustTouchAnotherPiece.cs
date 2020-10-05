@@ -5,7 +5,7 @@ using Hive.Domain.Extensions;
 
 namespace Hive.Domain.Rules
 {
-    public class NotAllEmptyNeighbours : IRule
+    public class MustTouchAnotherPiece : IRule
     {
         public ISet<Coords> ApplyRule(Cell currentCell, ISet<Cell> allCells)
         {

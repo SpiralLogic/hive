@@ -4,7 +4,7 @@ using Xunit;
 
 namespace Hive.Domain.Tests.RuleTests
 {
-    public class AllCellsConnectedTests
+    public class OneHiveTests
     {
         [Fact]
         public void CantDisconnectHive()
@@ -34,7 +34,7 @@ namespace Hive.Domain.Tests.RuleTests
             expected += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡";
             expected += " ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
 
-            var rule = new AllCellsConnected();
+            var rule = new OneHive();
 
             rule.Should().HaveMoves(initial, expected);
         }
@@ -66,7 +66,7 @@ namespace Hive.Domain.Tests.RuleTests
             expected += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡";
             expected += " ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
 
-            var rule = new AllCellsConnected();
+            var rule = new OneHive();
 
             rule.Should().HaveMoves(initial, expected);
         }
@@ -98,7 +98,7 @@ namespace Hive.Domain.Tests.RuleTests
             expected += "✔ ✔ ✔ ✔ ✔ ✔ ✔ ✔ ✔ ✔";
             expected += " ✔ ✔ ✔ ✔ ✔ ✔ ✔ ✔ ✔ ";
 
-            var rule = new AllCellsConnected();
+            var rule = new OneHive();
 
             rule.Should().HaveMoves(initial, expected);
         }
@@ -131,7 +131,7 @@ namespace Hive.Domain.Tests.RuleTests
             expected += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡";
             expected += " ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
 
-            var rule = new AllCellsConnected();
+            var rule = new OneHive();
 
             rule.Should().HaveMoves(initial, expected);
         }

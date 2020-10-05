@@ -21,7 +21,7 @@ namespace Hive.Domain.Tests.RuleTests
             expected += "✔ ★ ✔";
             expected += " ✔ ✔ ";
 
-            var rule = new OnlyEmptyCells();
+            var rule = new EmptySpacesOnly();
 
             rule.Should().HaveMoves(initial, expected);
         }
@@ -45,7 +45,7 @@ namespace Hive.Domain.Tests.RuleTests
             expected += " ✔ ⬡ ⬡ ✔ ";
             expected += "⬡ ✔ ⬡ ✔ ✔";
             
-            var rule = new OnlyEmptyCells();
+            var rule = new EmptySpacesOnly();
 
             rule.Should().HaveMoves(initial, expected);
         }

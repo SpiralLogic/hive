@@ -4,7 +4,7 @@ using Xunit;
 
 namespace Hive.Domain.Tests.RuleTests
 {
-    public class NextEmptyTests
+    public class NextUnoccupiedTests
     {
         [Fact]
         public void CalculatesNextEmpty()
@@ -33,7 +33,7 @@ namespace Hive.Domain.Tests.RuleTests
             expected += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ✔ ⬡ ⬡ ⬡";
             expected += " ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
 
-            var rule = new NextEmpty();
+            var rule = new NextUnoccupied();
 
             rule.Should().HaveMoves(initial, expected);
         }
@@ -65,7 +65,7 @@ namespace Hive.Domain.Tests.RuleTests
             expected += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡";
             expected += " ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
 
-            var rule = new NextEmpty();
+            var rule = new NextUnoccupied();
 
             rule.Should().HaveMoves(initial, expected);
         }

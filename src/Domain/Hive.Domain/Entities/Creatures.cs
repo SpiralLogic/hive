@@ -8,11 +8,11 @@ namespace Hive.Domain.Entities
             new Creature("Queen",
                 new IRule[]
                 {
-                    new AdjacentCells(),
-                    new OnlyEmptyCells(),
+                    new OnlyOneSpace(),
+                    new EmptySpacesOnly(),
                     new SlideOnly(),
-                    new AllCellsConnected(),
-                    new NotAllEmptyNeighbours(),
+                    new OneHive(),
+                    new MustTouchAnotherPiece(),
                 }
             );
 
@@ -20,10 +20,10 @@ namespace Hive.Domain.Entities
             new Creature("Beetle",
                 new IRule[]
                 {
-                    new AdjacentCells(),
-                    new QueenMustBePlaced(),
-                    new AllCellsConnected(), 
-                    new NotAllEmptyNeighbours(),
+                    new OnlyOneSpace(),
+                    new QueenIsPlaced(),
+                    new OneHive(), 
+                    new MustTouchAnotherPiece(),
                 }
             );
 
@@ -31,10 +31,10 @@ namespace Hive.Domain.Entities
             new Creature("Grasshopper",
                 new IRule[]
                 {
-                    new NextEmpty(),
-                    new QueenMustBePlaced(),
-                    new AllCellsConnected(), 
-                    new NotAllEmptyNeighbours(),
+                    new NextUnoccupied(),
+                    new QueenIsPlaced(),
+                    new OneHive(), 
+                    new MustTouchAnotherPiece(),
                 }
             );
 
@@ -42,11 +42,11 @@ namespace Hive.Domain.Entities
             new Creature("Spider",
                 new IRule[]
                 {
-                    new ThreeEmptyCells(),
+                    new ThreeSpaces(),
                     new SlideOnly(),
-                    new QueenMustBePlaced(),
-                    new AllCellsConnected(), 
-                    new NotAllEmptyNeighbours(),
+                    new QueenIsPlaced(),
+                    new OneHive(), 
+                    new MustTouchAnotherPiece(),
                 }
             );
 
@@ -55,9 +55,9 @@ namespace Hive.Domain.Entities
                 new IRule[]
                 {
                     new SlideOnly(),
-                    new QueenMustBePlaced(),
-                    new AllCellsConnected(), 
-                    new NotAllEmptyNeighbours(),
+                    new QueenIsPlaced(),
+                    new OneHive(), 
+                    new MustTouchAnotherPiece(),
                 }
             );
     }

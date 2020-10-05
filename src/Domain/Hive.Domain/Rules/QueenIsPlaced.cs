@@ -5,7 +5,7 @@ using Hive.Domain.Extensions;
 
 namespace Hive.Domain.Rules
 {
-    public class QueenMustBePlaced : IRule
+    public class QueenIsPlaced : IRule
     {
         public ISet<Coords> ApplyRule(Cell currentCell, ISet<Cell> allCells)
         {

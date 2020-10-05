@@ -6,7 +6,7 @@ using Hive.Domain.Extensions;
 
 namespace Hive.Domain.Rules
 {
-    public class ThreeEmptyCells : IRule
+    public class ThreeSpaces : IRule
     {
         public ISet<Coords> ApplyRule(Cell originCell, ISet<Cell> allCells)
         {

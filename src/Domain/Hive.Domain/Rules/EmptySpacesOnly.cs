@@ -4,7 +4,7 @@ using Hive.Domain.Extensions;
 
 namespace Hive.Domain.Rules
 {
-    public class OnlyEmptyCells : IRule
+    public class EmptySpacesOnly : IRule
     {
         public ISet<Coords> ApplyRule(Cell currentCell, ISet<Cell> cells)
         {

@@ -5,7 +5,7 @@ using Hive.Domain.Extensions;
 
 namespace Hive.Domain.Rules
 {
-    public class AllCellsConnected : IRule
+    public class OneHive : IRule
     {
         private readonly ISet<Cell> _inHive = new HashSet<Cell>();
         private readonly ISet<Cell> _allCells = new HashSet<Cell>();
