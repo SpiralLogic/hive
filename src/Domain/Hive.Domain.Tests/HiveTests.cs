@@ -138,5 +138,34 @@ namespace Hive.Domain.Tests
             hive2.Cells.Should().BeSameAs(cells);
             hive2.Players.Should().BeSameAs(players);
         }
+
+        
+        [Fact]
+        public void GameOver()
+        {
+            var hive = new Hive(new[] {"player1", "player2"});
+            var players = hive.Players;
+            var cells = hive.Cells;
+    
+            cells.Clear();
+            cells.Add(new Cell(new Coords(-1,-1)).AddTile(new Tile(2,1,Creatures.Ant)));
+            cells.Add(new Cell(new Coords(0,-1)).AddTile(new Tile(3,1,Creatures.Ant)));
+            cells.Add(new Cell(new Coords(-1,0)).AddTile(new Tile(4,1,Creatures.Ant)));
+            cells.Add(new Cell(new Coords(1,0)).AddTile(new Tile(5,1,Creatures.Ant)));
+            cells.Add(new Cell(new Coords(-1,1)).AddTile(new Tile(6,1,Creatures.Ant)));
+            cells.Add(new Cell(new Coords(0,1)).AddTile(new Tile(7,1,Creatures.Ant)));
+
+            cells.Add(new Cell(new Coords(0,0)));
+
+             var queen = players.First(p=>p.Id!=1).Tiles.First(t=>t.Creature==Creatures.Queen);
+            
+            var hive2 = new Hive(players,cells);
+            hive2.Move(queen.Id, new Coords(0,0));
+
+            hive2.Cells.Should().NotContain(c=>!c.IsEmpty() && c.TopTile().PlayerId==queen.PlayerId);
+            
+        }
+
+
     }
-}
+}    

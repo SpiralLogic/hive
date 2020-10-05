@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using Hive.Domain.Entities;
@@ -38,14 +39,24 @@ namespace Hive.Domain
             var movedTile = FindAndRemoveTile(tileId);
             var nextPlayer = Players.First(p => p.Id != movedTile.PlayerId);
             Cells.FindCell(coords).AddTile(movedTile);
-            ClearAllTileMoves();
 
+            if (IsGameOver(nextPlayer)){
+                Cells.IntersectWith(Cells.WherePlayerOccupies(nextPlayer));
+                return;
+            }
+            
+            ClearAllTileMoves();
             Cells.ExceptWith(Cells.WhereEmpty());
             Cells.UnionWith(Cells.CreateAllEmptyNeighbours());
 
             UpdatedPlacedTileMoves(nextPlayer);
 
             UpdatePlayerTileMoves(nextPlayer);
+        }
+
+        private bool IsGameOver(Player nextPlayer)
+        {
+            return Cells.SelectNeighbors(Cells.WhereOccupied().First(c=>c.Tiles.Any(t=>t.Creature==Creatures.Queen))).All(c=>!c.IsEmpty() && c.TopTile().PlayerId == nextPlayer.Id);
         }
 
         private void UpdatePlayerTileMoves(Player player)
