@@ -22,6 +22,6 @@ namespace Hive.Domain.Tests.TestUtils
             return $"\u001b[{color}m{Symbol}\u001b[0m";
         }
 
-        internal Creature Creature = Creatures.Queen with { Name = Name };
+        internal readonly Creature Creature = Creatures.Queen with { Name = Name };
     }
 }

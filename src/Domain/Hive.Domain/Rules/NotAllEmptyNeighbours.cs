@@ -11,7 +11,7 @@ namespace Hive.Domain.Rules
         {
             var cells = new HashSet<Cell>(allCells);
             cells.Remove(currentCell);
-            return cells.Where(c =>cells.SelectNeighbors(c).WhereOccupied().Count() > 0).ToCoords();
+            return cells.Where(c =>cells.SelectNeighbors(c).WhereOccupied().Any()).ToCoords();
         }
     }
 }

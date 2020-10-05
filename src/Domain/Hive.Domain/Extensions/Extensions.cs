@@ -36,7 +36,8 @@ namespace Hive.Domain.Extensions
             => coords.SelectCells().ToHashSet();
         internal static IEnumerable<Coords> SelectCoords(this IEnumerable<Cell> cells)
             => cells.Select(c => c.Coords);
-        internal static IEnumerable<Cell> SelectCells(this IEnumerable<Coords> coords) =>
+
+        private static IEnumerable<Cell> SelectCells(this IEnumerable<Coords> coords) =>
             coords.Select(c => new Cell(c));
     }
 }

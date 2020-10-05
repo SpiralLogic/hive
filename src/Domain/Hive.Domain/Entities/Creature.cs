@@ -9,7 +9,7 @@ namespace Hive.Domain.Entities
     {
         private  IEnumerable<IRule> Rules { get; init;} =  new List<IRule>();
      
-        internal Creature(string Name, IList<IRule> rules) : this(Name)
+        internal Creature(string name, IList<IRule> rules) : this(name)
         {
             Rules = rules;
         }

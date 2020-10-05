@@ -40,9 +40,9 @@ namespace Hive.Domain
             var movedTile = FindAndRemoveTile(tileId);
             var nextPlayer = Players.First(p => p.Id != movedTile.PlayerId);
             Cells.FindCell(coords).AddTile(movedTile);
-
-            if (IsGameOver(nextPlayer)){
-                Cells.IntersectWith(Cells.WherePlayerOccupies(nextPlayer));
+            var loser = IsGameOver();
+            if (loser.Any()){
+                Cells.ExceptWith(Cells.WhereOccupied().Where(c=>c.TopTile().PlayerId == loser.First().TopTile().PlayerId));
                 return;
             }
             
@@ -55,9 +55,11 @@ namespace Hive.Domain
             UpdatePlayerTileMoves(nextPlayer);
         }
 
-        private bool IsGameOver(Player nextPlayer)
+        private IEnumerable<Cell> IsGameOver()
         {
-            return !Players.Any(p => p.Tiles.Any(t => t.Creature == Creatures.Queen)) && Cells.SelectNeighbors(Cells.WhereOccupied().First(c=>c.Tiles.Any(t=>t.Creature==Creatures.Queen))).All(c=>!c.IsEmpty() && c.TopTile().PlayerId == nextPlayer.Id);
+            var queens = Cells.WhereOccupied().Where(c => c.Tiles.Any(t => t.Creature == Creatures.Queen));
+            return queens.Where(q =>
+                Cells.SelectNeighbors(q).All(n => !n.IsEmpty()&& n.TopTile().PlayerId != q.TopTile().PlayerId));
         }
 
         private void UpdatePlayerTileMoves(Player player)

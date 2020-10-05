@@ -1,7 +1,6 @@
 ﻿using System.Linq;
 using System.Text.Json;
 using Hive.DTOs;
-using Hive.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;

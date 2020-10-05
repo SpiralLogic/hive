@@ -2,7 +2,7 @@
 using Hive.Domain.Tests.TestUtils;
 using Xunit;
 
-namespace Hive.Domain.Tests.RuleTests.Movements
+namespace Hive.Domain.Tests.RuleTests
 {
     public class ThreeEmptyCellsTests
     {

@@ -12,8 +12,8 @@ namespace Hive.Domain.Tests.TestUtils
 
         internal ExpectedHiveBuilder()
         {
-            _allSymbols.Add(Expected);
-            _allSymbols.Add(Unexpected);
+            AllSymbols.Add(Expected);
+            AllSymbols.Add(Unexpected);
         }
 
         protected HashSet<Cell> ExpectedCells => AllCells.Where(c => !c.IsEmpty() && c.TopTile().Creature.Name == Expected.Name).ToHashSet();
@@ -31,14 +31,14 @@ namespace Hive.Domain.Tests.TestUtils
 
         internal string GetDiff(ISet<Coords> actual)
         {
-            var actualRows = new List<string>(_rowStrings);
+            var actualRows = new List<string>(RowStrings);
             var unexpected = ExpectedMoves();
             unexpected.SymmetricExceptWith(actual);
 
             foreach (var coords in unexpected)
             {
                 var rowSplit = actualRows[coords.R].Split(Separator);
-                var q = coords.Q + GetQOffset(_rowStrings[coords.R],coords.R);
+                var q = coords.Q + GetQOffset(RowStrings[coords.R],coords.R);
                 rowSplit[q] = Unexpected.ToString();
                 actualRows[coords.R] = string.Join(Separator, rowSplit);
             }

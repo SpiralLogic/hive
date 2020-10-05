@@ -7,8 +7,8 @@ namespace Hive.Domain.Rules
 {
     public class AllCellsConnected : IRule
     {
-        private ISet<Cell> inHive = new HashSet<Cell>();
-        private ISet<Cell> _allCells = new HashSet<Cell>();
+        private readonly ISet<Cell> _inHive = new HashSet<Cell>();
+        private readonly ISet<Cell> _allCells = new HashSet<Cell>();
 
         public ISet<Coords> ApplyRule(Cell currentCell, ISet<Cell> allCells)
         {
@@ -18,24 +18,24 @@ namespace Hive.Domain.Rules
             _allCells.UnionWith(allCells.WhereOccupied());
             _allCells.Remove(currentCell);
 
-            inHive.Clear();
+            _inHive.Clear();
             var processing = new Stack<Cell>();
             processing.Push(_allCells.First());
             Check(processing);
 
-            return inHive.Count == _allCells.Count ? inHive.Union(allCells.WhereEmpty()).ToCoords() : new HashSet<Coords>();
+            return _inHive.Count == _allCells.Count ? _inHive.Union(allCells.WhereEmpty()).ToCoords() : new HashSet<Coords>();
         }
 
         private void Check(Stack<Cell> processing)
         {
             if (!processing.TryPop(out var cell)) return;
-            inHive.Add(cell);
+            _inHive.Add(cell);
 
-            _allCells.SelectNeighbors(cell).Except(inHive).ToList().ForEach(c=>processing.Push(c));
+            _allCells.SelectNeighbors(cell).Except(_inHive).ToList().ForEach(processing.Push);
             Check(processing);
         }
 
-        private bool CouldDisconnect(ISet<Cell> allCells, Cell currentCell)
+        private static bool CouldDisconnect(ISet<Cell> allCells, Cell currentCell)
         {
             return allCells.SelectNeighbors(currentCell).WhereOccupied().Count() < 6;
         }

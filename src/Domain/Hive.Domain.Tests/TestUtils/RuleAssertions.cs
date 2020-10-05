@@ -12,11 +12,11 @@ namespace Hive.Domain.Tests.TestUtils
     internal static class HiveTestExtensions
     {
         public static RuleAssertions Should(this IRule rule)
-            => new RuleAssertions((initialHiveBuilder)
+            => new RuleAssertions(initialHiveBuilder
                 => rule.ApplyRule(initialHiveBuilder.OriginCell, initialHiveBuilder.AllCells));
 
         public static RuleAssertions Should(this Creature creature)
-            => new RuleAssertions((initialHiveBuilder)
+            => new RuleAssertions(initialHiveBuilder
                 => creature.GetAvailableMoves(initialHiveBuilder.OriginCell, initialHiveBuilder.AllCells));
     }
 

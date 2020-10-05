@@ -5,7 +5,7 @@ using System.Reflection;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
- namespace Hive
+namespace Hive.Converters
 {
     public class StackJsonConverter : JsonConverterFactory
     {
@@ -25,11 +25,11 @@ using System.Text.Json.Serialization;
 
             JsonConverter converter = (JsonConverter)Activator.CreateInstance(
                 typeof(StackJsonConverter<>)
-                    .MakeGenericType(new Type[] { elementType }),
+                    .MakeGenericType(elementType),
                 BindingFlags.Instance | BindingFlags.Public,
-                binder: null,
-                args: null,
-                culture: null)!;
+                null,
+                null,
+                null)!;
 
             return converter;
         }

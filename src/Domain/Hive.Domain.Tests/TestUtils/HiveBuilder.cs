@@ -14,10 +14,10 @@ namespace Hive.Domain.Tests.TestUtils
         internal static readonly HiveCharacter Enemy = new("Enemy", '⏣', ConsoleColor.Magenta);
 
         private int _currentR;
-        protected static ISet<HiveCharacter> _allSymbols = new[] { Empty, Origin, Friend, Enemy }.ToHashSet();
+        protected static ISet<HiveCharacter> AllSymbols = new[] { Empty, Origin, Friend, Enemy }.ToHashSet();
 
         internal readonly HashSet<Cell> AllCells = new();
-        protected List<string> _rowStrings = new();
+        protected List<string> RowStrings = new();
 
         protected static T AddRow<T>(T builder, string rowString) where T : HiveBuilder
         {
@@ -36,15 +36,15 @@ namespace Hive.Domain.Tests.TestUtils
             }
 
             builder._currentR++;
-            builder._rowStrings.Add(rowString);
+            builder.RowStrings.Add(rowString);
 
             return builder;
         }
 
         private int GetQOffset(string rowString) => rowString.Trim().Length == rowString.Length ? 0 : (_currentR + 1) % 2;
         internal Cell OriginCell => AllCells.Single(c => !c.IsEmpty() && c.TopTile().Creature.Name == Origin.Name);
-        internal string ToColoredString() => _allSymbols.Aggregate(ToString(), (str, row) => str.Replace(row.Symbol.ToString(), row.ToString()));
+        internal string ToColoredString() => AllSymbols.Aggregate(ToString(), (str, row) => str.Replace(row.Symbol.ToString(), row.ToString()));
         internal abstract void ModifyCell(Cell cell, char symbol);
-        public override string ToString() => $"\u001b[0m{string.Join("\n", _rowStrings)}\u001b[0m";
+        public override string ToString() => $"\u001b[0m{string.Join("\n", RowStrings)}\u001b[0m";
     }
 }

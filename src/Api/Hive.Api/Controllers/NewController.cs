@@ -1,9 +1,9 @@
-﻿using Hive.Models;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System.Text.Json;
+using Hive.DTOs;
 
 namespace Hive.Controllers
 {

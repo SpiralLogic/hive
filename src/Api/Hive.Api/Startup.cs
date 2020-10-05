@@ -1,4 +1,5 @@
 using System;
+using Hive.Converters;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
