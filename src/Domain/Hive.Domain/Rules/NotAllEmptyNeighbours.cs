@@ -9,7 +9,9 @@ namespace Hive.Domain.Rules
     {
         public ISet<Coords> ApplyRule(Cell currentCell, ISet<Cell> allCells)
         {
-            return allCells.Where(c =>c!=currentCell && allCells.SelectNeighbors(c).WhereOccupied().Count() > 0).ToCoords();
+            var cells = new HashSet<Cell>(allCells);
+            cells.Remove(currentCell);
+            return cells.Where(c =>cells.SelectNeighbors(c).WhereOccupied().Count() > 0).ToCoords();
         }
     }
 }

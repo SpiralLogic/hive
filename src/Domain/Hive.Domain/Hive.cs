@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using Hive.Domain.Entities;
@@ -13,6 +12,8 @@ namespace Hive.Domain
             Creatures.Queen,
              Creatures.Beetle,
              Creatures.Grasshopper,
+             Creatures.Ant,
+             Creatures.Ant,
              Creatures.Ant,
              Creatures.Spider
              );
@@ -56,7 +57,7 @@ namespace Hive.Domain
 
         private bool IsGameOver(Player nextPlayer)
         {
-            return Cells.SelectNeighbors(Cells.WhereOccupied().First(c=>c.Tiles.Any(t=>t.Creature==Creatures.Queen))).All(c=>!c.IsEmpty() && c.TopTile().PlayerId == nextPlayer.Id);
+            return !Players.Any(p => p.Tiles.Any(t => t.Creature == Creatures.Queen)) && Cells.SelectNeighbors(Cells.WhereOccupied().First(c=>c.Tiles.Any(t=>t.Creature==Creatures.Queen))).All(c=>!c.IsEmpty() && c.TopTile().PlayerId == nextPlayer.Id);
         }
 
         private void UpdatePlayerTileMoves(Player player)

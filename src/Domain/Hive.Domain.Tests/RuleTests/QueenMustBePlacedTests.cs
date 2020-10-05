@@ -3,7 +3,6 @@ using System.Linq;
 using FluentAssertions;
 using Hive.Domain.Entities;
 using Hive.Domain.Rules;
-using Hive.Domain.Tests.TestUtils;
 using Xunit;
 
 namespace Hive.Domain.Tests.RuleTests

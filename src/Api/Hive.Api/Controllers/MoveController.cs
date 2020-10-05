@@ -1,6 +1,5 @@
 ﻿using System.Linq;
 using System.Text.Json;
-using Hive.Domain.Entities;
 using Hive.DTOs;
 using Hive.Models;
 using Microsoft.AspNetCore.Http;

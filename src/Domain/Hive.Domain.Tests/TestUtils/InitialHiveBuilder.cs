@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Hive.Domain.Entities;
+﻿using Hive.Domain.Entities;
 
 namespace Hive.Domain.Tests.TestUtils
 {
