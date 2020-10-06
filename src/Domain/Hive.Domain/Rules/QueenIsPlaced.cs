@@ -16,9 +16,8 @@ namespace Hive.Domain.Rules
         {
             return allCells
                             .WhereOccupied()
-                            .SelectMany(c => c.Tiles)
-                            .Where(c => c.PlayerId == currentCell.TopTile().PlayerId)
-                            .Any(c => c.Creature == Creatures.Queen);
+                            .WherePlayerOccupies(currentCell.TopTile().PlayerId)
+                            .Any(c => c.IsQueen());
         }
     }
 }

@@ -5,60 +5,65 @@ namespace Hive.Domain.Entities
     public static class Creatures
     {
         public static readonly Creature Queen =
-            new Creature("Queen",
-                new IRule[]
+            new Creature("Queen") with
+        {
+            Rules = new IRule[]
                 {
-                    new OnlyOneSpace(),
-                    new EmptySpacesOnly(),
-                    new SlideOnly(),
+                    new OneSpace(),
+                    new IsEmpty(),
+                    new CanSlide(),
                     new OneHive(),
-                    new MustTouchAnotherPiece(),
+                    new NeighborsOccupied(),
                 }
-            );
+        };
 
         public static readonly Creature Beetle =
-            new Creature("Beetle",
-                new IRule[]
+            new Creature("Beetle") with
+        {
+            Rules = new IRule[]
                 {
-                    new OnlyOneSpace(),
+                    new OneSpace(),
                     new QueenIsPlaced(),
-                    new OneHive(), 
-                    new MustTouchAnotherPiece(),
+                    new OneHive(),
+                    new NeighborsOccupied(),
                 }
-            );
+        };
 
         public static readonly Creature Grasshopper =
-            new Creature("Grasshopper",
-                new IRule[]
+            new Creature("Grasshopper") with
+        {
+            Rules = new IRule[]
                 {
                     new NextUnoccupied(),
                     new QueenIsPlaced(),
-                    new OneHive(), 
-                    new MustTouchAnotherPiece(),
+                    new OneHive(),
+                    new NeighborsOccupied(),
                 }
-            );
+        };
 
         public static readonly Creature Spider =
-            new Creature("Spider",
-                new IRule[]
+            new Creature("Spider") with
+        {
+            Rules = new IRule[]
                 {
                     new ThreeSpaces(),
-                    new SlideOnly(),
+                    new CanSlide(),
                     new QueenIsPlaced(),
-                    new OneHive(), 
-                    new MustTouchAnotherPiece(),
+                    new OneHive(),
+                    new NeighborsOccupied(),
                 }
-            );
+        };
 
         public static readonly Creature Ant =
-            new Creature("Ant",
-                new IRule[]
+            new Creature("Ant") with
+        {
+            Rules = new IRule[]
                 {
-                    new SlideOnly(),
+                    new CanSlide(),
                     new QueenIsPlaced(),
-                    new OneHive(), 
-                    new MustTouchAnotherPiece(),
+                    new OneHive(),
+                    new NeighborsOccupied(),
                 }
-            );
+        };
     }
 }

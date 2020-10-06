@@ -4,7 +4,7 @@ using Xunit;
 
 namespace Hive.Domain.Tests.RuleTests
 {
-    public class SlideOnlyTests
+    public class CanSlideTests
     {
         [Fact]
         public void Moves3PlacesWithoutBacktracking()
@@ -30,7 +30,7 @@ namespace Hive.Domain.Tests.RuleTests
             expected += "✔ ✔ ✔ ✔ ✔";
             expected += " ✔ ✔ ✔ ✔ ";
 
-            var rule = new SlideOnly();
+            var rule = new CanSlide();
 
             rule.Should().HaveMoves(initial, expected);
         }
@@ -64,7 +64,7 @@ namespace Hive.Domain.Tests.RuleTests
             expected += "⬡ ⬢ ⬢ ✔ ✔ ✔ ⬢ ⬡ ⬡ ⬡";
             expected += " ⬡ ⬡ ⬡ ⬢ ⬢ ⬢ ⬡ ⬡ ⬡ ";
 
-            var rule = new SlideOnly();
+            var rule = new CanSlide();
 
             rule.Should().HaveMoves(initial, expected);
         }
@@ -85,7 +85,7 @@ namespace Hive.Domain.Tests.RuleTests
             expected += " ✔ ⬢ ⬢ ⬢ ★ ⬢ ⬢ ⬢ ✔ ";
             expected += "✔ ✔ ✔ ✔ ✔ ✔ ✔ ✔ ✔ ✔";
 
-            var rule = new SlideOnly();
+            var rule = new CanSlide();
 
             rule.Should().HaveMoves(initial, expected);
         }

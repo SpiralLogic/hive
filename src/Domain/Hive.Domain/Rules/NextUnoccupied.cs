@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Hive.Domain.Entities;
+using Hive.Domain.Extensions;
 
 namespace Hive.Domain.Rules
 {
@@ -9,24 +10,22 @@ namespace Hive.Domain.Rules
     {
         public ISet<Coords> ApplyRule(Cell currentCell, ISet<Cell> allCells)
         {
-            var coords = new HashSet<Coords>() {
-                GetFirstEmpty(allCells, c => c.TopLeft(), currentCell.Coords) ,
-                GetFirstEmpty(allCells, c => c.TopRight(), currentCell.Coords) ,
+            var cells = new HashSet<Cell>() {
+                GetFirstEmpty(allCells, c => c.TopLeft, currentCell.Coords) ,
+                GetFirstEmpty(allCells, c => c.TopRight, currentCell.Coords) ,
 
-                GetFirstEmpty(allCells, c => c.Left(), currentCell.Coords) ,
+                GetFirstEmpty(allCells, c => c.Left, currentCell.Coords) ,
 
-                GetFirstEmpty(allCells, c => c.Right(), currentCell.Coords) ,
-                GetFirstEmpty(allCells, c => c.BottomLeft(), currentCell.Coords) ,
-                GetFirstEmpty(allCells, c => c.BottomRight(), currentCell.Coords) ,
+                GetFirstEmpty(allCells, c => c.Right, currentCell.Coords) ,
+                GetFirstEmpty(allCells, c => c.BottomLeft, currentCell.Coords) ,
+                GetFirstEmpty(allCells, c => c.BottomRight, currentCell.Coords) ,
                 };
-            coords.ExceptWith(currentCell.Coords.GetNeighbors());
-            return coords;
+
+            return cells.Except(currentCell.SelectNeighbors(allCells)).ToCoords();
         }
 
-        private Coords GetFirstEmpty(ISet<Cell> allCells, Func<Coords, Coords> nextFunc, Coords current)
-        {
-            var cell = allCells.FirstOrDefault(c => c.Coords == current);
-            return cell == null || cell.IsEmpty() ? current : GetFirstEmpty(allCells, nextFunc, nextFunc(current));
-        }
+        private Cell GetFirstEmpty(ISet<Cell> allCells, Func<Coords, Coords> nextFunc, Coords current) =>
+            allCells.Where(c => c.Coords == current).FirstOrDefault(c => c.IsEmpty()) ??
+            GetFirstEmpty(allCells, nextFunc, nextFunc(current));
     }
 }

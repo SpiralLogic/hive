@@ -18,24 +18,41 @@ namespace Hive.Domain.Extensions
                 .Except(cells.WhereOccupied())
                 .ToHashSet();
 
-        
+        internal static IEnumerable<Cell> SelectNeighbors(this Cell cell, IEnumerable<Cell> cells)
+            => cells.SelectNeighbors(cell);
+
+        internal static IEnumerable<Cell> RemoveCell(this IEnumerable<Cell> cells, Cell cell)
+            => cells.Except(new[] { cell });
+
         internal static IEnumerable<Cell> SelectEmptyNeighbors(this IEnumerable<Cell> cells, Cell originCell)
             => cells.SelectNeighbors(originCell).WhereEmpty();
+
         internal static IEnumerable<Cell> SelectNeighbors(this IEnumerable<Cell> cells, Cell originCell)
             => cells.Intersect(originCell.Coords.GetNeighbors().ToCells());
 
         internal static IEnumerable<Cell> WhereEmpty(this IEnumerable<Cell> cells)
             => cells.Where(c => c.IsEmpty());
+
         internal static IEnumerable<Cell> WhereOccupied(this IEnumerable<Cell> cells)
             => cells.Where(c => !c.IsEmpty());
-        internal static IEnumerable<Cell> WherePlayerOccupies(this IEnumerable<Cell> cells, Player player)
-            => cells.WhereOccupied().Where(c => c.TopTile().PlayerId == player.Id);
+
+        internal static IEnumerable<Cell> WherePlayerOccupies(this IEnumerable<Cell> cells, int playerId)
+            => cells.WhereOccupied().Where(c => c.TopTile().PlayerId == playerId);
+
         internal static ISet<Coords> ToCoords(this IEnumerable<Cell> cells)
             => cells.SelectCoords().ToHashSet();
+
         internal static ISet<Cell> ToCells(this IEnumerable<Coords> coords)
             => coords.SelectCells().ToHashSet();
+
         internal static IEnumerable<Coords> SelectCoords(this IEnumerable<Cell> cells)
             => cells.Select(c => c.Coords);
+        
+        internal static bool IsQueen(this Cell cell)
+            => !cell.IsEmpty() && cell.TopTile().IsQueen();
+        
+        internal static bool IsQueen(this Tile tile)
+            => tile.Creature.Equals(Creatures.Queen);
 
         private static IEnumerable<Cell> SelectCells(this IEnumerable<Coords> coords) =>
             coords.Select(c => new Cell(c));

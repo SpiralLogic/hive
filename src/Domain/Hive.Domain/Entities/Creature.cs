@@ -5,19 +5,12 @@ using Hive.Domain.Extensions;
 
 namespace Hive.Domain.Entities
 {
-    public record Creature(string Name)
+    public sealed record Creature(string Name)
     {
-        private  IEnumerable<IRule> Rules { get; init;} =  new List<IRule>();
-     
-        internal Creature(string name, IList<IRule> rules) : this(name)
-        {
-            Rules = rules;
-        }
+        internal IEnumerable<IRule> Rules { get; init; } = new List<IRule>();
 
-        public ISet<Coords> GetAvailableMoves(Cell originCell, ISet<Cell> cells)
-        {
-            return Rules.Aggregate(cells.SelectCoords(), (current, rule)=>current.Intersect(rule.ApplyRule(originCell, cells))).ToHashSet();
-            
-        }
+        public ISet<Coords> GetAvailableMoves(Cell originCell, ISet<Cell> cells) =>
+            Rules.Aggregate(cells.SelectCoords(), (moves, rule) => moves.Intersect(rule.ApplyRule(originCell, cells)))
+                .ToHashSet();
     }
 }
