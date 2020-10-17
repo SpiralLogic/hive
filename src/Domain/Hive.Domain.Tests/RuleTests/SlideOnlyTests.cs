@@ -24,8 +24,8 @@ namespace Hive.Domain.Tests.RuleTests
 
             expected += " ⬡ ⬡ ⬡ ⬡ ";
             expected += "⬡ ⬡ ⬡ ⬡ ⬡";
-            expected += " ⬡ ⬡ ⬡ ⬡ ";
-            expected += "⬡ ⬡ ★ ⬡ ⬡";
+            expected += " ⬡ ⬢ ⬢ ⬡ ";
+            expected += "⬡ ⬢ ★ ⬢ ⬡";
             expected += " ⬢ ✔ ✔ ⬢ ";
             expected += "✔ ✔ ✔ ✔ ✔";
             expected += " ✔ ✔ ✔ ✔ ";
@@ -68,6 +68,7 @@ namespace Hive.Domain.Tests.RuleTests
 
             rule.Should().HaveMoves(initial, expected);
         }
+        
         [Fact]
         public void CanSlideAroundEdges()
         {

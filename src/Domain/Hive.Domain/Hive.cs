@@ -49,6 +49,10 @@ namespace Hive.Domain
             ClearAllTileMoves();
             Cells.ExceptWith(Cells.WhereEmpty());
             Cells.UnionWith(Cells.CreateAllEmptyNeighbours());
+            Cells.UnionWith(Cells.CreateAllEmptyNeighbours());
+            Cells.UnionWith(Cells.CreateAllEmptyNeighbours());
+            Cells.UnionWith(Cells.CreateAllEmptyNeighbours());
+            
 
             UpdatedPlacedTileMoves(nextPlayer);
 
