@@ -41,11 +41,12 @@ namespace Hive.Domain
             var nextPlayer = Players.First(p => p.Id != movedTile.PlayerId);
             Cells.FindCell(coords).AddTile(movedTile);
             var loser = IsGameOver();
-            if (loser.Any()){
-                Cells.ExceptWith(Cells.WhereOccupied().Where(c=>c.TopTile().PlayerId == loser.First().TopTile().PlayerId));
+            if (loser.Any())
+            {
+                Cells.ExceptWith(Cells.WherePlayerOccupies(loser.First().TopTile().PlayerId));
                 return;
             }
-            
+
             ClearAllTileMoves();
             Cells.ExceptWith(Cells.WhereEmpty());
             Cells.UnionWith(Cells.CreateAllEmptyNeighbours());
@@ -55,29 +56,27 @@ namespace Hive.Domain
             
 
             UpdatedPlacedTileMoves(nextPlayer);
-
             UpdatePlayerTileMoves(nextPlayer);
         }
 
         private IEnumerable<Cell> IsGameOver()
         {
-            var queens = Cells.WhereOccupied().Where(c => c.Tiles.Any(t => t.Creature == Creatures.Queen));
+            var queens = Cells.WhereOccupied().Where(c => c.IsQueen());
             return queens.Where(q =>
-                Cells.SelectNeighbors(q).All(n => !n.IsEmpty()&& n.TopTile().PlayerId != q.TopTile().PlayerId));
+                Cells.SelectNeighbors(q).All(n => !n.IsEmpty() && n.TopTile().PlayerId != q.TopTile().PlayerId));
         }
 
         private void UpdatePlayerTileMoves(Player player)
         {
-
             var availableCells = (player.Tiles.Count == _startingTiles.Length)
                 ? Cells.WhereEmpty()
-                : Cells.WherePlayerOccupies(player).SelectMany(c =>Cells.SelectEmptyNeighbors(c));
+                : Cells.WherePlayerOccupies(player.Id).SelectMany(c => Cells.SelectEmptyNeighbors(c));
 
             var availableMoves = availableCells.ToCoords();
 
-            if (player.Tiles.Count == _startingTiles.Length - 3 && player.Tiles.Any(t => t.Creature == Creatures.Queen))
+            if (player.Tiles.Count == _startingTiles.Length - 3 && player.Tiles.Any(t => t.IsQueen()))
             {
-                player.Tiles.First(t => t.Creature == Creatures.Queen).Moves.UnionWith(availableMoves);
+                player.Tiles.First(t => t.IsQueen()).Moves.UnionWith(availableMoves);
                 return;
             }
 
@@ -89,7 +88,7 @@ namespace Hive.Domain
 
         private void UpdatedPlacedTileMoves(Player player)
         {
-            foreach (var cell in Cells.WherePlayerOccupies(player))
+            foreach (var cell in Cells.WherePlayerOccupies(player.Id))
             {
                 var tile = cell.TopTile();
                 var moves = tile.Creature.GetAvailableMoves(cell, Cells);
@@ -109,15 +108,12 @@ namespace Hive.Domain
         {
             var pTile = Players.SelectMany(p => p.Tiles).FirstOrDefault(t => t.Id == tileId);
 
-            if (pTile != null)
-            {
-                return Players.FindPlayerById(pTile.PlayerId).RemoveTile(pTile);
-            }
-
-            return Cells
-                .WhereOccupied()
-                .First(c => c.TopTile().Id == tileId)
-                .RemoveTopTile();
+            return (pTile != null)
+                ? Players.FindPlayerById(pTile.PlayerId).RemoveTile(pTile)
+                : Cells
+                    .WhereOccupied()
+                    .First(c => c.TopTile().Id == tileId)
+                    .RemoveTopTile();
         }
 
 
@@ -127,12 +123,14 @@ namespace Hive.Domain
         private Player CreatePlayer(string name, int id) => new Player(id, name) { Tiles = CreateStartingTiles(id) };
 
 
-        private ISet<Tile> CreateStartingTiles(int playerId) => _startingTiles
+        private ISet<Tile> CreateStartingTiles(int playerId) =>
+            _startingTiles
             .Select((creature, i) => (creature, id: playerId * _startingTiles.Length + i))
             .Select(t => new Tile(t.id, playerId, t.creature) { Moves = Cells.ToCoords() })
             .ToHashSet();
 
-        private ISet<Cell> CreateCells() => _initialCoords
+        private ISet<Cell> CreateCells() =>
+            _initialCoords
             .GetNeighbors()
             .Prepend(_initialCoords).ToCells();
     }

@@ -5,7 +5,7 @@ using Hive.Domain.Extensions;
 
 namespace Hive.Domain.Rules
 {
-    public class SlideOnly : IRule
+    public class CanSlide : IRule
     {
         private readonly ISet<Cell> _checkd = new HashSet<Cell>();
 
@@ -24,9 +24,7 @@ namespace Hive.Domain.Rules
             return newSlideTo.Union(newSlideTo.Except(_checkd).SelectMany(c => GetSlidableNeighbors(c, allCells)));
         }
 
-        private bool CanSlideTo(Cell end, IEnumerable<Cell> neighbors, ISet<Cell> allCells)
-        {
-            return allCells.SelectNeighbors(end).Intersect(neighbors).WhereOccupied().Count() != 2;
-        }
+        private static bool CanSlideTo(Cell end, IEnumerable<Cell> neighbors, ISet<Cell> allCells) =>
+            allCells.SelectNeighbors(end).Intersect(neighbors).WhereOccupied().Count() != 2;
     }
 }

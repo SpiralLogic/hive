@@ -4,7 +4,7 @@ using Xunit;
 
 namespace Hive.Domain.Tests.RuleTests
 {
-    public class EmptyCellsTests
+    public class IsEmptyTests
     {
         [Fact]
         public void ReturnsAllEmptyCells_WithNoPlacedTiles()
@@ -21,7 +21,7 @@ namespace Hive.Domain.Tests.RuleTests
             expected += "✔ ★ ✔";
             expected += " ✔ ✔ ";
 
-            var rule = new EmptySpacesOnly();
+            var rule = new IsEmpty();
 
             rule.Should().HaveMoves(initial, expected);
         }
@@ -45,7 +45,7 @@ namespace Hive.Domain.Tests.RuleTests
             expected += " ✔ ⬢ ⬢ ✔ ";
             expected += "⬢ ✔ ⬢ ✔ ✔";
             
-            var rule = new EmptySpacesOnly();
+            var rule = new IsEmpty();
 
             rule.Should().HaveMoves(initial, expected);
         }

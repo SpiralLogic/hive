@@ -8,37 +8,25 @@ namespace Hive.Domain.Rules
 {
     public class ThreeSpaces : IRule
     {
-        public ISet<Coords> ApplyRule(Cell originCell, ISet<Cell> allCells)
-        {
-            var paths = new Path(originCell)
+        public ISet<Coords> ApplyRule(Cell originCell, ISet<Cell> allCells) =>
+            new Path(originCell)
                 .Extend(allCells)
                 .SelectMany(p => p.Extend(allCells))
                 .SelectMany(p => p.Extend(allCells))
                 .Select(p => p.Last)
                 .ToCoords();
 
-            return paths;
-        }
-
-        record Path
+        record Path(Cell Last)
         {
-            ImmutableHashSet<Cell> Cells { get; init; }
-            public Cell Last { get; init; }
-            internal Path(Cell originCell)
-            {
-                Cells = ImmutableHashSet.Create(originCell);
-                Last = originCell;
-            }
+            ImmutableHashSet<Cell> Cells { get; init; } = ImmutableHashSet.Create(Last);
 
-            internal Path Add(Cell cell)
-            {
-                return this with { Cells = Cells.Add(cell), Last= cell };
-            }
+            internal Path Add(Cell cell) => this with { Cells = Cells.Add(cell), Last = cell };
 
-            internal IEnumerable<Path> Extend(IEnumerable<Cell> allCells)
-            {
-                return allCells.SelectEmptyNeighbors(Last).WhereEmpty().Except(Cells).Select(c => Add(c));
-            }
+            internal IEnumerable<Path> Extend(IEnumerable<Cell> allCells) =>
+                allCells
+                .SelectEmptyNeighbors(Last)
+                .Except(Cells)
+                .Select(cell => Add(cell));
         }
     }
 }

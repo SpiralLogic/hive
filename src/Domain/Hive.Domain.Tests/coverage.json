@@ -4,7 +4,7 @@
       "Hive.Domain.Hive": {
         "System.Collections.Generic.ISet`1<Hive.Domain.Entities.Cell> Hive.Domain.Hive::get_Cells()": {
           "Lines": {
-            "23": 710
+            "23": 704
           },
           "Branches": []
         },
@@ -21,29 +21,30 @@
             "41": 84,
             "42": 33,
             "43": 33,
-            "44": 34,
-            "45": 8,
+            "44": 33,
+            "45": 1,
             "46": 1,
-            "49": 32,
+            "47": 1,
             "50": 32,
             "51": 32,
-            "53": 32,
-            "55": 32,
-            "56": 33
+            "52": 32,
+            "54": 32,
+            "56": 32,
+            "57": 33
           },
           "Branches": [
             {
               "Line": 44,
-              "Offset": 93,
-              "EndOffset": 95,
+              "Offset": 83,
+              "EndOffset": 85,
               "Path": 0,
               "Ordinal": 0,
               "Hits": 1
             },
             {
               "Line": 44,
-              "Offset": 93,
-              "EndOffset": 138,
+              "Offset": 83,
+              "EndOffset": 127,
               "Path": 1,
               "Ordinal": 1,
               "Hits": 32
@@ -52,23 +53,23 @@
         },
         "System.Collections.Generic.IEnumerable`1<Hive.Domain.Entities.Cell> Hive.Domain.Hive::IsGameOver()": {
           "Lines": {
-            "59": 33,
-            "60": 265,
-            "61": 33,
-            "62": 181,
-            "63": 33
+            "60": 33,
+            "61": 107,
+            "62": 33,
+            "63": 139,
+            "64": 33
           },
           "Branches": [
             {
-              "Line": 62,
+              "Line": 63,
               "Offset": 6,
               "EndOffset": 8,
               "Path": 0,
               "Ordinal": 0,
-              "Hits": 62
+              "Hits": 26
             },
             {
-              "Line": 62,
+              "Line": 63,
               "Offset": 6,
               "EndOffset": 42,
               "Path": 1,
@@ -79,7 +80,7 @@
         },
         "System.Void Hive.Domain.Hive::UpdatePlayerTileMoves(Hive.Domain.Entities.Player)": {
           "Lines": {
-            "66": 32,
+            "67": 32,
             "68": 32,
             "69": 32,
             "70": 54,
@@ -106,55 +107,55 @@
             {
               "Line": 68,
               "Offset": 26,
-              "EndOffset": 59,
+              "EndOffset": 64,
               "Path": 1,
               "Ordinal": 1,
               "Hits": 14
             },
             {
               "Line": 74,
-              "Offset": 107,
-              "EndOffset": 109,
+              "Offset": 112,
+              "EndOffset": 114,
               "Path": 0,
               "Ordinal": 2,
               "Hits": 1
             },
             {
               "Line": 74,
-              "Offset": 107,
-              "EndOffset": 153,
+              "Offset": 112,
+              "EndOffset": 158,
               "Path": 1,
               "Ordinal": 3,
               "Hits": 31
             },
             {
               "Line": 74,
-              "Offset": 158,
-              "EndOffset": 160,
+              "Offset": 163,
+              "EndOffset": 165,
               "Path": 0,
               "Ordinal": 4,
               "Hits": 1
             },
             {
               "Line": 74,
-              "Offset": 158,
-              "EndOffset": 217,
+              "Offset": 163,
+              "EndOffset": 222,
               "Path": 1,
               "Ordinal": 5,
               "Hits": 31
             },
             {
               "Line": 80,
-              "Offset": 265,
-              "EndOffset": 233,
+              "Offset": 270,
+              "EndOffset": 238,
               "Path": 1,
               "Ordinal": 7,
               "Hits": 198
             },
             {
               "Line": 80,
-              "Offset": 265,
-              "EndOffset": 267,
+              "Offset": 270,
+              "EndOffset": 272,
               "Path": 0,
               "Ordinal": 6,
               "Hits": 31
@@ -175,16 +176,16 @@
           "Branches": [
             {
               "Line": 88,
-              "Offset": 76,
-              "EndOffset": 22,
+              "Offset": 81,
+              "EndOffset": 27,
               "Path": 1,
               "Ordinal": 1,
               "Hits": 22
             },
             {
               "Line": 88,
-              "Offset": 76,
-              "EndOffset": 78,
+              "Offset": 81,
+              "EndOffset": 83,
               "Path": 0,
               "Ordinal": 0,
               "Hits": 32
@@ -224,59 +225,58 @@
             "105": 33,
             "106": 219,
             "108": 33,
-            "109": 32,
-            "110": 32,
-            "113": 1,
-            "114": 1,
-            "115": 2,
-            "116": 1,
-            "117": 33
+            "109": 33,
+            "110": 33,
+            "111": 33,
+            "112": 34,
+            "113": 33,
+            "114": 33
           },
           "Branches": [
             {
               "Line": 108,
-              "Offset": 83,
-              "EndOffset": 85,
+              "Offset": 81,
+              "EndOffset": 83,
               "Path": 0,
               "Ordinal": 0,
-              "Hits": 32
+              "Hits": 1
             },
             {
               "Line": 108,
-              "Offset": 83,
-              "EndOffset": 112,
+              "Offset": 81,
+              "EndOffset": 118,
               "Path": 1,
               "Ordinal": 1,
-              "Hits": 1
+              "Hits": 32
             }
           ]
         },
         "System.Collections.Generic.IList`1<Hive.Domain.Entities.Player> Hive.Domain.Hive::CreatePlayers(System.Collections.Generic.IEnumerable`1<System.String>)": {
           "Lines": {
-            "121": 25
+            "118": 25
           },
           "Branches": []
         },
         "Hive.Domain.Entities.Player Hive.Domain.Hive::CreatePlayer(System.String,System.Int32)": {
           "Lines": {
-            "123": 43
+            "120": 43
           },
           "Branches": []
         },
         "System.Collections.Generic.ISet`1<Hive.Domain.Entities.Tile> Hive.Domain.Hive::CreateStartingTiles(System.Int32)": {
           "Lines": {
-            "126": 43,
-            "127": 344,
-            "128": 344,
-            "129": 43
+            "124": 43,
+            "125": 344,
+            "126": 344,
+            "127": 43
           },
           "Branches": []
         },
         "System.Collections.Generic.ISet`1<Hive.Domain.Entities.Cell> Hive.Domain.Hive::CreateCells()": {
           "Lines": {
+            "130": 25,
             "131": 25,
-            "132": 25,
-            "133": 25
+            "132": 25
           },
           "Branches": []
         },
@@ -312,253 +312,185 @@
         }
       }
     },
-    "C:\\dev\\Hive-fma\\src\\Domain\\Hive.Domain\\Rules\\AdjacentCells.cs": {
-      "Hive.Domain.Rules.AdjacentCells": {
-        "System.Collections.Generic.ISet`1<Hive.Domain.Entities.Coords> Hive.Domain.Rules.AdjacentCells::ApplyRule(Hive.Domain.Entities.Cell,System.Collections.Generic.ISet`1<Hive.Domain.Entities.Cell>)": {
+    "C:\\dev\\Hive-fma\\src\\Domain\\Hive.Domain\\Rules\\CanSlide.cs": {
+      "Hive.Domain.Rules.CanSlide": {
+        "System.Collections.Generic.ISet`1<Hive.Domain.Entities.Coords> Hive.Domain.Rules.CanSlide::ApplyRule(Hive.Domain.Entities.Cell,System.Collections.Generic.ISet`1<Hive.Domain.Entities.Cell>)": {
           "Lines": {
-            "9": 21,
-            "10": 21,
-            "11": 21
+            "13": 18,
+            "14": 18,
+            "15": 18,
+            "16": 18
+          },
+          "Branches": []
+        },
+        "System.Collections.Generic.IEnumerable`1<Hive.Domain.Entities.Cell> Hive.Domain.Rules.CanSlide::GetSlidableNeighbors(Hive.Domain.Entities.Cell,System.Collections.Generic.ISet`1<Hive.Domain.Entities.Cell>)": {
+          "Lines": {
+            "19": 307,
+            "20": 307,
+            "21": 307,
+            "22": 1905,
+            "24": 596,
+            "25": 307
+          },
+          "Branches": []
+        },
+        "System.Boolean Hive.Domain.Rules.CanSlide::CanSlideTo(Hive.Domain.Entities.Cell,System.Collections.Generic.IEnumerable`1<Hive.Domain.Entities.Cell>,System.Collections.Generic.ISet`1<Hive.Domain.Entities.Cell>)": {
+          "Lines": {
+            "28": 1598
+          },
+          "Branches": []
+        },
+        "System.Void Hive.Domain.Rules.CanSlide::.ctor()": {
+          "Lines": {
+            "10": 6
           },
           "Branches": []
         }
       }
     },
-    "C:\\dev\\Hive-fma\\src\\Domain\\Hive.Domain\\Rules\\AllCellsConnected.cs": {
-      "Hive.Domain.Rules.AllCellsConnected": {
-        "System.Collections.Generic.ISet`1<Hive.Domain.Entities.Coords> Hive.Domain.Rules.AllCellsConnected::ApplyRule(Hive.Domain.Entities.Cell,System.Collections.Generic.ISet`1<Hive.Domain.Entities.Cell>)": {
+    "C:\\dev\\Hive-fma\\src\\Domain\\Hive.Domain\\Rules\\IsEmpty.cs": {
+      "Hive.Domain.Rules.IsEmpty": {
+        "System.Collections.Generic.ISet`1<Hive.Domain.Entities.Coords> Hive.Domain.Rules.IsEmpty::ApplyRule(Hive.Domain.Entities.Cell,System.Collections.Generic.ISet`1<Hive.Domain.Entities.Cell>)": {
           "Lines": {
-            "14": 27,
-            "15": 0,
-            "17": 27,
-            "18": 27,
-            "19": 27,
-            "21": 27,
-            "22": 27,
-            "23": 27,
-            "24": 27,
-            "26": 27,
-            "27": 27
+            "9": 16
+          },
+          "Branches": []
+        }
+      }
+    },
+    "C:\\dev\\Hive-fma\\src\\Domain\\Hive.Domain\\Rules\\NeighborsOccupied.cs": {
+      "Hive.Domain.Rules.NeighborsOccupied": {
+        "System.Collections.Generic.ISet`1<Hive.Domain.Entities.Coords> Hive.Domain.Rules.NeighborsOccupied::ApplyRule(Hive.Domain.Entities.Cell,System.Collections.Generic.ISet`1<Hive.Domain.Entities.Cell>)": {
+          "Lines": {
+            "11": 24,
+            "12": 24,
+            "13": 378,
+            "14": 24
+          },
+          "Branches": []
+        }
+      }
+    },
+    "C:\\dev\\Hive-fma\\src\\Domain\\Hive.Domain\\Rules\\NextUnoccupied.cs": {
+      "Hive.Domain.Rules.NextUnoccupied": {
+        "System.Collections.Generic.ISet`1<Hive.Domain.Entities.Coords> Hive.Domain.Rules.NextUnoccupied::ApplyRule(Hive.Domain.Entities.Cell,System.Collections.Generic.ISet`1<Hive.Domain.Entities.Cell>)": {
+          "Lines": {
+            "12": 5,
+            "13": 5,
+            "14": 13,
+            "15": 14,
+            "16": 5,
+            "17": 12,
+            "18": 5,
+            "19": 14,
+            "20": 11,
+            "21": 13,
+            "22": 5,
+            "24": 5,
+            "25": 5
+          },
+          "Branches": []
+        },
+        "Hive.Domain.Entities.Cell Hive.Domain.Rules.NextUnoccupied::GetFirstEmpty(System.Collections.Generic.ISet`1<Hive.Domain.Entities.Cell>,System.Func`2<Hive.Domain.Entities.Coords,Hive.Domain.Entities.Coords>,Hive.Domain.Entities.Coords)": {
+          "Lines": {
+            "28": 3140,
+            "29": 77
           },
           "Branches": [
             {
-              "Line": 15,
-              "Offset": 8,
-              "EndOffset": 10,
+              "Line": 28,
+              "Offset": 68,
+              "EndOffset": 70,
               "Path": 0,
               "Ordinal": 0,
-              "Hits": 27
+              "Hits": 47
             },
             {
-              "Line": 15,
-              "Offset": 8,
-              "EndOffset": 26,
+              "Line": 28,
+              "Offset": 68,
+              "EndOffset": 91,
               "Path": 1,
               "Ordinal": 1,
-              "Hits": 0
-            },
+              "Hits": 77
+            }
+          ]
+        }
+      }
+    },
+    "C:\\dev\\Hive-fma\\src\\Domain\\Hive.Domain\\Rules\\OneHive.cs": {
+      "Hive.Domain.Rules.OneHive": {
+        "System.Collections.Generic.ISet`1<Hive.Domain.Entities.Coords> Hive.Domain.Rules.OneHive::ApplyRule(Hive.Domain.Entities.Cell,System.Collections.Generic.ISet`1<Hive.Domain.Entities.Cell>)": {
+          "Lines": {
+            "11": 27,
+            "12": 0,
+            "14": 27,
+            "15": 27,
+            "16": 27,
+            "18": 27,
+            "19": 27
+          },
+          "Branches": [
             {
-              "Line": 15,
-              "Offset": 29,
-              "EndOffset": 31,
+              "Line": 12,
+              "Offset": 17,
+              "EndOffset": 19,
               "Path": 0,
-              "Ordinal": 2,
+              "Ordinal": 0,
               "Hits": 0
             },
             {
-              "Line": 15,
-              "Offset": 29,
-              "EndOffset": 43,
+              "Line": 12,
+              "Offset": 17,
+              "EndOffset": 28,
               "Path": 1,
-              "Ordinal": 3,
+              "Ordinal": 1,
               "Hits": 27
             },
             {
-              "Line": 26,
-              "Offset": 152,
-              "EndOffset": 154,
+              "Line": 18,
+              "Offset": 68,
+              "EndOffset": 70,
               "Path": 0,
-              "Ordinal": 4,
+              "Ordinal": 2,
               "Hits": 4
             },
             {
-              "Line": 26,
-              "Offset": 152,
-              "EndOffset": 163,
+              "Line": 18,
+              "Offset": 68,
+              "EndOffset": 79,
               "Path": 1,
-              "Ordinal": 5,
+              "Ordinal": 3,
               "Hits": 23
             }
           ]
         },
-        "System.Void Hive.Domain.Rules.AllCellsConnected::Check(System.Collections.Generic.Stack`1<Hive.Domain.Entities.Cell>)": {
+        "System.Void Hive.Domain.Rules.OneHive::CheckIsInHive(System.Collections.Generic.ISet`1<Hive.Domain.Entities.Cell>,Hive.Domain.Entities.Cell)": {
           "Lines": {
-            "30": 112,
-            "31": 139,
-            "32": 85,
-            "34": 85,
-            "35": 85,
-            "36": 112
-          },
-          "Branches": [
-            {
-              "Line": 31,
-              "Offset": 14,
-              "EndOffset": 18,
-              "Path": 1,
-              "Ordinal": 1,
-              "Hits": 85
-            },
-            {
-              "Line": 31,
-              "Offset": 14,
-              "EndOffset": 85,
-              "Path": 0,
-              "Ordinal": 0,
-              "Hits": 112
-            }
-          ]
-        },
-        "System.Boolean Hive.Domain.Rules.AllCellsConnected::CouldDisconnect(System.Collections.Generic.ISet`1<Hive.Domain.Entities.Cell>,Hive.Domain.Entities.Cell)": {
-          "Lines": {
-            "39": 27,
-            "40": 27,
-            "41": 27
-          },
-          "Branches": []
-        },
-        "System.Void Hive.Domain.Rules.AllCellsConnected::.ctor()": {
-          "Lines": {
-            "10": 9,
-            "11": 9
+            "22": 85,
+            "23": 85,
+            "24": 85,
+            "25": 85,
+            "26": 85,
+            "27": 143,
+            "28": 85
           },
           "Branches": []
         }
       }
     },
-    "C:\\dev\\Hive-fma\\src\\Domain\\Hive.Domain\\Rules\\EnemiesOnly.cs": {
-      "Hive.Domain.Rules.EnemiesOnly": {
-        "System.Collections.Generic.ISet`1<Hive.Domain.Entities.Coords> Hive.Domain.Rules.EnemiesOnly::ApplyRule(Hive.Domain.Entities.Cell,System.Collections.Generic.ISet`1<Hive.Domain.Entities.Cell>)": {
+    "C:\\dev\\Hive-fma\\src\\Domain\\Hive.Domain\\Rules\\OneSpace.cs": {
+      "Hive.Domain.Rules.OneSpace": {
+        "System.Collections.Generic.ISet`1<Hive.Domain.Entities.Coords> Hive.Domain.Rules.OneSpace::ApplyRule(Hive.Domain.Entities.Cell,System.Collections.Generic.ISet`1<Hive.Domain.Entities.Cell>)": {
           "Lines": {
-            "11": 1,
-            "12": 8,
-            "13": 1
-          },
-          "Branches": [
-            {
-              "Line": 12,
-              "Offset": 6,
-              "EndOffset": 8,
-              "Path": 0,
-              "Ordinal": 0,
-              "Hits": 3
-            },
-            {
-              "Line": 12,
-              "Offset": 6,
-              "EndOffset": 42,
-              "Path": 1,
-              "Ordinal": 1,
-              "Hits": 4
-            }
-          ]
-        }
-      }
-    },
-    "C:\\dev\\Hive-fma\\src\\Domain\\Hive.Domain\\Rules\\NextEmpty.cs": {
-      "Hive.Domain.Rules.NextEmpty": {
-        "System.Collections.Generic.ISet`1<Hive.Domain.Entities.Coords> Hive.Domain.Rules.NextEmpty::ApplyRule(Hive.Domain.Entities.Cell,System.Collections.Generic.ISet`1<Hive.Domain.Entities.Cell>)": {
-          "Lines": {
-            "11": 5,
-            "12": 5,
-            "13": 13,
-            "14": 14,
-            "15": 5,
-            "16": 12,
-            "17": 5,
-            "18": 14,
-            "19": 11,
-            "20": 13,
-            "21": 5,
-            "22": 5,
-            "23": 5,
-            "24": 5
-          },
-          "Branches": []
-        },
-        "Hive.Domain.Entities.Coords Hive.Domain.Rules.NextEmpty::GetFirstEmpty(System.Collections.Generic.ISet`1<Hive.Domain.Entities.Cell>,System.Func`2<Hive.Domain.Entities.Coords,Hive.Domain.Entities.Coords>,Hive.Domain.Entities.Coords)": {
-          "Lines": {
-            "27": 77,
-            "28": 1803,
-            "29": 77,
-            "30": 77
-          },
-          "Branches": [
-            {
-              "Line": 29,
-              "Offset": 34,
-              "EndOffset": 36,
-              "Path": 0,
-              "Ordinal": 0,
-              "Hits": 77
-            },
-            {
-              "Line": 29,
-              "Offset": 42,
-              "EndOffset": 44,
-              "Path": 0,
-              "Ordinal": 2,
-              "Hits": 47
-            },
-            {
-              "Line": 29,
-              "Offset": 34,
-              "EndOffset": 66,
-              "Path": 1,
-              "Ordinal": 1,
-              "Hits": 30
-            },
-            {
-              "Line": 29,
-              "Offset": 42,
-              "EndOffset": 66,
-              "Path": 1,
-              "Ordinal": 3,
-              "Hits": 30
-            }
-          ]
-        }
-      }
-    },
-    "C:\\dev\\Hive-fma\\src\\Domain\\Hive.Domain\\Rules\\NotAllEmptyNeighbours.cs": {
-      "Hive.Domain.Rules.NotAllEmptyNeighbours": {
-        "System.Collections.Generic.ISet`1<Hive.Domain.Entities.Coords> Hive.Domain.Rules.NotAllEmptyNeighbours::ApplyRule(Hive.Domain.Entities.Cell,System.Collections.Generic.ISet`1<Hive.Domain.Entities.Cell>)": {
-          "Lines": {
-            "11": 24,
-            "12": 24,
-            "13": 24,
-            "14": 378,
-            "15": 24
+            "8": 21
           },
           "Branches": []
         }
       }
     },
-    "C:\\dev\\Hive-fma\\src\\Domain\\Hive.Domain\\Rules\\OnlyEmptyCells.cs": {
-      "Hive.Domain.Rules.OnlyEmptyCells": {
-        "System.Collections.Generic.ISet`1<Hive.Domain.Entities.Coords> Hive.Domain.Rules.OnlyEmptyCells::ApplyRule(Hive.Domain.Entities.Cell,System.Collections.Generic.ISet`1<Hive.Domain.Entities.Cell>)": {
-          "Lines": {
-            "10": 16,
-            "11": 16,
-            "12": 16
-          },
-          "Branches": []
-        }
-      }
-    },
-    "C:\\dev\\Hive-fma\\src\\Domain\\Hive.Domain\\Rules\\QueenMustBePlaced.cs": {
-      "Hive.Domain.Rules.QueenMustBePlaced": {
-        "System.Collections.Generic.ISet`1<Hive.Domain.Entities.Coords> Hive.Domain.Rules.QueenMustBePlaced::ApplyRule(Hive.Domain.Entities.Cell,System.Collections.Generic.ISet`1<Hive.Domain.Entities.Cell>)": {
+    "C:\\dev\\Hive-fma\\src\\Domain\\Hive.Domain\\Rules\\QueenIsPlaced.cs": {
+      "Hive.Domain.Rules.QueenIsPlaced": {
+        "System.Collections.Generic.ISet`1<Hive.Domain.Entities.Coords> Hive.Domain.Rules.QueenIsPlaced::ApplyRule(Hive.Domain.Entities.Cell,System.Collections.Generic.ISet`1<Hive.Domain.Entities.Cell>)": {
           "Lines": {
             "11": 11,
             "12": 11,
@@ -583,111 +515,68 @@
             }
           ]
         },
-        "System.Boolean Hive.Domain.Rules.QueenMustBePlaced::QueenHasBeenPlaced(Hive.Domain.Entities.Cell,System.Collections.Generic.ISet`1<Hive.Domain.Entities.Cell>)": {
+        "System.Boolean Hive.Domain.Rules.QueenIsPlaced::QueenHasBeenPlaced(Hive.Domain.Entities.Cell,System.Collections.Generic.ISet`1<Hive.Domain.Entities.Cell>)": {
           "Lines": {
             "16": 11,
             "17": 11,
             "18": 11,
-            "19": 59,
-            "20": 59,
-            "21": 37,
-            "22": 11
+            "19": 11,
+            "20": 37,
+            "21": 11
           },
           "Branches": []
         }
       }
     },
-    "C:\\dev\\Hive-fma\\src\\Domain\\Hive.Domain\\Rules\\SlideOnly.cs": {
-      "Hive.Domain.Rules.SlideOnly": {
-        "System.Collections.Generic.ISet`1<Hive.Domain.Entities.Coords> Hive.Domain.Rules.SlideOnly::ApplyRule(Hive.Domain.Entities.Cell,System.Collections.Generic.ISet`1<Hive.Domain.Entities.Cell>)": {
-          "Lines": {
-            "13": 18,
-            "14": 18,
-            "15": 18,
-            "16": 18
-          },
-          "Branches": []
-        },
-        "System.Collections.Generic.IEnumerable`1<Hive.Domain.Entities.Cell> Hive.Domain.Rules.SlideOnly::GetSlidableNeighbors(Hive.Domain.Entities.Cell,System.Collections.Generic.ISet`1<Hive.Domain.Entities.Cell>)": {
-          "Lines": {
-            "19": 307,
-            "20": 307,
-            "21": 307,
-            "22": 1905,
-            "24": 596,
-            "25": 307
-          },
-          "Branches": []
-        },
-        "System.Boolean Hive.Domain.Rules.SlideOnly::CanSlideTo(Hive.Domain.Entities.Cell,System.Collections.Generic.IEnumerable`1<Hive.Domain.Entities.Cell>,System.Collections.Generic.ISet`1<Hive.Domain.Entities.Cell>)": {
-          "Lines": {
-            "28": 1598,
-            "29": 1598,
-            "30": 1598
-          },
-          "Branches": []
-        },
-        "System.Void Hive.Domain.Rules.SlideOnly::.ctor()": {
-          "Lines": {
-            "10": 6
-          },
-          "Branches": []
-        }
-      }
-    },
-    "C:\\dev\\Hive-fma\\src\\Domain\\Hive.Domain\\Rules\\ThreeEmptyCells.cs": {
-      "Hive.Domain.Rules.ThreeEmptyCells": {
-        "System.Collections.Generic.ISet`1<Hive.Domain.Entities.Coords> Hive.Domain.Rules.ThreeEmptyCells::ApplyRule(Hive.Domain.Entities.Cell,System.Collections.Generic.ISet`1<Hive.Domain.Entities.Cell>)": {
+    "C:\\dev\\Hive-fma\\src\\Domain\\Hive.Domain\\Rules\\ThreeSpaces.cs": {
+      "Hive.Domain.Rules.ThreeSpaces": {
+        "System.Collections.Generic.ISet`1<Hive.Domain.Entities.Coords> Hive.Domain.Rules.ThreeSpaces::ApplyRule(Hive.Domain.Entities.Cell,System.Collections.Generic.ISet`1<Hive.Domain.Entities.Cell>)": {
           "Lines": {
             "12": 3,
             "13": 3,
-            "14": 3,
-            "15": 13,
-            "16": 42,
-            "17": 169,
-            "18": 3,
-            "20": 3,
-            "21": 3
+            "14": 13,
+            "15": 42,
+            "16": 169,
+            "17": 3
           },
           "Branches": []
         }
       },
-      "Hive.Domain.Rules.ThreeEmptyCells/Path": {
-        "System.Collections.Immutable.ImmutableHashSet`1<Hive.Domain.Entities.Cell> Hive.Domain.Rules.ThreeEmptyCells/Path::get_Cells()": {
+      "Hive.Domain.Rules.ThreeSpaces/Path": {
+        "Hive.Domain.Entities.Cell Hive.Domain.Rules.ThreeSpaces/Path::get_Last()": {
           "Lines": {
-            "25": 485
+            "19": 439
           },
           "Branches": []
         },
-        "Hive.Domain.Entities.Cell Hive.Domain.Rules.ThreeEmptyCells/Path::get_Last()": {
+        "System.Collections.Immutable.ImmutableHashSet`1<Hive.Domain.Entities.Cell> Hive.Domain.Rules.ThreeSpaces/Path::get_Cells()": {
           "Lines": {
-            "26": 436
+            "21": 488
           },
           "Branches": []
         },
-        "Hive.Domain.Rules.ThreeEmptyCells/Path Hive.Domain.Rules.ThreeEmptyCells/Path::Add(Hive.Domain.Entities.Cell)": {
+        "Hive.Domain.Rules.ThreeSpaces/Path Hive.Domain.Rules.ThreeSpaces/Path::Add(Hive.Domain.Entities.Cell)": {
           "Lines": {
-            "34": 215,
-            "35": 215,
-            "36": 215
+            "23": 218
           },
           "Branches": []
         },
-        "System.Collections.Generic.IEnumerable`1<Hive.Domain.Rules.ThreeEmptyCells/Path> Hive.Domain.Rules.ThreeEmptyCells/Path::Extend(System.Collections.Generic.IEnumerable`1<Hive.Domain.Entities.Cell>)": {
+        "System.Collections.Generic.IEnumerable`1<Hive.Domain.Rules.ThreeSpaces/Path> Hive.Domain.Rules.ThreeSpaces/Path::Extend(System.Collections.Generic.IEnumerable`1<Hive.Domain.Entities.Cell>)": {
           "Lines": {
-            "39": 52,
-            "40": 267,
-            "41": 52
+            "26": 55,
+            "27": 55,
+            "28": 55,
+            "29": 270
           },
           "Branches": []
         },
-        "System.Void Hive.Domain.Rules.ThreeEmptyCells/Path::.ctor(Hive.Domain.Entities.Cell)": {
+        "System.Void Hive.Domain.Rules.ThreeSpaces/Path::.ctor(Hive.Domain.Entities.Cell)": {
           "Lines": {
-            "27": 3,
-            "28": 3,
-            "29": 3,
-            "30": 3,
-            "31": 3
+            "20": 3,
+            "22": 3,
+            "24": 3,
+            "25": 3,
+            "30": 3
           },
           "Branches": []
         }
@@ -718,57 +607,98 @@
           },
           "Branches": []
         },
+        "System.Collections.Generic.IEnumerable`1<Hive.Domain.Entities.Cell> Hive.Domain.Extensions.Extensions::SelectNeighbors(Hive.Domain.Entities.Cell,System.Collections.Generic.IEnumerable`1<Hive.Domain.Entities.Cell>)": {
+          "Lines": {
+            "22": 444
+          },
+          "Branches": []
+        },
+        "System.Collections.Generic.IEnumerable`1<Hive.Domain.Entities.Cell> Hive.Domain.Extensions.Extensions::RemoveCell(System.Collections.Generic.IEnumerable`1<Hive.Domain.Entities.Cell>,Hive.Domain.Entities.Cell)": {
+          "Lines": {
+            "25": 47
+          },
+          "Branches": []
+        },
         "System.Collections.Generic.IEnumerable`1<Hive.Domain.Entities.Cell> Hive.Domain.Extensions.Extensions::SelectEmptyNeighbors(System.Collections.Generic.IEnumerable`1<Hive.Domain.Entities.Cell>,Hive.Domain.Entities.Cell)": {
           "Lines": {
-            "23": 74
+            "28": 74
           },
           "Branches": []
         },
         "System.Collections.Generic.IEnumerable`1<Hive.Domain.Entities.Cell> Hive.Domain.Extensions.Extensions::SelectNeighbors(System.Collections.Generic.IEnumerable`1<Hive.Domain.Entities.Cell>,Hive.Domain.Entities.Cell)": {
           "Lines": {
-            "25": 2492
+            "31": 2464
           },
           "Branches": []
         },
         "System.Collections.Generic.IEnumerable`1<Hive.Domain.Entities.Cell> Hive.Domain.Extensions.Extensions::WhereEmpty(System.Collections.Generic.IEnumerable`1<Hive.Domain.Entities.Cell>)": {
           "Lines": {
-            "28": 4593
+            "34": 3903
           },
           "Branches": []
         },
         "System.Collections.Generic.IEnumerable`1<Hive.Domain.Entities.Cell> Hive.Domain.Extensions.Extensions::WhereOccupied(System.Collections.Generic.IEnumerable`1<Hive.Domain.Entities.Cell>)": {
           "Lines": {
-            "30": 7065
+            "37": 6893
           },
           "Branches": []
         },
-        "System.Collections.Generic.IEnumerable`1<Hive.Domain.Entities.Cell> Hive.Domain.Extensions.Extensions::WherePlayerOccupies(System.Collections.Generic.IEnumerable`1<Hive.Domain.Entities.Cell>,Hive.Domain.Entities.Player)": {
+        "System.Collections.Generic.IEnumerable`1<Hive.Domain.Entities.Cell> Hive.Domain.Extensions.Extensions::WherePlayerOccupies(System.Collections.Generic.IEnumerable`1<Hive.Domain.Entities.Cell>,System.Int32)": {
           "Lines": {
-            "32": 156
+            "40": 223
           },
           "Branches": []
         },
         "System.Collections.Generic.ISet`1<Hive.Domain.Entities.Coords> Hive.Domain.Extensions.Extensions::ToCoords(System.Collections.Generic.IEnumerable`1<Hive.Domain.Entities.Cell>)": {
           "Lines": {
-            "34": 419
+            "43": 423
           },
           "Branches": []
         },
         "System.Collections.Generic.ISet`1<Hive.Domain.Entities.Cell> Hive.Domain.Extensions.Extensions::ToCells(System.Collections.Generic.IEnumerable`1<Hive.Domain.Entities.Coords>)": {
           "Lines": {
-            "36": 2517
+            "46": 2489
           },
           "Branches": []
         },
         "System.Collections.Generic.IEnumerable`1<Hive.Domain.Entities.Coords> Hive.Domain.Extensions.Extensions::SelectCoords(System.Collections.Generic.IEnumerable`1<Hive.Domain.Entities.Cell>)": {
           "Lines": {
-            "38": 4150
+            "49": 4164
+          },
+          "Branches": []
+        },
+        "System.Boolean Hive.Domain.Extensions.Extensions::IsQueen(Hive.Domain.Entities.Cell)": {
+          "Lines": {
+            "52": 100
+          },
+          "Branches": [
+            {
+              "Line": 52,
+              "Offset": 6,
+              "EndOffset": 8,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 100
+            },
+            {
+              "Line": 52,
+              "Offset": 6,
+              "EndOffset": 21,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 0
+            }
+          ]
+        },
+        "System.Boolean Hive.Domain.Extensions.Extensions::IsQueen(Hive.Domain.Entities.Tile)": {
+          "Lines": {
+            "55": 102
           },
           "Branches": []
         },
         "System.Collections.Generic.IEnumerable`1<Hive.Domain.Entities.Cell> Hive.Domain.Extensions.Extensions::SelectCells(System.Collections.Generic.IEnumerable`1<Hive.Domain.Entities.Coords>)": {
           "Lines": {
-            "41": 18036
+            "58": 17840
           },
           "Branches": []
         }
@@ -778,160 +708,99 @@
       "Hive.Domain.Entities.Cell": {
         "Hive.Domain.Entities.Coords Hive.Domain.Entities.Cell::get_Coords()": {
           "Lines": {
-            "9": 254782
+            "7": 0
           },
           "Branches": []
         },
         "System.Collections.Generic.Stack`1<Hive.Domain.Entities.Tile> Hive.Domain.Entities.Cell::get_Tiles()": {
           "Lines": {
-            "10": 0
+            "9": 0
           },
           "Branches": []
         },
         "Hive.Domain.Entities.Cell Hive.Domain.Entities.Cell::AddTile(Hive.Domain.Entities.Tile)": {
           "Lines": {
-            "18": 462,
-            "19": 462,
-            "20": 462,
-            "21": 462
+            "12": 17850,
+            "13": 17850,
+            "14": 17850,
+            "15": 17850
           },
           "Branches": []
         },
         "System.Boolean Hive.Domain.Entities.Cell::IsEmpty()": {
           "Lines": {
-            "23": 13288
+            "17": 29940
           },
           "Branches": []
         },
         "Hive.Domain.Entities.Tile Hive.Domain.Entities.Cell::TopTile()": {
           "Lines": {
-            "25": 1129
+            "19": 18538
           },
           "Branches": []
         },
         "Hive.Domain.Entities.Tile Hive.Domain.Entities.Cell::RemoveTopTile()": {
           "Lines": {
-            "27": 3
+            "21": 17397
           },
           "Branches": []
         },
         "System.Boolean Hive.Domain.Entities.Cell::Equals(Hive.Domain.Entities.Cell)": {
           "Lines": {
-            "30": 21806,
-            "31": 21807,
-            "32": 25681,
-            "33": 17929,
-            "34": 21806
+            "23": 39230
           },
           "Branches": [
             {
-              "Line": 31,
-              "Offset": 7,
-              "EndOffset": 9,
+              "Line": 23,
+              "Offset": 2,
+              "EndOffset": 4,
               "Path": 0,
               "Ordinal": 0,
-              "Hits": 1
+              "Hits": 17669
             },
             {
-              "Line": 31,
-              "Offset": 7,
+              "Line": 23,
+              "Offset": 11,
               "EndOffset": 13,
-              "Path": 1,
-              "Ordinal": 1,
-              "Hits": 21805
-            },
-            {
-              "Line": 32,
-              "Offset": 19,
-              "EndOffset": 21,
               "Path": 0,
               "Ordinal": 2,
-              "Hits": 3876
-            },
-            {
-              "Line": 32,
-              "Offset": 19,
-              "EndOffset": 25,
-              "Path": 1,
-              "Ordinal": 3,
-              "Hits": 17929
-            }
-          ]
-        },
-        "System.Boolean Hive.Domain.Entities.Cell::Equals(System.Object)": {
-          "Lines": {
-            "37": 4,
-            "38": 5,
-            "39": 4,
-            "40": 3,
-            "41": 1,
-            "42": 4
-          },
-          "Branches": [
-            {
-              "Line": 38,
-              "Offset": 7,
-              "EndOffset": 9,
-              "Path": 0,
-              "Ordinal": 0,
-              "Hits": 1
-            },
-            {
-              "Line": 38,
-              "Offset": 7,
-              "EndOffset": 13,
-              "Path": 1,
-              "Ordinal": 1,
               "Hits": 3
             },
             {
-              "Line": 39,
-              "Offset": 19,
-              "EndOffset": 21,
-              "Path": 0,
-              "Ordinal": 2,
-              "Hits": 1
-            },
-            {
-              "Line": 39,
-              "Offset": 19,
-              "EndOffset": 25,
+              "Line": 23,
+              "Offset": 11,
+              "EndOffset": 16,
               "Path": 1,
               "Ordinal": 3,
-              "Hits": 2
+              "Hits": 17666
             },
             {
-              "Line": 40,
-              "Offset": 44,
-              "EndOffset": 46,
-              "Path": 0,
-              "Ordinal": 4,
-              "Hits": 1
-            },
-            {
-              "Line": 40,
-              "Offset": 44,
-              "EndOffset": 50,
+              "Line": 23,
+              "Offset": 2,
+              "EndOffset": 29,
               "Path": 1,
-              "Ordinal": 5,
-              "Hits": 1
+              "Ordinal": 1,
+              "Hits": 4167
             }
           ]
         },
         "System.Int32 Hive.Domain.Entities.Cell::GetHashCode()": {
           "Lines": {
-            "45": 192607,
-            "46": 192607,
-            "47": 192607
+            "25": 217611
           },
           "Branches": []
         },
         "System.Void Hive.Domain.Entities.Cell::.ctor(Hive.Domain.Entities.Coords)": {
           "Lines": {
-            "12": 17576,
-            "13": 17576,
-            "14": 17576,
-            "15": 17576
+            "8": 17394,
+            "10": 17394,
+            "11": 17394,
+            "16": 17394,
+            "18": 17394,
+            "20": 17394,
+            "22": 17394,
+            "24": 17394,
+            "26": 17394
           },
           "Branches": []
         }
@@ -947,142 +816,133 @@
         },
         "System.Collections.Generic.ISet`1<Hive.Domain.Entities.Coords> Hive.Domain.Entities.Coords::GetNeighbors()": {
           "Lines": {
-            "8": 20413,
-            "9": 20413,
-            "10": 20413,
-            "11": 20413,
-            "12": 20413,
-            "13": 20413,
-            "14": 20413,
-            "15": 20413,
-            "16": 20413,
-            "17": 20413,
-            "19": 20413
+            "8": 20168,
+            "9": 20168,
+            "10": 20168,
+            "11": 20168,
+            "12": 20168,
+            "13": 20168,
+            "14": 20168,
+            "15": 20168,
+            "16": 20168
           },
           "Branches": []
         },
-        "Hive.Domain.Entities.Coords Hive.Domain.Entities.Coords::TopLeft()": {
+        "Hive.Domain.Entities.Coords Hive.Domain.Entities.Coords::get_TopLeft()": {
           "Lines": {
-            "21": 20421
+            "18": 20176
           },
           "Branches": [
             {
-              "Line": 21,
+              "Line": 18,
               "Offset": 8,
               "EndOffset": 10,
               "Path": 0,
               "Ordinal": 0,
-              "Hits": 1218
+              "Hits": 1207
             },
             {
-              "Line": 21,
+              "Line": 18,
               "Offset": 8,
               "EndOffset": 31,
               "Path": 1,
               "Ordinal": 1,
-              "Hits": 1393
+              "Hits": 1371
             }
           ]
         },
-        "Hive.Domain.Entities.Coords Hive.Domain.Entities.Coords::BottomLeft()": {
+        "Hive.Domain.Entities.Coords Hive.Domain.Entities.Coords::get_BottomLeft()": {
           "Lines": {
-            "23": 20419
+            "20": 20174
           },
           "Branches": [
             {
-              "Line": 23,
+              "Line": 20,
               "Offset": 8,
               "EndOffset": 10,
               "Path": 0,
               "Ordinal": 0,
-              "Hits": 1217
+              "Hits": 1206
             },
             {
-              "Line": 23,
+              "Line": 20,
               "Offset": 8,
               "EndOffset": 31,
               "Path": 1,
               "Ordinal": 1,
-              "Hits": 1392
+              "Hits": 1370
             }
           ]
         },
-        "Hive.Domain.Entities.Coords Hive.Domain.Entities.Coords::TopRight()": {
+        "Hive.Domain.Entities.Coords Hive.Domain.Entities.Coords::get_TopRight()": {
           "Lines": {
-            "25": 20422
+            "22": 20177
           },
           "Branches": [
             {
-              "Line": 25,
+              "Line": 22,
               "Offset": 8,
               "EndOffset": 10,
               "Path": 0,
               "Ordinal": 0,
-              "Hits": 1217
+              "Hits": 1206
             },
             {
-              "Line": 25,
+              "Line": 22,
               "Offset": 8,
               "EndOffset": 33,
               "Path": 1,
               "Ordinal": 1,
-              "Hits": 1395
+              "Hits": 1373
             }
           ]
         },
-        "Hive.Domain.Entities.Coords Hive.Domain.Entities.Coords::BottomRight()": {
+        "Hive.Domain.Entities.Coords Hive.Domain.Entities.Coords::get_BottomRight()": {
           "Lines": {
-            "27": 20421
+            "24": 20176
           },
           "Branches": [
             {
-              "Line": 27,
+              "Line": 24,
               "Offset": 8,
               "EndOffset": 10,
               "Path": 0,
               "Ordinal": 0,
-              "Hits": 1217
+              "Hits": 1206
             },
             {
-              "Line": 27,
+              "Line": 24,
               "Offset": 8,
               "EndOffset": 33,
               "Path": 1,
               "Ordinal": 1,
-              "Hits": 1394
+              "Hits": 1372
             }
           ]
         },
-        "Hive.Domain.Entities.Coords Hive.Domain.Entities.Coords::Right()": {
+        "Hive.Domain.Entities.Coords Hive.Domain.Entities.Coords::get_Right()": {
           "Lines": {
-            "30": 20422,
-            "31": 20422,
-            "32": 20422
+            "26": 20177
           },
           "Branches": []
         },
-        "Hive.Domain.Entities.Coords Hive.Domain.Entities.Coords::Left()": {
+        "Hive.Domain.Entities.Coords Hive.Domain.Entities.Coords::get_Left()": {
           "Lines": {
-            "35": 20420,
-            "36": 20420,
-            "37": 20420
+            "28": 20175
           },
           "Branches": []
         },
         "System.Void Hive.Domain.Entities.Coords::.ctor(System.Int32,System.Int32)": {
           "Lines": {
-            "6": 17810,
-            "7": 17810,
-            "18": 17810,
-            "20": 17810,
-            "22": 17810,
-            "24": 17810,
-            "26": 17810,
-            "28": 17810,
-            "29": 17810,
-            "33": 17810,
-            "34": 17810,
-            "38": 17810
+            "6": 17598,
+            "7": 17598,
+            "17": 17598,
+            "19": 17598,
+            "21": 17598,
+            "23": 17598,
+            "25": 17598,
+            "27": 17598,
+            "29": 17598
           },
           "Branches": []
         }
@@ -1092,7 +952,7 @@
       "Hive.Domain.Entities.Creature": {
         "System.String Hive.Domain.Entities.Creature::get_Name()": {
           "Lines": {
-            "8": 815
+            "8": 803
           },
           "Branches": []
         },
@@ -1104,9 +964,8 @@
         },
         "System.Collections.Generic.ISet`1<Hive.Domain.Entities.Coords> Hive.Domain.Entities.Creature::GetAvailableMoves(Hive.Domain.Entities.Cell,System.Collections.Generic.ISet`1<Hive.Domain.Entities.Cell>)": {
           "Lines": {
-            "18": 28,
-            "19": 134,
-            "21": 28
+            "13": 134,
+            "14": 28
           },
           "Branches": []
         },
@@ -1114,14 +973,8 @@
           "Lines": {
             "9": 5,
             "11": 5,
-            "12": 10,
-            "13": 10,
-            "14": 10,
-            "15": 10,
-            "16": 5,
-            "17": 5,
-            "20": 5,
-            "22": 5
+            "12": 5,
+            "15": 5
           },
           "Branches": []
         }
@@ -1142,7 +995,7 @@
             "15": 1,
             "16": 1,
             "17": 1,
-            "19": 1,
+            "18": 1,
             "20": 1,
             "21": 1,
             "22": 1,
@@ -1152,8 +1005,8 @@
             "26": 1,
             "27": 1,
             "28": 1,
+            "29": 1,
             "30": 1,
-            "31": 1,
             "32": 1,
             "33": 1,
             "34": 1,
@@ -1162,9 +1015,9 @@
             "37": 1,
             "38": 1,
             "39": 1,
+            "40": 1,
             "41": 1,
             "42": 1,
-            "43": 1,
             "44": 1,
             "45": 1,
             "46": 1,
@@ -1173,16 +1026,21 @@
             "49": 1,
             "50": 1,
             "51": 1,
+            "52": 1,
             "53": 1,
             "54": 1,
             "55": 1,
-            "56": 1,
             "57": 1,
             "58": 1,
             "59": 1,
             "60": 1,
             "61": 1,
-            "62": 1
+            "62": 1,
+            "63": 1,
+            "64": 1,
+            "65": 1,
+            "66": 1,
+            "67": 1
           },
           "Branches": []
         }
@@ -1226,36 +1084,20 @@
       "Hive.Domain.Entities.Tile": {
         "System.Int32 Hive.Domain.Entities.Tile::get_Id()": {
           "Lines": {
-            "7": 902
-          },
-          "Branches": []
-        },
-        "System.Int32 Hive.Domain.Entities.Tile::get_PlayerId()": {
-          "Lines": {
-            "8": 1194
+            "5": 0
           },
           "Branches": []
         },
         "System.Collections.Generic.ISet`1<Hive.Domain.Entities.Coords> Hive.Domain.Entities.Tile::get_Moves()": {
           "Lines": {
-            "9": 1770
-          },
-          "Branches": []
-        },
-        "Hive.Domain.Entities.Creature Hive.Domain.Entities.Tile::get_Creature()": {
-          "Lines": {
-            "10": 1717
+            "7": 2489
           },
           "Branches": []
         },
         "System.Void Hive.Domain.Entities.Tile::.ctor(System.Int32,System.Int32,Hive.Domain.Entities.Creature)": {
           "Lines": {
-            "12": 731,
-            "13": 731,
-            "14": 731,
-            "15": 731,
-            "16": 731,
-            "17": 731
+            "6": 725,
+            "8": 725
           },
           "Branches": []
         }

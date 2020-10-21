@@ -4,7 +4,7 @@ using Xunit;
 
 namespace Hive.Domain.Tests.RuleTests
 {
-    public class MustTouchAnotherPieceTests
+    public class NeighborsOccupiedTests
     {
         [Fact]
         public void CantDisconnectHive()
@@ -33,7 +33,7 @@ namespace Hive.Domain.Tests.RuleTests
             expected += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡";
             expected += " ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
 
-            var rule = new MustTouchAnotherPiece();
+            var rule = new NeighborsOccupied();
 
             rule.Should().HaveMoves(initial, expected);
         }

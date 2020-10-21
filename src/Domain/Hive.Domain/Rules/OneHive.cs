@@ -7,37 +7,24 @@ namespace Hive.Domain.Rules
 {
     public class OneHive : IRule
     {
-        private readonly ISet<Cell> _inHive = new HashSet<Cell>();
-        private readonly ISet<Cell> _allCells = new HashSet<Cell>();
-
         public ISet<Coords> ApplyRule(Cell currentCell, ISet<Cell> allCells)
         {
-            if (!CouldDisconnect(allCells,currentCell) || currentCell.Tiles.Count!=-1) return allCells.ToCoords();
-            
-            _allCells.Clear();
-            _allCells.UnionWith(allCells.WhereOccupied());
-            _allCells.Remove(currentCell);
+            if (currentCell.Tiles.Count > 1) return allCells.ToCoords();
 
-            _inHive.Clear();
-            var processing = new Stack<Cell>();
-            processing.Push(_allCells.First());
-            Check(processing);
+            var allOccupiedNonNeighbors = new HashSet<Cell>(allCells.WhereOccupied());
+            allOccupiedNonNeighbors.Remove(currentCell);
+            CheckIsInHive(allOccupiedNonNeighbors, allOccupiedNonNeighbors.First());
 
-            return _inHive.Count == _allCells.Count ? _inHive.Union(allCells.WhereEmpty()).ToCoords() : new HashSet<Coords>();
+            return !allOccupiedNonNeighbors.Any() ? allCells.RemoveCell(currentCell).ToCoords() : new HashSet<Coords>();
         }
 
-        private void Check(Stack<Cell> processing)
+        private void CheckIsInHive(ISet<Cell> allOccupiedNonNeighbors, Cell toCheck)
         {
-            if (!processing.TryPop(out var cell)) return;
-            _inHive.Add(cell);
-
-            _allCells.SelectNeighbors(cell).Except(_inHive).ToList().ForEach(processing.Push);
-            Check(processing);
-        }
-
-        private static bool CouldDisconnect(ISet<Cell> allCells, Cell currentCell)
-        {
-            return allCells.SelectNeighbors(currentCell).WhereOccupied().Count() < 6;
+            allOccupiedNonNeighbors.Remove(toCheck);
+            toCheck
+                .SelectNeighbors(allOccupiedNonNeighbors)
+                .ToList()
+                .ForEach(c => CheckIsInHive(allOccupiedNonNeighbors, c));
         }
     }
 }
