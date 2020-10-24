@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "name": "Hive",
+  "name": "hive",
   "private": true,
   "scripts": {
     "clean": "rm -rf ./src/dist",
@@ -18,14 +18,13 @@
     "*.{js,jsx,ts,tsx}": "eslint --fix"
   },
   "devDependencies": {
-    "@rollup/plugin-node-resolve": "^9.0.0",
-    "@rollup/plugin-typescript": "^6.0.0",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/preact": "^2.0.0",
     "@types/jest": "^26.0.14",
-    "@typescript-eslint/eslint-plugin": "^4.4.1",
+    "@typescript-eslint/eslint-plugin": "^4.4.2-alpha.12",
     "@typescript-eslint/parser": "^4.4.1",
     "chalk": "^4.1.0",
+    "esbuild": "^0.7.19",
     "eslint": "^7.11.0",
     "eslint-config-prettier": "^6.13.0",
     "eslint-plugin-jest": "^24.1.0",
@@ -34,17 +33,112 @@
     "jest": "^26.6.0",
     "jest-cli": "^26.6.0",
     "prettier": "^2.1.2",
-    "rollup": "^2.32.0",
-    "rollup-plugin-cleanup": "^3.2.1",
-    "rollup-plugin-copy": "^3.3.0",
-    "rollup-plugin-postcss": "^3.1.8",
     "ts-jest": "^26.4.1",
     "ts-node": "^9.0.0",
     "tslib": "^2.0.3",
-    "typescript": "^4.0.3"
+    "typescript": "^4.1.0-beta"
   },
   "dependencies": {
     "fast-equals": "^2.0.0",
     "preact": "^10.5.5"
+  },
+  "jest": {
+    "preset": "ts-jest",
+    "clearMocks": true,
+    "coverageDirectory": "./src/__tests__/__coverage__",
+    "collectCoverage": true,
+    "moduleDirectories": [
+      "node_modules"
+    ],
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx",
+      "json",
+      "node"
+    ],
+    "roots": [
+      "./src/"
+    ],
+    "setupFilesAfterEnv": [
+      "./src/jest.setup.ts"
+    ],
+    "coveragePathIgnorePatterns": ["/node_modules/","/__tests__/"],
+    "testMatch": [
+      "./**/*.{spec,test}.{js,jsx,ts,tsx}"
+    ],
+    "transform": {
+      "^.+\\.tsx?$": "ts-jest"
+    },
+    "coverageProvider": "v8",
+    "verbose": true
+  },
+  "eslintConfig": {
+    "env": {
+      "browser": true,
+      "es6": true
+    },
+    "extends": [
+      "eslint:recommended",
+      "plugin:@typescript-eslint/recommended",
+      "plugin:jest/recommended",
+      "prettier/@typescript-eslint"
+    ],
+    "globals": {
+      "Atomics": "readonly",
+      "SharedArrayBuffer": "readonly"
+    },
+    "parser": "@typescript-eslint/parser",
+    "plugins": [
+      "@typescript-eslint",
+      "jest"
+    ],
+    "rules": {
+      "jest/no-disabled-tests": "warn",
+      "jest/no-focused-tests": "error",
+      "jest/no-identical-title": "error",
+      "jest/prefer-to-have-length": "warn",
+      "jest/valid-expect": "error",
+      "@typescript-eslint/explicit-function-return-type": "off",
+      "@typescript-eslint/no-var-requires": "off",
+      "@typescript-eslint/no-unused-vars": "off"
+    },
+    "overrides": [
+      {
+        "files": [
+          "*.ts",
+          "*.tsx"
+        ],
+        "rules": {
+          "@typescript-eslint/explicit-function-return-type": "off"
+        }
+      }
+    ],
+    "settings": {
+      "propWrapperFunctions": [
+        "forbidExtraProps",
+        {
+          "property": "freeze",
+          "object": "Object"
+        },
+        {
+          "property": "myFavoriteWrapper"
+        }
+      ],
+      "linkComponents": [
+        "Hyperlink",
+        {
+          "name": "Link",
+          "linkAttribute": "to"
+        }
+      ]
+    },
+    "ignorePatterns": [
+      "node_modules",
+      "/*.config.js",
+      "/*.config.ts",
+      "**/coverage/**"
+    ]
   }
 }

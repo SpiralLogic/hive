@@ -1,5 +1,5 @@
 import { h } from 'preact';
-import PlayerList from 'hive/components/PlayerList';
+import PlayerList from '../components/PlayerList';
 import { renderElement } from './helpers';
 
 const ant = { id: 1, playerId: 1, creature: 'ant', moves: [{ q: 1, r: 1 }] };

@@ -1,15 +1,15 @@
 import {render} from '@testing-library/preact';
 import {h} from 'preact';
-import GameArea from 'hive/components/GameArea';
-import Hextille from 'hive/components/Hextille';
-import PlayerList from 'hive/components/PlayerList';
-import {CellDropEvent, useCellDropEmitter} from 'hive/emitters';
-import Engine from 'hive/game-engine';
+import GameArea from '../components/GameArea';
+import Hextille from '../components/Hextille';
+import PlayerList from '../components/PlayerList';
+import {CellDropEvent, useCellDropEmitter} from '../emitters';
+import Engine from '../game-engine';
 import {renderElement, simulateEvent} from './helpers';
 
-jest.mock('hive/components/Hextille',);
-jest.mock('hive/components/PlayerList', () => jest.fn(() => <div class="playerList"/>));
-jest.mock('hive/game-engine');
+jest.mock('../components/Hextille',);
+jest.mock('../components/PlayerList', () => jest.fn(() => <div class="playerList"/>));
+jest.mock('../game-engine');
 
 const cellDropEvent: CellDropEvent = {move: {coords: {q: 1, r: 1}, tileId: 1}, type: 'drop'};
 
