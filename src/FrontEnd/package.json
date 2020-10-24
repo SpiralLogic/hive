@@ -3,15 +3,10 @@
   "name": "hive",
   "private": true,
   "scripts": {
-    "clean": "rm -rf ./src/dist",
-    "clean-test": "npm ci && npm run test",
-    "test": "npm run tsc && npx jest --coverage",
-    "rollup": "npx rollup -c rollup.config.js",
-    "tsc": "npx tsc -b",
-    "build": "npm run tsc && npm run rollup",
-    "start": "npm run build && npm test",
-    "watch": "npx rollup -w -c rollup.config.js & npx tsc --build --watch & dotnet watch -v -p ../Api/Hive.Api run &",
-    "watch-win": "start npx rollup -w -c rollup.config.js && start npx tsc --build --watch && start dotnet watch -v -p ../Api/Hive.Api run"
+    "test": "npx tsc --noEmit && npx jest --coverage",
+    "build": "pnpx tsc --noEmit && esbuild src/index.tsx --bundle --minify --outfile=public/js/index.js",
+    "prestart": "rm -rf public/js/index.js && rm -rf ../API/Hive.Api/wwwroot && pnpm run build && cp -r public ../API/Hive.Api/wwwroot",
+    "start": "dotnet watch -v -p ../Api/Hive.Api run"
   },
   "lint-staged": {
     "*.{css,md,scss}": "prettier --write",
