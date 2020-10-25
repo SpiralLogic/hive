@@ -7,10 +7,11 @@
     ],
     "rootDir": "./js",
     "outDir": "./dist",
-    "tsBuildInfoFile": "../.build-cache/core.tsbuildinfo"
+    "tsBuildInfoFile": "./../.build-cache/core.tsbuildinfo"
   },
   "include": [
     "./**/*.tsx",
-    "./**/*.ts"
+    "./**/*.ts",
+    "./../.eslintrc.js"
   ]
 }
