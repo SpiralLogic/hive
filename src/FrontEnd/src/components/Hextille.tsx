@@ -1,5 +1,5 @@
-import { FunctionComponent, h } from 'preact';
-import { Cell } from '../domain';
+import {FunctionComponent, h} from 'preact';
+import {Cell} from '../domain';
 import Row from './Row';
 
 function getWidth(cells: Cell[]) {
@@ -8,8 +8,9 @@ function getWidth(cells: Cell[]) {
 }
 
 function getHeight(sortedHexagons: Cell[]) {
-    const firstRow = sortedHexagons[0].coords.r;
-    const height = sortedHexagons[sortedHexagons.length - 1].coords.r - firstRow + 1;
+    if (!sortedHexagons) return [0,0];
+    const firstRow = sortedHexagons[0]!.coords.r;
+    const height = sortedHexagons[sortedHexagons.length - 1]!.coords.r - firstRow + 1;
     return [firstRow, height];
 }
 
@@ -18,7 +19,7 @@ function createRows(sortedHexagons: Cell[]) {
     const [firstColumn, width] = getWidth(sortedHexagons);
 
     const createEmptyRow = (i: number) => ({
-        id: firstRow + i,
+        id: firstRow! + i,
         row: new Array(width).fill(false),
     });
 
@@ -27,7 +28,7 @@ function createRows(sortedHexagons: Cell[]) {
     };
 
     return sortedHexagons.reduce((rows, cell) => {
-        rows[cell.coords.r - firstRow].row[cell.coords.q - firstColumn] = cell;
+        rows[cell.coords.r - firstRow!]!.row[cell.coords.q - firstColumn!] = cell;
         return rows;
     }, createEmptyRows());
 }
@@ -35,9 +36,9 @@ function createRows(sortedHexagons: Cell[]) {
 type Props = { cells: Cell[] };
 
 const Hextille: FunctionComponent<Props> = (props: Props) => {
-    const { cells } = props;
+    const {cells} = props;
     const sortedHexagons = cells.sort((c1, c2) => c1.coords.r - c2.coords.r || c1.coords.q - c2.coords.q);
-    const shiftClass = sortedHexagons[0].coords.r % 2 ? 'left' : 'right';
+    const shiftClass = sortedHexagons[0]!.coords.r % 2 ? 'left' : 'right';
     const rows = createRows(sortedHexagons);
 
     return (

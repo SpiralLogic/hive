@@ -1,7 +1,7 @@
 import { render } from '@testing-library/preact';
 import { deepEqual } from 'fast-equals';
 import { h } from 'preact';
-import Row from 'hive/components/Row';
+import Row from '../components/Row';
 import { renderElement } from './helpers';
 
 require('@testing-library/jest-dom');

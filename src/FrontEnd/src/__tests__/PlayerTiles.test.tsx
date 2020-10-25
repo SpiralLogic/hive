@@ -1,6 +1,6 @@
 import { render, RenderResult } from '@testing-library/preact';
 import { h } from 'preact';
-import PlayerTiles from 'hive/components/PlayerTiles';
+import PlayerTiles from '../components/PlayerTiles';
 
 const ant = { id: 1, playerId: 1, creature: 'ant', moves: [{ q: 1, r: 1 }] };
 const fly = { id: 2, playerId: 0, creature: 'fly', moves: [] };
@@ -12,7 +12,7 @@ let player: Element;
 
 beforeEach(() => {
     container = render(<PlayerTiles {...playerProps} />);
-    player = document.getElementsByClassName('player')[0];
+    player = document.getElementsByClassName('player').item(0)!;
 });
 
 describe('Player Tiles', () => {

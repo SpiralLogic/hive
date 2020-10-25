@@ -1,7 +1,7 @@
-import { Move } from './domain';
-import { HexEngine } from './domain/engine';
+import {GameState, Move} from './domain';
+import {HexEngine} from './domain/engine';
 
-const moveRequest = async (move: Move) => {
+const moveRequest = async (move: Move): Promise<GameState> => {
     const response = await fetch('https://localhost:5001/move', {
         method: 'POST',
         headers: {
@@ -14,7 +14,7 @@ const moveRequest = async (move: Move) => {
     return response.json();
 };
 
-const newRequest = async () => {
+const newRequest = async (): Promise<GameState> => {
     const response = await fetch('https://localhost:5001/new', {
         method: 'POST',
         headers: {

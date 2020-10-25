@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace Hive.Domain.Entities
 {
-        public sealed record Cell(Coords Coords): IEquatable<Cell>
+    public sealed record Cell(Coords Coords) : IEquatable<Cell>
     {
         public Stack<Tile> Tiles { get; init; } = new Stack<Tile>();
 
@@ -20,7 +20,7 @@ namespace Hive.Domain.Entities
 
         public Tile RemoveTopTile() => Tiles.Pop();
 
-        public bool Equals(Cell? other) => ReferenceEquals(this, other) || Coords.Equals(other?.Coords);
+        bool IEquatable<Cell>.Equals(Cell? other) => ReferenceEquals(this, other) || Coords.Equals(other?.Coords);
 
         public override int GetHashCode() => Coords.GetHashCode();
     }

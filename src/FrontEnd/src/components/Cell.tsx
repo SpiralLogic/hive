@@ -1,16 +1,16 @@
-import { deepEqual } from 'fast-equals';
-import { FunctionComponent, h } from 'preact';
-import { memo } from 'preact/compat';
-import { useEffect, useState } from 'preact/hooks';
-import { Cell, HexCoordinates } from '../domain';
-import { TileDragEvent, useCellDropEmitter, useTileDragEmitter } from '../emitters';
-import { handleDragOver } from '../handlers';
+import {deepEqual} from 'fast-equals';
+import {FunctionComponent, h} from 'preact';
+import {memo} from 'preact/compat';
+import {useEffect, useState} from 'preact/hooks';
+import {Cell, HexCoordinates} from '../domain';
+import {TileDragEvent, useCellDropEmitter, useTileDragEmitter} from '../emitters';
+import {handleDragOver} from '../handlers';
 import Tile from './Tile';
 
 type Props = Cell;
 
 const CellFC: FunctionComponent<Props> = (props: Props) => {
-    const { tiles, coords } = props;
+    const {tiles, coords} = props;
     const [tileDragEmitter, cellDropEmitter] = [useTileDragEmitter(), useCellDropEmitter()];
     const isValidMove = (validMoves: HexCoordinates[]) => validMoves.some((dest) => deepEqual(coords, dest));
     const [classes, setClasses] = useState('hex cell');
@@ -35,7 +35,7 @@ const CellFC: FunctionComponent<Props> = (props: Props) => {
             if (valid && classes.includes('active'))
                 cellDropEmitter.emit({
                     type: 'drop',
-                    move: { coords, tileId: e.tile.id }
+                    move: {coords, tileId: e.tile.id}
                 });
 
             setClasses('hex cell');
@@ -54,7 +54,7 @@ const CellFC: FunctionComponent<Props> = (props: Props) => {
         ondragenter: handleDragEnter,
     };
 
-    return <div {...attributes}>{tiles.length > 0 && <Tile {...tiles[0]} />}</div>;
+    return <div {...attributes}>{tiles.map(t => <Tile {...t} />)}</div>;
 };
 
 CellFC.displayName = 'Cell';

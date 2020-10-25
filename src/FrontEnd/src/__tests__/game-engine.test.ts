@@ -1,4 +1,4 @@
-import Engine from 'hive/game-engine';
+import Engine from '../game-engine';
 
 beforeEach(function () {
     // eslint-disable-next-line no-undef
