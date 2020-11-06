@@ -8,7 +8,6 @@
     "removeComments": true,
     "noEmitOnError": true,
     "pretty": true,
-    "noUncheckedIndexedAccess": true,
     "target": "es5",
     "lib": [
       "dom",
