@@ -8,6 +8,8 @@ const moveRequest = async (move: Move): Promise<GameState> => {
             Accept: 'application/json',
             'Content-Type': 'application/json',
         },
+        
+        
         body: JSON.stringify(move),
     });
 
