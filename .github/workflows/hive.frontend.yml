@@ -18,6 +18,6 @@ jobs:
       - name: Install pnpm
         run: npm install -g pnpm
       - name: Install
-        run: npm install
+        run: pnpm install
       - name: Test
-        run: npm test 
+        run: pnpm test 
