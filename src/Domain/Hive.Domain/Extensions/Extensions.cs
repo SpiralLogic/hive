@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
-using Hive.Domain.Entities;
 using System.Linq;
+using Hive.Domain.Entities;
 
 namespace Hive.Domain.Extensions
 {
@@ -11,12 +11,10 @@ namespace Hive.Domain.Extensions
         internal static Cell FindCell(this IEnumerable<Cell> cells, Coords coords)
             => cells.Single(c => c.Coords.Equals(coords));
         internal static ISet<Cell> CreateAllEmptyNeighbours(this IEnumerable<Cell> cells)
-            => cells
-                .SelectCoords()
-                .SelectMany(coords => coords.GetNeighbors())
-                .SelectCells()
-                .Except(cells.WhereOccupied())
-                .ToHashSet();
+        {
+            var enumerable = cells as Cell[] ?? cells.ToArray();
+            return enumerable.SelectCoords().SelectMany(coords => coords.GetNeighbors()).SelectCells().Except(enumerable.WhereOccupied()).ToHashSet();
+        }
 
         internal static IEnumerable<Cell> SelectNeighbors(this Cell cell, IEnumerable<Cell> cells)
             => cells.SelectNeighbors(cell);

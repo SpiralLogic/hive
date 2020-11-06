@@ -1,7 +1,7 @@
-﻿using System.Linq;
-using System.Collections.Generic;
-using Hive.Domain.Rules;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Hive.Domain.Extensions;
+using Hive.Domain.Rules;
 
 namespace Hive.Domain.Entities
 {

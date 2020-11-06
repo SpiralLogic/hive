@@ -1,10 +1,10 @@
-﻿using FluentAssertions;
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+using FluentAssertions;
 using FluentAssertions.Execution;
 using FluentAssertions.Primitives;
 using Hive.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using Hive.Domain.Rules;
 
 namespace Hive.Domain.Tests.TestUtils

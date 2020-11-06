@@ -1,9 +1,9 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using System.Text.Json;
+using Hive.DTOs;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using System.Text.Json;
-using Hive.DTOs;
 
 namespace Hive.Controllers
 {
@@ -11,12 +11,10 @@ namespace Hive.Controllers
     [Route("[controller]")]
     public class NewController : Controller
     {
-        private readonly ILogger<NewController> _logger;
         private readonly JsonSerializerOptions _jsonSerializerOptions;
 
         public NewController(ILogger<NewController> logger, IOptions<JsonOptions> jsonOptions)
         {
-            _logger = logger;
             _jsonSerializerOptions = jsonOptions.Value.JsonSerializerOptions;
         }
 

@@ -1,4 +1,4 @@
-import { render, RenderResult } from '@testing-library/preact';
+import { RenderResult, render } from '@testing-library/preact';
 import { h } from 'preact';
 import PlayerTiles from '../components/PlayerTiles';
 
@@ -11,32 +11,32 @@ let container: RenderResult;
 let player: Element;
 
 beforeEach(() => {
-    container = render(<PlayerTiles {...playerProps} />);
-    player = document.getElementsByClassName('player').item(0)!;
+  container = render(<PlayerTiles {...playerProps} />);
+  player = document.getElementsByClassName('player').item(0)!;
 });
 
 describe('Player Tiles', () => {
-    test('player is rendered', () => {
-        expect(player).not.toBeNull();
-    });
+  test('player is rendered', () => {
+    expect(player).not.toBeNull();
+  });
 
-    test('is rendered with player name', () => {
-        expect(player.querySelector('.name')).toHaveTextContent('Player 1');
-    });
+  test('is rendered with player name', () => {
+    expect(player.querySelector('.name')).toHaveTextContent('Player 1');
+  });
 
-    test('player is rendered with their tiles', () => {
-        const playerTiles = player.getElementsByClassName('tiles');
-        expect(playerTiles).toHaveLength(1);
-    });
+  test('player is rendered with their tiles', () => {
+    const playerTiles = player.getElementsByClassName('tiles');
+    expect(playerTiles).toHaveLength(1);
+  });
 
-    test('each tile is rendered', () => {
-        expect(player.querySelectorAll('[title="ant"]')).toHaveLength(1);
-        expect(player.querySelectorAll('[title="fly"]')).toHaveLength(2);
-    });
+  test('each tile is rendered', () => {
+    expect(player.querySelectorAll('[title="ant"]')).toHaveLength(1);
+    expect(player.querySelectorAll('[title="fly"]')).toHaveLength(2);
+  });
 });
 
 describe('PlayerTiles snapshot', () => {
-    test('matches current snapshot', () => {
-        expect(container.baseElement).toMatchSnapshot();
-    });
+  test('matches current snapshot', () => {
+    expect(container.baseElement).toMatchSnapshot();
+  });
 });

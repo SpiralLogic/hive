@@ -7,27 +7,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hive.Api", "API\Hive.Api\Hi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hive.Domain", "Domain\Hive.Domain\Hive.Domain.csproj", "{F7213AA5-B802-495E-A357-24C9C84EC0C1}"
 EndProject
-Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "FrontEnd", "FrontEnd\", "{D68A8FF3-8F8B-4898-BC07-AA278705A876}"
-	ProjectSection(WebsiteProperties) = preProject
-		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.0"
-		Debug.AspNetCompiler.VirtualPath = "/localhost_58202"
-		Debug.AspNetCompiler.PhysicalPath = "FrontEnd\"
-		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_58202\"
-		Debug.AspNetCompiler.Updateable = "true"
-		Debug.AspNetCompiler.ForceOverwrite = "true"
-		Debug.AspNetCompiler.FixedNames = "false"
-		Debug.AspNetCompiler.Debug = "True"
-		Release.AspNetCompiler.VirtualPath = "/localhost_58202"
-		Release.AspNetCompiler.PhysicalPath = "FrontEnd\"
-		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_58202\"
-		Release.AspNetCompiler.Updateable = "true"
-		Release.AspNetCompiler.ForceOverwrite = "true"
-		Release.AspNetCompiler.FixedNames = "false"
-		Release.AspNetCompiler.Debug = "False"
-		VWDPort = "58202"
-		SlnRelativePath = "FrontEnd\"
-	EndProjectSection
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hive.Domain.Tests", "Domain\Hive.Domain.Tests\Hive.Domain.Tests.csproj", "{0C449EA6-AA70-4F0B-BBE5-B8DB3F0209A9}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Api", "Api", "{2356A104-411D-4B24-92BD-B98FDB510380}"

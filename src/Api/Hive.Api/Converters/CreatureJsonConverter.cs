@@ -9,7 +9,7 @@ namespace Hive.Converters
     {
         private readonly Type _creaturesType;
 
-        public CreatureJsonConverter() : base()
+        public CreatureJsonConverter()
         {
             _creaturesType = typeof(Creatures) ?? throw new ApplicationException(nameof(Creatures));
         }

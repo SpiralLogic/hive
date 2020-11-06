@@ -6,13 +6,15 @@
     "test": "npx tsc --noEmit && npx jest --coverage",
     "build": "pnpx tsc --noEmit && esbuild src/index.tsx --bundle --minify --outfile=public/js/index.js",
     "prestart": "rm -rf public/js/index.js && rm -rf ../API/Hive.Api/wwwroot && pnpm run build && cp -r public ../API/Hive.Api/wwwroot",
-    "start": "dotnet watch -v -p ../Api/Hive.Api run"
+    "start": "dotnet watch -v -p ../Api/Hive.Api run",
+    "preinstall": "npx only-allow pnpm"
   },
   "lint-staged": {
     "*.{css,md,scss}": "prettier --write",
     "*.{js,jsx,ts,tsx}": "eslint --fix"
   },
   "devDependencies": {
+    "eslint-plugin-sort-imports-es6-autofix": "0.5.0",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/preact": "^2.0.0",
     "@types/jest": "^26.0.14",
@@ -59,7 +61,10 @@
     "setupFilesAfterEnv": [
       "./src/jest.setup.ts"
     ],
-    "coveragePathIgnorePatterns": ["/node_modules/","/__tests__/"],
+    "coveragePathIgnorePatterns": [
+      "/node_modules/",
+      "/__tests__/"
+    ],
     "testMatch": [
       "./**/*.{spec,test}.{js,jsx,ts,tsx}"
     ],
@@ -87,17 +92,19 @@
     "parser": "@typescript-eslint/parser",
     "plugins": [
       "@typescript-eslint",
-      "jest"
+      "jest",
+      "sort-imports-es6-autofix"
     ],
     "rules": {
+      "@typescript-eslint/explicit-function-return-type": "off",
+      "@typescript-eslint/no-unused-vars": "off",
+      "@typescript-eslint/no-var-requires": "off",
       "jest/no-disabled-tests": "warn",
       "jest/no-focused-tests": "error",
       "jest/no-identical-title": "error",
       "jest/prefer-to-have-length": "warn",
       "jest/valid-expect": "error",
-      "@typescript-eslint/explicit-function-return-type": "off",
-      "@typescript-eslint/no-var-requires": "off",
-      "@typescript-eslint/no-unused-vars": "off"
+      "sort-imports-es6-autofix/sort-imports-es6": 2
     },
     "overrides": [
       {
@@ -135,5 +142,8 @@
       "/*.config.ts",
       "**/coverage/**"
     ]
+  },
+  "prettier": {
+    "singleQuote": true
   }
 }

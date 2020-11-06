@@ -1,9 +1,9 @@
-import { Tile } from '../domain';
 import { EventEmitter } from './event-emitter';
+import { Tile } from '../domain';
 
 export type TileDragEvent = {
-    type: 'start' | 'end';
-    tile: Tile;
+  type: 'start' | 'end';
+  tile: Tile;
 };
 
 export class TileDragEmitter extends EventEmitter<TileDragEvent> {}

@@ -16,17 +16,17 @@ namespace Hive.Domain.Rules
                 .Select(p => p.Last)
                 .ToCoords();
 
-        record Path(Cell Last)
+        private sealed record Path(Cell Last)
         {
             ImmutableHashSet<Cell> Cells { get; init; } = ImmutableHashSet.Create(Last);
 
-            internal Path Add(Cell cell) => this with { Cells = Cells.Add(cell), Last = cell };
+            private Path Add(Cell cell) => this with { Cells = Cells.Add(cell), Last = cell };
 
             internal IEnumerable<Path> Extend(IEnumerable<Cell> allCells) =>
                 allCells
                 .SelectEmptyNeighbors(Last)
                 .Except(Cells)
-                .Select(cell => Add(cell));
+                .Select(Add);
         }
     }
 }

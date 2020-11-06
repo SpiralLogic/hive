@@ -10,7 +10,8 @@ namespace Hive.Domain.Rules
     {
         public ISet<Coords> ApplyRule(Cell currentCell, ISet<Cell> allCells)
         {
-            var cells = new HashSet<Cell>() {
+            var cells = new HashSet<Cell>
+            {
                 GetFirstEmpty(allCells, c => c.TopLeft, currentCell.Coords) ,
                 GetFirstEmpty(allCells, c => c.TopRight, currentCell.Coords) ,
 

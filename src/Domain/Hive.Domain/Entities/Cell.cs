@@ -20,7 +20,11 @@ namespace Hive.Domain.Entities
 
         public Tile RemoveTopTile() => Tiles.Pop();
 
-        bool IEquatable<Cell>.Equals(Cell? other) => ReferenceEquals(this, other) || Coords.Equals(other?.Coords);
+        bool IEquatable<Cell>.Equals(Cell? other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            return ReferenceEquals(this, other) || Coords.Equals(other.Coords);
+        }
 
         public override int GetHashCode() => Coords.GetHashCode();
     }

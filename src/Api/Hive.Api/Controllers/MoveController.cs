@@ -34,7 +34,6 @@ namespace Hive.Controllers
 
             var json = JsonSerializer.Serialize(new GameState(game.Players, game.Cells), _jsonSerializerOptions);
             HttpContext.Session.SetString(Constants.GameStateSessionKey, json);
-            
             return Accepted(game);
         }
     }

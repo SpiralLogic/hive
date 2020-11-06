@@ -1,5 +1,5 @@
-﻿using Hive.Domain.Entities;
-using FluentAssertions;
+﻿using FluentAssertions;
+using Hive.Domain.Entities;
 using Xunit;
 
 namespace Hive.Domain.Tests
