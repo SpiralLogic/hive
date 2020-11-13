@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using FluentAssertions;
 using FluentAssertions.Common;
 using Hive.Domain.Entities;
@@ -8,6 +9,7 @@ namespace Hive.Domain.Tests
 {
     public class CellTests
     {
+
         [Fact]
         public void CanCreate_WithNoTiles()
         {
@@ -114,6 +116,9 @@ namespace Hive.Domain.Tests
             cell1.Equals(null).Should().BeFalse();
             cell1.Equals(new object()).Should().BeFalse();
             cell1.Equals(null).Should().BeFalse();
+
+            IEquatable<Cell> cell2 = new Cell(new Coords(1, 1));
+            cell2.Equals(null).Should().BeFalse();
         }
     }
 }

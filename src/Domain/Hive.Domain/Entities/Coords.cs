@@ -23,8 +23,8 @@ namespace Hive.Domain.Entities
 
         internal Coords BottomRight => R % 2 == 0 ? new Coords(Q, R + 1) : new Coords(Q + 1, R + 1);
 
-        internal Coords Right => new Coords(Q + 1, R);
+        internal Coords Right => new(Q + 1, R);
 
-        internal Coords Left => new Coords(Q - 1, R);
+        internal Coords Left => new(Q - 1, R);
     }
 }

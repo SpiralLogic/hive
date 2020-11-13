@@ -1,4 +1,5 @@
-﻿using Hive.Domain.Rules;
+﻿using Hive.Domain.Entities;
+using Hive.Domain.Rules;
 using Hive.Domain.Tests.TestUtils;
 using Xunit;
 
@@ -10,7 +11,6 @@ namespace Hive.Domain.Tests.RuleTests
         public void CantDisconnectHive()
         {
             var initial = new InitialHiveBuilder();
-
 
             initial += " ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
             initial += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡";
@@ -31,6 +31,38 @@ namespace Hive.Domain.Tests.RuleTests
             expected += " ⬡ ⬡ ⬡ ⬢ ★ ⬢ ⬡ ⬡ ⬡ ";
             expected += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡";
             expected += " ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
+            expected += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡";
+            expected += " ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
+
+            var rule = new OneHive();
+
+            rule.Should().HaveMoves(initial, expected);
+        }
+
+        [Fact]
+        public void OnlyTwoOccupiedCanMove()
+        {
+            var initial = new InitialHiveBuilder();
+
+            initial += " ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
+            initial += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡";
+            initial += " ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
+            initial += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡";
+            initial += " ⬡ ⬡ ⬡ ⬡ ★ ⬡ ⬡ ⬡ ⬡ ";
+            initial += "⬡ ⬡ ⬡ ⬡ ⬢ ⬡ ⬡ ⬡ ⬡ ⬡";
+            initial += " ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
+            initial += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡";
+            initial += " ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
+
+            var expected = new ExpectedHiveBuilder();
+
+            expected += " ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
+            expected += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡";
+            expected += " ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
+            expected += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡";
+            expected += " ⬡ ⬡ ⬡ ✔ ★ ⬡ ⬡ ⬡ ⬡ ";
+            expected += "⬡ ⬡ ⬡ ✔ ✔ ✔ ⬡ ⬡ ⬡ ⬡";
+            expected += " ⬡ ⬡ ⬡ ✔ ✔ ⬡ ⬡ ⬡ ⬡ ";
             expected += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡";
             expected += " ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
 
@@ -70,7 +102,7 @@ namespace Hive.Domain.Tests.RuleTests
 
             rule.Should().HaveMoves(initial, expected);
         }
-        
+
         [Fact]
         public void CanConnectHive2()
         {
@@ -103,7 +135,6 @@ namespace Hive.Domain.Tests.RuleTests
             rule.Should().HaveMoves(initial, expected);
         }
 
-          
         [Fact]
         public void CanConnectHive3()
         {
@@ -130,6 +161,59 @@ namespace Hive.Domain.Tests.RuleTests
             expected += " ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
             expected += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡";
             expected += " ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
+
+            var rule = new OneHive();
+
+            rule.Should().HaveMoves(initial, expected);
+        }
+
+        [Fact]
+        public void CellWithMultipleTilesWontDisconnect()
+        {
+            var initial = new InitialHiveBuilder();
+
+            initial += " ⬡ ⬡ ";
+            initial += "⬡ ★ ⬡";
+            initial += " ⬡ ⬡ ";
+
+            initial.OriginCell.AddTile(new Tile(0, 0, Creatures.Beetle));
+            var expected = new ExpectedHiveBuilder();
+
+            expected += " ✔ ✔ ";
+            expected += "✔ ★ ✔";
+            expected += " ✔ ✔ ";
+
+            var rule = new OneHive();
+
+            rule.Should().HaveMoves(initial, expected);
+        }
+
+        [Fact]
+        public void SingleCellCanMove()
+        {
+            var initial = new InitialHiveBuilder();
+
+            initial += " ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
+            initial += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡";
+            initial += " ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
+            initial += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡";
+            initial += " ⬡ ⬡ ⬡ ⬡ ★ ⬡ ⬡ ⬡ ⬡ ";
+            initial += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡";
+            initial += " ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
+            initial += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡";
+            initial += " ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
+
+            var expected = new ExpectedHiveBuilder();
+
+            expected += " ✔ ✔ ✔ ✔ ✔ ✔ ✔ ✔ ✔ ";
+            expected += "✔ ✔ ✔ ✔ ✔ ✔ ✔ ✔ ✔ ✔";
+            expected += " ✔ ✔ ✔ ✔ ✔ ✔ ✔ ✔ ✔ ";
+            expected += "✔ ✔ ✔ ✔ ✔ ✔ ✔ ✔ ✔ ✔";
+            expected += " ✔ ✔ ✔ ✔ ★ ✔ ✔ ✔ ✔ ";
+            expected += "✔ ✔ ✔ ✔ ✔ ✔ ✔ ✔ ✔ ✔";
+            expected += " ✔ ✔ ✔ ✔ ✔ ✔ ✔ ✔ ✔ ";
+            expected += "✔ ✔ ✔ ✔ ✔ ✔ ✔ ✔ ✔ ✔";
+            expected += " ✔ ✔ ✔ ✔ ✔ ✔ ✔ ✔ ✔ ";
 
             var rule = new OneHive();
 

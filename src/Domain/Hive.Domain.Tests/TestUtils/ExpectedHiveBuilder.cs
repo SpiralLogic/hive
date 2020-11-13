@@ -17,7 +17,6 @@ namespace Hive.Domain.Tests.TestUtils
         }
 
         protected HashSet<Cell> ExpectedCells => AllCells.Where(c => !c.IsEmpty() && c.TopTile().Creature.Name == Expected.Name).ToHashSet();
-        protected HashSet<Cell> UnexpectedCells => AllCells.Where(c => !c.IsEmpty() && c.TopTile().Creature.Name == Unexpected.Name).ToHashSet();
 
         public static ExpectedHiveBuilder operator +(ExpectedHiveBuilder builder, string newRow) => AddRow(builder, newRow);
 
@@ -47,6 +46,6 @@ namespace Hive.Domain.Tests.TestUtils
             return $"\u001b[37m{string.Join("\n", actualRows.Select((row, i)=> row + " | " + coloredRows[i]))}\u001b[0m";
         }
 
-        private int GetQOffset(string rowString,int r) => rowString.StartsWith(Separator) && (r%2!=0) ? 1 : 0;
+        private static int GetQOffset(string rowString,int r) => rowString.StartsWith(Separator) && (r%2!=0) ? 1 : 0;
     }
 }

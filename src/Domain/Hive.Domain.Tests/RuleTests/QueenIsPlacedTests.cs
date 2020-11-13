@@ -12,9 +12,10 @@ namespace Hive.Domain.Tests.RuleTests
         [Fact]
         public void CantMoveWithNoQueen()
         {
-            var cells = new HashSet<Cell> {
+            var cells = new HashSet<Cell>
+            {
                 new Cell(new Coords(1, 1)).AddTile(new Tile(1, 1, Creatures.Beetle)),
-                 new Cell(new Coords(1, 2)).AddTile(new Tile(2, 1, Creatures.Beetle)),
+                new Cell(new Coords(1, 2)).AddTile(new Tile(2, 1, Creatures.Beetle)),
                 new Cell(new Coords(1, 3)).AddTile(new Tile(3, 1, Creatures.Beetle)),
             };
 
@@ -26,9 +27,10 @@ namespace Hive.Domain.Tests.RuleTests
         [Fact]
         public void CanMoveWhenQueenIsPlaced()
         {
-            var cells = new HashSet<Cell> {
+            var cells = new HashSet<Cell>
+            {
                 new Cell(new Coords(1, 1)).AddTile(new Tile(1, 1, Creatures.Beetle)),
-                 new Cell(new Coords(1, 2)).AddTile(new Tile(2, 1, Creatures.Beetle)),
+                new Cell(new Coords(1, 2)).AddTile(new Tile(2, 1, Creatures.Beetle)),
                 new Cell(new Coords(1, 3)).AddTile(new Tile(3, 1, Creatures.Beetle)),
                 new Cell(new Coords(1, 4)).AddTile(new Tile(4, 1, Creatures.Queen)),
             };

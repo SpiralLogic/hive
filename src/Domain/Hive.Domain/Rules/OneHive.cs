@@ -13,6 +13,11 @@ namespace Hive.Domain.Rules
 
             var allOccupiedNonNeighbors = new HashSet<Cell>(allCells.WhereOccupied());
             allOccupiedNonNeighbors.Remove(currentCell);
+            if (allOccupiedNonNeighbors.Count==0) return allCells.ToCoords();
+
+            if (allOccupiedNonNeighbors.Count == 1)
+                return allOccupiedNonNeighbors.Union(allCells.SelectNeighbors(allOccupiedNonNeighbors.First())).ToCoords();
+
             CheckIsInHive(allOccupiedNonNeighbors, allOccupiedNonNeighbors.First());
 
             return !allOccupiedNonNeighbors.Any() ? allCells.RemoveCell(currentCell).ToCoords() : new HashSet<Coords>();
@@ -21,8 +26,7 @@ namespace Hive.Domain.Rules
         private void CheckIsInHive(ISet<Cell> allOccupiedNonNeighbors, Cell toCheck)
         {
             allOccupiedNonNeighbors.Remove(toCheck);
-            toCheck
-                .SelectNeighbors(allOccupiedNonNeighbors)
+            toCheck.SelectNeighbors(allOccupiedNonNeighbors)
                 .ToList()
                 .ForEach(c => CheckIsInHive(allOccupiedNonNeighbors, c));
         }

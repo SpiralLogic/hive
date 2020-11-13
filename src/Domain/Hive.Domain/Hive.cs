@@ -18,7 +18,7 @@ namespace Hive.Domain
              Creatures.Spider
              );
 
-        private readonly Coords _initialCoords = new Coords(0, 0);
+        private readonly Coords _initialCoords = new(0, 0);
 
         public ISet<Cell> Cells { get; }
         public IList<Player> Players { get; }
@@ -50,7 +50,7 @@ namespace Hive.Domain
             ClearAllTileMoves();
             Cells.ExceptWith(Cells.WhereEmpty());
             Cells.UnionWith(Cells.CreateAllEmptyNeighbours());
-            
+
 
             UpdatedPlacedTileMoves(nextPlayer);
             UpdatePlayerTileMoves(nextPlayer);
@@ -114,10 +114,7 @@ namespace Hive.Domain
 
 
         private IList<Player> CreatePlayers(IEnumerable<string> playerNames) =>
-            playerNames.Select(CreatePlayer).ToList();
-
-        private Player CreatePlayer(string name, int id) => new Player(id, name) { Tiles = CreateStartingTiles(id) };
-
+            playerNames.Select((name, id) => new Player(id, name) { Tiles = CreateStartingTiles(id) }).ToList();
 
         private ISet<Tile> CreateStartingTiles(int playerId) =>
             _startingTiles
