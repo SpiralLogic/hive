@@ -4,7 +4,7 @@ using Xunit;
 
 namespace Hive.Domain.Tests.CreatureTests
 {
-    public class BeetleTests
+    public class GrasshopperTests
     {
         [Fact]
         public void HasOneHiveRule()
@@ -25,34 +25,35 @@ namespace Hive.Domain.Tests.CreatureTests
             expected += " ⬡ ⬡ ⬡  ";
             expected += "⬡ ⬡ ⬡ ⬡ ⬡";
 
-            var beetle = Creatures.Beetle;
+            var grasshopper = Creatures.Grasshopper;
 
-            beetle.Should().HaveMoves(initial, expected);
+            grasshopper.Should().HaveMoves(initial, expected);
         }
 
         [Fact]
-        public void HasOneSpaceRule()
+        public void HasNextUnoccupiedRule()
         {
             var initial = new InitialHiveBuilder();
 
-            initial += "⬡ ⏣ ⏣ ⏣ ⬡";
-            initial += " ⏣ ⬡ ⬡ ⏣ ";
-            initial += "⏣ ⬡ ★ ⬡ ⏣";
-            initial += " ⏣ ⏣ ⬡ ⏣ ";
-            initial += "⬡ ⏣ ⏣ ⏣ ⬡";
+            initial += "⬡ ⬡ ⬡ ⬡ ⬡";
+            initial += " ⬡ ⬡ ⬡ ⬡ ";
+            initial += "⬡ ★ ⏣ ⏣ ⬡";
+            initial += " ⏣ ⏣ ⬡ ⬡ ";
+            initial += "⬡ ⬡ ⬡ ⬡ ⬡";
 
             var expected = new ExpectedHiveBuilder();
 
             expected += "⬡ ⬡ ⬡ ⬡ ⬡";
-            expected += " ⬡ ✔ ✔ ⬡ ";
-            expected += "⬡ ✔ ★ ✔ ⬡";
-            expected += " ⬡ ✔ ✔ ⬡ ";
-            expected += "⬡ ⬡ ⬡ ⬡ ⬡";
+            expected += " ⬡ ⬡ ⬡ ⬡ ";
+            expected += "⬡ ★ ⏣ ⏣ ✔";
+            expected += " ⏣ ⏣ ⬡ ⬡ ";
+            expected += "✔ ⬡ ✔ ⬡ ⬡";
 
-            var beetle = Creatures.Beetle;
+            var grasshopper = Creatures.Grasshopper;
 
-            beetle.Should().HaveMoves(initial, expected);
+            grasshopper.Should().HaveMoves(initial, expected);
         }
+
         [Fact]
         public void HasNeighborsOccupiedRule()
         {
@@ -67,14 +68,14 @@ namespace Hive.Domain.Tests.CreatureTests
             var expected = new ExpectedHiveBuilder();
 
             expected += "⬡ ⬡ ⬡ ⬡ ⬡";
-            expected += " ⬡ ✔ ⬡ ⬡ ";
-            expected += "⬡ ✔ ★ ✔ ⬡";
-            expected += " ⬡ ✔ ✔ ⬡ ";
-            expected += "⬡ ⬡ ⬡ ⬡ ⬡";
+            expected += " ⬡ ⬡ ⬡ ⬡ ";
+            expected += "✔ ⏣ ★ ⬡ ⬡";
+            expected += " ⬡ ⏣ ⏣ ⬡ ";
+            expected += "⬡ ✔ ⬡ ✔ ⬡";
 
-            var beetle = Creatures.Beetle;
+            var grasshopper = Creatures.Grasshopper;
 
-            beetle.Should().HaveMoves(initial, expected);
+            grasshopper.Should().HaveMoves(initial, expected);
         }
     }
 }

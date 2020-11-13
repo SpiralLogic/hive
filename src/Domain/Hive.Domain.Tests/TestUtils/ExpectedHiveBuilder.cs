@@ -7,8 +7,8 @@ namespace Hive.Domain.Tests.TestUtils
 {
     internal class ExpectedHiveBuilder : HiveBuilder
     {
-        internal static readonly HiveCharacter Expected = new("Expected", '✔', ConsoleColor.Green);
-        internal static readonly HiveCharacter Unexpected = new("Unexpected", '⨯', ConsoleColor.Red);
+        private static readonly HiveCharacter Expected = new("Expected", '✔', ConsoleColor.Green);
+        private static readonly HiveCharacter Unexpected = new("Unexpected", '⨯', ConsoleColor.Red);
 
         internal ExpectedHiveBuilder()
         {
@@ -16,7 +16,10 @@ namespace Hive.Domain.Tests.TestUtils
             AllSymbols.Add(Unexpected);
         }
 
-        protected HashSet<Cell> ExpectedCells => AllCells.Where(c => !c.IsEmpty() && c.TopTile().Creature.Name == Expected.Name).ToHashSet();
+        private IEnumerable<Cell> ExpectedCells =>
+            AllCells
+                .Where(c => !c.IsEmpty() && c.TopTile().Creature.Name == Expected.Name)
+                .ToHashSet();
 
         public static ExpectedHiveBuilder operator +(ExpectedHiveBuilder builder, string newRow) => AddRow(builder, newRow);
 
@@ -28,7 +31,7 @@ namespace Hive.Domain.Tests.TestUtils
             if (cellString == Unexpected.Symbol) cell.AddTile(new Tile(1, 2, Unexpected.Creature));
         }
 
-        internal string GetDiff(ISet<Coords> actual)
+        internal string GetDiff(IEnumerable<Coords> actual)
         {
             var actualRows = new List<string>(RowStrings);
             var unexpected = ExpectedMoves();

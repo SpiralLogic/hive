@@ -50,13 +50,13 @@ namespace Hive.Domain.Tests.RuleTests
             var expected = new ExpectedHiveBuilder();
 
             expected += " ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
-            expected += "⬡ ⬡ ⬡ ✔ ✔ ✔ ✔ ⬡ ⬡ ⬡";
-            expected += " ⬡ ⬡ ✔ ✔ ✔ ✔ ✔ ⬡ ⬡ ";
-            expected += "⬡ ⬡ ✔ ✔ ✔ ✔ ✔ ✔ ⬡ ⬡";
-            expected += " ⬡ ✔ ✔ ✔ ★ ✔ ✔ ✔ ⬡ ";
-            expected += "⬡ ⬡ ✔ ✔ ✔ ✔ ✔ ✔ ⬡ ⬡";
-            expected += " ⬡ ⬡ ✔ ✔ ✔ ✔ ✔ ⬡ ⬡ ";
-            expected += "⬡ ⬡ ⬡ ✔ ✔ ✔ ✔ ⬡ ⬡ ⬡";
+            expected += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡";
+            expected += " ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
+            expected += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡";
+            expected += " ⬡ ⬡ ⬡ ⬡ ★ ⬡ ⬡ ⬡ ⬡ ";
+            expected += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡";
+            expected += " ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
+            expected += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡";
             expected += " ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
 
             var rule = new ThreeSpaces();
@@ -70,27 +70,27 @@ namespace Hive.Domain.Tests.RuleTests
 
             var initial = new InitialHiveBuilder();
 
-            initial += " ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
-            initial += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡";
-            initial += " ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⏣ ⬡ ⬡ ";
-            initial += "⬡ ⬡ ⬡ ⬡ ⏣ ⬡ ⬡ ⬡ ⬡ ⬡";
-            initial += " ⬡ ⬡ ⏣ ⬡ ★ ⏣ ⬡ ⬡ ⬡ ";
-            initial += "⬡ ⬡ ⬡ ⬡ ⏣ ⬡ ⬡ ⬡ ⬡ ⬡";
-            initial += " ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⏣ ⬡ ⬡ ";
-            initial += "⬡ ⬡ ⬡ ⬡ ⏣ ⬡ ⬡ ⬡ ⬡ ⬡";
-            initial += " ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
+            initial += " ⬡ ⬡ ⬡ ⏣ ⏣ ⏣ ⏣ ⬡ ⬡ ";
+            initial += "⬡ ⬡ ⬡ ⏣ ⬡ ⬡ ⬡ ⏣ ⬡ ⬡";
+            initial += " ⬡ ⬡ ⬡ ⏣ ⬡ ⬡ ⏣ ⬡ ⬡ ";
+            initial += "⬡ ⬡ ⏣ ⬡ ⬡ ⬡ ⬡ ⏣ ⬡ ⬡";
+            initial += " ⬡ ⏣ ⬡ ⬡ ★ ⏣ ⏣ ⏣ ⬡ ";
+            initial += "⬡ ⬡ ⏣ ⏣ ⏣ ⬡ ⬡ ⬡ ⬡ ⬡";
+            initial += " ⬡ ⬡ ⏣ ⏣ ⬡ ⬡ ⏣ ⬡ ⬡ ";
+            initial += "⬡ ⬡ ⬡ ⬡ ⏣ ⬡ ⬡ ⏣ ⬡ ⬡";
+            initial += " ⬡ ⬡ ⬡ ⬡ ⏣ ⏣ ⏣ ⬡ ⬡ ";
 
             var expected = new ExpectedHiveBuilder();
 
-            expected += " ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
-            expected += "⬡ ⬡ ⬡ ⬡ ✔ ✔ ✔ ⬡ ⬡ ⬡";
-            expected += " ⬡ ⬡ ✔ ✔ ✔ ✔ ⬡ ⬡ ⬡ ";
-            expected += "⬡ ⬡ ✔ ⬡ ⬡ ⬡ ✔ ✔ ⬡ ⬡";
-            expected += " ⬡ ⬡ ⬡ ⬡ ★ ⬡ ✔ ⬡ ⬡ ";
-            expected += "⬡ ⬡ ✔ ⬡ ⬡ ⬡ ✔ ✔ ⬡ ⬡";
-            expected += " ⬡ ⬡ ✔ ✔ ✔ ✔ ⬡ ⬡ ⬡ ";
-            expected += "⬡ ⬡ ⬡ ⬡ ⬡ ✔ ✔ ⬡ ⬡ ⬡";
-            expected += " ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
+            expected += " ⬡ ⬡ ⬡ ⏣ ⏣ ⏣ ⏣ ⬡ ⬡ ";
+            expected += "⬡ ⬡ ⬡ ⏣ ⬡ ⬡ ⬡ ⏣ ⬡ ⬡";
+            expected += " ⬡ ⬡ ⬡ ⏣ ⬡ ✔ ⏣ ⬡ ⬡ ";
+            expected += "⬡ ⬡ ⏣ ✔ ⬡ ⬡ ⬡ ⏣ ⬡ ⬡";
+            expected += " ⬡ ⏣ ⬡ ⬡ ★ ⏣ ⏣ ⏣ ⬡ ";
+            expected += "⬡ ⬡ ⏣ ⏣ ⏣ ⬡ ⬡ ✔ ⬡ ⬡";
+            expected += " ⬡ ⬡ ⬡ ⏣ ⬡ ✔ ⏣ ⬡ ⬡ ";
+            expected += "⬡ ⬡ ⬡ ⬡ ⏣ ✔ ⬡ ⏣ ⬡ ⬡";
+            expected += " ⬡ ⬡ ⬡ ⬡ ⏣ ⏣ ⏣ ⬡ ⬡ ";
 
             var rule = new ThreeSpaces();
 

@@ -4,7 +4,7 @@ using Xunit;
 
 namespace Hive.Domain.Tests.CreatureTests
 {
-    public class BeetleTests
+    public class AntTests
     {
         [Fact]
         public void HasOneHiveRule()
@@ -22,37 +22,40 @@ namespace Hive.Domain.Tests.CreatureTests
             expected += "⬡ ⬡ ⬡ ⬡ ⬡";
             expected += " ⬡ ⬡ ⬡ ⬡ ";
             expected += "⬡ ⬡ ★ ⬡ ⬡";
-            expected += " ⬡ ⬡ ⬡  ";
+            expected += " ⬡ ⬡ ⬡ ⬡ ";
             expected += "⬡ ⬡ ⬡ ⬡ ⬡";
 
-            var beetle = Creatures.Beetle;
+            var ant = Creatures.Ant;
 
-            beetle.Should().HaveMoves(initial, expected);
+            ant.Should().HaveMoves(initial, expected);
         }
 
         [Fact]
-        public void HasOneSpaceRule()
+        public void HasCanSlideRule()
         {
             var initial = new InitialHiveBuilder();
 
-            initial += "⬡ ⏣ ⏣ ⏣ ⬡";
-            initial += " ⏣ ⬡ ⬡ ⏣ ";
-            initial += "⏣ ⬡ ★ ⬡ ⏣";
-            initial += " ⏣ ⏣ ⬡ ⏣ ";
-            initial += "⬡ ⏣ ⏣ ⏣ ⬡";
+            initial += "⏣ ⬡ ⏣ ⏣ ⏣";
+            initial += " ⏣ ⬡ ⬡ ⏣ ⬡";
+            initial += "⏣ ⬡ ★ ⏣ ⏣";
+            initial += " ⏣ ⬡ ⬡ ⬡ ⏣";
+            initial += "⬡ ⏣ ⏣ ⬡ ⏣";
+            initial += " ⬡ ⏣ ⏣ ⏣ ⏣";
 
             var expected = new ExpectedHiveBuilder();
 
-            expected += "⬡ ⬡ ⬡ ⬡ ⬡";
-            expected += " ⬡ ✔ ✔ ⬡ ";
-            expected += "⬡ ✔ ★ ✔ ⬡";
-            expected += " ⬡ ✔ ✔ ⬡ ";
-            expected += "⬡ ⬡ ⬡ ⬡ ⬡";
+            expected += "⏣ ⬡ ⏣ ⏣ ⏣";
+            expected += " ⏣ ✔ ✔ ⏣ ⬡";
+            expected += "⏣ ✔ ★ ⏣ ⏣";
+            expected += " ⏣ ✔ ✔ ✔ ⏣";
+            expected += "⬡ ⏣ ⏣ ✔ ⏣";
+            expected += " ⬡ ⏣ ⏣ ⏣ ⏣";
 
-            var beetle = Creatures.Beetle;
+            var ant = Creatures.Ant;
 
-            beetle.Should().HaveMoves(initial, expected);
+            ant.Should().HaveMoves(initial, expected);
         }
+
         [Fact]
         public void HasNeighborsOccupiedRule()
         {
@@ -67,14 +70,14 @@ namespace Hive.Domain.Tests.CreatureTests
             var expected = new ExpectedHiveBuilder();
 
             expected += "⬡ ⬡ ⬡ ⬡ ⬡";
-            expected += " ⬡ ✔ ⬡ ⬡ ";
-            expected += "⬡ ✔ ★ ✔ ⬡";
-            expected += " ⬡ ✔ ✔ ⬡ ";
-            expected += "⬡ ⬡ ⬡ ⬡ ⬡";
+            expected += " ✔ ✔ ⬡ ⬡ ";
+            expected += "✔ ⏣ ★ ✔ ⬡";
+            expected += " ✔ ⏣ ⏣ ✔ ";
+            expected += "⬡ ✔ ✔ ✔ ⬡";
 
-            var beetle = Creatures.Beetle;
+            var ant = Creatures.Ant;
 
-            beetle.Should().HaveMoves(initial, expected);
+            ant.Should().HaveMoves(initial, expected);
         }
     }
 }
