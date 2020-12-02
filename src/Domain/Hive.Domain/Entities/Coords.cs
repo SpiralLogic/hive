@@ -1,9 +1,20 @@
+using System;
 using System.Collections.Generic;
 
 namespace Hive.Domain.Entities
 {
     public sealed record Coords(int Q, int R)
     {
+        public bool Equals(Coords? other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
+            return Q == other.Q && R == other.R;
+        }
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(Q, R);
+        }
         internal ISet<Coords> GetNeighbors() =>
             new HashSet<Coords>
             {
