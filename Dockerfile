@@ -14,7 +14,7 @@ COPY ./src .
 RUN dotnet publish -c release -o /app
 
 # final stage/image
-FROM mcr.microsoft.com/dotnet/runtime:5.0
+FROM mcr.microsoft.com/dotnet/aspnet:5.0
 WORKDIR /app
 COPY --from=dotnet-build /app .
 COPY --from=node-build /source/public ./wwwroot
