@@ -5,5 +5,9 @@ stages:
       dockerfilePath: ./Dockerfile
       buildContext: .
       tag: hive
+      pushRemote: true
+      registry: 127.0.0.1:34782
+  - applyYamlConfig:
+      path: ./deployment.yaml
 timeout: 60
 notification: {}
