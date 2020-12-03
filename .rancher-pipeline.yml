@@ -6,7 +6,7 @@ stages:
       buildContext: .
       tag: hive
       pushRemote: true
-      registry: 127.0.0.1:34782
+      registry: 10.1.0.34:5000/hive
   - applyYamlConfig:
       path: ./deployment.yaml
 timeout: 60
