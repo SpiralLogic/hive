@@ -2,7 +2,7 @@ kind: Service
 apiVersion: v1
 metadata:
   name: hive
-  namespace: hive
+  namespace: default
 spec:
   selector:
     app: hive
@@ -26,7 +26,6 @@ spec:
       app: hive
   template:
     metadata:
-    namespace: hive
     labels:
         app: hive
     spec:
