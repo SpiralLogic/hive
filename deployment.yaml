@@ -1,7 +1,8 @@
 kind: Service
 apiVersion: v1
 metadata:
-  name: hive-service
+  name: hive
+  namespace: hive
 spec:
   selector:
     app: hive
