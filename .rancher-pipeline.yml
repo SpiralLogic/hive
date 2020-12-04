@@ -1,4 +1,9 @@
 stages:
+- name: test
+  steps:
+  - publishImageConfig:
+      dockerfilePath: ./Dockerfile.test
+      buildContext: .
 - name: build
   steps:
   - publishImageConfig:
