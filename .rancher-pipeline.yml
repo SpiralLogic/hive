@@ -6,7 +6,7 @@ stages:
       buildContext: .
       tag: hive
       pushRemote: true
-      registry: https://10.1.0.34:5000/hive
+      registry: http://10.1.0.34:5000/hive
 - name: deploy
   steps:
   - applyYamlConfig:
