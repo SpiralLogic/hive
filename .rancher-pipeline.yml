@@ -21,8 +21,6 @@ stages:
       tag: hive
       pushRemote: true
       registry: 10.1.0.34:5000
-    env:
-      PLUGIN_INSECURE: "true"
 - name: deploy
   steps:
   - applyYamlConfig:
