@@ -2,9 +2,13 @@ stages:
 - name: test
   steps:
   - publishImageConfig:
-      dockerfilePath: ./Dockerfile.test
+      dockerfilePath: ./Dockerfile-Node.test
       buildContext: .
-      tag: hive-test
+      tag: hive-node-test
+  - publishImageConfig:
+      dockerfilePath: ./Dockerfile-Dotnet.test
+      buildContext: .
+      tag: hive-dotnet-test
 - name: build
   steps:
   - publishImageConfig:
