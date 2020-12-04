@@ -5,8 +5,6 @@ stages:
       dockerfilePath: ./Dockerfile.test
       buildContext: .
       tag: hive-test
-    env:
-      PLUGIN_INSECURE: "true"
 - name: build
   steps:
   - publishImageConfig:
