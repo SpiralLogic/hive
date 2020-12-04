@@ -1,27 +1,27 @@
 stages:
-- name: test
-  steps:
-  - runScriptConfig:
-      image: node:latest
-      shellScript: |-
-        curl  --retry 4 --retry-connrefused -L https://raw.githubusercontent.com/pnpm/self-installer/master/install.js | node
-        cd ./src/FrontEnd
-        pnpm install
-        pnpm test
-  - runScriptConfig:
-      image: mcr.microsoft.com/dotnet/sdk:5.0
-      shellScript: |-
-        cd ./src
-        dotnet test /p:CollectCoverage=true /p:CoverletOutput=TestResults/ /p:CoverletOutputFormat=lcov
-- name: build
-  steps:
-  - publishImageConfig:
-      dockerfilePath: ./Dockerfile
-      buildContext: .
-      tag: hive
-- name: deploy
-  steps:
-  - applyYamlConfig:
-      path: ./deployment.yaml
+  - name: test
+    steps:
+      - runScriptConfig:
+          image: node:latest
+          shellScript: |-
+            curl  --retry 4 --retry-connrefused -L https://raw.githubusercontent.com/pnpm/self-installer/master/install.js | node
+            cd ./src/FrontEnd
+            pnpm install
+            pnpm test
+      - runScriptConfig:
+          image: mcr.microsoft.com/dotnet/sdk:5.0
+          shellScript: |-
+            cd ./src
+            dotnet test /p:CollectCoverage=true /p:CoverletOutput=TestResults/ /p:CoverletOutputFormat=lcov
+  - name: build
+    steps:
+      - publishImageConfig:
+          dockerfilePath: ./Dockerfile
+          buildContext: .
+          tag: hive
+  - name: deploy
+    steps:
+      - applyYamlConfig:
+          path: ./deployment.yaml
 timeout: 60
 notification: {}

@@ -2,7 +2,7 @@ FROM node:12.18.1 as node-build
 
 WORKDIR /source
 COPY ./src/FrontEnd .
-RUN curl -L https://raw.githubusercontent.com/pnpm/self-installer/master/install.js | node
+RUN curl  --retry 4 --retry-connrefused https://raw.githubusercontent.com/pnpm/self-installer/master/install.js | node
 RUN pnpm install
 RUN pnpm run build
 
