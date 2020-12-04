@@ -19,8 +19,6 @@ stages:
       dockerfilePath: ./Dockerfile
       buildContext: .
       tag: hive
-      pushRemote: true
-      registry: 10.1.0.34:5000
 - name: deploy
   steps:
   - applyYamlConfig:

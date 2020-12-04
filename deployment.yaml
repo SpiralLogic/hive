@@ -32,6 +32,6 @@ spec:
     spec:
       containers:
       - name: hive
-        image: 10.1.0.34:5000/hive
+        image: hive
         ports:
         - containerPort: 80
