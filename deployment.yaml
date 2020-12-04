@@ -25,9 +25,6 @@ spec:
     matchLabels:
       app: hive
   template:
-    metadata:
-    labels:
-        app: hive
     spec:
       containers:
       - name: hive
