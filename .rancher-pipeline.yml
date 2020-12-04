@@ -4,7 +4,7 @@ stages:
   - runScriptConfig:
       image: node:latest
       shellScript: |-
-        curl --retry 4 --retry-connrefused -L https://raw.githubusercontent.com/pnpm/self-installer/master/install.js | node
+        curl  --retry 4 --retry-connrefused -L https://raw.githubusercontent.com/pnpm/self-installer/master/install.js | node
         cd ./src/FrontEnd
         pnpm install
         pnpm test
