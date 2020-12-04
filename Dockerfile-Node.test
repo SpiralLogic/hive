@@ -1,6 +1,0 @@
-FROM node:12.18.1
-WORKDIR /source
-COPY ./src/FrontEnd .
-RUN curl --retry 4 --retry-connrefused -L https://raw.githubusercontent.com/pnpm/self-installer/master/install.js | node
-RUN pnpm install
-RUN pnpm test

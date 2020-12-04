@@ -1,6 +1,0 @@
-FROM mcr.microsoft.com/dotnet/sdk:5.0
-WORKDIR /source
-
-# copy and publish app and libraries
-COPY ./src .
-RUN dotnet test /p:CollectCoverage=true /p:CoverletOutput=TestResults/ /p:CoverletOutputFormat=lcov
