@@ -16,6 +16,11 @@ stages:
         cd ./src/FrontEnd
         pnpm install
         pnpm test
+  - runScriptConfig:
+      image: mcr.microsoft.com/dotnet/sdk:5.0
+      shellScript: |-
+        cd ./src
+        dotnet test /p:CollectCoverage=true /p:CoverletOutput=TestResults/ /p:CoverletOutputFormat=lcov
 - name: build
   steps:
   - publishImageConfig:
