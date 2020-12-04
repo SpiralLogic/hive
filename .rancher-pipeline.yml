@@ -1,12 +1,10 @@
 stages:
-- name: test
+- name: test & test
   steps:
   - publishImageConfig:
       dockerfilePath: ./Dockerfile.test
       buildContext: .
       tag: hive-test
-- name: build
-  steps:
   - publishImageConfig:
       dockerfilePath: ./Dockerfile
       buildContext: .

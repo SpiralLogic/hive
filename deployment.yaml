@@ -17,6 +17,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: hive
+  namespace: hive
   labels:
     app: hive
 spec:
@@ -26,7 +27,8 @@ spec:
       app: hive
   template:
     metadata:
-      labels:
+    namespace: hive
+    labels:
         app: hive
     spec:
       containers:
