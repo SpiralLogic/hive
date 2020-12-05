@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
+using System.Net.NetworkInformation;
 using Hive.Domain.Entities;
 using Hive.Domain.Extensions;
 
@@ -22,6 +23,7 @@ namespace Hive.Domain
 
         public ISet<Cell> Cells { get; }
         public IList<Player> Players { get; }
+        public string Ip = IPGlobalProperties.GetIPGlobalProperties().HostName;
 
         public Hive(IEnumerable<string> playerNames)
         {
