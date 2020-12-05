@@ -1,7 +1,7 @@
 kind: Service
 apiVersion: v1
 metadata:
-  name: hive
+  name: hive-service
   namespace: default
 spec:
   selector:
@@ -16,7 +16,7 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: hive
+  name: hive-deployment
   labels:
     app: hive
 spec:
