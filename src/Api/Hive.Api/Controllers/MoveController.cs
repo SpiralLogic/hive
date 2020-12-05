@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Net.NetworkInformation;
 using System.Text.Json;
 using Hive.DTOs;
 using Microsoft.AspNetCore.Http;
@@ -24,15 +25,18 @@ namespace Hive.Controllers
         [HttpPost]
         public ActionResult Post([FromBody] Move move)
         {
-            var gameState = JsonSerializer.Deserialize<GameState>(HttpContext.Session.GetString(Constants.GameStateSessionKey),
-                _jsonSerializerOptions);
+            var gameState =
+                JsonSerializer.Deserialize<GameState>(HttpContext.Session.GetString(Constants.GameStateSessionKey),
+                    _jsonSerializerOptions);
             if (gameState == null) return NotFound();
 
             var game = new Domain.Hive(gameState.Players.ToList(), gameState.Cells.ToHashSet());
 
             game.Move(move.TileId, move.Coords);
 
-            var json = JsonSerializer.Serialize(new GameState(game.Players, game.Cells), _jsonSerializerOptions);
+            var json = JsonSerializer.Serialize(
+                new GameState(game.Players, game.Cells, IPGlobalProperties.GetIPGlobalProperties().HostName),
+                _jsonSerializerOptions);
             HttpContext.Session.SetString(Constants.GameStateSessionKey, json);
             return Accepted(game);
         }

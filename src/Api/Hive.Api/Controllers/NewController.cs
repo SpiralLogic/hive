@@ -1,4 +1,5 @@
-﻿using System.Text.Json;
+﻿using System.Net.NetworkInformation;
+using System.Text.Json;
 using Hive.DTOs;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -23,7 +24,7 @@ namespace Hive.Controllers
         public Domain.Hive Post()
         {
             var newGame = new Domain.Hive(new[] {"P1", "P2"});
-            var json = JsonSerializer.Serialize(new GameState(newGame.Players, newGame.Cells), _jsonSerializerOptions);
+            var json = JsonSerializer.Serialize(new GameState(newGame.Players, newGame.Cells, IPGlobalProperties.GetIPGlobalProperties().HostName), _jsonSerializerOptions);
             HttpContext.Session.SetString(Constants.GameStateSessionKey, json);
             return newGame;
         }
