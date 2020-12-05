@@ -20,16 +20,19 @@ metadata:
   labels:
     app: hive
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app: hive
   template:
+    metadata:
+      labels:
+        app: hive
     spec:
       imagePullSecrets:
-      - name: pipeline-docker-registry
+        - name: pipeline-docker-registry
       containers:
-      - name: hive
-        image: hive
-        ports:
-        - containerPort: 80
+        - name: hive
+          image: hive
+          ports:
+            - containerPort: 80
