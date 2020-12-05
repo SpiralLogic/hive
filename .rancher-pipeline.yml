@@ -15,17 +15,12 @@ stages:
         dotnet test /p:CollectCoverage=true /p:CoverletOutput=TestResults/ /p:CoverletOutputFormat=lcov
 - name: build
   steps:
-  - runScriptConfig:
-      image: node:latest
-      shellScript: |-
-        curl  --retry 4 --retry-connrefused -L https://raw.githubusercontent.com/pnpm/self-installer/master/install.js | node
-        cd ./src/FrontEnd
-        pnpm install
-        pnpm build
   - publishImageConfig:
       dockerfilePath: ./Dockerfile
       buildContext: .
       tag: hive:${CICD_EXECUTION_SEQUENCE}
+      env:
+        PLUGIN_CUSTOM_DNS: "8.8.8.8"
 - name: deploy
   steps:
   - applyYamlConfig:
