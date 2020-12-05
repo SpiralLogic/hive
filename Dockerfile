@@ -4,7 +4,7 @@ WORKDIR /source
 # copy and publish app and libraries
 COPY ./src .
 RUN dotnet publish -c release -o /app
-COPY ./src/FrontEnd/source/public /app/wwwroot
+COPY ./src/FrontEnd/public /app/wwwroot
 
 # final stage/image
 FROM mcr.microsoft.com/dotnet/aspnet:5.0
