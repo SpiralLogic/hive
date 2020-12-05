@@ -26,6 +26,8 @@ spec:
       app: hive
   template:
     spec:
+      imagePullSecrets:
+      - name: pipeline-docker-registry
       containers:
       - name: hive
         image: hive
