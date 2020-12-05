@@ -10,6 +10,7 @@ spec:
     - protocol: TCP
       port: 80
       targetPort: 80
+  type: LoadBalancer
   sessionAffinity: ClientIP
 ---
 apiVersion: apps/v1
