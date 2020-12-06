@@ -2,7 +2,7 @@ FROM node:12.18.1 as node-build
 
 WORKDIR /source
 COPY ./src/FrontEnd .
-RUN curl -L https://raw.githubusercontent.com/pnpm/self-installer/master/install.js | node
+RUN npm install -g pnpm
 RUN pnpm install
 RUN pnpm run build
 
