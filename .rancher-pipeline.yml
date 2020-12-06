@@ -9,7 +9,7 @@ stages:
         pnpm install
         pnpm test
   - runScriptConfig:
-      image: mcr.microsoft.com/dotnet/sdk:5.0
+      image: mcr.microsoft.com/dotnet/sdk:latest
       shellScript: |-
         cd ./src
         dotnet test /p:CollectCoverage=true /p:CoverletOutput=TestResults/ /p:CoverletOutputFormat=lcov
@@ -19,8 +19,6 @@ stages:
       dockerfilePath: ./Dockerfile
       buildContext: .
       tag: hive:${CICD_EXECUTION_SEQUENCE}
-      env:
-        PLUGIN_CUSTOM_DNS: "8.8.8.8"
 - name: deploy
   steps:
   - applyYamlConfig:
