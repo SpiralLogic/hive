@@ -23,7 +23,7 @@ metadata:
   name: hive-ingress
 spec:
   rules:
-    - host: "hive.10.1.2.1.xip.io"
+    - host: "xip.io"
       http:
         paths:
         - pathType: ImplementationSpecific
