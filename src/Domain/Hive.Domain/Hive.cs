@@ -9,15 +9,18 @@ namespace Hive.Domain
 {
     public class Hive
     {
-        private readonly ImmutableArray<Creature> _startingTiles = ImmutableArray.Create(
-            Creatures.Queen,
-             Creatures.Beetle,
-             Creatures.Grasshopper,
-             Creatures.Ant,
-             Creatures.Ant,
-             Creatures.Ant,
-             Creatures.Spider
-             );
+
+        private readonly ImmutableArray<Creature> _startingTiles = ImmutableArray.Create(Creatures.Queen,
+            Creatures.Spider,
+            Creatures.Spider,
+            Creatures.Beetle,
+            Creatures.Beetle,
+            Creatures.Grasshopper,
+            Creatures.Grasshopper,
+            Creatures.Grasshopper,
+            Creatures.Ant,
+            Creatures.Ant,
+            Creatures.Ant);
 
         private readonly Coords _initialCoords = new(0, 0);
 
@@ -44,7 +47,7 @@ namespace Hive.Domain
             var nextPlayer = Players.First(p => p.Id != movedTile.PlayerId);
             Cells.FindCell(coords).AddTile(movedTile);
             var loser = IsGameOver();
-            if (loser!=null)
+            if (loser != null)
             {
                 Cells.ExceptWith(Cells.WherePlayerOccupies(loser.TopTile().PlayerId));
                 return;
@@ -54,7 +57,6 @@ namespace Hive.Domain
             Cells.ExceptWith(Cells.WhereEmpty());
             Cells.UnionWith(Cells.CreateAllEmptyNeighbours());
 
-
             UpdatedPlacedTileMoves(nextPlayer);
             UpdatePlayerTileMoves(nextPlayer);
         }
@@ -62,7 +64,8 @@ namespace Hive.Domain
         private Cell? IsGameOver()
         {
             var queens = Cells.WhereOccupied().Where(c => c.IsQueen());
-            return queens.FirstOrDefault(q => Cells.SelectNeighbors(q).All(n => !n.IsEmpty() && n.TopTile().PlayerId != q.TopTile().PlayerId));
+            return queens.FirstOrDefault(q
+                => Cells.SelectNeighbors(q).All(n => !n.IsEmpty() && n.TopTile().PlayerId != q.TopTile().PlayerId));
         }
 
         private void UpdatePlayerTileMoves(Player player)
@@ -109,25 +112,18 @@ namespace Hive.Domain
 
             return (pTile != null)
                 ? Players.FindPlayerById(pTile.PlayerId).RemoveTile(pTile)
-                : Cells
-                    .WhereOccupied()
-                    .First(c => c.TopTile().Id == tileId)
-                    .RemoveTopTile();
+                : Cells.WhereOccupied().First(c => c.TopTile().Id == tileId).RemoveTopTile();
         }
 
+        private IList<Player> CreatePlayers(IEnumerable<string> playerNames) => playerNames
+            .Select((name, id) => new Player(id, name) {Tiles = CreateStartingTiles(id)})
+            .ToList();
 
-        private IList<Player> CreatePlayers(IEnumerable<string> playerNames) =>
-            playerNames.Select((name, id) => new Player(id, name) { Tiles = CreateStartingTiles(id) }).ToList();
-
-        private ISet<Tile> CreateStartingTiles(int playerId) =>
-            _startingTiles
+        private ISet<Tile> CreateStartingTiles(int playerId) => _startingTiles
             .Select((creature, i) => (creature, id: playerId * _startingTiles.Length + i))
-            .Select(t => new Tile(t.id, playerId, t.creature) { Moves = Cells.ToCoords() })
+            .Select(t => new Tile(t.id, playerId, t.creature) {Moves = Cells.ToCoords()})
             .ToHashSet();
 
-        private ISet<Cell> CreateCells() =>
-            _initialCoords
-            .GetNeighbors()
-            .Prepend(_initialCoords).ToCells();
+        private ISet<Cell> CreateCells() => _initialCoords.GetNeighbors().Prepend(_initialCoords).ToCells();
     }
 }
