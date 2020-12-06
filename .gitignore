@@ -460,3 +460,4 @@ $RECYCLE.BIN/
 package-lock.json
 *.sln.DotSettings.user
 __coverage__
+build/

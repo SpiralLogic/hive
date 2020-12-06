@@ -1,4 +1,5 @@
 import { FunctionComponent, h } from 'preact';
+import {JSXInternal} from "preact/src/jsx";
 import { PlayerId, Tile } from '../domain';
 import { deepEqual } from 'fast-equals';
 import { handleDrop } from '../handlers';
@@ -26,7 +27,7 @@ const TileFC: FunctionComponent<Props> = (props: Props) => {
 
   const attributes = {
     title: creature,
-    style: { '--color': getPlayerColor(playerId) },
+    style: { '--color': getPlayerColor(playerId) } as JSXInternal.CSSProperties,
     class: 'hex tile',
     draggable: !!moves.length,
     ondragstart: handleDragStart,

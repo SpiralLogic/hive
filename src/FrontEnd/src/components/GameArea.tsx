@@ -1,5 +1,6 @@
 import { CellDropEvent, useCellDropEmitter } from '../emitters';
 import { GameState } from '../domain';
+import {JSXInternal} from "preact/src/jsx";
 import { h } from 'preact';
 import { handleDragOver } from '../handlers';
 import { useEffect, useState } from 'preact/hooks';
@@ -14,7 +15,7 @@ const GameArea = () => {
   const attributes = {
     ondragover: handleDragOver,
     className: 'hive',
-    style: { '--hex-size': '50px' },
+    style: { '--hex-size': '50px' } as JSXInternal.CSSProperties,
   };
 
   useEffect(() => {
