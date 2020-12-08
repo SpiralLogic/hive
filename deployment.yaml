@@ -3,6 +3,7 @@ kind: Service
 apiVersion: v1
 metadata:
   name: hive-service
+  namespace: Hive
 spec:
   selector:
     app: hive
@@ -21,6 +22,7 @@ metadata:
     nginx.ingress.kubernetes.io/session-cookie-hash: sha1
     nginx.ingress.kubernetes.io/session-cookie-name: route
   name: hive-ingress
+  namespace: Hive
 spec:
   rules:
     - host: "xip.io"
@@ -36,6 +38,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: hive-deployment
+  namespace: Hive
   labels:
     app: hive
 spec:
