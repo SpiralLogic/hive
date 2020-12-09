@@ -13,8 +13,6 @@ stages:
       shellScript: |-
         cd ./src
         dotnet test /p:CollectCoverage=true /p:CoverletOutput=TestResults/ /p:CoverletOutputFormat=lcov
-- name: build
-  steps:
   - publishImageConfig:
       dockerfilePath: ./Dockerfile
       buildContext: .
