@@ -22,7 +22,7 @@ metadata:
     nginx.ingress.kubernetes.io/session-cookie-hash: sha1
     nginx.ingress.kubernetes.io/session-cookie-name: route
   name: hive-ingress
-  namespace: Hive
+  namespace: hive
 spec:
   rules:
     - host: "xip.io"
