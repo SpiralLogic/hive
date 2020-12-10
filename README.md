@@ -29,7 +29,7 @@ docker build -f Dockerfile -t hive .
 docker run -d -p 80:80 hive
 ```
 
-open browser https://localhost
+open browser http://localhost
 
 # Pipelines
 * github actions for CI
