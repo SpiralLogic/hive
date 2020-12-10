@@ -4,6 +4,8 @@ The frontend posts to either `/new` or `/move`
 
 both will return the full state of the game for render
 
-the return data for a new game is given as example of the game state
+# Response
+the return payload for a new game is given as example of what both end points return
 
-an example move request payload is provided too
+# Requests
+an example move request payload is provided. this corresponds to which tile to move and what coordinates to move to
