@@ -32,7 +32,7 @@ namespace Hive.Controllers
         [ProducesErrorResponseType(typeof(NotFoundResult))]
         public ActionResult Post(string id, [FromBody] Move move)
         {
-            var gameSession = HttpContext.Session.GetString(id);
+            var gameSession = _distributedCache.GetString(id);
             if (gameSession == null) return NotFound();
 
             var gameState = JsonSerializer.Deserialize<GameState>(gameSession, _jsonSerializerOptions);
@@ -43,7 +43,7 @@ namespace Hive.Controllers
             var newGameState = new GameState(game.Players, game.Cells, id);
 
             var json = JsonSerializer.Serialize(newGameState, _jsonSerializerOptions);
-            HttpContext.Session.SetString(id, json);
+            _distributedCache.SetString(id, json);
 
             return Accepted($"/game/{id}", newGameState);
         }

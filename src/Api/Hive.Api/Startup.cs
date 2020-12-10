@@ -14,14 +14,14 @@ namespace Hive
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDistributedMemoryCache();
-            services.AddSession(options => { options.IdleTimeout = TimeSpan.FromSeconds(600); });
+            services.AddStackExchangeRedisCache(options => options.Configuration = "redis-cluster:6379");
+        //    services.AddSession(options => { options.IdleTimeout = TimeSpan.FromSeconds(600); });
             services.AddControllers()
                 .AddJsonOptions(options =>
-                    {
-                        options.JsonSerializerOptions.Converters.Add(new CreatureJsonConverter());
-                        options.JsonSerializerOptions.Converters.Add(new StackJsonConverter());
-                    } 
-                );
+                {
+                    options.JsonSerializerOptions.Converters.Add(new CreatureJsonConverter());
+                    options.JsonSerializerOptions.Converters.Add(new StackJsonConverter());
+                });
 
         }
 
@@ -36,7 +36,7 @@ namespace Hive
             app.UseDefaultFiles();
             app.UseStaticFiles();
             app.UseRouting();
-            app.UseSession();
+         //   app.UseSession();
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
         }
     }

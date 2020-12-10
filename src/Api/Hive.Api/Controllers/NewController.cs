@@ -3,6 +3,7 @@ using System.Text.Json;
 using Hive.DTOs;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
@@ -11,10 +12,13 @@ namespace Hive.Controllers
     [ApiController]
     public class NewController : Controller
     {
+        private readonly IDistributedCache _distributedCache;
         private readonly JsonSerializerOptions _jsonSerializerOptions;
 
-        public NewController(ILogger<NewController> logger, IOptions<JsonOptions> jsonOptions)
+        public NewController(ILogger<NewController> logger, IOptions<JsonOptions> jsonOptions,
+            IDistributedCache distributedCache)
         {
+            _distributedCache = distributedCache;
             _jsonSerializerOptions = jsonOptions.Value.JsonSerializerOptions;
         }
 
@@ -28,7 +32,7 @@ namespace Hive.Controllers
             var newGame = new Domain.Hive(new[] {"P1", "P2"});
             var gameState = new GameState(newGame.Players, newGame.Cells, gameId);
             var json = JsonSerializer.Serialize(gameState, _jsonSerializerOptions);
-            HttpContext.Session.SetString(gameId, json);
+            _distributedCache.SetString(gameId, json);
 
             return Created($"/game/{gameId}", gameState);
         }
