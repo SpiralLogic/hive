@@ -9,7 +9,6 @@ using Microsoft.Extensions.Options;
 namespace Hive.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
     public class NewController : Controller
     {
         private readonly JsonSerializerOptions _jsonSerializerOptions;
@@ -20,13 +19,18 @@ namespace Hive.Controllers
         }
 
         [HttpPost]
+        [Route("api/new")]
         [Produces("application/json")]
-        public Domain.Hive Post()
+        public CreatedResult Post()
         {
+            var gameId = HttpContext.TraceIdentifier.Split(":")[0];
+
             var newGame = new Domain.Hive(new[] {"P1", "P2"});
-            var json = JsonSerializer.Serialize(new GameState(newGame.Players, newGame.Cells, IPGlobalProperties.GetIPGlobalProperties().HostName), _jsonSerializerOptions);
-            HttpContext.Session.SetString(Constants.GameStateSessionKey, json);
-            return newGame;
+            var gameState = new GameState(newGame.Players, newGame.Cells, gameId);
+            var json = JsonSerializer.Serialize(gameState, _jsonSerializerOptions);
+            HttpContext.Session.SetString(gameId, json);
+
+            return Created($"/game/{gameId}", gameState);
         }
     }
 }

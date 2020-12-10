@@ -27,8 +27,6 @@ namespace Hive.Domain
         public ISet<Cell> Cells { get; }
         public IList<Player> Players { get; }
 
-        public string Ip { get; } = IPGlobalProperties.GetIPGlobalProperties().HostName;
-
         public Hive(IEnumerable<string> playerNames)
         {
             Cells = CreateCells();
