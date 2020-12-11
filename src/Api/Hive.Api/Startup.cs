@@ -24,7 +24,7 @@ namespace Hive
                 {
                     options.PayloadSerializerOptions.Converters.Add(new CreatureJsonConverter());
                     options.PayloadSerializerOptions.Converters.Add(new StackJsonConverter());
-                })
+                });
             if (_currentEnvironment.IsProduction())
             {
                 services.AddStackExchangeRedisCache(options => options.Configuration = "redis-cluster:6379");
