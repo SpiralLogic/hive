@@ -22,18 +22,30 @@ const updateLocation = ({id}: { id: string }) => {
 }
 
 const newRequest = async (): Promise<GameState> => {
-    const response = await fetch('/api/new', {
-        method: 'POST',
-        headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(''),
-    });
+    const locationParts = window.location.pathname.split('/');
+    const loadExistingGame = locationParts[1] === 'game' && locationParts[2]
+    const response = (loadExistingGame) ? await fetchExistingGame(locationParts[2]) : await fetchNewGame();
     const gameState = await response.json();
     updateLocation(gameState);
     return gameState;
 };
+
+const fetchExistingGame = (id: string) => fetch(`/api/game/${id}`, {
+    method: `GET`,
+    headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+    },
+});
+
+const fetchNewGame = () => fetch(`/api/new`, {
+    method: `POST`,
+    headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(''),
+});
 
 const Engine: HexEngine = {
     newGame: newRequest,
