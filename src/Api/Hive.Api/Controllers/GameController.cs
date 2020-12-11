@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Distributed;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
 namespace Hive.Controllers
@@ -13,11 +12,12 @@ namespace Hive.Controllers
     public class GameController : Controller
     {
         private readonly IDistributedCache _distributedCache;
-        private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly JsonSerializerOptions _jsonSerializerOptions;
 
-        public GameController(ILogger<NewController> logger, IOptions<JsonOptions> jsonOptions,
-            IDistributedCache distributedCache)
+        public GameController(
+            IOptions<JsonOptions> jsonOptions,
+            IDistributedCache distributedCache
+            )
         {
             _distributedCache = distributedCache;
             _jsonSerializerOptions = jsonOptions.Value.JsonSerializerOptions;

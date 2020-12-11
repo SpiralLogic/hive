@@ -1,5 +1,5 @@
-using System;
 using Hive.Converters;
+using Hive.Hubs;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
@@ -28,7 +28,12 @@ namespace Hive
             {
                 services.AddDistributedMemoryCache();
             }
-
+            services.AddSignalR()
+                .AddJsonProtocol(options =>
+                {
+                    options.PayloadSerializerOptions.Converters.Add(new CreatureJsonConverter());
+                    options.PayloadSerializerOptions.Converters.Add(new StackJsonConverter());
+                });
             services.AddControllers()
                 .AddJsonOptions(options =>
                 {
@@ -48,7 +53,11 @@ namespace Hive
             app.UseDefaultFiles();
             app.UseStaticFiles();
             app.UseRouting();
-            app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+                endpoints.MapHub<GameHub>("/gamehub");
+            });
         }
     }
 }

@@ -1,5 +1,6 @@
 import {CellDropEvent, useCellDropEmitter} from '../emitters';
 import {GameState} from '../domain';
+import {HubConnectionBuilder} from "@microsoft/signalr";
 import {JSXInternal} from "preact/src/jsx";
 import {h} from 'preact';
 import {handleDragOver} from '../handlers';
@@ -19,6 +20,10 @@ const GameArea = () => {
     };
 
     useEffect(() => {
+        return Engine.onUpdate(setGameState);
+    }, []);
+
+    useEffect(() => {
         const fetch = async () => {
             setGameState(await Engine.newGame());
         };
@@ -26,12 +31,11 @@ const GameArea = () => {
     }, []);
 
     useEffect(() => {
-        const cellDropListener = async (e: CellDropEvent) =>
-            setGameState(await Engine.moveTile(e.move));
+        const cellDropListener = (e: CellDropEvent) => Engine.moveTile(e.move);
 
         cellDropEmitter.add(cellDropListener);
         return () => cellDropEmitter.remove(cellDropListener);
-    }, [cellDropEmitter,gameState]);
+    }, [cellDropEmitter, gameState]);
 
     if (!gameState) {
         return <h1>loading !</h1>;
