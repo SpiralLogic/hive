@@ -19,21 +19,23 @@ namespace Hive
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+              var sigR = services.AddSignalR()
+                .AddJsonProtocol(options =>
+                {
+                    options.PayloadSerializerOptions.Converters.Add(new CreatureJsonConverter());
+                    options.PayloadSerializerOptions.Converters.Add(new StackJsonConverter());
+                })
             if (_currentEnvironment.IsProduction())
             {
                 services.AddStackExchangeRedisCache(options => options.Configuration = "redis-cluster:6379");
+                sigR.AddStackExchangeRedisCache("redis-cluster:6379");
 
             }
             else
             {
                 services.AddDistributedMemoryCache();
             }
-            services.AddSignalR()
-                .AddJsonProtocol(options =>
-                {
-                    options.PayloadSerializerOptions.Converters.Add(new CreatureJsonConverter());
-                    options.PayloadSerializerOptions.Converters.Add(new StackJsonConverter());
-                });
+          ;
             services.AddControllers()
                 .AddJsonOptions(options =>
                 {
