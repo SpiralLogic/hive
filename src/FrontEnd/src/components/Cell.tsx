@@ -22,10 +22,11 @@ const CellFC: FunctionComponent<Props> = (props: Props) => {
     const isValidMove = (validMoves: HexCoordinates[]) =>
         validMoves.some((dest) => deepEqual(coords, dest));
     const [classes, setClasses] = useState('hex cell');
+    const clearActive = () => setClasses(classes.replace(' active', ''));
 
     function handleDragLeave(ev: { stopPropagation: () => void }) {
         ev.stopPropagation();
-        setClasses(classes.replace(' active', ''));
+        clearActive();
     }
 
     function handleDragEnter(ev: { stopPropagation: () => void }) {
@@ -60,6 +61,8 @@ const CellFC: FunctionComponent<Props> = (props: Props) => {
         ondragover: handleDragOver,
         ondragleave: handleDragLeave,
         ondragenter: handleDragEnter,
+        onmouseenter: handleDragEnter,
+        onmouseleave: handleDragLeave,
     };
 
     return (
