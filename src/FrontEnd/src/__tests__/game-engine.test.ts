@@ -102,10 +102,11 @@ describe('Game Engine', () => {
         expect(withUrl).toBeCalledWith('http://localhost/gamehub');
     })
 
-    it('dispose stops websocket', () => {
-        const handler = jest.fn();
-        const dispose = Engine.onUpdate(handler);
-        dispose();
-        expect(hubConnection.stop).toBeCalled();
-    })
+        it('websocket', () => {
+            const handler = jest.fn();
+            const dispose = Engine.onUpdate(handler);
+            dispose();
+            expect(hubConnection.stop).toBeCalled();
+        })
+    });
 });

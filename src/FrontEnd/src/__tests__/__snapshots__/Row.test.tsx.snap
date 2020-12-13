@@ -1,5 +1,21 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Row Row tests Row snapshot 1`] = `
+<div
+  class="hex-row"
+>
+  <div
+    class="hex cell"
+  />
+  <div
+    class="hex cell"
+  />
+  <div
+    class="hidden"
+  />
+</div>
+`;
+
 exports[`Row test Row snapshot 1`] = `
 <div
   class="hex-row"

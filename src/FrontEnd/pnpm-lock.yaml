@@ -25,6 +25,7 @@ devDependencies:
   ts-node: 9.1.0_typescript@4.1.2
   tslib: 2.0.3
   typescript: 4.1.2
+  weak-napi: 2.0.2
 lockfileVersion: 5.2
 packages:
   /@babel/code-frame/7.10.4:
@@ -2476,6 +2477,16 @@ packages:
       node: '>=8'
     resolution:
       integrity: sha512-nBF+F1rAZVCu/p7rjzgA+Yb4lfYXrpl7a6VmJrU8wF9I1CKvP/QwPNZHnOlwbTkY6dvtFIzFMSyQXbLoTQPRpA==
+  /get-symbol-from-current-process-h/1.0.2:
+    dev: true
+    resolution:
+      integrity: sha512-syloC6fsCt62ELLrr1VKBM1ggOpMdetX9hTrdW77UQdcApPHLmf7CI7OKcN1c9kYuNxKcDe4iJ4FY9sX3aw2xw==
+  /get-uv-event-loop-napi-h/1.0.6:
+    dependencies:
+      get-symbol-from-current-process-h: 1.0.2
+    dev: true
+    resolution:
+      integrity: sha512-t5c9VNR84nRoF+eLiz6wFrEp1SE2Acg0wS+Ysa2zF0eROes+LzOfuTaVHxGy8AbS8rq7FHEJzjnCZo1BupwdJg==
   /get-value/2.0.6:
     dev: true
     engines:
@@ -3925,12 +3936,21 @@ packages:
     dev: true
     resolution:
       integrity: sha512-1nh45deeb5olNY7eX82BkPO7SSxR5SSYJiPTrTdFUVYwAl8CKMA5N9PjTYkHiRjisVcxcQ1HXdLhx2qxxJzLNQ==
+  /node-addon-api/3.0.2:
+    dev: true
+    resolution:
+      integrity: sha512-+D4s2HCnxPd5PjjI0STKwncjXTUKKqm74MDMz9OPXavjsGmjkvwgLtA5yoxJUdmpj52+2u+RrXgPipahKczMKg==
   /node-fetch/2.6.1:
     dev: false
     engines:
       node: 4.x || >=6.0.0
     resolution:
       integrity: sha512-V4aYg89jEoVRxRb2fJdAg8FHvI7cEyYdVAh94HH0UIK8oJxUfkjlDQN9RbMx+bEjP7+ggMiFRprSti032Oipxw==
+  /node-gyp-build/4.2.3:
+    dev: true
+    hasBin: true
+    resolution:
+      integrity: sha512-MN6ZpzmfNCRM+3t57PTJHgHyw/h4OWnZ6mR8P5j/uZtqQr46RRuDE/P+g3n0YR/AiYXeWixZZzaip77gdICfRg==
   /node-int64/0.4.0:
     dev: true
     resolution:
@@ -4666,6 +4686,13 @@ packages:
       node: '>=0.10.0'
     resolution:
       integrity: sha512-JxHc1weCN68wRY0fhCoXpyK55m/XPHafOmK4UWD7m2CI14GMcFypt4w/0+NV5f/ZMby2F6S2wwA7fgynh9gWSw==
+  /setimmediate-napi/1.0.6:
+    dependencies:
+      get-symbol-from-current-process-h: 1.0.2
+      get-uv-event-loop-napi-h: 1.0.6
+    dev: true
+    resolution:
+      integrity: sha512-sdNXN15Av1jPXuSal4Mk4tEAKn0+8lfF9Z50/negaQMrAIO9c1qM0eiCh8fT6gctp0RiCObk+6/Xfn5RMGdZoA==
   /shebang-command/1.2.0:
     dependencies:
       shebang-regex: 1.0.0
@@ -5402,6 +5429,15 @@ packages:
     dev: true
     resolution:
       integrity: sha1-L3+bj9ENZ3JisYqITijRlhjgKPs=
+  /weak-napi/2.0.2:
+    dependencies:
+      node-addon-api: 3.0.2
+      node-gyp-build: 4.2.3
+      setimmediate-napi: 1.0.6
+    dev: true
+    requiresBuild: true
+    resolution:
+      integrity: sha512-LcOSVFrghtVXf4QH+DLIy8iPiCktV7lVbqRDYP+bDPpLzC41RCHQPMyQOnPpWO41Ie4CmnDxS+mbL72r5xFMMQ==
   /webidl-conversions/5.0.0:
     dev: true
     engines:
@@ -5594,3 +5630,4 @@ specifiers:
   ts-node: ^9.1.0
   tslib: ^2.0.3
   typescript: ^4.1.2
+  weak-napi: ^2.0.2

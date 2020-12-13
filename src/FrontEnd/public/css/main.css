@@ -120,6 +120,10 @@ body {
     margin: calc(var(--size) + var(--margin)) var(--margin);
 }
 
+.tile[draggable="false"] {
+    opacity: 30%;
+}
+
 .tile span {
     font-size: 50%;
 }
