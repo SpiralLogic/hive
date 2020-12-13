@@ -2,7 +2,7 @@
   "profiles": {
     "Hive": {
       "commandName": "Project",
-      "launchBrowser": true,
+      "launchBrowser": false,
       "environmentVariables": {
         "NODE_ENV": "development",
         "ASPNETCORE_ENVIRONMENT": "Development"

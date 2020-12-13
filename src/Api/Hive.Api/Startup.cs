@@ -19,7 +19,8 @@ namespace Hive
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            var sigR = services.AddSignalR()
+            var sigR = services
+                .AddSignalR()
                 .AddJsonProtocol(options =>
                 {
                     options.PayloadSerializerOptions.Converters.Add(new CreatureJsonConverter());

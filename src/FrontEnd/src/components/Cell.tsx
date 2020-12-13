@@ -1,10 +1,6 @@
-import {Cell, HexCoordinates} from '../domain';
+import {Cell, HexCoordinates, Tile as TileType} from '../domain';
 import {FunctionComponent, h} from 'preact';
-import {
-    TileDragEvent,
-    useCellDropEmitter,
-    useTileDragEmitter,
-} from '../emitters';
+import {TileDragEvent, useCellDropEmitter, useTileDragEmitter,} from '../emitters';
 import {deepEqual} from 'fast-equals';
 import {handleDragOver} from '../handlers';
 import {memo} from 'preact/compat';
@@ -22,31 +18,39 @@ const CellFC: FunctionComponent<Props> = (props: Props) => {
     const isValidMove = (validMoves: HexCoordinates[]) =>
         validMoves.some((dest) => deepEqual(coords, dest));
     const [classes, setClasses] = useState('hex cell');
-    const clearActive = () => setClasses(classes.replace(' active', ''));
+    const [currentTile, setCurrentTile] = useState<TileType | null>(null);
 
     function handleDragLeave(ev: { stopPropagation: () => void }) {
         ev.stopPropagation();
-        clearActive();
+        setClasses(classes.replace(' active', ''))
     }
 
     function handleDragEnter(ev: { stopPropagation: () => void }) {
         ev.stopPropagation();
-        setClasses(classes + ' active');
+        if (currentTile) setClasses(classes + ' active');
+    }
+
+    function handleClickEvent(ev: { stopPropagation: () => void }) {
+        ev.stopPropagation();
+        if (currentTile) {
+            tileDragEmitter.emit({type: 'end', tile: currentTile})
+        }
     }
 
     const handleTileEvent = (e: TileDragEvent) => {
         const valid = isValidMove(e.tile.moves);
         if (e.type === 'start' && valid) {
             setClasses(classes + ' can-drop');
+            setCurrentTile(e.tile)
         }
 
         if (e.type === 'end') {
-            if (valid && classes.includes('active'))
+            if (valid && currentTile && classes.includes('active'))
                 cellDropEmitter.emit({
                     type: 'drop',
-                    move: {coords, tileId: e.tile.id},
+                    move: {coords, tileId: currentTile.id},
                 });
-
+            setCurrentTile(null);
             setClasses('hex cell');
         }
     };
@@ -63,6 +67,7 @@ const CellFC: FunctionComponent<Props> = (props: Props) => {
         ondragenter: handleDragEnter,
         onmouseenter: handleDragEnter,
         onmouseleave: handleDragLeave,
+        onclick: handleClickEvent,
     };
 
     return (

@@ -1,11 +1,11 @@
+import {CellDropEvent, TileDragEvent, useCellDropEmitter, useTileDragEmitter} from '../emitters';
 import {FunctionComponent, h} from 'preact';
 import {JSXInternal} from "preact/src/jsx";
 import {PlayerId, Tile} from '../domain';
 import {deepEqual} from 'fast-equals';
 import {handleDrop} from '../handlers';
 import {memo} from 'preact/compat';
-import {useState} from "preact/hooks";
-import {useTileDragEmitter} from '../emitters';
+import {useEffect, useState} from "preact/hooks";
 
 type Props = Tile;
 
@@ -17,6 +17,7 @@ const getPlayerColor = (playerId: PlayerId) => {
 const TileFC: FunctionComponent<Props> = (props: Props) => {
     const {id, moves, creature, playerId} = props;
     const tileDragEmitter = useTileDragEmitter();
+    const cellDropEmitter = useCellDropEmitter();
     const [isClicked, setIsClicked] = useState(false);
 
     function handleDragStart() {
@@ -25,22 +26,30 @@ const TileFC: FunctionComponent<Props> = (props: Props) => {
     }
 
     function handleDragEnd() {
-        setIsClicked(false);
         tileDragEmitter.emit({type: 'end', tile: props});
     }
+
+    const handleCellEvent = (e: CellDropEvent) => {
+        setIsClicked(false);
+    };
+
+    useEffect(() => {
+        cellDropEmitter.add(handleCellEvent);
+        return () => cellDropEmitter.remove(handleCellEvent);
+    } );
 
     const attributes = {
         title: creature,
         style: {'--color': getPlayerColor(playerId)} as JSXInternal.CSSProperties,
         class: 'hex tile',
         draggable: !!moves.length,
-        ondrop: handleDrop,
+        ondrop: handleDragStart,
     };
 
     const handlers = moves.length ? {
         ondragstart: handleDragStart,
         ondragend: handleDragEnd,
-        onclick: () => isClicked ? handleDragEnd() : handleDragStart(),
+        onclick: attributes.draggable ? handleDragStart : undefined,
     } : {};
 
 

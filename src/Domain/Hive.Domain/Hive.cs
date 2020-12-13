@@ -44,6 +44,7 @@ namespace Hive.Domain
             var movedTile = FindAndRemoveTile(tileId);
             var nextPlayer = Players.First(p => p.Id != movedTile.PlayerId);
             Cells.FindCell(coords).AddTile(movedTile);
+            ClearAllTileMoves();
             var loser = IsGameOver();
             if (loser != null)
             {
@@ -51,7 +52,6 @@ namespace Hive.Domain
                 return;
             }
 
-            ClearAllTileMoves();
             Cells.ExceptWith(Cells.WhereEmpty());
             Cells.UnionWith(Cells.CreateAllEmptyNeighbours());
 
