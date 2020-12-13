@@ -13,7 +13,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <Folder Include="wwwroot" />
         <Content Remove="obj\**" />
     </ItemGroup>
     <ItemGroup>

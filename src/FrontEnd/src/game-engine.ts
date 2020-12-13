@@ -50,7 +50,7 @@ const fetchNewGame = async (): Promise<GameState> => {
     return await response.json();
 };
 
-const onUpdate = (handler: GameStateUpdateHandler) :GameStateHandlerDispose => {
+const onUpdate = (handler: GameStateUpdateHandler): GameStateHandlerDispose => {
     const connection = new HubConnectionBuilder().withUrl(`${window.location.protocol}//${window.location.host}/gamehub`).build();
     connection.start().then();
     connection.on("ReceiveGameState", handler)

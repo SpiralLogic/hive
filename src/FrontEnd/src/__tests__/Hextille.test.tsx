@@ -29,20 +29,20 @@ describe('Hextille', () => {
     };
 
     describe('Hextille tests', () => {
-        test('can be created with 1 cell', () => {
+        it('can be created with 1 cell', () => {
             const {rows, cells} = createWithCells([0, 0]);
 
             expect(cells).toHaveLength(1);
             expect(rows).toHaveLength(1);
         });
 
-        test('r increases rows', () => {
+        it('r increases rows', () => {
             const {rows} = createWithCells([0, 0], [0, 1], [0, 2]);
 
             expect(rows).toHaveLength(3);
         });
 
-        test('cells are sorted', () => {
+        it('cells are sorted', () => {
             const {cells} = createWithCells([2, 0], [1, 0], [3, 0]);
 
             expect(cells[0]).toHaveTextContent('1-0');
@@ -50,7 +50,7 @@ describe('Hextille', () => {
             expect(cells[2]).toHaveTextContent('3-0');
         });
 
-        test('rows are sorted', () => {
+        it('rows are sorted', () => {
             const {rows} = createWithCells([0, 3], [0, 1], [0, 2]);
 
             expect(rows[0]).toHaveTextContent('0-1');
@@ -60,13 +60,13 @@ describe('Hextille', () => {
     });
 
     describe('Row alignment', () => {
-        test('shifts left when even rows have odd starting  index', () => {
+        it('shifts left when even rows have odd starting  index', () => {
             const {hextille} = createWithCells([0, 1], [0, 2], [0, 3]);
 
             expect(hextille).toHaveClass('left');
         });
 
-        test('shifts right when even rows have even starting index', () => {
+        it('shifts right when even rows have even starting index', () => {
             const {hextille} = createWithCells([0, 2], [0, 3], [0, 4]);
 
             expect(hextille).toHaveClass('right');
@@ -74,7 +74,7 @@ describe('Hextille', () => {
     });
 
     describe('Hextille Snapshot', () => {
-        test('can move matches current snapshot', () => {
+        it('can move matches current snapshot', () => {
             expect(
                 createWithCells([0, -2], [1, -2], [-1, 3], [0, 4], [5, 2], [3, 3], [1, 4])
             ).toMatchSnapshot();

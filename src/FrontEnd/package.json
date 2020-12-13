@@ -48,8 +48,6 @@
     "clearMocks": true,
     "coverageDirectory": "./src/__tests__/__coverage__",
     "collectCoverage": true,
-    "detectOpenHandles": true,
-    "detectLeaks": true,
     "moduleDirectories": [
       "node_modules"
     ],
