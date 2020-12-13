@@ -34,13 +34,13 @@ const TileFC: FunctionComponent<Props> = (props: Props) => {
         style: {'--color': getPlayerColor(playerId)} as JSXInternal.CSSProperties,
         class: 'hex tile',
         draggable: !!moves.length,
+        ondrop: handleDrop,
     };
 
     const handlers = moves.length ? {
         ondragstart: handleDragStart,
         ondragend: handleDragEnd,
-        onclick: isClicked ? handleDragEnd : handleDragStart,
-        ondrop: handleDrop,
+        onclick: () => isClicked ? handleDragEnd() : handleDragStart(),
     } : {};
 
 
