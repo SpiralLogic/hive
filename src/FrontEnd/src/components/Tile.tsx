@@ -25,7 +25,8 @@ const TileFC: FunctionComponent<Props> = (props: Props) => {
         tileDragEmitter.emit({type: 'end', tile: props});
     }
 
-    function handleClick() {
+    function handleClick(ev: { stopPropagation: () => void }) {
+        ev.stopPropagation();
         tileDragEmitter.emit({type: 'end', tile: props});
         tileDragEmitter.emit({type: 'start', tile: props});
     }
