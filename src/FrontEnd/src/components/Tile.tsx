@@ -18,10 +18,8 @@ const TileFC: FunctionComponent<Props> = (props: Props) => {
     const {id, moves, creature, playerId} = props;
     const tileDragEmitter = useTileDragEmitter();
     const cellDropEmitter = useCellDropEmitter();
-    const [isClicked, setIsClicked] = useState(false);
 
     function handleDragStart() {
-        setIsClicked(true);
         tileDragEmitter.emit({type: 'start', tile: props});
     }
 
@@ -30,7 +28,6 @@ const TileFC: FunctionComponent<Props> = (props: Props) => {
     }
 
     const handleCellEvent = (e: CellDropEvent) => {
-        setIsClicked(false);
     };
 
     useEffect(() => {

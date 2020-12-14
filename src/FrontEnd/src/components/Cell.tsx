@@ -17,21 +17,22 @@ const CellFC: FunctionComponent<Props> = (props: Props) => {
     ];
     const isValidMove = (validMoves: HexCoordinates[]) =>
         validMoves.some((dest) => deepEqual(coords, dest));
-    const [classes, setClasses] = useState('hex cell');
+    const [classes, setClasses] = useState(['hex', 'cell']);
     const [currentTile, setCurrentTile] = useState<TileType | null>(null);
 
     function handleDragLeave(ev: { stopPropagation: () => void }) {
         ev.stopPropagation();
-        setClasses(classes.replace(' active', ''))
+        setClasses(classes.filter(e => e !== 'active'))
     }
 
     function handleDragEnter(ev: { stopPropagation: () => void }) {
         ev.stopPropagation();
-        if (currentTile) setClasses(classes + ' active');
+        if (currentTile) setClasses([...classes, 'active']);
     }
 
     function handleClickEvent(ev: { stopPropagation: () => void }) {
         ev.stopPropagation();
+        setClasses([...classes, 'active']);
         if (currentTile) {
             tileDragEmitter.emit({type: 'end', tile: currentTile})
         }
@@ -40,7 +41,7 @@ const CellFC: FunctionComponent<Props> = (props: Props) => {
     const handleTileEvent = (e: TileDragEvent) => {
         const valid = isValidMove(e.tile.moves);
         if (e.type === 'start' && valid) {
-            setClasses(classes + ' can-drop');
+            setClasses([...classes, 'can-drop']);
             setCurrentTile(e.tile)
         }
 
@@ -51,7 +52,7 @@ const CellFC: FunctionComponent<Props> = (props: Props) => {
                     move: {coords, tileId: currentTile.id},
                 });
             setCurrentTile(null);
-            setClasses('hex cell');
+            setClasses(['hex', 'cell']);
         }
     };
 
@@ -61,7 +62,7 @@ const CellFC: FunctionComponent<Props> = (props: Props) => {
     });
 
     const attributes = {
-        className: classes,
+        className: classes.join(' '),
         ondragover: handleDragOver,
         ondragleave: handleDragLeave,
         ondragenter: handleDragEnter,

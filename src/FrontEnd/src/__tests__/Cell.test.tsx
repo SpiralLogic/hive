@@ -120,7 +120,7 @@ describe('Cell', () => {
             });
         });
 
-        test(`drop calls move tile when cell doesn't allow drop`, () => {
+        test(`drop doesnt call move tile when cell doesn't allow drop`, () => {
             jest.spyOn(useCellDropEmitter(), 'emit');
             createCellWithTileNoDrop();
             createCellNoDrop();
@@ -138,7 +138,7 @@ describe('Cell', () => {
             expect(moveTileSpy).not.toHaveBeenCalled();
         });
 
-        test('active and no-drop classes are removed on drag leave', () => {
+        test('active classes are removed on drag leave', () => {
             createCellWithTile();
             createCellWithNoTile();
             createCellWithTileNoDrop();
@@ -148,7 +148,19 @@ describe('Cell', () => {
             document.querySelectorAll('.cell').forEach((c) => fireEvent.dragLeave(c));
 
             expect(document.getElementsByClassName('active')).toHaveLength(0);
-            expect(document.getElementsByClassName('no-drop')).toHaveLength(0);
+        });
+
+        test('active and can-drop classes are removed on drop', () => {
+            createCellWithTile();
+            createCellWithNoTile();
+            createCellWithTileNoDrop();
+            createCellNoDrop();
+            emitTileEvent('start');
+            document.querySelectorAll('.cell').forEach((c) => fireEvent.dragEnter(c));
+            emitTileEvent('end');
+
+            expect(document.getElementsByClassName('active')).toHaveLength(0);
+            expect(document.getElementsByClassName('can-drop')).toHaveLength(0);
         });
     });
 

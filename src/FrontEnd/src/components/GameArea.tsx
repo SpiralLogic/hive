@@ -1,6 +1,5 @@
 import {CellDropEvent, useCellDropEmitter} from '../emitters';
 import {GameState} from '../domain';
-import {HubConnectionBuilder} from "@microsoft/signalr";
 import {JSXInternal} from "preact/src/jsx";
 import {h} from 'preact';
 import {handleDragOver} from '../handlers';
@@ -20,7 +19,11 @@ const GameArea = () => {
     };
 
     useEffect(() => {
-        return Engine.onUpdate(setGameState);
+        const update = (gameState:GameState) => {
+            if(gameState.gameId === gameState.gameId)
+                setGameState(gameState);
+        }
+        return Engine.onUpdate(update);
     }, []);
 
     useEffect(() => {
