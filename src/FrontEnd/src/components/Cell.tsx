@@ -22,7 +22,7 @@ const CellFC: FunctionComponent<Props> = (props: Props) => {
 
     function handleDragLeave(ev: { stopPropagation: () => void }) {
         ev.stopPropagation();
-        setClasses(classes.filter(e => e !== 'active'))
+        if (currentTile)    setClasses(classes.filter(e => e !== 'active'))
     }
 
     function handleDragEnter(ev: { stopPropagation: () => void }) {
@@ -31,9 +31,8 @@ const CellFC: FunctionComponent<Props> = (props: Props) => {
     }
 
     function handleClickEvent(ev: { stopPropagation: () => void }) {
-        ev.stopPropagation();
-        setClasses([...classes, 'active']);
         if (currentTile) {
+            setClasses([...classes, 'active']);
             tileDragEmitter.emit({type: 'end', tile: currentTile})
         }
     }
@@ -43,9 +42,9 @@ const CellFC: FunctionComponent<Props> = (props: Props) => {
         if (e.type === 'start' && valid) {
             setClasses([...classes, 'can-drop']);
             setCurrentTile(e.tile)
-        }
-
-        if (e.type === 'end') {
+        } else if (e.type === "start") {
+            setCurrentTile(e.tile)
+        } else if (e.type === 'end') {
             if (valid && currentTile && classes.includes('active'))
                 cellDropEmitter.emit({
                     type: 'drop',

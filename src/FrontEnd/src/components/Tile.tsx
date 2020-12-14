@@ -25,6 +25,11 @@ const TileFC: FunctionComponent<Props> = (props: Props) => {
         tileDragEmitter.emit({type: 'end', tile: props});
     }
 
+    function handleClick() {
+        tileDragEmitter.emit({type: 'end', tile: props});
+        if (moves.length) tileDragEmitter.emit({type: 'start', tile: props});
+    }
+
     const attributes = {
         title: creature,
         style: {'--color': getPlayerColor(playerId)} as JSXInternal.CSSProperties,
@@ -36,7 +41,7 @@ const TileFC: FunctionComponent<Props> = (props: Props) => {
     const handlers = moves.length ? {
         ondragstart: handleDragStart,
         ondragend: handleDragEnd,
-        onclick: attributes.draggable ? handleDragStart : undefined,
+        onclick: handleClick,
     } : {};
 
 
