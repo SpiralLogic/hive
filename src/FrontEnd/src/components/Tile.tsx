@@ -27,7 +27,7 @@ const TileFC: FunctionComponent<Props> = (props: Props) => {
 
     function handleClick() {
         tileDragEmitter.emit({type: 'end', tile: props});
-        if (moves.length) tileDragEmitter.emit({type: 'start', tile: props});
+        tileDragEmitter.emit({type: 'start', tile: props});
     }
 
     const attributes = {
@@ -38,10 +38,10 @@ const TileFC: FunctionComponent<Props> = (props: Props) => {
         ondrop: handleDrop,
     };
 
-    const handlers = moves.length ? {
+    const handlers = attributes.draggable ? {
+        onclick: handleClick,
         ondragstart: handleDragStart,
         ondragend: handleDragEnd,
-        onclick: handleClick,
     } : {};
 
 
