@@ -5,7 +5,7 @@
   "scripts": {
     "test": "npx tsc --noEmit && npx jest --coverage",
     "build": "pnpx tsc --noEmit && esbuild ./src/index.tsx --bundle  --sourcemap --outfile=./public/js/index.js",
-    "prestart": "rimraf -rf ./public/js/index.js* && rimraf -rf ../Api/Hive.Api/wwwroot && pnpm run build && pnpx copy  ./public/** ../Api/Hive.Api/wwwroot",
+    "prestart": "rimraf -rf ./public/js/index.js* && rimraf -rf ../Api/Hive.Api/wwwroot  && rimraf -rf ../Api/Hive.Api/bin && pnpm run build && pnpx copy  ./public/** ../Api/Hive.Api/wwwroot",
     "start": "dotnet watch -v -p ../Api/Hive.Api run",
     "preinstall": "npx only-allow pnpm"
   },
