@@ -21,10 +21,14 @@ metadata:
     nginx.ingress.kubernetes.io/affinity: cookie
     nginx.ingress.kubernetes.io/session-cookie-hash: sha1
     nginx.ingress.kubernetes.io/session-cookie-name: route
-    cert-manager.io/issuer: "letsencrypt-production"
+    #cert-manager.io/issuer: "letsencrypt-production"
   name: hive-ingress
   namespace: hive
 spec:
+  tls:
+    - hosts:
+      - sorhome.sorijen.net.au
+      secretName: tls-secret
   rules:
     - host: "xip.io"
       http:
