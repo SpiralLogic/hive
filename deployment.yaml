@@ -23,6 +23,7 @@ metadata:
     nginx.ingress.kubernetes.io/session-cookie-hash: sha1
     nginx.ingress.kubernetes.io/session-cookie-name: route
     cert-manager.io/cluster-issuer: homelab-issuer
+    acme.cert-manager.io/http01-edit-in-place: "true"
   name: hive-ingress
   namespace: hive
 spec:
