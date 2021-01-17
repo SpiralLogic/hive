@@ -28,7 +28,7 @@ spec:
   tls:
     - hosts:
       - sorhome.sorijen.net.au
-      secretName: tls-secret
+      secretName: letsencrypt-prod
   rules:
     - host: "xip.io"
       http:
