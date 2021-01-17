@@ -21,7 +21,7 @@ metadata:
     nginx.ingress.kubernetes.io/affinity: cookie
     nginx.ingress.kubernetes.io/session-cookie-hash: sha1
     nginx.ingress.kubernetes.io/session-cookie-name: route
-    #cert-manager.io/issuer: "letsencrypt-production"
+    cert-manager.io/issuer: letsencrypt-prod
   name: hive-ingress
   namespace: hive
 spec:
