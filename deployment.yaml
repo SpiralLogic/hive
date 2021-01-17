@@ -18,38 +18,30 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   annotations:
+    kubernetes.io/ingress.class: nginx
     nginx.ingress.kubernetes.io/affinity: cookie
     nginx.ingress.kubernetes.io/session-cookie-hash: sha1
     nginx.ingress.kubernetes.io/session-cookie-name: route
     cert-manager.io/issuer: letsencrypt-prod
+    cert-manager.io/acme-challenge-type: http01
   name: hive-ingress
   namespace: hive
 spec:
   tls:
     - hosts:
-      - sorhome.sorijen.net.au
-      secretName: letsencrypt-prod
+        - "sorhome.sorijen.net.au"
+      secretName: hive-tls-secret
   rules:
-    - host: "xip.io"
-      http:
-        paths:
-        - backend:
-            service:
-              name: hive-service
-              port:
-                number: 80
-          path: /
-          pathType: ImplementationSpecific
     - host: "sorhome.sorijen.net.au"
       http:
         paths:
-        - backend:
-            service:
-              name: hive-service
-              port:
-                number: 80
-          path: /
-          pathType: ImplementationSpecific
+          - backend:
+              service:
+                name: hive-service
+                port:
+                  number: 80
+            path: /
+            pathType: ImplementationSpecific
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -77,4 +69,4 @@ spec:
             - containerPort: 80
           env:
             - name: ASPNETCORE_ENVIRONMENT
-              value: Production
+              value: production
