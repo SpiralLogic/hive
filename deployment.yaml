@@ -33,7 +33,31 @@ metadata:
   name: hive-staging
   namespace: hive
 spec:
-  selfSigned: {}
+  acme:
+    server: https://acme-staging-v02.api.letsencrypt.org/directory
+    email: sol@sorijen.net.au
+    privateKeySecretRef:
+      name: letsencrypt-staging
+    solvers:
+      - http01:
+          ingress:
+            class:  nginx
+---
+apiVersion: cert-manager.io/v1
+kind: Issuer
+metadata:
+  name: hive-prod
+  namespace: hive
+spec:
+  acme:
+    server: https://acme-v02.api.letsencrypt.org/directory
+    email: sol@sorijen.net.au
+    privateKeySecretRef:
+      name: letsencrypt-prod
+    solvers:
+      - http01:
+          ingress:
+            class:  nginx
 ---
 kind: Service
 apiVersion: v1
@@ -54,7 +78,7 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   annotations:
-    cert-manager.io/issuer: hive-staging
+    cert-manager.io/issuer: hive-prod
     nginx.ingress.kubernetes.io/affinity: cookie
     nginx.ingress.kubernetes.io/session-cookie-hash: sha1
     nginx.ingress.kubernetes.io/session-cookie-name: route
@@ -75,4 +99,4 @@ spec:
   tls:
     - hosts:
         - sorhome.sorijen.net.au
-      secretName: hive-cert-staging-tls
+      secretName: hive-cert-prod-tls
