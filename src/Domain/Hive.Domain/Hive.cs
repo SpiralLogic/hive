@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
-using System.Net.NetworkInformation;
 using Hive.Domain.Entities;
 using Hive.Domain.Extensions;
 
@@ -9,7 +9,6 @@ namespace Hive.Domain
 {
     public class Hive
     {
-
         private readonly ImmutableArray<Creature> _startingTiles = ImmutableArray.Create(Creatures.Queen,
             Creatures.Spider,
             Creatures.Spider,
@@ -35,14 +34,18 @@ namespace Hive.Domain
 
         public Hive(IList<Player> players, ISet<Cell> cells)
         {
-            Cells = cells;
-            Players = players;
+            Cells = cells ?? throw new ArgumentNullException(nameof(cells));
+            Players = players ?? throw new ArgumentNullException(nameof(players));
+            ;
         }
 
         public void Move(int tileId, Coords coords)
         {
+            if (!IsValidMove(tileId, coords)) return;
+
             var movedTile = FindAndRemoveTile(tileId);
             var nextPlayer = Players.First(p => p.Id != movedTile.PlayerId);
+
             Cells.FindCell(coords).AddTile(movedTile);
             ClearAllTileMoves();
             var loser = IsGameOver();
@@ -102,6 +105,13 @@ namespace Hive.Domain
             {
                 tile.Moves.Clear();
             }
+        }
+        private bool IsValidMove(int tileId, Coords coords)
+        {
+            return Players.SelectMany(p => p.Tiles)
+                .Union(Cells.SelectMany(p => p.Tiles))
+                .Single(t => t.Id == tileId)
+                .Moves.Contains(coords);
         }
 
         private Tile FindAndRemoveTile(int tileId)
