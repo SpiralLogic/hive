@@ -19,12 +19,14 @@ const GameArea = () => {
     };
 
     useEffect(() => {
+        if (!gameState?.gameId) return;
+
         const update = (gameState:GameState) => {
             if(gameState.gameId === gameState.gameId)
                 setGameState(gameState);
         }
         return Engine.onUpdate(update);
-    }, []);
+    }, [gameState?.gameId]);
 
     useEffect(() => {
         const fetch = async () => {

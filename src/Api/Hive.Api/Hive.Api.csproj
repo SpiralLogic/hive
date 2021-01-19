@@ -13,6 +13,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <Content Remove="wwwroot\**" />
         <Content Remove="obj\**" />
     </ItemGroup>
     <ItemGroup>
@@ -23,11 +24,4 @@
       <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="5.0.1" />
       <PackageReference Include="StackExchange.Redis" Version="2.2.4" />
     </ItemGroup>
-    <ItemGroup>
-      <_ContentIncludedByDefault Remove="wwwroot\css\main.css" />
-      <_ContentIncludedByDefault Remove="wwwroot\index.html" />
-      <_ContentIncludedByDefault Remove="wwwroot\js\index.js" />
-      <_ContentIncludedByDefault Remove="wwwroot\js\index.js.map" />
-    </ItemGroup>
-
 </Project>

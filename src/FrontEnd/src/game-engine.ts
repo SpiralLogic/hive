@@ -11,8 +11,11 @@ const updateLocationUrl = ({gameId}: GameState) => {
     window.history.replaceState({gameId}, document.title, `/game/${gameId}`);
 }
 
+const getGameId = () => window.history.state.gameId;
+
 const moveRequest = async (move: Move): Promise<GameState> => {
-    const response = await fetch(`/api/move/${window.history.state.gameId}`, {
+    const gameId = getGameId();
+    const response = await fetch(`/api/move/${gameId}`, {
         method: 'POST',
         headers: requestHeaders,
         body: JSON.stringify(move),
@@ -51,7 +54,9 @@ const fetchNewGame = async (): Promise<GameState> => {
 };
 
 const onUpdate = (handler: GameStateUpdateHandler): GameStateHandlerDispose => {
-    const connection = new HubConnectionBuilder().withUrl(`${window.location.protocol}//${window.location.host}/gamehub`).build();
+    const gameId = getGameId();
+    const hubUrl = `${window.location.protocol}//${window.location.host}/gamehub/${gameId}`;
+    const connection = new HubConnectionBuilder().withUrl(hubUrl).build();
     connection.start().then();
     connection.on("ReceiveGameState", handler)
     return () => {

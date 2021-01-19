@@ -72,9 +72,11 @@ describe('GameEngine', () => {
         });
 
         it('calls onUpdate handler', () => {
+            global. window.history.replaceState({gameId:667}, document.title, `/game/667`);
+
             const handler = jest.fn();
             const dispose = Engine.onUpdate(handler);
-            expect(withUrl).toBeCalledWith('http://localhost/gamehub');
+            expect(withUrl).toBeCalledWith('http://localhost/gamehub/667');
         })
 
         it('websocket', () => {

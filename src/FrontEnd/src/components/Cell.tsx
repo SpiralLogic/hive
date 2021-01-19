@@ -31,17 +31,21 @@ const CellFC: FunctionComponent<Props> = (props: Props) => {
     }
 
     function moveTile() {
+        const isActive = classes.includes('active');
+        setClasses(['hex', 'cell']);
+
         if (!currentTile) return
-        if (isValidMove(currentTile.moves) && currentTile && classes.includes('active'))
+        if (isValidMove(currentTile.moves) && currentTile && isActive) {
             cellDropEmitter.emit({
                 type: 'drop',
                 move: {coords, tileId: currentTile.id},
             });
+            setCurrentTile(null);
+        }
     }
 
     function handleClickEvent(ev: { stopPropagation: () => void }) {
         if (currentTile) {
-            moveTile();
             tileDragEmitter.emit({type: 'end', tile: currentTile});
         }
     }
@@ -55,8 +59,6 @@ const CellFC: FunctionComponent<Props> = (props: Props) => {
             setCurrentTile(e.tile)
         } else if (e.type === 'end') {
             moveTile();
-            setCurrentTile(null);
-            setClasses(['hex', 'cell']);
         }
     };
 
