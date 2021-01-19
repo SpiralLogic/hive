@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hive-deployment
+  namespace: hive
+  labels:
+    app: hive
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: hive
+  template:
+    metadata:
+      labels:
+        app: hive
+    spec:
+      imagePullSecrets:
+        - name: pipeline-docker-registry
+      containers:
+        - name: hive
+          image: ${CICD_IMAGE}:${CICD_EXECUTION_SEQUENCE}
+          ports:
+            - containerPort: 80
+          env:
+            - name: ASPNETCORE_ENVIRONMENT
+              value: production

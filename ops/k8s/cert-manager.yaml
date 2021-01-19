@@ -1,0 +1,15 @@
+﻿apiVersion: cert-manager.io/v1
+kind: Issuer
+metadata:
+  name: hive-issuer
+  namespace: hive
+spec:
+  acme:
+    server: https://acme-v02.api.letsencrypt.org/directory
+    email: sorijen@sorijen.net.au
+    privateKeySecretRef:
+      name: letsencrypt
+    solvers:
+      - http01:
+          ingress:
+            class:  nginx

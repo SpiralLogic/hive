@@ -14,12 +14,12 @@ stages:
         cd ./src
         dotnet test /p:CollectCoverage=true /p:CoverletOutput=TestResults/ /p:CoverletOutputFormat=lcov
   - publishImageConfig:
-      dockerfilePath: ./Dockerfile
+      dockerfilePath: ./ops/dockerfile
       buildContext: .
       tag: hive:${CICD_EXECUTION_SEQUENCE}
 - name: deploy
   steps:
   - applyYamlConfig:
-      path: ./deployment.yaml
+      path: ./ops/k8s/deployment.yaml
 timeout: 60
 notification: {}
