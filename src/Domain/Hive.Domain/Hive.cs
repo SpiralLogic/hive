@@ -63,11 +63,9 @@ namespace Hive.Domain
         }
 
         private Cell? IsGameOver()
-        {
-            var queens = Cells.WhereOccupied().Where(c => c.IsQueen());
-            return queens.FirstOrDefault(q
-                => Cells.SelectNeighbors(q).All(n => !n.IsEmpty() && n.TopTile().PlayerId != q.TopTile().PlayerId));
-        }
+            => Cells.WhereOccupied()
+                .Where(c => c.IsQueen())
+                .FirstOrDefault(q => q.SelectNeighbors(Cells).All(n => !n.IsEmpty()));
 
         private void UpdatePlayerTileMoves(Player player)
         {
