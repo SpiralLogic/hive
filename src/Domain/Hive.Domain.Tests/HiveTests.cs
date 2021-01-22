@@ -158,11 +158,11 @@ namespace Hive.Domain.Tests
                 hive.Move(z.Second.Id, z.Second.Moves.First());
             }
 
-            hive.Players
-                .SelectMany(p => p.Tiles)
+            hive.Players.SelectMany(p => p.Tiles)
                 .Union(hive.Cells.SelectMany(c => c.Tiles))
                 .Where(t => t.Moves.Any())
-                .Select(t => t.Creature).Should()!.BeEquivalentTo(Creatures.Queen);
+                .Select(t => t.Creature)
+                .Should()!.BeEquivalentTo(Creatures.Queen);
         }
 
         [Fact]
