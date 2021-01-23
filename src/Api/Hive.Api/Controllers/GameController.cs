@@ -41,7 +41,6 @@ namespace Hive.Controllers
         [ProducesErrorResponseType(typeof(NotFoundResult))]
         public ActionResult<GameState> GetGame(string id)
         {
-
             var gameSession = _distributedCache.GetString(id);
             if (gameSession == null) return NotFound();
 
