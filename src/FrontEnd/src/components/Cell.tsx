@@ -31,7 +31,7 @@ const CellFC: FunctionComponent<Props> = (props: Props) => {
     }
 
     function moveTile() {
-        const isActive = classes.includes('active');
+        const isActive = currentTile?.moves.find(c=> c.q==coords.q && c.r==coords.r)!==undefined;
         setClasses(['hex', 'cell']);
 
         if (!currentTile) return
