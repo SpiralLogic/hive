@@ -1,10 +1,11 @@
-import {GameState} from './game-state';
+import {GameId, GameState} from './game-state';
 import {Move} from './move';
 
 export type GameStateUpdateHandler = (gameState: GameState) => void;
-export type GameStateHandlerDispose = ()=>void;
+
 export type HexEngine = {
-    onUpdate: (handler: GameStateUpdateHandler) => GameStateHandlerDispose;
+    connectGame: (gameId: GameId, handler: GameStateUpdateHandler) => { getConnectionState:()=> Promise<  "Disconnected" | "Connecting" | "Connected" | "Disconnecting" | "Reconnecting">,closeConnection: () => Promise<void> };
     newGame: () => Promise<GameState>;
-    moveTile: (move: Move) => Promise<GameState>;
+    moveTile: (gameId: GameId, move: Move) => Promise<GameState>;
+    getGameRequest: (gameId: GameId) => Promise<GameState>;
 };

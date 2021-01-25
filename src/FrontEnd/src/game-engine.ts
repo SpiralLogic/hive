@@ -1,38 +1,20 @@
 import {GameId, GameState, Move} from './domain';
-import {GameStateHandlerDispose, GameStateUpdateHandler, HexEngine} from './domain/engine';
-import {HubConnectionBuilder} from "@microsoft/signalr";
+import {GameStateUpdateHandler, HexEngine} from './domain/engine';
+import {HubConnection, HubConnectionBuilder, HubConnectionState} from "@microsoft/signalr";
 
 const requestHeaders = {
     'Accept': 'application/json',
     'Content-Type': 'application/json',
 };
 
-const updateLocationUrl = ({gameId}: GameState) => {
-    window.history.replaceState({gameId}, document.title, `/game/${gameId}`);
-}
-
-const getGameId = () => window.history.state.gameId;
-
-const moveRequest = async (move: Move): Promise<GameState> => {
-    const gameId = getGameId();
+const moveTile = async (gameId: GameId, move: Move): Promise<GameState> => {
     const response = await fetch(`/api/move/${gameId}`, {
         method: 'POST',
         headers: requestHeaders,
         body: JSON.stringify(move),
     });
 
-    const gameState = await response.json();
-    updateLocationUrl(gameState);
-    return gameState;
-};
-
-const newRequest = async (): Promise<GameState> => {
-    const locationParts = window.location.pathname.split('/');
-    const loadExistingGame = locationParts[1] === 'game' && locationParts[2]
-    const gameState = (loadExistingGame) ? await getGameRequest(locationParts[2]) : await fetchNewGame();
-
-    updateLocationUrl(gameState);
-    return gameState;
+    return await response.json();
 };
 
 const getGameRequest = async (gameId: GameId): Promise<GameState> => {
@@ -52,23 +34,45 @@ const fetchNewGame = async (): Promise<GameState> => {
     });
     return await response.json();
 };
+const getGameId = () => window.history.state?.gameId;
 
-const onUpdate = (handler: GameStateUpdateHandler): GameStateHandlerDispose => {
-    const gameId = getGameId();
+const getConnection = async (gameId: GameId, prevConnection?: HubConnection | undefined) => {
+    if (prevConnection !== undefined && prevConnection.state === HubConnectionState.Connected) return prevConnection;
     const hubUrl = `${window.location.protocol}//${window.location.host}/gamehub/${gameId}`;
-    const connection = new HubConnectionBuilder().withUrl(hubUrl).build();
-    connection.start().then();
-    connection.on("ReceiveGameState", handler)
-    return () => {
-        connection.off("ReceiveGameState", handler);
-        connection.stop().then();
+    const newConnection = new HubConnectionBuilder().withUrl(hubUrl).build();
+    await newConnection.start();
+    return newConnection;
+}
+
+const connectGame = (gameId: GameId, handler: GameStateUpdateHandler) => {
+    let connection: HubConnection | undefined;
+
+    getConnection(gameId).then((c) => {
+        connection = c;
+        connection.on("ReceiveGameState", onUpdate)
+    });
+
+    const onUpdate = (gameState: GameState) => {
+        if (getGameId() !== gameState.gameId) return;
+        handler(gameState)
+    };
+
+    return {
+        getConnectionState: async () => ((await getConnection(gameId, connection)).state ?? HubConnectionState.Disconnected),
+        closeConnection: async () => {
+            connection = await getConnection(gameId, connection);
+            if (getGameId() !== gameId || connection.state !== HubConnectionState.Connected) return;
+            connection.off("ReceiveGameState", handler);
+            connection.stop().then();
+        }
     }
 }
 
 const Engine: HexEngine = {
-    newGame: newRequest,
-    moveTile: moveRequest,
-    onUpdate: onUpdate,
+    newGame: fetchNewGame,
+    getGameRequest: getGameRequest,
+    moveTile,
+    connectGame: connectGame,
 };
 
 export default Engine;

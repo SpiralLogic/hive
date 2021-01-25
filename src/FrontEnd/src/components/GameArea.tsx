@@ -1,50 +1,29 @@
 import {CellDropEvent, useCellDropEmitter} from '../emitters';
-import {GameState} from '../domain';
+import {FunctionComponent, h} from 'preact';
+import {GameState, MoveTile} from '../domain';
 import {JSXInternal} from "preact/src/jsx";
-import {h} from 'preact';
 import {handleDragOver} from '../handlers';
-import {useEffect, useState} from 'preact/hooks';
-import Engine from '../game-engine';
+import {useEffect} from 'preact/hooks';
 import Hextille from './Hextille';
 import PlayerList from './PlayerList';
 
-const GameArea = () => {
-    const [gameState, setGameState] = useState<GameState | undefined>(undefined);
+type Props = { gameState: GameState, moveTile: MoveTile }
+
+const GameArea: FunctionComponent<Props> = ({gameState, moveTile}) => {
     const cellDropEmitter = useCellDropEmitter();
+
+    useEffect(() => {
+        const cellDropListener = (e: CellDropEvent) => moveTile(gameState.gameId, e.move);
+        cellDropEmitter.add(cellDropListener);
+
+        return () => cellDropEmitter.remove(cellDropListener);
+    }, [cellDropEmitter, gameState.gameId]);
 
     const attributes = {
         ondragover: handleDragOver,
         className: 'hive',
         style: {'--hex-size': '50px'} as JSXInternal.CSSProperties,
     };
-
-    useEffect(() => {
-        if (!gameState?.gameId) return;
-
-        const update = (gameState:GameState) => {
-            if(gameState.gameId === gameState.gameId)
-                setGameState(gameState);
-        }
-        return Engine.onUpdate(update);
-    }, [gameState?.gameId]);
-
-    useEffect(() => {
-        const fetch = async () => {
-            setGameState(await Engine.newGame());
-        };
-        fetch().then();
-    }, []);
-
-    useEffect(() => {
-        const cellDropListener = (e: CellDropEvent) => Engine.moveTile(e.move);
-
-        cellDropEmitter.add(cellDropListener);
-        return () => cellDropEmitter.remove(cellDropListener);
-    }, [cellDropEmitter, gameState]);
-
-    if (!gameState) {
-        return <h1>loading !</h1>;
-    }
 
     return (
         <div {...attributes}>

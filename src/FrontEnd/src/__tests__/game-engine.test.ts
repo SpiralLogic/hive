@@ -62,7 +62,7 @@ describe('GameEngine', () => {
         });
 
         it('move tile', async () => {
-            const response = await Engine.moveTile({
+            const response = await Engine.moveTile("1", {
                 tileId: 1,
                 coords: {q: 0, r: 0},
             });
@@ -72,17 +72,16 @@ describe('GameEngine', () => {
         });
 
         it('calls onUpdate handler', () => {
-            global. window.history.replaceState({gameId:667}, document.title, `/game/667`);
+            global.window.history.replaceState({gameId: 667}, document.title, `/game/667`);
 
             const handler = jest.fn();
-            const dispose = Engine.onUpdate(handler);
+            const { closeConnection} = Engine.connectGame("667", handler);
             expect(withUrl).toBeCalledWith('http://localhost/gamehub/667');
         })
 
         it('websocket', () => {
             const handler = jest.fn();
-            const dispose = Engine.onUpdate(handler);
-            dispose();
+            const {closeConnection} = Engine.connectGame("1", handler);
             expect(hubConnection.stop).toBeCalled();
         })
     });

@@ -1,5 +1,5 @@
 import 'preact/debug';
 import {h, render} from 'preact';
-import GameArea from './components/GameArea';
+import App from "./components/App";
 
-render(h(GameArea, {}), document.body);
+render(h(App, {}), document.body);
