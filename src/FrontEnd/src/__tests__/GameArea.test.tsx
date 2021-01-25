@@ -31,19 +31,6 @@ beforeEach(() => {
     Engine.moveTile = jest.fn().mockResolvedValue(gameAfterMove);
 });
 
-test('shows loading', () => {
-    const gameArea = renderElement(<GameArea gameState={gameState} moveTile={Engine.moveTile}/>);
-    expect(gameArea).toMatchSnapshot();
-});
-
-test('shows game when loaded', async () => {
-    const gameArea = render(<GameArea gameState={gameState} moveTile={Engine.moveTile}/>);
-    await Engine.newGame();
-    gameArea.rerender(<GameArea gameState={gameState} moveTile={Engine.moveTile}/>);
-    expect(Hextille).toHaveBeenCalledTimes(1);
-    expect(PlayerList).toHaveBeenCalledTimes(1);
-});
-
 test('default on drop is prevented', async () => {
     const gameArea = render(<GameArea gameState={gameState} moveTile={Engine.moveTile}/>);
     await Engine.newGame();

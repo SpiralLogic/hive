@@ -34,7 +34,6 @@ const fetchNewGame = async (): Promise<GameState> => {
     });
     return await response.json();
 };
-const getGameId = () => window.history.state?.gameId;
 
 const getConnection = async (gameId: GameId, prevConnection?: HubConnection | undefined) => {
     if (prevConnection !== undefined && prevConnection.state === HubConnectionState.Connected) return prevConnection;
@@ -53,7 +52,7 @@ const connectGame = (gameId: GameId, handler: GameStateUpdateHandler) => {
     });
 
     const onUpdate = (gameState: GameState) => {
-        if (getGameId() !== gameState.gameId) return;
+        if (gameId !== gameState.gameId) return;
         handler(gameState)
     };
 
@@ -61,7 +60,7 @@ const connectGame = (gameId: GameId, handler: GameStateUpdateHandler) => {
         getConnectionState: async () => ((await getConnection(gameId, connection)).state ?? HubConnectionState.Disconnected),
         closeConnection: async () => {
             connection = await getConnection(gameId, connection);
-            if (getGameId() !== gameId || connection.state !== HubConnectionState.Connected) return;
+            if (connection.state !== HubConnectionState.Connected) return;
             connection.off("ReceiveGameState", handler);
             connection.stop().then();
         }
@@ -70,7 +69,7 @@ const connectGame = (gameId: GameId, handler: GameStateUpdateHandler) => {
 
 const Engine: HexEngine = {
     newGame: fetchNewGame,
-    getGameRequest: getGameRequest,
+    getGame: getGameRequest,
     moveTile,
     connectGame: connectGame,
 };

@@ -42,14 +42,10 @@ describe('GameEngine', () => {
             expect(response.players).toHaveLength(2);
         });
 
-        it('existing game', async () => {
-            const location = window.location;
-            // @ts-ignore
-            delete global.window.location;
-            // @ts-ignore
-            global.window.location = {...location, pathname: '/game/33'};
 
-            const response = await Engine.newGame();
+        it('existing game', async () => {
+
+            const response = await Engine.getGame('33');
             expect(global.fetch).toBeCalledWith("/api/game/33", {
                 "headers": {
                     "Accept": "application/json",
@@ -75,14 +71,15 @@ describe('GameEngine', () => {
             global.window.history.replaceState({gameId: 667}, document.title, `/game/667`);
 
             const handler = jest.fn();
-            const { closeConnection} = Engine.connectGame("667", handler);
+            const {closeConnection} = Engine.connectGame("667", handler);
             expect(withUrl).toBeCalledWith('http://localhost/gamehub/667');
         })
 
-        it('websocket', () => {
+        it('websocket', async () => {
             const handler = jest.fn();
-            const {closeConnection} = Engine.connectGame("1", handler);
-            expect(hubConnection.stop).toBeCalled();
+            const {getConnectionState, closeConnection} = Engine.connectGame("33", handler);
+            const connectionState = await getConnectionState();
+            expect(connectionState).toEqual("Disconnected");
         })
     });
 });

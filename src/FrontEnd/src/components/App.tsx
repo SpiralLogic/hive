@@ -10,12 +10,11 @@ const App: FunctionComponent = () => {
     const locationParts = window.location.pathname.split('/');
     const loadExistingGame = locationParts[1] === 'game' && locationParts[2]
 
-    const existingGame = (): Promise<GameState> => Engine.getGameRequest(locationParts[2]);
+    const existingGame = (): Promise<GameState> => Engine.getGame(locationParts[2]);
 
     useEffect(() => {
         const getInitial = loadExistingGame ? existingGame : Engine.newGame;
         getInitial().then(gameState => {
-            window.history.replaceState({gameId: gameState.gameId}, document.title, `/game/${gameState.gameId}`);
             setGameState(gameState);
         });
         setLoading(gameState === undefined);
