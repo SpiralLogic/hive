@@ -16,8 +16,8 @@ namespace Hive.Domain.Extensions
             return enumerable.SelectCoords().SelectMany(coords => coords.GetNeighbors()).SelectCells().Except(enumerable.WhereOccupied()).ToHashSet();
         }
 
-        internal static IEnumerable<Cell> SelectNeighbors(this Cell cell, IEnumerable<Cell> cells)
-            => cells.SelectNeighbors(cell);
+        internal static IEnumerable<Cell> SelectNeighbors(this Cell cell, IEnumerable<Cell> fromCells)
+            => fromCells.SelectNeighbors(cell);
 
         internal static IEnumerable<Cell> RemoveCell(this IEnumerable<Cell> cells, Cell cell)
             => cells.Except(new[] { cell });
@@ -45,10 +45,10 @@ namespace Hive.Domain.Extensions
 
         internal static IEnumerable<Coords> SelectCoords(this IEnumerable<Cell> cells)
             => cells.Select(c => c.Coords);
-        
+
         internal static bool IsQueen(this Cell cell)
             => !cell.IsEmpty() && cell.TopTile().IsQueen();
-        
+
         internal static bool IsQueen(this Tile tile)
             => tile.Creature.Equals(Creatures.Queen);
 

@@ -7,24 +7,34 @@ namespace Hive.Domain.Rules
 {
     public class CanSlide : IRule
     {
-        private readonly ISet<Cell> _checked = new HashSet<Cell>();
 
         public ISet<Coords> ApplyRule(Cell originCell, ISet<Cell> allCells)
         {
-            _checked.Clear();
-            return GetSlidableNeighbors(originCell, allCells).ToCoords();
+            var moves = new HashSet<Cell>();
+            GetSlidableNeighbors(originCell, moves, allCells);
+            return moves.ToCoords();
         }
 
-        private IEnumerable<Cell> GetSlidableNeighbors(Cell start, ISet<Cell> allCells)
+        private void GetSlidableNeighbors(Cell move, ISet<Cell> moves, ISet<Cell> allCells)
         {
-            _checked.Add(start);
-            var neighbors = allCells.SelectNeighbors(start).ToHashSet();
-            var newSlideTo = neighbors.WhereEmpty().Where(end => CanSlideTo(end, neighbors, allCells)).ToList();
+            var neighbors = move.SelectNeighbors(allCells).ToHashSet();
 
-            return newSlideTo.Union(newSlideTo.Except(_checked).SelectMany(c => GetSlidableNeighbors(c, allCells)));
+            var unvisitedAdjacentSlidable = neighbors
+                .WhereEmpty()
+                .Where(end
+                    => end
+                        .SelectNeighbors(allCells)
+                        .Intersect(neighbors)
+                        .WhereOccupied()
+                        .Count() != 2)
+                .Except(moves)
+                .ToHashSet();
+
+            moves.UnionWith(unvisitedAdjacentSlidable);
+            foreach (var cell in unvisitedAdjacentSlidable)
+            {
+                GetSlidableNeighbors(cell, moves, allCells);
+            }
         }
-
-        private static bool CanSlideTo(Cell end, IEnumerable<Cell> neighbors, ISet<Cell> allCells) =>
-            allCells.SelectNeighbors(end).Intersect(neighbors).WhereOccupied().Count() != 2;
     }
 }
