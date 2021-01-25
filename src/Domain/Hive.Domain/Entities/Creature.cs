@@ -10,8 +10,11 @@ namespace Hive.Domain.Entities
         internal IEnumerable<IRule> Rules { get; init; } = new List<IRule>();
 
         public ISet<Coords> GetAvailableMoves(Cell originCell, ISet<Cell> cells)
-            => Rules.Aggregate(cells.RemoveCell(originCell).SelectCoords(),
-                    (moves, rule) => moves.Intersect(rule.ApplyRule(originCell, cells)))
-                .ToHashSet();
+            => Rules.Aggregate(
+                    cells
+                        .RemoveCell(originCell)
+                        .SelectCoords(),
+                    (moves, rule) => moves.Intersect(rule.ApplyRule(originCell, cells))
+                    ).ToHashSet();
     }
 }
