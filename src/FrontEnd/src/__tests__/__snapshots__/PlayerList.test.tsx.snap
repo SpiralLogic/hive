@@ -8,11 +8,12 @@ exports[`Player List PlayerList snapshot matches current snapshot 1`] = `
     class="player"
     title="Player 1"
   >
-    <span
+    <a
       class="name"
+      href="/game/33/1"
     >
       Player 1
-    </span>
+    </a>
     <div
       class="tiles"
     >
@@ -52,11 +53,12 @@ exports[`Player List PlayerList snapshot matches current snapshot 1`] = `
     class="player"
     title="Player 2"
   >
-    <span
+    <a
       class="name"
+      href="/game/33/2"
     >
       Player 2
-    </span>
+    </a>
     <div
       class="tiles"
     >

@@ -24,8 +24,8 @@ namespace Hive.Controllers
         }
 
         [HttpGet]
-        [Route("/game/{id}")]
-        public ActionResult Get(string id)
+        [Route("/game/{id}/{playerId}")]
+        public ActionResult Get(string id, int playerId)
         {
             var gameSession = _distributedCache.GetString(id);
             if (gameSession == null)
@@ -39,7 +39,7 @@ namespace Hive.Controllers
         [Route("/api/game/{id}")]
         [Produces("application/json")]
         [ProducesErrorResponseType(typeof(NotFoundResult))]
-        public ActionResult<GameState> GetGame(string id)
+        public ActionResult<GameState> GetGame(string id, int playerId)
         {
             var gameSession = _distributedCache.GetString(id);
             if (gameSession == null) return NotFound();

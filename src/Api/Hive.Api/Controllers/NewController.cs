@@ -1,4 +1,7 @@
-﻿using System.Net.NetworkInformation;
+﻿using System;
+using System.Globalization;
+using System.Net.NetworkInformation;
+using System.Runtime.Serialization;
 using System.Text.Json;
 using Hive.DTOs;
 using Microsoft.AspNetCore.Http;
@@ -34,7 +37,10 @@ namespace Hive.Controllers
             var json = JsonSerializer.Serialize(gameState, _jsonSerializerOptions);
             _distributedCache.SetString(gameId, json);
 
-            return Created($"/game/{gameId}", gameState);
+            return Created($"/game/{gameId}/{0}", gameState);
+
         }
+
+
     }
 }

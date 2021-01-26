@@ -7,10 +7,11 @@ import Tile from './Tile';
 type Props = Player;
 
 const PlayerTiles: FunctionComponent<Props> = (props: Props) => {
-    const {name, tiles} = props;
+    const {name, tiles, id} = props;
+    const changePlayerUrl = `${window.location.pathname.split('/').slice(0,3).join('/')}/${id}`
     return tiles.length > 0 ? (
         <div className="player" title={name}>
-            <span className="name">{name}</span>
+            <a className="name" href={changePlayerUrl}>{name}</a>
             <div className="tiles">
                 {tiles.map((tile) => (
                     <Tile key={tile.id} {...tile} />

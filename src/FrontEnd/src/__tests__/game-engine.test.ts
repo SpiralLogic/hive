@@ -71,7 +71,7 @@ describe('GameEngine', () => {
             global.window.history.replaceState({gameId: 667}, document.title, `/game/667`);
 
             const handler = jest.fn();
-            const {closeConnection} = Engine.connectGame("667", handler);
+            Engine.connectGame("667", handler);
             expect(withUrl).toBeCalledWith('http://localhost/gamehub/667');
         })
 

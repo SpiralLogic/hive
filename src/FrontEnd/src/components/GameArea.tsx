@@ -1,6 +1,6 @@
 import {CellDropEvent, useCellDropEmitter} from '../emitters';
 import {FunctionComponent, h} from 'preact';
-import {GameState, MoveTile} from '../domain';
+import {GameState, MoveTile, PlayerId} from '../domain';
 import {JSXInternal} from "preact/src/jsx";
 import {handleDragOver} from '../handlers';
 import {useEffect} from 'preact/hooks';
@@ -9,7 +9,7 @@ import PlayerList from './PlayerList';
 
 type Props = { gameState: GameState, moveTile: MoveTile }
 
-const GameArea: FunctionComponent<Props> = ({gameState, moveTile}) => {
+const GameArea: FunctionComponent<Props> = ({ gameState, moveTile}) => {
     const cellDropEmitter = useCellDropEmitter();
 
     useEffect(() => {
@@ -24,7 +24,6 @@ const GameArea: FunctionComponent<Props> = ({gameState, moveTile}) => {
         className: 'hive',
         style: {'--hex-size': '50px'} as JSXInternal.CSSProperties,
     };
-
     return (
         <div {...attributes}>
             <PlayerList players={gameState.players}/>

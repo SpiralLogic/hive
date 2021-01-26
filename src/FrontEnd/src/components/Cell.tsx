@@ -26,39 +26,36 @@ const CellFC: FunctionComponent<Props> = (props: Props) => {
     }
 
     function handleDragEnter(ev: { stopPropagation: () => void }) {
-        ev.stopPropagation();
         if (currentTile) setClasses([...classes, 'active']);
     }
 
-    function moveTile() {
-        if (!currentTile) return
-        if (isValidMove(currentTile.moves) && currentTile && classes.includes('active'))
-            cellDropEmitter.emit({
-                type: 'drop',
-                move: {coords, tileId: currentTile.id},
-            });
-    }
-
     function handleClickEvent(ev: { stopPropagation: () => void }) {
-        if (currentTile) {
-            moveTile();
-            tileDragEmitter.emit({type: 'end', tile: currentTile});
-        }
+        ev.stopPropagation();
+        if (!currentTile) return;
+        move();
+        tileDragEmitter.emit({type: 'end', tile: currentTile});
     }
 
-    const handleTileEvent = (e: TileDragEvent) => {
+    function move() {
+        if (!currentTile || !isValidMove(currentTile.moves)) return;
+        cellDropEmitter.emit({
+            type: 'drop',
+            move: {coords, tileId: currentTile.id},
+        });
+    }
+
+    function handleTileEvent(e: TileDragEvent) {
         const valid = isValidMove(e.tile.moves);
-        if (e.type === 'start' && valid) {
-            setClasses([...classes, 'can-drop']);
+
+        if (e.type === 'start') {
             setCurrentTile(e.tile)
-        } else if (e.type === "start") {
-            setCurrentTile(e.tile)
+            if (valid) setClasses([...classes, 'can-drop']);
         } else if (e.type === 'end') {
-            moveTile();
+            if (classes.includes('active')) move();
             setCurrentTile(null);
-            setClasses(['hex', 'cell']);
+            setClasses(['hex', 'cell'])
         }
-    };
+    }
 
     useEffect(() => {
         tileDragEmitter.add(handleTileEvent);

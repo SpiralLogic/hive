@@ -18,6 +18,7 @@ const cellDropEvent: CellDropEvent = {
     move: {coords: {q: 1, r: 1}, tileId: 1},
     type: 'drop',
 };
+
 let gameState: GameState;
 beforeEach(() => {
     const emptyCell = {coords: {q: 0, r: 0}, tiles: []};

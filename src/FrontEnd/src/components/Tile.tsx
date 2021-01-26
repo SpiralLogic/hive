@@ -25,12 +25,6 @@ const TileFC: FunctionComponent<Props> = (props: Props) => {
         tileDragEmitter.emit({type: 'end', tile: props});
     }
 
-    function handleClick(ev: { stopPropagation: () => void }) {
-        ev.stopPropagation();
-        tileDragEmitter.emit({type: 'end', tile: props});
-        tileDragEmitter.emit({type: 'start', tile: props});
-    }
-
     const attributes = {
         title: creature,
         style: {'--color': getPlayerColor(playerId)} as JSXInternal.CSSProperties,
@@ -40,11 +34,10 @@ const TileFC: FunctionComponent<Props> = (props: Props) => {
     };
 
     const handlers = attributes.draggable ? {
-        onclick: handleClick,
+        onclick: handleDragStart,
         ondragstart: handleDragStart,
         ondragend: handleDragEnd,
     } : {};
-
 
     return (
         <div {...attributes} {...handlers}>
