@@ -1,10 +1,10 @@
-using Hive.Domain.Rules;
+using Hive.Domain.Movements;
 using Hive.Domain.Tests.TestUtils;
 using Xunit;
 
-namespace Hive.Domain.Tests.RuleTests
+namespace Hive.Domain.Tests.MovementTests
 {
-    public class CanSlideTests
+    public class SlideOnlyTests
     {
         [Fact]
         public void Moves3PlacesWithoutBacktracking()
@@ -30,9 +30,9 @@ namespace Hive.Domain.Tests.RuleTests
             expected += "✔ ✔ ✔ ✔ ✔";
             expected += " ✔ ✔ ✔ ✔ ";
 
-            var rule = new CanSlide();
+            var move = new SlideOnly();
 
-            rule.Should().HaveMoves(initial, expected);
+            move.Should().HaveMoves(initial, expected);
         }
 
         [Fact]
@@ -64,11 +64,11 @@ namespace Hive.Domain.Tests.RuleTests
             expected += "⬡ ⬢ ⬢ ✔ ✔ ✔ ⬢ ⬡ ⬡ ⬡";
             expected += " ⬡ ⬡ ⬡ ⬢ ⬢ ⬢ ⬡ ⬡ ⬡ ";
 
-            var rule = new CanSlide();
+            var move = new SlideOnly();
 
-            rule.Should().HaveMoves(initial, expected);
+            move.Should().HaveMoves(initial, expected);
         }
-        
+
         [Fact]
         public void CanSlideAroundEdges()
         {
@@ -86,9 +86,9 @@ namespace Hive.Domain.Tests.RuleTests
             expected += " ✔ ⬢ ⬢ ⬢ ★ ⬢ ⬢ ⬢ ✔ ";
             expected += "✔ ✔ ✔ ✔ ✔ ✔ ✔ ✔ ✔ ✔";
 
-            var rule = new CanSlide();
+            var move = new SlideOnly();
 
-            rule.Should().HaveMoves(initial, expected);
+            move.Should().HaveMoves(initial, expected);
         }
     }
 }

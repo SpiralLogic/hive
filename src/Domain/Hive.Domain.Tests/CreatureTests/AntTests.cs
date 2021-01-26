@@ -12,9 +12,9 @@ namespace Hive.Domain.Tests.CreatureTests
             var initial = new InitialHiveBuilder();
 
             initial += "⬡ ⬡ ⬡ ⬡ ⬡";
-            initial += " ⬡ ⏣ ⬡ ⬡ ";
+            initial += " ⬡ ⬢ ⬡ ⬡ ";
             initial += "⬡ ⬡ ★ ⬡ ⬡";
-            initial += " ⬡ ⬡ ⏣ ⬡ ";
+            initial += " ⬡ ⬡ ⬢ ⬡ ";
             initial += "⬡ ⬡ ⬡ ⬡ ⬡";
 
             var expected = new ExpectedHiveBuilder();
@@ -35,21 +35,21 @@ namespace Hive.Domain.Tests.CreatureTests
         {
             var initial = new InitialHiveBuilder();
 
-            initial += "⏣ ⬡ ⏣ ⏣ ⏣";
-            initial += " ⏣ ⬡ ⬡ ⏣ ⬡";
-            initial += "⏣ ⬡ ★ ⏣ ⏣";
-            initial += " ⏣ ⬡ ⬡ ⬡ ⏣";
-            initial += "⬡ ⏣ ⏣ ⬡ ⏣";
-            initial += " ⬡ ⏣ ⏣ ⏣ ⏣";
+            initial += "⬢ ⬡ ⬢ ⬢ ⬢";
+            initial += " ⬢ ⬡ ⬡ ⬢ ⬡";
+            initial += "⬢ ⬡ ★ ⬢ ⬢";
+            initial += " ⬢ ⬡ ⬡ ⬡ ⬢";
+            initial += "⬡ ⬢ ⬢ ⬡ ⬢";
+            initial += " ⬡ ⬢ ⬢ ⬢ ⬢";
 
             var expected = new ExpectedHiveBuilder();
 
-            expected += "⏣ ⬡ ⏣ ⏣ ⏣";
-            expected += " ⏣ ✔ ✔ ⏣ ⬡";
-            expected += "⏣ ✔ ★ ⏣ ⏣";
-            expected += " ⏣ ✔ ✔ ✔ ⏣";
-            expected += "⬡ ⏣ ⏣ ✔ ⏣";
-            expected += " ⬡ ⏣ ⏣ ⏣ ⏣";
+            expected += "⬢ ⬡ ⬢ ⬢ ⬢";
+            expected += " ⬢ ✔ ✔ ⬢ ⬡";
+            expected += "⬢ ✔ ★ ⬢ ⬢";
+            expected += " ⬢ ✔ ✔ ✔ ⬢";
+            expected += "⬡ ⬢ ⬢ ✔ ⬢";
+            expected += " ⬡ ⬢ ⬢ ⬢ ⬢";
 
             var ant = Creatures.Ant;
 
@@ -63,16 +63,16 @@ namespace Hive.Domain.Tests.CreatureTests
 
             initial += "⬡ ⬡ ⬡ ⬡ ⬡";
             initial += " ⬡ ⬡ ⬡ ⬡ ";
-            initial += "⬡ ⏣ ★ ⬡ ⬡";
-            initial += " ⬡ ⏣ ⏣ ⬡ ";
+            initial += "⬡ ⬢ ★ ⬡ ⬡";
+            initial += " ⬡ ⬢ ⬢ ⬡ ";
             initial += "⬡ ⬡ ⬡ ⬡ ⬡";
 
             var expected = new ExpectedHiveBuilder();
 
             expected += "⬡ ⬡ ⬡ ⬡ ⬡";
             expected += " ✔ ✔ ⬡ ⬡ ";
-            expected += "✔ ⏣ ★ ✔ ⬡";
-            expected += " ✔ ⏣ ⏣ ✔ ";
+            expected += "✔ ⬢ ★ ✔ ⬡";
+            expected += " ✔ ⬢ ⬢ ✔ ";
             expected += "⬡ ✔ ✔ ✔ ⬡";
 
             var ant = Creatures.Ant;

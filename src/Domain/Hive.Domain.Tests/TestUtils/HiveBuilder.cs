@@ -8,16 +8,16 @@ namespace Hive.Domain.Tests.TestUtils
     internal abstract class HiveBuilder
     {
         internal const string Separator = " ";
-        internal static readonly HiveCharacter Empty = new("Empty", '⬡', ConsoleColor.White);
-        internal static readonly HiveCharacter Origin = new("Origin", '★', ConsoleColor.Yellow);
+        private static readonly HiveCharacter Empty = new("Empty", '⬡', ConsoleColor.White);
+        private static readonly HiveCharacter Origin = new("Origin", '★', ConsoleColor.Yellow);
         internal static readonly HiveCharacter Friend = new("Cyan", '⬢', ConsoleColor.Cyan);
         internal static readonly HiveCharacter Enemy = new("Enemy", '⏣', ConsoleColor.Magenta);
 
         private int _currentR;
-        protected static ISet<HiveCharacter> AllSymbols = new[] { Empty, Origin, Friend, Enemy }.ToHashSet();
+        protected static readonly ISet<HiveCharacter> AllSymbols = new[] { Empty, Origin, Friend, Enemy }.ToHashSet();
 
         internal readonly HashSet<Cell> AllCells = new();
-        protected List<string> RowStrings = new();
+        protected readonly List<string> RowStrings = new();
 
         protected static T AddRow<T>(T builder, string rowString) where T : HiveBuilder
         {
@@ -47,7 +47,7 @@ namespace Hive.Domain.Tests.TestUtils
         private int GetQOffset(string rowString) => rowString.Trim().Length == rowString.Length ? 0 : (_currentR + 1) % 2;
         internal Cell OriginCell { get; private set; } = new(new Coords(0, 0));
         internal string ToColoredString() => AllSymbols.Aggregate(ToString(), (str, row) => str.Replace(row.Symbol.ToString(), row.ToString()));
-        internal abstract void ModifyCell(Cell cell, char symbol);
+        protected abstract void ModifyCell(Cell cell, char symbol);
         public override string ToString() => $"\u001b[0m{string.Join("\n", RowStrings)}\u001b[0m";
     }
 }

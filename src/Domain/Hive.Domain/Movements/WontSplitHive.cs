@@ -3,11 +3,11 @@ using System.Linq;
 using Hive.Domain.Entities;
 using Hive.Domain.Extensions;
 
-namespace Hive.Domain.Rules
+namespace Hive.Domain.Movements
 {
-    public class OneHive : IRule
+    public class WontSplitHive : IMovements
     {
-        public ISet<Coords> ApplyRule(Cell currentCell, ISet<Cell> allCells)
+        public ISet<Coords> GetMoves(Cell currentCell, ISet<Cell> allCells)
         {
             if (currentCell.Tiles.Count > 1) return allCells.ToCoords();
 
@@ -23,7 +23,7 @@ namespace Hive.Domain.Rules
             return !allOccupiedNonNeighbors.Any() ? allCells.RemoveCell(currentCell).ToCoords() : new HashSet<Coords>();
         }
 
-        private void CheckIsInHive(ISet<Cell> allOccupiedNonNeighbors, Cell toCheck)
+        private static void CheckIsInHive(ISet<Cell> allOccupiedNonNeighbors, Cell toCheck)
         {
             allOccupiedNonNeighbors.Remove(toCheck);
             toCheck.SelectNeighbors(allOccupiedNonNeighbors)

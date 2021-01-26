@@ -2,12 +2,12 @@
 using System.Linq;
 using FluentAssertions;
 using Hive.Domain.Entities;
-using Hive.Domain.Rules;
+using Hive.Domain.Movements;
 using Xunit;
 
-namespace Hive.Domain.Tests.RuleTests
+namespace Hive.Domain.Tests.MovementTests
 {
-    public class QueenIsPlacedTests
+    public class HiveHasQueenTests
     {
         [Fact]
         public void CantMoveWithNoQueen()
@@ -19,9 +19,9 @@ namespace Hive.Domain.Tests.RuleTests
                 new Cell(new Coords(1, 3)).AddTile(new Tile(3, 1, Creatures.Beetle)),
             };
 
-            var rule = new QueenIsPlaced();
+            var move = new HiveHasQueen();
 
-            rule.ApplyRule(cells.First(), cells).Should().BeEmpty();
+            move.GetMoves(cells.First(), cells).Should().BeEmpty();
         }
 
         [Fact]
@@ -35,9 +35,9 @@ namespace Hive.Domain.Tests.RuleTests
                 new Cell(new Coords(1, 4)).AddTile(new Tile(4, 1, Creatures.Queen)),
             };
 
-            var rule = new QueenIsPlaced();
+            var move = new HiveHasQueen();
 
-            rule.ApplyRule(cells.First(), cells).Should().NotBeEmpty();
+            move.GetMoves(cells.First(), cells).Should().NotBeEmpty();
         }
     }
 }

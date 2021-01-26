@@ -1,10 +1,10 @@
-﻿using Hive.Domain.Rules;
+﻿using Hive.Domain.Movements;
 using Hive.Domain.Tests.TestUtils;
 using Xunit;
 
-namespace Hive.Domain.Tests.RuleTests
+namespace Hive.Domain.Tests.MovementTests
 {
-    public class NeighborsOccupiedTests
+    public class ConnectedToHiveTests
     {
         [Fact]
         public void CantDisconnectHive()
@@ -33,9 +33,9 @@ namespace Hive.Domain.Tests.RuleTests
             expected += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡";
             expected += " ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
 
-            var rule = new NeighborsOccupied();
+            var move = new ConnectedToHive();
 
-            rule.Should().HaveMoves(initial, expected);
+            move.Should().HaveMoves(initial, expected);
         }
     }
 }

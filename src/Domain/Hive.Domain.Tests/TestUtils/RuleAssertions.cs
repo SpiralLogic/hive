@@ -5,14 +5,14 @@ using FluentAssertions;
 using FluentAssertions.Execution;
 using FluentAssertions.Primitives;
 using Hive.Domain.Entities;
-using Hive.Domain.Rules;
+using Hive.Domain.Movements;
 
 namespace Hive.Domain.Tests.TestUtils
 {
     internal static class HiveTestExtensions
     {
-        public static RuleAssertions Should(this IRule rule)
-            => new(initialHiveBuilder => rule.ApplyRule(initialHiveBuilder.OriginCell, initialHiveBuilder.AllCells));
+        public static RuleAssertions Should(this IMovements movements)
+            => new(initialHiveBuilder => movements.GetMoves(initialHiveBuilder.OriginCell, initialHiveBuilder.AllCells));
 
         public static RuleAssertions Should(this Creature creature)
             => new(initialHiveBuilder =>
@@ -27,7 +27,7 @@ namespace Hive.Domain.Tests.TestUtils
 
     internal class RuleAssertions : ReferenceTypeAssertions<Func<InitialHiveBuilder, ISet<Coords>>, RuleAssertions>
     {
-        protected override string Identifier => "rule";
+        protected override string Identifier => "move";
 
         public RuleAssertions(Func<InitialHiveBuilder, ISet<Coords>> subject) : base(subject)
         {

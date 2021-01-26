@@ -12,17 +12,17 @@ namespace Hive.Domain.Tests.CreatureTests
             var initial = new InitialHiveBuilder();
 
             initial += "⬡ ⬡ ⬡ ⬡ ⬡";
-            initial += " ⬡ ⏣ ⬡ ⬡ ";
+            initial += " ⬡ ⬢ ⬡ ⬡ ";
             initial += "⬡ ⬡ ★ ⬡ ⬡";
-            initial += " ⬡ ⬡ ⏣ ⬡ ";
+            initial += " ⬡ ⬡ ⬢ ⬡ ";
             initial += "⬡ ⬡ ⬡ ⬡ ⬡";
 
             var expected = new ExpectedHiveBuilder();
 
             expected += "⬡ ⬡ ⬡ ⬡ ⬡";
-            expected += " ⬡ ⬡ ⬡ ⬡ ";
+            expected += " ⬡ ⬢ ⬡ ⬡ ";
             expected += "⬡ ⬡ ★ ⬡ ⬡";
-            expected += " ⬡ ⬡ ⬡  ";
+            expected += " ⬡ ⬡ ⬢ ⬡ ";
             expected += "⬡ ⬡ ⬡ ⬡ ⬡";
 
             var grasshopper = Creatures.Grasshopper;
@@ -37,16 +37,16 @@ namespace Hive.Domain.Tests.CreatureTests
 
             initial += "⬡ ⬡ ⬡ ⬡ ⬡";
             initial += " ⬡ ⬡ ⬡ ⬡ ";
-            initial += "⬡ ★ ⏣ ⏣ ⬡";
-            initial += " ⏣ ⏣ ⬡ ⬡ ";
+            initial += "⬡ ★ ⬢ ⬢ ⬡";
+            initial += " ⬢ ⬢ ⬡ ⬡ ";
             initial += "⬡ ⬡ ⬡ ⬡ ⬡";
 
             var expected = new ExpectedHiveBuilder();
 
             expected += "⬡ ⬡ ⬡ ⬡ ⬡";
             expected += " ⬡ ⬡ ⬡ ⬡ ";
-            expected += "⬡ ★ ⏣ ⏣ ✔";
-            expected += " ⏣ ⏣ ⬡ ⬡ ";
+            expected += "⬡ ★ ⬢ ⬢ ✔";
+            expected += " ⬢ ⬢ ⬡ ⬡ ";
             expected += "✔ ⬡ ✔ ⬡ ⬡";
 
             var grasshopper = Creatures.Grasshopper;
@@ -61,16 +61,16 @@ namespace Hive.Domain.Tests.CreatureTests
 
             initial += "⬡ ⬡ ⬡ ⬡ ⬡";
             initial += " ⬡ ⬡ ⬡ ⬡ ";
-            initial += "⬡ ⏣ ★ ⬡ ⬡";
-            initial += " ⬡ ⏣ ⏣ ⬡ ";
+            initial += "⬡ ⬢ ★ ⬡ ⬡";
+            initial += " ⬡ ⬢ ⬢ ⬡ ";
             initial += "⬡ ⬡ ⬡ ⬡ ⬡";
 
             var expected = new ExpectedHiveBuilder();
 
             expected += "⬡ ⬡ ⬡ ⬡ ⬡";
             expected += " ⬡ ⬡ ⬡ ⬡ ";
-            expected += "✔ ⏣ ★ ⬡ ⬡";
-            expected += " ⬡ ⏣ ⏣ ⬡ ";
+            expected += "✔ ⬢ ★ ⬡ ⬡";
+            expected += " ⬡ ⬢ ⬢ ⬡ ";
             expected += "⬡ ✔ ⬡ ✔ ⬡";
 
             var grasshopper = Creatures.Grasshopper;

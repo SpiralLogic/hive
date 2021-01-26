@@ -8,23 +8,23 @@ namespace Hive.Domain.Tests.CreatureTests
     {
         [Fact]
         public void CanMoveToEmptyAdjacent()
-        {  
+        {
             var initial = new InitialHiveBuilder();
 
             initial += "⬡ ⬡ ⬢ ⬡ ⬡";
-            initial += " ⬡ ⏣ ⬢ ⬢ ";
-            initial += "⬡ ⬡ ★ ⏣ ⬢";
+            initial += " ⬡ ⬢ ⬢ ⬢ ";
+            initial += "⬡ ⬡ ★ ⬢ ⬢";
             initial += " ⬡ ⬡ ⬢ ⬡ ";
             initial += "⬢ ⬢ ⬢ ⬡ ⬡";
 
             var expected = new ExpectedHiveBuilder();
 
             expected += "⬡ ⬡ ⬢ ⬡ ⬡";
-            expected += " ⬡ ⏣ ⬢ ⬢ ";
-            expected += "⬡ ✔ ★ ⏣ ⬢";
+            expected += " ⬡ ⬢ ⬢ ⬢ ";
+            expected += "⬡ ✔ ★ ⬢ ⬢";
             expected += " ⬡ ✔ ⬢ ⬡ ";
             expected += "⬢ ⬢ ⬢ ⬡ ⬡";
-            
+
             var queen = Creatures.Queen;
 
             queen.Should().HaveMoves(initial, expected);

@@ -3,11 +3,11 @@ using System.Linq;
 using Hive.Domain.Entities;
 using Hive.Domain.Extensions;
 
-namespace Hive.Domain.Rules
+namespace Hive.Domain.Movements
 {
-    public class QueenIsPlaced : IRule
+    public class HiveHasQueen : IMovements
     {
-        public ISet<Coords> ApplyRule(Cell currentCell, ISet<Cell> allCells)
+        public ISet<Coords> GetMoves(Cell currentCell, ISet<Cell> allCells)
         {
             return QueenHasBeenPlaced(currentCell, allCells) ? allCells.ToCoords() : new HashSet<Coords>();
         }

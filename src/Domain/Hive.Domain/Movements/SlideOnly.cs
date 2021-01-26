@@ -3,19 +3,19 @@ using System.Linq;
 using Hive.Domain.Entities;
 using Hive.Domain.Extensions;
 
-namespace Hive.Domain.Rules
+namespace Hive.Domain.Movements
 {
-    public class CanSlide : IRule
+    public class SlideOnly : IMovements
     {
 
-        public ISet<Coords> ApplyRule(Cell originCell, ISet<Cell> allCells)
+        public ISet<Coords> GetMoves(Cell originCell, ISet<Cell> allCells)
         {
             var moves = new HashSet<Cell>();
             GetSlidableNeighbors(originCell, moves, allCells);
             return moves.ToCoords();
         }
 
-        private void GetSlidableNeighbors(Cell move, ISet<Cell> moves, ISet<Cell> allCells)
+        private static void GetSlidableNeighbors(Cell move, ISet<Cell> moves, ISet<Cell> allCells)
         {
             var neighbors = move.SelectNeighbors(allCells).ToHashSet();
 

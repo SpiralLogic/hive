@@ -1,20 +1,20 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Hive.Domain.Extensions;
-using Hive.Domain.Rules;
+using Hive.Domain.Movements;
 
 namespace Hive.Domain.Entities
 {
     public sealed record Creature(string Name)
     {
-        internal IEnumerable<IRule> Rules { get; init; } = new List<IRule>();
+        internal IEnumerable<IMovements> Movements { get; init; } = new List<IMovements>();
 
         public ISet<Coords> GetAvailableMoves(Cell originCell, ISet<Cell> cells)
-            => Rules.Aggregate(
+            => Movements.Aggregate(
                     cells
                         .RemoveCell(originCell)
                         .SelectCoords(),
-                    (moves, rule) => moves.Intersect(rule.ApplyRule(originCell, cells))
+                    (moves, rule) => moves.Intersect(rule.GetMoves(originCell, cells))
                     ).ToHashSet();
     }
 }

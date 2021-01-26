@@ -25,7 +25,7 @@ namespace Hive.Domain.Tests.TestUtils
 
         internal ISet<Coords> ExpectedMoves() => ExpectedCells.Select(c => c.Coords).ToHashSet();
 
-        internal override void ModifyCell(Cell cell, char cellString)
+        protected override void ModifyCell(Cell cell, char cellString)
         {
             if (cellString == Expected.Symbol) cell.AddTile(new Tile(1, 1, Expected.Creature));
             if (cellString == Unexpected.Symbol) cell.AddTile(new Tile(1, 2, Unexpected.Creature));

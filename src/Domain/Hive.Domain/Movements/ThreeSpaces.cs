@@ -4,11 +4,11 @@ using System.Linq;
 using Hive.Domain.Entities;
 using Hive.Domain.Extensions;
 
-namespace Hive.Domain.Rules
+namespace Hive.Domain.Movements
 {
-    public class ThreeSpaces : IRule
+    public class ThreeSpaces : IMovements
     {
-        public ISet<Coords> ApplyRule(Cell originCell, ISet<Cell> allCells)
+        public ISet<Coords> GetMoves(Cell originCell, ISet<Cell> allCells)
             => new Path(originCell).Extend(allCells)
                 .SelectMany(p => p.Extend(allCells))
                 .SelectMany(p => p.Extend(allCells))

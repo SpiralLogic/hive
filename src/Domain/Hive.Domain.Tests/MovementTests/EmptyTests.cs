@@ -1,10 +1,10 @@
-﻿using Hive.Domain.Rules;
+﻿using Hive.Domain.Movements;
 using Hive.Domain.Tests.TestUtils;
 using Xunit;
 
-namespace Hive.Domain.Tests.RuleTests
+namespace Hive.Domain.Tests.MovementTests
 {
-    public class IsEmptyTests
+    public class EmptyTests
     {
         [Fact]
         public void ReturnsAllEmptyCells_WithNoPlacedTiles()
@@ -21,9 +21,9 @@ namespace Hive.Domain.Tests.RuleTests
             expected += "✔ ★ ✔";
             expected += " ✔ ✔ ";
 
-            var rule = new IsEmpty();
+            var move = new Empty();
 
-            rule.Should().HaveMoves(initial, expected);
+            move.Should().HaveMoves(initial, expected);
         }
 
         [Fact]
@@ -32,22 +32,22 @@ namespace Hive.Domain.Tests.RuleTests
             var initial = new InitialHiveBuilder();
 
             initial += "⬡ ⬡ ⬢ ⬡ ⬡";
-            initial += " ⬡ ⏣ ⬢ ⬢ ";
-            initial += "⬡ ⬡ ★ ⏣ ⬢";
+            initial += " ⬡ ⬢ ⬢ ⬢ ";
+            initial += "⬡ ⬡ ★ ⬢ ⬢";
             initial += " ⬡ ⬢ ⬢ ⬡ ";
             initial += "⬢ ⬡ ⬢ ⬡ ⬡";
 
             var expected = new ExpectedHiveBuilder();
 
             expected += "✔ ✔ ⬢ ✔ ✔";
-            expected += " ✔ ⏣ ⬢ ⬢ ";
-            expected += "✔ ✔ ★ ⏣ ⬢";
+            expected += " ✔ ⬢ ⬢ ⬢ ";
+            expected += "✔ ✔ ★ ⬢ ⬢";
             expected += " ✔ ⬢ ⬢ ✔ ";
             expected += "⬢ ✔ ⬢ ✔ ✔";
-            
-            var rule = new IsEmpty();
 
-            rule.Should().HaveMoves(initial, expected);
+            var move = new Empty();
+
+            move.Should().HaveMoves(initial, expected);
         }
     }
 }

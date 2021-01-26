@@ -1,4 +1,4 @@
-﻿using Hive.Domain.Rules;
+﻿using Hive.Domain.Movements;
 
 namespace Hive.Domain.Entities
 {
@@ -6,58 +6,58 @@ namespace Hive.Domain.Entities
     {
         public static readonly Creature Queen = new("Queen")
         {
-            Rules = new IRule[]
+            Movements = new IMovements[]
             {
-                new OneSpace(),
-                new IsEmpty(),
-                new CanSlide(),
-                new OneHive(),
-                new NeighborsOccupied(),
+                new Adjacent(),
+                new Empty(),
+                new SlideOnly(),
+                new WontSplitHive(),
+                new ConnectedToHive(),
             }
         };
 
         public static readonly Creature Beetle = new("Beetle")
         {
-            Rules = new IRule[]
+            Movements = new IMovements[]
             {
-                new QueenIsPlaced(),
-                new OneSpace(),
-                new OneHive(),
-                new NeighborsOccupied(),
+                new HiveHasQueen(),
+                new Adjacent(),
+                new WontSplitHive(),
+                new ConnectedToHive(),
             }
         };
 
         public static readonly Creature Grasshopper = new("Grasshopper")
         {
-            Rules = new IRule[]
+            Movements = new IMovements[]
             {
-                new NextUnoccupied(),
-                new QueenIsPlaced(),
-                new OneHive(),
-                new NeighborsOccupied(),
+                new FirstEmptyAlongAxis(),
+                new HiveHasQueen(),
+                new WontSplitHive(),
+                new ConnectedToHive(),
             }
         };
 
         public static readonly Creature Spider = new("Spider")
         {
-            Rules = new IRule[]
+            Movements = new IMovements[]
             {
                 new ThreeSpaces(),
-                new CanSlide(),
-                new QueenIsPlaced(),
-                new OneHive(),
-                new NeighborsOccupied(),
+                new SlideOnly(),
+                new HiveHasQueen(),
+                new WontSplitHive(),
+                new ConnectedToHive(),
             }
         };
 
         public static readonly Creature Ant = new("Ant")
         {
-            Rules = new IRule[]
+            Movements = new IMovements[]
             {
-                new CanSlide(),
-                new QueenIsPlaced(),
-                new OneHive(),
-                new NeighborsOccupied(),
+                new SlideOnly(),
+                new HiveHasQueen(),
+                new WontSplitHive(),
+                new ConnectedToHive(),
             }
         };
     }

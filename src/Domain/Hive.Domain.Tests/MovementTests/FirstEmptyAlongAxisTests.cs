@@ -1,10 +1,10 @@
-﻿using Hive.Domain.Rules;
+﻿using Hive.Domain.Movements;
 using Hive.Domain.Tests.TestUtils;
 using Xunit;
 
-namespace Hive.Domain.Tests.RuleTests
+namespace Hive.Domain.Tests.MovementTests
 {
-    public class NextUnoccupiedTests
+    public class FirstEmptyAlongAxisTests
     {
         [Fact]
         public void CalculatesNextEmpty()
@@ -13,11 +13,11 @@ namespace Hive.Domain.Tests.RuleTests
 
             initial += " ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
             initial += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡";
-            initial += " ⬡ ⬡ ⬡ ⬡ ⬡ ⏣ ⬡ ⬡ ⬡ ";
-            initial += "⬡ ⬡ ⬡ ⬡ ⏣ ⏣ ⬡ ⬡ ⬡ ⬡";
-            initial += " ⬡ ⬡ ⏣ ⏣ ★ ⏣ ⏣ ⬡ ⬡ ";
-            initial += "⬡ ⬡ ⬡ ⬡ ⏣ ⏣ ⬡ ⬡ ⬡ ⬡";
-            initial += " ⬡ ⬡ ⬡ ⬡ ⬡ ⏣ ⬡ ⬡ ⬡ ";
+            initial += " ⬡ ⬡ ⬡ ⬡ ⬡ ⬢ ⬡ ⬡ ⬡ ";
+            initial += "⬡ ⬡ ⬡ ⬡ ⬢ ⬢ ⬡ ⬡ ⬡ ⬡";
+            initial += " ⬡ ⬡ ⬢ ⬢ ★ ⬢ ⬢ ⬡ ⬡ ";
+            initial += "⬡ ⬡ ⬡ ⬡ ⬢ ⬢ ⬡ ⬡ ⬡ ⬡";
+            initial += " ⬡ ⬡ ⬡ ⬡ ⬡ ⬢ ⬡ ⬡ ⬡ ";
             initial += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡";
             initial += " ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
 
@@ -25,17 +25,17 @@ namespace Hive.Domain.Tests.RuleTests
 
             expected += " ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
             expected += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ✔ ⬡ ⬡ ⬡";
-            expected += " ⬡ ⬡ ⬡ ✔ ⬡ ⏣ ⬡ ⬡ ⬡ ";
-            expected += "⬡ ⬡ ⬡ ⬡ ⏣ ⏣ ⬡ ⬡ ⬡ ⬡";
-            expected += " ⬡ ✔ ⏣ ⏣ ★ ⏣ ⏣ ✔ ⬡ ";
-            expected += "⬡ ⬡ ⬡ ⬡ ⏣ ⏣ ⬡ ⬡ ⬡ ⬡";
-            expected += " ⬡ ⬡ ⬡ ✔ ⬡ ⏣ ⬡ ⬡ ⬡ ";
+            expected += " ⬡ ⬡ ⬡ ✔ ⬡ ⬢ ⬡ ⬡ ⬡ ";
+            expected += "⬡ ⬡ ⬡ ⬡ ⬢ ⬢ ⬡ ⬡ ⬡ ⬡";
+            expected += " ⬡ ✔ ⬢ ⬢ ★ ⬢ ⬢ ✔ ⬡ ";
+            expected += "⬡ ⬡ ⬡ ⬡ ⬢ ⬢ ⬡ ⬡ ⬡ ⬡";
+            expected += " ⬡ ⬡ ⬡ ✔ ⬡ ⬢ ⬡ ⬡ ⬡ ";
             expected += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ✔ ⬡ ⬡ ⬡";
             expected += " ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
 
-            var rule = new NextUnoccupied();
+            var move = new FirstEmptyAlongAxis();
 
-            rule.Should().HaveMoves(initial, expected);
+            move.Should().HaveMoves(initial, expected);
         }
 
             [Fact]
@@ -45,11 +45,11 @@ namespace Hive.Domain.Tests.RuleTests
 
             initial += " ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
             initial += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡";
-            initial += " ⬡ ⬡ ⬡ ⬡ ⬡ ⏣ ⬡ ⬡ ⬡ ";
+            initial += " ⬡ ⬡ ⬡ ⬡ ⬡ ⬢ ⬡ ⬡ ⬡ ";
             initial += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡";
-            initial += " ⬡ ⬡ ⏣ ⬡ ★ ⬡ ⏣ ⬡ ⬡ ";
+            initial += " ⬡ ⬡ ⬢ ⬡ ★ ⬡ ⬢ ⬡ ⬡ ";
             initial += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡";
-            initial += " ⬡ ⬡ ⬡ ⬡ ⬡ ⏣ ⬡ ⬡ ⬡ ";
+            initial += " ⬡ ⬡ ⬡ ⬡ ⬡ ⬢ ⬡ ⬡ ⬡ ";
             initial += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡";
             initial += " ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
 
@@ -57,17 +57,17 @@ namespace Hive.Domain.Tests.RuleTests
 
             expected += " ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
             expected += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡";
-            expected += " ⬡ ⬡ ⬡ ⬡ ⬡ ⏣ ⬡ ⬡ ⬡ ";
+            expected += " ⬡ ⬡ ⬡ ⬡ ⬡ ⬢ ⬡ ⬡ ⬡ ";
             expected += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡";
-            expected += " ⬡ ⬡ ⏣ ⬡ ★ ⬡ ⏣ ⬡ ⬡ ";
+            expected += " ⬡ ⬡ ⬢ ⬡ ★ ⬡ ⬢ ⬡ ⬡ ";
             expected += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡";
-            expected += " ⬡ ⬡ ⬡ ⬡ ⬡ ⏣ ⬡ ⬡ ⬡ ";
+            expected += " ⬡ ⬡ ⬡ ⬡ ⬡ ⬢ ⬡ ⬡ ⬡ ";
             expected += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡";
             expected += " ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
 
-            var rule = new NextUnoccupied();
+            var move = new FirstEmptyAlongAxis();
 
-            rule.Should().HaveMoves(initial, expected);
+            move.Should().HaveMoves(initial, expected);
         }
     }
 }

@@ -1,10 +1,10 @@
-﻿using Hive.Domain.Rules;
+﻿using Hive.Domain.Movements;
 using Hive.Domain.Tests.TestUtils;
 using Xunit;
 
-namespace Hive.Domain.Tests.RuleTests
+namespace Hive.Domain.Tests.MovementTests
 {
-    public class OneSpaceTests
+    public class AdjacentTests
     {
         [Fact]
         public void ReturnsAllAdjacentCells()
@@ -18,12 +18,12 @@ namespace Hive.Domain.Tests.RuleTests
             var expected = new ExpectedHiveBuilder();
 
             expected += " ✔ ✔ ";
-            expected += "✔ ⬡ ✔";
+            expected += "✔ ★ ✔";
             expected += " ✔ ✔ ";
 
-            var rule = new OneSpace();
+            var move = new Adjacent();
 
-            rule.Should().HaveMoves(initial, expected);
+            move.Should().HaveMoves(initial, expected);
         }
 
         [Fact]
@@ -45,9 +45,9 @@ namespace Hive.Domain.Tests.RuleTests
             expected += " ⬡ ✔ ✔ ⬡ ";
             expected += "⬡ ⬡ ⬡ ⬡ ⬡";
 
-            var rule = new OneSpace();
+            var move = new Adjacent();
 
-            rule.Should().HaveMoves(initial, expected);
+            move.Should().HaveMoves(initial, expected);
         }
     }
 }
