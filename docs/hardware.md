@@ -4,9 +4,10 @@
 * mikrotik Hex s for routing
 * ubiquti cloud key for encrypted DNS and NVR
 * cost of cat6 >> the cloud key + router cost....
+![](images/rack-stack2.jpg)
+
 ![](images/rack-stack1.jpg)
 
-![](images/rack-stack2.jpeg)
 
 Dell R610 server I got bought decommissioned ($350). Came with 48GB ram, one or more of the sticks were dogey so I bought an A4 sandwhich bag of second hand RAM and swapped sticks until it didn't whinge There are more banks to fill, but I am 1 short or so.
 ![](images/server-R610.png)
