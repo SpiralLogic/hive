@@ -4,8 +4,6 @@
 * mikrotik Hex s for routing
 * ubiquti cloud key for encrypted DNS and NVR
 * cost of cat6 >> the cloud key + router cost....
-![](images/rack-stack2.jpg)
-
 ![](images/rack-stack1.jpg)
 
 
