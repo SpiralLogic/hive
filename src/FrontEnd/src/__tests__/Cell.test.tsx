@@ -114,6 +114,7 @@ describe('Cell', () => {
                 type: 'drop',
                 move: {tileId: 2, coords: {q: 0, r: 0}},
             });
+
             expect(useCellDropEmitter().emit).toHaveBeenCalledWith({
                 type: 'drop',
                 move: {tileId: 2, coords: {q: 2, r: 2}},
@@ -162,8 +163,28 @@ describe('Cell', () => {
             expect(document.getElementsByClassName('active')).toHaveLength(0);
             expect(document.getElementsByClassName('can-drop')).toHaveLength(0);
         });
-    });
 
+        test('cell click with active tile makes move', () => {
+            jest.spyOn(useCellDropEmitter(), 'emit');
+            const emptyCell = createCellCanDrop();
+            emitTileEvent('start');
+            fireEvent.click(emptyCell);
+
+            expect(useCellDropEmitter().emit).toHaveBeenCalledWith({
+                type: 'drop',
+                move: {tileId: 2, coords: {q: 0, r: 0}},
+            });
+        });
+
+        test('cell click with no active tile wont drop', () => {
+            jest.spyOn(useCellDropEmitter(), 'emit');
+            const emptyCell = createCellNoDrop();
+            fireEvent.click(emptyCell);
+
+            expect(useCellDropEmitter().emit).not.toHaveBeenCalledWith();
+        });
+
+    });
     describe('Cell Snapshot', () => {
         test('cell with tile matches current snapshot', () => {
             expect(createCellWithTile()).toMatchSnapshot();
