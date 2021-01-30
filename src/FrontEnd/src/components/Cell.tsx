@@ -30,8 +30,8 @@ const CellFC: FunctionComponent<Props> = (props: Props) => {
     }
 
     function handleClickEvent(ev: { stopPropagation: () => void }) {
-        ev.stopPropagation();
         if (!currentTile) return;
+        ev.stopPropagation();
         move();
         tileDragEmitter.emit({type: 'end', tile: currentTile});
     }
