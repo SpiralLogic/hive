@@ -17,15 +17,15 @@ namespace Hive.Controllers
         public GameController(
             IOptions<JsonOptions> jsonOptions,
             IDistributedCache distributedCache
-            )
+        )
         {
             _distributedCache = distributedCache;
             _jsonSerializerOptions = jsonOptions.Value.JsonSerializerOptions;
         }
 
         [HttpGet]
-        [Route("/game/{id}/{playerId}")]
-        public ActionResult Get(string id, int playerId)
+        [Route("/game/{id}/{playerId?}")]
+        public ActionResult Get(string id, int playerId = 0)
         {
             var gameSession = _distributedCache.GetString(id);
             if (gameSession == null)

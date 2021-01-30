@@ -16,7 +16,7 @@ const CellFC: FunctionComponent<Props> = (props: Props) => {
         useCellDropEmitter(),
     ];
     const isValidMove = (validMoves: HexCoordinates[]) =>
-        validMoves.some((dest) => deepEqual(coords, dest));
+        validMoves.some((dest) => dest.q == coords.q && dest.r == coords.r)
     const [classes, setClasses] = useState(['hex', 'cell']);
     const [currentTile, setCurrentTile] = useState<TileType | null>(null);
 

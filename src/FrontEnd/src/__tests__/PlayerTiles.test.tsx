@@ -9,30 +9,37 @@ describe('PlayerTiles', () => {
     const playerProps = {id: 1, name: 'Player 1', tiles: [ant, fly, fly]};
 
     let container: RenderResult;
-    let player: Element;
+    let playerTiles: Element|null;
     describe('PlayerTile tests', () => {
 
         beforeEach(() => {
             container = render(<PlayerTiles {...playerProps} />);
-            player = document.getElementsByClassName('player').item(0)!;
+            playerTiles = document.getElementsByClassName('player').item(0);
         });
 
-        test('player is rendered', () => {
-            expect(player).not.toBeNull();
+        test('playerTiles is rendered', () => {
+            expect(playerTiles).not.toBeNull();
         });
 
-        test('is rendered with player name', () => {
-            expect(player.querySelector('.name')).toHaveTextContent('Player 1');
+        test('is rendered with playerTiles name', () => {
+            expect(playerTiles?.querySelector('.name')).toHaveTextContent('Player 1');
         });
 
-        test('player is rendered with their tiles', () => {
-            const playerTiles = player.getElementsByClassName('tiles');
-            expect(playerTiles).toHaveLength(1);
+        test('playerTiles is rendered with their tiles', () => {
+            const tiles = playerTiles?.getElementsByClassName('tiles');
+            expect(tiles).toHaveLength(1);
         });
 
         test('each tile is rendered', () => {
-            expect(player.querySelectorAll('[title="ant"]')).toHaveLength(1);
-            expect(player.querySelectorAll('[title="fly"]')).toHaveLength(2);
+            expect(playerTiles?.querySelectorAll('[title="ant"]')).toHaveLength(1);
+            expect(playerTiles?.querySelectorAll('[title="fly"]')).toHaveLength(2);
+        })
+
+        test('nothing is rendered with no tiles left', () => {
+            const emptyTileProps = {...playerProps, tiles: []}
+            container = render(<PlayerTiles {...emptyTileProps} />);
+            playerTiles = container.baseElement.getElementsByClassName('playerTiles').item(1);
+            expect(playerTiles).toBeNull();
         });
     });
 

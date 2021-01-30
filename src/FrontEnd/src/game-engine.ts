@@ -1,5 +1,5 @@
+import {GameConnection, GameStateUpdateHandler, HexEngine} from './domain/engine';
 import {GameId, GameState, Move} from './domain';
-import {GameStateUpdateHandler, HexEngine} from './domain/engine';
 import {HubConnection, HubConnectionBuilder, HubConnectionState} from "@microsoft/signalr";
 
 const requestHeaders = {
@@ -35,31 +35,23 @@ const fetchNewGame = async (): Promise<GameState> => {
     return await response.json();
 };
 
-const getConnection = async (gameId: GameId, prevConnection?: HubConnection | undefined) => {
-    if (prevConnection !== undefined && prevConnection.state === HubConnectionState.Connected) return prevConnection;
-    const hubUrl = `${window.location.protocol}//${window.location.host}/gamehub/${gameId}`;
-    const newConnection = new HubConnectionBuilder().withUrl(hubUrl).build();
-    await newConnection.start();
-    return newConnection;
-}
 
-const connectGame = (gameId: GameId, handler: GameStateUpdateHandler) => {
-    let connection: HubConnection | undefined;
+const connectGame = (gameId: GameId, handler: GameStateUpdateHandler): GameConnection => {
+    const getConnection = (gameId: GameId): [HubConnection, Promise<void>] => {
+        const hubUrl = `${window.location.protocol}//${window.location.host}/gamehub/${gameId}`;
+        const connection = new HubConnectionBuilder().withUrl(hubUrl).build();
+        return [connection, connection.start()];
+    }
 
-    getConnection(gameId).then((c) => {
-        connection = c;
-        connection.on("ReceiveGameState", onUpdate)
+    const [connection, startPromise] = getConnection(gameId);
+
+    startPromise.then(() => {
+        connection.on("ReceiveGameState", handler);
     });
 
-    const onUpdate = (gameState: GameState) => {
-        if (gameId !== gameState.gameId) return;
-        handler(gameState)
-    };
-
     return {
-        getConnectionState: async () => ((await getConnection(gameId, connection)).state ?? HubConnectionState.Disconnected),
+        getConnectionState: () => connection.state,
         closeConnection: async () => {
-            connection = await getConnection(gameId, connection);
             if (connection.state !== HubConnectionState.Connected) return;
             connection.off("ReceiveGameState", handler);
             connection.stop().then();

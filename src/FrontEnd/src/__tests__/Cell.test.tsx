@@ -29,7 +29,7 @@ describe('Cell', () => {
     };
 
     const createCellNoDrop = () => {
-        const cell = {coords: {q: 0, r: 0}, tiles: []};
+        const cell = {coords: {q: 6, r: 6}, tiles: []};
         return renderElement(<Cell {...cell} />);
     };
 
@@ -184,7 +184,16 @@ describe('Cell', () => {
             expect(useCellDropEmitter().emit).not.toHaveBeenCalledWith();
         });
 
+        test('cell click with invalid tile wont drop', () => {
+            jest.spyOn(useCellDropEmitter(), 'emit');
+            const emptyCell = createCellNoDrop();
+            emitTileEvent('start');
+            fireEvent.click(emptyCell);
+
+            expect(useCellDropEmitter().emit).not.toHaveBeenCalledWith();
+        });
     });
+
     describe('Cell Snapshot', () => {
         test('cell with tile matches current snapshot', () => {
             expect(createCellWithTile()).toMatchSnapshot();

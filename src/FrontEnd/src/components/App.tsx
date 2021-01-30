@@ -12,11 +12,11 @@ const App: FunctionComponent = () => {
         parent
             .flatMap(p => p.tiles)
             .filter(t => t.playerId !== playerId)
-            .forEach(t => t.moves.splice(0));
+            .forEach(t => t.moves.splice(0,t.moves.length));
 
     useEffect(() => {
-        const [_, route, gameId, , routePlayerId] = window.location.pathname.split('/');
-        const loadExistingGame = route === 'game' && gameId;
+        const [, route, gameId, routePlayerId] = window.location.pathname.split('/');
+        const loadExistingGame = gameId && route === 'game';
         const getInitial = loadExistingGame ? Engine.getGame : Engine.newGame;
 
         getInitial(gameId).then(gameState => {
