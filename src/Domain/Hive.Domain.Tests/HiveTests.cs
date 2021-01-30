@@ -143,7 +143,13 @@ namespace Hive.Domain.Tests
             hive2.Players.Should().BeSameAs(players);
         }
 
-
+        [Fact]
+        public void InvalidMovesHaveNoEffect()
+        {
+            var hive = new Hive(new[] {"player1", "player2"});
+            hive.Move(1,new Coords(34,34)).Should().Be(false);
+        }
+        
         [Fact]
         public void QueenMustMoveOnFourth()
         {

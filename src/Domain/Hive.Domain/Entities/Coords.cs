@@ -28,15 +28,15 @@ namespace Hive.Domain.Entities
                 BottomRight,
             };
 
-        internal Coords TopLeft => R % 2 == 0 ? new Coords(Q - 1, R - 1) : this with {R = R - 1};
+        internal Coords TopLeft => R % 2 == 0 ? this with {Q = Q - 1, R = R - 1} : this with {R = R - 1};
 
-        internal Coords BottomLeft => R % 2 == 0 ? new Coords(Q - 1, R + 1) : new Coords(Q, R + 1);
+        internal Coords BottomLeft => R % 2 == 0 ? this with {Q = Q - 1, R = R + 1} : this with {R = R + 1};
 
-        internal Coords TopRight => R % 2 == 0 ? new Coords(Q, R - 1) : new Coords(Q + 1, R - 1);
+        internal Coords TopRight => R % 2 == 0 ? this with {R = R - 1} : this with {Q = Q + 1, R = R - 1};
 
-        internal Coords BottomRight => R % 2 == 0 ? new Coords(Q, R + 1) : new Coords(Q + 1, R + 1);
+        internal Coords BottomRight => R % 2 == 0 ? this with {R = R + 1} : this with {Q = Q + 1, R = R + 1};
 
-        internal Coords Right => new(Q + 1, R);
+        internal Coords Right => this with {Q = Q + 1};
 
         internal Coords Left => this with {Q = Q - 1};
     }

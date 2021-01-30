@@ -15,13 +15,13 @@ namespace Hive.Domain.Tests.TestUtils
                 ConsoleColor.Magenta => 35,
                 ConsoleColor.White => 37,
                 ConsoleColor.Cyan => 36,
-                ConsoleColor.Blue => 34,
-                _ => 0,
+                // ConsoleColor.Blue => 34,
+                // _ => 0,
             };
 
             return $"\u001b[{color}m{Symbol}\u001b[0m";
         }
 
-        internal readonly Creature Creature = Creatures.Queen with { Name = Name };
+        internal readonly Creature Creature = Creatures.Queen with {Name = Name};
     }
 }

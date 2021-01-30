@@ -15,7 +15,7 @@ namespace Hive.Domain.Tests.CreatureTests
             initial += " ⬡ ⬢ ⬡ ⬡ ";
             initial += "⬡ ⬡ ★ ⬡ ⬡";
             initial += " ⬡ ⬡ ⬢ ⬡ ";
-            initial += "⬡ ⬡ ⬡ ⬡ ⬡";
+            initial += "⏣ ⬡ ⬡ ⬡ ⬡";
 
             var expected = new ExpectedHiveBuilder();
 

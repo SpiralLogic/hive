@@ -6,7 +6,7 @@ namespace Hive.Domain.Entities
 {
     public sealed record Cell(Coords Coords) : IEquatable<Cell>
     {
-        public Stack<Tile> Tiles { get; init; } = new();
+        public Stack<Tile> Tiles { get; } = new();
 
         public Cell AddTile(Tile tile)
         {

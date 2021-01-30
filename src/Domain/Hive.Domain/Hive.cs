@@ -39,9 +39,9 @@ namespace Hive.Domain
             ;
         }
 
-        public void Move(int tileId, Coords coords)
+        public bool Move(int tileId, Coords coords)
         {
-            if (!IsValidMove(tileId, coords)) return;
+            if (!IsValidMove(tileId, coords)) return false;
 
             var movedTile = FindAndRemoveTile(tileId);
             var nextPlayer = Players.First(p => p.Id != movedTile.PlayerId);
@@ -52,7 +52,7 @@ namespace Hive.Domain
             if (loser != null)
             {
                 Cells.ExceptWith(Cells.WherePlayerOccupies(loser.TopTile().PlayerId));
-                return;
+                return true;
             }
 
             Cells.ExceptWith(Cells.WhereEmpty());
@@ -60,6 +60,8 @@ namespace Hive.Domain
 
             UpdatedPlacedTileMoves(nextPlayer);
             UpdatePlayerTileMoves(nextPlayer);
+
+            return true;
         }
 
         private Cell? IsGameOver()
