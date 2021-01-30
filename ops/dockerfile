@@ -6,7 +6,7 @@ RUN npm install -g pnpm
 RUN pnpm install
 RUN pnpm run build
 
-FROM mcr.microsoft.com/dotnet/sdk:latest AS dotnet-build
+FROM mcr.microsoft.com/dotnet/sdk:5.0-focal AS dotnet-build
 WORKDIR /source
 
 # copy and publish app and libraries
