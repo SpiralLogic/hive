@@ -9,7 +9,7 @@ stages:
         pnpm install
         pnpm test
   - runScriptConfig:
-      image: mcr.microsoft.com/dotnet/sdk:latest
+      image: mcr.microsoft.com/dotnet/sdk:5.0.102-ca-patch-buster-slim-amd64
       shellScript: |-
         cd ./src
         dotnet test /p:CollectCoverage=true /p:CoverletOutput=TestResults/ /p:CoverletOutputFormat=lcov
