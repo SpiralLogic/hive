@@ -19,9 +19,6 @@ kind: Ingress
 metadata:
   annotations:
     cert-manager.io/issuer: hive-prod
-    nginx.ingress.kubernetes.io/affinity: cookie
-    nginx.ingress.kubernetes.io/session-cookie-hash: sha1
-    nginx.ingress.kubernetes.io/session-cookie-name: route
   name: hive-ingress
   namespace: hive
 spec:
