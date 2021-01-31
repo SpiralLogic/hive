@@ -4,7 +4,7 @@ import {PlayerId, Tile} from '../domain';
 import {deepEqual} from 'fast-equals';
 import {handleDrop} from '../handlers';
 import {memo} from 'preact/compat';
-import {useTileDragEmitter} from '../emitters';
+import {useTileEventEmitter} from '../emitters';
 
 type Props = Tile;
 
@@ -14,15 +14,15 @@ const getPlayerColor = (playerId: PlayerId) => {
 };
 
 const TileFC: FunctionComponent<Props> = (props: Props) => {
-    const {id, moves, creature, playerId} = props;
-    const tileDragEmitter = useTileDragEmitter();
+    const {moves, creature, playerId} = props;
+    const tileEventEmitter = useTileEventEmitter();
 
     function handleDragStart() {
-        tileDragEmitter.emit({type: 'start', tile: props});
+        tileEventEmitter.emit({type: 'start', tile: props});
     }
 
     function handleDragEnd() {
-        tileDragEmitter.emit({type: 'end', tile: props});
+        tileEventEmitter.emit({type: 'end', tile: props});
     }
 
     const attributes = {

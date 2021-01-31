@@ -1,4 +1,4 @@
-import {CellDropEvent, useCellDropEmitter} from '../emitters';
+import {CellEvent, useCellEventEmitter} from '../emitters';
 import {FunctionComponent, h} from 'preact';
 import {GameState, MoveTile, PlayerId} from '../domain';
 import {JSXInternal} from "preact/src/jsx";
@@ -10,14 +10,14 @@ import PlayerList from './PlayerList';
 type Props = { gameState: GameState, moveTile: MoveTile }
 
 const GameArea: FunctionComponent<Props> = ({ gameState, moveTile}) => {
-    const cellDropEmitter = useCellDropEmitter();
+    const cellEventEmitter = useCellEventEmitter();
 
     useEffect(() => {
-        const cellDropListener = (e: CellDropEvent) => moveTile(gameState.gameId, e.move);
-        cellDropEmitter.add(cellDropListener);
+        const cellEventListener = (e: CellEvent) => moveTile(gameState.gameId, e.move);
+        cellEventEmitter.add(cellEventListener);
 
-        return () => cellDropEmitter.remove(cellDropListener);
-    }, [cellDropEmitter, gameState.gameId]);
+        return () => cellEventEmitter.remove(cellEventListener);
+    }, [cellEventEmitter, gameState.gameId]);
 
     const attributes = {
         ondragover: handleDragOver,

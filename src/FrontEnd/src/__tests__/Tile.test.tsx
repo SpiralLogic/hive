@@ -1,4 +1,4 @@
-import {TileDragEvent, useTileDragEmitter} from '../emitters';
+import {TileEvents, useTileEventEmitter} from '../emitters';
 import {fireEvent} from '@testing-library/preact';
 import {h} from 'preact';
 import {renderElement, simulateEvent} from './helpers';
@@ -44,26 +44,26 @@ describe('Tile', () => {
         });
 
         test('on drag emits start event', () => {
-            jest.spyOn(useTileDragEmitter(), 'emit');
+            jest.spyOn(useTileEventEmitter(), 'emit');
             fireEvent.dragStart(createTileCanMove());
 
-            const expectedEvent: TileDragEvent = {
+            const expectedEvent: TileEvents = {
                 type: 'start',
                 tile: tileCanMove,
             };
 
-            expect(useTileDragEmitter().emit).toHaveBeenCalledWith(expectedEvent);
+            expect(useTileEventEmitter().emit).toHaveBeenCalledWith(expectedEvent);
         });
 
         test('on dragEnd emits end event', () => {
-            jest.spyOn(useTileDragEmitter(), 'emit');
+            jest.spyOn(useTileEventEmitter(), 'emit');
             fireEvent.dragEnd(createTileCanMove());
-            const expectedEvent: TileDragEvent = {
+            const expectedEvent: TileEvents = {
                 type: 'end',
                 tile: tileCanMove,
             };
 
-            expect(useTileDragEmitter().emit).toHaveBeenCalledWith(expectedEvent);
+            expect(useTileEventEmitter().emit).toHaveBeenCalledWith(expectedEvent);
         });
 
         test('default on drop is prevented', () => {

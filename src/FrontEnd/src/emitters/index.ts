@@ -1,2 +1,2 @@
-export * from './cell-drop-emitter';
-export * from './tile-drag-emitter';
+export * from './cell-event-emitter';
+export * from './tile-event-emitter';

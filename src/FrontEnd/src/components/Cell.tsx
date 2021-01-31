@@ -1,6 +1,6 @@
 import {Cell, HexCoordinates, Tile as TileType} from '../domain';
 import {FunctionComponent, h} from 'preact';
-import {TileDragEvent, useCellDropEmitter, useTileDragEmitter,} from '../emitters';
+import {TileEvents, useCellEventEmitter, useTileEventEmitter,} from '../emitters';
 import {deepEqual} from 'fast-equals';
 import {handleDragOver} from '../handlers';
 import {memo} from 'preact/compat';
@@ -11,9 +11,9 @@ type Props = Cell;
 
 const CellFC: FunctionComponent<Props> = (props: Props) => {
     const {tiles, coords} = props;
-    const [tileDragEmitter, cellDropEmitter] = [
-        useTileDragEmitter(),
-        useCellDropEmitter(),
+    const [tileEventEmitter, cellEventEmitter] = [
+        useTileEventEmitter(),
+        useCellEventEmitter(),
     ];
     const isValidMove = (validMoves: HexCoordinates[]) =>
         validMoves.some((dest) => dest.q == coords.q && dest.r == coords.r)
@@ -33,18 +33,18 @@ const CellFC: FunctionComponent<Props> = (props: Props) => {
         if (!currentTile) return;
         ev.stopPropagation();
         move();
-        tileDragEmitter.emit({type: 'end', tile: currentTile});
+        tileEventEmitter.emit({type: 'end', tile: currentTile});
     }
 
     function move() {
         if (!currentTile || !isValidMove(currentTile.moves)) return;
-        cellDropEmitter.emit({
+        cellEventEmitter.emit({
             type: 'drop',
             move: {coords, tileId: currentTile.id},
         });
     }
 
-    function handleTileEvent(e: TileDragEvent) {
+    function handleTileEvent(e: TileEvents) {
         const valid = isValidMove(e.tile.moves);
 
         if (e.type === 'start') {
@@ -58,8 +58,8 @@ const CellFC: FunctionComponent<Props> = (props: Props) => {
     }
 
     useEffect(() => {
-        tileDragEmitter.add(handleTileEvent);
-        return () => tileDragEmitter.remove(handleTileEvent);
+        tileEventEmitter.add(handleTileEvent);
+        return () => tileEventEmitter.remove(handleTileEvent);
     });
 
     const attributes = {

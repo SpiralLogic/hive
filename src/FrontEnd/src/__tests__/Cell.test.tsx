@@ -2,7 +2,7 @@ import {act, fireEvent, render} from '@testing-library/preact';
 import {deepEqual} from 'fast-equals';
 import {h} from 'preact';
 import {renderElement, simulateEvent} from './helpers';
-import {useCellDropEmitter, useTileDragEmitter} from '../emitters';
+import {useCellEventEmitter, useTileEventEmitter} from '../emitters';
 import Cell from '../components/Cell';
 
 jest.mock('fast-equals', () => ({deepEqual: jest.fn(() => true)}));
@@ -22,7 +22,7 @@ describe('Cell', () => {
     };
 
     const createCellWithTileAndDrop = () => {
-        const tile = {id: 2, playerId: 2, creature: 'ant', moves: []};
+        const tile = {id: 2, playerId: 2, creature: 'ant', moves: [{r:0,q:0}]};
         const cell = {coords: {q: 2, r: 2}, tiles: [tile]};
 
         return renderElement(<Cell {...cell} />);
@@ -57,7 +57,7 @@ describe('Cell', () => {
     });
 
     describe('drag and drop', () => {
-        const emitter = useTileDragEmitter();
+        const emitter = useTileEventEmitter();
 
         function emitTileEvent(type: 'start' | 'end') {
             act(() =>
@@ -102,7 +102,7 @@ describe('Cell', () => {
         });
 
         test('drop calls moves tile when valid and active', () => {
-            jest.spyOn(useCellDropEmitter(), 'emit');
+            jest.spyOn(useCellEventEmitter(), 'emit');
             const cellWithTile = createCellWithTileAndDrop();
             const emptyCell = createCellCanDrop();
             emitTileEvent('start');
@@ -110,25 +110,25 @@ describe('Cell', () => {
             fireEvent.dragEnter(emptyCell);
             emitTileEvent('end');
 
-            expect(useCellDropEmitter().emit).toHaveBeenCalledWith({
+            expect(useCellEventEmitter().emit).toHaveBeenCalledWith({
                 type: 'drop',
                 move: {tileId: 2, coords: {q: 0, r: 0}},
             });
 
-            expect(useCellDropEmitter().emit).toHaveBeenCalledWith({
+            expect(useCellEventEmitter().emit).toHaveBeenCalledWith({
                 type: 'drop',
                 move: {tileId: 2, coords: {q: 2, r: 2}},
             });
         });
 
         test(`drop doesnt call move tile when cell doesn't allow drop`, () => {
-            jest.spyOn(useCellDropEmitter(), 'emit');
+            jest.spyOn(useCellEventEmitter(), 'emit');
             createCellWithTileNoDrop();
             createCellNoDrop();
             emitTileEvent('start');
             emitTileEvent('end');
 
-            expect(useCellDropEmitter().emit).not.toHaveBeenCalled();
+            expect(useCellEventEmitter().emit).not.toHaveBeenCalled();
         });
 
         test(`invalid cells don't call move tile on drop`, () => {
@@ -164,33 +164,43 @@ describe('Cell', () => {
             expect(document.getElementsByClassName('can-drop')).toHaveLength(0);
         });
 
-        test('cell click with active tile makes move', () => {
-            jest.spyOn(useCellDropEmitter(), 'emit');
+        test(`occupied cell with no active tile doesn't stop event propagation'`, () => {
+            jest.spyOn(useTileEventEmitter(), 'emit');
+            const cellWithTile = createCellWithTileAndDrop();
+            fireEvent.click(cellWithTile);
+
+            expect(useTileEventEmitter().emit).not.toBeCalled();
+        });
+
+        test(`cell click with active tile makes a move`, () => {
+            jest.spyOn(useCellEventEmitter(), 'emit');
+            jest.spyOn(useTileEventEmitter(), 'emit');
             const emptyCell = createCellCanDrop();
             emitTileEvent('start');
             fireEvent.click(emptyCell);
 
-            expect(useCellDropEmitter().emit).toHaveBeenCalledWith({
+            expect(useCellEventEmitter().emit).toHaveBeenCalledWith({
                 type: 'drop',
                 move: {tileId: 2, coords: {q: 0, r: 0}},
             });
+            expect(useTileEventEmitter().emit).toBeCalled();
         });
 
-        test('cell click with no active tile wont drop', () => {
-            jest.spyOn(useCellDropEmitter(), 'emit');
+        test(`cell click with no active tile shouldn't drop`, () => {
+            jest.spyOn(useCellEventEmitter(), 'emit');
             const emptyCell = createCellNoDrop();
             fireEvent.click(emptyCell);
 
-            expect(useCellDropEmitter().emit).not.toHaveBeenCalledWith();
+            expect(useCellEventEmitter().emit).not.toHaveBeenCalledWith();
         });
 
-        test('cell click with invalid tile wont drop', () => {
-            jest.spyOn(useCellDropEmitter(), 'emit');
+        test(`cell click with invalid tile shouldn't drop`, () => {
+            jest.spyOn(useCellEventEmitter(), 'emit');
             const emptyCell = createCellNoDrop();
             emitTileEvent('start');
             fireEvent.click(emptyCell);
 
-            expect(useCellDropEmitter().emit).not.toHaveBeenCalledWith();
+            expect(useCellEventEmitter().emit).not.toHaveBeenCalledWith();
         });
     });
 
