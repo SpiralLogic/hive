@@ -3,7 +3,7 @@ using Hive.Domain.Entities;
 
 namespace Hive.DTOs
 {
-    public sealed record GameState(IEnumerable<Player> Players, IEnumerable<Cell> Cells, string GameId)
+    public sealed record GameState(IList<Player> Players, ISet<Cell> Cells, string GameId)
     {
     }
 }

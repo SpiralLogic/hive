@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Hive.DTOs;
@@ -18,9 +17,7 @@ namespace Hive.Controllers
         private readonly IDistributedCache _distributedCache;
         private readonly JsonSerializerOptions _jsonSerializerOptions;
 
-        public MoveController(IHubContext<GameHub> hubContext,
-            IOptions<JsonOptions> jsonOptions,
-            IDistributedCache distributedCache)
+        public MoveController(IHubContext<GameHub> hubContext, IOptions<JsonOptions> jsonOptions, IDistributedCache distributedCache)
         {
             _hubContext = hubContext;
             _distributedCache = distributedCache;
@@ -31,14 +28,16 @@ namespace Hive.Controllers
         [Route("/api/move/{id}")]
         [Produces("application/json")]
         [ProducesErrorResponseType(typeof(NotFoundResult))]
-        public async Task<ActionResult> Post(string id, [FromBody] Move move)
+        public async Task<IActionResult> Post(string id, [FromBody] Move move)
         {
-            if (move == null) throw new ArgumentNullException(nameof(move));
+            if (move == null) return BadRequest();
+            if (string.IsNullOrEmpty(id)) return BadRequest();
+
             var gameSession = await _distributedCache.GetStringAsync(id);
-            if (gameSession == null) return NotFound();
+            if (string.IsNullOrEmpty(gameSession)) return NotFound();
 
             var gameState = JsonSerializer.Deserialize<GameState>(gameSession, _jsonSerializerOptions);
-            if (gameState == null) return NotFound();
+            if (gameState?.Players == null || gameState?.Cells == null) return NotFound();
 
             var game = new Domain.Hive(gameState.Players.ToList(), gameState.Cells.ToHashSet());
             game.Move(move.TileId, move.Coords);

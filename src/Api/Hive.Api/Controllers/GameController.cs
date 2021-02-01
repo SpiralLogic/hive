@@ -1,7 +1,6 @@
 ﻿using System.Text.Json;
+using System.Threading.Tasks;
 using Hive.DTOs;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Options;
@@ -25,13 +24,14 @@ namespace Hive.Controllers
 
         [HttpGet]
         [Route("/game/{id}/{playerId?}")]
-        public ActionResult Get(string id, int playerId = 0)
+        public async Task<IActionResult> Get(string id, int playerId = 0)
         {
-            var gameSession = _distributedCache.GetString(id);
-            if (gameSession == null)
+            var gameSession = await _distributedCache.GetStringAsync(id);
+            if (string.IsNullOrEmpty(gameSession)) 
             {
                 return Redirect("/");
             }
+            
             return new VirtualFileResult("/index.html", "text/html");
         }
 
@@ -39,13 +39,13 @@ namespace Hive.Controllers
         [Route("/api/game/{id}")]
         [Produces("application/json")]
         [ProducesErrorResponseType(typeof(NotFoundResult))]
-        public ActionResult<GameState> GetGame(string id, int playerId)
+        public async Task<ActionResult<GameState>> GetGame(string id)
         {
-            var gameSession = _distributedCache.GetString(id);
-            if (gameSession == null) return NotFound();
+            var gameSession = await _distributedCache.GetStringAsync(id);
+            if (string.IsNullOrEmpty(gameSession)) return NotFound();
 
             var gameState = JsonSerializer.Deserialize<GameState>(gameSession, _jsonSerializerOptions);
-            if (gameState == null) return NotFound();
+            if (gameState?.Players == null || gameState?.Cells == null) return NotFound();
 
             return Ok(gameState);
         }

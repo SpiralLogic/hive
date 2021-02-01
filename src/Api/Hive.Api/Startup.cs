@@ -2,6 +2,7 @@ using Hive.Converters;
 using Hive.Hubs;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
@@ -10,17 +11,19 @@ namespace Hive
     public class Startup
     {
         private readonly IWebHostEnvironment _currentEnvironment;
-        public Startup(IWebHostEnvironment env)
+        private IConfiguration _configuration;
+
+        public Startup(IWebHostEnvironment env, IConfiguration configuration)
         {
             _currentEnvironment = env;
+            _configuration = configuration;
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            var sigR = services
-                .AddSignalR()
+            var sigR = services.AddSignalR()
                 .AddJsonProtocol(options =>
                 {
                     options.PayloadSerializerOptions.Converters.Add(new CreatureJsonConverter());
@@ -29,8 +32,8 @@ namespace Hive
 
             if (_currentEnvironment.IsProduction())
             {
-                services.AddStackExchangeRedisCache(options => options.Configuration = "redis-cluster:6379");
-                sigR.AddStackExchangeRedis("redis-cluster:6379");
+                services.AddStackExchangeRedisCache(options => options.Configuration = _configuration["RedisHost"]);
+                sigR.AddStackExchangeRedis(_configuration["RedisHost"]);
             }
             else
             {
@@ -53,6 +56,7 @@ namespace Hive
                 app.UseDeveloperExceptionPage();
                 app.UseHttpsRedirection();
             }
+
             app.UseDefaultFiles();
             app.UseStaticFiles();
             app.UseRouting();
