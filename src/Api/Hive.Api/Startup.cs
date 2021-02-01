@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Hive.Converters;
 using Hive.Hubs;
 using Microsoft.AspNetCore.Builder;
@@ -11,8 +12,9 @@ namespace Hive
     public class Startup
     {
         private readonly IWebHostEnvironment _currentEnvironment;
-        private IConfiguration _configuration;
+        private readonly IConfiguration _configuration;
 
+        [ExcludeFromCodeCoverage]
         public Startup(IWebHostEnvironment env, IConfiguration configuration)
         {
             _currentEnvironment = env;
@@ -21,6 +23,7 @@ namespace Hive
 
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
+        [ExcludeFromCodeCoverage]
         public void ConfigureServices(IServiceCollection services)
         {
             var sigR = services.AddSignalR()
@@ -49,6 +52,7 @@ namespace Hive
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        [ExcludeFromCodeCoverage]
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())

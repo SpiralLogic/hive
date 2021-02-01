@@ -128,7 +128,7 @@ describe('Cell', () => {
             emitTileEvent('start');
             emitTileEvent('end');
 
-            expect(useCellEventEmitter().emit).not.toHaveBeenCalled();
+            expect(useCellEventEmitter().emit).not.toHaveBeenCalledWith({type:'drop'});
         });
 
         test(`invalid cells don't call move tile on drop`, () => {

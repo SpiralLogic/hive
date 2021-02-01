@@ -23,7 +23,7 @@ const getGameRequest = async (gameId: GameId): Promise<GameState> => {
         headers: requestHeaders,
     });
 
-    return await response.json();
+    return  response.json();
 }
 
 const fetchNewGame = async (): Promise<GameState> => {
@@ -32,7 +32,7 @@ const fetchNewGame = async (): Promise<GameState> => {
         headers: requestHeaders,
         body: JSON.stringify(''),
     });
-    return await response.json();
+    return  response.json();
 };
 
 
@@ -40,14 +40,13 @@ const connectGame = (gameId: GameId, handler: GameStateUpdateHandler): GameConne
     const getConnection = (gameId: GameId): [HubConnection, Promise<void>] => {
         const hubUrl = `${window.location.protocol}//${window.location.host}/gamehub/${gameId}`;
         const connection = new HubConnectionBuilder().withUrl(hubUrl).build();
+        connection.on("ReceiveGameState", handler);
         return [connection, connection.start()];
     }
 
     const [connection, startPromise] = getConnection(gameId);
 
-    startPromise.then(() => {
-        connection.on("ReceiveGameState", handler);
-    });
+
 
     return {
         getConnectionState: () => connection.state,

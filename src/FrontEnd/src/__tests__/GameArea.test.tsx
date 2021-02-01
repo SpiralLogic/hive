@@ -1,23 +1,11 @@
-import {CellEvent, useCellEventEmitter} from '../emitters';
 import {GameState} from "../domain";
 import {h} from 'preact';
 import {render} from '@testing-library/preact';
-import {renderElement, simulateEvent} from './helpers';
+import {simulateEvent} from './helpers';
 import Engine from '../game-engine';
 import GameArea from '../components/GameArea';
-import Hextille from '../components/Hextille';
-import PlayerList from '../components/PlayerList';
 
-jest.mock('../components/Hextille');
-jest.mock('../components/PlayerList', () =>
-    jest.fn(() => <div class="playerList"/>)
-);
 jest.mock('../game-engine');
-
-const cellDropEvent: CellEvent = {
-    move: {coords: {q: 1, r: 1}, tileId: 1},
-    type: 'drop',
-};
 
 let gameState: GameState;
 beforeEach(() => {
@@ -33,33 +21,13 @@ beforeEach(() => {
 });
 
 test('default on drop is prevented', async () => {
-    const gameArea = render(<GameArea gameState={gameState} moveTile={Engine.moveTile}/>);
+    const gameArea = render(<GameArea gameState={gameState} />);
     await Engine.newGame();
-    gameArea.rerender(<GameArea gameState={gameState} moveTile={Engine.moveTile}/>);
+    gameArea.rerender(<GameArea gameState={gameState}/>);
 
     const preventDefault = simulateEvent(
         gameArea.container.firstElementChild as HTMLElement,
         'dragover'
     );
     expect(preventDefault).toHaveBeenCalled();
-});
-
-test('calls update game on cell drop', async () => {
-    const gameArea = render(<GameArea gameState={gameState} moveTile={Engine.moveTile}/>);
-    await Engine.newGame();
-    gameArea.rerender(<GameArea gameState={gameState} moveTile={Engine.moveTile}/>);
-    useCellEventEmitter().emit(cellDropEvent);
-
-    expect(Engine.moveTile).toHaveBeenCalledTimes(1);
-});
-
-test('renders new state on cell drop', async () => {
-    const gameArea = render(<GameArea gameState={gameState} moveTile={Engine.moveTile}/>);
-    await Engine.newGame();
-    gameArea.rerender(<GameArea gameState={gameState} moveTile={Engine.moveTile}/>);
-
-    useCellEventEmitter().emit(cellDropEvent);
-
-    expect(Hextille).toHaveBeenCalledTimes(2);
-    expect(PlayerList).toHaveBeenCalledTimes(2);
 });

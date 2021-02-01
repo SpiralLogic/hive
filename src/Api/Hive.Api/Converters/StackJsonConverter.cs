@@ -51,10 +51,7 @@ namespace Hive.Converters
             {
                 elements.Push(JsonSerializer.Deserialize<T>(ref reader, options)!);
 
-                if (!reader.Read())
-                {
-                    throw new JsonException();
-                }
+                reader.Read();
             }
 
             return new Stack<T>(elements);

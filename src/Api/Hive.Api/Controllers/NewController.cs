@@ -2,7 +2,6 @@
 using Hive.DTOs;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Distributed;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
 namespace Hive.Controllers
@@ -13,7 +12,7 @@ namespace Hive.Controllers
         private readonly IDistributedCache _distributedCache;
         private readonly JsonSerializerOptions _jsonSerializerOptions;
 
-        public NewController(ILogger<NewController> logger, IOptions<JsonOptions> jsonOptions,
+        public NewController(IOptions<JsonOptions> jsonOptions,
             IDistributedCache distributedCache)
         {
             _distributedCache = distributedCache;

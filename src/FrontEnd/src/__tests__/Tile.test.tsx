@@ -33,7 +33,18 @@ describe('Tile', () => {
             expect(createTileCanMove().getElementsByTagName('object').item(0)).toHaveAttribute("data","/svg/ant.svg");
         });
     });
-
+    
+    test('click emits tile select event', () => {
+        jest.spyOn(useTileEventEmitter(), 'emit');
+        fireEvent.click(createTileCanMove());
+        const expectedEvent: TileEvents = {
+            type: 'start',
+            tile: tileCanMove,
+        };
+            
+        expect(useTileEventEmitter().emit).toHaveBeenCalledWith(expectedEvent);
+    });
+    
     describe('drag and drop', () => {
         test('Tile is draggable when there are available moves', () => {
             expect(createTileCanMove()).toHaveAttribute('draggable', 'true');
