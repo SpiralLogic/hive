@@ -12,7 +12,7 @@ const GameArea: FunctionComponent<Props> = ({ gameState}) => {
     const attributes = {
         ondragover: handleDragOver,
         className: 'hive',
-        style: {'--hex-size': '50px'} as JSXInternal.CSSProperties,
+        style: {'--hex-size': '5vh'} as JSXInternal.CSSProperties,
     };
     return (
         <div {...attributes}>
