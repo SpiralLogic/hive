@@ -4,8 +4,8 @@ body {
 
 .hive {
     display: flex;
-    height: 100%;
-    min-height: 600px;
+    height: 100vh;
+    min-height: 60vh;
     --hex-size: var(--hex-size, 60px);
     --margin: calc(var(--hex-size) / 12.5);
     --tile-size: calc(var(--hex-size) * .7);
