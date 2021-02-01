@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Net.Http.Headers;
 
 namespace Hive
 {
@@ -62,7 +63,15 @@ namespace Hive
             }
 
             app.UseDefaultFiles();
-            app.UseStaticFiles();
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                OnPrepareResponse = ctx =>
+                {
+                    const int durationInSeconds = 60 * 60 * 24;
+                    ctx.Context.Response.Headers[HeaderNames.CacheControl] =
+                        "public,max-age=" + durationInSeconds;
+                }
+            });
             app.UseRouting();
             app.UseEndpoints(endpoints =>
             {
