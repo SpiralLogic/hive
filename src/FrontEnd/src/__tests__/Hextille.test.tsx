@@ -45,17 +45,17 @@ describe('Hextille', () => {
         it('cells are sorted', () => {
             const { cells } = createWithCells([2, 0], [1, 0], [3, 0]);
 
-            expect(cells[0].getElementsByTagName('img').item(0)).toHaveAttribute('alt', '1-0');
-            expect(cells[1].getElementsByTagName('img').item(0)).toHaveAttribute('alt', '2-0');
-            expect(cells[2].getElementsByTagName('img').item(0)).toHaveAttribute('alt', '3-0');
+            expect(cells[0].getElementsByTagName('use').item(0)).toHaveAttribute('href', expect.stringContaining('1-0'));
+            expect(cells[1].getElementsByTagName('use').item(0)).toHaveAttribute('href', expect.stringContaining('2-0'));
+            expect(cells[2].getElementsByTagName('use').item(0)).toHaveAttribute('href', expect.stringContaining('3-0'));
         });
 
         it('rows are sorted', () => {
             const { rows } = createWithCells([0, 3], [0, 1], [0, 2]);
 
-            expect(rows[0].getElementsByTagName('img').item(0)).toHaveAttribute('alt', '0-1');
-            expect(rows[1].getElementsByTagName('img').item(0)).toHaveAttribute('alt', '0-2');
-            expect(rows[2].getElementsByTagName('img').item(0)).toHaveAttribute('alt', '0-3');
+            expect(rows[0].getElementsByTagName('use').item(0)).toHaveAttribute('href', expect.stringContaining('0-1'));
+            expect(rows[1].getElementsByTagName('use').item(0)).toHaveAttribute('href', expect.stringContaining('0-2'));
+            expect(rows[2].getElementsByTagName('use').item(0)).toHaveAttribute('href', expect.stringContaining('0-3'));
         });
     });
 

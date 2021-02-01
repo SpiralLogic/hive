@@ -1,7 +1,7 @@
-import {TileEvents, useTileEventEmitter} from '../emitters';
-import {fireEvent} from '@testing-library/preact';
-import {h} from 'preact';
-import {renderElement, simulateEvent} from './helpers';
+import { TileEvents, useTileEventEmitter } from '../emitters';
+import { fireEvent } from '@testing-library/preact';
+import { h } from 'preact';
+import { renderElement, simulateEvent } from './helpers';
 import Tile from '../components/Tile';
 
 describe('Tile', () => {
@@ -10,9 +10,9 @@ describe('Tile', () => {
         id: 1,
         playerId: 1,
         creature: 'ant',
-        moves: [{q: 1, r: 1}],
+        moves: [{ q: 1, r: 1 }],
     };
-    const tileNoMove = {id: 2, playerId: 0, creature: 'fly', moves: []};
+    const tileNoMove = { id: 2, playerId: 0, creature: 'fly', moves: [] };
 
     const createTileCanMove = () => {
         return renderElement(<Tile {...tileCanMove} />);
@@ -23,17 +23,17 @@ describe('Tile', () => {
     };
 
     describe('Tile Render', () => {
-        test("tile color is the player's color", () => {
+        test('tile color is the player\'s color', () => {
             expect(createTileCanMove()).toHaveStyle('--color: #f64c72');
             expect(createTileNoMove()).toHaveStyle('--color: #85dcbc');
         });
 
         test('has creature', () => {
-            expect(createTileNoMove().getElementsByTagName('object').item(0)).toHaveAttribute("data","/svg/fly.svg");
-            expect(createTileCanMove().getElementsByTagName('object').item(0)).toHaveAttribute("data","/svg/ant.svg");
+            expect(createTileNoMove().getElementsByTagName('use').item(0)).toHaveAttribute('href', expect.stringContaining('fly'));
+            expect(createTileCanMove().getElementsByTagName('use').item(0)).toHaveAttribute('href', expect.stringContaining('ant'));
         });
     });
-    
+
     test('click emits tile select event', () => {
         jest.spyOn(useTileEventEmitter(), 'emit');
         fireEvent.click(createTileCanMove());
@@ -41,10 +41,10 @@ describe('Tile', () => {
             type: 'start',
             tile: tileCanMove,
         };
-            
+
         expect(useTileEventEmitter().emit).toHaveBeenCalledWith(expectedEvent);
     });
-    
+
     describe('drag and drop', () => {
         test('Tile is draggable when there are available moves', () => {
             expect(createTileCanMove()).toHaveAttribute('draggable', 'true');

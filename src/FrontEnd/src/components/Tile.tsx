@@ -46,8 +46,8 @@ const TileFC: FunctionComponent<Props> = (props: Props) => {
 
     return (
         <div {...attributes} {...handlers}>
-            <svg xmlns="http://www.w3.org/2000/svg">
-                <use href={`/svg/creatures.svg#${creature.toLowerCase()}`}></use>
+            <svg  xmlns="http://www.w3.org/2000/svg">
+                <use href={`/svg/creatures.svg#${creature.toLowerCase()}`}/>
             </svg>
         </div>
     );
