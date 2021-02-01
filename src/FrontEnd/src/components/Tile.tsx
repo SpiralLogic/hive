@@ -1,10 +1,10 @@
-import {FunctionComponent, h} from 'preact';
-import {JSXInternal} from "preact/src/jsx";
-import {PlayerId, Tile} from '../domain';
-import {deepEqual} from 'fast-equals';
-import {handleDrop} from '../handlers';
-import {memo} from 'preact/compat';
-import {useTileEventEmitter} from '../emitters';
+import { FunctionComponent, h } from 'preact';
+import { JSXInternal } from 'preact/src/jsx';
+import { PlayerId, Tile } from '../domain';
+import { deepEqual } from 'fast-equals';
+import { handleDrop } from '../handlers';
+import { memo } from 'preact/compat';
+import { useTileEventEmitter } from '../emitters';
 
 type Props = Tile;
 
@@ -14,20 +14,20 @@ const getPlayerColor = (playerId: PlayerId) => {
 };
 
 const TileFC: FunctionComponent<Props> = (props: Props) => {
-    const {moves, creature, playerId} = props;
+    const { moves, creature, playerId } = props;
     const tileEventEmitter = useTileEventEmitter();
 
-    function handleDragStart() {
-        tileEventEmitter.emit({type: 'start', tile: props});
+    function handleDragStart () {
+        tileEventEmitter.emit({ type: 'start', tile: props });
     }
 
-    function handleDragEnd() {
-        tileEventEmitter.emit({type: 'end', tile: props});
+    function handleDragEnd () {
+        tileEventEmitter.emit({ type: 'end', tile: props });
     }
 
     const attributes = {
         title: creature,
-        style: {'--color': getPlayerColor(playerId)} as JSXInternal.CSSProperties,
+        style: { '--color': getPlayerColor(playerId) } as JSXInternal.CSSProperties,
         class: 'hex tile',
         draggable: !!moves.length,
         ondrop: handleDrop
@@ -40,14 +40,12 @@ const TileFC: FunctionComponent<Props> = (props: Props) => {
     } : {};
 
     const svg = `/svg/${creature.toLowerCase()}.svg`;
-    const showSvg = creature === "Queen" || creature === "Grasshopper";
 
     return (
         <div {...attributes} {...handlers}>
-            {showSvg ?
-                <object type="image/svg+xml" data={svg}>
-                    <img src={svg}/>
-                </object> : <span>{creature}</span>}
+            <object type="image/svg+xml" data={svg}>
+                <img src={svg} alt={creature}/>
+            </object>
         </div>
     );
 };

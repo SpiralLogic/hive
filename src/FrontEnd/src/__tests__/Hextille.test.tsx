@@ -1,11 +1,11 @@
-import {HexCoordinates} from '../domain';
-import {h} from 'preact';
-import {renderElement} from './helpers';
+import { HexCoordinates } from '../domain';
+import { h } from 'preact';
+import { renderElement } from './helpers';
 import Hextille from '../components/Hextille';
 
 describe('Hextille', () => {
     const createCell = (q: number, r: number) => ({
-        coords: {q, r},
+        coords: { q, r },
         tiles: [
             {
                 creature: q + '-' + r,
@@ -25,49 +25,49 @@ describe('Hextille', () => {
         const cells = document.body.getElementsByClassName('cell');
         const hidden = document.body.getElementsByClassName('hidden');
 
-        return {rows, cells, hidden, hextille} as const;
+        return { rows, cells, hidden, hextille } as const;
     };
 
     describe('Hextille tests', () => {
         it('can be created with 1 cell', () => {
-            const {rows, cells} = createWithCells([0, 0]);
+            const { rows, cells } = createWithCells([0, 0]);
 
             expect(cells).toHaveLength(1);
             expect(rows).toHaveLength(1);
         });
 
         it('r increases rows', () => {
-            const {rows} = createWithCells([0, 0], [0, 1], [0, 2]);
+            const { rows } = createWithCells([0, 0], [0, 1], [0, 2]);
 
             expect(rows).toHaveLength(3);
         });
 
         it('cells are sorted', () => {
-            const {cells} = createWithCells([2, 0], [1, 0], [3, 0]);
+            const { cells } = createWithCells([2, 0], [1, 0], [3, 0]);
 
-            expect(cells[0]).toHaveTextContent('1-0');
-            expect(cells[1]).toHaveTextContent('2-0');
-            expect(cells[2]).toHaveTextContent('3-0');
+            expect(cells[0].getElementsByTagName('img').item(0)).toHaveAttribute('alt', '1-0');
+            expect(cells[1].getElementsByTagName('img').item(0)).toHaveAttribute('alt', '2-0');
+            expect(cells[2].getElementsByTagName('img').item(0)).toHaveAttribute('alt', '3-0');
         });
 
         it('rows are sorted', () => {
-            const {rows} = createWithCells([0, 3], [0, 1], [0, 2]);
+            const { rows } = createWithCells([0, 3], [0, 1], [0, 2]);
 
-            expect(rows[0]).toHaveTextContent('0-1');
-            expect(rows[1]).toHaveTextContent('0-2');
-            expect(rows[2]).toHaveTextContent('0-3');
+            expect(rows[0].getElementsByTagName('img').item(0)).toHaveAttribute('alt', '0-1');
+            expect(rows[1].getElementsByTagName('img').item(0)).toHaveAttribute('alt', '0-2');
+            expect(rows[2].getElementsByTagName('img').item(0)).toHaveAttribute('alt', '0-3');
         });
     });
 
     describe('Row alignment', () => {
         it('shifts left when even rows have odd starting  index', () => {
-            const {hextille} = createWithCells([0, 1], [0, 2], [0, 3]);
+            const { hextille } = createWithCells([0, 1], [0, 2], [0, 3]);
 
             expect(hextille).toHaveClass('left');
         });
 
         it('shifts right when even rows have even starting index', () => {
-            const {hextille} = createWithCells([0, 2], [0, 3], [0, 4]);
+            const { hextille } = createWithCells([0, 2], [0, 3], [0, 4]);
 
             expect(hextille).toHaveClass('right');
         });

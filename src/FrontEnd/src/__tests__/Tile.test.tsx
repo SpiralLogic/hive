@@ -29,8 +29,8 @@ describe('Tile', () => {
         });
 
         test('has creature', () => {
-            expect(createTileNoMove()).toHaveTextContent('fly');
-            expect(createTileCanMove()).toHaveTextContent('ant');
+            expect(createTileNoMove().getElementsByTagName('object').item(0)).toHaveAttribute("data","/svg/fly.svg");
+            expect(createTileCanMove().getElementsByTagName('object').item(0)).toHaveAttribute("data","/svg/ant.svg");
         });
     });
 
