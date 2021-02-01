@@ -30,7 +30,7 @@ const TileFC: FunctionComponent<Props> = (props: Props) => {
         style: {'--color': getPlayerColor(playerId)} as JSXInternal.CSSProperties,
         class: 'hex tile',
         draggable: !!moves.length,
-        ondrop: handleDrop,
+        ondrop: handleDrop
     };
 
     const handlers = attributes.draggable ? {
@@ -39,9 +39,15 @@ const TileFC: FunctionComponent<Props> = (props: Props) => {
         ondragend: handleDragEnd,
     } : {};
 
+    const svg = `/svg/${creature.toLowerCase()}.svg`;
+    const showSvg = creature === "Queen" || creature === "Grasshopper";
+
     return (
         <div {...attributes} {...handlers}>
-            <span>{creature}</span>
+            {showSvg ?
+                <object type="image/svg+xml" data={svg}>
+                    <img src={svg}/>
+                </object> : <span>{creature}</span>}
         </div>
     );
 };

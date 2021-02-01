@@ -5,7 +5,7 @@
   "scripts": {
     "test": "npx tsc --noEmit && npx jest --coverage",
     "build": "pnpx tsc --noEmit && esbuild ./src/index.tsx --bundle  --sourcemap --outfile=./public/js/index.js",
-    "prestart": "rimraf -rf ./public/js/index.js* && rimraf -rf ../Api/Hive.Api/wwwroot  && rimraf -rf ../Api/Hive.Api/bin && pnpm run build && pnpx copy  ./public/** ../Api/Hive.Api/wwwroot",
+    "prestart": "rimraf -rf ./public/js/index.js* && rimraf -rf ../Api/Hive.Api/wwwroot  && rimraf -rf ../Api/Hive.Api/bin && pnpm run build && pnpx copyfiles -u 1 \"./public/**/*\" ../Api/Hive.Api/wwwroot",
     "start": "dotnet watch -v -p ../Api/Hive.Api run",
     "preinstall": "npx only-allow pnpm"
   },
@@ -20,7 +20,7 @@
     "@typescript-eslint/eslint-plugin": "^4.14.1",
     "@typescript-eslint/parser": "^4.14.1",
     "chalk": "^4.1.0",
-    "copy": "^0.3.2",
+    "copyfiles": "^2.4.1",
     "esbuild": "^0.8.37",
     "eslint": "^7.18.0",
     "eslint-config-prettier": "^7.2.0",

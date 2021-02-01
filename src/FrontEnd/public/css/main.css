@@ -128,6 +128,13 @@ body {
     font-size: 50%;
 }
 
+.tile Object {
+    max-height: 70px;
+    max-width: 70px;
+    z-index: 10;
+    pointer-events: none;
+}
+
 .cell > .tile {
     margin: 0;
 }
