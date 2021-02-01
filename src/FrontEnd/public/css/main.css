@@ -128,9 +128,9 @@ body {
     font-size: 50%;
 }
 
-.tile Object {
-    max-height: 70px;
-    max-width: 70px;
+.tile object {
+    max-height: 60px;
+    max-width: 82px;
     z-index: 10;
     pointer-events: none;
 }

@@ -7,9 +7,15 @@ exports[`Tile Tile Snapshot can move matches current snapshot 1`] = `
   style="--color: #f64c72;"
   title="ant"
 >
-  <span>
-    ant
-  </span>
+  <object
+    data="/svg/ant.svg"
+    type="image/svg+xml"
+  >
+    <img
+      alt="ant"
+      src="/svg/ant.svg"
+    />
+  </object>
 </div>
 `;
 
@@ -20,8 +26,14 @@ exports[`Tile Tile Snapshot no moves matches current snapshot 1`] = `
   style="--color: #85dcbc;"
   title="fly"
 >
-  <span>
-    fly
-  </span>
+  <object
+    data="/svg/fly.svg"
+    type="image/svg+xml"
+  >
+    <img
+      alt="fly"
+      src="/svg/fly.svg"
+    />
+  </object>
 </div>
 `;
