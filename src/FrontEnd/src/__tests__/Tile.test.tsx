@@ -5,7 +5,6 @@ import { renderElement, simulateEvent } from './helpers';
 import Tile from '../components/Tile';
 
 describe('Tile', () => {
-
     const tileCanMove = {
         id: 1,
         playerId: 1,

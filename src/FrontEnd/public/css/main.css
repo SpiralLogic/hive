@@ -1,12 +1,11 @@
 body {
-    margin: 0;
-
+    margin: 1px;
 }
 
 .hive {
     display: flex;
-    min-height: 110vh;
-    min-width: 100vw;
+    height: 100vh;
+    width: 100vw;
     --hex-size: var(--hex-size, 5vh);
     --margin: calc(var(--hex-size) / 12.5);
     --tile-size: calc(var(--hex-size) * .7);
@@ -24,8 +23,8 @@ body {
     display: flex;
     flex-direction: column;
     background-color: rgba(0, 0, 0, 0.7);
-    margin-right: .01vh;
     border-radius: .3vh;
+    margin: 1px;
 }
 
 .player .name {
@@ -43,13 +42,14 @@ body {
 }
 
 .hextille {
-    min-height: 100vh;
-    min-width: 100vw;
     background: #1A1A1D;
     display: flex;
     align-items: center;
     border-radius: .4vh;
     flex-direction: column;
+    justify-content: center;
+    border-left: 1px solid transparent;
+    border-right: 1px solid transparent;
 }
 
 .hex-row {
@@ -156,9 +156,20 @@ body {
     --color: #5D001E;
 }
 
+div.creatures-svg {
+    width: 0;
+    height: 0;
+    visibility: hidden;
+    display: none;
+}
+
 @media only screen and (max-width: 720px) {
     .player {
         flex-direction: row;
+    }
+
+    body {
+        margin: 0;
     }
 
     .player.tiles {
@@ -197,8 +208,8 @@ body {
         width: 100%;
     }
 
-    .hextille {
-        min-width: 0;
+    .hextille div {
+        min-width: fit-content;
         justify-content: flex-start;
         overflow-x: scroll;
         padding-top: 4vh;
@@ -210,7 +221,7 @@ body {
     }
 }
 
-@media only screen and (any-pointer:coarse)  {
+@media only screen and (any-pointer: coarse) {
     .hex.can-drop {
         --color: #AFD275;
     }
