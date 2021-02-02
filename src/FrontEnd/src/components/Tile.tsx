@@ -6,13 +6,12 @@ import {handleDrop} from '../handlers';
 import {memo} from 'preact/compat';
 import {useTileEventEmitter} from '../emitters';
 
-type Props = Tile;
-
 const getPlayerColor = (playerId: PlayerId) => {
     const playerColors = ['#85dcbc', '#f64c72'];
     return playerColors[playerId] || 'red';
 };
 
+type Props = Tile;
 const TileFC: FunctionComponent<Props> = (props: Props) => {
     const {moves, creature, playerId} = props;
     const tileEventEmitter = useTileEventEmitter();
@@ -47,7 +46,7 @@ const TileFC: FunctionComponent<Props> = (props: Props) => {
     return (
         <div {...attributes} {...handlers}>
             <svg  xmlns="http://www.w3.org/2000/svg">
-                <use href={`/svg/creatures.svg#${creature.toLowerCase()}`}/>
+                <use href={`#${creature.toLowerCase()}`}/>
             </svg>
         </div>
     );
