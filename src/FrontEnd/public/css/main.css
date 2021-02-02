@@ -199,11 +199,11 @@ body {
     }
 
     .hextille {
-        width: calc(100 - var(--hex-size)*2 - 2*var(--margin));
+        width: calc(100 - 2 * (var(--hex-size) - var(--margin)));
         justify-content: flex-start;
         overflow-x: scroll;
         padding-top: 4vh;
-        padding-left: calc(var(--hex-size)*4 + 2*var(--margin));
+        padding-left: calc(2 * (var(--hex-size) * 2 +  var(--margin)));
     }
 
     .hex-row {
