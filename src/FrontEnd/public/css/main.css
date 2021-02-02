@@ -210,7 +210,7 @@ body {
     }
 }
 
-@media only screen and (any-hover) {
+@media only screen and (any-pointer:coarse)  {
     .hex.can-drop {
         --color: #AFD275;
     }
