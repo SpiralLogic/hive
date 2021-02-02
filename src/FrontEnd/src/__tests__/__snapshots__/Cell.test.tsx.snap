@@ -16,15 +16,13 @@ exports[`Cell Cell Snapshot cell with tile matches current snapshot 1`] = `
     style="--color: red;"
     title="fly"
   >
-    <object
-      data="/svg/fly.svg"
-      type="image/svg+xml"
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
     >
-      <img
-        alt="fly"
-        src="/svg/fly.svg"
+      <use
+        href="/svg/creatures.svg#fly"
       />
-    </object>
+    </svg>
   </div>
 </div>
 `;
