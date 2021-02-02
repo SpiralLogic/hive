@@ -1,11 +1,12 @@
+
 body {
-    margin: .1vh;
+    margin: .01vh;
 }
 
 .hive {
     display: flex;
-    height: 100vh;
-    min-height: 60vh;
+    min-height: 100vh;
+    max-width: 100vw;
     --hex-size: var(--hex-size, 5vh);
     --margin: calc(var(--hex-size) / 12.5);
     --tile-size: calc(var(--hex-size) * .7);
@@ -16,7 +17,7 @@ body {
 .players {
     display: flex;
     flex-direction: row;
-    height: 99%;
+    height: 99vh;
     border-radius: .4vh;
 }
 
@@ -43,8 +44,8 @@ body {
 }
 
 .hextille {
-    width: 100%;
-    height: 99%;
+    width: 100vw;
+    min-height: 99vh;
     background: #1A1A1D;
     display: flex;
     align-items: center;
@@ -155,4 +156,62 @@ body {
 
 .hex.active {
     --color: #5D001E;
+}
+
+@media only screen and (max-width: 600px) {
+    .player {
+        flex-direction: row;
+    }
+
+    .player.tiles {
+        flex-direction: column;
+    }
+
+    .player .name {
+        align-self: center;
+    }
+
+    .hive {
+        display: block;
+    }
+
+    .players {
+        overflow-x: scroll;
+        display: block;
+        flex-direction: column;
+        height: fit-content;
+    }
+
+    .player {
+        flex-direction: row;
+        margin-right: 0;
+        width: 100vw;
+    }
+
+    .player .tile {
+        margin-top: calc(var(--size) - 2 * var(--margin));
+    }
+
+    .player .tiles {
+        display: inline-flex;
+        flex-direction: row;
+        overflow: scroll;
+        width: 100%;
+    }
+
+    .hextille {
+        width: calc(100 - var(--hex-size)*2 - 2*var(--margin));
+        justify-content: flex-start;
+        overflow-x: scroll;
+        padding-top: 4vh;
+        padding-left: calc(var(--hex-size)*4 + 2*var(--margin));
+    }
+
+    .hex-row {
+        display: flex;
+    }
+
+    .hex.can-drop {
+        --color: #AFD275;
+    }
 }
