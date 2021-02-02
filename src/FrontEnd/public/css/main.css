@@ -37,19 +37,14 @@ body {
     border-radius: .4vh 4vh 0 0;
 }
 
-.player .tiles {
-    margin: .3vh;
-}
-
 .hextille {
     background: #1A1A1D;
+    min-height: 80vh;
     display: flex;
-    align-items: center;
     border-radius: .4vh;
+    align-items: center;
     flex-direction: column;
     justify-content: center;
-    border-left: 1px solid transparent;
-    border-right: 1px solid transparent;
 }
 
 .hex-row {
@@ -57,12 +52,12 @@ body {
     flex-direction: row
 }
 
-.right > .hex-row:nth-child(even), .left > .hex-row:nth-child(odd) {
-    margin-left: calc(1.8 * var(--hex-size) / 2);
+.left > .hex-row:nth-child(even), .right > .hex-row:nth-child(odd) {
+    margin-right: calc(1.8 * var(--hex-size) / 2);
 }
 
-.left > .hex-row:nth-child(even), .right > .hex-row:nth-child(odd) {
-    margin-left: calc(1.8 * var(--hex-size) / -2);
+.right > .hex-row:nth-child(even), .left > .hex-row:nth-child(odd) {
+    margin-left: calc(1.8 * var(--hex-size) / 2);
 }
 
 .hex {
@@ -194,7 +189,7 @@ div.creatures-svg {
     .player {
         flex-direction: row;
         margin-right: 0;
-        width: 100vw;
+        width: 100%;
     }
 
     .player .tile {
@@ -208,12 +203,16 @@ div.creatures-svg {
         width: 100%;
     }
 
-    .hextille div {
-        min-width: fit-content;
-        justify-content: flex-start;
+    .hex-container {
         overflow-x: scroll;
+    }
+
+    .hextille {
+        min-width: fit-content;
         padding-top: 4vh;
-        height: 800vh;
+        height: 85%;
+        border-left: 10vh solid transparent;
+        border-right: 10vh solid transparent;
     }
 
     .hex-row {
