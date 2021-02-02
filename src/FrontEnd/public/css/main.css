@@ -208,7 +208,9 @@ body {
     .hex-row {
         display: flex;
     }
+}
 
+@media only screen and (any-hover) {
     .hex.can-drop {
         --color: #AFD275;
     }
