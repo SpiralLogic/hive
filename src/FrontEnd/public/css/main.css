@@ -157,7 +157,7 @@ body {
     --color: #5D001E;
 }
 
-@media only screen and (max-width: 600px) {
+@media only screen and (min-width: 800px) {
     .player {
         flex-direction: row;
     }

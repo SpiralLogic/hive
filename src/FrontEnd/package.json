@@ -7,7 +7,7 @@
     "test": "pnpx tsc --noEmit && npx jest --coverage",
     "build-dev": "pnpx tsc --noEmit && pnpx esbuild ./src/index.tsx --bundle  --sourcemap  --outfile=./public/js/index.js",
     "build": "pnpx tsc --noEmit && pnpx esbuild ./src/index.tsx --bundle  --minify --outfile=./public/js/index.js",
-    "prestart": "pnpm run clean && pnpm run build-dev && pnpx copyfiles -u 1 \"./public/**/*\" ../Api/Hive.Api/wwwroot",
+    "prestart": "pnpm run build-dev && pnpx copyfiles -u 1 \"./public/**/*\" ../Api/Hive.Api/wwwroot",
     "start": "dotnet watch -v -p ../Api/Hive.Api run",
     "preinstall": "npx only-allow pnpm"
   },
@@ -32,6 +32,8 @@
     "eslint-plugin-jest-dom": "^3.6.5",
     "eslint-plugin-prettier": "^3.3.1",
     "eslint-plugin-sort-imports-es6-autofix": "0.5.0",
+    "jest": "^26.6.3",
+    "jest-cli": "^26.6.3",
     "prettier": "^2.2.1",
     "rimraf": "^3.0.2",
     "ts-jest": "^26.5.0",
