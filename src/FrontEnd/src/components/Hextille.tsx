@@ -49,7 +49,7 @@ const Hextille: FunctionComponent<Props> = (props: Props) => {
     const rows = createRows(sortedHexagons);
 
     return (
-        <div className="hex-container">
+        <div className={`hex-container ${shiftClass}`}>
             <div className={'hextille ' + shiftClass}>
                 {rows.map((row) => (
                     <Row key={row.id} {...row} />

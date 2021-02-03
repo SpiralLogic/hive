@@ -39,7 +39,9 @@ body {
 
 .hextille {
     background: #1A1A1D;
-    min-height: 80vh;
+    min-height: 100vh;
+    width: 92vw;
+    min-width: fit-content;
     display: flex;
     border-radius: .4vh;
     align-items: center;
@@ -183,13 +185,15 @@ div.creatures-svg {
         overflow-x: scroll;
         display: block;
         flex-direction: column;
-        height: fit-content;
+        height: fit-content;        border-radius: 0;
+
     }
 
     .player {
         flex-direction: row;
-        margin-right: 0;
+        margin: 0;
         width: 100%;
+        border-radius: 0;
     }
 
     .player .tile {
@@ -201,6 +205,8 @@ div.creatures-svg {
         flex-direction: row;
         overflow: scroll;
         width: 100%;
+        padding-left: 3px;
+
     }
 
     .hex-container {
@@ -211,8 +217,11 @@ div.creatures-svg {
         min-width: fit-content;
         padding-top: 4vh;
         height: 85%;
-        border-left: 10vh solid transparent;
-        border-right: 10vh solid transparent;
+        min-height: 85vh;
+        border-radius: 0;
+        width: 80vw;
+        border-left: 10vw solid transparent;
+        border-right: 10vw solid transparent;
     }
 
     .hex-row {
@@ -220,7 +229,7 @@ div.creatures-svg {
     }
 }
 
-@media only screen and (any-pointer: coarse) {
+@media (max-width: 720px) {
     .hex.can-drop {
         --color: #AFD275;
     }
