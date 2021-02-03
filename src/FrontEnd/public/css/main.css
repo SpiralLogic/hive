@@ -54,11 +54,11 @@ body {
     flex-direction: row
 }
 
-.left > .hex-row:nth-child(even), .right > .hex-row:nth-child(odd) {
+.left > .hextille > .hex-row:nth-child(even), .right > .hextille > .hex-row:nth-child(odd) {
     margin-right: calc(1.8 * var(--hex-size) / 2);
 }
 
-.right > .hex-row:nth-child(even), .left > .hex-row:nth-child(odd) {
+.right > .hextille > .hex-row:nth-child(even), .left > .hextille > .hex-row:nth-child(odd) {
     margin-left: calc(1.8 * var(--hex-size) / 2);
 }
 
@@ -178,15 +178,17 @@ div.creatures-svg {
     }
 
     .hive {
+        overflow-x: scroll;
         display: block;
     }
 
     .players {
-        overflow-x: scroll;
         display: block;
         flex-direction: column;
-        height: fit-content;        border-radius: 0;
-
+        height: 16vh;
+        border-radius: 0;
+        position: sticky;
+        top: 0;
     }
 
     .player {
@@ -210,16 +212,17 @@ div.creatures-svg {
     }
 
     .hex-container {
-        overflow-x: scroll;
+        width: 100vw;
+        height: 84vh;
+        overflow: scroll;
     }
 
     .hextille {
         min-width: fit-content;
-        padding-top: 4vh;
-        height: 85%;
-        min-height: 85vh;
+        min-height: fit-content;
         border-radius: 0;
         width: 80vw;
+        height: 84vh;
         border-left: 10vw solid transparent;
         border-right: 10vw solid transparent;
     }

@@ -50,7 +50,7 @@ const Hextille: FunctionComponent<Props> = (props: Props) => {
 
     return (
         <div className={`hex-container ${shiftClass}`}>
-            <div className={'hextille ' + shiftClass}>
+            <div className={'hextille'}>
                 {rows.map((row) => (
                     <Row key={row.id} {...row} />
                 ))}
