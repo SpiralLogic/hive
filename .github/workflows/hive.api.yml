@@ -20,6 +20,6 @@ jobs:
         run: dotnet build
         working-directory: './src/Api/Hive.Api.Tests/'
       - name: Test
-        run: dotnet test
+        run: dotnet test /p:CollectCoverage=true /p:CoverletOutput=TestResults/ /p:CoverletOutputFormat=lcov
         working-directory: './src/Api/Hive.Api.Tests/'
         
