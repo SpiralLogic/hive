@@ -134,7 +134,7 @@ Object {
     class="hex-container right"
   >
     <div
-      class="hextille right"
+      class="hextille"
     >
       <div
         class="hex-row"

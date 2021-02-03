@@ -18,7 +18,7 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   annotations:
-    cert-manager.io/issuer: hive-prod
+    cert-manager.io/issuer: hive-issuer
   name: hive-ingress
   namespace: hive
 spec:
