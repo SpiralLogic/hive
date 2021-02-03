@@ -13,17 +13,20 @@ describe('GameEngine', () => {
         on: jest.fn().mockResolvedValue(true),
         stop: jest.fn().mockResolvedValue(true),
         off: jest.fn().mockResolvedValue(true),
+        onreconnecting: jest.fn(),
+        onreconnected: jest.fn(),
+        onclose: jest.fn(),
         state: state,
     });
-    const returnBuilder = () => builder;
 
+    let hubConnection: ReturnType<typeof createHubConnection>;
+    const signalRWithUrlMock = jest.fn().mockReturnThis();
     const builder = jest.fn().mockImplementation(() => (
         {
-            withUrl: jest.fn().mockImplementation(returnBuilder),
-            withAutomaticReconnect: jest.fn().mockImplementation(returnBuilder),
+            withUrl: signalRWithUrlMock,
+            withAutomaticReconnect: jest.fn().mockReturnThis(),
             build: jest.fn().mockReturnValue(hubConnection),
         }));
-    let hubConnection: ReturnType<typeof createHubConnection>;
 
     beforeEach(function () {
         // eslint-disable-next-line no-undef
@@ -73,7 +76,7 @@ describe('GameEngine', () => {
             const handler = jest.fn();
             const { getConnectionState } = Engine.connectGame('667', handler);
             await getConnectionState();
-        //    expect(builder.).toBeCalledWith('http://localhost/gamehub/667');
+            expect(signalRWithUrlMock).toBeCalledWith('http://localhost/gamehub/667');
         });
 
         it(`web socket connection state can be retrieved`, async () => {
@@ -90,16 +93,6 @@ describe('GameEngine', () => {
             await closeConnection();
             expect(hubConnection.off).toBeCalledTimes(1);
             expect(hubConnection.stop).toBeCalledTimes(1);
-        });
-
-        it(`web socket connection doesnt close a closed connection`, async () => {
-            const handler = jest.fn();
-            hubConnection = createHubConnection(HubConnectionState.Disconnected);
-            signalR.HubConnection = jest.fn(() => hubConnection);
-            const { getConnectionState, closeConnection } = Engine.connectGame('33', handler);
-            await closeConnection();
-            expect(hubConnection.off).toBeCalledTimes(0);
-            expect(hubConnection.stop).toBeCalledTimes(0);
         });
 
         it(`connection state is disconnected initially`, async () => {
