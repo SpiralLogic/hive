@@ -18,8 +18,8 @@ jobs:
           dotnet-version: '5.0.x'
       - name: Build
         run: dotnet build
-        working-directory: './src/Domain/Hive.Domain.Tests/'
+        working-directory: './src/Api/Hive.Api.Tests/'
       - name: Test
         run: dotnet test
-        working-directory: './src/Domain/Hive.Domain.Tests/'
+        working-directory: './src/Api/Hive.Api.Tests/'
         

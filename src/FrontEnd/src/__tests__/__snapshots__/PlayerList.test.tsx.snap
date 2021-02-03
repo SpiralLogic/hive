@@ -27,7 +27,7 @@ exports[`Player List PlayerList snapshot matches current snapshot 1`] = `
           xmlns="http://www.w3.org/2000/svg"
         >
           <use
-            href="/svg/creatures.svg#ant"
+            href="#ant"
           />
         </svg>
       </div>
@@ -41,7 +41,7 @@ exports[`Player List PlayerList snapshot matches current snapshot 1`] = `
           xmlns="http://www.w3.org/2000/svg"
         >
           <use
-            href="/svg/creatures.svg#fly"
+            href="#fly"
           />
         </svg>
       </div>
@@ -55,7 +55,7 @@ exports[`Player List PlayerList snapshot matches current snapshot 1`] = `
           xmlns="http://www.w3.org/2000/svg"
         >
           <use
-            href="/svg/creatures.svg#fly"
+            href="#fly"
           />
         </svg>
       </div>
@@ -84,7 +84,7 @@ exports[`Player List PlayerList snapshot matches current snapshot 1`] = `
           xmlns="http://www.w3.org/2000/svg"
         >
           <use
-            href="/svg/creatures.svg#ant"
+            href="#ant"
           />
         </svg>
       </div>
