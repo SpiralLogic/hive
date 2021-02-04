@@ -1,4 +1,4 @@
-FROM node:latest as node-build
+FROM docker-registry/node as node-build
 
 WORKDIR /source
 COPY ./src/FrontEnd .
@@ -6,7 +6,7 @@ RUN npm install -g pnpm
 RUN pnpm install
 RUN pnpm run build
 
-FROM mcr.microsoft.com/dotnet/sdk:5.0.102-ca-patch-buster-slim-amd64 AS dotnet-build
+FROM docker-registry/dotnet/sdk AS dotnet-build
 WORKDIR /source
 
 # copy and publish app and libraries
@@ -14,7 +14,7 @@ COPY ./src .
 RUN dotnet publish -c release -o /app
 
 # final stage/image
-FROM mcr.microsoft.com/dotnet/aspnet:latest
+FROM docker-registry/dotnet/aspnet
 WORKDIR /app
 COPY --from=dotnet-build /app .
 COPY --from=node-build /source/public ./wwwroot
