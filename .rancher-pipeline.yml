@@ -2,14 +2,14 @@ stages:
 - name: test
   steps:
   - runScriptConfig:
-      image: node:latest
+      image: docker-registry/node/node:latest
       shellScript: |-
         curl  --retry 4 --retry-connrefused -L https://raw.githubusercontent.com/pnpm/self-installer/master/install.js | node
         cd ./src/FrontEnd
         pnpm install
         pnpm test
   - runScriptConfig:
-      image: mcr.microsoft.com/dotnet/sdk:5.0.102-ca-patch-buster-slim-amd64
+      image: docker-registry/dotnet/sdk:latest
       shellScript: |-
         cd ./src
         dotnet test /p:CollectCoverage=true /p:CoverletOutput=TestResults/ /p:CoverletOutputFormat=lcov
