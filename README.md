@@ -25,9 +25,9 @@ dotnet test
 
 # Run
 ```
-docker build -f Dockerfile -t hive .
+docker build -f ./ops/Dockerfile -t hive .
 docker run -d -p 80:80 hive
-```1
+```
 
 open browser http://localhost
 
