@@ -227,7 +227,7 @@ div.creatures-svg {
         border: 5vh solid transparent;
         border-right-width: 10vw;
         border-left-width: 10vw;
-
+        min-height: 74vh;
     }
 
     .hex-row {
