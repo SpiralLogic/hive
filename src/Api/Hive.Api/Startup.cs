@@ -1,3 +1,4 @@
+using System;
 using System.Diagnostics.CodeAnalysis;
 using Hive.Converters;
 using Hive.Hubs;
@@ -61,7 +62,7 @@ namespace Hive
                 app.UseDeveloperExceptionPage();
                 app.UseHttpsRedirection();
             }
-
+            
             app.UseDefaultFiles();
             app.UseStaticFiles(new StaticFileOptions
             {
@@ -70,8 +71,10 @@ namespace Hive
                     const int durationInSeconds = 60 * 60 * 24;
                     ctx.Context.Response.Headers[HeaderNames.CacheControl] =
                         "public,max-age=" + durationInSeconds;
-                }
+                },
+                
             });
+
             app.UseRouting();
             app.UseEndpoints(endpoints =>
             {

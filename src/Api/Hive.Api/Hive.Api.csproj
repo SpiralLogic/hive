@@ -7,27 +7,55 @@
         <IsPackable>false</IsPackable>
         <LangVersion>9.0</LangVersion>
         <Nullable>enable</Nullable>
+        <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
+        <TypeScriptToolsVersion>Latest</TypeScriptToolsVersion>
+        <SpaRoot>..\..\FrontEnd\</SpaRoot>
+        <DefaultItemExcludes>$(DefaultItemExcludes);$(SpaRoot)node_modules\**</DefaultItemExcludes>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
         <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     </PropertyGroup>
 
     <ItemGroup>
+        <!-- Don't publish the SPA source files, but do show them in the project files list -->
         <Content Remove="wwwroot\**" />
         <Content Remove="obj\**" />
+        <Content Include="$(SpaRoot)\public\**" LinkBase="wwwroot" CopyToPublishDirectory="Always"/>
+        <Watch Include="$(SpaRoot)src\**;$(SpaRoot)public\**" Exclude="$(SpaRoot)node_modules\**\*;$(SpaRoot)public\js\**;$(DefaultExcludes)" />
     </ItemGroup>
+
+    <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
+        <!-- Ensure Node.js is installed -->
+        <Exec Command="node --version" ContinueOnError="true">
+            <Output TaskParameter="ExitCode" PropertyName="ErrorCode" />
+        </Exec>
+        <Exec Command="pnpm --version" ContinueOnError="true">
+            <Output TaskParameter="ExitCode" PropertyName="ErrorCode" />
+        </Exec>
+        <Error Condition="'$(ErrorCode)' != '0'" Text="Node.js and pnpm is required to build and run this project. To continue, please install Node.js from https://nodejs.org/, and then restart your command prompt or IDE." />
+        <Message Importance="high" Text="Restoring dependencies using 'pnpm'. This may take several minutes..." />
+        <Exec WorkingDirectory="$(SpaRoot)" Command="pnpm install" />
+    </Target>
+
+    <Target Name="DebugBuild" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug'">
+        <Exec WorkingDirectory="$(SpaRoot)" Command="pnpm install" />
+        <Exec WorkingDirectory="$(SpaRoot)" Command="pnpm run build-dev" />
+    </Target>
+
+    <Target Name="ReleaseBuild" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Release'">
+        <Exec WorkingDirectory="$(SpaRoot)" Command="pnpm install" />
+        <Exec WorkingDirectory="$(SpaRoot)" Command="pnpm run build" />
+    </Target>
+
     <ItemGroup>
         <ProjectReference Include="..\..\Domain\Hive.Domain\Hive.Domain.csproj" />
     </ItemGroup>
+
+
     <ItemGroup>
       <PackageReference Include="Microsoft.AspNetCore.SignalR.StackExchangeRedis" Version="5.0.1" />
       <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="5.0.1" />
       <PackageReference Include="StackExchange.Redis" Version="2.2.4" />
     </ItemGroup>
-    <ItemGroup>
-      <_ContentIncludedByDefault Remove="wwwroot\css\main.css" />
-      <_ContentIncludedByDefault Remove="wwwroot\index.html" />
-      <_ContentIncludedByDefault Remove="wwwroot\js\index.js" />
-      <_ContentIncludedByDefault Remove="wwwroot\public\index.html" />
-    </ItemGroup>
+
 </Project>

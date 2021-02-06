@@ -1,6 +1,8 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
+using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 
 namespace Hive
@@ -10,19 +12,21 @@ namespace Hive
         [ExcludeFromCodeCoverage]
         public static void Main(string[] args)
         {
-            CreateHostBuilder(args).Build().Run();
+            CreateWebHostBuilder(args).Build().Run();
         }
 
         [ExcludeFromCodeCoverage]
-        public static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
-                .ConfigureAppConfiguration(((context, config) =>
+        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
+            WebHost.CreateDefaultBuilder(args)
+                .ConfigureAppConfiguration((context, config) =>
                 {
+                    if (context.HostingEnvironment.IsDevelopment())
+                    {
+                        var webRoot = context.HostingEnvironment.ContentRootPath + "/../../FrontEnd/public";
+                        context.HostingEnvironment.WebRootFileProvider =
+                            new PhysicalFileProvider(webRoot);
+                    }
                     Console.WriteLine(config.Sources);
-                }))
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
-                    webBuilder.UseStartup<Startup>();
-                });
+                }).UseStartup<Startup>();
     }
 }
