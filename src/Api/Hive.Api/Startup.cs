@@ -72,7 +72,6 @@ namespace Hive
                     ctx.Context.Response.Headers[HeaderNames.CacheControl] =
                         "public,max-age=" + durationInSeconds;
                 },
-                
             });
 
             app.UseRouting();
