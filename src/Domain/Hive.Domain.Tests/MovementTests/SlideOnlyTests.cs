@@ -9,7 +9,6 @@ namespace Hive.Domain.Tests.MovementTests
         [Fact]
         public void Moves3PlacesWithoutBacktracking()
         {
-
             var initial = new InitialHiveBuilder();
 
             initial += " ⬡ ⬡ ⬡ ⬡ ";
@@ -30,17 +29,13 @@ namespace Hive.Domain.Tests.MovementTests
             expected += "✔ ✔ ✔ ✔ ✔";
             expected += " ✔ ✔ ✔ ✔ ";
 
-            var move = new SlideOnly();
-
-            move.Should().HaveMoves(initial, expected);
+            new SlideOnly().Should().HaveMoves(initial, expected);
         }
 
         [Fact]
         public void Moves3Places()
         {
-
             var initial = new InitialHiveBuilder();
-
 
             initial += " ⬡ ⬡ ⬡ ⬢ ⬢ ⬡ ⬡ ⬡ ⬡ ";
             initial += "⬡ ⬡ ⬢ ⬡ ⬡ ⬢ ⬡ ⬡ ⬡ ⬡";
@@ -64,17 +59,13 @@ namespace Hive.Domain.Tests.MovementTests
             expected += "⬡ ⬢ ⬢ ✔ ✔ ✔ ⬢ ⬡ ⬡ ⬡";
             expected += " ⬡ ⬡ ⬡ ⬢ ⬢ ⬢ ⬡ ⬡ ⬡ ";
 
-            var move = new SlideOnly();
-
-            move.Should().HaveMoves(initial, expected);
+            new SlideOnly().Should().HaveMoves(initial, expected);
         }
 
         [Fact]
         public void CanSlideAroundEdges()
         {
-
             var initial = new InitialHiveBuilder();
-
 
             initial += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡";
             initial += " ⬡ ⬢ ⬢ ⬢ ★ ⬢ ⬢ ⬢ ⬡ ";
@@ -85,10 +76,8 @@ namespace Hive.Domain.Tests.MovementTests
             expected += "✔ ✔ ✔ ✔ ✔ ✔ ✔ ✔ ✔ ✔";
             expected += " ✔ ⬢ ⬢ ⬢ ★ ⬢ ⬢ ⬢ ✔ ";
             expected += "✔ ✔ ✔ ✔ ✔ ✔ ✔ ✔ ✔ ✔";
-
-            var move = new SlideOnly();
-
-            move.Should().HaveMoves(initial, expected);
+            
+            new SlideOnly().Should().HaveMoves(initial, expected);
         }
     }
 }

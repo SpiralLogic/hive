@@ -67,7 +67,6 @@ namespace Hive.Domain.Tests.MovementTests
         [Fact]
         public void Moves3EmptyPlaces()
         {
-
             var initial = new InitialHiveBuilder();
 
             initial += " ⬡ ⬡ ⬡ ⬢ ⬢ ⬢ ⬢ ⬡ ⬡ ";
