@@ -39,9 +39,7 @@ body {
 
 .hex-container {
     background: #1A1A1D;
-    justify-content: center;
     align-items: center;
-    display: inline-flex;
 }
 
 .hextille {
@@ -228,9 +226,10 @@ div.creatures-svg {
         height: fit-content;
         border-radius: 0;
         border: 5vh solid transparent;
-        border-right-width: 10vw;
-        border-left-width: 10vw;
+        border-right-width: 8vw;
+        border-left-width: 13vw;
         min-height: 74vh;
+        min-width: 80vw;
     }
 
     .hex-row {
