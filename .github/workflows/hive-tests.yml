@@ -21,6 +21,6 @@ jobs:
         run: dotnet test ./Api/Hive.Api.Tests -c Test  /p:CollectCoverage=true /p:CoverletOutput=TestResults/ /p:CoverletOutputFormat=lcov /p:SkipAutoProps=true  /p:ExcludeByAttribute="ExcludeFromCodeCoverage" /p:Exclude="[Hive.Domain]*"
         working-directory: './src'
       - name: Test Domain
-        run: dotnet test ./Api/Hive.Domain.Tests  /p:CollectCoverage=true  /p:CoverletOutputFormat=lcov /p:SkipAutoProps=true  /p:ExcludeByAttribute="ExcludeFromCodeCoverage"
+        run: dotnet test ./Domain/Hive.Domain.Tests  /p:CollectCoverage=true  /p:CoverletOutputFormat=lcov /p:SkipAutoProps=true  /p:ExcludeByAttribute="ExcludeFromCodeCoverage"
         working-directory: './src'
         
