@@ -23,7 +23,6 @@ namespace Hive
             _configuration = configuration;
         }
 
-        // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         [ExcludeFromCodeCoverage]
         public void ConfigureServices(IServiceCollection services)
         {
