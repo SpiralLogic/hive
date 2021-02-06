@@ -15,12 +15,18 @@
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
         <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+      <DebugSymbols>false</DebugSymbols>
+      <DebugType>none</DebugType>
+      <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    </PropertyGroup>
 
     <ItemGroup>
         <!-- Don't publish the SPA source files, but do show them in the project files list -->
         <Content Remove="wwwroot\**" />
         <Content Remove="obj\**" />
-        <Content Include="$(SpaRoot)\public\**" LinkBase="wwwroot" CopyToPublishDirectory="Always"/>
+        <Content Include="$(SpaRoot)\public\**" LinkBase="wwwroot" CopyToPublishDirectory="Never" />
+        <Content Include="$(SpaRoot)\src\**" LinkBase="FrontEnd" CopyToPublishDirectory="Never" />
         <Watch Include="$(SpaRoot)src\**;$(SpaRoot)public\**" Exclude="$(SpaRoot)node_modules\**\*;$(SpaRoot)public\js\**;$(DefaultExcludes)" />
     </ItemGroup>
 
