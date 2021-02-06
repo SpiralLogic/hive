@@ -2,14 +2,14 @@ stages:
 - name: test
   steps:
   - runScriptConfig:
-      image: docker-registry/node/node:latest
+      image: node:latest
       shellScript: |-
         curl  --retry 4 --retry-connrefused -L https://raw.githubusercontent.com/pnpm/self-installer/master/install.js | node
         cd ./src/FrontEnd
         pnpm install
         pnpm test
   - runScriptConfig:
-      image: docker-registry/dotnet/sdk:latest
+      image: mcr.microsoft.com/dotnet/sdk:latest
       shellScript: |-
         cd ./src
         dotnet test /p:CollectCoverage=true /p:CoverletOutput=TestResults/ /p:CoverletOutputFormat=lcov
