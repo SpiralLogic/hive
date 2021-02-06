@@ -5,7 +5,7 @@ on:
       - 'src/Api/**'
       - 'src/Domain/**'
 jobs:
-  api:
+  tests:
     runs-on: ubuntu-latest
     defaults:
       run:
