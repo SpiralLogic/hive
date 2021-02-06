@@ -157,7 +157,7 @@ body {
     --color: #5D001E;
 }
 
-div.creatures-svg {
+div.svg {
     width: 0;
     height: 0;
     visibility: hidden;
