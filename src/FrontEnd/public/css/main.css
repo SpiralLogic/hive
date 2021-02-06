@@ -1,12 +1,12 @@
 body {
-    margin: 1px;
+    margin: .05rem;
 }
 
 .hive {
     display: flex;
     height: 100vh;
     width: 100vw;
-    --hex-size: var(--hex-size, 5vh);
+    --hex-size: 6vh;
     --margin: calc(var(--hex-size) / 12.5);
     --tile-size: calc(var(--hex-size) * .7);
     --hex-offset: -1;
@@ -16,15 +16,15 @@ body {
 .players {
     display: flex;
     flex-direction: row;
-    border-radius: .4vh;
+    border-radius: .05rem;
 }
 
 .player {
     display: flex;
     flex-direction: column;
     background-color: rgba(0, 0, 0, 0.7);
-    border-radius: .3vh;
-    margin: 1px;
+    border-radius: .05rem;
+    margin: .05rem;
 }
 
 .player .name {
@@ -32,7 +32,7 @@ body {
     background-color: var(--color);
     text-align: center;
     color: white;
-    padding: .5vh;
+    padding: .05rem;
     font-weight: bold;
     border-radius: .4vh 4vh 0 0;
 }
@@ -47,7 +47,7 @@ body {
     width: 92vw;
     min-width: fit-content;
     display: flex;
-    border-radius: .4vh;
+    border-radius: .05rem;
     align-items: center;
     flex-direction: column;
     justify-content: center;
@@ -165,6 +165,10 @@ div.svg {
 }
 
 @media only screen and (max-width: 720px) {
+    .hive {
+        --hex-size: 4vh;
+    }
+
     .player {
         flex-direction: row;
     }
@@ -211,7 +215,7 @@ div.svg {
         flex-direction: row;
         overflow: scroll;
         width: 100%;
-        padding-left: .3rem;
+        padding-left: .03rem;
 
     }
 
@@ -241,3 +245,10 @@ div.svg {
     }
 }
 
+
+@media only screen and (min-width: 1440px) {
+    hivw {
+        --hex-size: 6vh;
+    }
+
+}
