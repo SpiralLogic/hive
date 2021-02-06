@@ -12,7 +12,8 @@ stages:
       image: mcr.microsoft.com/dotnet/sdk:latest
       shellScript: |-
         cd ./src
-        dotnet test /p:CollectCoverage=true /p:CoverletOutput=TestResults/ /p:CoverletOutputFormat=lcov
+        dotnet test .\Api\Hive.Api.Tests -c Test  /p:CollectCoverage=true /p:CoverletOutput=TestResults/ /p:CoverletOutputFormat=lcov /p:SkipAutoProps=true  /p:ExcludeByAttribute="ExcludeFromCodeCoverage" /p:Exclude="[Hive.Domain]*"
+        dotnet test .\Api\Hive.Domain.Tests  /p:CollectCoverage=true  /p:CoverletOutputFormat=lcov /p:SkipAutoProps=true  /p:ExcludeByAttribute="ExcludeFromCodeCoverage"
   - publishImageConfig:
       dockerfilePath: ./ops/dockerfile
       buildContext: .

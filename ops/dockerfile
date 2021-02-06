@@ -11,7 +11,7 @@ WORKDIR /source
 
 # copy and publish app and libraries
 COPY ./src .
-RUN dotnet publish -c debug -o /app
+RUN dotnet publish -c release -o /app
 
 # final stage/image
 FROM mcr.microsoft.com/dotnet/aspnet:latest

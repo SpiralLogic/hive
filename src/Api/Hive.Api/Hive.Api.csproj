@@ -11,6 +11,8 @@
         <TypeScriptToolsVersion>Latest</TypeScriptToolsVersion>
         <SpaRoot>..\..\FrontEnd\</SpaRoot>
         <DefaultItemExcludes>$(DefaultItemExcludes);$(SpaRoot)node_modules\**</DefaultItemExcludes>
+        <Configurations>Debug;Release;Test</Configurations>
+        <Platforms>AnyCPU</Platforms>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
         <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
@@ -46,11 +48,6 @@
     <Target Name="DebugBuild" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug'">
         <Exec WorkingDirectory="$(SpaRoot)" Command="pnpm install" />
         <Exec WorkingDirectory="$(SpaRoot)" Command="pnpm run build-dev" />
-    </Target>
-
-    <Target Name="ReleaseBuild" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Release'">
-        <Exec WorkingDirectory="$(SpaRoot)" Command="pnpm install" />
-        <Exec WorkingDirectory="$(SpaRoot)" Command="pnpm run build" />
     </Target>
 
     <ItemGroup>

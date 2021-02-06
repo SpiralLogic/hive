@@ -17,6 +17,6 @@ jobs:
         run: dotnet build
         working-directory: './src/Domain/Hive.Domain/'
       - name: Test
-        run: dotnet test /p:CollectCoverage=true /p:CoverletOutput=TestResults/ /p:CoverletOutputFormat=lcov
+        run: dotnet test /p:CollectCoverage=true /p:CoverletOutput=TestResults/ /p:CoverletOutputFormat=lcov  /p:SkipAutoProps=true
         shell: bash
         working-directory: './src/Domain/Hive.Domain.Tests/'
