@@ -1,0 +1,29 @@
+name: 'Hive Tests'
+on:
+  push:
+    paths:
+      - 'src/Api/**'
+      - 'src/Domain/**'
+jobs:
+  api:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: './src'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@main
+      - name: Setup dotnet
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '5.0.x'
+      - name: Build
+        run: dotnet build
+        working-directory: './src'
+      - name: Test Api
+        run: dotnet test .\Api\Hive.Api.Tests -c Test  /p:CollectCoverage=true /p:CoverletOutput=TestResults/ /p:CoverletOutputFormat=lcov /p:SkipAutoProps=true  /p:ExcludeByAttribute="ExcludeFromCodeCoverage" /p:Exclude="[Hive.Domain]*"
+        working-directory: './src'
+      - name: Test Domain
+        run: dotnet test .\Api\Hive.Domain.Tests  /p:CollectCoverage=true  /p:CoverletOutputFormat=lcov /p:SkipAutoProps=true  /p:ExcludeByAttribute="ExcludeFromCodeCoverage"
+        working-directory: './src'
+        
