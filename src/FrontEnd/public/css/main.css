@@ -39,6 +39,9 @@ body {
 
 .hex-container {
     background: #1A1A1D;
+    justify-content: center;
+    align-items: center;
+    display: inline-flex;
 }
 
 .hextille {
