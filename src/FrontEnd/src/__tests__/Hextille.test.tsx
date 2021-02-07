@@ -63,13 +63,13 @@ describe('Hextille', () => {
         it('shifts left when even rows have odd starting  index', () => {
             const { hextille } = createWithCells([0, 1], [0, 2], [0, 3]);
 
-            expect(hextille).toHaveClass('left');
+            expect(hextille.firstElementChild).toHaveClass('left');
         });
 
         it('shifts right when even rows have even starting index', () => {
             const { hextille } = createWithCells([0, 2], [0, 3], [0, 4]);
 
-            expect(hextille).toHaveClass('right');
+            expect(hextille.firstElementChild).toHaveClass('right');
         });
     });
 

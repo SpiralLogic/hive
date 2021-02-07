@@ -131,10 +131,10 @@ Object {
     </div>,
   ],
   "hextille": <div
-    class="hex-container right"
+    class="hex-container"
   >
     <div
-      class="hextille"
+      class="hextille  right"
     >
       <div
         class="hex-row"
