@@ -50,6 +50,7 @@ const CellFC: FunctionComponent<Props> = (props: Props) => {
         move: { coords, tileId: currentTile.id },
       } as CellMoveEvent);
     }
+    cellEventEmitter.emit({ type: 'deselect' });
   }
 
   function handleTileEvent(e: TileEvent) {
