@@ -5,8 +5,8 @@
   "scripts": {
     "clean": "git clean -x -d -f $(git rev-parse --show-toplevel)/**",
     "test": "pnpx tsc --noEmit && npx jest --coverage",
-    "build-dev": "pnpx tsc --noEmit && pnpx esbuild ./src/index.tsx --bundle  --sourcemap  --outfile=./public/js/index.js",
-    "build": "pnpx tsc --noEmit && pnpx esbuild ./src/index.tsx --bundle  --minify --outfile=./public/js/index.js",
+    "build-dev": "pnpx tsc --noEmit && pnpx esbuild  --define:process.env.NODE_ENV=\\\"development\\\" ./src/index.tsx --bundle  --sourcemap  --outfile=./public/js/index.js",
+    "build": "pnpx tsc --noEmit && pnpx esbuild  --define:process.env.NODE_ENV=\\\"production\\\" ./src/index.tsx --bundle  --minify --outfile=./public/js/index.js",
     "start": "dotnet watch -v -p ../Api/Hive.Api run",
     "preinstall": "npx only-allow pnpm"
   },

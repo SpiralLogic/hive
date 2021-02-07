@@ -1,6 +1,6 @@
 import { GameConnection, GameStateUpdateHandler, HexEngine } from './domain/engine';
 import { GameId, GameState, Move } from './domain';
-import { HubConnection, HubConnectionBuilder, HubConnectionState } from '@microsoft/signalr';
+import { HubConnection, HubConnectionBuilder } from '@microsoft/signalr';
 
 const requestHeaders = {
     'Accept': 'application/json',
@@ -43,7 +43,7 @@ const connectGame = (gameId: GameId, handler: GameStateUpdateHandler): GameConne
         return [connection, connection.start()];
     };
 
-    const [connection, startPromise] = getConnection(gameId);
+    const [connection] = getConnection(gameId);
     
     connection.onreconnecting(error => console.warn(`reconnecting to game ${gameId} .. ${error}`))
     connection.onreconnected(error => console.info(`reconnected to game ${gameId} .. ${error}`))
