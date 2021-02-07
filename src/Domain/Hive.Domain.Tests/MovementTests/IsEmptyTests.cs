@@ -4,10 +4,10 @@ using Xunit;
 
 namespace Hive.Domain.Tests.MovementTests
 {
-    public class AdjacentTests
+    public class IsEmptyTests
     {
         [Fact]
-        public void ReturnsAllAdjacentCells()
+        public void AllowsAllEmptyCells_WithNoPlacedTiles()
         {
             var initial = new InitialHiveBuilder();
 
@@ -21,31 +21,31 @@ namespace Hive.Domain.Tests.MovementTests
             expected += "✔ ★ ✔";
             expected += " ✔ ✔ ";
 
-            var move = new Adjacent();
+            var move = new IsEmpty();
 
             move.Should().HaveMoves(initial, expected);
         }
 
         [Fact]
-        public void ReturnsOnlyCellsAdjacentToOrigin()
+        public void AllowsAllEmptyCells_WithPlacedTiles()
         {
             var initial = new InitialHiveBuilder();
 
-            initial += "⬡ ⬡ ⬡ ⬡ ⬡";
-            initial += " ⬡ ⬡ ⬡ ⬡ ";
-            initial += "⬡ ⬡ ★ ⬡ ⬡";
-            initial += " ⬡ ⬡ ⬡ ⬡ ";
-            initial += "⬡ ⬡ ⬡ ⬡ ⬡";
+            initial += "⬡ ⬡ ⬢ ⬡ ⬡";
+            initial += " ⬡ ⬢ ⬢ ⬢ ";
+            initial += "⬡ ⬡ ★ ⬢ ⬢";
+            initial += " ⬡ ⬢ ⬢ ⬡ ";
+            initial += "⬢ ⬡ ⬢ ⬡ ⬡";
 
             var expected = new ExpectedHiveBuilder();
 
-            expected += "⬡ ⬡ ⬡ ⬡ ⬡";
-            expected += " ⬡ ✔ ✔ ⬡ ";
-            expected += "⬡ ✔ ★ ✔ ⬡";
-            expected += " ⬡ ✔ ✔ ⬡ ";
-            expected += "⬡ ⬡ ⬡ ⬡ ⬡";
+            expected += "✔ ✔ ⬢ ✔ ✔";
+            expected += " ✔ ⬢ ⬢ ⬢ ";
+            expected += "✔ ✔ ★ ⬢ ⬢";
+            expected += " ✔ ⬢ ⬢ ✔ ";
+            expected += "⬢ ✔ ⬢ ✔ ✔";
 
-            var move = new Adjacent();
+            var move = new IsEmpty();
 
             move.Should().HaveMoves(initial, expected);
         }

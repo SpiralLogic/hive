@@ -12,7 +12,8 @@ namespace Hive.Domain.Tests.TestUtils
     internal static class HiveTestExtensions
     {
         public static RuleAssertions Should(this IMovements movements)
-            => new(initialHiveBuilder => movements.GetMoves(initialHiveBuilder.OriginCell, initialHiveBuilder.AllCells));
+            => new(initialHiveBuilder =>
+                movements.GetMoves(initialHiveBuilder.OriginCell, initialHiveBuilder.AllCells));
 
         public static RuleAssertions Should(this Creature creature)
             => new(initialHiveBuilder =>
@@ -39,13 +40,14 @@ namespace Hive.Domain.Tests.TestUtils
 
             Execute.Assertion.Given(() => Subject(initial))
                 .ForCondition(coords => coords.SetEquals(expectedCoords))
-                .FailWith($"\nResulting {Identifier}s did not match expected\n\nInitial:\n{1}\n\nActual - Expected:\n{2}\n",
+                .FailWith(
+                    "\nResulting " + Identifier +
+                    "s did not match expected\n\nInitial:\n{1}\n\nActual - Expected:\n{2}\n",
                     _ => initial.OriginCell.Coords,
                     _ => new StringBuilder(initial.ToColoredString()),
                     actual => new StringBuilder(expected.GetDiff(actual)));
 
             return new AndConstraint<RuleAssertions>(this);
         }
-
     }
 }

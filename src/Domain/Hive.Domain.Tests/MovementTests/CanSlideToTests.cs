@@ -4,10 +4,10 @@ using Xunit;
 
 namespace Hive.Domain.Tests.MovementTests
 {
-    public class SlideOnlyTests
+    public class CanSlideToTests
     {
         [Fact]
-        public void Moves3PlacesWithoutBacktracking()
+        public void CanMoveBySliding()
         {
             var initial = new InitialHiveBuilder();
 
@@ -29,11 +29,11 @@ namespace Hive.Domain.Tests.MovementTests
             expected += "✔ ✔ ✔ ✔ ✔";
             expected += " ✔ ✔ ✔ ✔ ";
 
-            new SlideOnly().Should().HaveMoves(initial, expected);
+            new CanSlideTo().Should().HaveMoves(initial, expected);
         }
 
         [Fact]
-        public void Moves3Places()
+        public void DoesntAllowMovesThroughNarrowGaps()
         {
             var initial = new InitialHiveBuilder();
 
@@ -59,7 +59,7 @@ namespace Hive.Domain.Tests.MovementTests
             expected += "⬡ ⬢ ⬢ ✔ ✔ ✔ ⬢ ⬡ ⬡ ⬡";
             expected += " ⬡ ⬡ ⬡ ⬢ ⬢ ⬢ ⬡ ⬡ ⬡ ";
 
-            new SlideOnly().Should().HaveMoves(initial, expected);
+            new CanSlideTo().Should().HaveMoves(initial, expected);
         }
 
         [Fact]
@@ -77,7 +77,7 @@ namespace Hive.Domain.Tests.MovementTests
             expected += " ✔ ⬢ ⬢ ⬢ ★ ⬢ ⬢ ⬢ ✔ ";
             expected += "✔ ✔ ✔ ✔ ✔ ✔ ✔ ✔ ✔ ✔";
             
-            new SlideOnly().Should().HaveMoves(initial, expected);
+            new CanSlideTo().Should().HaveMoves(initial, expected);
         }
     }
 }

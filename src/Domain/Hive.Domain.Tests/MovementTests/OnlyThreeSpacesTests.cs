@@ -26,7 +26,7 @@ namespace Hive.Domain.Tests.MovementTests
             expected += "⬡ ⬢ ⬡ ⬢ ⬡";
             expected += " ⬡ ⬢ ✔ ⬢";
 
-            var move = new ThreeSpaces();
+            var move = new OnlyThreeSpaces();
 
             move.Should().HaveMoves(initial, expected);
         }
@@ -59,7 +59,7 @@ namespace Hive.Domain.Tests.MovementTests
             expected += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡";
             expected += " ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
 
-            var move = new ThreeSpaces();
+            var move = new OnlyThreeSpaces();
 
             move.Should().HaveMoves(initial, expected);
         }
@@ -91,7 +91,7 @@ namespace Hive.Domain.Tests.MovementTests
             expected += "⬡ ⬡ ⬡ ⬡ ⬢ ✔ ⬡ ⬢ ⬡ ⬡";
             expected += " ⬡ ⬡ ⬡ ⬡ ⬢ ⬢ ⬢ ⬡ ⬡ ";
 
-            var move = new ThreeSpaces();
+            var move = new OnlyThreeSpaces();
 
             move.Should().HaveMoves(initial, expected);
         }

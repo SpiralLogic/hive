@@ -6,7 +6,7 @@ using Hive.Domain.Extensions;
 
 namespace Hive.Domain.Movements
 {
-    public class ThreeSpaces : IMovements
+    public class OnlyThreeSpaces : IMovements
     {
         public ISet<Coords> GetMoves(Cell originCell, ISet<Cell> allCells)
             => new Path(originCell).Extend(allCells)

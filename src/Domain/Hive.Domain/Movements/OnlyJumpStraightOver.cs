@@ -6,7 +6,7 @@ using Hive.Domain.Extensions;
 
 namespace Hive.Domain.Movements
 {
-    public class FirstEmptyAlongAxis : IMovements
+    public class OnlyJumpStraightOver : IMovements
     {
         public ISet<Coords> GetMoves(Cell currentCell, ISet<Cell> allCells)
         {

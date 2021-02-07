@@ -3,7 +3,7 @@ using Hive.Domain.Entities;
 
 namespace Hive.Domain.Movements
 {
-    public class Adjacent : IMovements
+    public class IsAdjacent : IMovements
     {
         public ISet<Coords> GetMoves(Cell originCell, ISet<Cell> allCells) => originCell.Coords.GetNeighbors();
     }

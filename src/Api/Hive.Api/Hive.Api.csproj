@@ -27,8 +27,8 @@
         <!-- Don't publish the SPA source files, but do show them in the project files list -->
         <Content Remove="wwwroot\**" />
         <Content Remove="obj\**" />
-        <Content Include="$(SpaRoot)\public\**" LinkBase="wwwroot" CopyToPublishDirectory="Never" />
-        <Content Include="$(SpaRoot)\src\**" LinkBase="FrontEnd" CopyToPublishDirectory="Never" />
+        <Content Include="$(SpaRoot)public\**" LinkBase="wwwroot" CopyToPublishDirectory="Never" />
+        <Content Include="$(SpaRoot)src\**" LinkBase="FrontEnd" CopyToPublishDirectory="Never" />
         <Watch Include="$(SpaRoot)src\**;$(SpaRoot)public\**" Exclude="$(SpaRoot)node_modules\**\*;$(SpaRoot)public\js\**;$(DefaultExcludes)" />
     </ItemGroup>
 

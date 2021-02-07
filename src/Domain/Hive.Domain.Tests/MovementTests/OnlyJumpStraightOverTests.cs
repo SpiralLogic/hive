@@ -4,7 +4,7 @@ using Xunit;
 
 namespace Hive.Domain.Tests.MovementTests
 {
-    public class FirstEmptyAlongAxisTests
+    public class OnlyJumpStraightOverTests
     {
         [Fact]
         public void CalculatesNextEmpty()
@@ -33,7 +33,7 @@ namespace Hive.Domain.Tests.MovementTests
             expected += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ✔ ⬡ ⬡ ⬡";
             expected += " ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
 
-            var move = new FirstEmptyAlongAxis();
+            var move = new OnlyJumpStraightOver();
 
             move.Should().HaveMoves(initial, expected);
         }
@@ -65,7 +65,7 @@ namespace Hive.Domain.Tests.MovementTests
             expected += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡";
             expected += " ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
 
-            var move = new FirstEmptyAlongAxis();
+            var move = new OnlyJumpStraightOver();
 
             move.Should().HaveMoves(initial, expected);
         }
