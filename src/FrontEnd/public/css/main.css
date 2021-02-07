@@ -13,6 +13,7 @@ body {
     --tile-size: calc(var(--hex-size) * .7);
     --hex-offset: -1;
     user-select: none;
+    --hex-size: max(4vw, 1rem);
 }
 
 .players {
@@ -30,21 +31,20 @@ body {
 .player .tiles {
     align-items: center;
     display: flex;
-    overflow: scroll;
     justify-content: flex-start;
     padding: 2vh 0;
     flex-direction: column;
+    overflow-y: auto;
 }
 
 .player .name {
-    display: block;
     background-color: var(--color);
     text-align: center;
     justify-content: center;
     color: white;
     margin: 2vh 0;
     font-weight: bold;
-    width: 3rem;
+    font-size: 1.5em;
 }
 
 .hex-container {
@@ -52,7 +52,7 @@ body {
     background: #1A1A1D;
     align-items: center;
     justify-content: center;
-    overflow: scroll;
+    overflow: auto;
 }
 
 .hextille {
@@ -84,6 +84,8 @@ body {
     justify-content: center;
     display: inline-flex;
     background-color: var(--color);
+    min-width: fit-content;
+    min-height: fit-content;
 }
 
 .hidden {
@@ -137,8 +139,8 @@ body {
 }
 
 .tile svg {
-    max-height: calc(1.1 * var(--hex-size));
-    max-width: calc(1.1 * var(--hex-size));
+    height: calc(1.1 * var(--hex-size));
+    width: calc(1.1 * var(--hex-size));
     z-index: 10;
     overflow: visible;
     pointer-events: none;
@@ -180,7 +182,6 @@ div.svg {
     }
 
     .player .name {
-        width: 3rem;
         margin: 0;
         align-self: center;
         justify-content: center;
@@ -206,9 +207,13 @@ div.svg {
     .player .tiles {
         display: flex;
         flex-direction: row;
-        overflow: scroll;
+        overflow: auto hidden;
         padding: 0 2vw;
         justify-content: flex-start;
+    }
+
+    .hex-container {
+        overflow: auto;
     }
 
     .hextille {
@@ -219,17 +224,10 @@ div.svg {
     .hex.can-drop {
         --color: #AFD275;
     }
-}
 
-
-@media only screen and (orientation: landscape) {
     .hive {
-        --hex-size: max(2rem, 6vh);
+        --hex-size: max(3.5vh, 1rem);
     }
+
 }
 
-@media only screen and (orientation: portrait) {
-    .hive {
-        --hex-size: max(2rem, 6vw);
-    }
-}
