@@ -13,7 +13,7 @@ body {
     --tile-size: calc(var(--hex-size) * .7);
     --hex-offset: -1;
     user-select: none;
-    --hex-size: max(4vw, 1rem);
+    --hex-size: 50px;
 }
 
 .players {
@@ -51,7 +51,6 @@ body {
     display: grid;
     background: #1A1A1D;
     align-items: center;
-    justify-content: center;
     overflow: auto;
 }
 
@@ -224,10 +223,5 @@ div.svg {
     .hex.can-drop {
         --color: #AFD275;
     }
-
-    .hive {
-        --hex-size: max(3.5vh, 1rem);
-    }
-
 }
 
