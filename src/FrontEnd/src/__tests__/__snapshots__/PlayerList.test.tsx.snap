@@ -13,15 +13,6 @@ exports[`Player List PlayerList snapshot matches current snapshot 1`] = `
       href="/game/33/1"
     >
       Player 1
-      <svg
-        height="2vh"
-        width="2vw"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <use
-          href="#share"
-        />
-      </svg>
     </a>
     <div
       class="tiles"
@@ -79,15 +70,6 @@ exports[`Player List PlayerList snapshot matches current snapshot 1`] = `
       href="/game/33/2"
     >
       Player 2
-      <svg
-        height="2vh"
-        width="2vw"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <use
-          href="#share"
-        />
-      </svg>
     </a>
     <div
       class="tiles"
