@@ -1,13 +1,12 @@
-import {EventEmitter} from './event-emitter';
-import {Tile} from '../domain';
+import { EventEmitter } from './event-emitter';
+import { Tile } from '../domain';
 
-export type TileEvents = {
-    type: 'start' | 'end' | 'click';
-    tile: Tile;
+export type TileEvent = {
+  type: 'start' | 'end' | 'click' | 'deselect';
+  tile: Tile;
 };
 
-export class TileEventEmitter extends EventEmitter<TileEvents> {
-}
+export class TileEventEmitter extends EventEmitter<TileEvent> {}
 
 const tileEventEmitter = new TileEventEmitter();
 

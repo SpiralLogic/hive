@@ -205,11 +205,10 @@ div.svg {
     }
 
     .player .tiles {
-        display: flex;
-        flex-direction: row;
+        display: inline-grid;
+        grid-auto-flow: column;
         overflow: auto hidden;
         padding: 0 2vw;
-        justify-content: flex-start;
     }
 
     .hex-container {
