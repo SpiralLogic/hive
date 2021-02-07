@@ -48,16 +48,12 @@
     <Target Name="DebugBuild" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug'">
         <Exec WorkingDirectory="$(SpaRoot)" Command="pnpm run build-dev" />
     </Target>
-
     <ItemGroup>
         <ProjectReference Include="..\..\Domain\Hive.Domain\Hive.Domain.csproj" />
     </ItemGroup>
-
-
     <ItemGroup>
       <PackageReference Include="Microsoft.AspNetCore.SignalR.StackExchangeRedis" Version="5.0.1" />
       <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="5.0.1" />
       <PackageReference Include="StackExchange.Redis" Version="2.2.4" />
     </ItemGroup>
-
 </Project>
