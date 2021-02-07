@@ -1,10 +1,5 @@
 import { Cell, GameState, MoveTile, Player, PlayerId } from '../domain';
-import {
-  CellEvent,
-  CellEventListener,
-  CellMoveEvent,
-  useCellEventEmitter,
-} from '../emitters';
+import { HiveEvent, HiveEventListener, MoveEvent, useHiveEventEmitter } from '../emitters';
 import { FunctionComponent, h } from 'preact';
 import { useEffect, useState } from 'preact/hooks';
 import Engine from '../game-engine';
@@ -19,7 +14,7 @@ const disablePlayerMoves = (playerId: PlayerId, parent: Array<Player | Cell>) =>
 const App: FunctionComponent = () => {
   const [gameState, setGameState] = useState<GameState | undefined>(undefined);
   const [playerId, setPlayerId] = useState<PlayerId>(0);
-  const cellEventEmitter = useCellEventEmitter();
+  const hiveEventEmitter = useHiveEventEmitter();
 
   const moveTile: MoveTile = async (...move) => {
     const newGameState = await Engine.moveTile(...move);
@@ -27,9 +22,7 @@ const App: FunctionComponent = () => {
   };
 
   useEffect(() => {
-    const [, route, gameId, routePlayerId] = window.location.pathname.split(
-      '/'
-    );
+    const [, route, gameId, routePlayerId] = window.location.pathname.split('/');
     const loadExistingGame = gameId && route === 'game';
     const getInitial = loadExistingGame ? Engine.getGame : Engine.newGame;
 
@@ -37,40 +30,24 @@ const App: FunctionComponent = () => {
       const { gameId } = gameState;
       setGameState(gameState);
       const [player] = gameState.players;
-      const playerId = (Number(routePlayerId) as PlayerId)
-        ? Number(routePlayerId)
-        : player.id;
+      const playerId = (Number(routePlayerId) as PlayerId) ? Number(routePlayerId) : player.id;
       setPlayerId(playerId);
-      window.history.replaceState(
-        { playerId, gameId },
-        document.title,
-        `/game/${gameId}/${playerId}`
-      );
+      window.history.replaceState({ playerId, gameId }, document.title, `/game/${gameId}/${playerId}`);
     });
   }, []);
 
   useEffect(() => {
     if (gameState === undefined) return;
-    const { closeConnection } = Engine.connectGame(
-      gameState.gameId,
-      setGameState
-    );
-    const cellEventListener: CellEventListener<CellEvent> = (
-      event: CellEvent
-    ) =>
-      event.type === 'drop' &&
-      moveTile(gameState.gameId, (event as CellMoveEvent).move);
-    cellEventEmitter.add(cellEventListener);
+    const { closeConnection } = Engine.connectGame(gameState.gameId, setGameState);
+    const hiveEventListener: HiveEventListener<HiveEvent> = (event: HiveEvent) =>
+      event.type === 'move' && moveTile(gameState.gameId, event.move);
+    hiveEventEmitter.add(hiveEventListener);
     const c = document.querySelector('.hex-container');
     const h = document.querySelector('.hextille');
-    if (c && h)
-      c.scrollTo(
-        (c.scrollWidth - c.clientWidth) / 2,
-        (c.scrollHeight - c.clientHeight) / 2
-      );
+    if (c && h) c.scrollTo((c.scrollWidth - c.clientWidth) / 2, (c.scrollHeight - c.clientHeight) / 2);
 
     return async () => {
-      cellEventEmitter.remove(cellEventListener);
+      hiveEventEmitter.remove(hiveEventListener);
       await closeConnection();
     };
   }, [gameState === undefined]);

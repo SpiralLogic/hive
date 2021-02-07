@@ -1,2 +1,1 @@
-export * from './cell-event-emitter';
-export * from './tile-event-emitter';
+export * from './hive-event-emitter';

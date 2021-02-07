@@ -1,4 +1,4 @@
-import { TileEvent, useTileEventEmitter } from '../emitters';
+import { HiveEvent, useHiveEventEmitter } from '../emitters';
 import { fireEvent } from '@testing-library/preact';
 import { h } from 'preact';
 import { renderElement, simulateEvent } from './helpers';
@@ -28,24 +28,26 @@ describe('Tile', () => {
     });
 
     test('has creature', () => {
-      expect(
-        createTileNoMove().getElementsByTagName('use').item(0)
-      ).toHaveAttribute('href', expect.stringContaining('fly'));
-      expect(
-        createTileCanMove().getElementsByTagName('use').item(0)
-      ).toHaveAttribute('href', expect.stringContaining('ant'));
+      expect(createTileNoMove().getElementsByTagName('use').item(0)).toHaveAttribute(
+        'href',
+        expect.stringContaining('fly')
+      );
+      expect(createTileCanMove().getElementsByTagName('use').item(0)).toHaveAttribute(
+        'href',
+        expect.stringContaining('ant')
+      );
     });
   });
 
   test('click emits tile select event', () => {
-    jest.spyOn(useTileEventEmitter(), 'emit');
+    jest.spyOn(useHiveEventEmitter(), 'emit');
     fireEvent.click(createTileCanMove());
-    const expectedEvent: TileEvent = {
+    const expectedEvent: HiveEvent = {
       type: 'start',
       tile: tileCanMove,
     };
 
-    expect(useTileEventEmitter().emit).toHaveBeenCalledWith(expectedEvent);
+    expect(useHiveEventEmitter().emit).toHaveBeenCalledWith(expectedEvent);
   });
 
   describe('drag and drop', () => {
@@ -58,31 +60,31 @@ describe('Tile', () => {
     });
 
     test('on drag emits start event', () => {
-      jest.spyOn(useTileEventEmitter(), 'emit');
+      jest.spyOn(useHiveEventEmitter(), 'emit');
       fireEvent.dragStart(createTileCanMove());
 
-      const expectedEvent: TileEvent = {
+      const expectedEvent: HiveEvent = {
         type: 'start',
         tile: tileCanMove,
       };
 
-      expect(useTileEventEmitter().emit).toHaveBeenCalledWith(expectedEvent);
+      expect(useHiveEventEmitter().emit).toHaveBeenCalledWith(expectedEvent);
     });
 
     test('on dragEnd emits end event', () => {
-      jest.spyOn(useTileEventEmitter(), 'emit');
+      jest.spyOn(useHiveEventEmitter(), 'emit');
       fireEvent.dragEnd(createTileCanMove());
-      const expectedEvent: TileEvent = {
+      const expectedEvent: HiveEvent = {
         type: 'end',
         tile: tileCanMove,
       };
 
-      expect(useTileEventEmitter().emit).toHaveBeenCalledWith(expectedEvent);
+      expect(useHiveEventEmitter().emit).toHaveBeenCalledWith(expectedEvent);
     });
 
     test('default on drop is prevented', () => {
-      expect(simulateEvent(createTileCanMove(), 'drop')).toHaveBeenCalled();
-      expect(simulateEvent(createTileNoMove(), 'drop')).toHaveBeenCalled();
+      expect(simulateEvent(createTileCanMove(), 'move')).toHaveBeenCalled();
+      expect(simulateEvent(createTileNoMove(), 'move')).toHaveBeenCalled();
     });
   });
 

@@ -46,7 +46,7 @@
     </Target>
 
     <Target Name="DebugBuild" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug'">
-        <Exec WorkingDirectory="$(SpaRoot)" Command="pnpm run build-dev" />
+        <Exec WorkingDirectory="$(SpaRoot)" Command="pnpm run build-dev" ConsoleToMSBuild="true" />
     </Target>
     <ItemGroup>
         <ProjectReference Include="..\..\Domain\Hive.Domain\Hive.Domain.csproj" />

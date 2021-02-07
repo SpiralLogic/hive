@@ -8,11 +8,8 @@ type Props = Player;
 
 const PlayerTiles: FunctionComponent<Props> = (props: Props) => {
   const { name, tiles, id } = props;
-  const changePlayerUrl = `${window.location.pathname
-    .split('/')
-    .slice(0, 3)
-    .join('/')}/${id}`;
-  return tiles.length > 0 ? (
+  const changePlayerUrl = `${window.location.pathname.split('/').slice(0, 3).join('/')}/${id}`;
+  return (
     <div className="player" title={name}>
       <a className="name" href={changePlayerUrl}>
         {name}
@@ -23,7 +20,7 @@ const PlayerTiles: FunctionComponent<Props> = (props: Props) => {
         ))}
       </div>
     </div>
-  ) : null;
+  );
 };
 
 PlayerTiles.displayName = 'Player Tiles';

@@ -175,8 +175,6 @@ div.svg {
 }
 
 @media only screen and (max-width: 720px) {
-
-
     body {
         margin: 0;
     }
@@ -188,6 +186,7 @@ div.svg {
     }
 
     .hive {
+        --hex-size: 40px;
         grid-template-columns: unset;
         grid-template-rows: calc(var(--hex-size) * 1.7) calc(var(--hex-size) * 1.7) auto;
     }

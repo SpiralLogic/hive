@@ -1,11 +1,5 @@
 import { Cell, HexCoordinates, Tile as TileType } from '../domain';
-import {
-  CellEvent,
-  CellMoveEvent,
-  TileEvent,
-  useCellEventEmitter,
-  useTileEventEmitter,
-} from '../emitters';
+import { HiveEvent, useHiveEventEmitter } from '../emitters';
 import { FunctionComponent, h } from 'preact';
 import { deepEqual } from 'fast-equals';
 import { handleDragOver } from '../handlers';
@@ -17,10 +11,7 @@ type Props = Cell;
 
 const CellFC: FunctionComponent<Props> = (props: Props) => {
   const { tiles, coords } = props;
-  const [tileEventEmitter, cellEventEmitter] = [
-    useTileEventEmitter(),
-    useCellEventEmitter(),
-  ];
+  const hiveEventEmitter = useHiveEventEmitter();
   const isValidMove = (validMoves: HexCoordinates[]) =>
     validMoves.some((dest) => dest.q == coords.q && dest.r == coords.r);
   const [classes, setClasses] = useState(['hex', 'cell']);
@@ -39,46 +30,39 @@ const CellFC: FunctionComponent<Props> = (props: Props) => {
     if (currentTile) {
       ev.stopPropagation();
       move();
+      hiveEventEmitter.emit({ type: 'deselect', tile: currentTile });
     }
-    cellEventEmitter.emit({ type: 'deselect' });
   }
 
   function move() {
-    if (currentTile && isValidMove(currentTile.moves)) {
-      cellEventEmitter.emit({
-        type: 'drop',
-        move: { coords, tileId: currentTile.id },
-      } as CellMoveEvent);
+    if (currentTile) {
+      if (isValidMove(currentTile.moves))
+        hiveEventEmitter.emit({
+          type: 'move',
+          move: { coords, tileId: currentTile.id },
+        });
+      hiveEventEmitter.emit({ type: 'deselect', tile: currentTile });
     }
-    cellEventEmitter.emit({ type: 'deselect' });
   }
 
-  function handleTileEvent(e: TileEvent) {
+  function handleHiveEvent(e: HiveEvent) {
     if (e.type === 'start') {
-      const newClasses = isValidMove(e.tile.moves)
-        ? [...classes, 'can-drop']
-        : ['hex', 'cell'];
+      const newClasses = isValidMove(e.tile.moves) ? [...classes, 'can-drop'] : ['hex', 'cell'];
       setCurrentTile(e.tile);
       setClasses(newClasses);
     } else if (e.type === 'end') {
       if (classes.includes('active')) move();
-      cellEventEmitter.emit({ type: 'deselect' });
-    }
-  }
-
-  function handleCellEvent(e: CellEvent) {
-    if (e.type === 'deselect') {
+      if (currentTile) hiveEventEmitter.emit({ type: 'deselect', tile: currentTile });
+    } else if (e.type === 'deselect') {
       setCurrentTile(null);
       setClasses(['hex', 'cell']);
     }
   }
 
   useEffect(() => {
-    cellEventEmitter.add(handleCellEvent);
-    tileEventEmitter.add(handleTileEvent);
+    hiveEventEmitter.add(handleHiveEvent);
     return () => {
-      cellEventEmitter.remove(handleCellEvent);
-      tileEventEmitter.remove(handleTileEvent);
+      hiveEventEmitter.remove(handleHiveEvent);
     };
   });
 
@@ -92,13 +76,8 @@ const CellFC: FunctionComponent<Props> = (props: Props) => {
     onclick: handleClickEvent,
   };
 
-  return (
-    <div {...attributes}>{tiles.length > 0 && <Tile {...tiles[0]} />}</div>
-  );
+  return <div {...attributes}>{tiles.length > 0 && <Tile {...tiles[0]} />}</div>;
 };
 
 CellFC.displayName = 'Cell';
-export default memo(
-  CellFC,
-  (p, n) => deepEqual(p.coords, n.coords) && !p.tiles.length && !n.tiles.length
-);
+export default memo(CellFC, (p, n) => deepEqual(p.coords, n.coords) && !p.tiles.length && !n.tiles.length);

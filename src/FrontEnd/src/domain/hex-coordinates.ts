@@ -1,4 +1,4 @@
 export type HexCoordinates = {
-    readonly q: number;
-    readonly r: number;
+  readonly q: number;
+  readonly r: number;
 };

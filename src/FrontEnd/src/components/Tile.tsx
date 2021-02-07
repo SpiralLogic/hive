@@ -4,7 +4,7 @@ import { PlayerId, Tile } from '../domain';
 import { deepEqual } from 'fast-equals';
 import { handleDrop } from '../handlers';
 import { memo } from 'preact/compat';
-import { CellEvent, TileEvent, useTileEventEmitter } from '../emitters';
+import { HiveEvent, TileEvent, useHiveEventEmitter } from '../emitters';
 import { useEffect, useState } from 'preact/hooks';
 
 const getPlayerColor = (playerId: PlayerId) => {
@@ -19,36 +19,36 @@ type Props = Tile;
 const TileFC: FunctionComponent<Props> = (props: Props) => {
   const [selected, setSelected] = useState(false);
   const { moves, creature, playerId } = props;
-  const tileEventEmitter = useTileEventEmitter();
+  const hiveEventEmitter = useHiveEventEmitter();
 
   function handleDragStart() {
-    tileEventEmitter.emit({ type: 'start', tile: props });
+    hiveEventEmitter.emit({ type: 'start', tile: props });
     setSelected(true);
   }
 
   function handleClick(ev: { stopPropagation: () => void }) {
     ev.stopPropagation();
-    tileEventEmitter.emit({ type: 'deselect', tile: props });
+    hiveEventEmitter.emit({ type: 'deselect', tile: props });
 
     setSelected(true);
-    tileEventEmitter.emit({ type: 'start', tile: props });
+    hiveEventEmitter.emit({ type: 'start', tile: props });
   }
 
   function handleDragEnd() {
-    tileEventEmitter.emit({ type: 'deselect', tile: props });
-    tileEventEmitter.emit({ type: 'end', tile: props });
+    hiveEventEmitter.emit({ type: 'deselect', tile: props });
+    hiveEventEmitter.emit({ type: 'end', tile: props });
   }
 
-  function handleTileEvent(e: TileEvent) {
-    if (e.type === 'deselect' && selected) {
+  function handleHiveEvent(event: HiveEvent) {
+    if (event.type === 'deselect' && selected) {
       setSelected(false);
     }
   }
 
   useEffect(() => {
-    tileEventEmitter.add(handleTileEvent);
+    hiveEventEmitter.add(handleHiveEvent);
     return () => {
-      tileEventEmitter.remove(handleTileEvent);
+      hiveEventEmitter.remove(handleHiveEvent);
     };
   });
 
@@ -57,9 +57,7 @@ const TileFC: FunctionComponent<Props> = (props: Props) => {
     title: creature,
     style: {
       '--color': color,
-      'box-shadow': selected
-        ? `0px -15px 20px 5px ${shadow}, 0px 15px 20px 5px ${shadow}`
-        : '',
+      'box-shadow': selected ? `0px -15px 20px 5px ${shadow}, 0px 15px 20px 5px ${shadow}` : '',
     } as JSXInternal.CSSProperties,
     class: 'hex tile',
     draggable: !!moves.length,

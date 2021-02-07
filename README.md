@@ -1,7 +1,7 @@
 # Hive
 
 ## Hive board game.
-The game requires 2 players. You can change player by clicking either P1 or P2 in the tile list
+The game requires 2 players. You can change player by clicking either P1 or P2 in the tile list. The link for either player can be shared and played in real time by anything that can access the same host
 
 ### Requires:
 - node latest
