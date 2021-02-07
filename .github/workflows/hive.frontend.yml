@@ -1,12 +1,12 @@
-name: 'Hive Frontend'
+name: 'Hive Frontend Tests'
 on: 
   push:
     paths:
     - 'src/FrontEnd/**'
 jobs:
-  build:
+  tests:
     runs-on: ubuntu-latest
-    name: 'Front End'
+    name: 'Front End Tests'
     defaults:
       run:
         working-directory: './src/FrontEnd/'

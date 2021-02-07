@@ -1,4 +1,4 @@
-name: 'Hive Tests'
+name: 'Hive Backend Tests'
 on:
   push:
     paths:
@@ -7,6 +7,7 @@ on:
 jobs:
   tests:
     runs-on: ubuntu-latest
+    name: 'Back End Tests'
     defaults:
       run:
         working-directory: './src'
