@@ -1,35 +1,42 @@
 # Hive-fma
 
 # Hive board game.
+The game requires 2 players. You can change player by clicking either P1 or P2 in the tile list
+
 
 # Requires:
 - node latest
 - dotnet sdk 5 latest
-- docker to run
+- pnpm 
 
-# Front end
 ```
-cd ./src/FrontEnd
-npm install -g pnpm
-pnpm install
-pnpm test
+npm i -g pnpm  
 ```
 
-
-# Back end
+# To Run
 ```
-cd ./src/
-dotnet restore
-dotnet test
+dotnet run -p ./src/Api/Hive.Api
 ```
 
-# Run
+# To Test
+```
+dotnet test ./src
+cd ./src/FrontEnd/
+pnpm test 
+```
+
+# Run in docker
 ```
 docker build -f ./ops/Dockerfile -t hive .
 docker run -d -p 80:80 hive
 ```
 
+# Develop with live watch
+```
+dotnet watch -v -p ./src/Api/Hive.Api run
+```
 open browser http://localhost
+
 
 # Pipelines
 * github actions for CI
