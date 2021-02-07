@@ -16,9 +16,6 @@ const PlayerTiles: FunctionComponent<Props> = (props: Props) => {
     <div className="player" title={name}>
       <a className="name" href={changePlayerUrl}>
         {name}
-        <svg width="2vw" height="2vh" xmlns="http://www.w3.org/2000/svg">
-          <use href="#share" />
-        </svg>
       </a>
       <div className="tiles">
         {tiles.map((tile) => (
