@@ -1,12 +1,14 @@
 body {
-    margin: .05rem;
+    margin: 0;
 }
 
 .hive {
-    display: flex;
+    display: inline-grid;
+    grid-template-columns: calc(var(--hex-size) * 1.7) calc(var(--hex-size) * 1.7) auto;
+    grid-column-gap: .1vw;
+    grid-row-gap: .1vh;
     height: 100vh;
     width: 100vw;
-    --hex-size: 6vh;
     --margin: calc(var(--hex-size) / 12.5);
     --tile-size: calc(var(--hex-size) * .7);
     --hex-offset: -1;
@@ -14,43 +16,49 @@ body {
 }
 
 .players {
-    display: flex;
-    flex-direction: row;
-    border-radius: .05rem;
+    display: contents;
+    border-radius: .1rem;
 }
 
 .player {
-    display: flex;
-    flex-direction: column;
     background-color: rgba(0, 0, 0, 0.7);
-    border-radius: .05rem;
-    margin: .05rem;
+    display: grid;
+    grid-auto-flow: row;
+    grid-template-rows: max-content auto;
+}
+
+.player .tiles {
+    align-items: center;
+    display: flex;
+    overflow: scroll;
+    justify-content: flex-start;
+    padding: 2vh 0;
+    flex-direction: column;
 }
 
 .player .name {
     display: block;
     background-color: var(--color);
     text-align: center;
+    justify-content: center;
     color: white;
-    padding: .05rem;
+    margin: 2vh 0;
     font-weight: bold;
-    border-radius: .4vh 4vh 0 0;
+    width: 3rem;
 }
 
 .hex-container {
+    display: grid;
     background: #1A1A1D;
     align-items: center;
+    justify-content: center;
+    overflow: scroll;
 }
 
 .hextille {
-    min-height: 100vh;
-    width: 92vw;
-    min-width: fit-content;
     display: flex;
     border-radius: .05rem;
-    align-items: center;
     flex-direction: column;
-    justify-content: center;
 }
 
 .hex-row {
@@ -58,11 +66,11 @@ body {
     flex-direction: row
 }
 
-.left > .hextille > .hex-row:nth-child(even), .right > .hextille > .hex-row:nth-child(odd) {
+.left > .hex-row:nth-child(even), .right .hex-row:nth-child(odd) {
     margin-right: calc(1.8 * var(--hex-size) / 2);
 }
 
-.right > .hextille > .hex-row:nth-child(even), .left > .hextille > .hex-row:nth-child(odd) {
+.right > .hex-row:nth-child(even), .left > .hex-row:nth-child(odd) {
     margin-left: calc(1.8 * var(--hex-size) / 2);
 }
 
@@ -74,7 +82,7 @@ body {
     position: relative;
     align-items: center;
     justify-content: center;
-    display: flex;
+    display: inline-flex;
     background-color: var(--color);
 }
 
@@ -85,7 +93,7 @@ body {
 
 .cell {
     --size: var(--hex-size);
-    margin: calc((var(--size) / 2) + var(--margin)) 0 0 var(--margin);
+    margin: calc(((var(--size) / 2) + var(--margin)) / 2) calc(var(--margin) / 2);
 }
 
 .hex:before, .hex:after {
@@ -117,7 +125,7 @@ body {
 }
 
 .player .tile {
-    margin: calc(var(--size) + var(--margin)) var(--margin);
+    margin: calc(var(--size) / 2 + var(--margin)) var(--margin);
 }
 
 .tile[draggable="false"] {
@@ -129,8 +137,8 @@ body {
 }
 
 .tile svg {
-    max-height: calc(1.3 * var(--hex-size));
-    max-width: calc(1.5 * var(--hex-size));
+    max-height: calc(1.1 * var(--hex-size));
+    max-width: calc(1.1 * var(--hex-size));
     z-index: 10;
     overflow: visible;
     pointer-events: none;
@@ -165,79 +173,47 @@ div.svg {
 }
 
 @media only screen and (max-width: 720px) {
-    .hive {
-        --hex-size: 4vh;
-    }
 
-    .player {
-        flex-direction: row;
-    }
 
     body {
         margin: 0;
     }
 
-    .player.tiles {
-        flex-direction: column;
-    }
-
     .player .name {
+        width: 3rem;
+        margin: 0;
         align-self: center;
+        justify-content: center;
     }
 
     .hive {
-        overflow-x: scroll;
-        display: block;
+        grid-template-columns: unset;
+        grid-template-rows: calc(var(--hex-size) * 1.7) calc(var(--hex-size) * 1.7) auto;
     }
 
     .players {
-        display: block;
-        flex-direction: column;
-        height: 16vh;
         border-radius: 0;
         position: sticky;
         top: 0;
     }
 
     .player {
-        flex-direction: row;
-        margin: 0;
-        width: 100%;
-        border-radius: 0;
-    }
-
-    .player .tile {
-        margin-top: calc(var(--size) - 2 * var(--margin));
+        grid-auto-flow: column;
+        grid-template-columns: max-content auto;
+        grid-template-rows: unset;
     }
 
     .player .tiles {
-        display: inline-flex;
+        display: flex;
         flex-direction: row;
         overflow: scroll;
-        width: 100%;
-        padding-left: .03rem;
-
-    }
-
-    .hex-container {
-        width: 100vw;
-        height: 84vh;
-        overflow: scroll;
+        padding: 0 2vw;
+        justify-content: flex-start;
     }
 
     .hextille {
-        width: fit-content;
-        height: fit-content;
         border-radius: 0;
-        border: 5vh solid transparent;
-        border-right-width: 8vw;
-        border-left-width: 12vw;
-        min-height: 74vh;
-        min-width: 80vw;
-    }
-
-    .hex-row {
-        display: flex;
+        padding: 5vh;
     }
 
     .hex.can-drop {
@@ -246,9 +222,14 @@ div.svg {
 }
 
 
-@media only screen and (min-width: 1440px) {
-    hivw {
-        --hex-size: 6vh;
+@media only screen and (orientation: landscape) {
+    .hive {
+        --hex-size: max(2rem, 6vh);
     }
+}
 
+@media only screen and (orientation: portrait) {
+    .hive {
+        --hex-size: max(2rem, 6vw);
+    }
 }
