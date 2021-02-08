@@ -15,11 +15,7 @@ describe('Player List', () => {
     const props = {players: players};
     let playerList: HTMLElement;
     beforeEach(() => {
-        const location = window.location;
-        // @ts-ignore
-        delete global.window.location;
-        // @ts-ignore
-        global.window.location = {...location, pathname: '/game/33/0'};
+        global.window.history.replaceState({}, global.document.title, `/game/33/1`);
         playerList = renderElement(<PlayerList {...props} />);
     });
 

@@ -29,6 +29,7 @@
         <Content Remove="obj\**" />
         <Content Include="$(SpaRoot)public\**" LinkBase="wwwroot" CopyToPublishDirectory="Never" />
         <Content Include="$(SpaRoot)src\**" LinkBase="FrontEnd" CopyToPublishDirectory="Never" />
+        <Content Include="$(SpaRoot)*" CopyToPublishDirectory="Never" />
         <Watch Include="$(SpaRoot)src\**;" Exclude="$(SpaRoot)node_modules\**\*;$(SpaRoot)public\**;$(DefaultExcludes)" />
     </ItemGroup>
 

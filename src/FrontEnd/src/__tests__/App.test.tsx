@@ -1,5 +1,5 @@
-import { MoveEvent, useHiveEventEmitter } from '../emitters';
 import { GameState } from '../domain';
+import { MoveEvent, useHiveEventEmitter } from '../emitters';
 import { h } from 'preact';
 import { render } from '@testing-library/preact';
 import { renderElement } from './helpers';
