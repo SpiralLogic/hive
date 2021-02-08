@@ -1,10 +1,10 @@
 import { FunctionComponent, h } from 'preact';
+import { HiveEvent, useHiveEventEmitter } from '../emitters';
 import { JSXInternal } from 'preact/src/jsx';
 import { PlayerId, Tile } from '../domain';
 import { deepEqual } from 'fast-equals';
 import { handleDrop } from '../handlers';
 import { memo } from 'preact/compat';
-import { HiveEvent, TileEvent, useHiveEventEmitter } from '../emitters';
 import { useEffect, useState } from 'preact/hooks';
 
 const getPlayerColor = (playerId: PlayerId) => {

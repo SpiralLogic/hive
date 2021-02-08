@@ -29,7 +29,7 @@
         <Content Remove="obj\**" />
         <Content Include="$(SpaRoot)public\**" LinkBase="wwwroot" CopyToPublishDirectory="Never" />
         <Content Include="$(SpaRoot)src\**" LinkBase="FrontEnd" CopyToPublishDirectory="Never" />
-        <Watch Include="$(SpaRoot)src\**;$(SpaRoot)public\**" Exclude="$(SpaRoot)node_modules\**\*;$(SpaRoot)public\js\**;$(DefaultExcludes)" />
+        <Watch Include="$(SpaRoot)src\**;" Exclude="$(SpaRoot)node_modules\**\*;$(SpaRoot)public\**;$(DefaultExcludes)" />
     </ItemGroup>
 
     <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

@@ -1,6 +1,6 @@
 import { Cell, GameState, MoveTile, Player, PlayerId } from '../domain';
-import { HiveEvent, HiveEventListener, MoveEvent, useHiveEventEmitter } from '../emitters';
 import { FunctionComponent, h } from 'preact';
+import { HiveEvent, HiveEventListener, useHiveEventEmitter } from '../emitters';
 import { useEffect, useState } from 'preact/hooks';
 import Engine from '../game-engine';
 import GameArea from './GameArea';
