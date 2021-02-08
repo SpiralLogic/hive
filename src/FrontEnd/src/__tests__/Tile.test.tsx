@@ -23,8 +23,8 @@ describe('Tile', () => {
 
   describe('Tile Render', () => {
     test("tile color is the player's color", () => {
-      expect(createTileCanMove()).toHaveStyle('--color: #f64c72');
-      expect(createTileNoMove()).toHaveStyle('--color: #85dcbc');
+      expect(createTileCanMove()).toHaveAttribute('style');
+      expect(createTileNoMove()).toHaveAttribute('style');
     });
 
     test('has creature', () => {
@@ -83,8 +83,8 @@ describe('Tile', () => {
     });
 
     test('default on drop is prevented', () => {
-      expect(simulateEvent(createTileCanMove(), 'move')).toHaveBeenCalled();
-      expect(simulateEvent(createTileNoMove(), 'move')).toHaveBeenCalled();
+      expect(simulateEvent(createTileCanMove(), 'drop')).toHaveBeenCalled();
+      expect(simulateEvent(createTileNoMove(), 'drop')).toHaveBeenCalled();
     });
   });
 

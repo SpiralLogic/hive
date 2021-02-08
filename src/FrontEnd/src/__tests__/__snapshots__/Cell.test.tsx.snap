@@ -13,7 +13,7 @@ exports[`Cell Cell Snapshot cell with tile matches current snapshot 1`] = `
   <div
     class="hex tile"
     draggable="false"
-    style="--color: r;"
+    style="--color: r; fill: e;"
     title="fly"
   >
     <svg
