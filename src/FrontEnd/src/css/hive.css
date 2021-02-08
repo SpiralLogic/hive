@@ -151,7 +151,7 @@ body {
 }
 
 .tile:hover {
-    box-shadow: 0 0 1rem black;
+    box-shadow: 0 -5px 2rem 5px #1a1a1dcc, 0 5px 2rem 5px #1a1a1dcc, 0 0 1rem #1a1a1dcc;
     transition: all .1s ease-in;
 }
 

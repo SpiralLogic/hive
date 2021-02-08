@@ -51,7 +51,8 @@ namespace Hive.Domain
             var loser = IsGameOver();
             if (loser != null)
             {
-                Cells.ExceptWith(Cells.WherePlayerOccupies(loser.TopTile().PlayerId));
+                Cells.ExceptWith(Cells.WherePlayerOccupies(loser.TopTile().PlayerId).Where(c=>!c.IsQueen()));
+                loser.Tiles.Clear();
                 return true;
             }
 

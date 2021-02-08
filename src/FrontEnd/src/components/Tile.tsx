@@ -9,8 +9,8 @@ import { useEffect, useState } from 'preact/hooks';
 
 const getPlayerColor = (playerId: PlayerId) => {
   const playerColors = [
-    ['#85dcbc', 'chartreuse'],
-    ['#f64c72', 'blueviolet'],
+    ['rgb(255 238 11 / 74%)', 'black', '#7fff0088'],
+    ['black', 'rgb(255 238 11 / 74%)', '#8a2be288'],
   ];
   return playerColors[playerId] || 'red';
 };
@@ -52,12 +52,13 @@ const TileFC: FunctionComponent<Props> = (props: Props) => {
     };
   });
 
-  const [color, shadow] = getPlayerColor(playerId);
+  const [color, fill, shadow] = getPlayerColor(playerId);
   const attributes = {
     title: creature,
     style: {
       '--color': color,
-      'box-shadow': selected ? `0px -15px 20px 5px ${shadow}, 0px 15px 20px 5px ${shadow}` : '',
+      fill,
+      'box-shadow': selected ? `0px -10px 20px 5px ${shadow}, 0px 10px 20px 5px ${shadow}` : '',
     } as JSXInternal.CSSProperties,
     class: 'hex tile',
     draggable: !!moves.length,
