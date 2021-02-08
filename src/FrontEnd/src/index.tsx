@@ -8,11 +8,11 @@ import './css/hive.css';
 import { h, render } from 'preact';
 import App from './components/App';
 
-fetch('/svg/creatures.svg')
+fetch('/svg/creatures.svg?v1')
   .then((r) => r.text())
   .then((svg) => document.body.insertAdjacentHTML('beforeend', `<div class="svg">${svg}</div>`));
 
-fetch('/svg/share.svg')
+fetch('/svg/share.svg?v1')
   .then((r) => r.text())
   .then((svg) => document.body.insertAdjacentHTML('beforeend', `<div class="svg">${svg}</div>`));
 
