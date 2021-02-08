@@ -150,7 +150,7 @@ body {
     margin: 0;
 }
 
-.tile:hover {
+.tile[draggable="true"]:hover {
     box-shadow: 0 -5px 2rem 5px #1a1a1dcc, 0 5px 2rem 5px #1a1a1dcc, 0 0 1rem #1a1a1dcc;
     transition: all .1s ease-in;
 }
@@ -224,3 +224,30 @@ div.svg {
     }
 }
 
+
+.jiggle {
+    -webkit-animation: jiggle 0.2s infinite;
+    -moz-animation-duration: 0.2s;
+    -moz-animation-name: jiggle;
+    -moz-animation-iteration-count: infinite;
+    -webkit-transform: rotate(-3deg);
+    -moz-transform: rotate(-3deg);
+}
+
+@-moz-keyframes jiggle {
+    0% {
+        -moz-transform: rotate(-1deg);
+    }
+    50% {
+        -moz-transform: rotate(1deg);
+    }
+}
+
+@-webkit-keyframes jiggle {
+    0% {
+        -webkit-transform: rotate(-1deg);
+    }
+    50% {
+        -webkit-transform: rotate(1deg);
+    }
+}

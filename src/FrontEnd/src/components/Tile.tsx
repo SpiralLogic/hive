@@ -9,8 +9,8 @@ import { useEffect, useState } from 'preact/hooks';
 
 const getPlayerColor = (playerId: PlayerId) => {
   const playerColors = [
-    ['rgb(255 238 11 / 74%)', 'black', '#7fff0088'],
-    ['black', 'rgb(255 238 11 / 74%)', '#8a2be288'],
+    ['rgb(255 238 11 )', 'black', '#7fff0088'],
+    ['black', 'rgb(255 238 11 )', '#8a2be288'],
   ];
   return playerColors[playerId] || 'red';
 };
@@ -60,7 +60,7 @@ const TileFC: FunctionComponent<Props> = (props: Props) => {
       fill,
       'box-shadow': selected ? `0px -10px 20px 5px ${shadow}, 0px 10px 20px 5px ${shadow}` : '',
     } as JSXInternal.CSSProperties,
-    class: 'hex tile',
+    class: selected ? 'hex tile jiggle' : 'hex tile',
     draggable: !!moves.length,
     ondrop: handleDrop,
   };

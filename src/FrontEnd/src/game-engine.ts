@@ -49,10 +49,10 @@ const connectGame = (gameId: GameId, handler: GameStateUpdateHandler): GameConne
     connection.onreconnecting((error) =>
       console.warn(`reconnecting to game ${gameId} .. ${error}`)
     );
-    connection.onreconnected((error) => console.info(`reconnected to game ${gameId} .. ${error}`));
-    connection.onclose((error) => {
+    connection.onclose((error) => console.info(`connection closed to game ${gameId} .. ${error}`));
+    connection.onreconnected((error) => {
       setTimeout(() => window.location.reload(), 100);
-      console.info(`connection closed to game ${gameId} .. ${error}`);
+      console.info(`reconnected to game ${gameId} .. ${error}`);
     });
   }
 
