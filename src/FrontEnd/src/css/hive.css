@@ -86,6 +86,7 @@ body {
     background-color: var(--color);
     min-width: fit-content;
     min-height: fit-content;
+    outline-width: 0;
 }
 
 .hidden {
@@ -151,7 +152,7 @@ body {
     margin: 0;
 }
 
-.tile[draggable="true"]:hover {
+.tile[draggable="true"]:hover, .tile[draggable="true"]:focus {
     box-shadow: 0 -5px 2rem 5px #1a1a1dcc, 0 5px 2rem 5px #1a1a1dcc, 0 0 1rem #1a1a1dcc;
     transition: all .1s ease-in;
 }
@@ -160,7 +161,7 @@ body {
     --color: rgba(175, 210, 117, 0.2);
 }
 
-.hex.can-drop.active {
+.hex.can-drop.active, .hex.can-drop:focus {
     --color: #AFD275;
 }
 
