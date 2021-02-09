@@ -1,11 +1,11 @@
-import { FunctionComponent, h } from 'preact';
+import { FunctionComponent, createRef, h } from 'preact';
 import { HiveEvent, useHiveEventEmitter } from '../emitters';
 import { JSXInternal } from 'preact/src/jsx';
 import { PlayerId, Tile } from '../domain';
 import { deepEqual } from 'fast-equals';
 import { handleDrop } from '../handlers';
 import { memo } from 'preact/compat';
-import { useEffect, useState } from 'preact/hooks';
+import { useEffect, useLayoutEffect, useState } from 'preact/hooks';
 
 const getPlayerColor = (playerId: PlayerId) => {
   const playerColors = [
@@ -20,6 +20,7 @@ const TileFC: FunctionComponent<Props> = (props: Props) => {
   const [selected, setSelected] = useState(false);
   const { moves, creature, playerId } = props;
   const hiveEventEmitter = useHiveEventEmitter();
+  const tileRef = createRef();
 
   function handleDragStart() {
     hiveEventEmitter.emit({ type: 'start', tile: props });
@@ -52,6 +53,11 @@ const TileFC: FunctionComponent<Props> = (props: Props) => {
     };
   });
 
+  useLayoutEffect(() => {
+    const tabIndex = selected ? 2 : 1;
+    document.querySelector<HTMLElement>(`[tabIndex="${tabIndex}"]`)?.focus();
+  }, [moves.length, selected]);
+
   const [color, fill, shadow] = getPlayerColor(playerId);
   const attributes = {
     title: creature,
@@ -63,6 +69,8 @@ const TileFC: FunctionComponent<Props> = (props: Props) => {
     class: selected ? 'hex tile jiggle' : 'hex tile',
     draggable: !!moves.length,
     ondrop: handleDrop,
+    tabIndex: moves.length ? 1 : -1,
+    ref: tileRef,
   };
 
   const handlers = attributes.draggable
@@ -70,6 +78,7 @@ const TileFC: FunctionComponent<Props> = (props: Props) => {
         onclick: handleClick,
         ondragstart: handleDragStart,
         ondragend: handleDragEnd,
+        onkeydown: (e: KeyboardEvent) => (e.key === 'Enter' || e.key === ' ') && handleClick(e),
       }
     : {};
 

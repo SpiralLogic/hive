@@ -1,7 +1,7 @@
 import { Cell, GameState, MoveTile, Player, PlayerId } from '../domain';
 import { FunctionComponent, h } from 'preact';
 import { HiveEvent, HiveEventListener, useHiveEventEmitter } from '../emitters';
-import { useEffect, useState } from 'preact/hooks';
+import { useEffect, useLayoutEffect, useState } from 'preact/hooks';
 import Engine from '../game-engine';
 import GameArea from './GameArea';
 
@@ -16,6 +16,7 @@ const App: FunctionComponent = () => {
   const moveTile: MoveTile = async (...move) => {
     const newGameState = await Engine.moveTile(...move);
     setGameState(newGameState);
+    document.querySelector<HTMLElement>(`[tabIndex="0"]`)?.focus();
   };
 
   useEffect(() => {
@@ -53,6 +54,10 @@ const App: FunctionComponent = () => {
       await closeConnection();
     };
   }, [gameState === undefined]);
+
+  useLayoutEffect(() => {
+    document.querySelector<HTMLElement>(`[tabIndex="1"],[tabIndex="2"]`)?.focus();
+  });
 
   if (gameState === undefined) return <h1>loading !</h1>;
 

@@ -8,12 +8,25 @@ type Props = Player;
 
 const PlayerTiles: FunctionComponent<Props> = (props: Props) => {
   const { name, tiles, id } = props;
-  const changePlayerUrl = `${window.location.pathname.split('/').slice(0, 3).join('/')}/${id}`;
+  const [, route, gameId, currentPlayerId] = window.location.pathname.split('/');
+  const changePlayerUrl = `/${route}/${gameId}/${id}`;
+
   return (
     <div className="player" title={name}>
-      <a className="name" href={changePlayerUrl}>
-        {name}
-      </a>
+      {Number(currentPlayerId) !== id ? (
+        <a
+          className="name"
+          href={changePlayerUrl}
+          tabIndex={0}
+          onKeyDown={(e: KeyboardEvent) =>
+            e.key === ' ' && e.target?.dispatchEvent(new MouseEvent('click'))
+          }
+        >
+          {name}
+        </a>
+      ) : (
+        <div className="name">{name}</div>
+      )}
       <div className="tiles">
         {tiles.map((tile) => (
           <Tile key={tile.id} {...tile} />

@@ -4,7 +4,7 @@ import { HiveEvent, useHiveEventEmitter } from '../emitters';
 import { deepEqual } from 'fast-equals';
 import { handleDragOver } from '../handlers';
 import { memo } from 'preact/compat';
-import { useEffect, useState } from 'preact/hooks';
+import { useEffect, useLayoutEffect, useState } from 'preact/hooks';
 import Tile from './Tile';
 
 type Props = Cell;
@@ -26,7 +26,7 @@ const CellFC: FunctionComponent<Props> = (props: Props) => {
     if (currentTile) setClasses([...classes, 'active']);
   }
 
-  function handleClickEvent(ev: { stopPropagation: () => void }) {
+  function handleClick(ev: { stopPropagation: () => void }) {
     if (currentTile) {
       ev.stopPropagation();
       move();
@@ -73,11 +73,18 @@ const CellFC: FunctionComponent<Props> = (props: Props) => {
     ondragenter: handleDragEnter,
     onmouseenter: handleDragEnter,
     onmouseleave: handleDragLeave,
-    onclick: handleClickEvent,
+    onclick: handleClick,
+    onkeydown: currentTile
+      ? (e: KeyboardEvent) => (e.key === 'Enter' || e.key === ' ') && handleClick(e)
+      : undefined,
+    tabIndex: currentTile && isValidMove(currentTile.moves) ? 2 : -1,
   };
 
   return <div {...attributes}>{tiles.length > 0 && <Tile {...tiles[0]} />}</div>;
 };
 
 CellFC.displayName = 'Cell';
-export default memo(CellFC, (p, n) => deepEqual(p.coords, n.coords) && !p.tiles.length && !n.tiles.length);
+export default memo(
+  CellFC,
+  (p, n) => deepEqual(p.coords, n.coords) && !p.tiles.length && !n.tiles.length
+);

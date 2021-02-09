@@ -138,12 +138,13 @@ body {
     font-size: 50%;
 }
 
-.tile svg {
-    height: calc(1.1 * var(--hex-size));
-    width: calc(1.1 * var(--hex-size));
+.tile > svg {
+    height: calc(1 * var(--hex-size));
+    width: calc(1 * var(--hex-size));
     z-index: 10;
     overflow: visible;
     pointer-events: none;
+    position: absolute;
 }
 
 .cell > .tile {

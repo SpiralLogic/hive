@@ -7,11 +7,11 @@ type Props = { players: Player[] };
 const PlayerList: FunctionComponent<Props> = (props: Props) => {
   const { players } = props;
   return (
-    <div className="players">
+    <aside className="players">
       {players.map((player) => (
         <PlayerTiles key={player.id} {...player} />
       ))}
-    </div>
+    </aside>
   );
 };
 

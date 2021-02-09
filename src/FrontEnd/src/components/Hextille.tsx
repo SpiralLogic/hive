@@ -45,11 +45,11 @@ const Hextille: FunctionComponent<Props> = (props: Props) => {
 
   return (
     <div className="hex-container">
-      <div className={`hextille  ${shiftClass}`}>
+      <main className={`hextille  ${shiftClass}`}>
         {rows.map((row) => (
           <Row key={row.id} {...row} />
         ))}
-      </div>
+      </main>
     </div>
   );
 };
