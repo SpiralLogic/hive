@@ -1,8 +1,9 @@
 import { GameState } from '../domain';
-import { MoveEvent, useHiveEventEmitter } from '../emitters';
+import { MoveEvent } from '../emitters';
 import { h } from 'preact';
 import { render } from '@testing-library/preact';
 import { renderElement } from './helpers';
+import { useHiveEventEmitter } from '../hooks';
 import App from '../components/App';
 import Engine from '../game-engine';
 import GameArea from '../components/GameArea';

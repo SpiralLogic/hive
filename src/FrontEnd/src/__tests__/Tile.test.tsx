@@ -1,7 +1,8 @@
-import { HiveEvent, useHiveEventEmitter } from '../emitters';
+import { HiveEvent } from '../emitters';
 import { fireEvent } from '@testing-library/preact';
 import { h } from 'preact';
 import { renderElement, simulateEvent } from './helpers';
+import { useHiveEventEmitter } from '../hooks';
 import Tile from '../components/Tile';
 
 describe('Tile', () => {

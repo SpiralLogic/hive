@@ -1,6 +1,7 @@
 import { FunctionComponent, h } from 'preact';
 import { Player } from '../domain';
 import { deepEqual } from 'fast-equals';
+import { handleKeyboardClick } from '../handlers';
 import { memo } from 'preact/compat';
 import Tile from './Tile';
 
@@ -14,14 +15,7 @@ const PlayerTiles: FunctionComponent<Props> = (props: Props) => {
   return (
     <div className="player" title={name}>
       {Number(currentPlayerId) !== id ? (
-        <a
-          className="name"
-          href={changePlayerUrl}
-          tabIndex={0}
-          onKeyDown={(e: KeyboardEvent) =>
-            e.key === ' ' && e.target?.dispatchEvent(new MouseEvent('click'))
-          }
-        >
+        <a className="name" href={changePlayerUrl} tabIndex={0} onKeyDown={handleKeyboardClick}>
           {name}
         </a>
       ) : (

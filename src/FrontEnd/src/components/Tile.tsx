@@ -1,11 +1,12 @@
 import { FunctionComponent, createRef, h } from 'preact';
-import { HiveEvent, useHiveEventEmitter } from '../emitters';
+import { HiveEvent } from '../emitters';
 import { JSXInternal } from 'preact/src/jsx';
 import { PlayerId, Tile } from '../domain';
 import { deepEqual } from 'fast-equals';
-import { handleDrop } from '../handlers';
+import { handleDrop, handleKeyboardClick } from '../handlers';
 import { memo } from 'preact/compat';
-import { useEffect, useLayoutEffect, useState } from 'preact/hooks';
+import { useFocusEffect, useHiveEventEmitter } from '../hooks';
+import { useState } from 'preact/hooks';
 
 const getPlayerColor = (playerId: PlayerId) => {
   const playerColors = [
@@ -29,6 +30,8 @@ const TileFC: FunctionComponent<Props> = (props: Props) => {
 
   const hiveEventEmitter = useHiveEventEmitter(handleHiveEvent);
 
+  useFocusEffect([selected ? 2 : 1], [moves.length, selected]);
+
   function handleDragStart() {
     hiveEventEmitter.emit({ type: 'start', tile: props });
     setSelected(true);
@@ -47,19 +50,17 @@ const TileFC: FunctionComponent<Props> = (props: Props) => {
     hiveEventEmitter.emit({ type: 'end', tile: props });
   }
 
-  useLayoutEffect(() => {
-    const tabIndex = selected ? 2 : 1;
-    document.querySelector<HTMLElement>(`[tabIndex="${tabIndex}"]`)?.focus();
-  }, [moves.length, selected]);
-
   const [color, fill, shadow] = getPlayerColor(playerId);
+
+  const style = {
+    '--color': color,
+    fill,
+    'box-shadow': selected ? `0px -10px 20px 5px ${shadow}, 0px 10px 20px 5px ${shadow}` : '',
+  } as JSXInternal.CSSProperties;
+
   const attributes = {
     title: creature,
-    style: {
-      '--color': color,
-      fill,
-      'box-shadow': selected ? `0px -10px 20px 5px ${shadow}, 0px 10px 20px 5px ${shadow}` : '',
-    } as JSXInternal.CSSProperties,
+    style,
     class: selected ? 'hex tile jiggle' : 'hex tile',
     draggable: !!moves.length,
     ondrop: handleDrop,
@@ -72,7 +73,7 @@ const TileFC: FunctionComponent<Props> = (props: Props) => {
         onclick: handleClick,
         ondragstart: handleDragStart,
         ondragend: handleDragEnd,
-        onkeydown: (e: KeyboardEvent) => (e.key === 'Enter' || e.key === ' ') && handleClick(e),
+        onkeydown: handleKeyboardClick,
       }
     : {};
 

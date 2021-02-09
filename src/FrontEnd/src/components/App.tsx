@@ -1,7 +1,8 @@
 import { Cell, GameState, MoveTile, Player, PlayerId } from '../domain';
 import { FunctionComponent, h } from 'preact';
-import { HiveEvent, HiveEventListener, useHiveEventEmitter } from '../emitters';
-import { useEffect, useLayoutEffect, useState } from 'preact/hooks';
+import { HiveEvent, HiveEventListener } from '../emitters';
+import { useEffect, useState } from 'preact/hooks';
+import { useFocusEffect, useHiveEventEmitter } from '../hooks';
 import Engine from '../game-engine';
 import GameArea from './GameArea';
 
@@ -23,11 +24,7 @@ const App: FunctionComponent = () => {
       const [player] = gameState.players;
       const playerId = (Number(routePlayerId) as PlayerId) ? Number(routePlayerId) : player.id;
       setPlayerId(playerId);
-      window.history.replaceState(
-        { playerId, gameId },
-        document.title,
-        `/game/${gameId}/${playerId}`
-      );
+      window.history.replaceState({ playerId, gameId }, document.title, `/game/${gameId}/${playerId}`);
     });
   }, []);
 
@@ -36,15 +33,12 @@ const App: FunctionComponent = () => {
     const { closeConnection } = Engine.connectGame(gameState.gameId, setGameState);
     const c = document.querySelector('.hex-container');
     const h = document.querySelector('.hextille');
-    if (c && h)
-      c.scrollTo((c.scrollWidth - c.clientWidth) / 2, (c.scrollHeight - c.clientHeight) / 2);
+    if (c && h) c.scrollTo((c.scrollWidth - c.clientWidth) / 2, (c.scrollHeight - c.clientHeight) / 2);
 
     return closeConnection;
   }, [gameState === undefined]);
 
-  useLayoutEffect(() => {
-    document.querySelector<HTMLElement>(`[tabIndex="1"], [tabIndex="2"]`)?.focus();
-  });
+  useFocusEffect([1, 2]);
 
   if (gameState === undefined) return <h1>loading !</h1>;
 

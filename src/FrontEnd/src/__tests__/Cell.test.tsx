@@ -2,7 +2,7 @@ import { act, fireEvent, render } from '@testing-library/preact';
 import { deepEqual } from 'fast-equals';
 import { h } from 'preact';
 import { renderElement, simulateEvent } from './helpers';
-import { useHiveEventEmitter } from '../emitters';
+import { useHiveEventEmitter } from '../hooks';
 import Cell from '../components/Cell';
 
 jest.mock('fast-equals', () => ({ deepEqual: jest.fn(() => true) }));

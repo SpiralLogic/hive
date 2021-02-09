@@ -1,10 +1,11 @@
 import { Cell, HexCoordinates, Tile as TileType } from '../domain';
 import { FunctionComponent, h } from 'preact';
-import { HiveEvent, useHiveEventEmitter } from '../emitters';
+import { HiveEvent } from '../emitters';
 import { deepEqual } from 'fast-equals';
 import { handleDragOver, handleKeyboardClick } from '../handlers';
 import { memo } from 'preact/compat';
-import { useEffect, useState } from 'preact/hooks';
+import { useHiveEventEmitter } from '../hooks';
+import { useState } from 'preact/hooks';
 import Tile from './Tile';
 
 type Props = Cell;
@@ -79,7 +80,4 @@ const CellFC: FunctionComponent<Props> = (props: Props) => {
 };
 
 CellFC.displayName = 'Cell';
-export default memo(
-  CellFC,
-  (p, n) => deepEqual(p.coords, n.coords) && !p.tiles.length && !n.tiles.length
-);
+export default memo(CellFC, (p, n) => deepEqual(p.coords, n.coords) && !p.tiles.length && !n.tiles.length);
