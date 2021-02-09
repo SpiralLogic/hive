@@ -1,19 +1,18 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Player List PlayerList snapshot matches current snapshot 1`] = `
-<div
+<aside
   class="players"
 >
   <div
     class="player"
     title="Player 1"
   >
-    <a
+    <div
       class="name"
-      href="/game/33/1"
     >
       Player 1
-    </a>
+    </div>
     <div
       class="tiles"
     >
@@ -21,6 +20,7 @@ exports[`Player List PlayerList snapshot matches current snapshot 1`] = `
         class="hex tile"
         draggable="true"
         style="--color: black; fill: rgb(255 238 11 );"
+        tabindex="1"
         title="ant"
       >
         <svg
@@ -35,6 +35,7 @@ exports[`Player List PlayerList snapshot matches current snapshot 1`] = `
         class="hex tile"
         draggable="false"
         style="--color: rgb(255 238 11 ); fill: black;"
+        tabindex="-1"
         title="fly"
       >
         <svg
@@ -49,6 +50,7 @@ exports[`Player List PlayerList snapshot matches current snapshot 1`] = `
         class="hex tile"
         draggable="false"
         style="--color: rgb(255 238 11 ); fill: black;"
+        tabindex="-1"
         title="fly"
       >
         <svg
@@ -68,6 +70,7 @@ exports[`Player List PlayerList snapshot matches current snapshot 1`] = `
     <a
       class="name"
       href="/game/33/2"
+      tabindex="0"
     >
       Player 2
     </a>
@@ -78,6 +81,7 @@ exports[`Player List PlayerList snapshot matches current snapshot 1`] = `
         class="hex tile"
         draggable="true"
         style="--color: black; fill: rgb(255 238 11 );"
+        tabindex="1"
         title="ant"
       >
         <svg
@@ -90,5 +94,5 @@ exports[`Player List PlayerList snapshot matches current snapshot 1`] = `
       </div>
     </div>
   </div>
-</div>
+</aside>
 `;

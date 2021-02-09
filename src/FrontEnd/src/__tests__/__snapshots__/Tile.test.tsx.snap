@@ -5,6 +5,7 @@ exports[`Tile Tile Snapshot can move matches current snapshot 1`] = `
   class="hex tile"
   draggable="true"
   style="--color: black; fill: rgb(255 238 11 );"
+  tabindex="1"
   title="ant"
 >
   <svg
@@ -22,6 +23,7 @@ exports[`Tile Tile Snapshot no moves matches current snapshot 1`] = `
   class="hex tile"
   draggable="false"
   style="--color: rgb(255 238 11 ); fill: black;"
+  tabindex="-1"
   title="fly"
 >
   <svg

@@ -6,9 +6,11 @@ exports[`Row Row tests Row snapshot 1`] = `
 >
   <div
     class="hex cell"
+    tabindex="-1"
   />
   <div
     class="hex cell"
+    tabindex="-1"
   />
   <div
     class="hidden"
