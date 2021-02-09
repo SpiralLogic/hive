@@ -2,27 +2,46 @@ import { Cell, HexCoordinates, Tile as TileType } from '../domain';
 import { FunctionComponent, h } from 'preact';
 import { HiveEvent, useHiveEventEmitter } from '../emitters';
 import { deepEqual } from 'fast-equals';
-import { handleDragOver } from '../handlers';
+import { handleDragOver, handleKeyboardClick } from '../handlers';
 import { memo } from 'preact/compat';
-import { useEffect, useLayoutEffect, useState } from 'preact/hooks';
+import { useEffect, useState } from 'preact/hooks';
 import Tile from './Tile';
 
 type Props = Cell;
 
 const CellFC: FunctionComponent<Props> = (props: Props) => {
   const { tiles, coords } = props;
-  const hiveEventEmitter = useHiveEventEmitter();
   const isValidMove = (validMoves: HexCoordinates[]) =>
     validMoves.some((dest) => dest.q == coords.q && dest.r == coords.r);
   const [classes, setClasses] = useState(['hex', 'cell']);
   const [currentTile, setCurrentTile] = useState<TileType | null>(null);
+
+  function handleHiveEvent(e: HiveEvent) {
+    if (e.type === 'start') {
+      const newClasses = isValidMove(e.tile.moves) ? [...classes, 'can-drop'] : ['hex', 'cell'];
+      setCurrentTile(e.tile);
+      setClasses(newClasses);
+    }
+
+    if (e.type === 'end') {
+      if (classes.includes('active')) move();
+      hiveEventEmitter.emit({ type: 'deselect' });
+    }
+
+    if (e.type === 'deselect') {
+      setCurrentTile(null);
+      setClasses(['hex', 'cell']);
+    }
+  }
+
+  const hiveEventEmitter = useHiveEventEmitter(handleHiveEvent);
 
   function handleDragLeave(ev: { stopPropagation: () => void }) {
     ev.stopPropagation();
     setClasses(classes.filter((e) => e !== 'active'));
   }
 
-  function handleDragEnter(ev: { stopPropagation: () => void }) {
+  function handleDragEnter() {
     if (currentTile) setClasses([...classes, 'active']);
   }
 
@@ -30,7 +49,7 @@ const CellFC: FunctionComponent<Props> = (props: Props) => {
     if (currentTile) {
       ev.stopPropagation();
       move();
-      hiveEventEmitter.emit({ type: 'deselect', tile: currentTile });
+      hiveEventEmitter.emit({ type: 'deselect' });
     }
   }
 
@@ -41,30 +60,8 @@ const CellFC: FunctionComponent<Props> = (props: Props) => {
           type: 'move',
           move: { coords, tileId: currentTile.id },
         });
-      hiveEventEmitter.emit({ type: 'deselect', tile: currentTile });
     }
   }
-
-  function handleHiveEvent(e: HiveEvent) {
-    if (e.type === 'start') {
-      const newClasses = isValidMove(e.tile.moves) ? [...classes, 'can-drop'] : ['hex', 'cell'];
-      setCurrentTile(e.tile);
-      setClasses(newClasses);
-    } else if (e.type === 'end') {
-      if (classes.includes('active')) move();
-      if (currentTile) hiveEventEmitter.emit({ type: 'deselect', tile: currentTile });
-    } else if (e.type === 'deselect') {
-      setCurrentTile(null);
-      setClasses(['hex', 'cell']);
-    }
-  }
-
-  useEffect(() => {
-    hiveEventEmitter.add(handleHiveEvent);
-    return () => {
-      hiveEventEmitter.remove(handleHiveEvent);
-    };
-  });
 
   const attributes = {
     className: classes.join(' '),
@@ -74,9 +71,7 @@ const CellFC: FunctionComponent<Props> = (props: Props) => {
     onmouseenter: handleDragEnter,
     onmouseleave: handleDragLeave,
     onclick: handleClick,
-    onkeydown: currentTile
-      ? (e: KeyboardEvent) => (e.key === 'Enter' || e.key === ' ') && handleClick(e)
-      : undefined,
+    onkeydown: handleKeyboardClick,
     tabIndex: currentTile && isValidMove(currentTile.moves) ? 2 : -1,
   };
 

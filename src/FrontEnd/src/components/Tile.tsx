@@ -19,8 +19,15 @@ type Props = Tile;
 const TileFC: FunctionComponent<Props> = (props: Props) => {
   const [selected, setSelected] = useState(false);
   const { moves, creature, playerId } = props;
-  const hiveEventEmitter = useHiveEventEmitter();
   const tileRef = createRef();
+
+  function handleHiveEvent(event: HiveEvent) {
+    if (event.type === 'deselect' && selected) {
+      setSelected(false);
+    }
+  }
+
+  const hiveEventEmitter = useHiveEventEmitter(handleHiveEvent);
 
   function handleDragStart() {
     hiveEventEmitter.emit({ type: 'start', tile: props });
@@ -29,29 +36,16 @@ const TileFC: FunctionComponent<Props> = (props: Props) => {
 
   function handleClick(ev: { stopPropagation: () => void }) {
     ev.stopPropagation();
-    hiveEventEmitter.emit({ type: 'deselect', tile: props });
+    hiveEventEmitter.emit({ type: 'deselect' });
 
     setSelected(true);
     hiveEventEmitter.emit({ type: 'start', tile: props });
   }
 
   function handleDragEnd() {
-    hiveEventEmitter.emit({ type: 'deselect', tile: props });
+    hiveEventEmitter.emit({ type: 'deselect' });
     hiveEventEmitter.emit({ type: 'end', tile: props });
   }
-
-  function handleHiveEvent(event: HiveEvent) {
-    if (event.type === 'deselect' && selected) {
-      setSelected(false);
-    }
-  }
-
-  useEffect(() => {
-    hiveEventEmitter.add(handleHiveEvent);
-    return () => {
-      hiveEventEmitter.remove(handleHiveEvent);
-    };
-  });
 
   useLayoutEffect(() => {
     const tabIndex = selected ? 2 : 1;

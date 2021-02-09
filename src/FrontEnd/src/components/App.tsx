@@ -11,13 +11,6 @@ const getAllPlayerTiles = (playerId: PlayerId, ...parents: Array<Array<Player | 
 const App: FunctionComponent = () => {
   const [gameState, setGameState] = useState<GameState | undefined>(undefined);
   const [playerId, setPlayerId] = useState<PlayerId>(0);
-  const hiveEventEmitter = useHiveEventEmitter();
-
-  const moveTile: MoveTile = async (...move) => {
-    const newGameState = await Engine.moveTile(...move);
-    setGameState(newGameState);
-    document.querySelector<HTMLElement>(`[tabIndex="0"]`)?.focus();
-  };
 
   useEffect(() => {
     const [, route, gameId, routePlayerId] = window.location.pathname.split('/');
@@ -41,25 +34,30 @@ const App: FunctionComponent = () => {
   useEffect(() => {
     if (gameState === undefined) return;
     const { closeConnection } = Engine.connectGame(gameState.gameId, setGameState);
-    const hiveEventListener: HiveEventListener<HiveEvent> = (event: HiveEvent) =>
-      event.type === 'move' && moveTile(gameState.gameId, event.move);
-    hiveEventEmitter.add(hiveEventListener);
     const c = document.querySelector('.hex-container');
     const h = document.querySelector('.hextille');
     if (c && h)
       c.scrollTo((c.scrollWidth - c.clientWidth) / 2, (c.scrollHeight - c.clientHeight) / 2);
 
-    return async () => {
-      hiveEventEmitter.remove(hiveEventListener);
-      await closeConnection();
-    };
+    return closeConnection;
   }, [gameState === undefined]);
 
   useLayoutEffect(() => {
-    document.querySelector<HTMLElement>(`[tabIndex="1"],[tabIndex="2"]`)?.focus();
+    document.querySelector<HTMLElement>(`[tabIndex="1"], [tabIndex="2"]`)?.focus();
   });
 
   if (gameState === undefined) return <h1>loading !</h1>;
+
+  const moveTile: MoveTile = async (...move) => {
+    const newGameState = await Engine.moveTile(...move);
+    setGameState(newGameState);
+    document.querySelector<HTMLElement>(`[tabIndex="0"]`)?.focus();
+  };
+
+  const hiveEventListener: HiveEventListener<HiveEvent> = (event: HiveEvent) =>
+    event.type === 'move' && moveTile(gameState.gameId, event.move);
+
+  useHiveEventEmitter(hiveEventListener, []);
 
   getAllPlayerTiles(playerId, gameState.players, gameState.cells).forEach((t) =>
     t.moves.splice(0, t.moves.length)
