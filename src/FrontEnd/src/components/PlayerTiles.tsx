@@ -15,7 +15,7 @@ const PlayerTiles: FunctionComponent<Props> = (props: Props) => {
   return (
     <div className="player" title={name}>
       {Number(currentPlayerId) !== id ? (
-        <a className="name" href={changePlayerUrl} tabIndex={0} onKeyDown={handleKeyboardClick}>
+        <a className="name" href={changePlayerUrl} tabIndex={3} onKeyDown={handleKeyboardClick}>
           {name}
         </a>
       ) : (

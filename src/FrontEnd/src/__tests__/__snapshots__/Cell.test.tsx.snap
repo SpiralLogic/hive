@@ -15,7 +15,7 @@ exports[`Cell Cell Snapshot cell with tile matches current snapshot 1`] = `
   <div
     class="hex tile"
     draggable="false"
-    style="--color: r; fill: e;"
+    style="--color: black; fill: rgb(255 238 11 );"
     tabindex="-1"
     title="fly"
   >

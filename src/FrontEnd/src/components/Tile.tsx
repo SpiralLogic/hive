@@ -13,14 +13,13 @@ const getPlayerColor = (playerId: PlayerId) => {
     ['rgb(255 238 11 )', 'black', '#7fff0088'],
     ['black', 'rgb(255 238 11 )', '#8a2be288'],
   ];
-  return playerColors[playerId] || 'red';
+  return playerColors[playerId];
 };
 
 type Props = Tile;
 const TileFC: FunctionComponent<Props> = (props: Props) => {
   const [selected, setSelected] = useState(false);
   const { moves, creature, playerId } = props;
-  const tileRef = createRef();
 
   function handleHiveEvent(event: HiveEvent) {
     if (event.type === 'deselect' && selected) {
@@ -30,7 +29,7 @@ const TileFC: FunctionComponent<Props> = (props: Props) => {
 
   const hiveEventEmitter = useHiveEventEmitter(handleHiveEvent);
 
-  useFocusEffect([selected ? 2 : 1], [moves.length, selected]);
+  useFocusEffect([selected ? 2 : 1, 3], [moves.length, selected]);
 
   function handleDragStart() {
     hiveEventEmitter.emit({ type: 'start', tile: props });
@@ -65,7 +64,6 @@ const TileFC: FunctionComponent<Props> = (props: Props) => {
     draggable: !!moves.length,
     ondrop: handleDrop,
     tabIndex: moves.length ? 1 : -1,
-    ref: tileRef,
   };
 
   const handlers = attributes.draggable

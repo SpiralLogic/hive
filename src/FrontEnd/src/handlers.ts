@@ -8,7 +8,11 @@ export function handleDrop(ev: { preventDefault: () => void }): boolean {
   return false;
 }
 
-export function handleKeyboardClick(e: KeyboardEvent): boolean {
+export function handleKeyboardClick(event: KeyboardEvent): boolean {
   const clickEvent = new MouseEvent('click');
-  return (e.key === 'Enter' || e.key === ' ') && (e.target?.dispatchEvent(clickEvent) ?? false);
+  if ((event.key === 'Enter' || event.key === ' ') && event.target?.dispatchEvent) {
+    return event.target.dispatchEvent(clickEvent);
+  }
+
+  return true;
 }

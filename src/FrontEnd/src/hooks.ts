@@ -21,6 +21,9 @@ export const useHiveEventEmitter = (
 export const useFocusEffect = (tabIndexes: number[], inputs?: Inputs): void => {
   useLayoutEffect(() => {
     const selector = tabIndexes.map((t) => `[tabIndex="${t}"]`).join(',');
-    document.querySelector<HTMLElement>(selector)?.focus();
+    Array.from(document.querySelectorAll<HTMLElement>(selector))
+      .sort((e1, e2) => e1.tabIndex - e2.tabIndex)
+      .shift()
+      ?.focus();
   }, inputs);
 };

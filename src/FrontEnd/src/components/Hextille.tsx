@@ -1,11 +1,15 @@
 import { Cell } from '../domain';
-import { FunctionComponent, h } from 'preact';
+import { FunctionComponent, createRef, h } from 'preact';
+import { useLayoutEffect, useRef } from 'preact/hooks';
 import Row from './Row';
 
 type Row = { id: number; row: Cell[] };
 
 function getWidth(cells: Cell[]): [number, number] {
-  const [min, max] = cells.reduce(([min, max], c) => [Math.min(min, c.coords.q), Math.max(max, c.coords.q)], [0, 0]);
+  const [min, max] = cells.reduce(([min, max], c) => [Math.min(min, c.coords.q), Math.max(max, c.coords.q)], [
+    0,
+    0,
+  ]);
   return [min, max - min + 1];
 }
 

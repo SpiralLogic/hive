@@ -15,14 +15,14 @@ describe('Cell', () => {
   };
 
   const createCellWithTile = () => {
-    const tile = { id: 2, playerId: 2, creature: 'fly', moves: [] };
+    const tile = { id: 2, playerId: 1, creature: 'fly', moves: [] };
     const cell = { coords: { q: 1, r: 1 }, tiles: [tile] };
 
     return renderElement(<Cell {...cell} />);
   };
 
   const createCellWithTileAndDrop = () => {
-    const tile = { id: 2, playerId: 2, creature: 'ant', moves: [{ r: 0, q: 0 }] };
+    const tile = { id: 2, playerId: 1, creature: 'ant', moves: [{ r: 0, q: 0 }] };
     const cell = { coords: { q: 2, r: 2 }, tiles: [tile] };
 
     return renderElement(<Cell {...cell} />);
@@ -200,6 +200,24 @@ describe('Cell', () => {
       fireEvent.click(emptyCell);
 
       expect(useHiveEventEmitter().emit).not.toHaveBeenCalledWith();
+    });
+
+    test(`enter fires emit event on keydown enter`, () => {
+      jest.spyOn(useHiveEventEmitter(), 'emit');
+      const emptyCell = createCellCanDrop();
+      emitHiveEvent('start');
+      fireEvent.keyDown(emptyCell, { key: 'Enter' });
+
+      expect(useHiveEventEmitter().emit).toHaveBeenCalledWith(expect.objectContaining({ type: 'move' }));
+    });
+
+    test(`space fires emit event on keydown enter`, () => {
+      jest.spyOn(useHiveEventEmitter(), 'emit');
+      const emptyCell = createCellCanDrop();
+      emitHiveEvent('start');
+      fireEvent.keyDown(emptyCell, { key: ' ' });
+
+      expect(useHiveEventEmitter().emit).toHaveBeenCalledWith(expect.objectContaining({ type: 'move' }));
     });
   });
 

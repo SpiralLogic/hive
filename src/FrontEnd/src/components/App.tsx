@@ -31,27 +31,21 @@ const App: FunctionComponent = () => {
   useEffect(() => {
     if (gameState === undefined) return;
     const { closeConnection } = Engine.connectGame(gameState.gameId, setGameState);
-    const c = document.querySelector('.hex-container');
-    const h = document.querySelector('.hextille');
-    if (c && h) c.scrollTo((c.scrollWidth - c.clientWidth) / 2, (c.scrollHeight - c.clientHeight) / 2);
-
     return closeConnection;
   }, [gameState === undefined]);
-
-  useFocusEffect([1, 2]);
 
   if (gameState === undefined) return <h1>loading !</h1>;
 
   const moveTile: MoveTile = async (...move) => {
     const newGameState = await Engine.moveTile(...move);
     setGameState(newGameState);
-    document.querySelector<HTMLElement>(`[tabIndex="0"]`)?.focus();
   };
 
-  const hiveEventListener: HiveEventListener<HiveEvent> = (event: HiveEvent) =>
+  const onMove: HiveEventListener<HiveEvent> = (event: HiveEvent) => {
     event.type === 'move' && moveTile(gameState.gameId, event.move);
+  };
 
-  useHiveEventEmitter(hiveEventListener, []);
+  useHiveEventEmitter(onMove, []);
 
   getAllPlayerTiles(playerId, gameState.players, gameState.cells).forEach((t) =>
     t.moves.splice(0, t.moves.length)
