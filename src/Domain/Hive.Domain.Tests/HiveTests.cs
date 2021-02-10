@@ -195,5 +195,21 @@ namespace Hive.Domain.Tests
 
             hive2.Cells.Should().NotContain(c => !c.IsEmpty() && c.TopTile().PlayerId == queen.PlayerId);
         }
+        
+        [Fact]
+        public void TurnIsSkippedIfTheyHaveNoAvailableMoves()
+        {
+            var hive = new Hive(new[] {"player1", "player2"});
+            var player1 = hive.Players[0];
+            var player2 = hive.Players[1];
+            
+            player2.Tiles.Clear();
+            
+            hive.Move(player1.Tiles.First().Id, new Coords(0, 0));
+
+            var allTiles = hive.Cells.SelectMany(c=>c.Tiles).Concat(hive.Players.SelectMany(p=>p.Tiles)).ToList();
+            allTiles.Should().NotContain(t => t.PlayerId == player2.Id);
+            allTiles.Where(t => t.PlayerId == player1.Id).Should().NotBeEmpty();
+        }
     }
 }

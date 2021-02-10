@@ -57,4 +57,9 @@
       <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="5.0.1" />
       <PackageReference Include="StackExchange.Redis" Version="2.2.4" />
     </ItemGroup>
+    <ItemGroup>
+      <TypeScriptCompile Include="..\..\FrontEnd\src\__tests__\handlers.test.ts">
+        <Link>FrontEnd\__tests__\handlers.test.ts</Link>
+      </TypeScriptCompile>
+    </ItemGroup>
 </Project>

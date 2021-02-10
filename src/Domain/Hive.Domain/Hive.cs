@@ -22,21 +22,22 @@ namespace Hive.Domain
             Creatures.Ant);
 
         private readonly Coords _initialCoords = new(0, 0);
+        private readonly IList<Player> _players;
 
         public ISet<Cell> Cells { get; }
-        public IList<Player> Players { get; }
+
+        public IList<Player> Players => _players;
 
         public Hive(IEnumerable<string> playerNames)
         {
             Cells = CreateCells();
-            Players = CreatePlayers(playerNames);
+            _players = CreatePlayers(playerNames);
         }
 
         public Hive(IList<Player> players, ISet<Cell> cells)
         {
             Cells = cells ?? throw new ArgumentNullException(nameof(cells));
-            Players = players ?? throw new ArgumentNullException(nameof(players));
-            ;
+            _players = players ?? throw new ArgumentNullException(nameof(players));
         }
 
         public bool Move(int tileId, Coords coords)
@@ -51,7 +52,7 @@ namespace Hive.Domain
             var loser = IsGameOver();
             if (loser != null)
             {
-                Cells.ExceptWith(Cells.WherePlayerOccupies(loser.TopTile().PlayerId).Where(c=>!c.IsQueen()));
+                Cells.ExceptWith(Cells.WherePlayerOccupies(loser.TopTile().PlayerId).Where(c => !c.IsQueen()));
                 loser.Tiles.Clear();
                 return true;
             }
@@ -61,7 +62,13 @@ namespace Hive.Domain
 
             UpdatedPlacedTileMoves(nextPlayer);
             UpdatePlayerTileMoves(nextPlayer);
-
+            if (CountMovesAvailable() == 0)
+            {
+                nextPlayer = Players.First(p => p.Id != nextPlayer.Id);
+                UpdatedPlacedTileMoves(nextPlayer);
+                UpdatePlayerTileMoves(nextPlayer);
+            }
+            
             return true;
         }
 
@@ -107,6 +114,12 @@ namespace Hive.Domain
                 tile.Moves.Clear();
             }
         }
+
+        private int CountMovesAvailable()
+        {
+            return Players.SelectMany(p => p.Tiles).Concat(Cells.SelectMany(c => c.Tiles)).SelectMany(t=>t.Moves).Count();
+        }
+
         private bool IsValidMove(int tileId, Coords coords)
         {
             return Players.SelectMany(p => p.Tiles)
