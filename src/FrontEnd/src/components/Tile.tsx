@@ -22,9 +22,8 @@ const TileFC: FunctionComponent<Props> = (props: Props) => {
   const { moves, creature, playerId } = props;
 
   function handleHiveEvent(event: HiveEvent) {
-    if (event.type === 'deselect' && selected) {
-      setSelected(false);
-    }
+    if (!(event.type === 'deselect' && selected)) return;
+    setSelected(false);
   }
 
   const hiveEventEmitter = useHiveEventEmitter(handleHiveEvent);
