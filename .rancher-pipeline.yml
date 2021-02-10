@@ -1,4 +1,10 @@
 stages:
+- name: test
+  steps:
+  - publishImageConfig:
+      dockerfilePath: ./ops/dockerfile
+      buildContext: .
+      tag: hive:${CICD_EXECUTION_SEQUENCE}
 - name: deploy
   steps:
   - applyYamlConfig:
