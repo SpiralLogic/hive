@@ -1,4 +1,4 @@
-import { FunctionComponent, createRef, h } from 'preact';
+import { FunctionComponent, h } from 'preact';
 import { HiveEvent } from '../emitters';
 import { JSXInternal } from 'preact/src/jsx';
 import { PlayerId, Tile } from '../domain';
