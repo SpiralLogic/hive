@@ -12,7 +12,7 @@ stages:
       image: mcr.microsoft.com/dotnet/sdk:latest
       shellScript: |-
         cd ./src
-        dotnet test ./Api/Hive.Api.Tests -c Test /p:CollectCoverage=true /p:CoverletOutputFormat=json /p:SkipAutoProps=true /p:ExcludeByFile=\"./Startup.cs,./Program.cs\" /p:Exclude='[Hive.Domain]*'
+        dotnet test ./Api/Hive.Api.Tests -c Test /p:CollectCoverage=true /p:CoverletOutputFormat=json /p:SkipAutoProps=true /p:ExcludeByFile='./Startup.cs,./Program.cs' /p:Exclude='[Hive.Domain]*'
         dotnet test ./Domain/Hive.Domain.Tests /p:CollectCoverage=true  /p:CoverletOutputFormat=json  /p:SkipAutoProps=true
   - publishImageConfig:
       dockerfilePath: ./ops/dockerfile
