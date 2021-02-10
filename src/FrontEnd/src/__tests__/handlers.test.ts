@@ -10,7 +10,7 @@ describe(`handler tests`, () => {
   });
 
   describe(`handle drop tests`, () => {
-    it('should prevent default on dragover', () => {
+    it('should prevent default ondrop', () => {
       const preventDefault = jest.fn();
       handleDrop({ preventDefault });
       expect(preventDefault).toBeCalled();
@@ -41,6 +41,16 @@ describe(`handler tests`, () => {
     it(`shouldn't fire event when target is null1`, () => {
       const event = new KeyboardEvent('keydown');
       const result = handleKeyboardClick({ ...event, key: 'Enter', target: null });
+
+      expect(result).toBe(true);
+    });
+
+    it(`shouldn't fire event when other key`, () => {
+      const element = document.createElement('div');
+      element.dispatchEvent = jest.fn();
+
+      const event = new KeyboardEvent('keydown');
+      const result = handleKeyboardClick({ ...event, key: 'a', target: element });
 
       expect(result).toBe(true);
     });
