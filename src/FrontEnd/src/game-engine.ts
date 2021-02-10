@@ -46,12 +46,10 @@ const connectGame = (gameId: GameId, handler: GameStateUpdateHandler): GameConne
   const [connection] = getConnection(gameId);
 
   if (process.env.NODE_ENV !== 'production') {
-    connection.onreconnecting((error) =>
-      console.warn(`reconnecting to game ${gameId} .. ${error}`)
-    );
+    connection.onreconnecting((error) => console.warn(`reconnecting to game ${gameId} .. ${error}`));
     connection.onclose((error) => console.info(`connection closed to game ${gameId} .. ${error}`));
     connection.onreconnected((error) => {
-      setTimeout(() => window.location.reload(), 100);
+      window.location.reload();
       console.info(`reconnected to game ${gameId} .. ${error}`);
     });
   }
