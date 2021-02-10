@@ -45,7 +45,6 @@ namespace Hive.Controllers
             if (string.IsNullOrEmpty(gameSession)) return NotFound();
 
             var gameState = JsonSerializer.Deserialize<GameState>(gameSession, _jsonSerializerOptions);
-            if (gameState?.Players == null || gameState?.Cells == null) return NotFound();
 
             return Ok(gameState);
         }

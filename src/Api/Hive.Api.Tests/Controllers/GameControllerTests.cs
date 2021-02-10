@@ -19,7 +19,7 @@ namespace Hive.Api.Tests.Controllers
         private readonly GameController _controller;
         private const string ExistingGameId = "EXISTING_GAME_ID";
         private const string MissingGameId = "MISSING_GAME_ID";
-        private const string BadGameId = "BAD_GAME_ID";
+        private const string NullGame = "NULL_GAME_ID";
 
         public GameControllerTests()
         {
@@ -34,9 +34,8 @@ namespace Hive.Api.Tests.Controllers
             optionsMock.SetupGet(m => m.Value).Returns(jsonOptions);
 
             var memoryCacheMock = new Mock<IDistributedCache>();
-            memoryCacheMock.Setup(m => m.GetAsync(MissingGameId, It.IsAny<CancellationToken>())).Returns(() => Task.FromResult<byte[]>(null));
             memoryCacheMock.Setup(m => m.GetAsync(ExistingGameId, It.IsAny<CancellationToken>())).Returns(() => Task.FromResult(Encoding.Default.GetBytes(JsonSerializer.Serialize(gameState, jsonOptions.JsonSerializerOptions))));
-            memoryCacheMock.Setup(m => m.GetAsync(BadGameId, It.IsAny<CancellationToken>())).Returns(() => Task.FromResult(Encoding.Default.GetBytes("{}")));
+            memoryCacheMock.Setup(m => m.GetAsync(MissingGameId, It.IsAny<CancellationToken>())).Returns(() => Task.FromResult<byte[]>(null));
             _controller = new GameController(optionsMock.Object, memoryCacheMock.Object);
         }
 
@@ -59,14 +58,6 @@ namespace Hive.Api.Tests.Controllers
             actionResult.Value.Should().BeAssignableTo<GameState>();
         }
 
-        [Fact]
-        public async Task GetGame_BadGameInCache_ReturnsNotFound()
-        {
-            var res =await _controller.GetGame(BadGameId);
-            res.Result.Should().BeOfType<NotFoundResult>();
-        }
-
-       
         [Fact]
         public async Task GetGame_GameNotInCache_ReturnsNotFound()
         {

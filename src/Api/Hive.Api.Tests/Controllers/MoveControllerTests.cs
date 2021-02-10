@@ -21,16 +21,14 @@ namespace Hive.Api.Tests.Controllers
     public class MoveControllerTests
     {
         private readonly MoveController _controller;
-        private Mock<IHubContext<GameHub>> _hubMock;
-        private Domain.Hive _game;
+        private readonly Mock<IHubContext<GameHub>> _hubMock;
         private const string ExistingGameId = "EXISTING_GAME_ID";
         private const string MissingGameId = "MISSING_GAME_ID";
-        private const string BadGameId = "BAD_GAME_ID";
 
         public MoveControllerTests()
         {
-            _game = new Domain.Hive(new[] {"player1", "player2"});
-            var gameState = new GameState(_game.Players, _game.Cells, ExistingGameId);
+            var game = new Domain.Hive(new[] {"player1", "player2"});
+            var gameState = new GameState(game.Players, game.Cells, ExistingGameId);
 
             var jsonOptions = new JsonOptions();
             jsonOptions.JsonSerializerOptions.Converters.Add(new CreatureJsonConverter());
@@ -45,7 +43,6 @@ namespace Hive.Api.Tests.Controllers
             var memoryCacheMock = new Mock<IDistributedCache>();
             memoryCacheMock.Setup(m => m.GetAsync(MissingGameId, It.IsAny<CancellationToken>())).Returns(() => Task.FromResult<byte[]>(null));
             memoryCacheMock.Setup(m => m.GetAsync(ExistingGameId, It.IsAny<CancellationToken>())).Returns(() => Task.FromResult(Encoding.Default.GetBytes(JsonSerializer.Serialize(gameState, jsonOptions.JsonSerializerOptions))));
-            memoryCacheMock.Setup(m => m.GetAsync(BadGameId, It.IsAny<CancellationToken>())).Returns(() => Task.FromResult(Encoding.Default.GetBytes("{}")));
             _controller = new MoveController(_hubMock.Object, optionsMock.Object, memoryCacheMock.Object);
         }
 
@@ -53,13 +50,13 @@ namespace Hive.Api.Tests.Controllers
         public async Task Post_IdMissing_ReturnsBadRequest()
         {
             Move move = new(1, new Coords(0, 0));
-            (await _controller.Post(null, move)).Should().BeOfType<BadRequestResult>();
+            (await _controller.Post(null!, move)).Should().BeOfType<BadRequestResult>();
         }
 
         [Fact]
         public async Task Post_MoveMissing_ReturnsBadRequest()
         {
-            (await _controller.Post(ExistingGameId, null)).Should().BeOfType<BadRequestResult>();
+            (await _controller.Post(ExistingGameId, null!)).Should().BeOfType<BadRequestResult>();
         }
 
         [Fact]
@@ -71,14 +68,6 @@ namespace Hive.Api.Tests.Controllers
         }
 
         [Fact]
-        public async Task Post_BadGameInCache_ReturnsNotFound()
-        {
-            Move move = new(1, new Coords(0, 0));
-
-            (await _controller.Post(BadGameId, move)).Should().BeOfType<NotFoundResult>();
-        }
-
-        [Fact]
         public async Task Post_GameInCache_ReturnsAccepted()
         {
             Move move = new(1, new Coords(0, 0));
@@ -86,7 +75,7 @@ namespace Hive.Api.Tests.Controllers
             var actionResult = await _controller.Post(ExistingGameId, move);
             var result = actionResult.Should().BeOfType<AcceptedResult>().Subject;
             result.Location.Should().Be($"/game/{ExistingGameId}");
-            var newGameState = result.Value.Should().BeAssignableTo<GameState>().Subject;
+            result.Value.Should().BeAssignableTo<GameState>();
         }
         
         [Fact]

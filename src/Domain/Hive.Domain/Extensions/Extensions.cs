@@ -47,7 +47,7 @@ namespace Hive.Domain.Extensions
             => cells.Select(c => c.Coords);
 
         internal static bool IsQueen(this Cell cell)
-            => !cell.IsEmpty() && cell.TopTile().IsQueen();
+            => cell.TopTile().IsQueen();
 
         internal static bool IsQueen(this Tile tile)
             => tile.Creature.Equals(Creatures.Queen);

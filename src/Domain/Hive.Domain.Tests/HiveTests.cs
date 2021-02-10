@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using FluentAssertions;
 using Hive.Domain.Entities;
 using Xunit;
@@ -31,6 +33,13 @@ namespace Hive.Domain.Tests
             var cell = new Cell(new Coords(q, r));
 
             hive.Cells.Should().Contain(cell);
+        }
+        
+        [Fact]
+        public void CantCreateWithNulls()
+        {
+            Assert.Throws<ArgumentNullException>(() => new Hive(new List<Player>(),null!));
+            Assert.Throws<ArgumentNullException>(() => new Hive(null!,new HashSet<Cell>()));
         }
 
         [Theory]
@@ -147,9 +156,9 @@ namespace Hive.Domain.Tests
         public void InvalidMovesHaveNoEffect()
         {
             var hive = new Hive(new[] {"player1", "player2"});
-            hive.Move(1,new Coords(34,34)).Should().Be(false);
+            hive.Move(1, new Coords(34, 34)).Should().Be(false);
         }
-        
+
         [Fact]
         public void QueenMustMoveOnFourth()
         {
@@ -195,19 +204,22 @@ namespace Hive.Domain.Tests
 
             hive2.Cells.Should().NotContain(c => !c.IsEmpty() && c.TopTile().PlayerId == queen.PlayerId);
         }
-        
+
         [Fact]
         public void TurnIsSkippedIfTheyHaveNoAvailableMoves()
         {
             var hive = new Hive(new[] {"player1", "player2"});
             var player1 = hive.Players[0];
-            var player2 = hive.Players[1];
-            
-            player2.Tiles.Clear();
-            
+            var player2 = hive.Players[1] with {Tiles = new HashSet<Tile>(), Name = "test player", Id = 1};
+
+            hive = new Hive(new List<Player>
+            {
+                player1, player2
+            }, hive.Cells);
+
             hive.Move(player1.Tiles.First().Id, new Coords(0, 0));
 
-            var allTiles = hive.Cells.SelectMany(c=>c.Tiles).Concat(hive.Players.SelectMany(p=>p.Tiles)).ToList();
+            var allTiles = hive.Cells.SelectMany(c => c.Tiles).Concat(hive.Players.SelectMany(p => p.Tiles)).ToList();
             allTiles.Should().NotContain(t => t.PlayerId == player2.Id);
             allTiles.Where(t => t.PlayerId == player1.Id).Should().NotBeEmpty();
         }

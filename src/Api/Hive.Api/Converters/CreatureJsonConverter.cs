@@ -11,7 +11,7 @@ namespace Hive.Converters
 
         public CreatureJsonConverter()
         {
-            _creaturesType = typeof(Creatures) ?? throw new ApplicationException(nameof(Creatures));
+            _creaturesType = typeof(Creatures);
         }
 
         public override Creature Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)

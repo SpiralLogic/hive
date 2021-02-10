@@ -36,10 +36,9 @@ namespace Hive.Controllers
             var gameSession = await _distributedCache.GetStringAsync(id);
             if (string.IsNullOrEmpty(gameSession)) return NotFound();
 
-            var gameState = JsonSerializer.Deserialize<GameState>(gameSession, _jsonSerializerOptions);
-            if (gameState?.Players == null || gameState?.Cells == null) return NotFound();
+            var (players, cells, _) = JsonSerializer.Deserialize<GameState>(gameSession, _jsonSerializerOptions)!;
 
-            var game = new Domain.Hive(gameState.Players.ToList(), gameState.Cells.ToHashSet());
+            var game = new Domain.Hive(players.ToList(), cells.ToHashSet());
             game.Move(move.TileId, move.Coords);
             var newGameState = new GameState(game.Players, game.Cells, id);
 
