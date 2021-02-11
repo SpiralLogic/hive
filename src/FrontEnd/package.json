@@ -6,7 +6,7 @@
     "clean": "git clean -x -d -f $(git rev-parse --show-toplevel)/**",
     "test": "pnpx tsc --noEmit && npx jest --coverage",
     "build-dev": "pnpx tsc --noEmit && pnpx esbuild  --define:process.env.NODE_ENV=\\\"development\\\" ./src/index.tsx --bundle  --sourcemap  --outfile=./public/js/hive.js && pnpx cpy ./src/index.html ./public/ && pnpx cachebust -n",
-    "build": "pnpm install && pnpx tsc --noEmit && pnpx esbuild --define:process.env.NODE_ENV=\\\"production\\\" ./src/index.tsx --bundle  --minify --outfile=./public/js/hive.js  && pnpx cpy ./src/index.html ./public/ && pnpx cachebust -n",
+    "build": "pnpx tsc --noEmit && pnpx esbuild --define:process.env.NODE_ENV=\\\"production\\\" ./src/index.tsx --bundle  --minify --outfile=./public/js/hive.js  && pnpx cpy ./src/index.html ./public/ && pnpx cachebust -n",
     "start": "dotnet watch -v -p ../Api/Hive.Api run",
     "preinstall": "npx only-allow pnpm"
   },
@@ -25,7 +25,7 @@
     "@typescript-eslint/parser": "^4.15.0",
     "chalk": "^4.1.0",
     "cpy-cli": "^3.1.1",
-    "esbuild": "^0.8.43",
+    "esbuild": "0.8.42",
     "eslint": "^7.19.0",
     "eslint-config-prettier": "^7.2.0",
     "eslint-plugin-jest": "^24.1.3",
