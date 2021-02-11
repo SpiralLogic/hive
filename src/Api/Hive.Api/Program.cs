@@ -26,7 +26,6 @@ namespace Hive
                         context.HostingEnvironment.WebRootFileProvider =
                             new PhysicalFileProvider(webRoot);
                     }
-                    Console.WriteLine(config.Sources);
                 }).UseStartup<Startup>();
     }
 }
