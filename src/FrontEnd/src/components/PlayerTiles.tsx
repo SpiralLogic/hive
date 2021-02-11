@@ -1,7 +1,7 @@
 import { FunctionComponent, h } from 'preact';
 import { Player } from '../domain';
 import { deepEqual } from 'fast-equals';
-import { handleKeyboardClick } from '../handlers';
+import { isEnterOrSpace } from '../handlers';
 import { memo } from 'preact/compat';
 import Tile from './Tile';
 
@@ -12,10 +12,16 @@ const PlayerTiles: FunctionComponent<Props> = (props: Props) => {
   const [, route, gameId, currentPlayerId] = window.location.pathname.split('/');
   const changePlayerUrl = `/${route}/${gameId}/${id}`;
 
+  const handleKeyDown = (e: KeyboardEvent) => {
+    if (isEnterOrSpace(e)) {
+      window.location.href = changePlayerUrl;
+    }
+  };
+
   return (
     <div className="player" title={name}>
       {Number(currentPlayerId) !== id ? (
-        <a className="name" href={changePlayerUrl} tabIndex={3} onKeyDown={handleKeyboardClick}>
+        <a className="name" href={changePlayerUrl} tabIndex={3} onKeyDown={handleKeyDown}>
           {name}
         </a>
       ) : (

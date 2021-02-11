@@ -1,6 +1,7 @@
 import { HiveEvent } from '../emitters';
 import { fireEvent } from '@testing-library/preact';
 import { h } from 'preact';
+import { handleKeyboardNav } from '../handlers';
 import { renderElement, simulateEvent } from './helpers';
 import { useHiveEventEmitter } from '../hooks';
 import Tile from '../components/Tile';
@@ -23,11 +24,6 @@ describe('Tile', () => {
   };
 
   describe('Tile Render', () => {
-    test("tile color is the player's color", () => {
-      expect(createTileCanMove()).toHaveAttribute('style');
-      expect(createTileNoMove()).toHaveAttribute('style');
-    });
-
     test('has creature', () => {
       expect(createTileNoMove().getElementsByTagName('use').item(0)).toHaveAttribute(
         'href',
@@ -63,6 +59,14 @@ describe('Tile', () => {
       expect(useHiveEventEmitter().emit).toHaveBeenCalledWith(expectedEvent);
     });
 
+    test('arrow keys use handler', () => {
+      const tile = createTileCanMove();
+      jest.spyOn(tile, 'focus');
+      fireEvent.keyDown(tile, { key: 'ArrowDown' });
+
+      expect(tile.focus).toHaveBeenCalled();
+    });
+
     test('Space emits tile start event', () => {
       jest.spyOn(useHiveEventEmitter(), 'emit');
       fireEvent.keyDown(createTileCanMove(), { key: ' ' });
@@ -85,7 +89,17 @@ describe('Tile', () => {
       };
 
       expect(useHiveEventEmitter().emit).toHaveBeenCalledWith(expectedEvent);
-      expect(tile).not.toHaveClass('jiggle');
+    });
+
+    test('clicking same tile keeps it active', () => {
+      const mock = jest.spyOn(useHiveEventEmitter(), 'emit');
+      const tile = createTileCanMove();
+      fireEvent.click(tile);
+
+      mock.mockClear();
+      fireEvent.click(tile);
+
+      expect(useHiveEventEmitter().emit).not.toHaveBeenCalled();
     });
 
     test('is draggable when there are available moves', () => {

@@ -1,6 +1,5 @@
 import { Cell } from '../domain';
-import { FunctionComponent, createRef, h } from 'preact';
-import { useLayoutEffect, useRef } from 'preact/hooks';
+import { FunctionComponent, h } from 'preact';
 import Row from './Row';
 
 type Row = { id: number; row: Cell[] };

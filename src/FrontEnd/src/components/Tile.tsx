@@ -1,34 +1,35 @@
 import { FunctionComponent, h } from 'preact';
 import { HiveEvent } from '../emitters';
-import { JSXInternal } from 'preact/src/jsx';
-import { PlayerId, Tile } from '../domain';
+import { Tile } from '../domain';
 import { deepEqual } from 'fast-equals';
-import { handleDrop, handleKeyboardClick } from '../handlers';
+import { handleDrop, handleKeyboardNav, isEnterOrSpace } from '../handlers';
 import { memo } from 'preact/compat';
-import { useFocusEffect, useHiveEventEmitter } from '../hooks';
-import { useState } from 'preact/hooks';
-
-const getPlayerColor = (playerId: PlayerId) => {
-  const playerColors = [
-    ['rgb(255 238 11 )', 'black', '#7fff0088'],
-    ['black', 'rgb(255 238 11 )', '#8a2be288'],
-  ];
-  return playerColors[playerId];
-};
+import { useHiveEventEmitter } from '../hooks';
+import { useLayoutEffect, useState } from 'preact/hooks';
 
 type Props = Tile;
+
 const TileFC: FunctionComponent<Props> = (props: Props) => {
   const [selected, setSelected] = useState(false);
+  const [focus, setFocus] = useState(1);
   const { moves, creature, playerId } = props;
 
   function handleHiveEvent(event: HiveEvent) {
     if (!(event.type === 'deselect' && selected)) return;
     setSelected(false);
+    setFocus(0);
   }
 
   const hiveEventEmitter = useHiveEventEmitter(handleHiveEvent);
 
-  useFocusEffect([selected ? 2 : 1, 3], [moves.length, selected]);
+  useLayoutEffect(() => {
+    if (selected && focus < 2) return;
+    const selector = [focus, 3].map((t) => `[tabIndex="${t}"]`).join(',');
+    Array.from(document.querySelectorAll<HTMLElement>(selector))
+      .sort((e1, e2) => e1.tabIndex - e2.tabIndex)
+      .shift()
+      ?.focus();
+  }, [moves.length, selected]);
 
   function handleDragStart() {
     hiveEventEmitter.emit({ type: 'start', tile: props });
@@ -36,11 +37,13 @@ const TileFC: FunctionComponent<Props> = (props: Props) => {
   }
 
   function handleClick(ev: { stopPropagation: () => void }) {
+    if (selected) return;
     ev.stopPropagation();
     hiveEventEmitter.emit({ type: 'deselect' });
-
     setSelected(true);
+    setFocus(1);
     hiveEventEmitter.emit({ type: 'start', tile: props });
+    return false;
   }
 
   function handleDragEnd() {
@@ -48,21 +51,21 @@ const TileFC: FunctionComponent<Props> = (props: Props) => {
     hiveEventEmitter.emit({ type: 'end', tile: props });
   }
 
-  const [color, fill, shadow] = getPlayerColor(playerId);
-
-  const style = {
-    '--color': color,
-    fill,
-    'box-shadow': selected ? `0px -10px 20px 5px ${shadow}, 0px 10px 20px 5px ${shadow}` : '',
-  } as JSXInternal.CSSProperties;
-
   const attributes = {
     title: creature,
-    style,
-    class: selected ? 'hex tile jiggle' : 'hex tile',
+    class: `player${playerId} hex tile${selected ? ' selected' : ''}`,
     draggable: !!moves.length,
     ondrop: handleDrop,
-    tabIndex: moves.length ? 1 : -1,
+    tabIndex: moves.length ? 1 : undefined,
+  };
+
+  const handleKeyDown = (e: KeyboardEvent) => {
+    if (handleKeyboardNav(e) || !isEnterOrSpace(e) || selected) return;
+
+    hiveEventEmitter.emit({ type: 'deselect' });
+    setFocus(2);
+    setSelected(true);
+    hiveEventEmitter.emit({ type: 'start', tile: props });
   };
 
   const handlers = attributes.draggable
@@ -70,7 +73,7 @@ const TileFC: FunctionComponent<Props> = (props: Props) => {
         onclick: handleClick,
         ondragstart: handleDragStart,
         ondragend: handleDragEnd,
-        onkeydown: handleKeyboardClick,
+        onkeydown: handleKeyDown,
       }
     : {};
 

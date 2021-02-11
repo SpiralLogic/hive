@@ -35,7 +35,7 @@ namespace Hive.Domain.Extensions
             => cells.Where(c => !c.IsEmpty());
 
         internal static IEnumerable<Cell> WherePlayerOccupies(this IEnumerable<Cell> cells, int playerId)
-            => cells.WhereOccupied().Where(c => c.TopTile().PlayerId == playerId);
+            => cells.WhereOccupied().Where(c => c.Tiles.Any(t=>t.PlayerId == playerId));
 
         internal static ISet<Coords> ToCoords(this IEnumerable<Cell> cells)
             => cells.SelectCoords().ToHashSet();

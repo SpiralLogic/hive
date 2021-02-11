@@ -3,20 +3,16 @@
 exports[`Cell Cell Snapshot cell with no tile matches current snapshot 1`] = `
 <div
   class="hex cell"
-  tabindex="-1"
 />
 `;
 
 exports[`Cell Cell Snapshot cell with tile matches current snapshot 1`] = `
 <div
   class="hex cell"
-  tabindex="-1"
 >
   <div
-    class="hex tile"
+    class="player1 hex tile"
     draggable="false"
-    style="--color: black; fill: rgb(255 238 11 );"
-    tabindex="-1"
     title="fly"
   >
     <svg

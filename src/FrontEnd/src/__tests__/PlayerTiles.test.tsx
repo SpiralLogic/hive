@@ -1,5 +1,9 @@
-import { RenderResult, render } from '@testing-library/preact';
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
+import { HiveEvent } from '../emitters';
+import { RenderResult, fireEvent, render } from '@testing-library/preact';
 import { h } from 'preact';
+import { mockLocation, restoreLocation } from './helpers/location';
+import { useHiveEventEmitter } from '../hooks';
 import PlayerTiles from '../components/PlayerTiles';
 
 describe('PlayerTiles', () => {
@@ -50,6 +54,22 @@ describe('PlayerTiles', () => {
       container = render(<PlayerTiles {...emptyTileProps} />);
       playerTiles = container.baseElement.getElementsByClassName('playerTiles').item(1);
       expect(playerTiles).toBeNull();
+    });
+
+    test('enter navigates player', () => {
+      mockLocation({ href: '/game/33/0', pathname: '/game/33/0' });
+      const playerName = render(<PlayerTiles {...playerProps} />).container.querySelector('.name');
+      fireEvent.keyDown(playerName!, { key: 'Enter' });
+      expect(window.location.href.endsWith('1')).toBe(true);
+      restoreLocation();
+    });
+
+    test('space navigates player', () => {
+      mockLocation({ href: '/game/33/0', pathname: '/game/33/0' });
+      const playerName = render(<PlayerTiles {...playerProps} />).container.querySelector('.name');
+      fireEvent.keyDown(playerName!, { key: ' ' });
+      expect(window.location.href.endsWith('1')).toBe(true);
+      restoreLocation();
     });
   });
 

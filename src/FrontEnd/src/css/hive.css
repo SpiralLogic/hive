@@ -149,11 +149,23 @@ body {
     position: absolute;
 }
 
+.tile.player0 {
+    --outline:#7fff0088;
+    --color: rgb(255, 238, 11);
+    fill: black;
+}
+
+.tile.player1 {
+    --outline:#8a2be288;
+    --color: black;
+    fill: rgb(255, 238, 11);
+}
+
 .cell > .tile {
     margin: 0;
 }
 
-.tile[draggable="true"]:hover, .tile[draggable="true"]:focus {
+.tile[draggable="true"]:not(.selected):hover, .tile[draggable="true"]:not(.selected):focus {
     box-shadow: 0 -5px 2rem 5px #1a1a1dcc, 0 5px 2rem 5px #1a1a1dcc, 0 0 1rem #1a1a1dcc;
     transition: all .1s ease-in;
 }
@@ -228,16 +240,17 @@ div.svg {
 }
 
 
-.jiggle {
-    -webkit-animation: jiggle 0.2s infinite;
+.tile.selected {
+    box-shadow: 0 -10px 20px 5px var(--outline), 0 10px 20px 5px var(--outline);
+    -webkit-animation: selected 0.2s infinite;
     -moz-animation-duration: 0.2s;
-    -moz-animation-name: jiggle;
+    -moz-animation-name: selected;
     -moz-animation-iteration-count: infinite;
     -webkit-transform: rotate(-3deg);
     -moz-transform: rotate(-3deg);
 }
 
-@-moz-keyframes jiggle {
+@-moz-keyframes selected {
     0% {
         -moz-transform: rotate(-1deg);
     }
@@ -246,7 +259,7 @@ div.svg {
     }
 }
 
-@-webkit-keyframes jiggle {
+@-webkit-keyframes selected {
     0% {
         -webkit-transform: rotate(-1deg);
     }

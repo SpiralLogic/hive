@@ -17,9 +17,8 @@ exports[`Player List PlayerList snapshot matches current snapshot 1`] = `
       class="tiles"
     >
       <div
-        class="hex tile"
+        class="player1 hex tile"
         draggable="true"
-        style="--color: black; fill: rgb(255 238 11 );"
         tabindex="1"
         title="ant"
       >
@@ -32,10 +31,8 @@ exports[`Player List PlayerList snapshot matches current snapshot 1`] = `
         </svg>
       </div>
       <div
-        class="hex tile"
+        class="player0 hex tile"
         draggable="false"
-        style="--color: rgb(255 238 11 ); fill: black;"
-        tabindex="-1"
         title="fly"
       >
         <svg
@@ -47,10 +44,8 @@ exports[`Player List PlayerList snapshot matches current snapshot 1`] = `
         </svg>
       </div>
       <div
-        class="hex tile"
+        class="player0 hex tile"
         draggable="false"
-        style="--color: rgb(255 238 11 ); fill: black;"
-        tabindex="-1"
         title="fly"
       >
         <svg
@@ -78,9 +73,8 @@ exports[`Player List PlayerList snapshot matches current snapshot 1`] = `
       class="tiles"
     >
       <div
-        class="hex tile"
+        class="player1 hex tile"
         draggable="true"
-        style="--color: black; fill: rgb(255 238 11 );"
         tabindex="1"
         title="ant"
       >

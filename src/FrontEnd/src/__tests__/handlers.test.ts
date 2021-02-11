@@ -1,4 +1,4 @@
-import { handleDragOver, handleDrop, handleKeyboardClick } from '../handlers';
+import { handleDragOver, handleDrop, handleKeyboardNav } from '../handlers';
 
 describe(`handler tests`, () => {
   describe(`handle drag over tests`, () => {
@@ -17,42 +17,39 @@ describe(`handler tests`, () => {
     });
   });
 
-  describe(`handle keyboard click`, () => {
-    it('should fire mouse click on enter', () => {
-      const element = document.createElement('div');
-      element.dispatchEvent = jest.fn();
-
-      const event = new KeyboardEvent('keydown');
-      handleKeyboardClick({ ...event, key: 'Enter', target: element });
-
-      expect(element.dispatchEvent).toHaveBeenCalledWith(expect.objectContaining({ type: 'click' }));
+  describe(`handleKeyboardNav tests`, () => {
+    let div1: HTMLDivElement, div2: HTMLDivElement, div3: HTMLDivElement;
+    beforeEach(() => {
+      const container = document.createElement('div', {});
+      container.innerHTML = "<div tabIndex='1'/><div tabIndex='1'/><div tabIndex='1'/>";
+      document.body.append(container);
+      const elements = container.getElementsByTagName('div');
+      [div1, div2, div3] = Array.from(elements);
+      jest.spyOn(div2, 'focus');
     });
 
-    it('should fire mouse click on space', () => {
-      const element = document.createElement('div');
-      element.dispatchEvent = jest.fn();
-
-      const event = new KeyboardEvent('keydown');
-      handleKeyboardClick({ ...event, key: 'Enter', target: element });
-
-      expect(element.dispatchEvent).toHaveBeenCalledWith(expect.objectContaining({ type: 'click' }));
+    it('should move to next element on keydown', () => {
+      div1.focus();
+      handleKeyboardNav({ key: 'ArrowDown', target: div1 });
+      expect(div2.focus).toBeCalled();
     });
 
-    it(`shouldn't fire event when target is null1`, () => {
-      const event = new KeyboardEvent('keydown');
-      const result = handleKeyboardClick({ ...event, key: 'Enter', target: null });
-
-      expect(result).toBe(true);
+    it('should move to next element on key right', () => {
+      div1.focus();
+      handleKeyboardNav({ key: 'ArrowRight', target: div1 });
+      expect(div2.focus).toBeCalled();
     });
 
-    it(`shouldn't fire event when other key`, () => {
-      const element = document.createElement('div');
-      element.dispatchEvent = jest.fn();
+    it('should move to next element on key up', () => {
+      div1.focus();
+      handleKeyboardNav({ key: 'ArrowUp', target: div3 });
+      expect(div2.focus).toBeCalled();
+    });
 
-      const event = new KeyboardEvent('keydown');
-      const result = handleKeyboardClick({ ...event, key: 'a', target: element });
-
-      expect(result).toBe(true);
+    it('should move to next element on key left', () => {
+      div1.focus();
+      handleKeyboardNav({ key: 'ArrowLeft', target: div3 });
+      expect(div2.focus).toBeCalled();
     });
   });
 });

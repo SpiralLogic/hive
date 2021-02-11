@@ -2,7 +2,7 @@ import { Cell, HexCoordinates, Tile as TileType } from '../domain';
 import { FunctionComponent, h } from 'preact';
 import { HiveEvent } from '../emitters';
 import { deepEqual } from 'fast-equals';
-import { handleDragOver, handleKeyboardClick } from '../handlers';
+import { handleDragOver, handleKeyboardNav, isEnterOrSpace } from '../handlers';
 import { memo } from 'preact/compat';
 import { useHiveEventEmitter } from '../hooks';
 import { useState } from 'preact/hooks';
@@ -55,14 +55,16 @@ const CellFC: FunctionComponent<Props> = (props: Props) => {
   }
 
   function move() {
-    if (currentTile) {
-      if (isValidMove(currentTile.moves))
-        hiveEventEmitter.emit({
-          type: 'move',
-          move: { coords, tileId: currentTile.id },
-        });
-    }
+    if (currentTile && isValidMove(currentTile.moves))
+      hiveEventEmitter.emit({
+        type: 'move',
+        move: { coords, tileId: currentTile.id },
+      });
   }
+
+  const handleKeydown = (e: KeyboardEvent) => {
+    if (!handleKeyboardNav(e) && isEnterOrSpace(e)) return handleClick(e);
+  };
 
   const attributes = {
     className: classes.join(' '),
@@ -72,8 +74,8 @@ const CellFC: FunctionComponent<Props> = (props: Props) => {
     onmouseenter: handleDragEnter,
     onmouseleave: handleDragLeave,
     onclick: handleClick,
-    onkeydown: handleKeyboardClick,
-    tabIndex: currentTile && isValidMove(currentTile.moves) ? 2 : -1,
+    onkeydown: handleKeydown,
+    tabIndex: currentTile && isValidMove(currentTile.moves) ? 2 : undefined,
   };
 
   return <div {...attributes}>{tiles.length > 0 && <Tile {...tiles[0]} />}</div>;
