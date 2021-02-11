@@ -2,8 +2,9 @@ FROM node:latest as node-build
 
 WORKDIR /source
 COPY ./src/FrontEnd .
-RUN npm install -g pnpm
-RUN pnpm install && pnpm install
+RUN curl --retry 4 --retry-connrefused -L https://raw.githubusercontent.com/pnpm/self-installer/master/install.js | node
+RUN pnpm install -g esbuild
+RUN pnpm install
 RUN pnpm run build
 
 FROM mcr.microsoft.com/dotnet/sdk:5.0 AS dotnet-build
