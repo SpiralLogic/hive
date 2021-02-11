@@ -1,19 +1,19 @@
 stages:
 - name: test
   steps:
-#  - runScriptConfig:
-#      image: node:latest
-#      shellScript: |-
-#        curl  --retry 4 --retry-connrefused -L https://raw.githubusercontent.com/pnpm/self-installer/master/install.js | node
-#        cd ./src/FrontEnd
-#        pnpm install
-#        pnpm test
-#  - runScriptConfig:
-#      image: mcr.microsoft.com/dotnet/sdk:5.0
-#      shellScript: |-
-#        cd ./src
-#        dotnet test ./Api/Hive.Api.Tests -c Test /p:CollectCoverage=true /p:CoverletOutputFormat=json /p:SkipAutoProps=true  /p:Exclude=[Hive.Domain]*
-#        dotnet test ./Domain/Hive.Domain.Tests /p:CollectCoverage=true  /p:CoverletOutputFormat=json  /p:SkipAutoProps=true
+  - runScriptConfig:
+      image: node:latest
+      shellScript: |-
+        curl  --retry 4 --retry-connrefused -L https://raw.githubusercontent.com/pnpm/self-installer/master/install.js | node
+        cd ./src/FrontEnd
+        pnpm install
+        pnpm test
+  - runScriptConfig:
+      image: mcr.microsoft.com/dotnet/sdk:5.0
+      shellScript: |-
+        cd ./src
+        dotnet test ./Api/Hive.Api.Tests -c Test /p:CollectCoverage=true /p:CoverletOutputFormat=json /p:SkipAutoProps=true  /p:Exclude=[Hive.Domain]*
+        dotnet test ./Domain/Hive.Domain.Tests /p:CollectCoverage=true  /p:CoverletOutputFormat=json  /p:SkipAutoProps=true
   - publishImageConfig:
       dockerfilePath: ./ops/dockerfile
       buildContext: .

@@ -13,6 +13,5 @@ export function handleKeyboardClick(event: KeyboardEvent): boolean {
   if ((event.key === 'Enter' || event.key === ' ') && event.target?.dispatchEvent) {
     return event.target.dispatchEvent(clickEvent);
   }
-
   return true;
 }
