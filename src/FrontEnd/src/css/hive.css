@@ -150,13 +150,13 @@ body {
 }
 
 .tile.player0 {
-    --outline:#7fff0088;
+    --outline: #7fff0088;
     --color: rgb(255, 238, 11);
     fill: black;
 }
 
 .tile.player1 {
-    --outline:#8a2be288;
+    --outline: #8a2be288;
     --color: black;
     fill: rgb(255, 238, 11);
 }
@@ -165,9 +165,15 @@ body {
     margin: 0;
 }
 
-.tile[draggable="true"]:not(.selected):hover, .tile[draggable="true"]:not(.selected):focus {
+.tile[draggable="true"]:not(.selected):hover,
+.tile[draggable="true"]:not(.selected):focus {
     box-shadow: 0 -5px 2rem 5px #1a1a1dcc, 0 5px 2rem 5px #1a1a1dcc, 0 0 1rem #1a1a1dcc;
     transition: all .1s ease-in;
+}
+
+.cell > .tile[draggable="true"]:not(.selected):hover,
+.cell > .tile[draggable="true"]:not(.selected):focus {
+    box-shadow: 0 -5px 2rem 5px rgba(185, 185, 205, 0.8), 0 5px 2rem 5px rgba(185, 185, 205, 0.8), 0 0 1rem rgba(185, 185, 205, 0.8);
 }
 
 .hex.can-drop {

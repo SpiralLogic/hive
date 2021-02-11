@@ -16,8 +16,8 @@ const TileFC: FunctionComponent<Props> = (props: Props) => {
 
   function handleHiveEvent(event: HiveEvent) {
     if (!(event.type === 'deselect' && selected)) return;
+    setFocus(1);
     setSelected(false);
-    setFocus(0);
   }
 
   const hiveEventEmitter = useHiveEventEmitter(handleHiveEvent);
@@ -29,7 +29,7 @@ const TileFC: FunctionComponent<Props> = (props: Props) => {
       .sort((e1, e2) => e1.tabIndex - e2.tabIndex)
       .shift()
       ?.focus();
-  }, [moves.length, selected]);
+  }, [moves.length, selected, focus]);
 
   function handleDragStart() {
     hiveEventEmitter.emit({ type: 'start', tile: props });
@@ -60,12 +60,14 @@ const TileFC: FunctionComponent<Props> = (props: Props) => {
   };
 
   const handleKeyDown = (e: KeyboardEvent) => {
-    if (handleKeyboardNav(e) || !isEnterOrSpace(e) || selected) return;
-
+    if (handleKeyboardNav(e) || !isEnterOrSpace(e)) return;
+    e.stopPropagation();
     hiveEventEmitter.emit({ type: 'deselect' });
-    setFocus(2);
-    setSelected(true);
-    hiveEventEmitter.emit({ type: 'start', tile: props });
+    if (!selected) {
+      setFocus(2);
+      setSelected(true);
+      hiveEventEmitter.emit({ type: 'start', tile: props });
+    }
   };
 
   const handlers = attributes.draggable
