@@ -1,6 +1,6 @@
 stages:
 - name: test
-#  steps:
+  steps:
 #  - runScriptConfig:
 #      image: node:latest
 #      shellScript: |-
