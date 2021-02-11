@@ -7,6 +7,7 @@ using Microsoft.Extensions.Hosting;
 
 namespace Hive
 {
+    [ExcludeFromCodeCoverage]
     public static class Program
     {
         [ExcludeFromCodeCoverage]

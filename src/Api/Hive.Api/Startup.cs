@@ -11,6 +11,7 @@ using Microsoft.Net.Http.Headers;
 
 namespace Hive
 {
+    [ExcludeFromCodeCoverage]
     public class Startup
     {
         private readonly IWebHostEnvironment _currentEnvironment;
