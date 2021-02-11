@@ -8,6 +8,9 @@
         <Platforms>AnyCPU</Platforms>
 
     </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+      <DebugSymbols>false</DebugSymbols>
+    </PropertyGroup>
 
     <ItemGroup>
         <ProjectReference Include="..\Hive.Domain\Hive.Domain.csproj" />
