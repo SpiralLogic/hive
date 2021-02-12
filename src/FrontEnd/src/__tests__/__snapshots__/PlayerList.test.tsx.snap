@@ -19,7 +19,7 @@ exports[`Player List PlayerList snapshot matches current snapshot 1`] = `
       <div
         class="player1 hex tile"
         draggable="true"
-        tabindex="1"
+        tabindex="0"
         title="ant"
       >
         <svg
@@ -63,9 +63,9 @@ exports[`Player List PlayerList snapshot matches current snapshot 1`] = `
     title="Player 2"
   >
     <a
-      class="name"
+      class="name player2"
       href="/game/33/2"
-      tabindex="3"
+      tabindex="0"
     >
       Player 2
     </a>
@@ -75,7 +75,7 @@ exports[`Player List PlayerList snapshot matches current snapshot 1`] = `
       <div
         class="player1 hex tile"
         draggable="true"
-        tabindex="1"
+        tabindex="0"
         title="ant"
       >
         <svg
