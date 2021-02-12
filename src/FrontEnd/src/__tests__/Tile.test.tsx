@@ -91,7 +91,7 @@ describe('Tile', () => {
       expect(useHiveEventEmitter().emit).toHaveBeenCalledWith(expectedEvent);
     });
 
-    test('clicking same tile keeps it active', () => {
+    test('clicking same tile doesnt fire a tile start event', () => {
       const mock = jest.spyOn(useHiveEventEmitter(), 'emit');
       const tile = createTileCanMove();
       fireEvent.click(tile);
@@ -99,7 +99,7 @@ describe('Tile', () => {
       mock.mockClear();
       fireEvent.click(tile);
 
-      expect(useHiveEventEmitter().emit).not.toHaveBeenCalled();
+      expect(useHiveEventEmitter().emit).not.toHaveBeenCalledWith(expect.objectContaining({ type: 'start' }));
     });
 
     test('is draggable when there are available moves', () => {
