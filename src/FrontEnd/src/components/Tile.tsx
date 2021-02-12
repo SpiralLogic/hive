@@ -1,5 +1,5 @@
 import { FunctionComponent, h } from 'preact';
-import { HiveEvent } from '../emitters';
+import { HiveEvent } from '../hive-event-emitter';
 import { Tile } from '../domain';
 import { deepEqual } from 'fast-equals';
 import { handleDrop, handleKeyboardNav, isEnterOrSpace } from '../handlers';

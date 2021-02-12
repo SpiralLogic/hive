@@ -1,6 +1,6 @@
 import { Cell, HexCoordinates, Tile as TileType } from '../domain';
 import { FunctionComponent, h } from 'preact';
-import { HiveEvent } from '../emitters';
+import { HiveEvent } from '../hive-event-emitter';
 import { deepEqual } from 'fast-equals';
 import { handleDragOver, handleKeyboardNav, isEnterOrSpace } from '../handlers';
 import { memo } from 'preact/compat';
