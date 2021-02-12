@@ -182,7 +182,7 @@ body {
     --color: #AFD275;
 }
 
-.hex.can-drop.active > .tile, .hex.can-drop:focus > .tile {
+.hex.can-drop:hover > .tile, .hex.can-drop:focus > .tile {
     opacity: 100%;
 }
 

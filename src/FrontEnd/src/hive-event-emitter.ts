@@ -19,9 +19,7 @@ class EventEmitter<TEvent> {
 }
 
 export class HiveEventEmitter extends EventEmitter<HiveEvent> {}
-
 export type HiveEventListener<TEvent> = (event: TEvent) => void;
-
-export type HiveEvent = MoveEvent | TileEvent | { type: 'deselect' };
+export type HiveEvent = MoveEvent | TileEvent | { type: 'resetSelected' };
 export type MoveEvent = { type: 'move'; move: Move };
-export type TileEvent = { type: 'start' | 'end' | 'click'; tile: Tile };
+export type TileEvent = { type: 'tileSelected' | 'tileDropped' | 'click'; tile: Tile };

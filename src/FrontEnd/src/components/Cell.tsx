@@ -15,22 +15,22 @@ const CellFC: FunctionComponent<Props> = (props: Props) => {
   const isValidMove = (validMoves: HexCoordinates[]) =>
     validMoves.some((dest) => dest.q == coords.q && dest.r == coords.r);
   const [classes, setClasses] = useState(['hex', 'cell']);
-  const [currentTile, setCurrentTile] = useState<TileType | null>(null);
+  const [selectedTile, setSelectedTile] = useState<TileType | null>(null);
 
   function handleHiveEvent(e: HiveEvent) {
-    if (e.type === 'start') {
+    if (e.type === 'tileSelected') {
       const newClasses = isValidMove(e.tile.moves) ? [...classes, 'can-drop'] : ['hex', 'cell'];
-      setCurrentTile(e.tile);
+      setSelectedTile(e.tile);
       setClasses(newClasses);
     }
 
-    if (e.type === 'end') {
+    if (e.type === 'tileDropped') {
       if (classes.includes('active')) move();
-      hiveEventEmitter.emit({ type: 'deselect' });
+      hiveEventEmitter.emit({ type: 'resetSelected' });
     }
 
-    if (e.type === 'deselect') {
-      setCurrentTile(null);
+    if (e.type === 'resetSelected') {
+      setSelectedTile(null);
       setClasses(['hex', 'cell']);
     }
   }
@@ -43,22 +43,22 @@ const CellFC: FunctionComponent<Props> = (props: Props) => {
   }
 
   function handleDragEnter() {
-    if (currentTile) setClasses([...classes, 'active']);
+    if (selectedTile) setClasses([...classes, 'active']);
   }
 
   function handleClick(ev: { stopPropagation: () => void }) {
-    if (currentTile) {
+    if (selectedTile) {
       ev.stopPropagation();
       move();
-      hiveEventEmitter.emit({ type: 'deselect' });
+      hiveEventEmitter.emit({ type: 'resetSelected' });
     }
   }
 
   function move() {
-    if (currentTile && isValidMove(currentTile.moves))
+    if (selectedTile && isValidMove(selectedTile.moves))
       hiveEventEmitter.emit({
         type: 'move',
-        move: { coords, tileId: currentTile.id },
+        move: { coords, tileId: selectedTile.id },
       });
   }
 
@@ -75,7 +75,7 @@ const CellFC: FunctionComponent<Props> = (props: Props) => {
     onmouseleave: handleDragLeave,
     onclick: handleClick,
     onkeydown: handleKeydown,
-    tabindex: currentTile && isValidMove(currentTile.moves) ? 0 : undefined,
+    tabindex: selectedTile && isValidMove(selectedTile.moves) ? 0 : undefined,
   };
 
   return <div {...attributes}>{tiles.length > 0 && <Tile {...tiles[0]} />}</div>;

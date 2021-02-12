@@ -23,7 +23,7 @@ describe('Tile Tests', () => {
   };
 
   const expectedHiveEvent: HiveEvent = {
-    type: 'start',
+    type: 'tileSelected',
     tile: tileCanMove,
   };
 
@@ -74,7 +74,7 @@ describe('Tile Tests', () => {
       fireEvent.click(createTileCanMove());
 
       const expectedEvent: HiveEvent = {
-        type: 'deselect',
+        type: 'resetSelected',
       };
 
       expect(useHiveEventEmitter().emit).toHaveBeenCalledWith(expectedEvent);
@@ -88,7 +88,9 @@ describe('Tile Tests', () => {
       mock.mockClear();
       fireEvent.click(tile);
 
-      expect(useHiveEventEmitter().emit).not.toHaveBeenCalledWith(expect.objectContaining({ type: 'start' }));
+      expect(useHiveEventEmitter().emit).not.toHaveBeenCalledWith(
+        expect.objectContaining({ type: 'tileSelected' })
+      );
     });
 
     test('is draggable when there are available moves', () => {
@@ -110,7 +112,7 @@ describe('Tile Tests', () => {
       jest.spyOn(useHiveEventEmitter(), 'emit');
       fireEvent.dragEnd(createTileCanMove());
       const expectedEvent: HiveEvent = {
-        type: 'end',
+        type: 'tileDropped',
         tile: tileCanMove,
       };
 
