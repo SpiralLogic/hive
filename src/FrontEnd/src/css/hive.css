@@ -158,12 +158,12 @@ body {
 .player1.tile {
     fill: var(--color1);
     --color: var(--color2);
-    --outline:var(--outline1);
+    --outline:var(--outline2);
 }
 .player0.tile {
     fill: var(--color2);
     --color: var(--color1);
-    --outline:var(--outline2);
+    --outline:var(--outline1);
 }
 
 .name:focus {
