@@ -11,62 +11,63 @@ type Props = Tile;
 
 const TileFC: FunctionComponent<Props> = (props: Props) => {
   const [selected, setSelected] = useState(false);
-  const [focus, setFocus] = useState(1);
+  const [focus, setFocus] = useState('tile');
   const { moves, creature, playerId } = props;
 
   function handleHiveEvent(event: HiveEvent) {
-    if (!(event.type === 'deselect' && selected)) return;
-    setFocus(1);
+    if (!(event.type === 'deselect')) return;
     setSelected(false);
+    setFocus('');
   }
 
   const hiveEventEmitter = useHiveEventEmitter(handleHiveEvent);
 
   useLayoutEffect(() => {
-    if (selected && focus < 2) return;
-    const selector = [focus, 3].map((t) => `[tabIndex="${t}"]`).join(',');
-    Array.from(document.querySelectorAll<HTMLElement>(selector))
-      .sort((e1, e2) => e1.tabIndex - e2.tabIndex)
-      .shift()
-      ?.focus();
+    if (!focus) return;
+    const focusElement =
+      document.querySelector<HTMLElement>(`[tabIndex].${focus}`) ||
+      document.querySelector<HTMLElement>(`[tabIndex].name`);
+
+    focusElement?.focus();
+    setFocus('');
   }, [moves.length, selected, focus]);
 
-  function handleDragStart() {
+  const handleDragStart = () => {
     hiveEventEmitter.emit({ type: 'start', tile: props });
     setSelected(true);
-  }
+  };
 
-  function handleClick(ev: { stopPropagation: () => void }) {
-    if (selected) return;
+  const handleClick = (ev: { target: HTMLElement; stopPropagation: () => void }) => {
     ev.stopPropagation();
     hiveEventEmitter.emit({ type: 'deselect' });
+    if (selected) return;
     setSelected(true);
-    setFocus(1);
+    setFocus('');
     hiveEventEmitter.emit({ type: 'start', tile: props });
-    return false;
-  }
+  };
 
-  function handleDragEnd() {
+  const handleDragEnd = () => {
     hiveEventEmitter.emit({ type: 'deselect' });
     hiveEventEmitter.emit({ type: 'end', tile: props });
-  }
+  };
 
   const attributes = {
     title: creature,
     class: `player${playerId} hex tile${selected ? ' selected' : ''}`,
     draggable: !!moves.length,
     ondrop: handleDrop,
-    tabIndex: moves.length ? 1 : undefined,
+    tabindex: moves.length ? 0 : undefined,
   };
 
   const handleKeyDown = (e: KeyboardEvent) => {
     if (handleKeyboardNav(e) || !isEnterOrSpace(e)) return;
     e.stopPropagation();
+    const isSelected = selected;
     hiveEventEmitter.emit({ type: 'deselect' });
-    if (!selected) {
-      setFocus(2);
-      setSelected(true);
+    if (!isSelected) {
       hiveEventEmitter.emit({ type: 'start', tile: props });
+      setFocus('can-drop');
+      setSelected(true);
     }
   };
 

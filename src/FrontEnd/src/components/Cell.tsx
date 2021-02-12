@@ -75,7 +75,7 @@ const CellFC: FunctionComponent<Props> = (props: Props) => {
     onmouseleave: handleDragLeave,
     onclick: handleClick,
     onkeydown: handleKeydown,
-    tabindex: currentTile && isValidMove(currentTile.moves) ? 2 : undefined,
+    tabindex: currentTile && isValidMove(currentTile.moves) ? 0 : undefined,
   };
 
   return <div {...attributes}>{tiles.length > 0 && <Tile {...tiles[0]} />}</div>;
