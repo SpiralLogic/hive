@@ -16,7 +16,7 @@ namespace Hive.Domain.Tests.TestUtils
                 ConsoleColor.White => 37,
                 ConsoleColor.Cyan => 36,
                 // ConsoleColor.Blue => 34,
-                // _ => 0,
+                _ => 0,
             };
 
             return $"\u001b[{color}m{Symbol}\u001b[0m";
