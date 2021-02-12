@@ -1,12 +1,10 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { HiveEvent } from '../emitters';
 import { RenderResult, fireEvent, render } from '@testing-library/preact';
 import { h } from 'preact';
 import { mockLocation, restoreLocation } from './helpers/location';
-import { useHiveEventEmitter } from '../hooks';
 import PlayerTiles from '../components/PlayerTiles';
 
-describe('PlayerTiles', () => {
+describe('PlayerTiles Tests', () => {
   const ant = { id: 1, playerId: 1, creature: 'ant', moves: [{ q: 1, r: 1 }] };
   const fly = { id: 2, playerId: 0, creature: 'fly', moves: [] };
 

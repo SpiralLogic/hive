@@ -3,7 +3,7 @@ import { h } from 'preact';
 import { renderElement } from './helpers';
 import Hextille from '../components/Hextille';
 
-describe('Hextille', () => {
+describe('Hextille Tests', () => {
   const createCell = (q: number, r: number) => ({
     coords: { q, r },
     tiles: [
@@ -28,21 +28,21 @@ describe('Hextille', () => {
     return { rows, cells, hidden, hextille } as const;
   };
 
-  describe('Hextille tests', () => {
-    it('can be created with 1 cell', () => {
+  describe('creation tests', () => {
+    test('can be created with 1 cell', () => {
       const { rows, cells } = createWithCells([0, 0]);
 
       expect(cells).toHaveLength(1);
       expect(rows).toHaveLength(1);
     });
 
-    it('r increases rows', () => {
+    test('r increases rows', () => {
       const { rows } = createWithCells([0, 0], [0, 1], [0, 2]);
 
       expect(rows).toHaveLength(3);
     });
 
-    it('cells are sorted', () => {
+    test('cells are sorted', () => {
       const { cells } = createWithCells([2, 0], [1, 0], [3, 0]);
       const cellUse = Array.from(cells).map((r) => r.getElementsByTagName('use').item(0));
       expect(cellUse[0]).toHaveAttribute('href', expect.stringContaining('1-0'));
@@ -50,7 +50,7 @@ describe('Hextille', () => {
       expect(cellUse[2]).toHaveAttribute('href', expect.stringContaining('3-0'));
     });
 
-    it('rows are sorted', () => {
+    test('rows are sorted', () => {
       const { rows } = createWithCells([0, 3], [0, 1], [0, 2]);
       const rowUse = Array.from(rows).map((r) => r.getElementsByTagName('use').item(0));
       expect(rowUse[0]).toHaveAttribute('href', expect.stringContaining('0-1'));
@@ -60,13 +60,13 @@ describe('Hextille', () => {
   });
 
   describe('Row alignment', () => {
-    it('shifts left when even rows have odd starting  index', () => {
+    test('shifts left when even rows have odd starting  index', () => {
       const { hextille } = createWithCells([0, 1], [0, 2], [0, 3]);
 
       expect(hextille.firstElementChild).toHaveClass('left');
     });
 
-    it('shifts right when even rows have even starting index', () => {
+    test('shifts right when even rows have even starting index', () => {
       const { hextille } = createWithCells([0, 2], [0, 3], [0, 4]);
 
       expect(hextille.firstElementChild).toHaveClass('right');
@@ -74,7 +74,7 @@ describe('Hextille', () => {
   });
 
   describe('Hextille Snapshot', () => {
-    it('can move matches current snapshot', () => {
+    test('can move matches current snapshot', () => {
       expect(createWithCells([0, -2], [1, -2], [-1, 3], [0, 4], [5, 2], [3, 3], [1, 4])).toMatchSnapshot();
     });
   });

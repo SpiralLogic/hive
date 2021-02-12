@@ -6,50 +6,49 @@ import gameState from './fixtures/gameState.json';
 
 jest.mock('@microsoft/signalr');
 
-describe('GameEngine', () => {
-  const signalR = require('@microsoft/signalr');
+describe('GameEngine Tests', () => {
+  try {
+    const signalR = require('@microsoft/signalr');
 
-  const createHubConnection = (state: HubConnectionState) => ({
-    start: jest.fn().mockResolvedValue(true),
-    on: jest.fn().mockResolvedValue(true),
-    stop: jest.fn().mockResolvedValue(true),
-    off: jest.fn().mockResolvedValue(true),
-    onreconnecting: jest.fn(),
-    onreconnected: jest.fn(),
-    onclose: jest.fn(),
-    state: state,
-  });
+    const createHubConnection = (state: HubConnectionState) => ({
+      start: jest.fn().mockResolvedValue(true),
+      on: jest.fn().mockResolvedValue(true),
+      stop: jest.fn().mockResolvedValue(true),
+      off: jest.fn().mockResolvedValue(true),
+      onreconnecting: jest.fn(),
+      onreconnected: jest.fn(),
+      onclose: jest.fn(),
+      state: state,
+    });
 
-  let hubConnection: ReturnType<typeof createHubConnection>;
-  const signalRWithUrlMock = jest.fn().mockReturnThis();
-  const builder = jest.fn().mockImplementation(() => ({
-    withUrl: signalRWithUrlMock,
-    withAutomaticReconnect: jest.fn().mockReturnThis(),
-    build: jest.fn().mockReturnValue(hubConnection),
-  }));
+    let hubConnection: ReturnType<typeof createHubConnection>;
+    const signalRWithUrlMock = jest.fn().mockReturnThis();
+    const builder = jest.fn().mockImplementation(() => ({
+      withUrl: signalRWithUrlMock,
+      withAutomaticReconnect: jest.fn().mockReturnThis(),
+      build: jest.fn().mockReturnValue(hubConnection),
+    }));
 
-  beforeEach(function () {
-    // eslint-disable-next-line no-undef
-    global.fetch = jest
-      .fn()
-      .mockImplementation(() => ({ ok: true, json: jest.fn().mockResolvedValue(gameState) }));
+    beforeEach(function () {
+      // eslint-disable-next-line no-undef
+      global.fetch = jest
+        .fn()
+        .mockImplementation(() => ({ ok: true, json: jest.fn().mockResolvedValue(gameState) }));
 
-    hubConnection = createHubConnection(HubConnectionState.Connected);
+      hubConnection = createHubConnection(HubConnectionState.Connected);
 
-    signalR.HubConnection = jest.fn(() => hubConnection);
+      signalR.HubConnection = jest.fn(() => hubConnection);
+      signalR.HubConnectionBuilder = builder;
+    });
 
-    signalR.HubConnectionBuilder = builder;
-  });
-
-  describe('Game Engine', () => {
-    it('new game', async () => {
+    test('new game', async () => {
       const response = await Engine.newGame();
       expect(response).not.toBeFalsy();
       expect(response.cells).toHaveLength(2);
       expect(response.players).toHaveLength(2);
     });
 
-    it('existing game', async () => {
+    test('existing game', async () => {
       const response = await Engine.getGame('33');
       expect(global.fetch).toBeCalledWith('/api/game/33', {
         headers: {
@@ -63,7 +62,7 @@ describe('GameEngine', () => {
       expect(response.players).toHaveLength(2);
     });
 
-    it('move tile', async () => {
+    test('move tile', async () => {
       const response = await Engine.moveTile('1', {
         tileId: 1,
         coords: { q: 0, r: 0 },
@@ -73,7 +72,7 @@ describe('GameEngine', () => {
       expect(response.players).toHaveLength(2);
     });
 
-    it(`connectGame connections to hub for game id`, async () => {
+    test(`connectGame connects to hub for game id`, async () => {
       global.window.history.replaceState({ gameId: 667 }, document.title, `/game/667`);
 
       const handler = jest.fn();
@@ -82,14 +81,14 @@ describe('GameEngine', () => {
       expect(signalRWithUrlMock).toBeCalledWith('http://localhost/gamehub/667');
     });
 
-    it(`web socket connection state can be retrieved`, async () => {
+    test(`web socket connection state can be retrieved`, async () => {
       const handler = jest.fn();
       const { getConnectionState } = Engine.connectGame('33', handler);
       await getConnectionState();
       expect(hubConnection.start).toBeCalled();
     });
 
-    it(`web socket connection can be closed`, async () => {
+    test(`web socket connection can be closed`, async () => {
       const handler = jest.fn();
       const { getConnectionState, closeConnection } = Engine.connectGame('33', handler);
       await getConnectionState();
@@ -98,7 +97,7 @@ describe('GameEngine', () => {
       expect(hubConnection.stop).toBeCalledTimes(1);
     });
 
-    it(`connection state is disconnected initially`, async () => {
+    test(`connection state is disconnected initially`, async () => {
       const handler = jest.fn();
       hubConnection = createHubConnection(HubConnectionState.Disconnected);
       signalR.HubConnection = jest.fn(() => hubConnection);
@@ -106,14 +105,14 @@ describe('GameEngine', () => {
       expect(getConnectionState()).toBe(HubConnectionState.Disconnected);
     });
 
-    it(`connection has connected state`, async () => {
+    test(`connection has connected state`, async () => {
       const handler = jest.fn();
       const { getConnectionState, closeConnection } = Engine.connectGame('33', handler);
       await closeConnection();
       expect(getConnectionState()).toBe(HubConnectionState.Connected);
     });
 
-    it(`debugging connection handlers are called`, async () => {
+    test(`debugging connection handlers are called`, async () => {
       const handler = jest.fn();
       global.console.info = jest.fn();
       const location = mockLocation({ reload: jest.fn() });
@@ -131,5 +130,6 @@ describe('GameEngine', () => {
 
       restoreLocation();
     });
-  });
+    // eslint-disable-next-line no-empty
+  } catch (e) {}
 });

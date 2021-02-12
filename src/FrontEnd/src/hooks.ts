@@ -1,5 +1,5 @@
-import { HiveEvent, HiveEventEmitter, HiveEventListener } from './emitters';
-import { Inputs, useEffect, useLayoutEffect } from 'preact/hooks';
+import { HiveEvent, HiveEventEmitter, HiveEventListener } from './hive-event-emitter';
+import { Inputs, useEffect } from 'preact/hooks';
 
 const hiveEventEmitter = new HiveEventEmitter();
 
@@ -17,6 +17,3 @@ export const useHiveEventEmitter = (
 
   return hiveEventEmitter;
 };
-
-
-

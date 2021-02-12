@@ -2,7 +2,7 @@ import { handleDragOver, handleDrop, handleKeyboardNav } from '../handlers';
 
 describe(`handler tests`, () => {
   describe(`handle drag over tests`, () => {
-    it('should prevent default on dragover', () => {
+    test('should prevent default on dragover', () => {
       const preventDefault = jest.fn();
       handleDragOver({ preventDefault });
       expect(preventDefault).toBeCalled();
@@ -10,7 +10,7 @@ describe(`handler tests`, () => {
   });
 
   describe(`handle drop tests`, () => {
-    it('should prevent default ondrop', () => {
+    test('should prevent default ondrop', () => {
       const preventDefault = jest.fn();
       handleDrop({ preventDefault });
       expect(preventDefault).toBeCalled();
@@ -28,25 +28,25 @@ describe(`handler tests`, () => {
       jest.spyOn(div2, 'focus');
     });
 
-    it('should move to next element on keydown', () => {
+    test('should move to next element on keydown', () => {
       div1.focus();
       handleKeyboardNav({ key: 'ArrowDown', target: div1 });
       expect(div2.focus).toBeCalled();
     });
 
-    it('should move to next element on key right', () => {
+    test('should move to next element on key right', () => {
       div1.focus();
       handleKeyboardNav({ key: 'ArrowRight', target: div1 });
       expect(div2.focus).toBeCalled();
     });
 
-    it('should move to next element on key up', () => {
+    test('should move to next element on key up', () => {
       div1.focus();
       handleKeyboardNav({ key: 'ArrowUp', target: div3 });
       expect(div2.focus).toBeCalled();
     });
 
-    it('should move to next element on key left', () => {
+    test('should move to next element on key left', () => {
       div1.focus();
       handleKeyboardNav({ key: 'ArrowLeft', target: div3 });
       expect(div2.focus).toBeCalled();

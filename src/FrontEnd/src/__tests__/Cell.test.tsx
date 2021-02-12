@@ -6,8 +6,18 @@ import { useHiveEventEmitter } from '../hooks';
 import Cell from '../components/Cell';
 
 jest.mock('fast-equals', () => ({ deepEqual: jest.fn(() => true) }));
-describe('Cell', () => {
+describe('Cell Tests', () => {
   const moveTileSpy = jest.fn();
+
+  const movingTile = {
+    id: 2,
+    moves: [
+      { q: 0, r: 0 },
+      { q: 2, r: 2 },
+    ],
+    creature: '',
+    playerId: 1,
+  };
 
   const createCellWithNoTile = () => {
     const cell = { coords: { q: 0, r: 0 }, tiles: [] };
@@ -62,15 +72,7 @@ describe('Cell', () => {
       act(() =>
         emitter.emit({
           type,
-          tile: {
-            id: 2,
-            moves: [
-              { q: 0, r: 0 },
-              { q: 2, r: 2 },
-            ],
-            creature: '',
-            playerId: 1,
-          },
+          tile: movingTile,
         })
       );
     }
@@ -80,7 +82,7 @@ describe('Cell', () => {
       expect(preventDefault).toHaveBeenCalled();
     });
 
-    test('cell is valid on drag start', () => {
+    test('cell is available on drag start', () => {
       const cellWithTile = createCellWithTileAndDrop();
       const emptyCell = createCellCanDrop();
       emitHiveEvent('start');
@@ -89,7 +91,7 @@ describe('Cell', () => {
       expect(emptyCell).toHaveClass('can-drop');
     });
 
-    test('valid cell is active on tile drag enter', () => {
+    test('available cell is active on tile drag enter', () => {
       const cellWithTile = createCellWithTileAndDrop();
       const emptyCell = createCellCanDrop();
       emitHiveEvent('start');
@@ -100,7 +102,7 @@ describe('Cell', () => {
       expect(emptyCell).toHaveClass('active');
     });
 
-    test('drop calls moves tile when valid and active', () => {
+    test('move calls moves tile when cell is valid and active', () => {
       jest.spyOn(useHiveEventEmitter(), 'emit');
       const cellWithTile = createCellWithTileAndDrop();
       const emptyCell = createCellCanDrop();
@@ -120,9 +122,9 @@ describe('Cell', () => {
       });
     });
 
-    test(`drop doesnt call move tile when cell doesn't allow drop`, () => {
+    test(`drop doesn't call move tile when cell doesn't allow drop`, () => {
       jest.spyOn(useHiveEventEmitter(), 'emit');
-      createCellWithTileNoDrop();
+      createCellWithTile();
       createCellNoDrop();
       emitHiveEvent('start');
       emitHiveEvent('end');
@@ -173,7 +175,6 @@ describe('Cell', () => {
 
     test(`cell click with active tile makes a move`, () => {
       jest.spyOn(useHiveEventEmitter(), 'emit');
-      jest.spyOn(useHiveEventEmitter(), 'emit');
       const emptyCell = createCellCanDrop();
       emitHiveEvent('start');
       fireEvent.click(emptyCell);
@@ -185,7 +186,7 @@ describe('Cell', () => {
       expect(useHiveEventEmitter().emit).toBeCalled();
     });
 
-    test(`cell click with no active tile shouldn't drop`, () => {
+    test(`cell click with no active tile shouldn't move`, () => {
       jest.spyOn(useHiveEventEmitter(), 'emit');
       const emptyCell = createCellNoDrop();
       fireEvent.click(emptyCell);
@@ -193,7 +194,7 @@ describe('Cell', () => {
       expect(useHiveEventEmitter().emit).not.toHaveBeenCalledWith();
     });
 
-    test(`cell click with invalid tile shouldn't drop`, () => {
+    test(`cell click with invalid tile shouldn't move`, () => {
       jest.spyOn(useHiveEventEmitter(), 'emit');
       const emptyCell = createCellNoDrop();
       emitHiveEvent('start');

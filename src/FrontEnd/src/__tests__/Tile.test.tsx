@@ -1,12 +1,11 @@
-import { HiveEvent } from '../emitters';
+import { HiveEvent } from '../hive-event-emitter';
 import { fireEvent } from '@testing-library/preact';
 import { h } from 'preact';
-import { handleKeyboardNav } from '../handlers';
 import { renderElement, simulateEvent } from './helpers';
 import { useHiveEventEmitter } from '../hooks';
 import Tile from '../components/Tile';
 
-describe('Tile', () => {
+describe('Tile Tests', () => {
   const tileCanMove = {
     id: 1,
     playerId: 1,
@@ -23,13 +22,15 @@ describe('Tile', () => {
     return renderElement(<Tile {...tileNoMove} />);
   };
 
-  describe('Tile Render', () => {
+  const expectedHiveEvent: HiveEvent = {
+    type: 'start',
+    tile: tileCanMove,
+  };
+
+  describe('Tile render', () => {
     test('has creature', () => {
-      expect(createTileNoMove().getElementsByTagName('use').item(0)).toHaveAttribute(
-        'href',
-        expect.stringContaining('fly')
-      );
-      expect(createTileCanMove().getElementsByTagName('use').item(0)).toHaveAttribute(
+      expect(createTileNoMove().querySelector('use')).toHaveAttribute('href', expect.stringContaining('fly'));
+      expect(createTileCanMove().querySelector('use')).toHaveAttribute(
         'href',
         expect.stringContaining('ant')
       );
@@ -40,23 +41,15 @@ describe('Tile', () => {
     test('click emits tile start event', () => {
       jest.spyOn(useHiveEventEmitter(), 'emit');
       fireEvent.click(createTileCanMove());
-      const expectedEvent: HiveEvent = {
-        type: 'start',
-        tile: tileCanMove,
-      };
 
-      expect(useHiveEventEmitter().emit).toHaveBeenCalledWith(expectedEvent);
+      expect(useHiveEventEmitter().emit).toHaveBeenCalledWith(expectedHiveEvent);
     });
 
     test('enter emits tile start event', () => {
       jest.spyOn(useHiveEventEmitter(), 'emit');
       fireEvent.keyDown(createTileCanMove(), { key: 'Enter' });
-      const expectedEvent: HiveEvent = {
-        type: 'start',
-        tile: tileCanMove,
-      };
 
-      expect(useHiveEventEmitter().emit).toHaveBeenCalledWith(expectedEvent);
+      expect(useHiveEventEmitter().emit).toHaveBeenCalledWith(expectedHiveEvent);
     });
 
     test('arrow keys use handler', () => {
@@ -70,12 +63,8 @@ describe('Tile', () => {
     test('Space emits tile start event', () => {
       jest.spyOn(useHiveEventEmitter(), 'emit');
       fireEvent.keyDown(createTileCanMove(), { key: ' ' });
-      const expectedEvent: HiveEvent = {
-        type: 'start',
-        tile: tileCanMove,
-      };
 
-      expect(useHiveEventEmitter().emit).toHaveBeenCalledWith(expectedEvent);
+      expect(useHiveEventEmitter().emit).toHaveBeenCalledWith(expectedHiveEvent);
     });
 
     test('click deselects previous selected tile', () => {
@@ -114,12 +103,7 @@ describe('Tile', () => {
       jest.spyOn(useHiveEventEmitter(), 'emit');
       fireEvent.dragStart(createTileCanMove());
 
-      const expectedEvent: HiveEvent = {
-        type: 'start',
-        tile: tileCanMove,
-      };
-
-      expect(useHiveEventEmitter().emit).toHaveBeenCalledWith(expectedEvent);
+      expect(useHiveEventEmitter().emit).toHaveBeenCalledWith(expectedHiveEvent);
     });
 
     test('on dragEnd emits end event', () => {

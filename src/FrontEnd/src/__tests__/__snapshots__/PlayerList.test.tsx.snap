@@ -90,3 +90,94 @@ exports[`Player List PlayerList snapshot matches current snapshot 1`] = `
   </div>
 </aside>
 `;
+
+exports[`PlayerList Tests PlayerList snapshot matches current snapshot 1`] = `
+<aside
+  class="players"
+>
+  <div
+    class="player"
+    title="Player 1"
+  >
+    <div
+      class="name"
+    >
+      Player 1
+    </div>
+    <div
+      class="tiles"
+    >
+      <div
+        class="player1 hex tile"
+        draggable="true"
+        tabindex="0"
+        title="ant"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <use
+            href="#ant"
+          />
+        </svg>
+      </div>
+      <div
+        class="player0 hex tile"
+        draggable="false"
+        title="fly"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <use
+            href="#fly"
+          />
+        </svg>
+      </div>
+      <div
+        class="player0 hex tile"
+        draggable="false"
+        title="fly"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <use
+            href="#fly"
+          />
+        </svg>
+      </div>
+    </div>
+  </div>
+  <div
+    class="player"
+    title="Player 2"
+  >
+    <a
+      class="name player2"
+      href="/game/33/2"
+      tabindex="0"
+    >
+      Player 2
+    </a>
+    <div
+      class="tiles"
+    >
+      <div
+        class="player1 hex tile"
+        draggable="true"
+        tabindex="0"
+        title="ant"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <use
+            href="#ant"
+          />
+        </svg>
+      </div>
+    </div>
+  </div>
+</aside>
+`;

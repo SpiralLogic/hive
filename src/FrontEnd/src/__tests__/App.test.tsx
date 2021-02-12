@@ -1,5 +1,5 @@
 import { GameState } from '../domain';
-import { MoveEvent } from '../emitters';
+import { MoveEvent } from '../hive-event-emitter';
 import { h } from 'preact';
 import { render } from '@testing-library/preact';
 import { renderElement } from './helpers';
@@ -11,13 +11,14 @@ import GameArea from '../components/GameArea';
 jest.mock('../game-engine');
 jest.mock('../components/GameArea');
 
-const cellMoveEvent: MoveEvent = {
-  move: { coords: { q: 1, r: 1 }, tileId: 1 },
-  type: 'move',
-};
+describe('App Tests', () => {
+  const cellMoveEvent: MoveEvent = {
+    move: { coords: { q: 1, r: 1 }, tileId: 1 },
+    type: 'move',
+  };
 
-describe('App', () => {
   let gameState: GameState;
+
   beforeEach(() => {
     global.window.history.replaceState({}, global.document.title, `/`);
     const cell = {
@@ -33,7 +34,7 @@ describe('App', () => {
     gameState = { gameId: '33', cells: [cell], players: [player, player2] };
     const gameAfterMove = {
       cells: [cell, cell],
-      players: [player, player],
+      players: [player, player2],
     };
     Engine.getGame = jest.fn().mockResolvedValue(gameState);
     Engine.newGame = jest.fn().mockResolvedValue(gameState);
@@ -47,7 +48,7 @@ describe('App', () => {
   });
 
   test('shows game when loaded', async () => {
-    const app = render(<App />);
+    render(<App />);
     await Engine.newGame();
     expect(GameArea).toHaveBeenCalledTimes(1);
   });
@@ -75,7 +76,7 @@ describe('App', () => {
     expect(GameArea).toHaveBeenLastCalledWith(expect.objectContaining({ gameState }), {});
   });
 
-  test('removes moves for tiles which are the current player', async () => {
+  test(`removes moves for tiles which aren't the current player`, async () => {
     global.window.history.replaceState({}, global.document.title, `/game/33/0`);
     const app = render(<App />);
     await Engine.getGame;
@@ -85,7 +86,7 @@ describe('App', () => {
     expect(GameArea).toHaveBeenLastCalledWith(expect.objectContaining({ gameState }), {});
   });
 
-  test('calls update game on cell drop', async () => {
+  test('moveTile is called on move events', async () => {
     const app = render(<App />);
     await Engine.newGame();
     app.rerender(<App />);
@@ -94,7 +95,7 @@ describe('App', () => {
     expect(Engine.moveTile).toHaveBeenCalledTimes(1);
   });
 
-  test('renders new state on cell drop', async () => {
+  test('game is updated after move', async () => {
     const app = render(<App />);
     await Engine.newGame();
     app.rerender(<App />);
