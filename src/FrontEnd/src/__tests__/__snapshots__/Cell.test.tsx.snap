@@ -1,31 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Cell Cell Snapshot cell with no tile matches current snapshot 1`] = `
-<div
-  class="hex cell"
-/>
-`;
-
-exports[`Cell Cell Snapshot cell with tile matches current snapshot 1`] = `
-<div
-  class="hex cell"
->
-  <div
-    class="player1 hex tile"
-    draggable="false"
-    title="fly"
-  >
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <use
-        href="#fly"
-      />
-    </svg>
-  </div>
-</div>
-`;
-
 exports[`Cell Tests Cell Snapshot cell with no tile matches current snapshot 1`] = `
 <div
   class="hex cell"

@@ -5,9 +5,3 @@ exports[`App Tests shows loading 1`] = `
   loading !
 </h1>
 `;
-
-exports[`App shows loading 1`] = `
-<h1>
-  loading !
-</h1>
-`;

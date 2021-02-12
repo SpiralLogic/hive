@@ -32,36 +32,3 @@ exports[`Tile Tests Tile Snapshot no moves matches current snapshot 1`] = `
   </svg>
 </div>
 `;
-
-exports[`Tile Tile Snapshot can move matches current snapshot 1`] = `
-<div
-  class="player1 hex tile"
-  draggable="true"
-  tabindex="0"
-  title="ant"
->
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <use
-      href="#ant"
-    />
-  </svg>
-</div>
-`;
-
-exports[`Tile Tile Snapshot no moves matches current snapshot 1`] = `
-<div
-  class="player0 hex tile"
-  draggable="false"
-  title="fly"
->
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <use
-      href="#fly"
-    />
-  </svg>
-</div>
-`;

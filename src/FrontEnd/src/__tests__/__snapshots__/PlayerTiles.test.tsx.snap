@@ -1,5 +1,3 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`PlayerTiles PlayerTiles snapshot matches current snapshot 1`] = `<body />`;
-
 exports[`PlayerTiles Tests PlayerTiles snapshot matches current snapshot 1`] = `<body />`;
