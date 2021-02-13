@@ -22,22 +22,21 @@ namespace Hive.Domain
             Creatures.Ant);
 
         private readonly Coords _initialCoords = new(0, 0);
-        private readonly IList<Player> _players;
 
         public ISet<Cell> Cells { get; }
 
-        public IList<Player> Players => _players;
+        public IList<Player> Players { get; }
 
         public Hive(IEnumerable<string> playerNames)
         {
             Cells = CreateCells();
-            _players = CreatePlayers(playerNames);
+            Players = CreatePlayers(playerNames);
         }
 
         public Hive(IList<Player> players, ISet<Cell> cells)
         {
             Cells = cells ?? throw new ArgumentNullException(nameof(cells));
-            _players = players ?? throw new ArgumentNullException(nameof(players));
+            Players = players ?? throw new ArgumentNullException(nameof(players));
         }
 
         public bool Move(int tileId, Coords coords)
