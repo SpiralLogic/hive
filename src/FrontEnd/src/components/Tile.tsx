@@ -4,19 +4,19 @@ import { Tile } from '../domain';
 import { deepEqual } from 'fast-equals';
 import { handleDrop, handleKeyboardNav, isEnterOrSpace } from '../handlers';
 import { memo } from 'preact/compat';
-import { useHiveEventEmitter } from '../hooks';
+import { useClassReducer, useHiveEventEmitter } from '../hooks';
 import { useLayoutEffect, useState } from 'preact/hooks';
 
 type Props = Tile;
 
 const TileFC: FunctionComponent<Props> = (props: Props) => {
-  const [selected, setSelected] = useState(false);
   const [focus, setFocus] = useState('tile');
   const { moves, creature, playerId } = props;
+  const [classList, setClassList] = useClassReducer([`player${playerId}`, 'hex', 'tile']);
 
   function handleHiveEvent(event: HiveEvent) {
     if (!(event.type === 'resetSelected')) return;
-    setSelected(false);
+    setClassList({ type: 'remove', classes: ['selected'] });
     setFocus('');
   }
 
@@ -30,11 +30,13 @@ const TileFC: FunctionComponent<Props> = (props: Props) => {
 
     focusElement?.focus();
     setFocus('');
-  }, [moves.length, selected, focus]);
+  }, [moves.length, classList, focus]);
 
   const handleDragStart = () => {
+    hiveEventEmitter.emit({ type: 'resetSelected' });
     hiveEventEmitter.emit({ type: 'tileSelected', tile: props });
-    setSelected(true);
+    setClassList({ type: 'add', classes: ['beforeDrag', 'selected'] });
+    setTimeout(() => setClassList({ type: 'remove', classes: ['beforeDrag'] }), 1);
   };
 
   const handleDragEnd = () => {
@@ -45,8 +47,8 @@ const TileFC: FunctionComponent<Props> = (props: Props) => {
   const handleClick = (ev: { target: HTMLElement; stopPropagation: () => void }) => {
     ev.stopPropagation();
     hiveEventEmitter.emit({ type: 'resetSelected' });
-    if (selected) return;
-    setSelected(true);
+    if (classList.includes('selected')) return;
+    setClassList({ type: 'add', classes: ['selected'] });
     setFocus('');
     hiveEventEmitter.emit({ type: 'tileSelected', tile: props });
   };
@@ -54,18 +56,18 @@ const TileFC: FunctionComponent<Props> = (props: Props) => {
   const handleKeyDown = (e: KeyboardEvent) => {
     if (handleKeyboardNav(e) || !isEnterOrSpace(e)) return;
     e.stopPropagation();
-    const isSelected = selected;
+    const isSelected = classList.includes('selected');
     hiveEventEmitter.emit({ type: 'resetSelected' });
     if (!isSelected) {
       hiveEventEmitter.emit({ type: 'tileSelected', tile: props });
       setFocus('can-drop');
-      setSelected(true);
+      setClassList({ type: 'add', classes: ['selected'] });
     }
   };
 
   const attributes = {
     title: creature,
-    class: `player${playerId} hex tile${selected ? ' selected' : ''}`,
+    class: classList.join(' '),
     draggable: !!moves.length,
     ondrop: handleDrop,
     tabindex: moves.length ? 0 : undefined,
@@ -88,6 +90,5 @@ const TileFC: FunctionComponent<Props> = (props: Props) => {
     </div>
   );
 };
-
 TileFC.displayName = 'Tile';
 export default memo(TileFC, deepEqual);

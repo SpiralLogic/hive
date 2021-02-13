@@ -4,7 +4,7 @@ import { HiveEvent } from '../hive-event-emitter';
 import { deepEqual } from 'fast-equals';
 import { handleDragOver, handleKeyboardNav, isEnterOrSpace } from '../handlers';
 import { memo } from 'preact/compat';
-import { useHiveEventEmitter } from '../hooks';
+import { useClassReducer, useHiveEventEmitter } from '../hooks';
 import { useState } from 'preact/hooks';
 import Tile from './Tile';
 
@@ -14,14 +14,14 @@ const CellFC: FunctionComponent<Props> = (props: Props) => {
   const { tiles, coords } = props;
   const isValidMove = (validMoves: HexCoordinates[]) =>
     validMoves.some((dest) => dest.q == coords.q && dest.r == coords.r);
-  const [classes, setClasses] = useState(['hex', 'cell']);
+  const [classes, setClasses] = useClassReducer(['hex', 'cell']);
   const [selectedTile, setSelectedTile] = useState<TileType | null>(null);
 
   function handleHiveEvent(e: HiveEvent) {
     if (e.type === 'tileSelected') {
-      const newClasses = isValidMove(e.tile.moves) ? [...classes, 'can-drop'] : ['hex', 'cell'];
+      const canDrop = isValidMove(e.tile.moves);
       setSelectedTile(e.tile);
-      setClasses(newClasses);
+      setClasses({ type: canDrop ? 'add' : 'remove', classes: ['can-drop'] });
     }
 
     if (e.type === 'tileDropped') {
@@ -31,7 +31,7 @@ const CellFC: FunctionComponent<Props> = (props: Props) => {
 
     if (e.type === 'resetSelected') {
       setSelectedTile(null);
-      setClasses(['hex', 'cell']);
+      setClasses({ type: 'remove', classes: ['can-drop', 'active'] });
     }
   }
 
@@ -39,11 +39,11 @@ const CellFC: FunctionComponent<Props> = (props: Props) => {
 
   function handleDragLeave(ev: { stopPropagation: () => void }) {
     ev.stopPropagation();
-    setClasses(classes.filter((e) => e !== 'active'));
+    setClasses({ type: 'remove', classes: ['active'] });
   }
 
   function handleDragEnter() {
-    if (selectedTile) setClasses([...classes, 'active']);
+    if (selectedTile) setClasses({ type: 'add', classes: ['active'] });
   }
 
   function handleClick(ev: { stopPropagation: () => void }) {

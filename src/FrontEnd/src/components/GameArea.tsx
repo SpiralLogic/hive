@@ -9,7 +9,7 @@ type Props = { gameState: GameState };
 const GameArea: FunctionComponent<Props> = ({ gameState }) => {
   const attributes = {
     ondragover: handleDragOver,
-    className: 'hive'
+    className: 'hive',
   };
   return (
     <div {...attributes}>

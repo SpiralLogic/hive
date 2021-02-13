@@ -197,6 +197,10 @@ body {
     transition: all .1s ease-in;
 }
 
+.beforeDrag:Hover, .beforeDrag, .beforeDrag:focus {
+    box-shadow: none !important;
+}
+
 div.svg {
     width: 0;
     height: 0;
