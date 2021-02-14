@@ -93,6 +93,7 @@ body {
     min-width: fit-content;
     min-height: fit-content;
     outline: none;
+    transition: all .2s ease-in;
 }
 
 .hidden {
@@ -111,6 +112,7 @@ body {
     height: 0;
     position: absolute;
     border: 0 solid transparent;
+    transition: all .2s ease-in;
 }
 
 .hex:before, .hex:after {
@@ -158,12 +160,13 @@ body {
 .player1.tile {
     fill: var(--color1);
     --color: var(--color2);
-    --outline:var(--outline2);
+    --outline: var(--outline2);
 }
+
 .player0.tile {
     fill: var(--color2);
     --color: var(--color1);
-    --outline:var(--outline1);
+    --outline: var(--outline1);
 }
 
 .name:focus {
@@ -172,6 +175,7 @@ body {
 
 .cell > .tile {
     margin: 0;
+
 }
 
 .hex.can-drop {
@@ -194,11 +198,11 @@ body {
 .tile[draggable="true"]:not(.selected):hover,
 .tile[draggable="true"]:not(.selected):focus {
     box-shadow: 0 -5px 2rem 5px var(--focus), 0 5px 2rem 5px var(--focus), 0 0 1rem var(--focus);
-    transition: all .1s ease-in;
 }
 
 .beforeDrag:Hover, .beforeDrag, .beforeDrag:focus {
     box-shadow: none !important;
+    transition-duration: 0s;
 }
 
 div.svg {
