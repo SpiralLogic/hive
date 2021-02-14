@@ -8,6 +8,7 @@ exports[`Tile Tests Tile Snapshot can move matches current snapshot 1`] = `
   title="ant"
 >
   <svg
+    viewBox="0 0 100 100"
     xmlns="http://www.w3.org/2000/svg"
   >
     <use
@@ -24,6 +25,7 @@ exports[`Tile Tests Tile Snapshot no moves matches current snapshot 1`] = `
   title="fly"
 >
   <svg
+    viewBox="0 0 100 100"
     xmlns="http://www.w3.org/2000/svg"
   >
     <use
