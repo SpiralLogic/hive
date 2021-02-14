@@ -38,7 +38,7 @@ body {
     justify-content: flex-start;
     padding: 2vh 0;
     flex-direction: column;
-    overflow-y: auto;
+    overflow-y: auto;    transition: all .2s ease-in;
 }
 
 .player .name {
