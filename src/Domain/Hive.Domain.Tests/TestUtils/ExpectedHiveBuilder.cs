@@ -37,12 +37,12 @@ namespace Hive.Domain.Tests.TestUtils
             var unexpected = ExpectedMoves();
             unexpected.SymmetricExceptWith(actual);
 
-            foreach (var coords in unexpected)
+            foreach (var (q, r) in unexpected)
             {
-                var rowSplit = actualRows[coords.R].Split(Separator);
-                var q = coords.Q + GetQOffset(RowStrings[coords.R],coords.R);
-                rowSplit[q] = Unexpected.ToString();
-                actualRows[coords.R] = string.Join(Separator, rowSplit);
+                var rowSplit = actualRows[r].Split(Separator);
+                var qOffset = q + GetQOffset(RowStrings[r],r);
+                rowSplit[qOffset] = Unexpected.ToString();
+                actualRows[r] = string.Join(Separator, rowSplit);
             }
             var coloredRows = ToColoredString().Split("\n");
 

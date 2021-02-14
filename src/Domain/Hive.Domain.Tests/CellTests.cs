@@ -94,9 +94,7 @@ namespace Hive.Domain.Tests
             var cell2 = new Cell(new Coords(1, 1)).AddTile(new Tile(1, 2, Creatures.Queen));
 
             cell1.Should().IsSameOrEqualTo(cell2);
-            var i = cell1.Coords.Equals(cell2.Coords);
-            var j = cell1.Equals(cell2);
-            i.Should().BeTrue();
+            var i = cell1.Coords.Equals(cell2.Coords).Should().BeTrue();
         }
 
         [Fact]
@@ -113,7 +111,6 @@ namespace Hive.Domain.Tests
         public void Equality()
         {
             var cell1 = new Cell(new Coords(1, 1));
-            cell1.Equals(null).Should().BeFalse();
             cell1.Equals(new object()).Should().BeFalse();
             cell1.Equals(null).Should().BeFalse();
 

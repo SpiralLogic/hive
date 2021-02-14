@@ -1,8 +1,4 @@
-using System;
 using System.Buffers;
-using System.Collections;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Text;
 using System.Text.Json;
@@ -15,7 +11,7 @@ namespace Hive.Api.Tests.Converters
 {
     public class CreatureJsonConverterTests
     {
-        private readonly CreatureJsonConverter _converter= new CreatureJsonConverter();
+        private readonly CreatureJsonConverter _converter = new();
 
         [Fact]
         public void SerializesCreature()
@@ -42,25 +38,28 @@ namespace Hive.Api.Tests.Converters
         [Fact]
         public void ThrowsExceptionWhenNotString()
         {
-            DeserializeStringToCreature("null").Should().Throw<JsonException>();
+            Assert.Throws<JsonException>(() =>
+            {
+                DeserializeStringToCreature("null");
+
+            });   
         }
 
         [Fact]
         public void ThrowsExceptionWhenCreatureDoesntExist()
         {
-            DeserializeStringToCreature("\"Turtle\"").Should().Throw<JsonException>();
+            Assert.Throws<JsonException>(() =>
+            {
+                DeserializeStringToCreature("\"Turtle\"");
+            });
         }
 
-        [ExcludeFromCodeCoverage]
-        private Func<Creature> DeserializeStringToCreature(string s)
+        private void DeserializeStringToCreature(string s)  
         {
-            return () =>
-            {
-                var json = Encoding.UTF8.GetBytes(s);
-                var reader = new Utf8JsonReader(new ReadOnlySequence<byte>(json));
-                reader.Read();
-                return _converter.Read(ref reader, typeof(Creatures), new JsonSerializerOptions(JsonSerializerDefaults.Web));
-            };
+            var json = Encoding.UTF8.GetBytes(s);
+            var reader = new Utf8JsonReader(new ReadOnlySequence<byte>(json));
+            reader.Read();
+             _converter.Read(ref reader, typeof(Creatures), new JsonSerializerOptions(JsonSerializerDefaults.Web));
         }
     }
 }

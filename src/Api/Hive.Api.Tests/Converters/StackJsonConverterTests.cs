@@ -1,6 +1,4 @@
-using System;
 using System.Buffers;
-using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
@@ -53,25 +51,28 @@ namespace Hive.Api.Tests.Converters
         [Fact]
         public void ThrowsExceptionWhenNotArray()
         {
-            DeserializeStringToStack("3,2,1]").Should().Throw<JsonException>();
+            Assert.Throws<JsonException>(() =>
+            {
+                DeserializeStringToStack("3,2,1]");
+            });
         }
 
         [Fact]
         public void ThrowsExceptionWhenArrayIsNotComplete()
         {
-            DeserializeStringToStack("[3,2,1,,,,").Should().Throw<JsonException>();
+            Assert.Throws<JsonException>(() =>
+            {
+                DeserializeStringToStack("[3,2,1,\"sd\"]");
+            });
         }
 
         [ExcludeFromCodeCoverage]
-        private Func<Stack<int>> DeserializeStringToStack(string s)
+        private void DeserializeStringToStack(string s)
         {
-            return () =>
-            {
-                var json = Encoding.UTF8.GetBytes(s);
-                var reader = new Utf8JsonReader(new ReadOnlySequence<byte>(json));
-                reader.Read();
-                return _converter.Read(ref reader, typeof(int), new JsonSerializerOptions(JsonSerializerDefaults.Web));
-            };
+            var json = Encoding.UTF8.GetBytes(s);
+            var reader = new Utf8JsonReader(new ReadOnlySequence<byte>(json));
+            reader.Read();
+            _converter.Read(ref reader, typeof(int), new JsonSerializerOptions(JsonSerializerDefaults.Web));
         }
     }
 }

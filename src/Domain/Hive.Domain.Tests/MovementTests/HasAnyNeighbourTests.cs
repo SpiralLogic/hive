@@ -1,5 +1,4 @@
-﻿using Hive.Domain.Movements;
-using Hive.Domain.Tests.TestUtils;
+﻿using Hive.Domain.Tests.TestUtils;
 using Xunit;
 
 namespace Hive.Domain.Tests.MovementTests

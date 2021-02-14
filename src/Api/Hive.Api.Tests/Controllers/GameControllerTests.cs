@@ -19,7 +19,6 @@ namespace Hive.Api.Tests.Controllers
         private readonly GameController _controller;
         private const string ExistingGameId = "EXISTING_GAME_ID";
         private const string MissingGameId = "MISSING_GAME_ID";
-        private const string NullGame = "NULL_GAME_ID";
 
         public GameControllerTests()
         {

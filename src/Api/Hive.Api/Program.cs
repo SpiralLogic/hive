@@ -1,4 +1,3 @@
-using System;
 using System.Diagnostics.CodeAnalysis;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
@@ -17,9 +16,10 @@ namespace Hive
         }
 
         [ExcludeFromCodeCoverage]
+        // ReSharper disable once MemberCanBePrivate.Global
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
-                .ConfigureAppConfiguration((context, config) =>
+                .ConfigureAppConfiguration((context, _) =>
                 {
                     if (context.HostingEnvironment.IsDevelopment())
                     {

@@ -49,7 +49,7 @@ namespace Hive.Domain.Tests
         public void Equality()
         {
             var coords1 = new Coords(1,1);
-            coords1.Equals(null).Should().BeFalse();
+            coords1.Should().NotBeNull();
             coords1.Equals(new object()).Should().BeFalse();
             coords1.Equals(null).Should().BeFalse();
 

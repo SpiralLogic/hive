@@ -7,17 +7,13 @@ namespace Hive.Domain.Tests.TestUtils
     {
         public override string ToString()
         {
-            var color = Color switch
-            {
-                ConsoleColor.Red => 31,
-                ConsoleColor.Green => 32,
-                ConsoleColor.Yellow => 33,
-                ConsoleColor.Magenta => 35,
-                ConsoleColor.White => 37,
-                ConsoleColor.Cyan => 36,
-                // ConsoleColor.Blue => 34,
-                _ => 0,
-            };
+            var color = 
+                Color is ConsoleColor.Red ? 31 :
+                Color is ConsoleColor.Green ? 32 :
+                Color is ConsoleColor.Yellow ? 33 :
+                Color is ConsoleColor.Magenta ? 35 :
+                Color is ConsoleColor.White ? 37 :
+                Color is ConsoleColor.Cyan ? 36 : 0;
 
             return $"\u001b[{color}m{Symbol}\u001b[0m";
         }
