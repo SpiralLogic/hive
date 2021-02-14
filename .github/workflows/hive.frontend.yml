@@ -5,7 +5,7 @@ on:
     - 'src/FrontEnd/**'
 jobs:
   tests:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     name: 'Front End Tests'
     defaults:
       run:
