@@ -45,7 +45,6 @@ const TileFC: FunctionComponent<Props> = (props: Props) => {
   };
 
   const handleClick = (ev: { target: HTMLElement; stopPropagation: () => void }) => {
-    ev.stopPropagation();
     hiveEventEmitter.emit({ type: 'resetSelected' });
     if (classList.includes('selected')) return;
     setClassList({ type: 'add', classes: ['selected'] });
@@ -83,11 +82,10 @@ const TileFC: FunctionComponent<Props> = (props: Props) => {
     : {};
 
   return (
-    <div {...attributes} {...handlers}>
-      <svg xmlns="http://www.w3.org/2000/svg">
-        <use href={`#${creature.toLowerCase()}`} />
-      </svg>
-    </div>
+      <g {...attributes} {...handlers} transform="scale(.8)  translate(12.5,12.5)" >
+        <use href={`#hex`} />
+        <use class="creature" transform="scale(.7) translate(20,20)" href={`#${creature.toLowerCase()}`} />
+      </g>
   );
 };
 TileFC.displayName = 'Tile';

@@ -84,14 +84,14 @@ body {
     --width: calc(1.732 * var(--size));
     --color: rgba(0, 0, 0, 0.2);
     width: var(--width);
-    height: var(--size);
+    height: var(--width);
     position: relative;
     align-items: center;
     justify-content: center;
     display: inline-flex;
     background-color: var(--color);
-    min-width: fit-content;
-    min-height: fit-content;
+    fill:var(--color);
+
     outline: none;
 }
 
@@ -105,27 +105,6 @@ body {
     margin: calc(((var(--size) / 2) + var(--margin)) / 2) calc(var(--margin) / 2);
 }
 
-.hex:before, .hex:after {
-    content: " ";
-    width: 0;
-    height: 0;
-    position: absolute;
-    border: 0 solid transparent;
-}
-
-.hex:before, .hex:after {
-    border-width: 0 calc(var(--width) / 2) 0;
-}
-
-.hex:before {
-    border-bottom: calc(var(--size) / 2) solid var(--color);
-    top: calc(var(--size) / -2);
-}
-
-.hex:after {
-    border-top: calc(var(--size) / 2) solid var(--color);
-    bottom: calc(var(--size) / -2);
-}
 
 .tile {
     --size: var(--tile-size);
@@ -147,11 +126,8 @@ body {
 }
 
 .tile > svg {
-    height: calc(1 * var(--hex-size));
-    width: calc(1 * var(--hex-size));
     z-index: 10;
     overflow: visible;
-    pointer-events: none;
     position: absolute;
 }
 
@@ -160,6 +136,10 @@ body {
     --color: var(--color2);
     --outline:var(--outline2);
 }
+.creature{
+    fill:var(--color);
+}
+
 .player0.tile {
     fill: var(--color2);
     --color: var(--color1);

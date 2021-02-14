@@ -21,26 +21,26 @@ describe('Cell Tests', () => {
 
   const createCellWithNoTile = () => {
     const cell = { coords: { q: 0, r: 0 }, tiles: [] };
-    return renderElement(<Cell {...cell} />);
+    return renderElement(<Cell x={1} {...cell} />);
   };
 
   const createCellWithTile = () => {
     const tile = { id: 2, playerId: 1, creature: 'fly', moves: [] };
     const cell = { coords: { q: 1, r: 1 }, tiles: [tile] };
 
-    return renderElement(<Cell {...cell} />);
+    return renderElement(<Cell x={1} {...cell} />);
   };
 
   const createCellWithTileAndDrop = () => {
     const tile = { id: 2, playerId: 1, creature: 'ant', moves: [{ r: 0, q: 0 }] };
     const cell = { coords: { q: 2, r: 2 }, tiles: [tile] };
 
-    return renderElement(<Cell {...cell} />);
+    return renderElement(<Cell x={1} {...cell} />);
   };
 
   const createCellNoDrop = () => {
     const cell = { coords: { q: 6, r: 6 }, tiles: [] };
-    return renderElement(<Cell {...cell} />);
+    return renderElement(<Cell x={1} {...cell} />);
   };
 
   const createCellCanDrop = createCellWithNoTile;
@@ -59,7 +59,7 @@ describe('Cell Tests', () => {
 
     test('component is memorized with deep equal', () => {
       const props = { coords: { q: 0, r: 0 }, tiles: [] };
-      const cell = <Cell {...props} />;
+      const cell = <Cell x={1} {...props} />;
       render(cell).rerender(cell);
       expect(deepEqual).toHaveBeenCalledTimes(1);
     });

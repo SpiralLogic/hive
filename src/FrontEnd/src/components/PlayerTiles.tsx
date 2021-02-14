@@ -29,7 +29,7 @@ const PlayerTiles: FunctionComponent<Props> = (props: Props) => {
       )}
       <div className="tiles">
         {tiles.map((tile) => (
-          <Tile key={tile.id} {...tile} />
+            <svg   xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"> <Tile key={tile.id} {...tile} /></svg>
         ))}
       </div>
     </div>
