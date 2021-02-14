@@ -41,7 +41,6 @@ namespace Hive.Api.Tests.Converters
             Assert.Throws<JsonException>(() =>
             {
                 DeserializeStringToCreature("null");
-
             });   
         }
 
