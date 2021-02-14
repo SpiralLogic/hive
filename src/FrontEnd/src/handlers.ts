@@ -24,5 +24,6 @@ export const handleKeyboardNav = (e: Pick<KeyboardEvent, 'key' | 'target'>): boo
     (allTabbable[(index + allTabbable.length - 1) % allTabbable.length] as HTMLElement).focus();
     return true;
   }
+  
   return false;
 };
