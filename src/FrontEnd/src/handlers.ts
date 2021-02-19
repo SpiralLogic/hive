@@ -18,8 +18,8 @@ function focusNext (target: HTMLElement, direction: -1 | 1) {
 
 }
 
-export const handleKeyboardNav = (e: { key: 'ArrowDown' | 'ArrowRight' | 'ArrowUp' | 'ArrowLeft', target: HTMLElement }): boolean => {
-    if (e.target) {
+export const handleKeyboardNav = (e: Pick<KeyboardEvent, 'key' | 'target'>): boolean => {
+    if (e.target instanceof HTMLElement) {
         switch (e.key) {
             case 'ArrowDown':
             case 'ArrowRight':
