@@ -1,6 +1,0 @@
-{
-	"dependencies": {
-		"npm-check-updates": "^11.1.4",
-		"pnpm": "^5.17.2"
-	}
-}
