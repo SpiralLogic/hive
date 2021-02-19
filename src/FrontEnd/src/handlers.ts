@@ -16,17 +16,19 @@ function focusNext (target: HTMLElement, direction: -1 | 1) {
     (allTabbable[(index + direction) % allTabbable.length] as HTMLElement).focus();
 }
 
-export const handleKeyboardNav = (e: Pick<KeyboardEvent, 'key' | 'target'>): void => {
+export const handleKeyboardNav = (e: Pick<KeyboardEvent, 'key' | 'target'>): boolean => {
     if (e.target instanceof HTMLElement) {
         switch (e.key) {
             case 'ArrowDown':
             case 'ArrowRight':
                 focusNext(e.target, 1);
-                return;
+                return true;
             case 'ArrowUp':
             case 'ArrowLeft':
                 focusNext(e.target, -1);
-                return;
+                return true;
+
         }
     }
+    return false;
 };
