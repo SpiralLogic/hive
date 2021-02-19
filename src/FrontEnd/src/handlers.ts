@@ -10,20 +10,24 @@ export function handleDrop (ev: { preventDefault: () => void }): boolean {
 
 export const isEnterOrSpace = (event: KeyboardEvent): boolean => event.key === 'Enter' || event.key === ' ';
 
-export const handleKeyboardNav = (e: Pick<KeyboardEvent, 'key' | 'target'>): boolean => {
-    if (!e.target) return false;
-    if ('ArrowDown' === e.key || 'ArrowRight' === e.key) {
-        const allTabbable = Array.from(document.querySelectorAll('*[tabindex]:not(.name)'));
-        const index = allTabbable.indexOf(e.target as HTMLElement);
-        (allTabbable[(index + 1) % allTabbable.length] as HTMLElement).focus();
-        return true;
-    }
+function focusNext (target: HTMLElement, direction: -1 | 1) {
+    const allTabbable = Array.from(document.querySelectorAll('*[tabindex]:not(.name)'));
+    const index = allTabbable.indexOf(target);
+    (allTabbable[(index + direction) % allTabbable.length] as HTMLElement).focus();
+    return true;
 
-    if ('ArrowUp' === e.key || 'ArrowLeft' === e.key) {
-        const allTabbable = Array.from(document.querySelectorAll('*[tabindex]:not(.name)'));
-        const index = allTabbable.indexOf(e.target as HTMLElement);
-        (allTabbable[(index + allTabbable.length - 1) % allTabbable.length] as HTMLElement).focus();
-        return true;
+}
+
+export const handleKeyboardNav = (e: { key: 'ArrowDown' | 'ArrowRight' | 'ArrowUp' | 'ArrowLeft', target: HTMLElement }): boolean => {
+    if (e.target) {
+        switch (e.key) {
+            case 'ArrowDown':
+            case 'ArrowRight':
+                return focusNext(e.target, 1);
+            case 'ArrowUp':
+            case 'ArrowLeft':
+                return focusNext(e.target, -1);
+        }
     }
     return false;
 };
