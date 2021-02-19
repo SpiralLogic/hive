@@ -50,20 +50,5 @@ describe(`handler tests`, () => {
             expect(div2).toHaveFocus();
             expect(div4).not.toHaveFocus();
         });
-
-        test('should not move on other keys', () => {
-            expect(handleKeyboardNav({ key: 'n', target: div1 })).toBe(false);
-            expect(div1).not.toHaveFocus();
-            expect(div2).not.toHaveFocus();
-            expect(div3).not.toHaveFocus();
-            expect(div4).not.toHaveFocus();
-        });
-
-        test('should not move no target', () => {
-            expect(handleKeyboardNav({ key: 'n', target: null })).toBe(false);
-            expect(div1).not.toHaveFocus();
-            expect(div2).not.toHaveFocus();
-            expect(div3).not.toHaveFocus();
-        });
     });
 });
