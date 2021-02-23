@@ -19,7 +19,6 @@ const TileFC: FunctionComponent<Props> = (props: Props) => {
 
   function handleHiveEvent(event: HiveEvent) {
     if (event.type === 'resetSelected') {
-      console.log('resetSelected');
       setClassList({ type: 'remove', classes: ['selected'] });
       setFocus('');
     }

@@ -131,13 +131,14 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    align-items: center;
 }
 
 .shadow {
     position: absolute;
     width: calc(var(--tile-size) * .75);
-    margin: 0 calc(var(--tile-size) * .125);
-    height: calc(var(--tile-size) / 2);
+    margin: 0 ;
+    height: calc(var(--tile-size)* .75 );
     background: inherit;
 }
 
@@ -207,8 +208,7 @@ body {
 }
 
 .beforeDrag:Hover, .beforeDrag, .beforeDrag:focus {
-    box-shadow: none !important;
-    transition-duration: 0s;
+    --outline:transparent;
 }
 
 div.svg {
@@ -256,7 +256,10 @@ div.svg {
         overflow: auto hidden;
         padding: 0 2vw;
     }
-
+    .shadow {
+        width: calc(var(--tile-size) * .75);
+        margin: 0 calc(var(--tile-size) * .125);
+    }
     .hex-container {
         overflow: auto;
     }
