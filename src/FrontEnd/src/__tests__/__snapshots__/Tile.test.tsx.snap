@@ -2,35 +2,49 @@
 
 exports[`Tile Tests Tile Snapshot can move matches current snapshot 1`] = `
 <div
-  class="player1 hex tile"
+  class="player1 tileContainer"
   draggable="true"
   tabindex="0"
   title="ant"
 >
-  <svg
-    viewBox="0 0 100 100"
-    xmlns="http://www.w3.org/2000/svg"
+  <span
+    class="shadow"
+  />
+  <div
+    class="hex tile"
   >
-    <use
-      href="#ant"
-    />
-  </svg>
+    <svg
+      viewBox="0 0 100 100"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <use
+        href="#ant"
+      />
+    </svg>
+  </div>
 </div>
 `;
 
 exports[`Tile Tests Tile Snapshot no moves matches current snapshot 1`] = `
 <div
-  class="player0 hex tile"
+  class="player0 tileContainer"
   draggable="false"
   title="fly"
 >
-  <svg
-    viewBox="0 0 100 100"
-    xmlns="http://www.w3.org/2000/svg"
+  <span
+    class="shadow"
+  />
+  <div
+    class="hex tile"
   >
-    <use
-      href="#fly"
-    />
-  </svg>
+    <svg
+      viewBox="0 0 100 100"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <use
+        href="#fly"
+      />
+    </svg>
+  </div>
 </div>
 `;

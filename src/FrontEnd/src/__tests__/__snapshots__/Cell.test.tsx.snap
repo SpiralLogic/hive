@@ -11,18 +11,25 @@ exports[`Cell Tests Cell Snapshot cell with tile matches current snapshot 1`] = 
   class="hex cell"
 >
   <div
-    class="player1 hex tile"
+    class="player1 tileContainer"
     draggable="false"
     title="fly"
   >
-    <svg
-      viewBox="0 0 100 100"
-      xmlns="http://www.w3.org/2000/svg"
+    <span
+      class="shadow"
+    />
+    <div
+      class="hex tile"
     >
-      <use
-        href="#fly"
-      />
-    </svg>
+      <svg
+        viewBox="0 0 100 100"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <use
+          href="#fly"
+        />
+      </svg>
+    </div>
   </div>
 </div>
 `;

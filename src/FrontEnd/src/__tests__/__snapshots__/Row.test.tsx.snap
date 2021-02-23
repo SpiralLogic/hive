@@ -11,7 +11,7 @@ exports[`Row Tests Row snapshot tests Row snapshot 1`] = `
     class="hex cell"
   />
   <div
-    class="hidden"
+    class="hex hidden"
   />
 </div>
 `;
