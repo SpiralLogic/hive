@@ -5,32 +5,35 @@ import { deepEqual } from 'fast-equals';
 import { handleDrop, handleKeyboardNav, isEnterOrSpace } from '../handlers';
 import { memo } from 'preact/compat';
 import { useClassReducer, useHiveEventEmitter } from '../hooks';
-import { useLayoutEffect, useState } from 'preact/hooks';
+import { useEffect, useState } from 'preact/hooks';
 
 type Props = Tile;
+const tileSelector = `[tabindex].tileContainer`;
+const cellSelector = `[tabindex].cell`;
+const playerSelector = `[tabindex].name`;
 
 const TileFC: FunctionComponent<Props> = (props: Props) => {
-  const [focus, setFocus] = useState('tile');
+  const [focus, setFocus] = useState(tileSelector);
   const { moves, creature, playerId } = props;
-  const [classList, setClassList] = useClassReducer([`player${playerId}`, 'hex', 'tile']);
+  const [classList, setClassList] = useClassReducer([`player${playerId}`, 'tileContainer']);
 
   function handleHiveEvent(event: HiveEvent) {
-    if (!(event.type === 'resetSelected')) return;
-    setClassList({ type: 'remove', classes: ['selected'] });
-    setFocus('');
+    if (event.type === 'resetSelected') {
+      console.log('resetSelected');
+      setClassList({ type: 'remove', classes: ['selected'] });
+      setFocus('');
+    }
   }
 
   const hiveEventEmitter = useHiveEventEmitter(handleHiveEvent);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     if (!focus) return;
     const focusElement =
-      document.querySelector<HTMLElement>(`[tabIndex].${focus}`) ||
-      document.querySelector<HTMLElement>(`[tabIndex].name`);
-
+      document.querySelector<HTMLElement>(focus) || document.querySelector<HTMLElement>(playerSelector);
     focusElement?.focus();
     setFocus('');
-  }, [moves.length, classList, focus]);
+  }, [focus]);
 
   const handleDragStart = () => {
     hiveEventEmitter.emit({ type: 'resetSelected' });
@@ -46,11 +49,12 @@ const TileFC: FunctionComponent<Props> = (props: Props) => {
 
   const handleClick = (ev: { target: HTMLElement; stopPropagation: () => void }) => {
     ev.stopPropagation();
+    const isSelected = classList.includes('selected');
     hiveEventEmitter.emit({ type: 'resetSelected' });
-    if (classList.includes('selected')) return;
-    setClassList({ type: 'add', classes: ['selected'] });
-    setFocus('');
-    hiveEventEmitter.emit({ type: 'tileSelected', tile: props });
+    if (!isSelected) {
+      setClassList({ type: 'add', classes: ['selected'] });
+      hiveEventEmitter.emit({ type: 'tileSelected', tile: props });
+    }
   };
 
   const handleKeyDown = (e: KeyboardEvent) => {
@@ -60,8 +64,8 @@ const TileFC: FunctionComponent<Props> = (props: Props) => {
     hiveEventEmitter.emit({ type: 'resetSelected' });
     if (!isSelected) {
       hiveEventEmitter.emit({ type: 'tileSelected', tile: props });
-      setFocus('can-drop');
       setClassList({ type: 'add', classes: ['selected'] });
+      setFocus(cellSelector);
     }
   };
 
@@ -79,14 +83,18 @@ const TileFC: FunctionComponent<Props> = (props: Props) => {
         ondragstart: handleDragStart,
         ondragend: handleDragEnd,
         onkeydown: handleKeyDown,
+        onmouseleave: (e: MouseEvent) => (e.target as HTMLElement)?.blur(),
       }
     : {};
 
   return (
     <div {...attributes} {...handlers}>
-      <svg xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 100 100">
-        <use  href={`#${creature.toLowerCase()}`} />
-      </svg>
+      <span class="shadow" />
+      <div class="hex tile">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+          <use href={`#${creature.toLowerCase()}`} />
+        </svg>
+      </div>
     </div>
   );
 };

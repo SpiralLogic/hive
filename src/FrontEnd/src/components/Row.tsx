@@ -7,7 +7,7 @@ import Cell from './Cell';
 type CellProps = typeof Cell.arguments['props'];
 const cellKey = ({ q, r }: HexCoordinates) => `${q}-${r}`;
 const createCell = (cell: CellProps) => <Cell key={cellKey(cell.coords)} {...cell} />;
-const createPlaceholder = (key: number) => <div key={key} className="hidden" />;
+const createPlaceholder = (key: number) => <div key={key} className="hex hidden" />;
 
 type Props = {
   id: number;

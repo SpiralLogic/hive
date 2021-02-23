@@ -4,20 +4,22 @@ body {
 
 .hive {
     display: inline-grid;
-    grid-template-columns: calc(var(--hex-size) * 1.7) calc(var(--hex-size) * 1.7) auto;
+    grid-template-columns: calc(var(--hex-size)) calc(var(--hex-size)) auto;
     grid-column-gap: .1vw;
     grid-row-gap: .1vh;
     height: 100vh;
     width: 100vw;
-    --margin: calc(var(--hex-size) / 12.5);
-    --tile-size: calc(var(--hex-size) * .7);
+    --margin: 2px;
+    --tile-size: calc(var(--hex-size) * .72);
     --hex-offset: -1;
     user-select: none;
-    --hex-size: 50px;
+    --hex-size: 90px;
     --color1: rgb(255, 238, 11);
     --color2: black;
     --outline1: #7fff0088;
     --outline2: #8a2be288;
+    --focus: #1712a290;
+
 }
 
 .players {
@@ -36,9 +38,10 @@ body {
     align-items: center;
     display: flex;
     justify-content: flex-start;
-    padding: 2vh 0;
     flex-direction: column;
-    overflow-y: auto;    transition: all .2s ease-in;
+    overflow-y: auto;
+    transition: all .2s ease-in;
+    padding: 1vh 0 0;
 }
 
 .player .name {
@@ -69,22 +72,23 @@ body {
 
 .hex-row {
     display: flex;
-    flex-direction: row
+    flex-direction: row;
+    margin: calc(var(--hex-size) * -0.13) 0;
 }
 
 .left > .hex-row:nth-child(even), .right .hex-row:nth-child(odd) {
-    margin-right: calc(1.8 * var(--hex-size) / 2);
+    margin-right: calc(var(--hex-size) / 1.9);
 }
 
 .right > .hex-row:nth-child(even), .left > .hex-row:nth-child(odd) {
-    margin-left: calc(1.8 * var(--hex-size) / 2);
+    margin-left: calc(var(--hex-size) / 1.9);
 }
 
 .hex {
-    --width: calc(1.732 * var(--size));
+    --width: calc(var(--size));
     --color: rgba(0, 0, 0, 0.2);
-    width: var(--width);
-    height: var(--size);
+    width: calc(var(--width));
+    height: calc(var(--size) + 10px);
     position: relative;
     align-items: center;
     justify-content: center;
@@ -94,88 +98,85 @@ body {
     min-height: fit-content;
     outline: none;
     transition: all .2s ease-in;
+    clip-path: polygon(0% 25%, 0% 75%, 50% 100%, 100% 75%, 100% 25%, 50% 0%);
 }
 
 .hidden {
-    width: calc(1.732 * var(--hex-size) + var(--margin));
-    background: none;
+    --size: var(--hex-size);
+    margin: var(--margin);
+    background: transparent;
 }
 
 .cell {
     --size: var(--hex-size);
-    margin: calc(((var(--size) / 2) + var(--margin)) / 2) calc(var(--margin) / 2);
-}
-
-.hex:before, .hex:after {
-    content: " ";
-    width: 0;
-    height: 0;
-    position: absolute;
-    border: 0 solid transparent;
-    transition: all .2s ease-in;
-}
-
-.hex:before, .hex:after {
-    border-width: 0 calc(var(--width) / 2) 0;
-}
-
-.hex:before {
-    border-bottom: calc(var(--size) / 2) solid var(--color);
-    top: calc(var(--size) / -2);
-}
-
-.hex:after {
-    border-top: calc(var(--size) / 2) solid var(--color);
-    bottom: calc(var(--size) / -2);
+    margin: var(--margin);
 }
 
 .tile {
     --size: var(--tile-size);
     z-index: 10;
-    font-size: var(--tile-size);
 }
 
-.player .tile {
-    margin: calc(var(--size) / 2 + var(--margin)) var(--margin);
+.player .tileContainer {
+    margin: var(--margin);
     --focus: #1a1a1dcc;
 }
 
-.tile[draggable="false"] {
+.tileContainer[draggable="false"] {
     opacity: 30%;
 }
 
-.tile span {
-    font-size: 50%;
+.tileContainer {
+    outline: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
-.tile > svg {
-    height: calc(1 * var(--hex-size));
-    width: calc(1 * var(--hex-size));
+.shadow {
+    position: absolute;
+    width: calc(var(--tile-size) * .75);
+    margin: 0 calc(var(--tile-size) * .125);
+    height: calc(var(--tile-size) / 2);
+    background: inherit;
+}
+
+.tile svg {
+    height: 70%;
+    width: 70%;
     z-index: 10;
     overflow: visible;
     pointer-events: none;
     position: absolute;
 }
 
-.player1.tile {
+.player1.tileContainer {
     fill: var(--color1);
-    --color: var(--color2);
     --outline: var(--outline2);
 }
 
-.player0.tile {
+.player1 .tile {
+    fill: var(--color1);
+    --color: var(--color2);
+
+}
+
+.player0.tileContainer {
+    fill: var(--color2);
+    --outline: var(--outline1);
+}
+
+.player0 .tile {
     fill: var(--color2);
     --color: var(--color1);
-    --outline: var(--outline1);
 }
 
 .name:focus {
     text-decoration-color: var(--color1);
 }
 
-.cell > .tile {
+.cell .tileContainer {
     margin: 0;
-
 }
 
 .hex.can-drop {
@@ -186,18 +187,23 @@ body {
     --color: #AFD275;
 }
 
-.hex.can-drop:hover > .tile, .hex.can-drop:focus > .tile {
+.hex.can-drop:hover .tileContainer, .hex.can-drop:focus .tileContainer {
     opacity: 100%;
 }
 
 .hex.active {
     --color: #5D001E;
     --focus: transparent;
+    transition-duration: .1s;
 }
 
-.tile[draggable="true"]:not(.selected):hover,
-.tile[draggable="true"]:not(.selected):focus {
-    box-shadow: 0 -5px 2rem 5px var(--focus), 0 5px 2rem 5px var(--focus), 0 0 1rem var(--focus);
+[draggable="true"]:not(.selected):hover .shadow,
+[draggable="true"]:not(.selected):focus .shadow {
+    box-shadow: 0 -5px 2em 5px var(--focus), 0 5px 2em 5px var(--focus), 0 0 1em var(--focus);
+}
+
+.tileContainer.selected .shadow {
+    box-shadow: 0 -5px 2em 5px var(--outline), 0 5px 2em 5px var(--outline), 0 0 1em var(--outline);
 }
 
 .beforeDrag:Hover, .beforeDrag, .beforeDrag:focus {
@@ -224,9 +230,11 @@ div.svg {
     }
 
     .hive {
-        --hex-size: 40px;
+        --hex-size: 60px;
+        --margin: 2px;
         grid-template-columns: unset;
-        grid-template-rows: calc(var(--hex-size) * 1.7) calc(var(--hex-size) * 1.7) auto;
+        grid-template-rows: max-content max-content auto;
+        gap: 0;
     }
 
     .players {
@@ -239,6 +247,7 @@ div.svg {
         grid-auto-flow: column;
         grid-template-columns: max-content auto;
         grid-template-rows: unset;
+        padding: 1vh 1vw;
     }
 
     .player .tiles {
@@ -260,11 +269,13 @@ div.svg {
     .hex.can-drop {
         --color: #AFD275;
     }
+
+    .tileContainer.selected .shadow {
+        box-shadow: 0 -10px 10px 5px var(--outline), 0 10px 10px 5px var(--outline);
+    }
 }
 
-
-.tile.selected {
-    box-shadow: 0 -10px 20px 5px var(--outline), 0 10px 20px 5px var(--outline);
+.tileContainer.selected {
     -webkit-animation: selected 0.2s infinite;
     -moz-animation-duration: 0.2s;
     -moz-animation-name: selected;

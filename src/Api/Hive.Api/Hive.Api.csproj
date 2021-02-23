@@ -29,7 +29,7 @@
         <Content Remove="obj\**" />
         <Content Include="$(SpaRoot)public\**" LinkBase="wwwroot" CopyToOutputDirectory="Never" CopyToPublishDirectory="Never" />
         <Content Include="$(SpaRoot)src\**" Exclude="$(SpaRoot)src\__tests__\__coverage__\**" LinkBase="FrontEnd" CopyToOutputDirectory="Never" CopyToPublishDirectory="Never" />
-        <Content Include="$(SpaRoot)*" Exclude="$(SpaRoot)public\*" CopyToOutputDirectory="Never" CopyToPublishDirectory="Never" />
+        <Content Include="$(SpaRoot)*" Exclude="$(SpaRoot)public\*,$(SpaRoot)src\*" CopyToOutputDirectory="Never" CopyToPublishDirectory="Never" />
         <Watch Include="$(SpaRoot)src\**;" Exclude="$(SpaRoot)node_modules\**\*;$(SpaRoot)public\**;$(DefaultExcludes)" />
     </ItemGroup>
 
