@@ -3,18 +3,15 @@ if (process.env.NODE_ENV !== 'production') {
   // @ts-ignore
   import('preact/debug');
 }
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+import creatures from './svg/creatures.svg'
 
 import './css/hive.css';
 import { h, render } from 'preact';
 import App from './components/App';
 
-fetch('/svg/creatures.svg?v1')
-  .then((r) => r.text())
-  .then((svg) => document.body.insertAdjacentHTML('beforeend', `<div class="svg">${svg}</div>`));
-
-fetch('/svg/share.svg?v1')
-  .then((r) => r.text())
-  .then((svg) => document.body.insertAdjacentHTML('beforeend', `<div class="svg">${svg}</div>`));
+document.body.insertAdjacentHTML('beforeend', `<div class="svg">${creatures}</div>`);
 
 render(h(App, {}), document.body);
  
