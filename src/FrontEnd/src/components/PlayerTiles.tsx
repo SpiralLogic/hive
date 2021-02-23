@@ -3,6 +3,8 @@ import { Player } from '../domain';
 import { deepEqual } from 'fast-equals';
 import { isEnterOrSpace } from '../handlers';
 import { memo } from 'preact/compat';
+import { useClassReducer } from '../hooks';
+import { useEffect } from 'preact/hooks';
 import Tile from './Tile';
 
 type Props = Player;
@@ -11,23 +13,31 @@ const PlayerTiles: FunctionComponent<Props> = (props: Props) => {
   const { name, tiles, id } = props;
   const [, route, gameId, currentPlayerId] = window.location.pathname.split('/');
   const changePlayerUrl = `/${route}/${gameId}/${id}`;
-
+  const [classList, setClassList] = useClassReducer(['player']);
+  7;
   const handleKeyDown = (e: KeyboardEvent) => {
     if (isEnterOrSpace(e)) {
       window.location.href = changePlayerUrl;
     }
   };
 
+  useEffect(() => {
+    if (!tiles.length) {
+      setClassList({ type: 'add', classes: ['hiding'] });
+      setTimeout(() => setClassList({ type: 'add', classes: ['hide'] }), 10);
+    }
+  }, [tiles.length > 0]);
+
   return (
-    <div className="player" title={name}>
+    <div class={classList.join(' ')} title={name}>
       {Number(currentPlayerId) !== id ? (
         <a className={`name player${id}`} href={changePlayerUrl} tabIndex={-1} onKeyDown={handleKeyDown}>
           {name}
         </a>
       ) : (
-        <div className="name">{name}</div>
+        <div class="name">{name}</div>
       )}
-      <div className="tiles">
+      <div class="tiles">
         {tiles.map((tile) => (
           <Tile key={tile.id} {...tile} />
         ))}

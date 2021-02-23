@@ -25,7 +25,7 @@ const classReducer = (
   const { type, classes } = action;
   switch (type) {
     case 'add':
-      return [...initialClasses, ...classes];
+      return [...initialClasses, ...classes.filter((c) => !initialClasses.includes(c))];
     case 'remove':
       return initialClasses.filter((c) => !classes.includes(c));
   }
