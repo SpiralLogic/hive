@@ -286,7 +286,7 @@ body > svg {display: none;}
   .player .name {
     margin: 0 2vw;
     align-self: center;
-    justify-content: center;
+    justify-content: center;   
   }
 
   .player .tiles {
@@ -294,6 +294,7 @@ body > svg {display: none;}
     grid-auto-flow: column;
     overflow: auto hidden;
     padding: 1.5vh 2vw;
+    border-left: 1px inset #7318b133;
   }
 
   .hex-container {
