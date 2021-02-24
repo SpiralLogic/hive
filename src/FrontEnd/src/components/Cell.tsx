@@ -37,22 +37,22 @@ const CellFC: FunctionComponent<Props> = (props: Props) => {
 
   const hiveEventEmitter = useHiveEventEmitter(handleHiveEvent);
 
-  function handleDragLeave(ev: { stopPropagation: () => void }) {
+  const handleDragLeave = (ev: { stopPropagation: () => void }) => {
     ev.stopPropagation();
     setClasses({ type: 'remove', classes: ['active'] });
-  }
+  };
 
-  function handleDragEnter() {
+  const handleDragEnter = () => {
     if (selectedTile) setClasses({ type: 'add', classes: ['active'] });
-  }
+  };
 
-  function handleClick(ev: { stopPropagation: () => void }) {
+  const handleClick = (ev: { stopPropagation: () => void }) => {
     if (selectedTile) {
       ev.stopPropagation();
       move();
       hiveEventEmitter.emit({ type: 'resetSelected' });
     }
-  }
+  };
 
   function move() {
     if (selectedTile && isValidMove(selectedTile.moves))

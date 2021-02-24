@@ -14,7 +14,6 @@ const PlayerTiles: FunctionComponent<Props> = (props: Props) => {
   const [, route, gameId, currentPlayerId] = window.location.pathname.split('/');
   const changePlayerUrl = `/${route}/${gameId}/${id}`;
   const [classList, setClassList] = useClassReducer(['player']);
-  7;
   const handleKeyDown = (e: KeyboardEvent) => {
     if (isEnterOrSpace(e)) {
       window.location.href = changePlayerUrl;
