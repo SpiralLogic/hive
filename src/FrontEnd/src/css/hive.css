@@ -210,7 +210,6 @@ body {
 
 [draggable='true']:not(.selected):hover .shadow,
 [draggable='true']:not(.selected):focus .shadow {
-  display: block;
   box-shadow: 0 -5px 2em 5px var(--focus), 0 5px 2em 5px var(--focus), 0 0 1em var(--focus);
 }
 
