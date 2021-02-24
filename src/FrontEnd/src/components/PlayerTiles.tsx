@@ -23,7 +23,7 @@ const PlayerTiles: FunctionComponent<Props> = (props: Props) => {
   useEffect(() => {
     if (!tiles.length) {
       setClassList({ type: 'add', classes: ['hiding'] });
-      setTimeout(() => setClassList({ type: 'add', classes: ['hide'] }), 10);
+      setTimeout(() => setClassList({ type: 'add', classes: ['hide'] }), 5);
     }
   }, [tiles.length > 0]);
 
