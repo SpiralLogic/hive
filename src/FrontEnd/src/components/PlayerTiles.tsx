@@ -29,7 +29,7 @@ const PlayerTiles: FunctionComponent<Props> = (props: Props) => {
 
   return (
     <div class={classList.join(' ')} title={name}>
-      {Number(currentPlayerId) !== id ? (
+      {Number(currentPlayerId) !== id && tiles.length > 0 ? (
         <a className={`name player${id}`} href={changePlayerUrl} tabIndex={-1} onKeyDown={handleKeyDown}>
           {name}
         </a>

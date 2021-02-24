@@ -30,14 +30,13 @@ body {
   grid-auto-flow: row;
   grid-template-rows: max-content auto;
   border-right: 1px solid white;
-  transition:  1s ease-in;
-  transition-property:  width,height;
-  padding:0 1vw;
+  transition: 1s ease-in;
+  transition-property: width, height;
+  padding: 0 1vw;
 }
 
 .player.hiding {
-  width: calc(var(--tile-size));  padding:0 ;
-
+  width: calc(var(--tile-size)); padding: 0;
 }
 
 .player.hide {
@@ -210,6 +209,7 @@ body {
 
 [draggable='true']:not(.selected):hover .shadow,
 [draggable='true']:not(.selected):focus .shadow {
+  display: block;
   box-shadow: 0 -5px 2em 5px var(--focus), 0 5px 2em 5px var(--focus), 0 0 1em var(--focus);
 }
 
@@ -227,8 +227,13 @@ body {
   position: absolute;
 }
 
-.beforeDrag:hover, .beforeDrag, .beforeDrag:focus {
+.beforeDrag:hover, .beforeDrag,
+.beforeDrag:focus {
   --outline: transparent;
+}
+
+.beforeDrag .shadow {
+  display: none !important;
 }
 
 body > svg {display: none;}
@@ -272,6 +277,7 @@ body > svg {display: none;}
     height: calc(var(--tile-size) + 10px);
     width: auto;
   }
+
   .player.hide {
     height: 0;
     width: auto;
@@ -312,4 +318,3 @@ body > svg {display: none;}
     box-shadow: 0 -5px 10px 5px var(--outline), 0 5px 10px 5px var(--outline);
   }
 }
-
