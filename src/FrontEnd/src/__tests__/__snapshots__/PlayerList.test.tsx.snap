@@ -22,9 +22,6 @@ exports[`PlayerList Tests PlayerList snapshot matches current snapshot 1`] = `
         tabindex="0"
         title="ant"
       >
-        <span
-          class="shadow"
-        />
         <div
           class="hex tile"
         >
@@ -43,9 +40,6 @@ exports[`PlayerList Tests PlayerList snapshot matches current snapshot 1`] = `
         draggable="false"
         title="fly"
       >
-        <span
-          class="shadow"
-        />
         <div
           class="hex tile"
         >
@@ -64,9 +58,6 @@ exports[`PlayerList Tests PlayerList snapshot matches current snapshot 1`] = `
         draggable="false"
         title="fly"
       >
-        <span
-          class="shadow"
-        />
         <div
           class="hex tile"
         >
@@ -102,9 +93,6 @@ exports[`PlayerList Tests PlayerList snapshot matches current snapshot 1`] = `
         tabindex="0"
         title="ant"
       >
-        <span
-          class="shadow"
-        />
         <div
           class="hex tile"
         >

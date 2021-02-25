@@ -15,9 +15,6 @@ exports[`Cell Tests Cell Snapshot cell with tile matches current snapshot 1`] = 
     draggable="false"
     title="fly"
   >
-    <span
-      class="shadow"
-    />
     <div
       class="hex tile"
     >

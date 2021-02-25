@@ -1,4 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
+using Hive.Domain.Entities;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.FileProviders;

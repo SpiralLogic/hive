@@ -1,158 +1,168 @@
 body {
+  --color1: rgb(255, 238, 11);
+  --color2: black;
+  --focus: #1712A290;
+  --margin: 2px;
+  --outline1: #D2116A88;
+  --outline2: #8A2BE288;
   margin: 0;
+  --hex-offset: -1;
+  --hex-size: 90px;
+  --tile-size: calc(var(--hex-size) * 0.7);
+}
+
+body > svg {
+  display: none;
+
 }
 
 .hive {
   display: inline-grid;
   grid-template-columns: max-content max-content auto;
   height: 100vh;
-  width: 100vw;
-  --margin: 2px;
-  --tile-size: calc(var(--hex-size) * 0.72);
-  --hex-offset: -1;
   user-select: none;
-  --hex-size: 90px;
-  --color1: rgb(255, 238, 11);
-  --color2: black;
-  --outline1: #D2116A88;
-  --outline2: #8A2BE288;
-  --focus: #1712A290;
+  width: 100vw;
 }
 
 .players {
-  display: contents;
   border-radius: 0.1rem;
+  display: contents;
 }
 
 .player {
   background-color: rgba(0, 0, 0, 0.7);
+  border-right: 1px solid white;
   display: inline-grid;
   grid-auto-flow: row;
   grid-template-rows: max-content auto;
-  border-right: 1px solid white;
+  padding: 0 1vw;
   transition: 1s ease-in;
   transition-property: width, height;
-  padding: 0 1vw;
 }
 
 .player.hiding {
-  width: calc(var(--tile-size)); 
   padding: 0;
+  width: calc(var(--tile-size));
 }
 
 .player.hide {
-  width: 0;
   border-right-width: 0;
+  width: 0;
 }
 
-.player .name {
-  background-color: var(--color);
-  text-align: center;
-  justify-content: center;
-  color: white;
-  margin: 2vh 0;
-  font-weight: bold;
-  font-size: 1.5em;
-  outline: none;
+.player1.tileContainer {
+  --outline: var(--outline2);
+  fill: var(--color1);
+}
+
+.player1 .tile {
+  --color: var(--color2);
+  fill: var(--color1);
+}
+
+.player0.tileContainer {
+  --outline: var(--outline1);
+  fill: var(--color2);
+}
+
+.player0 .tile {
+  --color: var(--color1);
+  fill: var(--color2);
 }
 
 .name:focus {
   text-decoration-color: var(--color1);
 }
 
+.player .name {
+  background-color: var(--color);
+  color: white;
+  font-size: 1.5em;
+  font-weight: bold;
+  justify-content: center;
+  margin: 2vh 0;
+  outline: none;
+  text-align: center;
+}
+
 .player .tileContainer {
-  margin: var(--margin);
   --focus: #1A1A1DCC;
+  margin: var(--margin);
 }
 
 .player .tiles {
   align-items: center;
   display: flex;
-  justify-content: flex-start;
   flex-direction: column;
-  transition: all 0.1s ease-in;
+  justify-content: flex-start;
   padding: 1vh 0 0;
-}
-
-.player1.tileContainer {
-  fill: var(--color1);
-  --outline: var(--outline2);
-}
-
-.player1 .tile {
-  fill: var(--color1);
-  --color: var(--color2);
-}
-
-.player0.tileContainer {
-  fill: var(--color2);
-  --outline: var(--outline1);
-}
-
-.player0 .tile {
-  fill: var(--color2);
-  --color: var(--color1);
+  transition: all 0.1s ease-in;
 }
 
 .hex-container {
-  display: grid;
-  background: #1A1A1D;
   align-items: center;
+  background: #1A1A1D;
+  display: grid;
   overflow: auto;
 }
 
 .hextille {
-  display: flex;
+  --focus: #1712A290;
   border-radius: 0.05rem;
+  display: flex;
   flex-direction: column;
   margin: 0 auto;
-  --focus: #1712A290;
 }
 
 .hex-row {
   display: flex;
   flex-direction: row;
-  margin: calc(var(--hex-size) * -0.13) 0;
+  margin: calc(var(--hex-size) / -7) 0;
 }
 
 .left > .hex-row:nth-child(even),
 .right .hex-row:nth-child(odd) {
-  margin-right: calc(var(--hex-size) / 1.9);
+  margin-right: calc(var(--hex-size) / 2);
 }
 
 .right > .hex-row:nth-child(even),
 .left > .hex-row:nth-child(odd) {
-  margin-left: calc(var(--hex-size) / 1.9);
+  margin-left: calc(var(--hex-size) / 2);
 }
 
 .hex {
-  --width: calc(var(--size));
   --color: rgba(0, 0, 0, 0.2);
-  width: calc(var(--width));
-  height: calc(var(--size) + 10px);
-  position: relative;
+  --width: calc(var(--size));
   align-items: center;
-  justify-content: center;
+  background: linear-gradient(150deg, transparent 35%, var(--color) 0%) 0% 0%/50% 50%,
+  linear-gradient(330deg, transparent 35%, var(--color) 0%) 100% 101%/50% 50%,
+  linear-gradient(210deg, var(--color) 65%, transparent 0%) 0% 101%/50% 50%,
+  linear-gradient(30deg, var(--color) 65%, transparent 0%) 100% 0%/50% 50%;
+  background-repeat: no-repeat;
   display: inline-flex;
-  background-color: var(--color);
-  min-width: fit-content;
+  height: calc(var(--size) * 1.12);
+  justify-content: center;
   min-height: fit-content;
+  min-width: fit-content;
   outline: none;
+  position: relative;
   transition: all 0.2s ease-in;
-  clip-path: polygon(0% 25%, 0% 75%, 50% 100%, 100% 75%, 100% 25%, 50% 0%);
+  width: calc(var(--width));  margin: var(--margin);
+
 }
 
 .hidden {
   --size: var(--hex-size);
-  margin: var(--margin);
   background: transparent;
+  margin: var(--margin);
 }
 
 .cell {
   --size: var(--hex-size);
-  margin: var(--margin);
 }
-
+.cell .tile {
+  margin:0;
+}
 .cell.active {
   --color: #5D001E;
   --focus: transparent;
@@ -168,8 +178,23 @@ body {
   --color: #AFD275;
 }
 
-.cell .tileContainer {
+
+.tile {
+  --size: var(--tile-size);
+}
+
+.tile svg {
+  height: 70%;
+  overflow: visible;
+  pointer-events: none;
+  position: absolute;
+  width: 70%;
+}
+
+.tileContainer {
   margin: 0;
+  outline: none;
+  display: flex;
 }
 
 .cell.can-drop:hover .tileContainer,
@@ -177,25 +202,8 @@ body {
   opacity: 100%;
 }
 
-.tileContainer {
-  outline: none;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
 .tileContainer[draggable='false'] {
   opacity: 30%;
-}
-
-.shadow {
-  display: none;
-  position: absolute;
-  width: calc(var(--tile-size) * 0.75);
-  margin: 0;
-  height: calc(var(--tile-size) * 0.65);
-  transition: all 0.2s ease-in;
 }
 
 .tileContainer.selected {
@@ -203,41 +211,30 @@ body {
   transform: rotate(-3deg);
 }
 
-.tileContainer.selected .shadow {
-  display: block;
+.tileContainer.selected:before {
   box-shadow: 0 -5px 2em 5px var(--outline), 0 5px 2em 5px var(--outline), 0 0 1em var(--outline);
-}
-
-[draggable='true']:not(.selected):hover .shadow,
-[draggable='true']:not(.selected):focus .shadow {
+  content: ' ';
   display: block;
-  box-shadow: 0 -5px 2em 5px var(--focus), 0 5px 2em 5px var(--focus), 0 0 1em var(--focus);
-}
-
-.tile {
-  --size: var(--tile-size);
-  z-index: 10;
-}
-
-.tile svg {
-  height: 70%;
-  width: 70%;
-  z-index: 10;
-  overflow: visible;
-  pointer-events: none;
+  height: calc(var(--tile-size) * 0.65);
+  left: 0;
+  margin: calc(var(--tile-size) / 4) calc(var(--tile-size) * 0.125);
+  outline: none;
   position: absolute;
+  top: 0;
+  transition: box-shadow 0.2s ease-in;
+  width: calc(var(--tile-size) * 0.75);
 }
 
-.beforeDrag:hover, .beforeDrag,
-.beforeDrag:focus {
-  --outline: transparent;
+[draggable='true']:not(.selected):hover:before,
+[draggable='true']:not(.selected):focus:before {
+  box-shadow: 0 -5px 2em 5px var(--focus), 0 5px 2em 5px var(--focus), 0 0 1em var(--focus);
+  display: block;
 }
 
-.beforeDrag .shadow {
+.beforeDrag {
+  box-shadow: none !important;
   display: none !important;
 }
-
-body > svg {display: none;}
 
 @keyframes selected {
   0% {
@@ -251,14 +248,13 @@ body > svg {display: none;}
 @media only screen and (max-width: 720px) {
   body {
     margin: 0;
+    --hex-size: 60px;
   }
 
   .hive {
-    --hex-size: 60px;
-    --margin: 2px;
+    gap: 0;
     grid-template-columns: unset;
     grid-template-rows: max-content max-content auto;
-    gap: 0;
   }
 
   .players {
@@ -268,10 +264,10 @@ body > svg {display: none;}
   }
 
   .player {
+    border-right-width: 0;
     grid-auto-flow: column;
     grid-template-columns: max-content auto;
     grid-template-rows: unset;
-    border-right-width: 0;
   }
 
   .player.hiding {
@@ -285,17 +281,17 @@ body > svg {display: none;}
   }
 
   .player .name {
-    margin: 0 2vw;
     align-self: center;
-    justify-content: center;   
+    justify-content: center;
+    margin: 0 2vw;
   }
 
   .player .tiles {
+    border-left: 1px inset #7318b133;
     display: inline-grid;
     grid-auto-flow: column;
     overflow: auto hidden;
     padding: 1.5vh 2vw;
-    border-left: 1px inset #7318b133;
   }
 
   .hex-container {
@@ -309,11 +305,6 @@ body > svg {display: none;}
 
   .cell.can-drop {
     --color: #AFD275;
-  }
-
-  .shadow {
-    width: calc(var(--tile-size) * 0.75);
-    margin: 0 calc(var(--tile-size) * 0.125);
   }
 
   .tileContainer.selected .shadow {
