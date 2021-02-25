@@ -160,9 +160,11 @@ body > svg {
 .cell {
   --size: var(--hex-size);
 }
+
 .cell .tile {
   margin:0;
 }
+
 .cell.active {
   --color: #5D001E;
   --focus: transparent;
@@ -217,7 +219,7 @@ body > svg {
   display: block;
   height: calc(var(--tile-size) * 0.65);
   left: 0;
-  margin: calc(var(--tile-size) / 4) calc(var(--tile-size) * 0.125 + var(--margin));
+  margin: calc(var(--tile-size) *.3) calc(var(--tile-size) * 0.15 + var(--margin));
   outline: none;
   position: absolute;
   top: 0;
