@@ -1,14 +1,15 @@
 body {
-  --color1: rgb(255, 238, 11);
-  --color2: black;
+  --p1creature: #ffee0b;
+  --p1background: #000000;
+  --p0creature: #000000;
+  --p0background: #ffee0b;
   --focus: #1712A2A0;
-  --margin: 2px;
-  --outline1: #D2116AA0;
-  --outline2: #8A2BE2A0;
+  --p0outline0: #D2116AA0;
+  --p1outline: #8A2BE2A0;
   margin: 0;
   --hex-offset: -1;
-  --hex-size: 90px;
-  --tile-size: calc(var(--hex-size) * 0.7);
+  --hex-size: 95px;
+  --tile-size: 70px;
 }
 
 body > svg {
@@ -50,32 +51,23 @@ body > svg {
   width: 0;
 }
 
-.player1.tileContainer {
-  --outline: var(--outline2);
-  fill: var(--color1);
+.player0 {
+  --background: var(--p0background);
+  --creature: var(--p0creature);
+  --outline: var(--p0outline0);
 }
 
-.player1 .tile {
-  --color: var(--color2);
-  fill: var(--color1);
-}
-
-.player0.tileContainer {
-  --outline: var(--outline1);
-  fill: var(--color2);
-}
-
-.player0 .tile {
-  --color: var(--color1);
-  fill: var(--color2);
+.player1 {
+  --background: var(--p1background);
+  --creature: var(--p1creature);
+  --outline: var(--p1outline);
 }
 
 .name:focus {
-  text-decoration-color: var(--color1);
+  text-decoration-color: var(--creature);
 }
 
 .player .name {
-  background-color: var(--color);
   color: white;
   font-size: 1.5em;
   font-weight: bold;
@@ -85,9 +77,9 @@ body > svg {
   text-align: center;
 }
 
-.player .tileContainer {
+.player .tile {
   --focus: #1A1A1DCC;
-  margin: var(--margin);
+  margin: 2px;
 }
 
 .player .tiles {
@@ -117,7 +109,15 @@ body > svg {
 .hex-row {
   display: flex;
   flex-direction: row;
-  margin: calc(var(--hex-size) / -7) 0;
+  margin: calc(var(--hex-size) * -0.1) 0;
+}
+
+.hex-row:nth-child(1) {
+  margin-top: 0;
+}
+
+.hex-row:last-child {
+  margin-bottom: 0;
 }
 
 .left > .hex-row:nth-child(even),
@@ -131,100 +131,93 @@ body > svg {
 }
 
 .hex {
-  --color: rgba(0, 0, 0, 0.2);
-  --width: calc(var(--size));
+  fill:var(--background, #00000030);
   align-items: center;
-  background: linear-gradient(150deg, transparent 35%, var(--color) 0%) 0% 0%/50% 50%,
-  linear-gradient(330deg, transparent 35%, var(--color) 0%) 100% 101%/50% 50%,
-  linear-gradient(210deg, var(--color) 65%, transparent 0%) 0% 101%/50% 50%,
-  linear-gradient(30deg, var(--color) 65%, transparent 0%) 100% 0%/50% 50%;
-  background-repeat: no-repeat;
   display: inline-flex;
-  height: calc(var(--size) * 1.12);
+  height: var(--width);
   justify-content: center;
   min-height: fit-content;
   min-width: fit-content;
   outline: none;
   position: relative;
-  transition: all 0.2s ease-in;
-  width: calc(var(--width));  margin: var(--margin);
+  transition: all 0.1s ease-in;
+  width: var(--width);
+  margin: 0;
+}
 
+.hex > svg {
+  position: absolute;
 }
 
 .hidden {
-  --size: var(--hex-size);
+  width: var(--hex-size);
+  margin: 0;
   background: transparent;
-  margin: var(--margin);
 }
 
 .cell {
-  --size: var(--hex-size);
+  --width: var(--hex-size);
 }
 
 .cell .tile {
-  margin:0;
+  margin: 0;
 }
 
 .cell.active {
-  --color: #5D001E;
+  fill: #5D001E;
   --focus: transparent;
   transition-duration: 0.1s;
 }
 
 .cell.can-drop {
-  --color: rgba(175, 210, 117, 0.2);
+  fill: rgba(175, 210, 117, 0.2);
 }
 
 .cell.can-drop.active,
 .cell.can-drop:focus {
-  --color: #AFD275;
+  fill: #AFD275;
 }
-
 
 .tile {
-  --size: var(--tile-size);
+  --width: calc(var(--tile-size));
 }
 
-.tile svg {
-  height: 70%;
-  overflow: visible;
+.tile .creature {
   pointer-events: none;
-  position: absolute;
-  width: 70%;
+  fill: var(--creature);
 }
 
-.tileContainer {
-  margin: 0;
-  outline: none;
-  display: flex;
-}
-
-.cell.can-drop:hover .tileContainer,
-.cell.can-drop:focus .tileContainer {
+.cell.can-drop:hover .tile,
+.cell.can-drop:focus .tile {
   opacity: 100%;
 }
 
-.tileContainer[draggable='false'] {
+.tile[draggable='false'] {
   opacity: 30%;
 }
 
-.tileContainer.selected {
+.tile.selected {
   animation: selected 0.2s infinite;
   transform: rotate(-3deg);
 }
 
-.tileContainer.selected:before {
-  box-shadow: 0 -5px 2em 5px var(--outline), 0 5px 2em 5px var(--outline), 0 0 1em var(--outline);
-  content: ' ';
-  display: block;
-  height: calc(var(--tile-size) * 0.65);
+
+.tile:before {
+  content:" ";
+  display: none;
+  height: 50%;
   left: 0;
-  margin: calc(var(--tile-size) *.3) calc(var(--tile-size) * 0.15 + var(--margin));
+  margin: 25% 5%;
   outline: none;
   position: absolute;
   top: 0;
   transition: box-shadow 0.2s ease-in;
-  width: calc(var(--tile-size) * 0.70);
+  width:90%;
+}
+
+.tile.selected:before{
+  display: block;
+  box-shadow: 0 -5px 2em 5px var(--outline), 0 5px 2em 5px var(--outline), 0 0 1em var(--outline);
 }
 
 [draggable='true']:not(.selected):hover:before,
@@ -233,7 +226,7 @@ body > svg {
   display: block;
 }
 
-.beforeDrag {
+.beforeDrag:before {
   box-shadow: none !important;
   display: none !important;
 }
@@ -250,7 +243,7 @@ body > svg {
 @media only screen and (max-width: 720px) {
   body {
     margin: 0;
-    --hex-size: 60px;
+    --hex-size: .6;
   }
 
   .hive {
@@ -273,7 +266,7 @@ body > svg {
   }
 
   .player.hiding {
-    height: calc(var(--tile-size) + 10px);
+    height: calc(var(--tile-size));
     width: auto;
   }
 
@@ -306,10 +299,10 @@ body > svg {
   }
 
   .cell.can-drop {
-    --color: #AFD275;
+    background-color: #AFD275;
   }
 
-  .tileContainer.selected .shadow {
+  .tile.selected .shadow {
     box-shadow: 0 -5px 10px 5px var(--outline), 0 5px 10px 5px var(--outline);
   }
 }

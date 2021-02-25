@@ -8,14 +8,14 @@ import { useClassReducer, useHiveEventEmitter } from '../hooks';
 import { useEffect, useState } from 'preact/hooks';
 
 type Props = Tile;
-const tileSelector = `[tabindex].tileContainer`;
+const tileSelector = `[tabindex].tile`;
 const cellSelector = `[tabindex].cell`;
 const playerSelector = `[tabindex].name`;
 
 const TileFC: FunctionComponent<Props> = (props: Props) => {
   const [focus, setFocus] = useState(tileSelector);
   const { moves, creature, playerId } = props;
-  const [classList, setClassList] = useClassReducer([`player${playerId}`, 'tileContainer']);
+  const [classList, setClassList] = useClassReducer([`player${playerId}`, 'hex', 'tile']);
 
   function handleHiveEvent(event: HiveEvent) {
     if (event.type === 'resetSelected') {
@@ -88,11 +88,10 @@ const TileFC: FunctionComponent<Props> = (props: Props) => {
 
   return (
     <div {...attributes} {...handlers}>
-      <div class="hex tile">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-          <use href={`#${creature.toLowerCase()}`} />
-        </svg>
-      </div>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+        <use href="#hex" />
+        <use class="creature" href={`#${creature.toLowerCase()}`} />
+      </svg>
     </div>
   );
 };

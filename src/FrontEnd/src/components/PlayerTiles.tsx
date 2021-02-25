@@ -13,7 +13,7 @@ const PlayerTiles: FunctionComponent<Props> = (props: Props) => {
   const { name, tiles, id } = props;
   const [, route, gameId, currentPlayerId] = window.location.pathname.split('/');
   const changePlayerUrl = `/${route}/${gameId}/${id}`;
-  const [classList, setClassList] = useClassReducer(['player']);
+  const [classList, setClassList] = useClassReducer(['player', `player${id}`]);
   const handleKeyDown = (e: KeyboardEvent) => {
     if (isEnterOrSpace(e)) {
       window.location.href = changePlayerUrl;
@@ -30,7 +30,7 @@ const PlayerTiles: FunctionComponent<Props> = (props: Props) => {
   return (
     <div class={classList.join(' ')} title={name}>
       {Number(currentPlayerId) !== id && tiles.length > 0 ? (
-        <a className={`name player${id}`} href={changePlayerUrl} tabIndex={-1} onKeyDown={handleKeyDown}>
+        <a className="name" href={changePlayerUrl} tabIndex={-1} onKeyDown={handleKeyDown}>
           {name}
         </a>
       ) : (

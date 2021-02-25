@@ -78,7 +78,14 @@ const CellFC: FunctionComponent<Props> = (props: Props) => {
     tabindex: selectedTile && isValidMove(selectedTile.moves) ? 0 : undefined,
   };
 
-  return <div {...attributes}>{tiles.length > 0 && <Tile {...tiles[0]} />}</div>;
+  return (
+    <div {...attributes}>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+        <use href="#hex" />
+      </svg>
+      {tiles.length > 0 && <Tile {...tiles[0]} />}
+    </div>
+  );
 };
 
 CellFC.displayName = 'Cell';
