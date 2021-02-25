@@ -217,12 +217,12 @@ body > svg {
   display: block;
   height: calc(var(--tile-size) * 0.65);
   left: 0;
-  margin: calc(var(--tile-size) / 4) calc(var(--tile-size) * 0.125);
+  margin: calc(var(--tile-size) / 4) calc(var(--tile-size) * 0.125 + var(--margin)*2);
   outline: none;
   position: absolute;
   top: 0;
   transition: box-shadow 0.2s ease-in;
-  width: calc(var(--tile-size) * 0.75);
+  width: calc(var(--tile-size) * 0.70);
 }
 
 [draggable='true']:not(.selected):hover:before,
