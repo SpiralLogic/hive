@@ -1,10 +1,10 @@
 body {
-  --p1creature: #ffee0b;
-  --p1background: #000000;
-  --p0creature: #000000;
-  --p0background: #ffee0b;
   --focus: #1712A2A0;
+  --p0background: #ffee0b;
+  --p0creature: #000000;
   --p0outline0: #D2116AA0;
+  --p1background: #000000;
+  --p1creature: #ffee0b;
   --p1outline: #8A2BE2A0;
   margin: 0;
   --hex-offset: -1;
@@ -131,18 +131,18 @@ body > svg {
 }
 
 .hex {
-  fill:var(--background, #00000030);
   align-items: center;
   display: inline-flex;
+  fill: var(--background, #00000030);
   height: var(--width);
   justify-content: center;
+  margin: 0;
   min-height: fit-content;
   min-width: fit-content;
   outline: none;
   position: relative;
   transition: all 0.1s ease-in;
   width: var(--width);
-  margin: 0;
 }
 
 .hex > svg {
@@ -150,9 +150,9 @@ body > svg {
 }
 
 .hidden {
-  width: var(--hex-size);
-  margin: 0;
   background: transparent;
+  margin: 0;
+  width: var(--hex-size);
 }
 
 .cell {
@@ -164,8 +164,8 @@ body > svg {
 }
 
 .cell.active {
-  fill: #5D001E;
   --focus: transparent;
+  fill: #5D001E;
   transition-duration: 0.1s;
 }
 
@@ -183,8 +183,8 @@ body > svg {
 }
 
 .tile .creature {
-  pointer-events: none;
   fill: var(--creature);
+  pointer-events: none;
 }
 
 .cell.can-drop:hover .tile,
@@ -201,9 +201,8 @@ body > svg {
   transform: rotate(-3deg);
 }
 
-
 .tile:before {
-  content:" ";
+  content: ' ';
   display: none;
   height: 50%;
   left: 0;
@@ -212,12 +211,12 @@ body > svg {
   position: absolute;
   top: 0;
   transition: box-shadow 0.2s ease-in;
-  width:90%;
+  width: 90%;
 }
 
-.tile.selected:before{
-  display: block;
+.tile.selected:before {
   box-shadow: 0 -5px 2em 5px var(--outline), 0 5px 2em 5px var(--outline), 0 0 1em var(--outline);
+  display: block;
 }
 
 [draggable='true']:not(.selected):hover:before,

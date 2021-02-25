@@ -3,6 +3,7 @@ import { RenderResult, fireEvent, render } from '@testing-library/preact';
 import { h } from 'preact';
 import { mockLocation, restoreLocation } from './helpers/location';
 import PlayerTiles from '../components/PlayerTiles';
+import { renderElement } from './helpers';
 
 describe('PlayerTiles Tests', () => {
   const ant = { id: 1, playerId: 1, creature: 'ant', moves: [{ q: 1, r: 1 }] };
@@ -10,12 +11,12 @@ describe('PlayerTiles Tests', () => {
 
   const playerProps = { id: 1, name: 'Player 1', tiles: [ant, fly, fly] };
 
-  let container: RenderResult;
+  let container: Element;
   let playerTiles: Element | null;
   describe('PlayerTile tests', () => {
     beforeEach(() => {
       global.window.history.replaceState({}, global.document.title, `/game/33/1`);
-      container = render(<PlayerTiles {...playerProps} />);
+      container = renderElement(<PlayerTiles {...playerProps} />);
       playerTiles = document.getElementsByClassName('player').item(0);
     });
 
@@ -42,29 +43,37 @@ describe('PlayerTiles Tests', () => {
 
     test(`other player name is a link`, () => {
       global.window.history.replaceState({}, global.document.title, `/game/33/0`);
-      render(<PlayerTiles {...playerProps} />);
+      renderElement(<PlayerTiles {...playerProps} />);
       const playerName = document.querySelector('.name');
       expect(playerName).not.toBeInstanceOf(HTMLAnchorElement);
     });
 
     test('nothing is rendered with no tiles left', () => {
       const emptyTileProps = { ...playerProps, tiles: [] };
-      container = render(<PlayerTiles {...emptyTileProps} />);
-      playerTiles = container.baseElement.getElementsByClassName('playerTiles').item(1);
+      const container = renderElement(<PlayerTiles {...emptyTileProps} />);
+      playerTiles = container.getElementsByClassName('playerTiles').item(1);
       expect(playerTiles).toBeNull();
     });
 
     test('enter navigates player', () => {
       mockLocation({ href: '/game/33/0', pathname: '/game/33/0' });
-      const playerName = render(<PlayerTiles {...playerProps} />).container.querySelector('.name');
+      const playerName = renderElement(<PlayerTiles {...playerProps} />).querySelector('.name');
       fireEvent.keyDown(playerName!, { key: 'Enter' });
       expect(window.location.href.endsWith('1')).toBe(true);
       restoreLocation();
     });
 
+    test(`other keys dont navigates player`, () => {
+      mockLocation({ href: '/game/33/0', pathname: '/game/33/0' });
+      const playerName = renderElement(<PlayerTiles {...playerProps} />).querySelector('.name');
+      fireEvent.keyDown(playerName!, { key: 'Tab' });
+      expect(window.location.href.endsWith('1')).not.toBe(true);
+      restoreLocation();
+    });
+
     test('space navigates player', () => {
       mockLocation({ href: '/game/33/0', pathname: '/game/33/0' });
-      const playerName = render(<PlayerTiles {...playerProps} />).container.querySelector('.name');
+      const playerName = renderElement(<PlayerTiles {...playerProps} />).querySelector('.name');
       fireEvent.keyDown(playerName!, { key: ' ' });
       expect(window.location.href.endsWith('1')).toBe(true);
       restoreLocation();
@@ -73,7 +82,7 @@ describe('PlayerTiles Tests', () => {
 
   describe('PlayerTiles snapshot', () => {
     test('matches current snapshot', () => {
-      expect(container.baseElement).toMatchSnapshot();
+      expect(container).toMatchSnapshot();
     });
   });
 });

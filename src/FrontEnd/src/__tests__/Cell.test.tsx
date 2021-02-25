@@ -220,6 +220,13 @@ describe('Cell Tests', () => {
 
       expect(useHiveEventEmitter().emit).toHaveBeenCalledWith(expect.objectContaining({ type: 'move' }));
     });
+
+    test(`other keys dont emits tile start event`, () => {
+      jest.spyOn(useHiveEventEmitter(), 'emit');
+      fireEvent.keyDown(createCellCanDrop(), { key: 'Tab' });
+
+      expect(useHiveEventEmitter().emit).not.toHaveBeenCalled();
+    });
   });
 
   describe('Cell Snapshot', () => {

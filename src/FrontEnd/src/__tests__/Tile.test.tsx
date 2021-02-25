@@ -29,11 +29,8 @@ describe('Tile Tests', () => {
 
   describe('Tile render', () => {
     test('has creature', () => {
-      expect(createTileNoMove().querySelector('use')).toHaveAttribute('href', expect.stringContaining('fly'));
-      expect(createTileCanMove().querySelector('use')).toHaveAttribute(
-        'href',
-        expect.stringContaining('ant')
-      );
+      expect(createTileNoMove().querySelectorAll('.creature')).toHaveLength(1);
+      expect(createTileCanMove().querySelectorAll('.creature')).toHaveLength(1);
     });
   });
 
@@ -50,6 +47,21 @@ describe('Tile Tests', () => {
       fireEvent.keyDown(createTileCanMove(), { key: 'Enter' });
 
       expect(useHiveEventEmitter().emit).toHaveBeenCalledWith(expectedHiveEvent);
+    });
+
+    test('enter selects tile', () => {
+      const tile = createTileCanMove();
+      fireEvent.keyDown(tile, { key: 'Enter' });
+
+      expect(tile).toHaveClass('selected');
+    });
+
+    test('second enter deselects tile', () => {
+      const tile = createTileCanMove();
+      fireEvent.keyDown(tile, { key: 'Enter' });
+      fireEvent.keyDown(tile, { key: 'Enter' });
+
+      expect(tile).not.toHaveClass('selected');
     });
 
     test('arrow keys use handler', () => {
@@ -71,13 +83,8 @@ describe('Tile Tests', () => {
       jest.spyOn(useHiveEventEmitter(), 'emit');
       const tile = createTileCanMove();
       fireEvent.click(tile);
-      fireEvent.click(createTileCanMove());
 
-      const expectedEvent: HiveEvent = {
-        type: 'resetSelected',
-      };
-
-      expect(useHiveEventEmitter().emit).toHaveBeenCalledWith(expectedEvent);
+      expect(tile).toHaveClass('selected');
     });
 
     test('clicking same tile doesnt fire a tile start event', () => {
@@ -91,6 +98,13 @@ describe('Tile Tests', () => {
       expect(useHiveEventEmitter().emit).not.toHaveBeenCalledWith(
         expect.objectContaining({ type: 'tileSelected' })
       );
+    });
+
+    test('mouseLeave activates blur', () => {
+      const tile = createTileCanMove();
+      tile.focus();
+      fireEvent.mouseLeave(tile);
+      expect(tile).not.toHaveFocus();
     });
 
     test('is draggable when there are available moves', () => {

@@ -44,7 +44,7 @@ describe('Hextille Tests', () => {
 
     test('cells are sorted', () => {
       const { cells } = createWithCells([2, 0], [1, 0], [3, 0]);
-      const cellUse = Array.from(cells).map((r) => r.getElementsByTagName('use').item(0));
+      const cellUse = Array.from(cells).map((r) => r.querySelector('use.creature'));
       expect(cellUse[0]).toHaveAttribute('href', expect.stringContaining('1-0'));
       expect(cellUse[1]).toHaveAttribute('href', expect.stringContaining('2-0'));
       expect(cellUse[2]).toHaveAttribute('href', expect.stringContaining('3-0'));
@@ -52,7 +52,7 @@ describe('Hextille Tests', () => {
 
     test('rows are sorted', () => {
       const { rows } = createWithCells([0, 3], [0, 1], [0, 2]);
-      const rowUse = Array.from(rows).map((r) => r.getElementsByTagName('use').item(0));
+      const rowUse = Array.from(rows).map((r) => r.querySelector('use.creature'));
       expect(rowUse[0]).toHaveAttribute('href', expect.stringContaining('0-1'));
       expect(rowUse[1]).toHaveAttribute('href', expect.stringContaining('0-2'));
       expect(rowUse[2]).toHaveAttribute('href', expect.stringContaining('0-3'));

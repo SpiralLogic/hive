@@ -6,6 +6,9 @@ import { handleDrop, handleKeyboardNav, isEnterOrSpace } from '../handlers';
 import { memo } from 'preact/compat';
 import { useClassReducer, useHiveEventEmitter } from '../hooks';
 import { useEffect, useState } from 'preact/hooks';
+import { JSXInternal } from 'preact/src/jsx';
+import MouseEventHandler = JSXInternal.MouseEventHandler;
+import TargetedMouseEvent = JSXInternal.TargetedMouseEvent;
 
 type Props = Tile;
 const tileSelector = `[tabindex].tile`;
@@ -46,8 +49,8 @@ const TileFC: FunctionComponent<Props> = (props: Props) => {
     hiveEventEmitter.emit({ type: 'tileDropped', tile: props });
   };
 
-  const handleClick = (ev: { target: HTMLElement; stopPropagation: () => void }) => {
-    ev.stopPropagation();
+  const handleClick = (event: TargetedMouseEvent<HTMLDivElement>) => {
+    event.stopPropagation();
     const isSelected = classList.includes('selected');
     hiveEventEmitter.emit({ type: 'resetSelected' });
     if (!isSelected) {
@@ -61,11 +64,10 @@ const TileFC: FunctionComponent<Props> = (props: Props) => {
     e.stopPropagation();
     const isSelected = classList.includes('selected');
     hiveEventEmitter.emit({ type: 'resetSelected' });
-    if (!isSelected) {
-      hiveEventEmitter.emit({ type: 'tileSelected', tile: props });
-      setClassList({ type: 'add', classes: ['selected'] });
-      setFocus(cellSelector);
-    }
+    if (isSelected) return;
+    hiveEventEmitter.emit({ type: 'tileSelected', tile: props });
+    setClassList({ type: 'add', classes: ['selected'] });
+    setFocus(cellSelector);
   };
 
   const attributes = {
@@ -82,7 +84,7 @@ const TileFC: FunctionComponent<Props> = (props: Props) => {
         ondragstart: handleDragStart,
         ondragend: handleDragEnd,
         onkeydown: handleKeyDown,
-        onmouseleave: (e: MouseEvent) => (e.target as HTMLElement)?.blur(),
+        onmouseleave: (event: TargetedMouseEvent<HTMLElement>) => event.currentTarget.blur(),
       }
     : {};
 

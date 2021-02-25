@@ -3,30 +3,47 @@
 exports[`Cell Tests Cell Snapshot cell with no tile matches current snapshot 1`] = `
 <div
   class="hex cell"
-/>
+>
+  <svg
+    viewBox="0 0 100 100"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <use
+      href="#hex"
+    />
+  </svg>
+</div>
 `;
 
 exports[`Cell Tests Cell Snapshot cell with tile matches current snapshot 1`] = `
 <div
   class="hex cell"
 >
+  <svg
+    viewBox="0 0 100 100"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <use
+      href="#hex"
+    />
+  </svg>
   <div
-    class="player1 tileContainer"
+    class="player1 hex tile"
     draggable="false"
     title="fly"
   >
-    <div
-      class="hex tile"
+    <svg
+      viewBox="0 0 100 100"
+      xmlns="http://www.w3.org/2000/svg"
     >
-      <svg
-        viewBox="0 0 100 100"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <use
-          href="#fly"
-        />
-      </svg>
-    </div>
+      <use
+        href="#hex"
+      />
+      <use
+        class="creature"
+        href="#fly"
+      />
+    </svg>
   </div>
 </div>
 `;
