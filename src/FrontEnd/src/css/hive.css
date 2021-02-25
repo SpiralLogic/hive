@@ -1,10 +1,10 @@
 body {
   --color1: rgb(255, 238, 11);
   --color2: black;
-  --focus: #1712A290;
+  --focus: #1712A2A0;
   --margin: 2px;
-  --outline1: #D2116A88;
-  --outline2: #8A2BE288;
+  --outline1: #D2116AA0;
+  --outline2: #8A2BE2A0;
   margin: 0;
   --hex-offset: -1;
   --hex-size: 90px;
@@ -217,7 +217,7 @@ body > svg {
   display: block;
   height: calc(var(--tile-size) * 0.65);
   left: 0;
-  margin: calc(var(--tile-size) / 4) calc(var(--tile-size) * 0.125 + var(--margin)*2);
+  margin: calc(var(--tile-size) / 4) calc(var(--tile-size) * 0.125 + var(--margin));
   outline: none;
   position: absolute;
   top: 0;
