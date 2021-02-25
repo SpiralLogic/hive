@@ -46,7 +46,7 @@ const TileFC: FunctionComponent<Props> = (props: Props) => {
     hiveEventEmitter.emit({ type: 'tileDropped', tile: props });
   };
 
-  const handleClick = (event:MouseEvent) => {
+  const handleClick = (event: MouseEvent) => {
     event.stopPropagation();
     const isSelected = classList.includes('selected');
     hiveEventEmitter.emit({ type: 'resetSelected' });
@@ -81,7 +81,7 @@ const TileFC: FunctionComponent<Props> = (props: Props) => {
         ondragstart: handleDragStart,
         ondragend: handleDragEnd,
         onkeydown: handleKeyDown,
-        onmouseleave: (event:{currentTarget:HTMLElement}) => event.currentTarget.blur(),
+        onmouseleave: (event: { currentTarget: HTMLElement }) => event.currentTarget.blur(),
       }
     : {};
 
