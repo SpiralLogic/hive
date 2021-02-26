@@ -14,7 +14,7 @@ namespace Hive.Domain.Movements
 
         private static bool QueenHasBeenPlaced(Cell currentCell, ISet<Cell> allCells)
         {
-            return allCells.WhereOccupied().WherePlayerOccupies(currentCell.TopTile().PlayerId).Any(c => c.IsQueen());
+            return allCells.WherePlayerOccupies(currentCell.TopTile().PlayerId).Any(c => c.HasQueen());
         }
     }
 }

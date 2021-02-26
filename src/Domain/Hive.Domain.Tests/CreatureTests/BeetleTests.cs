@@ -53,6 +53,7 @@ namespace Hive.Domain.Tests.CreatureTests
 
             beetle.Should().HaveMoves(initial, expected);
         }
+    
         [Fact]
         public void HasNeighborsOccupiedRule()
         {

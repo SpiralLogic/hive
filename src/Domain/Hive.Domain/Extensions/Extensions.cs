@@ -8,19 +8,22 @@ namespace Hive.Domain.Extensions
     {
         internal static Player FindPlayerById(this IEnumerable<Player> players, int playerId)
             => players.Single(p => p.Id == playerId);
+
         internal static Cell FindCell(this IEnumerable<Cell> cells, Coords coords)
             => cells.Single(c => c.Coords.Equals(coords));
+
         internal static ISet<Cell> CreateAllEmptyNeighbours(this IEnumerable<Cell> cells)
         {
             var enumerable = cells as Cell[] ?? cells.ToArray();
-            return enumerable.SelectCoords().SelectMany(coords => coords.GetNeighbors()).SelectCells().Except(enumerable.WhereOccupied()).ToHashSet();
+            return enumerable.SelectCoords().SelectMany(coords => coords.GetNeighbors()).SelectCells()
+                .Except(enumerable.WhereOccupied()).ToHashSet();
         }
 
         internal static IEnumerable<Cell> SelectNeighbors(this Cell cell, IEnumerable<Cell> fromCells)
             => fromCells.SelectNeighbors(cell);
 
         internal static IEnumerable<Cell> RemoveCell(this IEnumerable<Cell> cells, Cell cell)
-            => cells.Except(new[] { cell });
+            => cells.Except(new[] {cell});
 
         internal static IEnumerable<Cell> SelectEmptyNeighbors(this IEnumerable<Cell> cells, Cell originCell)
             => cells.SelectNeighbors(originCell).WhereEmpty();
@@ -35,7 +38,7 @@ namespace Hive.Domain.Extensions
             => cells.Where(c => !c.IsEmpty());
 
         internal static IEnumerable<Cell> WherePlayerOccupies(this IEnumerable<Cell> cells, int playerId)
-            => cells.WhereOccupied().Where(c => c.Tiles.Any(t=>t.PlayerId == playerId));
+            => cells.WhereOccupied().Where(c => c.Tiles.Any(t => t.PlayerId == playerId));
 
         internal static ISet<Coords> ToCoords(this IEnumerable<Cell> cells)
             => cells.SelectCoords().ToHashSet();
@@ -49,8 +52,8 @@ namespace Hive.Domain.Extensions
         internal static IEnumerable<Coords> SelectCoords(this IEnumerable<Cell> cells)
             => cells.Select(c => c.Coords);
 
-        internal static bool IsQueen(this Cell cell)
-            => cell.TopTile().IsQueen();
+        internal static bool HasQueen(this Cell cell)
+            => cell.Tiles.Any(t => t.IsQueen());
 
         internal static bool IsQueen(this Tile tile)
             => tile.Creature.Equals(Creatures.Queen);

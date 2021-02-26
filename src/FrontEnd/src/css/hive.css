@@ -176,6 +176,7 @@ body > svg {
   transition-duration: 0.1s;
   --focus: transparent;
   fill: #5D001E;
+  transition-duration: 0.2s;
 }
 
 .cell.can-drop {
