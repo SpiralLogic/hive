@@ -20,9 +20,9 @@ namespace Hive.Domain.Tests.CreatureTests
             var expected = new ExpectedHiveBuilder();
 
             expected += "⬡ ⬡ ⬡ ⬡ ⬡";
-            expected += " ⬡ ⬡ ⬡ ⬡ ";
+            expected += " ⬡ ⬢ ⬡ ⬡ ";
             expected += "⬡ ⬡ ★ ⬡ ⬡";
-            expected += " ⬡ ⬡ ⬡ ⬡ ";
+            expected += " ⬡ ⬡ ⬢ ⬡ ";
             expected += "⬡ ⬡ ⬡ ⬡ ⬡";
 
             var beetle = Creatures.Beetle;

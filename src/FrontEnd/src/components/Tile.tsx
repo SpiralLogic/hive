@@ -84,7 +84,6 @@ const TileFC: FunctionComponent<Props> = (props: Props) => {
         onmouseleave: (event: { currentTarget: HTMLElement }) => event.currentTarget.blur(),
       }
     : {};
-
   return (
     <div {...attributes} {...handlers}>
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">

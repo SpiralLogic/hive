@@ -39,7 +39,10 @@ namespace Hive.Controllers
             var (players, cells, _) = JsonSerializer.Deserialize<GameState>(gameSession, _jsonSerializerOptions)!;
 
             var game = new Domain.Hive(players.ToList(), cells.ToHashSet());
-            game.Move(move.TileId, move.Coords);
+            if (!game.Move(move.TileId, move.Coords))
+            {
+                return Forbid();
+            };
             var newGameState = new GameState(game.Players, game.Cells, id);
 
             var json = JsonSerializer.Serialize(newGameState, _jsonSerializerOptions);

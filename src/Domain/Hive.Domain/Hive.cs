@@ -10,16 +10,7 @@ namespace Hive.Domain
     public class Hive
     {
         private readonly ImmutableArray<Creature> _startingTiles = ImmutableArray.Create(Creatures.Queen,
-            Creatures.Spider,
-            Creatures.Spider,
-            Creatures.Beetle,
-            Creatures.Beetle,
-            Creatures.Grasshopper,
-            Creatures.Grasshopper,
-            Creatures.Grasshopper,
-            Creatures.Ant,
-            Creatures.Ant,
-            Creatures.Ant);
+            Creatures.Beetle);
 
         private readonly Coords _initialCoords = new(0, 0);
 
@@ -98,7 +89,7 @@ namespace Hive.Domain
 
         private void UpdatedPlacedTileMoves(Player player)
         {
-            foreach (var cell in Cells.WherePlayerOccupies(player.Id))
+            foreach (var cell in Cells.WherePlayerControls(player.Id))
             {
                 var tile = cell.TopTile();
                 var moves = tile.Creature.GetAvailableMoves(cell, Cells);

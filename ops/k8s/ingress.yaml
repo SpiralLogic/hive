@@ -26,7 +26,7 @@ metadata:
   namespace: hive
 spec:
   rules:
-    - host: sorhome.sorijen.net.au
+    - host: hive.sorijen.net.au
       http:
         paths:
           - backend:
@@ -38,5 +38,5 @@ spec:
             pathType: ImplementationSpecific
   tls:
     - hosts:
-        - sorhome.sorijen.net.au
+        - hive.sorijen.net.au
       secretName: hive-cert-prod-tls

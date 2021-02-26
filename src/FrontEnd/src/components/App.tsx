@@ -7,7 +7,7 @@ import Engine from '../game-engine';
 import GameArea from './GameArea';
 
 const getAllPlayerTiles = (playerId: PlayerId, ...parents: Array<Array<Player | Cell>>) =>
-  parents.flatMap((p) => p.flatMap((p) => p.tiles)).filter((t) => t.playerId !== playerId);
+  parents.flatMap((p) => p.flatMap((p) => p.tiles)).filter((t) => t.playerId !== playerId && playerId !== 2);
 
 const App: FunctionComponent = () => {
   const [gameState, setGameState] = useState<GameState | undefined>(undefined);

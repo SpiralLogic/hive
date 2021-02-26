@@ -38,6 +38,7 @@
         <Exec Command="node --version" ContinueOnError="true">
             <Output TaskParameter="ExitCode" PropertyName="ErrorCode" />
         </Exec>
+        <Error Condition="'$(ErrorCode)' != '0'" Text="Node.js and pnpm is required to build and run this project. To continue, please install Node.js from https://nodejs.org/, and then restart your command prompt or IDE." />
         <Exec Command="pnpm --version" ContinueOnError="true">
             <Output TaskParameter="ExitCode" PropertyName="ErrorCode" />
         </Exec>
@@ -47,9 +48,11 @@
     </Target>
 
     <Target Name="DebugBuild" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug'">
-        <Exec WorkingDirectory="$(SpaRoot)" ConsoleToMSBuild="true" Command="pnpm run build-dev">
+        <Exec WorkingDirectory="$(SpaRoot)" ConsoleToMSBuild="true" Command="pnpm build-watch">
             <Output TaskParameter="ConsoleOutput" ItemName="OutputOfExec" />
+            <Output TaskParameter="ExitCode" PropertyName="ErrorCode" />
         </Exec>
+        <Error Condition="'$(ErrorCode)' != '0'" Text="Failed to build with pnpm" />
     </Target>
     <ItemGroup>
         <ProjectReference Include="..\..\Domain\Hive.Domain\Hive.Domain.csproj" />

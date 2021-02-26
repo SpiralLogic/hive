@@ -73,8 +73,8 @@ const CellFC: FunctionComponent<Props> = (props: Props) => {
     ondragover: handleDragOver,
     ondragleave: handleDragLeave,
     ondragenter: handleDragEnter,
-    onmouseover: handleDragEnter,
-    onmouseout: handleDragLeave,
+    onmouseenter: handleDragEnter,
+    onmouseleave: handleDragLeave,
     onclick: handleClick,
     onkeydown: handleKeydown,
     tabindex: selectedTile && isValidMove(selectedTile.moves) ? 0 : undefined,
@@ -85,7 +85,7 @@ const CellFC: FunctionComponent<Props> = (props: Props) => {
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
         <use href="#hex" />
       </svg>
-      {tiles.length > 0 && <Tile {...tiles[0]} />}
+      {tiles.length > 0 && <Tile key={tiles[0].id} {...tiles[0]} />}
     </div>
   );
 };

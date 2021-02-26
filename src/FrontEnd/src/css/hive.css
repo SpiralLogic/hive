@@ -1,12 +1,12 @@
 body {
+  margin: 0;
   --focus: #1712A2A0;
-  --p0background: #ffee0b;
+  --p0background: #FFEE0B;
   --p0creature: #000000;
   --p0outline0: #D2116AA0;
   --p1background: #000000;
-  --p1creature: #ffee0b;
+  --p1creature: #FFEE0B;
   --p1outline: #8A2BE2A0;
-  margin: 0;
   --hex-offset: -1;
   --hex-size: 95px;
   --tile-size: 70px;
@@ -14,41 +14,40 @@ body {
 
 body > svg {
   display: none;
-
 }
 
 .hive {
   display: inline-grid;
-  grid-template-columns: max-content max-content auto;
+  width: 100vw;
   height: 100vh;
   user-select: none;
-  width: 100vw;
+  grid-template-columns: max-content max-content auto;
 }
 
 .players {
-  border-radius: 0.1rem;
   display: contents;
+  border-radius: 0.1rem;
 }
 
 .player {
-  background-color: rgba(0, 0, 0, 0.7);
-  border-right: 1px solid white;
   display: inline-grid;
-  grid-auto-flow: row;
-  grid-template-rows: max-content auto;
   padding: 0 1vw;
   transition: 1s ease-in;
   transition-property: width, height;
+  border-right: 1px solid white;
+  background-color: rgba(0, 0, 0, 0.7);
+  grid-auto-flow: row;
+  grid-template-rows: max-content auto;
 }
 
 .player.hiding {
-  padding: 0;
   width: var(--tile-size);
+  padding: 0;
 }
 
 .player.hide {
-  border-right-width: 0;
   width: 0;
+  border-right-width: 0;
 }
 
 .player0 {
@@ -68,23 +67,23 @@ body > svg {
 }
 
 .player .name {
-  color: white;
   font-size: 1.5em;
   font-weight: bold;
   justify-content: center;
   margin: 2vh 0;
-  outline: none;
   text-align: center;
+  color: white;
+  outline: none;
 }
 
 .player .tile {
-  --focus: #1A1A1DCC;
   margin: 2px;
+  --focus: #1A1A1DCC;
 }
 
 .player .tiles {
-  align-items: center;
   display: flex;
+  align-items: center;
   flex-direction: column;
   justify-content: flex-start;
   padding: 1vh 0 0;
@@ -92,18 +91,18 @@ body > svg {
 }
 
 .hex-container {
-  align-items: center;
-  background: #1A1A1D;
   display: grid;
   overflow: auto;
+  align-items: center;
+  background: #1A1A1D;
 }
 
 .hextille {
-  --focus: #1712A290;
-  border-radius: 0.05rem;
   display: flex;
   flex-direction: column;
   margin: 0 auto;
+  border-radius: 0.05rem;
+  --focus: #1712A290;
 }
 
 .hex-row {
@@ -131,50 +130,52 @@ body > svg {
 }
 
 .hex {
-  align-items: center;
-  display: inline-flex;
-  fill: var(--background, #00000030);
-  height: var(--width);
-  justify-content: center;
-  margin: 0;
-  min-height: fit-content;
-  min-width: fit-content;
-  outline: none;
   position: relative;
-  transition: fill 0.1s ease-in;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   width: var(--width);
+  min-width: fit-content;
+  height: var(--width);
+  min-height: fit-content;
+  margin: 0;
+  transition: fill 0.1s ease-in;
+  outline: none;
+  fill: var(--background, #00000030);
 }
 
 .hex > svg {
-  position: absolute;
+  position: absolute; pointer-events: none;
 }
 
 .hidden {
-  background: transparent;
-  margin: 0;
   width: var(--hex-size);
+  margin: 0;
+  background: transparent;
 }
 
 .cell {
-  --width: var(--hex-size);
+  transition-timing-function: ease-in;
   transition-duration: .4s;
   transition-property: transform, margin;
-  transition-timing-function: ease-in;
+  --width: var(--hex-size);
 }
 
 .cell.entry {
+  margin: 0 0;
   transform: scale(0);
-  margin:0 0;
 }
 
 .cell .tile {
   margin: 0;
 }
 
+.cell .tile:not([draggable='true']) {pointer-events: none;}
+
 .cell.active {
+  transition-duration: 0.1s;
   --focus: transparent;
   fill: #5D001E;
-  transition-duration: 0.1s;
 }
 
 .cell.can-drop {
@@ -191,8 +192,8 @@ body > svg {
 }
 
 .tile .creature {
-  fill: var(--creature);
   pointer-events: none;
+  fill: var(--creature);
 }
 
 .cell.can-drop:hover .tile,
@@ -205,37 +206,37 @@ body > svg {
 }
 
 .tile.selected {
-  animation: selected 0.2s infinite;
   transform: rotate(-3deg);
+  animation: selected 0.2s infinite;
 }
 
 .tile:before {
-  content: ' ';
-  display: none;
-  height: 50%;
-  left: 0;
-  margin: 25% 5%;
-  outline: none;
   position: absolute;
   top: 0;
-  transition: box-shadow 0.2s ease-in;
+  left: 0;
+  display: none;
   width: 90%;
+  height: 50%;
+  margin: 25% 5%;
+  content: ' ';
+  transition: box-shadow 0.2s ease-in;
+  outline: none;
 }
 
 .tile.selected:before {
-  box-shadow: 0 -5px 2em 5px var(--outline), 0 5px 2em 5px var(--outline), 0 0 1em var(--outline);
   display: block;
+  box-shadow: 0 -5px 2em 5px var(--outline), 0 5px 2em 5px var(--outline), 0 0 1em var(--outline);
 }
 
 [draggable='true']:not(.selected):hover:before,
 [draggable='true']:not(.selected):focus:before {
-  box-shadow: 0 -5px 2em 5px var(--focus), 0 5px 2em 5px var(--focus), 0 0 1em var(--focus);
   display: block;
+  box-shadow: 0 -5px 2em 5px var(--focus), 0 5px 2em 5px var(--focus), 0 0 1em var(--focus);
 }
 
 .beforeDrag:before {
-  box-shadow: none !important;
   display: none !important;
+  box-shadow: none !important;
 }
 
 @keyframes selected {
@@ -261,9 +262,9 @@ body > svg {
   }
 
   .players {
-    border-radius: 0;
     position: sticky;
     top: 0;
+    border-radius: 0;
   }
 
   .player {
@@ -274,13 +275,13 @@ body > svg {
   }
 
   .player.hiding {
-    height: var(--tile-size);
     width: auto;
+    height: var(--tile-size);
   }
 
   .player.hide {
-    height: 0;
     width: auto;
+    height: 0;
   }
 
   .player .name {
@@ -290,11 +291,11 @@ body > svg {
   }
 
   .player .tiles {
-    border-left: 1px inset #7318b133;
     display: inline-grid;
-    grid-auto-flow: column;
     overflow: auto hidden;
     padding: 1vh 2vw;
+    border-left: 1px inset #7318B133;
+    grid-auto-flow: column;
   }
 
   .hex-container {
@@ -302,12 +303,11 @@ body > svg {
   }
 
   .hextille {
-    border-radius: 0;
     padding: 5vh;
+    border-radius: 0;
   }
 
   .cell.can-drop {
     fill: #AFD275;
   }
-
 }

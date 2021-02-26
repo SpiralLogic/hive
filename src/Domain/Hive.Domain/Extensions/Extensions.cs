@@ -40,6 +40,9 @@ namespace Hive.Domain.Extensions
         internal static ISet<Coords> ToCoords(this IEnumerable<Cell> cells)
             => cells.SelectCoords().ToHashSet();
 
+        internal static IEnumerable<Cell> WherePlayerControls(this IEnumerable<Cell> cells, int playerId)
+            => cells.WhereOccupied().Where(c => c.Tiles.First().PlayerId == playerId);
+
         internal static ISet<Cell> ToCells(this IEnumerable<Coords> coords)
             => coords.SelectCells().ToHashSet();
 
