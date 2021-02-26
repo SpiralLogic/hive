@@ -43,7 +43,7 @@ body > svg {
 
 .player.hiding {
   padding: 0;
-  width: calc(var(--tile-size));
+  width: var(--tile-size);
 }
 
 .player.hide {
@@ -141,7 +141,7 @@ body > svg {
   min-width: fit-content;
   outline: none;
   position: relative;
-  transition: all 0.1s ease-in;
+  transition: fill 0.1s ease-in;
   width: var(--width);
 }
 
@@ -157,6 +157,14 @@ body > svg {
 
 .cell {
   --width: var(--hex-size);
+  transition-duration: .4s;
+  transition-property: transform, margin;
+  transition-timing-function: ease-in;
+}
+
+.cell.entry {
+  transform: scale(0);
+  margin:0 0;
 }
 
 .cell .tile {
@@ -179,7 +187,7 @@ body > svg {
 }
 
 .tile {
-  --width: calc(var(--tile-size));
+  --width: var(--tile-size);
 }
 
 .tile .creature {
@@ -242,7 +250,8 @@ body > svg {
 @media only screen and (max-width: 720px) {
   body {
     margin: 0;
-    --hex-size: .6;
+    --hex-size: 60px;
+    --tile-size: 45px;
   }
 
   .hive {
@@ -265,7 +274,7 @@ body > svg {
   }
 
   .player.hiding {
-    height: calc(var(--tile-size));
+    height: var(--tile-size);
     width: auto;
   }
 
@@ -285,7 +294,7 @@ body > svg {
     display: inline-grid;
     grid-auto-flow: column;
     overflow: auto hidden;
-    padding: 1.5vh 2vw;
+    padding: 1vh 2vw;
   }
 
   .hex-container {
@@ -298,10 +307,7 @@ body > svg {
   }
 
   .cell.can-drop {
-    background-color: #AFD275;
+    fill: #AFD275;
   }
 
-  .tile.selected .shadow {
-    box-shadow: 0 -5px 10px 5px var(--outline), 0 5px 10px 5px var(--outline);
-  }
 }

@@ -5,7 +5,7 @@ import { deepEqual } from 'fast-equals';
 import { handleDragOver, handleKeyboardNav, isEnterOrSpace } from '../handlers';
 import { memo } from 'preact/compat';
 import { useClassReducer, useHiveEventEmitter } from '../hooks';
-import { useState } from 'preact/hooks';
+import { useEffect, useState } from 'preact/hooks';
 import Tile from './Tile';
 
 type Props = Cell;
@@ -14,7 +14,7 @@ const CellFC: FunctionComponent<Props> = (props: Props) => {
   const { tiles, coords } = props;
   const isValidMove = (validMoves: HexCoordinates[]) =>
     validMoves.some((dest) => dest.q == coords.q && dest.r == coords.r);
-  const [classes, setClasses] = useClassReducer(['hex', 'cell']);
+  const [classes, setClasses] = useClassReducer(['hex', 'cell', 'entry']);
   const [selectedTile, setSelectedTile] = useState<TileType | null>(null);
 
   function handleHiveEvent(e: HiveEvent) {
@@ -53,6 +53,8 @@ const CellFC: FunctionComponent<Props> = (props: Props) => {
       hiveEventEmitter.emit({ type: 'resetSelected' });
     }
   };
+
+  useEffect(() => setClasses({ type: 'remove', classes: ['entry'] }), []);
 
   function move() {
     if (selectedTile && isValidMove(selectedTile.moves))
