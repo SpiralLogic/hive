@@ -12,15 +12,22 @@ const tileSelector = `[tabindex].tile`;
 const cellSelector = `[tabindex].cell`;
 const playerSelector = `[tabindex].name`;
 
-const TileFC: FunctionComponent<Props> = (props: Props) => {
+const TileFC: FunctionComponent<Props> = (tile: Props) => {
   const [focus, setFocus] = useState(tileSelector);
-  const { moves, creature, playerId } = props;
+  const { id, moves, creature, playerId } = tile;
   const [classList, setClassList] = useClassReducer([`player${playerId}`, 'hex', 'tile']);
 
   function handleHiveEvent(event: HiveEvent) {
-    if (event.type === 'resetSelected') {
+    if (event.type === 'tileClear') {
+      if (classList.includes('selected')) {
+        hiveEventEmitter.emit({ type: 'tileDeselect', tile: tile });
+      }
       setClassList({ type: 'remove', classes: ['selected'] });
       setFocus('');
+    } else if (event.type === 'tileDeselect' && event.tile.id === id) {
+      setClassList({ type: 'remove', classes: ['selected'] });
+    } else if (event.type === 'tileSelect' && event.tile.id === id) {
+      setClassList({ type: 'add', classes: ['selected'] });
     }
   }
 
@@ -35,24 +42,25 @@ const TileFC: FunctionComponent<Props> = (props: Props) => {
   }, [focus]);
 
   const handleDragStart = () => {
-    hiveEventEmitter.emit({ type: 'resetSelected' });
-    hiveEventEmitter.emit({ type: 'tileSelected', tile: props });
+    hiveEventEmitter.emit({ type: 'tileClear', tile: tile });
+    hiveEventEmitter.emit({ type: 'tileSelect', tile: tile });
     setClassList({ type: 'add', classes: ['beforeDrag', 'selected'] });
     setTimeout(() => setClassList({ type: 'remove', classes: ['beforeDrag'] }), 1);
   };
 
   const handleDragEnd = () => {
-    hiveEventEmitter.emit({ type: 'resetSelected' });
-    hiveEventEmitter.emit({ type: 'tileDropped', tile: props });
+    hiveEventEmitter.emit({ type: 'tileClear', tile: tile });
+    hiveEventEmitter.emit({ type: 'tileDropped', tile: tile });
   };
 
   const handleClick = (event: MouseEvent) => {
     event.stopPropagation();
     const isSelected = classList.includes('selected');
-    hiveEventEmitter.emit({ type: 'resetSelected' });
     if (!isSelected) {
-      setClassList({ type: 'add', classes: ['selected'] });
-      hiveEventEmitter.emit({ type: 'tileSelected', tile: props });
+      hiveEventEmitter.emit({ type: 'tileClear', tile: tile });
+      hiveEventEmitter.emit({ type: 'tileSelect', tile: tile });
+    } else {
+      hiveEventEmitter.emit({ type: 'tileDeselect', tile: tile });
     }
   };
 
@@ -60,11 +68,13 @@ const TileFC: FunctionComponent<Props> = (props: Props) => {
     if (handleKeyboardNav(e) || !isEnterOrSpace(e)) return;
     e.stopPropagation();
     const isSelected = classList.includes('selected');
-    hiveEventEmitter.emit({ type: 'resetSelected' });
-    if (isSelected) return;
-    hiveEventEmitter.emit({ type: 'tileSelected', tile: props });
-    setClassList({ type: 'add', classes: ['selected'] });
-    setFocus(cellSelector);
+    if (!isSelected) {
+      hiveEventEmitter.emit({ type: 'tileClear', tile: tile });
+      hiveEventEmitter.emit({ type: 'tileSelect', tile: tile });
+      setFocus(cellSelector);
+    } else {
+      hiveEventEmitter.emit({ type: 'tileDeselect', tile: tile });
+    }
   };
 
   const attributes = {

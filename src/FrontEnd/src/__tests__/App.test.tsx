@@ -1,5 +1,5 @@
 import { GameState } from '../domain';
-import { MoveEvent } from '../hive-event-emitter';
+import { HiveEvent, MoveEvent } from '../hive-event-emitter';
 import { h } from 'preact';
 import { render } from '@testing-library/preact';
 import { renderElement } from './helpers';
@@ -16,7 +16,15 @@ describe('App Tests', () => {
     move: { coords: { q: 1, r: 1 }, tileId: 1 },
     type: 'move',
   };
-
+  const tileSelectEvent: HiveEvent = {
+    type: 'tileSelect',
+    tile: { id: 2, playerId: 1, creature: 'ant', moves: [{ q: 0, r: 0 }] },
+  };
+  const tileDeselectEvent: HiveEvent = {
+    type: 'tileDeselect',
+    tile: { id: 2, playerId: 1, creature: 'ant', moves: [{ q: 0, r: 0 }] },
+  };
+  const gameConnection = { closeConnection: jest.fn(), sendSelection: jest.fn() };
   let gameState: GameState;
 
   beforeEach(() => {
@@ -39,7 +47,7 @@ describe('App Tests', () => {
     Engine.getGame = jest.fn().mockResolvedValue(gameState);
     Engine.newGame = jest.fn().mockResolvedValue(gameState);
     Engine.moveTile = jest.fn().mockResolvedValue(gameAfterMove);
-    Engine.connectGame = jest.fn().mockReturnValue({ closeConnection: jest.fn() });
+    Engine.connectGame = jest.fn().mockReturnValue(gameConnection);
   });
 
   test('shows loading', () => {
@@ -74,6 +82,22 @@ describe('App Tests', () => {
 
     app.rerender(<App />);
     expect(GameArea).toHaveBeenLastCalledWith(expect.objectContaining({ gameState }), {});
+  });
+
+  test('emits event on opponent selection', async () => {
+    const app = render(<App />);
+    await Engine.getGame;
+    app.rerender(<App />);
+    useHiveEventEmitter().emit(tileSelectEvent);
+    expect(gameConnection.sendSelection).toHaveBeenLastCalledWith('select', 2);
+  });
+
+  test('emits event on opponent deselect', async () => {
+    const app = render(<App />);
+    await Engine.getGame;
+    app.rerender(<App />);
+    useHiveEventEmitter().emit(tileDeselectEvent);
+    expect(gameConnection.sendSelection).toHaveBeenLastCalledWith('deselect', 2);
   });
 
   test(`removes moves for tiles which aren't the current player`, async () => {

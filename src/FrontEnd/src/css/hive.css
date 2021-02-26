@@ -311,4 +311,15 @@ body > svg {
   .cell.can-drop {
     fill: #AFD275;
   }
+
+  .tile.selected:before {
+    box-shadow: 0 -5px 1em 5px var(--outline), 0 5px 1em 5px var(--outline), 0 0 .5em var(--outline);
+  }
+
+  [draggable='true']:not(.selected):hover:before,
+  [draggable='true']:not(.selected):focus:before {
+    display: block;
+    box-shadow: 0 -5px 1em 5px var(--focus), 0 5px 1em 5px var(--focus), 0 0 .5em var(--focus);
+  }
+
 }

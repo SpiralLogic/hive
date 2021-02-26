@@ -23,7 +23,7 @@ describe('Tile Tests', () => {
   };
 
   const expectedHiveEvent: HiveEvent = {
-    type: 'tileSelected',
+    type: 'tileSelect',
     tile: tileCanMove,
   };
 
@@ -96,7 +96,7 @@ describe('Tile Tests', () => {
       fireEvent.click(tile);
 
       expect(useHiveEventEmitter().emit).not.toHaveBeenCalledWith(
-        expect.objectContaining({ type: 'tileSelected' })
+        expect.objectContaining({ type: 'tileSelect' })
       );
     });
 

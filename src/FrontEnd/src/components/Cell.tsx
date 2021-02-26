@@ -18,7 +18,7 @@ const CellFC: FunctionComponent<Props> = (props: Props) => {
   const [selectedTile, setSelectedTile] = useState<TileType | null>(null);
 
   function handleHiveEvent(e: HiveEvent) {
-    if (e.type === 'tileSelected') {
+    if (e.type === 'tileSelect') {
       const canDrop = isValidMove(e.tile.moves);
       setSelectedTile(e.tile);
       setClasses({ type: canDrop ? 'add' : 'remove', classes: ['can-drop'] });
@@ -26,10 +26,10 @@ const CellFC: FunctionComponent<Props> = (props: Props) => {
 
     if (e.type === 'tileDropped') {
       if (classes.includes('active')) move();
-      hiveEventEmitter.emit({ type: 'resetSelected' });
+      hiveEventEmitter.emit({ type: 'tileClear', tile: e.tile });
     }
 
-    if (e.type === 'resetSelected') {
+    if (e.type === 'tileDeselect' || e.type === 'tileClear') {
       setSelectedTile(null);
       setClasses({ type: 'remove', classes: ['can-drop', 'active'] });
     }
@@ -50,7 +50,7 @@ const CellFC: FunctionComponent<Props> = (props: Props) => {
     if (selectedTile) {
       ev.stopPropagation();
       move();
-      hiveEventEmitter.emit({ type: 'resetSelected' });
+      hiveEventEmitter.emit({ type: 'tileClear', tile: selectedTile });
     }
   };
 

@@ -68,7 +68,7 @@ describe('Cell Tests', () => {
   describe('drag and drop', () => {
     const emitter = useHiveEventEmitter();
 
-    function emitHiveEvent(type: 'tileSelected' | 'tileDropped') {
+    function emitHiveEvent(type: 'tileSelect' | 'tileDropped') {
       act(() =>
         emitter.emit({
           type,
@@ -85,7 +85,7 @@ describe('Cell Tests', () => {
     test('cell is available on drag start', () => {
       const cellWithTile = createCellWithTileAndDrop();
       const emptyCell = createCellCanDrop();
-      emitHiveEvent('tileSelected');
+      emitHiveEvent('tileSelect');
 
       expect(cellWithTile).toHaveClass('can-drop');
       expect(emptyCell).toHaveClass('can-drop');
@@ -94,7 +94,7 @@ describe('Cell Tests', () => {
     test('available cell is active on tile drag enter', () => {
       const cellWithTile = createCellWithTileAndDrop();
       const emptyCell = createCellCanDrop();
-      emitHiveEvent('tileSelected');
+      emitHiveEvent('tileSelect');
       fireEvent.dragEnter(cellWithTile);
       fireEvent.dragEnter(emptyCell);
 
@@ -106,7 +106,7 @@ describe('Cell Tests', () => {
       jest.spyOn(useHiveEventEmitter(), 'emit');
       const cellWithTile = createCellWithTileAndDrop();
       const emptyCell = createCellCanDrop();
-      emitHiveEvent('tileSelected');
+      emitHiveEvent('tileSelect');
       fireEvent.dragEnter(cellWithTile);
       fireEvent.dragEnter(emptyCell);
       emitHiveEvent('tileDropped');
@@ -126,7 +126,7 @@ describe('Cell Tests', () => {
       jest.spyOn(useHiveEventEmitter(), 'emit');
       createCellWithTile();
       createCellNoDrop();
-      emitHiveEvent('tileSelected');
+      emitHiveEvent('tileSelect');
       emitHiveEvent('tileDropped');
 
       expect(useHiveEventEmitter().emit).not.toHaveBeenCalledWith({ type: 'move' });
@@ -145,7 +145,7 @@ describe('Cell Tests', () => {
       createCellWithNoTile();
       createCellWithTileNoDrop();
       createCellNoDrop();
-      emitHiveEvent('tileSelected');
+      emitHiveEvent('tileSelect');
       document.querySelectorAll('.cell').forEach((c) => fireEvent.dragEnter(c));
       document.querySelectorAll('.cell').forEach((c) => fireEvent.dragLeave(c));
 
@@ -157,7 +157,7 @@ describe('Cell Tests', () => {
       createCellWithNoTile();
       createCellWithTileNoDrop();
       createCellNoDrop();
-      emitHiveEvent('tileSelected');
+      emitHiveEvent('tileSelect');
       document.querySelectorAll('.cell').forEach((c) => fireEvent.dragEnter(c));
       emitHiveEvent('tileDropped');
 
@@ -176,7 +176,7 @@ describe('Cell Tests', () => {
     test(`cell click with active tile makes a move`, () => {
       jest.spyOn(useHiveEventEmitter(), 'emit');
       const emptyCell = createCellCanDrop();
-      emitHiveEvent('tileSelected');
+      emitHiveEvent('tileSelect');
       fireEvent.click(emptyCell);
 
       expect(useHiveEventEmitter().emit).toHaveBeenCalledWith({
@@ -197,7 +197,7 @@ describe('Cell Tests', () => {
     test(`cell click with invalid tile shouldn't move`, () => {
       jest.spyOn(useHiveEventEmitter(), 'emit');
       const emptyCell = createCellNoDrop();
-      emitHiveEvent('tileSelected');
+      emitHiveEvent('tileSelect');
       fireEvent.click(emptyCell);
 
       expect(useHiveEventEmitter().emit).not.toHaveBeenCalledWith();
@@ -206,7 +206,7 @@ describe('Cell Tests', () => {
     test(`enter fires emit event on keydown enter`, () => {
       jest.spyOn(useHiveEventEmitter(), 'emit');
       const emptyCell = createCellCanDrop();
-      emitHiveEvent('tileSelected');
+      emitHiveEvent('tileSelect');
       fireEvent.keyDown(emptyCell, { key: 'Enter' });
 
       expect(useHiveEventEmitter().emit).toHaveBeenCalledWith(expect.objectContaining({ type: 'move' }));
@@ -215,7 +215,7 @@ describe('Cell Tests', () => {
     test(`space fires emit event on keydown enter`, () => {
       jest.spyOn(useHiveEventEmitter(), 'emit');
       const emptyCell = createCellCanDrop();
-      emitHiveEvent('tileSelected');
+      emitHiveEvent('tileSelect');
       fireEvent.keyDown(emptyCell, { key: ' ' });
 
       expect(useHiveEventEmitter().emit).toHaveBeenCalledWith(expect.objectContaining({ type: 'move' }));

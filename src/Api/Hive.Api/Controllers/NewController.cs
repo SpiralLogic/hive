@@ -32,9 +32,6 @@ namespace Hive.Controllers
             _distributedCache.SetString(gameId, json);
 
             return Created($"/game/{gameId}/{0}", gameState);
-
         }
-
-
     }
 }

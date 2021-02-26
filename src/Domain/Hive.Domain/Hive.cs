@@ -25,9 +25,7 @@ namespace Hive.Domain
             );
 
         private readonly Coords _initialCoords = new(0, 0);
-
         public ISet<Cell> Cells { get; }
-
         public IList<Player> Players { get; }
 
         public Hive(IEnumerable<string> playerNames)
@@ -46,42 +44,64 @@ namespace Hive.Domain
         {
             if (!IsValidMove(tileId, coords)) return false;
 
-            var movedTile = FindAndRemoveTile(tileId);
-            var nextPlayer = Players.First(p => p.Id != movedTile.PlayerId);
+            var tileToMove = FindAndRemoveTile(tileId);
+            PerformMove(coords, tileToMove);
 
-            Cells.FindCell(coords).AddTile(movedTile);
-            ClearAllTileMoves();
-            var loser = IsGameOver();
-            if (loser != null)
-            {
-                Cells.ExceptWith(Cells.WherePlayerOccupies(loser.TopTile().PlayerId).Where(c => !c.HasQueen()));
-                loser.Tiles.Clear();
-                return true;
-            }
+            var nextPlayer = GetNextPlayer(tileToMove);
+            if (IsGameOver()) return true;
 
-            Cells.ExceptWith(Cells.WhereEmpty());
-            Cells.UnionWith(Cells.CreateAllEmptyNeighbours());
-
-            UpdatedPlacedTileMoves(nextPlayer);
-            UpdatePlayerTileMoves(nextPlayer);
+            UpdateMoves(nextPlayer);
             if (CountMovesAvailable() == 0)
             {
-                nextPlayer = Players.First(p => p.Id != nextPlayer.Id);
-                UpdatedPlacedTileMoves(nextPlayer);
-                UpdatePlayerTileMoves(nextPlayer);
+                UpdateMoves(SkipTurn(nextPlayer));
             }
 
             return true;
         }
 
-        private Cell? IsGameOver()
-            => Cells.WhereOccupied()
+        private Player SkipTurn(Player nextPlayer)
+        {
+            nextPlayer = Players.First(p => p.Id != nextPlayer.Id);
+            return nextPlayer;
+        }
+
+        private void UpdateMoves(Player nextPlayer)
+        {
+            Cells.ExceptWith(Cells.WhereEmpty());
+            Cells.UnionWith(Cells.CreateAllEmptyNeighbours());
+
+            UpdatedPlacedTileMoves(nextPlayer);
+            UpdatePlayerTileMoves(nextPlayer);
+        }
+
+        private void PerformMove(Coords coords, Tile movedTile)
+        {
+            Cells.FindCell(coords).AddTile(movedTile);
+            ClearAllTileMoves();
+        }
+
+        private Player GetNextPlayer(Tile movedTile)
+        {
+            var nextPlayer = Players.First(p => p.Id != movedTile.PlayerId);
+            return nextPlayer;
+        }
+
+        private bool IsGameOver()
+        {
+            var loser = Cells.WhereOccupied()
                 .Where(c => c.HasQueen())
                 .FirstOrDefault(q => q.SelectNeighbors(Cells).All(n => !n.IsEmpty()));
 
+            if (loser == null) return false;
+            Cells.ExceptWith(Cells.WherePlayerOccupies(loser.TopTile().PlayerId).Where(c => !c.HasQueen()));
+            loser.Tiles.Clear();
+
+            return true;
+        }
+
         private void UpdatePlayerTileMoves(Player player)
         {
-            var availableCells = (player.Tiles.Count == _startingTiles.Length)
+            var availableCells = player.Tiles.Count == _startingTiles.Length
                 ? Cells.WhereEmpty()
                 : Cells.WherePlayerOccupies(player.Id).SelectMany(c => Cells.SelectEmptyNeighbors(c));
 

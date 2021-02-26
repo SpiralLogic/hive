@@ -1,6 +1,6 @@
-import { GameConnection, GameStateUpdateHandler, HexEngine } from './domain/engine';
-import { GameId, GameState, Move } from './domain';
-import { HubConnection, HubConnectionBuilder } from '@microsoft/signalr';
+import { GameConnection, GameStateUpdateHandler, HexEngine, OpponentSelectionHandler } from './domain/engine';
+import { GameId, GameState, Move, TileId } from './domain';
+import { HubConnection, HubConnectionBuilder, HubConnectionState } from '@microsoft/signalr';
 
 const requestHeaders = {
   Accept: 'application/json',
@@ -35,11 +35,21 @@ const fetchNewGame = async (): Promise<GameState> => {
   return response.json();
 };
 
-const connectGame = (gameId: GameId, handler: GameStateUpdateHandler): GameConnection => {
+const connectGame = (
+  gameId: GameId,
+  {
+    updateGameState,
+    opponentSelection,
+  }: {
+    updateGameState: GameStateUpdateHandler;
+    opponentSelection?: OpponentSelectionHandler;
+  }
+): GameConnection => {
   const getConnection = (gameId: GameId): [HubConnection, Promise<void>] => {
     const hubUrl = `${window.location.protocol}//${window.location.host}/gamehub/${gameId}`;
     const connection = new HubConnectionBuilder().withUrl(hubUrl).withAutomaticReconnect().build();
-    connection.on('ReceiveGameState', handler);
+    connection.on('ReceiveGameState', updateGameState);
+    if (opponentSelection) connection.on('OpponentSelection', opponentSelection);
     return [connection, connection.start()];
   };
 
@@ -56,8 +66,13 @@ const connectGame = (gameId: GameId, handler: GameStateUpdateHandler): GameConne
 
   return {
     getConnectionState: () => connection.state,
+    sendSelection: (type: 'select' | 'deselect', tileId: TileId) =>
+      connection.state === HubConnectionState.Connected &&
+      connection.invoke('SendSelection', type, tileId).catch(function (err) {
+        return console.error(err.toString());
+      }),
     closeConnection: () => {
-      connection.off('ReceiveGameState', handler);
+      connection.off('ReceiveGameState', updateGameState);
       return connection.stop();
     },
   };
