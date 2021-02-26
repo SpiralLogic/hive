@@ -62,7 +62,11 @@ const App: FunctionComponent = () => {
   const opponentSelection: OpponentSelectionHandler = (type, tileId) => {
     const tile = getAllTiles(gameState.players, gameState.cells).find((t) => t.id === tileId);
     if (!tile || tile.playerId === playerId) return;
-    hiveEventEmitter.emit({ type: type === 'select' ? 'tileSelect' : 'tileDeselect', tile });
+    if (type === 'select') {
+      hiveEventEmitter.emit({ type: 'tileSelect', tile });
+    } else if (type === 'deselect') {
+      hiveEventEmitter.emit({ type: 'tileDeselect', tile });
+    }
   };
 
   useEffect(() => {
