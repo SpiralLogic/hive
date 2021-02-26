@@ -9,8 +9,20 @@ namespace Hive.Domain
 {
     public class Hive
     {
-        private readonly ImmutableArray<Creature> _startingTiles = ImmutableArray.Create(Creatures.Queen,
-            Creatures.Beetle);
+        private readonly ImmutableArray<Creature> _startingTiles =
+            ImmutableArray.Create(
+                Creatures.Queen,
+                Creatures.Spider,
+                Creatures.Spider,
+                Creatures.Beetle,
+                Creatures.Beetle,
+                Creatures.Grasshopper,
+                Creatures.Grasshopper,
+                Creatures.Grasshopper,
+                Creatures.Ant,
+                Creatures.Ant,
+                Creatures.Ant
+            );
 
         private readonly Coords _initialCoords = new(0, 0);
 
@@ -58,7 +70,7 @@ namespace Hive.Domain
                 UpdatedPlacedTileMoves(nextPlayer);
                 UpdatePlayerTileMoves(nextPlayer);
             }
-            
+
             return true;
         }
 
@@ -107,7 +119,8 @@ namespace Hive.Domain
 
         private int CountMovesAvailable()
         {
-            return Players.SelectMany(p => p.Tiles).Concat(Cells.SelectMany(c => c.Tiles)).SelectMany(t=>t.Moves).Count();
+            return Players.SelectMany(p => p.Tiles).Concat(Cells.SelectMany(c => c.Tiles)).SelectMany(t => t.Moves)
+                .Count();
         }
 
         private bool IsValidMove(int tileId, Coords coords)
