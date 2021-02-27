@@ -23,6 +23,13 @@ export type HiveEventListener<TEvent> = (event: TEvent) => void;
 export type HiveEvent = MoveEvent | TileEvent | { type: 'tileClear' };
 export type MoveEvent = { type: 'move'; move: Move };
 export type TileEvent = {
-  type: 'tileSelect' | 'tileDropped' | 'click' | 'tileClear' | 'tileDeselect';
+  type:
+    | 'tileSelect'
+    | 'tileDropped'
+    | 'click'
+    | 'tileClear'
+    | 'tileDeselect'
+    | 'tileSelected'
+    | 'tileDeselected';
   tile: Tile;
 };

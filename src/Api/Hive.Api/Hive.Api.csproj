@@ -35,6 +35,10 @@
           <LinkBase>FrontEnd\</LinkBase>
           <Link>FrontEnd\domain\cell - Copy.ts</Link>
         </Content>
+        <Content Update="..\..\FrontEnd\src\components\Rules.tsx">
+          <LinkBase>FrontEnd\</LinkBase>
+          <Link>FrontEnd\components\Rules.tsx</Link>
+        </Content>
     </ItemGroup>
 
     <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

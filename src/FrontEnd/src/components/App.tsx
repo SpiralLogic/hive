@@ -56,9 +56,8 @@ const App: FunctionComponent = () => {
   const hiveEventEmitter = useHiveEventEmitter(hiveEventHandler, []);
 
   const opponentSelectionHandler: OpponentSelectionHandler = (type, tileId) => {
-    const hiveEventEmitter = useHiveEventEmitter();
     const tile = getAllTiles(gameState.players, gameState.cells).find((t) => t.id === tileId);
-    if (!tile || tile.playerId === playerId) return;
+    if (!tile) return;
     if (type === 'select') {
       hiveEventEmitter.emit({ type: 'tileSelect', tile });
     } else if (type === 'deselect') {
@@ -73,9 +72,9 @@ const App: FunctionComponent = () => {
     });
 
     const selectionChangeHandler = (event: HiveEvent) => {
-      if (event.type == 'tileSelect' && sendSelection) {
+      if (event.type == 'tileSelected' && sendSelection) {
         sendSelection('select', event.tile.id);
-      } else if (event.type == 'tileDeselect' && sendSelection) {
+      } else if (event.type == 'tileDeselected' && sendSelection) {
         sendSelection('deselect', event.tile.id);
       }
     };
@@ -86,7 +85,7 @@ const App: FunctionComponent = () => {
 
   removeOtherPlayerMoves(playerId, gameState);
 
-  return <GameArea gameState={gameState} />;
+  return <GameArea {...gameState} />;
 };
 
 App.displayName = 'App';

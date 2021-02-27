@@ -1,25 +1,23 @@
-import { Cell, HexCoordinates, Tile as TileType } from '../domain';
-import { FunctionComponent, h } from 'preact';
+import { FunctionComponent, RenderableProps, h } from 'preact';
+import { HexCoordinates, Tile as TileType } from '../domain';
 import { HiveEvent } from '../hive-event-emitter';
-import { deepEqual } from 'fast-equals';
 import { handleDragOver, handleKeyboardNav, isEnterOrSpace } from '../handlers';
-import { memo } from 'preact/compat';
 import { useClassReducer, useHiveEventEmitter } from '../hooks';
 import { useEffect, useState } from 'preact/hooks';
-import Tile from './Tile';
 
-type Props = Cell;
-
-const CellFC: FunctionComponent<Props> = (props: Props) => {
-  const { tiles, coords } = props;
+export default (
+  props: RenderableProps<{ coords: HexCoordinates; hidden?: boolean }>
+): ReturnType<FunctionComponent> => {
+  const { coords, hidden, children } = props;
   const isValidMove = (validMoves: HexCoordinates[]) =>
     validMoves.some((dest) => dest.q == coords.q && dest.r == coords.r);
   const [classes, setClasses] = useClassReducer(['hex', 'cell', 'entry']);
   const [selectedTile, setSelectedTile] = useState<TileType | null>(null);
+  if (hidden) return <div className="hex hidden" />;
   useEffect(() => setClasses({ type: 'remove', classes: ['entry'] }), []);
 
   const handleHiveEvent = (e: HiveEvent) => {
-    if (e.type === 'tileSelect') {
+    if (e.type === 'tileSelected') {
       const canDrop = isValidMove(e.tile.moves);
       setSelectedTile(e.tile);
       setClasses({ type: canDrop ? 'add' : 'remove', classes: ['can-drop'] });
@@ -32,10 +30,10 @@ const CellFC: FunctionComponent<Props> = (props: Props) => {
             type: 'move',
             move: { coords, tileId: selectedTile.id },
           });
-      hiveEventEmitter.emit({ type: 'tileClear', tile: e.tile });
+      hiveEventEmitter.emit({ type: 'tileDeselected', tile: e.tile });
     }
 
-    if (e.type === 'tileDeselect' || e.type === 'tileClear') {
+    if (e.type === 'tileDeselected') {
       setSelectedTile(null);
       setClasses({ type: 'remove', classes: ['can-drop', 'active'] });
     }
@@ -80,10 +78,7 @@ const CellFC: FunctionComponent<Props> = (props: Props) => {
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
         <use href="#hex" />
       </svg>
-      {tiles.length > 0 && <Tile key={tiles[0].id} {...tiles[0]} />}
+      {children}
     </div>
   );
 };
-
-CellFC.displayName = 'Cell';
-export default memo(CellFC, (p, n) => deepEqual(p.coords, n.coords) && !p.tiles.length && !n.tiles.length);

@@ -2,8 +2,8 @@
 import { RenderResult, fireEvent, render } from '@testing-library/preact';
 import { h } from 'preact';
 import { mockLocation, restoreLocation } from './helpers/location';
-import PlayerTiles from '../components/PlayerTiles';
 import { renderElement } from './helpers';
+import PlayerTiles from '../components/PlayerTiles';
 
 describe('PlayerTiles Tests', () => {
   const ant = { id: 1, playerId: 1, creature: 'ant', moves: [{ q: 1, r: 1 }] };
@@ -28,7 +28,6 @@ describe('PlayerTiles Tests', () => {
       const playerName = playerTiles?.querySelector('.name');
 
       expect(playerName).toHaveTextContent('Player 1');
-      expect(playerName).not.toBeInstanceOf(HTMLAnchorElement);
     });
 
     test('player is rendered with their tiles', () => {
@@ -45,7 +44,7 @@ describe('PlayerTiles Tests', () => {
       global.window.history.replaceState({}, global.document.title, `/game/33/0`);
       renderElement(<PlayerTiles {...playerProps} />);
       const playerName = document.querySelector('.name');
-      expect(playerName).not.toBeInstanceOf(HTMLAnchorElement);
+      expect(playerName).toBeInstanceOf(HTMLAnchorElement);
     });
 
     test('nothing is rendered with no tiles left', () => {

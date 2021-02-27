@@ -21,9 +21,9 @@ describe('GameArea Tests', () => {
   });
 
   test('default on drop is prevented', async () => {
-    const gameArea = render(<GameArea gameState={gameState} />);
+    const gameArea = render(<GameArea {...gameState} />);
     await Engine.newGame();
-    gameArea.rerender(<GameArea gameState={gameState} />);
+    gameArea.rerender(<GameArea {...gameState} />);
 
     const preventDefault = simulateEvent(gameArea.container.firstElementChild as HTMLElement, 'dragover');
     expect(preventDefault).toHaveBeenCalled();

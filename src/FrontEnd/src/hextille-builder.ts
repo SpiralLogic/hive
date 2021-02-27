@@ -1,4 +1,5 @@
-import { Cell, Row } from './domain';
+import { Cell } from './domain';
+export type Row = { id: number; cells: Array<Cell & { hidden?: boolean }> };
 
 const getWidth = (cells: Cell[]): [number, number] => {
   const [min, max] = cells.reduce(([min, max], c) => [Math.min(min, c.coords.q), Math.max(max, c.coords.q)], [
@@ -15,13 +16,17 @@ const getHeight = (sortedHexagons: Cell[]): [number, number] => {
   return [firstCell.coords.r, height];
 };
 
-export const createRows = (sortedHexagons: Cell[]) => {
+export const createRows = (sortedHexagons: Cell[]): Row[] => {
   const [firstRow, height] = getHeight(sortedHexagons);
   const [firstColumn, width] = getWidth(sortedHexagons);
 
   const createEmptyRow = (i: number): Row => ({
     id: firstRow + i,
-    row: new Array(width).fill(false),
+    cells: Array.from(Array(width).keys(), (j: number) => ({
+      coords: { q: firstRow + i, r: firstColumn + j },
+      tiles: [],
+      hidden: true,
+    })),
   });
 
   const createEmptyRows = () => {
@@ -29,7 +34,7 @@ export const createRows = (sortedHexagons: Cell[]) => {
   };
 
   return sortedHexagons.reduce((rows, cell) => {
-    (rows[cell.coords.r - firstRow] as Row).row[cell.coords.q - firstColumn] = cell;
+    (rows[cell.coords.r - firstRow] as Row).cells[cell.coords.q - firstColumn] = cell;
     return rows;
   }, createEmptyRows());
 };

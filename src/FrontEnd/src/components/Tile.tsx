@@ -18,16 +18,21 @@ const TileFC: FunctionComponent<Props> = (tile: Props) => {
   const [classList, setClassList] = useClassReducer([`player${playerId}`, 'hex', 'tile']);
 
   const handleHiveEvent = (event: HiveEvent) => {
+    const isSelected = classList.includes('selected');
     if (event.type === 'tileClear') {
       if (classList.includes('selected')) {
         hiveEventEmitter.emit({ type: 'tileDeselect', tile: tile });
+      } else {
+        setClassList({ type: 'remove', classes: ['selected'] });
       }
-      setClassList({ type: 'remove', classes: ['selected'] });
       setFocus('');
-    } else if (event.type === 'tileDeselect' && event.tile.id === id) {
+    } else if (event.type === 'tileDeselect' && event.tile.id === id && isSelected) {
       setClassList({ type: 'remove', classes: ['selected'] });
-    } else if (event.type === 'tileSelect' && event.tile.id === id) {
+      hiveEventEmitter.emit({ type: 'tileDeselected', tile: tile });
+    } else if (event.type === 'tileSelect' && event.tile.id === id && !isSelected) {
+      hiveEventEmitter.emit({ type: 'tileClear', tile: tile });
       setClassList({ type: 'add', classes: ['selected'] });
+      hiveEventEmitter.emit({ type: 'tileSelected', tile: tile });
     }
   };
   const hiveEventEmitter = useHiveEventEmitter(handleHiveEvent);
@@ -39,8 +44,8 @@ const TileFC: FunctionComponent<Props> = (tile: Props) => {
     setFocus('');
   }, [focus]);
 
-  const handleDragStart = () => {
-    hiveEventEmitter.emit({ type: 'tileClear', tile: tile });
+  const handleDragStart = (event: DragEvent) => {
+    event.stopPropagation();
     hiveEventEmitter.emit({ type: 'tileSelect', tile: tile });
     setClassList({ type: 'add', classes: ['beforeDrag', 'selected'] });
     setTimeout(() => setClassList({ type: 'remove', classes: ['beforeDrag'] }), 1);
@@ -53,7 +58,6 @@ const TileFC: FunctionComponent<Props> = (tile: Props) => {
     event.stopPropagation();
     const isSelected = classList.includes('selected');
     if (!isSelected) {
-      hiveEventEmitter.emit({ type: 'tileClear', tile: tile });
       hiveEventEmitter.emit({ type: 'tileSelect', tile: tile });
     } else {
       hiveEventEmitter.emit({ type: 'tileDeselect', tile: tile });

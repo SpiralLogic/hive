@@ -17,11 +17,11 @@ describe('App Tests', () => {
     type: 'move',
   };
   const tileSelectEvent: HiveEvent = {
-    type: 'tileSelect',
+    type: 'tileSelected',
     tile: { id: 2, playerId: 1, creature: 'ant', moves: [{ q: 0, r: 0 }] },
   };
   const tileDeselectEvent: HiveEvent = {
-    type: 'tileDeselect',
+    type: 'tileDeselected',
     tile: { id: 2, playerId: 1, creature: 'ant', moves: [{ q: 0, r: 0 }] },
   };
   const gameConnection = { closeConnection: jest.fn(), sendSelection: jest.fn() };
@@ -81,7 +81,7 @@ describe('App Tests', () => {
     await Engine.getGame;
 
     app.rerender(<App />);
-    expect(GameArea).toHaveBeenLastCalledWith(expect.objectContaining({ gameState }), {});
+    expect(GameArea).toHaveBeenLastCalledWith(expect.objectContaining(gameState), {});
   });
 
   test('emits event on opponent selection', async () => {
@@ -107,7 +107,7 @@ describe('App Tests', () => {
     app.rerender(<App />);
     gameState.players[1].tiles[0].moves = [];
     gameState.cells[0].tiles[0].moves = [];
-    expect(GameArea).toHaveBeenLastCalledWith(expect.objectContaining({ gameState }), {});
+    expect(GameArea).toHaveBeenLastCalledWith(expect.objectContaining(gameState), {});
   });
 
   test('moveTile is called on move events', async () => {
