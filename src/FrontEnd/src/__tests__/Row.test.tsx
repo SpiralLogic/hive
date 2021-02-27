@@ -13,6 +13,7 @@ describe('Row Tests', () => {
   beforeEach(() => {
     type RowProps = typeof Row.arguments.props['row'];
     const cells: RowProps = [
+      false,
       { coords: { q: 0, r: 1 }, tiles: [] },
       { coords: { q: 1, r: 1 }, tiles: [] },
       false,
@@ -29,7 +30,7 @@ describe('Row Tests', () => {
   });
 
   test('renders hidden div for missing cells', () => {
-    expect(row.lastElementChild).toHaveClass('hidden');
+    expect(row.firstElementChild).toHaveClass('hidden');
   });
 
   test('is memoized with deep equal', () => {

@@ -28,8 +28,6 @@ exports[`Row Tests Row snapshot tests Row snapshot 1`] = `
       />
     </svg>
   </div>
-  <div
-    class="hex hidden"
-  />
+  
 </div>
 `;

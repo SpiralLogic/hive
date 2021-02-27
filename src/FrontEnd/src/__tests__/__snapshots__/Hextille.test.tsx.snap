@@ -295,9 +295,7 @@ Object {
         <div
           class="hex hidden"
         />
-        <div
-          class="hex hidden"
-        />
+        
       </div>
       <div
         class="hex-row"
@@ -320,9 +318,7 @@ Object {
         <div
           class="hex hidden"
         />
-        <div
-          class="hex hidden"
-        />
+        
       </div>
       <div
         class="hex-row"
@@ -345,9 +341,7 @@ Object {
         <div
           class="hex hidden"
         />
-        <div
-          class="hex hidden"
-        />
+        
       </div>
       <div
         class="hex-row"
@@ -370,9 +364,7 @@ Object {
         <div
           class="hex hidden"
         />
-        <div
-          class="hex hidden"
-        />
+        
       </div>
       <div
         class="hex-row"
@@ -501,9 +493,7 @@ Object {
         <div
           class="hex hidden"
         />
-        <div
-          class="hex hidden"
-        />
+        
       </div>
       <div
         class="hex-row"
@@ -580,31 +570,11 @@ Object {
         <div
           class="hex hidden"
         />
-        <div
-          class="hex hidden"
-        />
+        
       </div>
     </main>
   </div>,
   "hidden": HTMLCollection [
-    <div
-      class="hex hidden"
-    />,
-    <div
-      class="hex hidden"
-    />,
-    <div
-      class="hex hidden"
-    />,
-    <div
-      class="hex hidden"
-    />,
-    <div
-      class="hex hidden"
-    />,
-    <div
-      class="hex hidden"
-    />,
     <div
       class="hex hidden"
     />,
@@ -790,9 +760,7 @@ Object {
       <div
         class="hex hidden"
       />
-      <div
-        class="hex hidden"
-      />
+      
     </div>,
     <div
       class="hex-row"
@@ -815,9 +783,7 @@ Object {
       <div
         class="hex hidden"
       />
-      <div
-        class="hex hidden"
-      />
+      
     </div>,
     <div
       class="hex-row"
@@ -840,9 +806,7 @@ Object {
       <div
         class="hex hidden"
       />
-      <div
-        class="hex hidden"
-      />
+      
     </div>,
     <div
       class="hex-row"
@@ -865,9 +829,7 @@ Object {
       <div
         class="hex hidden"
       />
-      <div
-        class="hex hidden"
-      />
+      
     </div>,
     <div
       class="hex-row"
@@ -996,9 +958,7 @@ Object {
       <div
         class="hex hidden"
       />
-      <div
-        class="hex hidden"
-      />
+      
     </div>,
     <div
       class="hex-row"
@@ -1075,9 +1035,7 @@ Object {
       <div
         class="hex hidden"
       />
-      <div
-        class="hex hidden"
-      />
+      
     </div>,
   ],
 }
