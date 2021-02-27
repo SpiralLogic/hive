@@ -1,11 +1,11 @@
 import { Cell, GameId, GameState, MoveTile, Player, PlayerId, Tile, TileId } from '../domain';
 import { FunctionComponent, h } from 'preact';
 import { HiveEvent, HiveEventListener } from '../hive-event-emitter';
+import { OpponentSelectionHandler } from '../domain/engine';
 import { useEffect, useState } from 'preact/hooks';
 import { useHiveEventEmitter } from '../hooks';
 import Engine from '../game-engine';
 import GameArea from './GameArea';
-import { OpponentSelectionHandler } from '../domain/engine';
 
 const getAllTiles = (...parents: Array<Array<Player | Cell>>): Array<Tile> =>
   parents.flatMap((p) => p.flatMap((p) => p.tiles));
@@ -46,20 +46,17 @@ const App: FunctionComponent = () => {
 
   if (gameState === undefined) return <h1>loading !</h1>;
 
-  const moveTile: MoveTile = async (...move) => {
-    const newGameState = await Engine.moveTile(...move);
-    updateGameState(newGameState);
-  };
-
-  const hiveEventHandler: HiveEventListener<HiveEvent> = (event: HiveEvent) => {
+  const hiveEventHandler: HiveEventListener<HiveEvent> = async (event: HiveEvent) => {
     if (event.type === 'move') {
-      moveTile(gameState.gameId, event.move);
+      const newGameState = await Engine.moveTile(gameState.gameId, event.move);
+      updateGameState(newGameState);
     }
   };
 
   const hiveEventEmitter = useHiveEventEmitter(hiveEventHandler, []);
 
-  const opponentSelection: OpponentSelectionHandler = (type, tileId) => {
+  const opponentSelectionHandler: OpponentSelectionHandler = (type, tileId) => {
+    const hiveEventEmitter = useHiveEventEmitter();
     const tile = getAllTiles(gameState.players, gameState.cells).find((t) => t.id === tileId);
     if (!tile || tile.playerId === playerId) return;
     if (type === 'select') {
@@ -72,7 +69,7 @@ const App: FunctionComponent = () => {
   useEffect(() => {
     const { closeConnection, sendSelection } = Engine.connectGame(gameState.gameId, {
       updateGameState,
-      opponentSelection,
+      opponentSelection: opponentSelectionHandler,
     });
 
     const selectionChangeHandler = (event: HiveEvent) => {

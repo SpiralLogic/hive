@@ -16,8 +16,9 @@ const CellFC: FunctionComponent<Props> = (props: Props) => {
     validMoves.some((dest) => dest.q == coords.q && dest.r == coords.r);
   const [classes, setClasses] = useClassReducer(['hex', 'cell', 'entry']);
   const [selectedTile, setSelectedTile] = useState<TileType | null>(null);
+  useEffect(() => setClasses({ type: 'remove', classes: ['entry'] }), []);
 
-  function handleHiveEvent(e: HiveEvent) {
+  const handleHiveEvent = (e: HiveEvent) => {
     if (e.type === 'tileSelect') {
       const canDrop = isValidMove(e.tile.moves);
       setSelectedTile(e.tile);
@@ -25,7 +26,12 @@ const CellFC: FunctionComponent<Props> = (props: Props) => {
     }
 
     if (e.type === 'tileDropped') {
-      if (classes.includes('active')) move();
+      if (classes.includes('active'))
+        if (selectedTile && isValidMove(selectedTile.moves))
+          hiveEventEmitter.emit({
+            type: 'move',
+            move: { coords, tileId: selectedTile.id },
+          });
       hiveEventEmitter.emit({ type: 'tileClear', tile: e.tile });
     }
 
@@ -33,8 +39,7 @@ const CellFC: FunctionComponent<Props> = (props: Props) => {
       setSelectedTile(null);
       setClasses({ type: 'remove', classes: ['can-drop', 'active'] });
     }
-  }
-
+  };
   const hiveEventEmitter = useHiveEventEmitter(handleHiveEvent);
 
   const handleDragLeave = (ev: { stopPropagation: () => void }) => {
@@ -47,22 +52,12 @@ const CellFC: FunctionComponent<Props> = (props: Props) => {
   };
 
   const handleClick = (ev: { stopPropagation: () => void }) => {
-    if (selectedTile) {
+    if (selectedTile && isValidMove(selectedTile.moves)) {
       ev.stopPropagation();
-      move();
+      hiveEventEmitter.emit({ type: 'move', move: { coords, tileId: selectedTile.id } });
       hiveEventEmitter.emit({ type: 'tileClear', tile: selectedTile });
     }
   };
-
-  useEffect(() => setClasses({ type: 'remove', classes: ['entry'] }), []);
-
-  function move() {
-    if (selectedTile && isValidMove(selectedTile.moves))
-      hiveEventEmitter.emit({
-        type: 'move',
-        move: { coords, tileId: selectedTile.id },
-      });
-  }
 
   const handleKeydown = (e: KeyboardEvent) => {
     if (!handleKeyboardNav(e) && isEnterOrSpace(e)) return handleClick(e);

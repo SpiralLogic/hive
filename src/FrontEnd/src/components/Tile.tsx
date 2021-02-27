@@ -17,7 +17,7 @@ const TileFC: FunctionComponent<Props> = (tile: Props) => {
   const { id, moves, creature, playerId } = tile;
   const [classList, setClassList] = useClassReducer([`player${playerId}`, 'hex', 'tile']);
 
-  function handleHiveEvent(event: HiveEvent) {
+  const handleHiveEvent = (event: HiveEvent) => {
     if (event.type === 'tileClear') {
       if (classList.includes('selected')) {
         hiveEventEmitter.emit({ type: 'tileDeselect', tile: tile });
@@ -29,10 +29,8 @@ const TileFC: FunctionComponent<Props> = (tile: Props) => {
     } else if (event.type === 'tileSelect' && event.tile.id === id) {
       setClassList({ type: 'add', classes: ['selected'] });
     }
-  }
-
+  };
   const hiveEventEmitter = useHiveEventEmitter(handleHiveEvent);
-
   useEffect(() => {
     if (!focus) return;
     const focusElement =
@@ -47,12 +45,10 @@ const TileFC: FunctionComponent<Props> = (tile: Props) => {
     setClassList({ type: 'add', classes: ['beforeDrag', 'selected'] });
     setTimeout(() => setClassList({ type: 'remove', classes: ['beforeDrag'] }), 1);
   };
-
   const handleDragEnd = () => {
     hiveEventEmitter.emit({ type: 'tileClear', tile: tile });
     hiveEventEmitter.emit({ type: 'tileDropped', tile: tile });
   };
-
   const handleClick = (event: MouseEvent) => {
     event.stopPropagation();
     const isSelected = classList.includes('selected');
@@ -63,7 +59,6 @@ const TileFC: FunctionComponent<Props> = (tile: Props) => {
       hiveEventEmitter.emit({ type: 'tileDeselect', tile: tile });
     }
   };
-
   const handleKeyDown = (e: KeyboardEvent) => {
     if (handleKeyboardNav(e) || !isEnterOrSpace(e)) return;
     e.stopPropagation();
@@ -76,6 +71,7 @@ const TileFC: FunctionComponent<Props> = (tile: Props) => {
       hiveEventEmitter.emit({ type: 'tileDeselect', tile: tile });
     }
   };
+  const handleMouseLeave = (event: { currentTarget: HTMLElement }) => event.currentTarget.blur();
 
   const attributes = {
     title: creature,
@@ -84,14 +80,13 @@ const TileFC: FunctionComponent<Props> = (tile: Props) => {
     ondrop: handleDrop,
     tabindex: moves.length ? 0 : undefined,
   };
-
   const handlers = attributes.draggable
     ? {
         onclick: handleClick,
         ondragstart: handleDragStart,
         ondragend: handleDragEnd,
         onkeydown: handleKeyDown,
-        onmouseleave: (event: { currentTarget: HTMLElement }) => event.currentTarget.blur(),
+        onmouseleave: handleMouseLeave,
       }
     : {};
   return (

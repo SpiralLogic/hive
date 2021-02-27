@@ -1,4 +1,4 @@
-import { FunctionComponent, h } from 'preact';
+import { Fragment, FunctionComponent, h } from 'preact';
 import { Player } from '../domain';
 import { deepEqual } from 'fast-equals';
 import { isEnterOrSpace } from '../handlers';
@@ -28,15 +28,24 @@ const PlayerTiles: FunctionComponent<Props> = (props: Props) => {
     }
   }, [tiles.length > 0]);
   if (!tiles.length) classList.push('hide');
+
+  function getName() {
+    return (
+      <>
+        {Number(currentPlayerId) !== id && tiles.length > 0 ? (
+          <a class="name" href={changePlayerUrl} tabIndex={-1} onKeyDown={handleKeyDown}>
+            {name}
+          </a>
+        ) : (
+          <div class="name">{name}</div>
+        )}
+      </>
+    );
+  }
+
   return (
     <div class={classList.join(' ')} title={name}>
-      {Number(currentPlayerId) !== id && tiles.length > 0 ? (
-        <a className="name" href={changePlayerUrl} tabIndex={-1} onKeyDown={handleKeyDown}>
-          {name}
-        </a>
-      ) : (
-        <div class="name">{name}</div>
-      )}
+      {getName()}
       <div class="tiles">
         {tiles.map((tile) => (
           <Tile key={tile.id} {...tile} />
