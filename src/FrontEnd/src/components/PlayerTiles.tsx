@@ -4,7 +4,7 @@ import { deepEqual } from 'fast-equals';
 import { isEnterOrSpace } from '../handlers';
 import { memo } from 'preact/compat';
 import { useClassReducer } from '../hooks';
-import { useEffect } from 'preact/hooks';
+import { useEffect, useLayoutEffect } from 'preact/hooks';
 import Tile from './Tile';
 
 type Props = Player;
@@ -22,12 +22,12 @@ const PlayerTiles: FunctionComponent<Props> = (props: Props) => {
   };
 
   useEffect(() => {
-    if (!tiles.length) {
+    if (!tiles.length && !classList.includes('hide')) {
       setClassList({ type: 'add', classes: ['hiding'] });
-      setTimeout(() => setClassList({ type: 'add', classes: ['hide'] }), 5);
+      setTimeout(() => setClassList({ type: 'add', classes: ['hide'] }), 50);
     }
   }, [tiles.length > 0]);
-
+  if (!tiles.length) classList.push('hide');
   return (
     <div class={classList.join(' ')} title={name}>
       {Number(currentPlayerId) !== id && tiles.length > 0 ? (

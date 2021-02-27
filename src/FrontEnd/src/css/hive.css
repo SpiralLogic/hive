@@ -9,7 +9,7 @@ body {
   --p1outline: #8A2BE2A0;
   --hex-offset: -1;
   --hex-size: 95px;
-  --tile-size: 70px;
+  --tile-size: 70px; overscroll-behavior-y: contain;
 }
 
 body > svg {
@@ -32,8 +32,8 @@ body > svg {
 .player {
   display: inline-grid;
   padding: 0 1vw;
-  transition: 1s ease-in;
-  transition-property: width, height;
+  transition: 1s ease-out;
+  transition-property: width, height, border, padding;
   border-right: 1px solid white;
   background-color: rgba(0, 0, 0, 0.7);
   grid-auto-flow: row;
@@ -42,12 +42,12 @@ body > svg {
 
 .player.hiding {
   width: var(--tile-size);
-  padding: 0;
 }
 
 .player.hide {
   width: 0;
-  border-right-width: 0;
+  padding: 0;
+  border: 0;
 }
 
 .player0 {
@@ -119,14 +119,9 @@ body > svg {
   margin-bottom: 0;
 }
 
-.left > .hex-row:nth-child(even),
-.right .hex-row:nth-child(odd) {
-  margin-right: calc(var(--hex-size) / 2);
-}
-
 .right > .hex-row:nth-child(even),
 .left > .hex-row:nth-child(odd) {
-  margin-left: calc(var(--hex-size) / 2);
+  transform: translateX(calc(var(--hex-size) / 2));
 }
 
 .hex {
@@ -146,6 +141,16 @@ body > svg {
 
 .hex > svg {
   position: absolute; pointer-events: none;
+}
+
+.hidden {
+  width: var(--hex-size);
+  margin: 0;
+  background: transparent;
+}
+
+.hidden:last-child {
+  display: none;
 }
 
 .hidden {
@@ -211,28 +216,29 @@ body > svg {
   animation: selected 0.2s infinite;
 }
 
-.tile:before {
+.tile.selected:before,
+[draggable='true']:not(.selected):hover:before,
+[draggable='true']:not(.selected):focus:before {
   position: absolute;
   top: 0;
   left: 0;
-  display: none;
+  display: block;
   width: 90%;
   height: 50%;
   margin: 25% 5%;
   content: ' ';
   transition: box-shadow 0.2s ease-in;
   outline: none;
+  box-shadow: 0 -10px 2em 5px var(--shadow), 0 10px 2em 5px var(--shadow), 0 0 1em var(--shadow);
 }
 
 .tile.selected:before {
-  display: block;
-  box-shadow: 0 -5px 2em 5px var(--outline), 0 5px 2em 5px var(--outline), 0 0 1em var(--outline);
+  --shadow: var(--outline);
 }
 
 [draggable='true']:not(.selected):hover:before,
 [draggable='true']:not(.selected):focus:before {
-  display: block;
-  box-shadow: 0 -5px 2em 5px var(--focus), 0 5px 2em 5px var(--focus), 0 0 1em var(--focus);
+  --shadow: var(--focus);
 }
 
 .beforeDrag:before {
@@ -312,14 +318,10 @@ body > svg {
     fill: #AFD275;
   }
 
-  .tile.selected:before {
-    box-shadow: 0 -5px 1em 5px var(--outline), 0 5px 1em 5px var(--outline), 0 0 .5em var(--outline);
-  }
-
+  .tile.selected:before ,
   [draggable='true']:not(.selected):hover:before,
   [draggable='true']:not(.selected):focus:before {
-    display: block;
-    box-shadow: 0 -5px 1em 5px var(--focus), 0 5px 1em 5px var(--focus), 0 0 .5em var(--focus);
+    box-shadow: 0 -7px 1em 5px var(--shadow), 0 7px 1em 5px var(--shadow);
   }
 
 }

@@ -16,7 +16,9 @@ type Props = {
 
 const Row: FunctionComponent<Props> = (props: Props) => {
   const { row } = props;
-  const cells = row.map((cell, i) => (cell && createCell(cell)) || createPlaceholder(i));
+  const cells = row.map(
+    (cell, i) => (cell && createCell(cell)) || (i < row.length - 1 ? createPlaceholder(i) : '')
+  );
 
   return <div className="hex-row">{cells}</div>;
 };

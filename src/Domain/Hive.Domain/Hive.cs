@@ -9,20 +9,17 @@ namespace Hive.Domain
 {
     public class Hive
     {
-        private readonly ImmutableArray<Creature> _startingTiles =
-            ImmutableArray.Create(
-                Creatures.Queen,
-                Creatures.Spider,
-                Creatures.Spider,
-                Creatures.Beetle,
-                Creatures.Beetle,
-                Creatures.Grasshopper,
-                Creatures.Grasshopper,
-                Creatures.Grasshopper,
-                Creatures.Ant,
-                Creatures.Ant,
-                Creatures.Ant
-            );
+        private readonly ImmutableArray<Creature> _startingTiles = ImmutableArray.Create(Creatures.Queen,
+            Creatures.Spider,
+            Creatures.Spider,
+            Creatures.Beetle,
+            Creatures.Beetle,
+            Creatures.Grasshopper,
+            Creatures.Grasshopper,
+            Creatures.Grasshopper,
+            Creatures.Ant,
+            Creatures.Ant,
+            Creatures.Ant);
 
         private readonly Coords _initialCoords = new(0, 0);
         public ISet<Cell> Cells { get; }
