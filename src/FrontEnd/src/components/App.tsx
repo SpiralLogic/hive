@@ -57,7 +57,7 @@ const App: FunctionComponent = () => {
 
   const opponentSelectionHandler: OpponentSelectionHandler = (type, tileId) => {
     const tile = getAllTiles(gameState.players, gameState.cells).find((t) => t.id === tileId);
-    if (!tile) return;
+    if (!tile || tile.playerId === playerId) return;
     if (type === 'select') {
       hiveEventEmitter.emit({ type: 'tileSelect', tile });
     } else if (type === 'deselect') {

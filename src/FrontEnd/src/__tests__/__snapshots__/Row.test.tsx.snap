@@ -5,8 +5,29 @@ exports[`Row Tests Row snapshot tests Row snapshot 1`] = `
   class="hex-row"
 >
   <div
-    class="hex hidden"
-  />
+    class="hex cell"
+  >
+    <svg
+      viewBox="0 0 100 100"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <use
+        href="#hex"
+      />
+    </svg>
+  </div>
+  <div
+    class="hex cell"
+  >
+    <svg
+      viewBox="0 0 100 100"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <use
+        href="#hex"
+      />
+    </svg>
+  </div>
   <div
     class="hex cell"
   >
@@ -31,6 +52,5 @@ exports[`Row Tests Row snapshot tests Row snapshot 1`] = `
       />
     </svg>
   </div>
-  
 </div>
 `;

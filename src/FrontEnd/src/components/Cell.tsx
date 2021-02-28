@@ -11,31 +11,24 @@ export default (
   const { coords, hidden, children } = props;
   const isValidMove = (validMoves: HexCoordinates[]) =>
     validMoves.some((dest) => dest.q == coords.q && dest.r == coords.r);
-  const [classes, setClasses] = useClassReducer(['hex', 'cell', 'entry']);
+  const [classes, setClasses] = useClassReducer(['hex', 'cell']);
   const [selectedTile, setSelectedTile] = useState<TileType | null>(null);
-  if (hidden) return <div className="hex hidden" />;
-  useEffect(() => setClasses({ type: 'remove', classes: ['entry'] }), []);
+  useEffect(() =>  setClasses({ type: hidden ? 'add' : 'remove', classes: ['entry'] }), [hidden]);
 
   const handleHiveEvent = (e: HiveEvent) => {
-    if (e.type === 'tileSelected') {
-      const canDrop = isValidMove(e.tile.moves);
+    if (e.type === 'tileDeselected' && isValidMove(e.tile.moves)) {
+      setSelectedTile(null);
+      setClasses({ type: 'remove', classes: ['can-drop', 'active'] });
+    } else if (e.type === 'tileSelected' && isValidMove(e.tile.moves)) {
       setSelectedTile(e.tile);
-      setClasses({ type: canDrop ? 'add' : 'remove', classes: ['can-drop'] });
-    }
-
-    if (e.type === 'tileDropped') {
+      setClasses({ type: 'add', classes: ['can-drop'] });
+    } else if (e.type === 'tileDropped') {
       if (classes.includes('active'))
         if (selectedTile && isValidMove(selectedTile.moves))
           hiveEventEmitter.emit({
             type: 'move',
             move: { coords, tileId: selectedTile.id },
           });
-      hiveEventEmitter.emit({ type: 'tileDeselected', tile: e.tile });
-    }
-
-    if (e.type === 'tileDeselected') {
-      setSelectedTile(null);
-      setClasses({ type: 'remove', classes: ['can-drop', 'active'] });
     }
   };
   const hiveEventEmitter = useHiveEventEmitter(handleHiveEvent);

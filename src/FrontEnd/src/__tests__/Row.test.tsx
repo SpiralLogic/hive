@@ -35,11 +35,6 @@ describe('Row Tests', () => {
     expect(row.children).toHaveLength(4);
   });
 
-  test('is memoized with deep equal', () => {
-    const row = <Row children={{ id: 1, row: [] }} />;
-    render(row).rerender(row);
-    expect(deepEqual).toHaveBeenCalledTimes(1);
-  });
   describe('Row snapshot tests', () => {
     test('Row snapshot', () => {
       expect(row).toMatchSnapshot();

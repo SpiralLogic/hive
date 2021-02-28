@@ -62,7 +62,7 @@ describe('Cell Tests', () => {
   describe('drag and drop', () => {
     const emitter = useHiveEventEmitter();
 
-    function emitHiveEvent(type: 'tileSelected' | 'tileDropped') {
+    function emitHiveEvent(type: 'tileSelected' | 'tileDropped' | 'tileDeselected') {
       act(() =>
         emitter.emit({
           type,
@@ -154,6 +154,7 @@ describe('Cell Tests', () => {
       emitHiveEvent('tileSelected');
       document.querySelectorAll('.cell').forEach((c) => fireEvent.dragEnter(c));
       emitHiveEvent('tileDropped');
+      emitHiveEvent('tileDeselected');
 
       expect(document.getElementsByClassName('active')).toHaveLength(0);
       expect(document.getElementsByClassName('can-drop')).toHaveLength(0);

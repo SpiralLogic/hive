@@ -106,9 +106,10 @@ body > svg {
 }
 
 .hex-row {
-  display: flex;
+  display: inline-flex;
   flex-direction: row;
   margin: calc(var(--hex-size) * -0.1) 0;
+  min-width: calc(2*var(--hex-size));
 }
 
 .hex-row:nth-child(1) {
@@ -181,7 +182,6 @@ body > svg {
   transition-duration: 0.1s;
   --focus: transparent;
   fill: #5D001E;
-  transition-duration: 0.2s;
 }
 
 .cell.can-drop {

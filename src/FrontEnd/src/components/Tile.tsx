@@ -22,11 +22,9 @@ const TileFC: FunctionComponent<Props> = (tile: Props) => {
     if (event.type === 'tileClear') {
       if (classList.includes('selected')) {
         hiveEventEmitter.emit({ type: 'tileDeselect', tile: tile });
-      } else {
-        setClassList({ type: 'remove', classes: ['selected'] });
       }
       setFocus('');
-    } else if (event.type === 'tileDeselect' && event.tile.id === id && isSelected) {
+    } else if (event.type === 'tileDeselect' && isSelected) {
       setClassList({ type: 'remove', classes: ['selected'] });
       hiveEventEmitter.emit({ type: 'tileDeselected', tile: tile });
     } else if (event.type === 'tileSelect' && event.tile.id === id && !isSelected) {
