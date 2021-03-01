@@ -1,4 +1,4 @@
-import { FunctionComponent, RenderableProps, h } from 'preact';
+import { FunctionComponent, RenderableProps, h  } from 'preact';
 import { HexCoordinates, Tile as TileType } from '../domain';
 import { HiveEvent } from '../hive-event-emitter';
 import { handleDragOver, handleKeyboardNav, isEnterOrSpace } from '../handlers';
@@ -11,9 +11,9 @@ export default (
   const { coords, hidden, children } = props;
   const isValidMove = (validMoves: HexCoordinates[]) =>
     validMoves.some((dest) => dest.q == coords.q && dest.r == coords.r);
-  const [classes, setClasses] = useClassReducer(['hex', 'cell']);
+  const [classes, setClasses] = useClassReducer(['hex', 'cell', 'entry']);
   const [selectedTile, setSelectedTile] = useState<TileType | null>(null);
-  useEffect(() =>  setClasses({ type: hidden ? 'add' : 'remove', classes: ['entry'] }), [hidden]);
+  useEffect(() => setClasses({ type: hidden ? 'add' : 'remove', classes: ['entry'] }), [hidden]);
 
   const handleHiveEvent = (e: HiveEvent) => {
     if (e.type === 'tileDeselected' && isValidMove(e.tile.moves)) {
