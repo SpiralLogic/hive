@@ -13,7 +13,7 @@ const getHeight = (sortedHexagons: Cell[]): [number, number] => {
   const firstCell = sortedHexagons[0] as Cell;
   const lastCell = sortedHexagons[sortedHexagons.length - 1] as Cell;
   const height = lastCell.coords.r - firstCell.coords.r + 1;
-  return [firstCell.coords.r, height];
+  return [firstCell.coords.r - 1, height + 2];
 };
 
 export const createRows = (sortedHexagons: Cell[]): Row[] => {
@@ -23,7 +23,7 @@ export const createRows = (sortedHexagons: Cell[]): Row[] => {
   const createEmptyRow = (i: number): Row => ({
     id: firstRow + i,
     cells: Array.from(Array(width).keys(), (j: number) => ({
-      coords: { q: firstRow + i, r: firstColumn + j },
+      coords: { q: firstColumn + j, r: firstRow + i },
       tiles: [],
       hidden: true,
     })),

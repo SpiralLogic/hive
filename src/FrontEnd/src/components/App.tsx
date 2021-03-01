@@ -1,4 +1,4 @@
-import { Cell, GameId, GameState, Player, PlayerId, Tile} from '../domain';
+import { Cell, GameId, GameState, Player, PlayerId, Tile } from '../domain';
 import { FunctionComponent, h } from 'preact';
 import { MoveEvent, TileEvent } from '../hive-event-emitter';
 import { OpponentSelectionHandler } from '../domain/engine';

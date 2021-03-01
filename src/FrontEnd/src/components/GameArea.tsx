@@ -16,7 +16,7 @@ const GameArea: FunctionComponent<GameState> = ({ players, cells }) => {
     className: 'hive',
   };
   const sortedHexagons = cells.sort((c1, c2) => c1.coords.r - c2.coords.r || c1.coords.q - c2.coords.q);
-  const shiftClass = sortedHexagons[0].coords.r % 2 ? 'left' : 'right';
+  const shiftClass = sortedHexagons[0].coords.r % 2 ? 'right' : 'left';
   const rows = createRows(sortedHexagons);
   return (
     <div {...attributes}>
