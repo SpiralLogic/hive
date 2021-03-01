@@ -1,35 +1,32 @@
 import { Move, Tile } from './domain';
 
-type EventListener<TEvent> = (event: TEvent) => void;
+export class HiveEventEmitter {
+  private listeners = new Map<string, Set<HiveEventListener<HiveEvent>>>();
 
-class EventEmitter<TEvent> {
-  private listeners = new Set<EventListener<TEvent>>();
-
-  add = (...listeners: EventListener<TEvent>[]): void => {
-    listeners.forEach((l) => this.listeners.add(l));
+  add = <T extends HiveEvent>(type: T['type'], listener: HiveEventListener<T>): void => {
+    if (!this.listeners.get(type)?.add(listener)) this.listeners.set(type, new Set([listener]));
   };
 
-  emit = (event: TEvent): void => {
-    this.listeners.forEach((l): void => l(event));
+  emit = <T extends HiveEvent>(event: T): void => {
+    this.listeners.get(event.type)?.forEach((l): void => l(event));
   };
 
-  remove = (...listeners: EventListener<TEvent>[]): void => {
-    listeners.forEach((l) => this.listeners.delete(l));
+  remove = <T extends HiveEvent>(type: T['type'], listener: HiveEventListener<T>): void => {
+    this.listeners.get(type)?.delete(listener);
   };
 }
 
-export class HiveEventEmitter extends EventEmitter<HiveEvent> {}
-export type HiveEventListener<TEvent> = (event: TEvent) => void;
+export type HiveEventListener<T extends HiveEvent> = <K extends T>(event: K) => void;
 export type HiveEvent = MoveEvent | TileEvent | { type: 'tileClear' };
 export type MoveEvent = { type: 'move'; move: Move };
+export type TileEventType =
+  | 'tileSelect'
+  | 'tileDropped'
+  | 'click'
+  | 'tileDeselect'
+  | 'tileSelected'
+  | 'tileDeselected';
 export type TileEvent = {
-  type:
-    | 'tileSelect'
-    | 'tileDropped'
-    | 'click'
-    | 'tileClear'
-    | 'tileDeselect'
-    | 'tileSelected'
-    | 'tileDeselected';
+  type: TileEventType;
   tile: Tile;
 };

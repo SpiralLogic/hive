@@ -1,21 +1,21 @@
 import { HiveEvent, HiveEventEmitter, HiveEventListener } from './hive-event-emitter';
-import { Inputs, useEffect, useReducer } from 'preact/hooks';
+import { useEffect, useReducer } from 'preact/hooks';
 
 const hiveEventEmitter = new HiveEventEmitter();
 
-export const useHiveEventEmitter = (
-  hiveEventHandler?: HiveEventListener<HiveEvent>,
-  inputs?: Inputs
-): HiveEventEmitter => {
-  if (hiveEventHandler)
-    useEffect(() => {
-      hiveEventEmitter.add(hiveEventHandler);
-      return () => {
-        hiveEventEmitter.remove(hiveEventHandler);
-      };
-    }, inputs);
-
+export const useHiveEventEmitter = (): HiveEventEmitter => {
   return hiveEventEmitter;
+};
+
+export const addHiveEventListener = <T extends HiveEvent>(
+  type: T['type'],
+  listener: HiveEventListener<T>
+) => {
+  useEffect(() => {
+    const emitter = useHiveEventEmitter();
+    emitter.add<T>(type, listener);
+    return () => emitter.remove<T>(type, listener);
+  });
 };
 
 const classReducer = (

@@ -1,5 +1,4 @@
-import { act, fireEvent, render } from '@testing-library/preact';
-import { deepEqual } from 'fast-equals';
+import { act, fireEvent} from '@testing-library/preact';
 import { h } from 'preact';
 import { renderElement, simulateEvent } from './helpers';
 import { useHiveEventEmitter } from '../hooks';

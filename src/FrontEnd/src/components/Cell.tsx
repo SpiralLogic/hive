@@ -1,8 +1,8 @@
-import { FunctionComponent, RenderableProps, h  } from 'preact';
+import { FunctionComponent, RenderableProps, h } from 'preact';
 import { HexCoordinates, Tile as TileType } from '../domain';
-import { HiveEvent } from '../hive-event-emitter';
+import { TileEvent } from '../hive-event-emitter';
+import { addHiveEventListener, useClassReducer, useHiveEventEmitter } from '../hooks';
 import { handleDragOver, handleKeyboardNav, isEnterOrSpace } from '../handlers';
-import { useClassReducer, useHiveEventEmitter } from '../hooks';
 import { useEffect, useState } from 'preact/hooks';
 
 export default (
@@ -14,24 +14,28 @@ export default (
   const [classes, setClasses] = useClassReducer(['hex', 'cell', 'entry']);
   const [selectedTile, setSelectedTile] = useState<TileType | null>(null);
   useEffect(() => setClasses({ type: hidden ? 'add' : 'remove', classes: ['entry'] }), [hidden]);
+  const hiveEventEmitter = useHiveEventEmitter();
 
-  const handleHiveEvent = (e: HiveEvent) => {
-    if (e.type === 'tileDeselected' && isValidMove(e.tile.moves)) {
+  addHiveEventListener<TileEvent>('tileDeselected', (event) => {
+    if (isValidMove(event.tile.moves)) {
       setSelectedTile(null);
       setClasses({ type: 'remove', classes: ['can-drop', 'active'] });
-    } else if (e.type === 'tileSelected' && isValidMove(e.tile.moves)) {
-      setSelectedTile(e.tile);
-      setClasses({ type: 'add', classes: ['can-drop'] });
-    } else if (e.type === 'tileDropped') {
-      if (classes.includes('active'))
-        if (selectedTile && isValidMove(selectedTile.moves))
-          hiveEventEmitter.emit({
-            type: 'move',
-            move: { coords, tileId: selectedTile.id },
-          });
     }
-  };
-  const hiveEventEmitter = useHiveEventEmitter(handleHiveEvent);
+  });
+  addHiveEventListener<TileEvent>('tileSelected', (event: TileEvent) => {
+    if (isValidMove(event.tile.moves)) {
+      setSelectedTile(event.tile);
+      setClasses({ type: 'add', classes: ['can-drop'] });
+    }
+  });
+  addHiveEventListener<TileEvent>('tileDropped', () => {
+    if (classes.includes('active'))
+      if (selectedTile && isValidMove(selectedTile.moves))
+        hiveEventEmitter.emit({
+          type: 'move',
+          move: { coords, tileId: selectedTile.id },
+        });
+  });
 
   const handleDragLeave = (ev: { stopPropagation: () => void }) => {
     ev.stopPropagation();

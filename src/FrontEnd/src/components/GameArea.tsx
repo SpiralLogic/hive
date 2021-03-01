@@ -1,4 +1,4 @@
-import { Fragment, FunctionComponent, h } from 'preact';
+import { FunctionComponent, h } from 'preact';
 import { GameState, HexCoordinates } from '../domain';
 import { createRows } from '../hextille-builder';
 import { handleDragOver } from '../handlers';

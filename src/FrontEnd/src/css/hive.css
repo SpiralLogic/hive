@@ -260,6 +260,7 @@ body > svg {
     margin: 0;
     --hex-size: 60px;
     --tile-size: 45px;
+    filter: brightness(1.5);
   }
 
   .hive {

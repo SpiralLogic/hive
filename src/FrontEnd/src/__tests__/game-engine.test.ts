@@ -3,8 +3,6 @@ import { HubConnectionState } from '@microsoft/signalr';
 import { mockLocation, restoreLocation } from './helpers/location';
 import Engine from '../game-engine';
 import gameState from './fixtures/gameState.json';
-import Tile from '../components/Tile';
-import { OpponentSelectionHandler } from '../domain/engine';
 
 jest.mock('@microsoft/signalr');
 
@@ -112,13 +110,6 @@ describe('GameEngine Tests', () => {
     signalR.HubConnection = jest.fn(() => hubConnection);
     const { getConnectionState } = Engine.connectGame('33', { updateGameState });
     expect(getConnectionState()).toBe(HubConnectionState.Disconnected);
-  });
-
-  test(`connection has connected state`, async () => {
-    const updateGameState = jest.fn();
-    const { getConnectionState, closeConnection } = Engine.connectGame('33', { updateGameState });
-    await closeConnection();
-    expect(getConnectionState()).toBe(HubConnectionState.Connected);
   });
 
   test(`connection has connected state`, async () => {

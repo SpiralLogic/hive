@@ -1,10 +1,10 @@
 import { FunctionComponent, h } from 'preact';
-import { HiveEvent } from '../hive-event-emitter';
+import { TileEvent } from '../hive-event-emitter';
 import { Tile } from '../domain';
+import { addHiveEventListener, useClassReducer, useHiveEventEmitter } from '../hooks';
 import { deepEqual } from 'fast-equals';
 import { handleDrop, handleKeyboardNav, isEnterOrSpace } from '../handlers';
 import { memo } from 'preact/compat';
-import { useClassReducer, useHiveEventEmitter } from '../hooks';
 import { useEffect, useState } from 'preact/hooks';
 
 type Props = Tile;
@@ -16,24 +16,35 @@ const TileFC: FunctionComponent<Props> = (tile: Props) => {
   const [focus, setFocus] = useState(tileSelector);
   const { id, moves, creature, playerId } = tile;
   const [classList, setClassList] = useClassReducer([`player${playerId}`, 'hex', 'tile']);
+  const hiveEventEmitter = useHiveEventEmitter();
 
-  const handleHiveEvent = (event: HiveEvent) => {
+  addHiveEventListener('tileClear', () => {
+    deselect();
+    setFocus('');
+  });
+  addHiveEventListener<TileEvent>('tileSelect', (event: TileEvent) => {
+    if (event.tile.id == id) select();
+  });
+
+  addHiveEventListener<TileEvent>('tileDeselect', (event: TileEvent) => {
+    if (event.tile.id == id) deselect();
+  });
+
+  function deselect() {
     const isSelected = classList.includes('selected');
-    if (event.type === 'tileClear') {
-      if (classList.includes('selected')) {
-        hiveEventEmitter.emit({ type: 'tileDeselect', tile: tile });
-      }
-      setFocus('');
-    } else if (event.type === 'tileDeselect' && isSelected) {
+    if (isSelected) {
       setClassList({ type: 'remove', classes: ['selected'] });
       hiveEventEmitter.emit({ type: 'tileDeselected', tile: tile });
-    } else if (event.type === 'tileSelect' && event.tile.id === id && !isSelected) {
-      hiveEventEmitter.emit({ type: 'tileClear', tile: tile });
+    }
+  }
+  const select = () => {
+    const isSelected = classList.includes('selected');
+    if (!isSelected) {
+      hiveEventEmitter.emit({ type: 'tileClear' });
       setClassList({ type: 'add', classes: ['selected'] });
       hiveEventEmitter.emit({ type: 'tileSelected', tile: tile });
     }
   };
-  const hiveEventEmitter = useHiveEventEmitter(handleHiveEvent);
   useEffect(() => {
     if (!focus) return;
     const focusElement =
@@ -44,21 +55,21 @@ const TileFC: FunctionComponent<Props> = (tile: Props) => {
 
   const handleDragStart = (event: DragEvent) => {
     event.stopPropagation();
-    hiveEventEmitter.emit({ type: 'tileSelect', tile: tile });
-    setClassList({ type: 'add', classes: ['beforeDrag', 'selected'] });
+    select();
+    setClassList({ type: 'add', classes: ['beforeDrag'] });
     setTimeout(() => setClassList({ type: 'remove', classes: ['beforeDrag'] }), 1);
   };
   const handleDragEnd = () => {
-    hiveEventEmitter.emit({ type: 'tileClear', tile: tile });
+    hiveEventEmitter.emit({ type: 'tileClear' });
     hiveEventEmitter.emit({ type: 'tileDropped', tile: tile });
   };
   const handleClick = (event: MouseEvent) => {
     event.stopPropagation();
     const isSelected = classList.includes('selected');
     if (!isSelected) {
-      hiveEventEmitter.emit({ type: 'tileSelect', tile: tile });
+      select();
     } else {
-      hiveEventEmitter.emit({ type: 'tileDeselect', tile: tile });
+      deselect();
     }
   };
   const handleKeyDown = (e: KeyboardEvent) => {
@@ -66,11 +77,10 @@ const TileFC: FunctionComponent<Props> = (tile: Props) => {
     e.stopPropagation();
     const isSelected = classList.includes('selected');
     if (!isSelected) {
-      hiveEventEmitter.emit({ type: 'tileClear', tile: tile });
-      hiveEventEmitter.emit({ type: 'tileSelect', tile: tile });
+      select();
       setFocus(cellSelector);
     } else {
-      hiveEventEmitter.emit({ type: 'tileDeselect', tile: tile });
+      deselect();
     }
   };
   const handleMouseLeave = (event: { currentTarget: HTMLElement }) => event.currentTarget.blur();

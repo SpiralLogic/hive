@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { RenderResult, fireEvent, render } from '@testing-library/preact';
+import { fireEvent} from '@testing-library/preact';
 import { h } from 'preact';
 import { mockLocation, restoreLocation } from './helpers/location';
 import { renderElement } from './helpers';

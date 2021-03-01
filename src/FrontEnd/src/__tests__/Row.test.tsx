@@ -1,6 +1,4 @@
-import { deepEqual } from 'fast-equals';
 import { h } from 'preact';
-import { render } from '@testing-library/preact';
 import { renderElement } from './helpers';
 import Cell from '../components/Cell';
 import Row from '../components/Row';

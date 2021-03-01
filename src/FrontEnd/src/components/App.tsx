@@ -1,9 +1,9 @@
-import { Cell, GameId, GameState, MoveTile, Player, PlayerId, Tile, TileId } from '../domain';
+import { Cell, GameId, GameState, Player, PlayerId, Tile} from '../domain';
 import { FunctionComponent, h } from 'preact';
-import { HiveEvent, HiveEventListener } from '../hive-event-emitter';
+import { MoveEvent, TileEvent } from '../hive-event-emitter';
 import { OpponentSelectionHandler } from '../domain/engine';
+import { addHiveEventListener, useHiveEventEmitter } from '../hooks';
 import { useEffect, useState } from 'preact/hooks';
-import { useHiveEventEmitter } from '../hooks';
 import Engine from '../game-engine';
 import GameArea from './GameArea';
 
@@ -45,15 +45,11 @@ const App: FunctionComponent = () => {
   }, []);
 
   if (gameState === undefined) return <h1>loading !</h1>;
-
-  const hiveEventHandler: HiveEventListener<HiveEvent> = async (event: HiveEvent) => {
-    if (event.type === 'move') {
-      const newGameState = await Engine.moveTile(gameState.gameId, event.move);
-      updateGameState(newGameState);
-    }
-  };
-
-  const hiveEventEmitter = useHiveEventEmitter(hiveEventHandler, []);
+  const hiveEventEmitter = useHiveEventEmitter();
+  addHiveEventListener<MoveEvent>('move', async (event) => {
+    const newGameState = await Engine.moveTile(gameState.gameId, event.move);
+    updateGameState(newGameState);
+  });
 
   const opponentSelectionHandler: OpponentSelectionHandler = (type, tileId) => {
     const tile = getAllTiles(gameState.players, gameState.cells).find((t) => t.id === tileId);
@@ -71,16 +67,24 @@ const App: FunctionComponent = () => {
       opponentSelection: opponentSelectionHandler,
     });
 
-    const selectionChangeHandler = (event: HiveEvent) => {
-      if (event.type == 'tileSelected' && sendSelection) {
+    const selectionChangeHandler = (event: TileEvent) => {
+      if (sendSelection) {
         sendSelection('select', event.tile.id);
-      } else if (event.type == 'tileDeselected' && sendSelection) {
+      }
+    };
+    const deselectionChangeHandler = (event: TileEvent) => {
+      if (sendSelection) {
         sendSelection('deselect', event.tile.id);
       }
     };
-    hiveEventEmitter.add(selectionChangeHandler);
+    hiveEventEmitter.add<TileEvent>('tileSelected', selectionChangeHandler);
+    hiveEventEmitter.add<TileEvent>('tileDeselected', deselectionChangeHandler);
 
-    return () => closeConnection() && hiveEventEmitter.remove(selectionChangeHandler);
+    return () => {
+      closeConnection();
+      hiveEventEmitter.remove<TileEvent>('tileSelected', selectionChangeHandler);
+      hiveEventEmitter.remove<TileEvent>('tileDeselected', deselectionChangeHandler);
+    };
   }, []);
 
   removeOtherPlayerMoves(playerId, gameState);

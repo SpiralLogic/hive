@@ -1,4 +1,4 @@
-import { HiveEvent } from '../hive-event-emitter';
+import { HiveEvent, TileEvent } from '../hive-event-emitter';
 import { fireEvent } from '@testing-library/preact';
 import { h } from 'preact';
 import { renderElement, simulateEvent } from './helpers';
@@ -22,7 +22,7 @@ describe('Tile Tests', () => {
     return renderElement(<Tile {...tileNoMove} />);
   };
 
-  const expectedHiveEvent: HiveEvent = {
+  const expectedHiveEvent: TileEvent = {
     type: 'tileSelect',
     tile: tileCanMove,
   };
@@ -38,15 +38,21 @@ describe('Tile Tests', () => {
     test('click emits tile start event', () => {
       jest.spyOn(useHiveEventEmitter(), 'emit');
       fireEvent.click(createTileCanMove());
-
-      expect(useHiveEventEmitter().emit).toHaveBeenCalledWith(expectedHiveEvent);
+      const expectedEvent: TileEvent = {
+        type: 'tileSelected',
+        tile: tileCanMove,
+      };
+      expect(useHiveEventEmitter().emit).toHaveBeenCalledWith(expect.objectContaining(expectedEvent));
     });
 
     test('enter emits tile start event', () => {
       jest.spyOn(useHiveEventEmitter(), 'emit');
       fireEvent.keyDown(createTileCanMove(), { key: 'Enter' });
-
-      expect(useHiveEventEmitter().emit).toHaveBeenCalledWith(expectedHiveEvent);
+      const expectedEvent: TileEvent = {
+        type: 'tileSelected',
+        tile: tileCanMove,
+      };
+      expect(useHiveEventEmitter().emit).toHaveBeenCalledWith(expect.objectContaining(expectedEvent));
     });
 
     test('enter selects tile', () => {
@@ -75,8 +81,11 @@ describe('Tile Tests', () => {
     test('Space emits tile start event', () => {
       jest.spyOn(useHiveEventEmitter(), 'emit');
       fireEvent.keyDown(createTileCanMove(), { key: ' ' });
-
-      expect(useHiveEventEmitter().emit).toHaveBeenCalledWith(expectedHiveEvent);
+      const expectedEvent: TileEvent = {
+        type: 'tileSelected',
+        tile: tileCanMove,
+      };
+      expect(useHiveEventEmitter().emit).toHaveBeenCalledWith(expect.objectContaining(expectedEvent));
     });
 
     test('click deselects previous selected tile', () => {
@@ -118,8 +127,11 @@ describe('Tile Tests', () => {
     test('on drag emits start event', () => {
       jest.spyOn(useHiveEventEmitter(), 'emit');
       fireEvent.dragStart(createTileCanMove());
-
-      expect(useHiveEventEmitter().emit).toHaveBeenCalledWith(expectedHiveEvent);
+      const expectedEvent: TileEvent = {
+        type: 'tileSelected',
+        tile: tileCanMove,
+      };
+      expect(useHiveEventEmitter().emit).toHaveBeenCalledWith(expect.objectContaining(expectedEvent));
     });
 
     test('on dragEnd emits end event', () => {
@@ -130,7 +142,7 @@ describe('Tile Tests', () => {
         tile: tileCanMove,
       };
 
-      expect(useHiveEventEmitter().emit).toHaveBeenCalledWith(expectedEvent);
+      expect(useHiveEventEmitter().emit).toHaveBeenCalledWith(expect.objectContaining(expectedEvent));
     });
 
     test('default on drop is prevented', () => {
