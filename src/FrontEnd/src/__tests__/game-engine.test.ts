@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import { HubConnectionState } from '@microsoft/signalr';
 import { mockLocation, restoreLocation } from './helpers/location';
-import Engine from '../game-engine';
+import Engine from '../utilities/game-engine';
 import gameState from './fixtures/gameState.json';
 
 jest.mock('@microsoft/signalr');
@@ -41,14 +41,14 @@ describe('GameEngine Tests', () => {
   });
 
   test('new game', async () => {
-    const response = await Engine.newGame();
+    const response = await Engine.getNewGame();
     expect(response).not.toBeFalsy();
     expect(response.cells).toHaveLength(2);
     expect(response.players).toHaveLength(2);
   });
 
   test('existing game', async () => {
-    const response = await Engine.getGame('33');
+    const response = await Engine.getExistingGame('33');
     expect(global.fetch).toBeCalledWith('/api/game/33', {
       headers: {
         Accept: 'application/json',

@@ -6,10 +6,7 @@ import { renderElement } from './helpers';
 import Player from '../components/Player';
 
 describe('PlayerTiles Tests', () => {
-  const ant = { id: 1, playerId: 1, creature: 'ant', moves: [{ q: 1, r: 1 }] };
-  const fly = { id: 2, playerId: 0, creature: 'fly', moves: [] };
-
-  const playerProps = { id: 1, name: 'Player 1', tiles: [ant, fly, fly] };
+  const playerProps = { id: 1, name: 'Player 1', hide: false };
 
   let container: Element;
   let playerTiles: Element | null;
@@ -35,18 +32,6 @@ describe('PlayerTiles Tests', () => {
       expect(tiles).toHaveLength(1);
     });
 
-    test('each tile is rendered', () => {
-      expect(playerTiles?.querySelectorAll('[title="ant"]')).toHaveLength(1);
-      expect(playerTiles?.querySelectorAll('[title="fly"]')).toHaveLength(2);
-    });
-
-    test(`other player name is a link`, () => {
-      global.window.history.replaceState({}, global.document.title, `/game/33/0`);
-      renderElement(<Player {...playerProps} />);
-      const playerName = document.querySelector('.name');
-      expect(playerName).toBeInstanceOf(HTMLAnchorElement);
-    });
-
     test('nothing is rendered with no tiles left', () => {
       const emptyTileProps = { ...playerProps, tiles: [] };
       const container = renderElement(<Player {...emptyTileProps} />);
@@ -54,27 +39,11 @@ describe('PlayerTiles Tests', () => {
       expect(playerTiles).toBeNull();
     });
 
-    test('enter navigates player', () => {
-      mockLocation({ href: '/game/33/0', pathname: '/game/33/0' });
-      const playerName = renderElement(<Player {...playerProps} />).querySelector('.name');
-      fireEvent.keyDown(playerName!, { key: 'Enter' });
-      expect(window.location.href.endsWith('1')).toBe(true);
-      restoreLocation();
-    });
-
     test(`other keys dont navigates player`, () => {
       mockLocation({ href: '/game/33/0', pathname: '/game/33/0' });
       const playerName = renderElement(<Player {...playerProps} />).querySelector('.name');
       fireEvent.keyDown(playerName!, { key: 'Tab' });
       expect(window.location.href.endsWith('1')).not.toBe(true);
-      restoreLocation();
-    });
-
-    test('space navigates player', () => {
-      mockLocation({ href: '/game/33/0', pathname: '/game/33/0' });
-      const playerName = renderElement(<Player {...playerProps} />).querySelector('.name');
-      fireEvent.keyDown(playerName!, { key: ' ' });
-      expect(window.location.href.endsWith('1')).toBe(true);
       restoreLocation();
     });
   });

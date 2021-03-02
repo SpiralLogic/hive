@@ -96,7 +96,7 @@ describe('Cell Tests', () => {
     });
 
     test('move calls moves tile when cell is valid and active', () => {
-      jest.spyOn(useHiveDispatcher(), 'emit');
+      jest.spyOn(useHiveDispatcher(), 'dispatch');
       const cellWithTile = createCellWithTileAndDrop();
       const emptyCell = createCellCanDrop();
       emitHiveEvent('tileSelected');
@@ -116,7 +116,7 @@ describe('Cell Tests', () => {
     });
 
     test(`drop doesn't call move tile when cell doesn't allow drop`, () => {
-      jest.spyOn(useHiveDispatcher(), 'emit');
+      jest.spyOn(useHiveDispatcher(), 'dispatch');
       createCellWithTile();
       createCellNoDrop();
       emitHiveEvent('tileSelected');
@@ -160,7 +160,7 @@ describe('Cell Tests', () => {
     });
 
     test(`occupied cell with no active tile doesn't stop event propagation'`, () => {
-      jest.spyOn(useHiveDispatcher(), 'emit');
+      jest.spyOn(useHiveDispatcher(), 'dispatch');
       const cellWithTile = createCellWithTileAndDrop();
       fireEvent.click(cellWithTile);
 
@@ -168,7 +168,7 @@ describe('Cell Tests', () => {
     });
 
     test(`cell click with active tile makes a move`, () => {
-      jest.spyOn(useHiveDispatcher(), 'emit');
+      jest.spyOn(useHiveDispatcher(), 'dispatch');
       const emptyCell = createCellCanDrop();
       emitHiveEvent('tileSelected');
       fireEvent.click(emptyCell);
@@ -181,7 +181,7 @@ describe('Cell Tests', () => {
     });
 
     test(`cell click with no active tile shouldn't move`, () => {
-      jest.spyOn(useHiveDispatcher(), 'emit');
+      jest.spyOn(useHiveDispatcher(), 'dispatch');
       const emptyCell = createCellNoDrop();
       fireEvent.click(emptyCell);
 
@@ -189,7 +189,7 @@ describe('Cell Tests', () => {
     });
 
     test(`cell click with invalid tile shouldn't move`, () => {
-      jest.spyOn(useHiveDispatcher(), 'emit');
+      jest.spyOn(useHiveDispatcher(), 'dispatch');
       const emptyCell = createCellNoDrop();
       emitHiveEvent('tileSelected');
       fireEvent.click(emptyCell);
@@ -198,7 +198,7 @@ describe('Cell Tests', () => {
     });
 
     test(`enter fires emit event on keydown enter`, () => {
-      jest.spyOn(useHiveDispatcher(), 'emit');
+      jest.spyOn(useHiveDispatcher(), 'dispatch');
       const emptyCell = createCellCanDrop();
       emitHiveEvent('tileSelected');
       fireEvent.keyDown(emptyCell, { key: 'Enter' });
@@ -207,7 +207,7 @@ describe('Cell Tests', () => {
     });
 
     test(`space fires emit event on keydown enter`, () => {
-      jest.spyOn(useHiveDispatcher(), 'emit');
+      jest.spyOn(useHiveDispatcher(), 'dispatch');
       const emptyCell = createCellCanDrop();
       emitHiveEvent('tileSelected');
       fireEvent.keyDown(emptyCell, { key: ' ' });
@@ -216,7 +216,7 @@ describe('Cell Tests', () => {
     });
 
     test(`other keys dont emits tile start event`, () => {
-      jest.spyOn(useHiveDispatcher(), 'emit');
+      jest.spyOn(useHiveDispatcher(), 'dispatch');
       fireEvent.keyDown(createCellCanDrop(), { key: 'Tab' });
 
       expect(useHiveDispatcher().dispatch).not.toHaveBeenCalled();

@@ -11,7 +11,6 @@ describe('PlayerList Tests', () => {
     { id: 2, name: 'Player 2', tiles: [ant] },
   ];
 
-  const props = { players: players };
   let playerList: HTMLElement;
   beforeEach(() => {
     global.window.history.replaceState({}, global.document.title, `/game/33/1`);

@@ -1,4 +1,4 @@
-import { HiveEvent, TileEvent } from '../utilities/hive-event-emitter';
+import { HiveAction, HiveEvent, TileAction, TileEvent } from '../utilities/hive-dispatcher';
 import { fireEvent } from '@testing-library/preact';
 import { h } from 'preact';
 import { renderElement, simulateEvent } from './helpers';
@@ -22,7 +22,7 @@ describe('Tile Tests', () => {
     return renderElement(<Tile {...tileNoMove} />);
   };
 
-  const expectedHiveEvent: TileEvent = {
+  const expectedHiveEvent: HiveAction = {
     type: 'tileSelect',
     tile: tileCanMove,
   };
@@ -36,7 +36,7 @@ describe('Tile Tests', () => {
 
   describe('tile events', () => {
     test('click emits tile start event', () => {
-      jest.spyOn(useHiveDispatcher(), 'emit');
+      jest.spyOn(useHiveDispatcher(), 'dispatch');
       fireEvent.click(createTileCanMove());
       const expectedEvent: TileEvent = {
         type: 'tileSelected',
@@ -46,7 +46,7 @@ describe('Tile Tests', () => {
     });
 
     test('enter emits tile start event', () => {
-      jest.spyOn(useHiveDispatcher(), 'emit');
+      jest.spyOn(useHiveDispatcher(), 'dispatch');
       fireEvent.keyDown(createTileCanMove(), { key: 'Enter' });
       const expectedEvent: TileEvent = {
         type: 'tileSelected',
@@ -79,7 +79,7 @@ describe('Tile Tests', () => {
     });
 
     test('Space emits tile start event', () => {
-      jest.spyOn(useHiveDispatcher(), 'emit');
+      jest.spyOn(useHiveDispatcher(), 'dispatch');
       fireEvent.keyDown(createTileCanMove(), { key: ' ' });
       const expectedEvent: TileEvent = {
         type: 'tileSelected',
@@ -89,7 +89,7 @@ describe('Tile Tests', () => {
     });
 
     test('click deselects previous selected tile', () => {
-      jest.spyOn(useHiveDispatcher(), 'emit');
+      jest.spyOn(useHiveDispatcher(), 'dispatch');
       const tile = createTileCanMove();
       fireEvent.click(tile);
 
@@ -97,7 +97,7 @@ describe('Tile Tests', () => {
     });
 
     test('clicking same tile doesnt fire a tile start event', () => {
-      const mock = jest.spyOn(useHiveDispatcher(), 'emit');
+      const mock = jest.spyOn(useHiveDispatcher(), 'dispatch');
       const tile = createTileCanMove();
       fireEvent.click(tile);
 
@@ -125,7 +125,7 @@ describe('Tile Tests', () => {
     });
 
     test('on drag emits start event', () => {
-      jest.spyOn(useHiveDispatcher(), 'emit');
+      jest.spyOn(useHiveDispatcher(), 'dispatch');
       fireEvent.dragStart(createTileCanMove());
       const expectedEvent: TileEvent = {
         type: 'tileSelected',
@@ -135,7 +135,7 @@ describe('Tile Tests', () => {
     });
 
     test('on dragEnd emits end event', () => {
-      jest.spyOn(useHiveDispatcher(), 'emit');
+      jest.spyOn(useHiveDispatcher(), 'dispatch');
       fireEvent.dragEnd(createTileCanMove());
       const expectedEvent: HiveEvent = {
         type: 'tileDropped',
