@@ -17,16 +17,21 @@ export default (
   const hiveDispatcher = useHiveDispatcher();
 
   addHiveEventListener<TileEvent>('tileDeselected', (event) => {
-    if (!isValidMove(event.tile.moves)) return;
+    if (!isValidMove(event.tile.moves)) {
+      setClasses({ type: 'remove', class: 'no-drop' });
+    }
     setSelectedTile(null);
     setClasses({ type: 'remove', class: 'can-drop' });
     setClasses({ type: 'remove', class: 'active' });
   });
 
   addHiveEventListener<TileEvent>('tileSelected', (event) => {
-    if (!isValidMove(event.tile.moves)) return;
-    setSelectedTile(event.tile);
-    setClasses({ type: 'add', class: 'can-drop' });
+    if (!isValidMove(event.tile.moves)) {
+      setClasses({ type: 'add', class: 'no-drop' });
+    } else {
+      setSelectedTile(event.tile);
+      setClasses({ type: 'add', class: 'can-drop' });
+    }
   });
 
   addHiveEventListener<TileEvent>('tileDropped', () => {
@@ -47,9 +52,9 @@ export default (
     if (selectedTile) setClasses({ type: 'add', class: 'active' });
   };
 
-  const handleClick = (ev: UIEvent) => {
+  const handleClick = (event: UIEvent) => {
     if (!(selectedTile && isValidMove(selectedTile.moves))) return;
-    ev.stopPropagation();
+    event.stopPropagation();
     hiveDispatcher.dispatch({ type: 'move', move: { coords, tileId: selectedTile.id } });
     hiveDispatcher.dispatch({ type: 'tileClear', tile: selectedTile });
   };
@@ -60,7 +65,7 @@ export default (
 
   const attributes = {
     class: classes,
-    ondragover: handleDragOver,
+    onDragOver: handleDragOver,
     ondragleave: handleDragLeave,
     ondragenter: handleDragEnter,
     onmouseenter: handleDragEnter,

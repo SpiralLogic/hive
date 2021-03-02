@@ -9,7 +9,7 @@ body {
   --p1outline: #8A2BE2A0;
   --hex-offset: -1;
   --hex-size: 95px;
-  --tile-size: 70px; 
+  --tile-size: 70px;
   overscroll-behavior-y: contain;
 }
 
@@ -109,8 +109,8 @@ body > svg {
 .hex-row {
   display: inline-flex;
   flex-direction: row;
+  min-width: calc(2 * var(--hex-size));
   margin: calc(var(--hex-size) * -0.1) 0;
-  min-width: calc(2*var(--hex-size));
 }
 
 .hex-row:nth-child(1) {
@@ -179,7 +179,8 @@ body > svg {
 
 .cell .tile:not([draggable='true']) {pointer-events: none;}
 
-.cell.active {
+.cell.no-drop:focus,
+.cell.no-drop:hover {
   transition-duration: 0.1s;
   --focus: transparent;
   fill: #5D001E;
@@ -190,6 +191,7 @@ body > svg {
 }
 
 .cell.can-drop.active,
+.cell.can-drop:hover
 .cell.can-drop:focus {
   fill: #AFD275;
 }
@@ -204,7 +206,9 @@ body > svg {
 }
 
 .cell.can-drop:hover .tile,
+.cell.can-drop.active .tile,
 .cell.can-drop:focus .tile {
+  pointer-events: none;
   opacity: 100%;
 }
 
@@ -320,10 +324,9 @@ body > svg {
     fill: #AFD275;
   }
 
-  .tile.selected:before ,
+  .tile.selected:before,
   [draggable='true']:not(.selected):hover:before,
   [draggable='true']:not(.selected):focus:before {
     box-shadow: 0 -7px 1em 5px var(--shadow), 0 7px 1em 5px var(--shadow);
   }
-
 }

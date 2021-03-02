@@ -21,11 +21,11 @@ const GameArea: FunctionComponent<Pick<GameState, 'players' | 'cells'> & { playe
   };
   removeOtherPlayerMoves(playerId, { players, cells });
 
-  const [rows, shiftClass] = createRows(cells);
+  const rows = createRows(cells);
   return (
     <div {...attributes}>
       <Players players={players} />
-      <Hextille shiftClass={shiftClass}>
+      <Hextille>
         {rows.map((row) => (
           <Row key={row.id}>
             {row.cells.map((cell) => (

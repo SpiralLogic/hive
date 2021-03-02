@@ -1,4 +1,5 @@
 import { Cell, GameState, Player, PlayerId, Tile } from '../domain';
+
 export type Row = { id: number; cells: Array<Cell & { hidden?: boolean }> };
 
 const getAllTiles = (...parents: Array<Array<Player | Cell>>): Array<Tile> =>
@@ -29,7 +30,7 @@ const getHeight = (sortedHexagons: Cell[]): [number, number] => {
   return [firstCell.coords.r - 1, height + 2];
 };
 
-export const createRows = (cells: Cell[]): [Row[], 'left' | 'right'] => {
+export const createRows = (cells: Cell[]): Row[] => {
   const sortedHexagons = cells.sort((c1, c2) => c1.coords.r - c2.coords.r || c1.coords.q - c2.coords.q);
   const [firstRow, height] = getHeight(sortedHexagons);
   const [firstColumn, width] = getWidth(sortedHexagons);
@@ -49,11 +50,8 @@ export const createRows = (cells: Cell[]): [Row[], 'left' | 'right'] => {
     return Array.from(Array(height).keys(), createEmptyRow);
   };
 
-  return [
-    sortedHexagons.reduce((rows, cell) => {
-      (rows[cell.coords.r - firstRow] as Row).cells[cell.coords.q - firstColumn] = cell;
-      return rows;
-    }, createEmptyRows()),
-    shift,
-  ];
+  return sortedHexagons.reduce((rows, cell) => {
+    (rows[cell.coords.r - firstRow] as Row).cells[cell.coords.q - firstColumn] = cell;
+    return rows;
+  }, createEmptyRows());
 };

@@ -3,6 +3,7 @@ import { h } from 'preact';
 import { render } from '@testing-library/preact';
 import Cell from '../components/Cell';
 import Hextille from '../components/Hextille';
+import Row from '../components/Row';
 import Tile from '../components/Tile';
 
 describe('Hextille Tests', () => {
@@ -13,8 +14,14 @@ describe('Hextille Tests', () => {
   );
 
   describe('Hextille Snapshot', () => {
-    test('can move matches current snapshot', () => {
-      expect(render(<Hextille shiftClass={'left'} />)).toMatchSnapshot();
+    test('matches current snapshot', () => {
+      expect(
+        render(
+          <Hextille>
+            <Row>{createCell}</Row>
+          </Hextille>
+        )
+      ).toMatchSnapshot();
     });
   });
 });
