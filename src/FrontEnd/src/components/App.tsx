@@ -1,7 +1,6 @@
 import { Fragment, FunctionComponent, h } from 'preact';
 import { GameId, GameState, PlayerId } from '../domain';
 import { MoveEvent, TileEvent } from '../utilities/hive-dispatcher';
-import { Rules } from './Rules';
 import { addHiveEventListener, useHiveDispatcher } from '../utilities/hooks';
 import { opponentSelectionHandler } from '../utilities/handlers';
 import { useEffect, useState } from 'preact/hooks';
