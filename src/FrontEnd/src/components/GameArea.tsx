@@ -1,20 +1,22 @@
 import { FunctionComponent, h } from 'preact';
 import { GameState, HexCoordinates } from '../domain';
-import { createRows } from '../hextille-builder';
-import { handleDragOver } from '../handlers';
 import Cell from './Cell';
 import Hextille from './Hextille';
 import PlayerList from './PlayerList';
 import Row from './Row';
 import Tile from './Tile';
+import { handleDragOver } from '../utilities/handlers';
+import { createRows, removeOtherPlayerMoves } from '../utilities/hextille-builder';
 
 const cellKey = ({ q, r }: HexCoordinates) => `${q}-${r}`;
 
-const GameArea: FunctionComponent<GameState> = ({ players, cells }) => {
+const GameArea: FunctionComponent<GameState> = ({ players, cells, playerId }) => {
   const attributes = {
     ondragover: handleDragOver,
     className: 'hive',
   };
+  removeOtherPlayerMoves(playerId, { players, cells });
+
   const sortedHexagons = cells.sort((c1, c2) => c1.coords.r - c2.coords.r || c1.coords.q - c2.coords.q);
   const shiftClass = sortedHexagons[0].coords.r % 2 ? 'right' : 'left';
   const rows = createRows(sortedHexagons);

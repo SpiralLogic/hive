@@ -1,5 +1,18 @@
 import { Cell } from './domain';
+import { GameState, Player, PlayerId, Tile } from '../domain';
 export type Row = { id: number; cells: Array<Cell & { hidden?: boolean }> };
+
+const getAllTiles = (...parents: Array<Array<Player | Cell>>): Array<Tile> =>
+  parents.flatMap((p) => p.flatMap((p) => p.tiles));
+
+const getAllPlayerTiles = (playerId: PlayerId, ...parents: Array<Array<Player | Cell>>) =>
+  getAllTiles(...parents).filter((t) => t.playerId !== playerId && playerId !== 2);
+
+export const removeOtherPlayerMoves = (playerId: number, gameState: GameState) => {
+  getAllPlayerTiles(playerId, gameState.players, gameState.cells).forEach((t) =>
+    t.moves.splice(0, t.moves.length)
+  );
+};
 
 const getWidth = (cells: Cell[]): [number, number] => {
   const [min, max] = cells.reduce(([min, max], c) => [Math.min(min, c.coords.q), Math.max(max, c.coords.q)], [

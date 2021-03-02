@@ -5,7 +5,7 @@
         <RootNamespace>Hive</RootNamespace>
         <TargetFramework>net5.0</TargetFramework>
         <IsPackable>false</IsPackable>
-        <LangVersion>9.0</LangVersion>
+        <LangVersion>9.0</LangVersion> 
         <Nullable>enable</Nullable>
         <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
         <TypeScriptToolsVersion>Latest</TypeScriptToolsVersion>
@@ -31,14 +31,6 @@
         <Content Include="$(SpaRoot)src\**" Exclude="$(SpaRoot)src\__tests__\__coverage__\**" LinkBase="FrontEnd" CopyToOutputDirectory="Never" CopyToPublishDirectory="Never" />
         <Content Include="$(SpaRoot)*" Exclude="$(SpaRoot)public\*,$(SpaRoot)src\*" CopyToOutputDirectory="Never" CopyToPublishDirectory="Never" />
         <Watch Include="$(SpaRoot)src\**;" Exclude="$(SpaRoot)node_modules\**\*;$(SpaRoot)public\**;$(DefaultExcludes)" />
-        <Content Update="..\..\FrontEnd\src\domain\Row.ts">
-          <LinkBase>FrontEnd\</LinkBase>
-          <Link>FrontEnd\domain\cell - Copy.ts</Link>
-        </Content>
-        <Content Update="..\..\FrontEnd\src\components\Rules.tsx">
-          <LinkBase>FrontEnd\</LinkBase>
-          <Link>FrontEnd\components\Rules.tsx</Link>
-        </Content>
     </ItemGroup>
 
     <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

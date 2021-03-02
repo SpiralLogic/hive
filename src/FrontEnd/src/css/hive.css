@@ -9,7 +9,8 @@ body {
   --p1outline: #8A2BE2A0;
   --hex-offset: -1;
   --hex-size: 95px;
-  --tile-size: 70px; overscroll-behavior-y: contain;
+  --tile-size: 70px; 
+  overscroll-behavior-y: contain;
 }
 
 body > svg {
