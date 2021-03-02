@@ -1,16 +1,16 @@
 import { HexCoordinates } from '../domain';
 import { h } from 'preact';
 import { render } from '@testing-library/preact';
-import Cell from '../components/Cell';
+import ActiveCell from '../components/ActiveCell';
+import ActiveTile from '../components/ActiveTile';
 import Hextille from '../components/Hextille';
 import Row from '../components/Row';
-import Tile from '../components/Tile';
 
 describe('Hextille Tests', () => {
   const createCell = (q: number, r: number) => (
-    <Cell coords={{ q, r }}>
-      <Tile {...{ creature: q + '-' + r, id: 0, playerId: 0, moves: [] as HexCoordinates[] }} />
-    </Cell>
+    <ActiveCell coords={{ q, r }}>
+      <ActiveTile {...{ creature: q + '-' + r, id: 0, playerId: 0, moves: [] as HexCoordinates[] }} />
+    </ActiveCell>
   );
 
   describe('Hextille Snapshot', () => {

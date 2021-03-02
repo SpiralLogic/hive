@@ -79,19 +79,20 @@ namespace Hive.Domain
             var loser = Cells.WhereOccupied().Where(c => c.HasQueen()).FirstOrDefault(q => q.SelectNeighbors(Cells).All(n => !n.IsEmpty()));
 
             if (loser == null) return false;
-            foreach (var c in Cells.WherePlayerOccupies(loser.TopTile().PlayerId).Where(c => !c.HasQueen()))
+            foreach (var cell in Cells.WherePlayerOccupies(loser.TopTile().PlayerId).Where(c => !c.HasQueen()))
             {
-                c.Tiles.Push(c.TopTile() with {PlayerId = Players.First(p => p.Id != loser.Tiles.First().PlayerId).Id});
+                cell.Tiles.Clear();
             }
-
 
             return true;
         }
 
         private void UpdatePlayerTileMoves(Player player)
         {
-            var availableCells = player.Tiles.Count == _startingTiles.Length ? Cells.WhereEmpty() : Cells.WherePlayerOccupies(player.Id).SelectMany(c => Cells.SelectEmptyNeighbors(c));
-
+            var availableCells = player.Tiles.Count == _startingTiles.Length
+                ? Cells.WhereEmpty()
+                : Cells.WherePlayerOccupies(player.Id).SelectMany(c => Cells.SelectEmptyNeighbors(c)).Where(c => Cells.SelectNeighbors(c).WhereOccupied().All(c => c.TopTile().PlayerId == player.Id));
+            
             var availableMoves = availableCells.ToCoords();
 
             if (player.Tiles.Count == _startingTiles.Length - 3 && player.Tiles.Any(t => t.IsQueen()))

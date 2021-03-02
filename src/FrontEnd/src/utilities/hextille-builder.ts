@@ -35,8 +35,6 @@ export const createRows = (cells: Cell[]): Row[] => {
   const [firstRow, height] = getHeight(sortedHexagons);
   const [firstColumn, width] = getWidth(sortedHexagons);
 
-  const shift = sortedHexagons[0].coords.r % 2 ? 'right' : 'left';
-
   const createEmptyRow = (i: number): Row => ({
     id: firstRow + i,
     cells: Array.from(Array(width).keys(), (j: number) => ({

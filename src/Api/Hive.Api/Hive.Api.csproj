@@ -31,6 +31,13 @@
         <Content Include="$(SpaRoot)src\**" Exclude="$(SpaRoot)src\__tests__\__coverage__\**" LinkBase="FrontEnd" CopyToOutputDirectory="Never" CopyToPublishDirectory="Never" />
         <Content Include="$(SpaRoot)*" Exclude="$(SpaRoot)public\*,$(SpaRoot)src\*" CopyToOutputDirectory="Never" CopyToPublishDirectory="Never" />
         <Watch Include="$(SpaRoot)src\**;" Exclude="$(SpaRoot)node_modules\**\*;$(SpaRoot)public\**;$(DefaultExcludes)" />
+        <Content Update="..\..\FrontEnd\src\components\Cell.tsx">
+          <LinkBase>FrontEnd\</LinkBase>
+          <Link>FrontEnd\components\InactiveCell.tsx</Link>
+        </Content>
+        <Content Update="..\..\FrontEnd\src\components\Tile.tsx">
+          <Link>FrontEnd\components\Tile.tsx</Link>
+        </Content>
     </ItemGroup>
 
     <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

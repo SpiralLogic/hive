@@ -1,11 +1,13 @@
-import { FunctionComponent, h } from 'preact';
+import { Fragment, FunctionComponent, h } from 'preact';
 import { GameId, GameState, PlayerId } from '../domain';
 import { MoveEvent, TileEvent } from '../utilities/hive-dispatcher';
+import { Rules } from './Rules';
 import { addHiveEventListener, useHiveDispatcher } from '../utilities/hooks';
 import { opponentSelectionHandler } from '../utilities/handlers';
 import { useEffect, useState } from 'preact/hooks';
 import Engine from '../utilities/game-engine';
 import GameArea from './GameArea';
+
 const App: FunctionComponent = () => {
   const [gameState, updateGameState] = useState<GameState | undefined>(undefined);
   const [playerId, setPlayerId] = useState<PlayerId>(0);
@@ -33,6 +35,7 @@ const App: FunctionComponent = () => {
 
   if (gameState === undefined) return <h1>loading !</h1>;
   const hiveDispatcher = useHiveDispatcher();
+
   addHiveEventListener<MoveEvent>('move', async (event) => {
     const newGameState = await Engine.moveTile(gameState.gameId, event.move);
     updateGameState(newGameState);
@@ -66,7 +69,11 @@ const App: FunctionComponent = () => {
     };
   }, []);
 
-  return <GameArea players={gameState.players} cells={gameState.cells} playerId={playerId} />;
+  return (
+    <>
+      <GameArea players={gameState.players} cells={gameState.cells} playerId={playerId} />
+    </>
+  );
 };
 
 App.displayName = 'App';

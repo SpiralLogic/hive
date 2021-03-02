@@ -24,6 +24,7 @@ const classReducer = (initialClasses: string, action: { type: 'add' | 'remove'; 
   } else if (action.type === 'remove') {
     classList.delete(action.class);
   }
+  classList.delete('');
   return Array.from(classList).join(' ');
 };
 

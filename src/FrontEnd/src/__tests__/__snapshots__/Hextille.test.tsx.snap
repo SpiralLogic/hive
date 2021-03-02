@@ -1,26 +1,34 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Hextille Tests Hextille Snapshot can move matches current snapshot 1`] = `
+exports[`Hextille Tests Hextille Snapshot matches current snapshot 1`] = `
 Object {
   "asFragment": [Function],
   "baseElement": <body>
     <div>
       <div
-        class="hex-container"
+        class="hex-container "
       >
         <main
-          class="hextille  left"
-        />
+          class="hextille right"
+        >
+          <div
+            class="hex-row"
+          />
+        </main>
       </div>
     </div>
   </body>,
   "container": <div>
     <div
-      class="hex-container"
+      class="hex-container "
     >
       <main
-        class="hextille  left"
-      />
+        class="hextille right"
+      >
+        <div
+          class="hex-row"
+        />
+      </main>
     </div>
   </div>,
   "debug": [Function],

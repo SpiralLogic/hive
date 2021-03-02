@@ -1,9 +1,9 @@
-import { HiveAction, HiveEvent, TileAction, TileEvent } from '../utilities/hive-dispatcher';
+import { HiveAction, HiveEvent, TileEvent } from '../utilities/hive-dispatcher';
 import { fireEvent } from '@testing-library/preact';
 import { h } from 'preact';
 import { renderElement, simulateEvent } from './helpers';
 import { useHiveDispatcher } from '../utilities/hooks';
-import Tile from '../components/Tile';
+import ActiveTile from '../components/ActiveTile';
 
 describe('Tile Tests', () => {
   const tileCanMove = {
@@ -15,11 +15,11 @@ describe('Tile Tests', () => {
   const tileNoMove = { id: 2, playerId: 0, creature: 'fly', moves: [] };
 
   const createTileCanMove = () => {
-    return renderElement(<Tile {...tileCanMove} />);
+    return renderElement(<ActiveTile {...tileCanMove} />);
   };
 
   const createTileNoMove = () => {
-    return renderElement(<Tile {...tileNoMove} />);
+    return renderElement(<ActiveTile {...tileNoMove} />);
   };
 
   const expectedHiveEvent: HiveAction = {

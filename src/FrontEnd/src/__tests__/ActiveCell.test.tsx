@@ -2,8 +2,8 @@ import { act, fireEvent } from '@testing-library/preact';
 import { h } from 'preact';
 import { renderElement, simulateEvent } from './helpers';
 import { useHiveDispatcher } from '../utilities/hooks';
-import Cell from '../components/Cell';
-import Tile from '../components/Tile';
+import ActiveCell from '../components/ActiveCell';
+import ActiveTile from '../components/ActiveTile';
 
 jest.mock('fast-equals', () => ({ deepEqual: jest.fn(() => true) }));
 describe('Cell Tests', () => {
@@ -21,26 +21,26 @@ describe('Cell Tests', () => {
 
   const createCellWithNoTile = () => {
     const cell = { coords: { q: 0, r: 0 }, tiles: [] };
-    return renderElement(<Cell {...cell} />);
+    return renderElement(<ActiveCell {...cell} />);
   };
 
   const createCellWithTile = () => {
     const tile = { id: 2, playerId: 1, creature: 'fly', moves: [] };
-    const cell = { coords: { q: 1, r: 1 }, children: <Tile {...tile} /> };
+    const cell = { coords: { q: 1, r: 1 }, children: <ActiveTile {...tile} /> };
 
-    return renderElement(<Cell {...cell} />);
+    return renderElement(<ActiveCell {...cell} />);
   };
 
   const createCellWithTileAndDrop = () => {
     const tile = { id: 2, playerId: 1, creature: 'ant', moves: [{ r: 0, q: 0 }] };
-    const cell = { coords: { q: 2, r: 2 }, children: <Tile {...tile} /> };
+    const cell = { coords: { q: 2, r: 2 }, children: <ActiveTile {...tile} /> };
 
-    return renderElement(<Cell {...cell} />);
+    return renderElement(<ActiveCell {...cell} />);
   };
 
   const createCellNoDrop = () => {
     const cell = { coords: { q: 6, r: 6 }, tiles: [] };
-    return renderElement(<Cell {...cell} />);
+    return renderElement(<ActiveCell {...cell} />);
   };
 
   const createCellCanDrop = createCellWithNoTile;
