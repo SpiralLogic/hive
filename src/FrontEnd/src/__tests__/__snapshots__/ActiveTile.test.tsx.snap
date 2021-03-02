@@ -1,0 +1,44 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Tile Tests Tile Snapshot can move matches current snapshot 1`] = `
+<div
+  class="player1 hex tile"
+  draggable="true"
+  tabindex="0"
+  title="ant"
+>
+  <svg
+    viewBox="0 0 100 100"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <use
+      href="#hex"
+    />
+    <use
+      class="creature"
+      href="#ant"
+    />
+  </svg>
+</div>
+`;
+
+exports[`Tile Tests Tile Snapshot no moves matches current snapshot 1`] = `
+<div
+  class="player0 hex tile"
+  draggable="false"
+  title="fly"
+>
+  <svg
+    viewBox="0 0 100 100"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <use
+      href="#hex"
+    />
+    <use
+      class="creature"
+      href="#fly"
+    />
+  </svg>
+</div>
+`;
