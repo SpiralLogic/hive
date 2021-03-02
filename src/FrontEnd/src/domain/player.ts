@@ -8,3 +8,4 @@ export type Player = {
 
 export type PlayerId = number;
 export type PlayerName = string;
+export type Players = Player[];

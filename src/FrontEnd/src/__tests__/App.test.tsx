@@ -1,9 +1,9 @@
 import { GameState } from '../domain';
-import { HiveEvent, MoveEvent } from '../hive-event-emitter';
+import { HiveEvent, MoveEvent } from '../utilities/hive-event-emitter';
 import { h } from 'preact';
 import { render } from '@testing-library/preact';
 import { renderElement } from './helpers';
-import { useHiveEventEmitter } from '../hooks';
+import { useHiveDispatcher } from '../utilities/hooks';
 import App from '../components/App';
 import Engine from '../game-engine';
 import GameArea from '../components/GameArea';
@@ -88,7 +88,7 @@ describe('App Tests', () => {
     const app = render(<App />);
     await Engine.getGame;
     app.rerender(<App />);
-    useHiveEventEmitter().emit(tileSelectEvent);
+    useHiveDispatcher().dispatch(tileSelectEvent);
     expect(gameConnection.sendSelection).toHaveBeenLastCalledWith('select', 2);
   });
 
@@ -96,7 +96,7 @@ describe('App Tests', () => {
     const app = render(<App />);
     await Engine.getGame;
     app.rerender(<App />);
-    useHiveEventEmitter().emit(tileDeselectEvent);
+    useHiveDispatcher().dispatch(tileDeselectEvent);
     expect(gameConnection.sendSelection).toHaveBeenLastCalledWith('deselect', 2);
   });
 
@@ -114,7 +114,7 @@ describe('App Tests', () => {
     const app = render(<App />);
     await Engine.newGame();
     app.rerender(<App />);
-    useHiveEventEmitter().emit(cellMoveEvent);
+    useHiveDispatcher().dispatch(cellMoveEvent);
 
     expect(Engine.moveTile).toHaveBeenCalledTimes(1);
   });
@@ -124,7 +124,7 @@ describe('App Tests', () => {
     await Engine.newGame();
     app.rerender(<App />);
 
-    useHiveEventEmitter().emit(cellMoveEvent);
+    useHiveDispatcher().dispatch(cellMoveEvent);
 
     expect(GameArea).toHaveBeenCalledTimes(2);
   });

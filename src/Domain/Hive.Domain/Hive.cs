@@ -9,17 +9,8 @@ namespace Hive.Domain
 {
     public class Hive
     {
-        private readonly ImmutableArray<Creature> _startingTiles = ImmutableArray.Create(Creatures.Queen,
-            Creatures.Spider,
-            Creatures.Spider,
-            Creatures.Beetle,
-            Creatures.Beetle,
-            Creatures.Grasshopper,
-            Creatures.Grasshopper,
-            Creatures.Grasshopper,
-            Creatures.Ant,
-            Creatures.Ant,
-            Creatures.Ant);
+        private readonly ImmutableArray<Creature> _startingTiles = ImmutableArray.Create(Creatures.Queen, Creatures.Spider, Creatures.Spider, Creatures.Beetle, Creatures.Beetle, Creatures.Grasshopper, Creatures.Grasshopper,
+            Creatures.Grasshopper, Creatures.Ant, Creatures.Ant, Creatures.Ant);
 
         private readonly Coords _initialCoords = new(0, 0);
         public ISet<Cell> Cells { get; }
@@ -85,22 +76,21 @@ namespace Hive.Domain
 
         private bool IsGameOver()
         {
-            var loser = Cells.WhereOccupied()
-                .Where(c => c.HasQueen())
-                .FirstOrDefault(q => q.SelectNeighbors(Cells).All(n => !n.IsEmpty()));
+            var loser = Cells.WhereOccupied().Where(c => c.HasQueen()).FirstOrDefault(q => q.SelectNeighbors(Cells).All(n => !n.IsEmpty()));
 
             if (loser == null) return false;
-            Cells.ExceptWith(Cells.WherePlayerOccupies(loser.TopTile().PlayerId).Where(c => !c.HasQueen()));
-            loser.Tiles.Clear();
+            foreach (var c in Cells.WherePlayerOccupies(loser.TopTile().PlayerId).Where(c => !c.HasQueen()))
+            {
+                c.Tiles.Push(c.TopTile() with {PlayerId = Players.First(p => p.Id != loser.Tiles.First().PlayerId).Id});
+            }
+
 
             return true;
         }
 
         private void UpdatePlayerTileMoves(Player player)
         {
-            var availableCells = player.Tiles.Count == _startingTiles.Length
-                ? Cells.WhereEmpty()
-                : Cells.WherePlayerOccupies(player.Id).SelectMany(c => Cells.SelectEmptyNeighbors(c));
+            var availableCells = player.Tiles.Count == _startingTiles.Length ? Cells.WhereEmpty() : Cells.WherePlayerOccupies(player.Id).SelectMany(c => Cells.SelectEmptyNeighbors(c));
 
             var availableMoves = availableCells.ToCoords();
 
@@ -136,30 +126,22 @@ namespace Hive.Domain
 
         private int CountMovesAvailable()
         {
-            return Players.SelectMany(p => p.Tiles).Concat(Cells.SelectMany(c => c.Tiles)).SelectMany(t => t.Moves)
-                .Count();
+            return Players.SelectMany(p => p.Tiles).Concat(Cells.SelectMany(c => c.Tiles)).SelectMany(t => t.Moves).Count();
         }
 
         private bool IsValidMove(int tileId, Coords coords)
         {
-            return Players.SelectMany(p => p.Tiles)
-                .Union(Cells.SelectMany(p => p.Tiles))
-                .Single(t => t.Id == tileId)
-                .Moves.Contains(coords);
+            return Players.SelectMany(p => p.Tiles).Union(Cells.SelectMany(p => p.Tiles)).Single(t => t.Id == tileId).Moves.Contains(coords);
         }
 
         private Tile FindAndRemoveTile(int tileId)
         {
             var pTile = Players.SelectMany(p => p.Tiles).FirstOrDefault(t => t.Id == tileId);
 
-            return (pTile != null)
-                ? Players.FindPlayerById(pTile.PlayerId).RemoveTile(pTile)
-                : Cells.WhereOccupied().First(c => c.TopTile().Id == tileId).RemoveTopTile();
+            return (pTile != null) ? Players.FindPlayerById(pTile.PlayerId).RemoveTile(pTile) : Cells.WhereOccupied().First(c => c.TopTile().Id == tileId).RemoveTopTile();
         }
 
-        private IList<Player> CreatePlayers(IEnumerable<string> playerNames) => playerNames
-            .Select((name, id) => new Player(id, name) {Tiles = CreateStartingTiles(id)})
-            .ToList();
+        private IList<Player> CreatePlayers(IEnumerable<string> playerNames) => playerNames.Select((name, id) => new Player(id, name) {Tiles = CreateStartingTiles(id)}).ToList();
 
         private ISet<Tile> CreateStartingTiles(int playerId) => _startingTiles
             .Select((creature, i) => (creature, id: playerId * _startingTiles.Length + i))

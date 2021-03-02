@@ -1,8 +1,8 @@
-import { HiveEvent, TileEvent } from '../hive-event-emitter';
+import { HiveEvent, TileEvent } from '../utilities/hive-event-emitter';
 import { fireEvent } from '@testing-library/preact';
 import { h } from 'preact';
 import { renderElement, simulateEvent } from './helpers';
-import { useHiveEventEmitter } from '../hooks';
+import { useHiveDispatcher } from '../utilities/hooks';
 import Tile from '../components/Tile';
 
 describe('Tile Tests', () => {
@@ -36,23 +36,23 @@ describe('Tile Tests', () => {
 
   describe('tile events', () => {
     test('click emits tile start event', () => {
-      jest.spyOn(useHiveEventEmitter(), 'emit');
+      jest.spyOn(useHiveDispatcher(), 'emit');
       fireEvent.click(createTileCanMove());
       const expectedEvent: TileEvent = {
         type: 'tileSelected',
         tile: tileCanMove,
       };
-      expect(useHiveEventEmitter().emit).toHaveBeenCalledWith(expect.objectContaining(expectedEvent));
+      expect(useHiveDispatcher().dispatch).toHaveBeenCalledWith(expect.objectContaining(expectedEvent));
     });
 
     test('enter emits tile start event', () => {
-      jest.spyOn(useHiveEventEmitter(), 'emit');
+      jest.spyOn(useHiveDispatcher(), 'emit');
       fireEvent.keyDown(createTileCanMove(), { key: 'Enter' });
       const expectedEvent: TileEvent = {
         type: 'tileSelected',
         tile: tileCanMove,
       };
-      expect(useHiveEventEmitter().emit).toHaveBeenCalledWith(expect.objectContaining(expectedEvent));
+      expect(useHiveDispatcher().dispatch).toHaveBeenCalledWith(expect.objectContaining(expectedEvent));
     });
 
     test('enter selects tile', () => {
@@ -79,17 +79,17 @@ describe('Tile Tests', () => {
     });
 
     test('Space emits tile start event', () => {
-      jest.spyOn(useHiveEventEmitter(), 'emit');
+      jest.spyOn(useHiveDispatcher(), 'emit');
       fireEvent.keyDown(createTileCanMove(), { key: ' ' });
       const expectedEvent: TileEvent = {
         type: 'tileSelected',
         tile: tileCanMove,
       };
-      expect(useHiveEventEmitter().emit).toHaveBeenCalledWith(expect.objectContaining(expectedEvent));
+      expect(useHiveDispatcher().dispatch).toHaveBeenCalledWith(expect.objectContaining(expectedEvent));
     });
 
     test('click deselects previous selected tile', () => {
-      jest.spyOn(useHiveEventEmitter(), 'emit');
+      jest.spyOn(useHiveDispatcher(), 'emit');
       const tile = createTileCanMove();
       fireEvent.click(tile);
 
@@ -97,14 +97,14 @@ describe('Tile Tests', () => {
     });
 
     test('clicking same tile doesnt fire a tile start event', () => {
-      const mock = jest.spyOn(useHiveEventEmitter(), 'emit');
+      const mock = jest.spyOn(useHiveDispatcher(), 'emit');
       const tile = createTileCanMove();
       fireEvent.click(tile);
 
       mock.mockClear();
       fireEvent.click(tile);
 
-      expect(useHiveEventEmitter().emit).not.toHaveBeenCalledWith(
+      expect(useHiveDispatcher().dispatch).not.toHaveBeenCalledWith(
         expect.objectContaining({ type: 'tileSelect' })
       );
     });
@@ -125,24 +125,24 @@ describe('Tile Tests', () => {
     });
 
     test('on drag emits start event', () => {
-      jest.spyOn(useHiveEventEmitter(), 'emit');
+      jest.spyOn(useHiveDispatcher(), 'emit');
       fireEvent.dragStart(createTileCanMove());
       const expectedEvent: TileEvent = {
         type: 'tileSelected',
         tile: tileCanMove,
       };
-      expect(useHiveEventEmitter().emit).toHaveBeenCalledWith(expect.objectContaining(expectedEvent));
+      expect(useHiveDispatcher().dispatch).toHaveBeenCalledWith(expect.objectContaining(expectedEvent));
     });
 
     test('on dragEnd emits end event', () => {
-      jest.spyOn(useHiveEventEmitter(), 'emit');
+      jest.spyOn(useHiveDispatcher(), 'emit');
       fireEvent.dragEnd(createTileCanMove());
       const expectedEvent: HiveEvent = {
         type: 'tileDropped',
         tile: tileCanMove,
       };
 
-      expect(useHiveEventEmitter().emit).toHaveBeenCalledWith(expect.objectContaining(expectedEvent));
+      expect(useHiveDispatcher().dispatch).toHaveBeenCalledWith(expect.objectContaining(expectedEvent));
     });
 
     test('default on drop is prevented', () => {

@@ -1,5 +1,4 @@
-import { Cell } from './domain';
-import { GameState, Player, PlayerId, Tile } from '../domain';
+import { Cell, GameState, Player, PlayerId, Tile } from '../domain';
 export type Row = { id: number; cells: Array<Cell & { hidden?: boolean }> };
 
 const getAllTiles = (...parents: Array<Array<Player | Cell>>): Array<Tile> =>
@@ -8,10 +7,11 @@ const getAllTiles = (...parents: Array<Array<Player | Cell>>): Array<Tile> =>
 const getAllPlayerTiles = (playerId: PlayerId, ...parents: Array<Array<Player | Cell>>) =>
   getAllTiles(...parents).filter((t) => t.playerId !== playerId && playerId !== 2);
 
-export const removeOtherPlayerMoves = (playerId: number, gameState: GameState) => {
-  getAllPlayerTiles(playerId, gameState.players, gameState.cells).forEach((t) =>
-    t.moves.splice(0, t.moves.length)
-  );
+export const removeOtherPlayerMoves = (
+  playerId: number,
+  { players, cells }: Pick<GameState, 'players' | 'cells'>
+) => {
+  getAllPlayerTiles(playerId, players, cells).forEach((t) => t.moves.splice(0, t.moves.length));
 };
 
 const getWidth = (cells: Cell[]): [number, number] => {
@@ -29,9 +29,12 @@ const getHeight = (sortedHexagons: Cell[]): [number, number] => {
   return [firstCell.coords.r - 1, height + 2];
 };
 
-export const createRows = (sortedHexagons: Cell[]): Row[] => {
+export const createRows = (cells: Cell[]): [Row[], 'left' | 'right'] => {
+  const sortedHexagons = cells.sort((c1, c2) => c1.coords.r - c2.coords.r || c1.coords.q - c2.coords.q);
   const [firstRow, height] = getHeight(sortedHexagons);
   const [firstColumn, width] = getWidth(sortedHexagons);
+
+  const shift = sortedHexagons[0].coords.r % 2 ? 'right' : 'left';
 
   const createEmptyRow = (i: number): Row => ({
     id: firstRow + i,
@@ -46,8 +49,11 @@ export const createRows = (sortedHexagons: Cell[]): Row[] => {
     return Array.from(Array(height).keys(), createEmptyRow);
   };
 
-  return sortedHexagons.reduce((rows, cell) => {
-    (rows[cell.coords.r - firstRow] as Row).cells[cell.coords.q - firstColumn] = cell;
-    return rows;
-  }, createEmptyRows());
+  return [
+    sortedHexagons.reduce((rows, cell) => {
+      (rows[cell.coords.r - firstRow] as Row).cells[cell.coords.q - firstColumn] = cell;
+      return rows;
+    }, createEmptyRows()),
+    shift,
+  ];
 };

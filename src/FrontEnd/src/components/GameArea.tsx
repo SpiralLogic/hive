@@ -1,32 +1,34 @@
 import { FunctionComponent, h } from 'preact';
-import { GameState, HexCoordinates } from '../domain';
+import { GameState, HexCoordinates, PlayerId } from '../domain';
+import { createRows, removeOtherPlayerMoves } from '../utilities/hextille-builder';
+import { handleDragOver } from '../utilities/handlers';
 import Cell from './Cell';
 import Hextille from './Hextille';
-import PlayerList from './PlayerList';
+import Players from './PlayerList';
 import Row from './Row';
 import Tile from './Tile';
-import { handleDragOver } from '../utilities/handlers';
-import { createRows, removeOtherPlayerMoves } from '../utilities/hextille-builder';
 
 const cellKey = ({ q, r }: HexCoordinates) => `${q}-${r}`;
 
-const GameArea: FunctionComponent<GameState> = ({ players, cells, playerId }) => {
+const GameArea: FunctionComponent<Pick<GameState, 'players' | 'cells'> & { playerId: PlayerId }> = ({
+  players,
+  cells,
+  playerId,
+}) => {
   const attributes = {
     ondragover: handleDragOver,
     className: 'hive',
   };
   removeOtherPlayerMoves(playerId, { players, cells });
 
-  const sortedHexagons = cells.sort((c1, c2) => c1.coords.r - c2.coords.r || c1.coords.q - c2.coords.q);
-  const shiftClass = sortedHexagons[0].coords.r % 2 ? 'right' : 'left';
-  const rows = createRows(sortedHexagons);
+  const [rows, shiftClass] = createRows(cells);
   return (
     <div {...attributes}>
-      <PlayerList players={players} />
+      <Players players={players} />
       <Hextille shiftClass={shiftClass}>
         {rows.map((row) => (
           <Row key={row.id}>
-            {row.cells.map((cell, i) => (
+            {row.cells.map((cell) => (
               <Cell key={cellKey(cell.coords)} coords={cell.coords} hidden={cell.hidden}>
                 {cell.tiles.slice(0, 1).map((tile) => (
                   <Tile key={tile.id} {...tile} />

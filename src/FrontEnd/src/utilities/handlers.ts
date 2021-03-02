@@ -1,3 +1,6 @@
+import { OpponentSelectionHandler } from '../domain/engine';
+import { useHiveDispatcher } from './hooks';
+
 export function handleDragOver(ev: { preventDefault: () => void }): boolean {
   ev.preventDefault();
   return false;
@@ -31,4 +34,14 @@ export const handleKeyboardNav = (e: Pick<KeyboardEvent, 'key' | 'target'>): boo
     }
   }
   return false;
+};
+
+export const opponentSelectionHandler: OpponentSelectionHandler = (type, tile) => {
+  if (!tile) return;
+  const hiveDispatcher = useHiveDispatcher();
+  if (type === 'select') {
+    hiveDispatcher.dispatch({ type: 'tileSelect', tile });
+  } else if (type === 'deselect') {
+    hiveDispatcher.dispatch({ type: 'tileDeselect', tile });
+  }
 };

@@ -1,11 +1,11 @@
-import { Cell, GameId, GameState, Player, PlayerId, Tile } from '../domain';
 import { FunctionComponent, h } from 'preact';
+import { GameId, GameState, PlayerId } from '../domain';
+import { MoveEvent, TileEvent } from '../utilities/hive-dispatcher';
+import { addHiveEventListener, useHiveDispatcher } from '../utilities/hooks';
+import { opponentSelectionHandler } from '../utilities/handlers';
 import { useEffect, useState } from 'preact/hooks';
-import GameArea from './GameArea';
 import Engine from '../utilities/game-engine';
-import { addHiveEventListener, useHiveEventEmitter } from '../utilities/hooks';
-import { MoveEvent, TileEvent } from '../utilities/hive-event-emitter';
-
+import GameArea from './GameArea';
 const App: FunctionComponent = () => {
   const [gameState, updateGameState] = useState<GameState | undefined>(undefined);
   const [playerId, setPlayerId] = useState<PlayerId>(0);
@@ -27,12 +27,12 @@ const App: FunctionComponent = () => {
   useEffect(() => {
     const [, route, gameId, routePlayerId] = window.location.pathname.split('/');
     const loadExistingGame = gameId && route === 'game';
-    const getInitial = loadExistingGame ? Engine.getGame : Engine.newGame;
+    const getInitial = loadExistingGame ? Engine.getExistingGame : Engine.getNewGame;
     initializeGame(getInitial, gameId, routePlayerId).then();
   }, []);
 
   if (gameState === undefined) return <h1>loading !</h1>;
-  const hiveEventEmitter = useHiveEventEmitter();
+  const hiveDispatcher = useHiveDispatcher();
   addHiveEventListener<MoveEvent>('move', async (event) => {
     const newGameState = await Engine.moveTile(gameState.gameId, event.move);
     updateGameState(newGameState);
@@ -46,23 +46,23 @@ const App: FunctionComponent = () => {
 
     const selectionChangeHandler = (event: TileEvent) => {
       if (sendSelection) {
-        sendSelection('select', event.tile.id);
+        sendSelection('select', event.tile);
       }
     };
 
     const deselectionChangeHandler = (event: TileEvent) => {
       if (sendSelection) {
-        sendSelection('deselect', event.tile.id);
+        sendSelection('deselect', event.tile);
       }
     };
 
-    hiveEventEmitter.add<TileEvent>('tileSelected', selectionChangeHandler);
-    hiveEventEmitter.add<TileEvent>('tileDeselected', deselectionChangeHandler);
+    hiveDispatcher.add<TileEvent>('tileSelected', selectionChangeHandler);
+    hiveDispatcher.add<TileEvent>('tileDeselected', deselectionChangeHandler);
 
     return () => {
-      closeConnection();
-      hiveEventEmitter.remove<TileEvent>('tileSelected', selectionChangeHandler);
-      hiveEventEmitter.remove<TileEvent>('tileDeselected', deselectionChangeHandler);
+      hiveDispatcher.remove<TileEvent>('tileSelected', selectionChangeHandler);
+      hiveDispatcher.remove<TileEvent>('tileDeselected', deselectionChangeHandler);
+      closeConnection().then();
     };
   }, []);
 

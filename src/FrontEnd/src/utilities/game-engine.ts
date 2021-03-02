@@ -1,5 +1,5 @@
-import { GameConnection, GameStateUpdateHandler, HexEngine, OpponentSelectionHandler } from './domain/engine';
-import { GameId, GameState, Move, TileId } from './domain';
+import { GameConnection, GameHandlers, HexEngine } from '../domain/engine';
+import { GameId, GameState, Move, Tile } from '../domain';
 import { HubConnection, HubConnectionBuilder, HubConnectionState } from '@microsoft/signalr';
 
 const requestHeaders = {
@@ -17,7 +17,7 @@ const moveTile = async (gameId: GameId, move: Move): Promise<GameState> => {
   return await response.json();
 };
 
-const getGameRequest = async (gameId: GameId): Promise<GameState> => {
+const getExistingGame = async (gameId: GameId): Promise<GameState> => {
   const response = await fetch(`/api/game/${gameId}`, {
     method: `GET`,
     headers: requestHeaders,
@@ -26,7 +26,7 @@ const getGameRequest = async (gameId: GameId): Promise<GameState> => {
   return response.json();
 };
 
-const fetchNewGame = async (): Promise<GameState> => {
+const getNewGame = async (): Promise<GameState> => {
   const response = await fetch(`/api/new`, {
     method: `POST`,
     headers: requestHeaders,
@@ -35,25 +35,28 @@ const fetchNewGame = async (): Promise<GameState> => {
   return response.json();
 };
 
-const connectGame = (
-  gameId: GameId,
-  {
-    updateGameState,
-    opponentSelection,
-  }: {
-    updateGameState: GameStateUpdateHandler;
-    opponentSelection?: OpponentSelectionHandler;
-  }
-): GameConnection => {
-  const getConnection = (gameId: GameId): [HubConnection, Promise<void>] => {
+const connectGame = (gameId: GameId, handlers: GameHandlers): GameConnection => {
+  const getConnection = (gameId: GameId): HubConnection => {
     const hubUrl = `${window.location.protocol}//${window.location.host}/gamehub/${gameId}`;
     const connection = new HubConnectionBuilder().withUrl(hubUrl).withAutomaticReconnect().build();
-    connection.on('ReceiveGameState', updateGameState);
-    if (opponentSelection) connection.on('OpponentSelection', opponentSelection);
-    return [connection, connection.start()];
+    connection.on('ReceiveGameState', handlers.updateGameState);
+    if (handlers.opponentSelection) connection.on('OpponentSelection', handlers.opponentSelection);
+    connection.start().then();
+    return connection;
   };
 
-  const [connection] = getConnection(gameId);
+  const connection = getConnection(gameId);
+
+  const sendSelection = (type: 'select' | 'deselect', tile: Tile) =>
+    connection.state === HubConnectionState.Connected &&
+    connection.invoke('SendSelection', type, tile).catch(function (err) {
+      return console.error(err.toString());
+    });
+
+  const closeConnection = () => {
+    connection.off('ReceiveGameState', handlers.updateGameState);
+    return connection.stop();
+  };
 
   if (process.env.NODE_ENV !== 'production') {
     connection.onreconnecting((error) => console.warn(`reconnecting to game ${gameId} .. ${error}`));
@@ -66,21 +69,14 @@ const connectGame = (
 
   return {
     getConnectionState: () => connection.state,
-    sendSelection: (type: 'select' | 'deselect', tileId: TileId) =>
-      connection.state === HubConnectionState.Connected &&
-      connection.invoke('SendSelection', type, tileId).catch(function (err) {
-        return console.error(err.toString());
-      }),
-    closeConnection: () => {
-      connection.off('ReceiveGameState', updateGameState);
-      return connection.stop();
-    },
+    sendSelection,
+    closeConnection,
   };
 };
 
 const Engine: HexEngine = {
-  newGame: fetchNewGame,
-  getGame: getGameRequest,
+  getNewGame,
+  getExistingGame,
   moveTile,
   connectGame: connectGame,
 };

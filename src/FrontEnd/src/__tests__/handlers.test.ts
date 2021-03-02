@@ -1,4 +1,4 @@
-import { handleDragOver, handleDrop, handleKeyboardNav } from '../handlers';
+import { handleDragOver, handleDrop, handleKeyboardNav } from '../utilities/handlers';
 
 describe(`handler tests`, () => {
   describe(`handle drag over tests`, () => {

@@ -1,6 +1,6 @@
 import { h } from 'preact';
 import { renderElement } from './helpers';
-import PlayerList from '../components/PlayerList';
+import Players from '../components/PlayerList';
 
 describe('PlayerList Tests', () => {
   const ant = { id: 1, playerId: 1, creature: 'ant', moves: [{ q: 1, r: 1 }] };
@@ -15,7 +15,7 @@ describe('PlayerList Tests', () => {
   let playerList: HTMLElement;
   beforeEach(() => {
     global.window.history.replaceState({}, global.document.title, `/game/33/1`);
-    playerList = renderElement(<PlayerList players={players} />);
+    playerList = renderElement(<Players players={players} />);
   });
 
   test('to have class', () => {

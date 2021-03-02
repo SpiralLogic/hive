@@ -1,37 +1,33 @@
-import { HiveEvent, HiveEventEmitter, HiveEventListener } from './hive-event-emitter';
+import { HiveDispatcher, HiveEventListener, HiveIntent } from './hive-dispatcher';
 import { useEffect, useReducer } from 'preact/hooks';
 
-const hiveEventEmitter = new HiveEventEmitter();
+const hiveDispatcher = new HiveDispatcher();
 
-export const useHiveEventEmitter = (): HiveEventEmitter => {
-  return hiveEventEmitter;
+export const useHiveDispatcher = (): HiveDispatcher => {
+  return hiveDispatcher;
 };
 
-export const addHiveEventListener = <T extends HiveEvent>(
+export const addHiveEventListener = <T extends HiveIntent>(
   type: T['type'],
   listener: HiveEventListener<T>
-) => {
+): void => {
   useEffect(() => {
-    const emitter = useHiveEventEmitter();
-    emitter.add<T>(type, listener);
-    return () => emitter.remove<T>(type, listener);
+    const emitter = useHiveDispatcher();
+    return emitter.add<T>(type, listener);
   });
 };
 
-const classReducer = (
-  initialClasses: Array<string>,
-  action: { type: 'add' | 'remove'; classes: string[] }
-): string[] => {
-  const { type, classes } = action;
-  switch (type) {
-    case 'add':
-      return [...initialClasses, ...classes.filter((c) => !initialClasses.includes(c))];
-    case 'remove':
-      return initialClasses.filter((c) => !classes.includes(c));
+const classReducer = (initialClasses: string, action: { type: 'add' | 'remove'; class: string }): string => {
+  const classList = new Set(initialClasses.split(' '));
+  if (action.type === `add`) {
+    classList.add(action.class);
+  } else if (action.type === 'remove') {
+    classList.delete(action.class);
   }
+  return Array.from(classList).join(' ');
 };
 
 export const useClassReducer = (
-  initialClasses: string[]
-): [Array<string>, (action: { type: 'add' | 'remove'; classes: string[] }) => void] =>
+  initialClasses: string
+): [string, (action: { type: 'add' | 'remove'; class: string }) => void] =>
   useReducer(classReducer, initialClasses);

@@ -1,8 +1,8 @@
 import { FunctionComponent, RenderableProps, h } from 'preact';
 import { HexCoordinates, Tile as TileType } from '../domain';
-import { TileEvent } from '../hive-event-emitter';
-import { addHiveEventListener, useClassReducer, useHiveEventEmitter } from '../hooks';
-import { handleDragOver, handleKeyboardNav, isEnterOrSpace } from '../handlers';
+import { TileEvent } from '../utilities/hive-dispatcher';
+import { addHiveEventListener, useClassReducer, useHiveDispatcher } from '../utilities/hooks';
+import { handleDragOver, handleKeyboardNav, isEnterOrSpace } from '../utilities/handlers';
 import { useEffect, useState } from 'preact/hooks';
 
 export default (
@@ -11,47 +11,47 @@ export default (
   const { coords, hidden, children } = props;
   const isValidMove = (validMoves: HexCoordinates[]) =>
     validMoves.some((dest) => dest.q == coords.q && dest.r == coords.r);
-  const [classes, setClasses] = useClassReducer(['hex', 'cell', 'entry']);
+  const [classes, setClasses] = useClassReducer('hex cell entry');
   const [selectedTile, setSelectedTile] = useState<TileType | null>(null);
-  useEffect(() => setClasses({ type: hidden ? 'add' : 'remove', classes: ['entry'] }), [hidden]);
-  const hiveEventEmitter = useHiveEventEmitter();
+  useEffect(() => setClasses({ type: hidden ? 'add' : 'remove', class: 'entry' }), [hidden]);
+  const hiveDispatcher = useHiveDispatcher();
 
   addHiveEventListener<TileEvent>('tileDeselected', (event) => {
-    if (isValidMove(event.tile.moves)) {
-      setSelectedTile(null);
-      setClasses({ type: 'remove', classes: ['can-drop', 'active'] });
-    }
-  });
-  addHiveEventListener<TileEvent>('tileSelected', (event: TileEvent) => {
-    if (isValidMove(event.tile.moves)) {
-      setSelectedTile(event.tile);
-      setClasses({ type: 'add', classes: ['can-drop'] });
-    }
-  });
-  addHiveEventListener<TileEvent>('tileDropped', () => {
-    if (classes.includes('active'))
-      if (selectedTile && isValidMove(selectedTile.moves))
-        hiveEventEmitter.emit({
-          type: 'move',
-          move: { coords, tileId: selectedTile.id },
-        });
+    if (!isValidMove(event.tile.moves)) return;
+    setSelectedTile(null);
+    setClasses({ type: 'remove', class: 'can-drop' });
+    setClasses({ type: 'remove', class: 'active' });
   });
 
-  const handleDragLeave = (ev: { stopPropagation: () => void }) => {
-    ev.stopPropagation();
-    setClasses({ type: 'remove', classes: ['active'] });
+  addHiveEventListener<TileEvent>('tileSelected', (event) => {
+    if (!isValidMove(event.tile.moves)) return;
+    setSelectedTile(event.tile);
+    setClasses({ type: 'add', class: 'can-drop' });
+  });
+
+  addHiveEventListener<TileEvent>('tileDropped', () => {
+    if (classes.includes('active') && selectedTile && isValidMove(selectedTile.moves)) {
+      hiveDispatcher.dispatch({
+        type: 'move',
+        move: { coords, tileId: selectedTile.id },
+      });
+    }
+  });
+
+  const handleDragLeave = (event: DragEvent) => {
+    event.stopPropagation();
+    setClasses({ type: 'remove', class: 'active' });
   };
 
   const handleDragEnter = () => {
-    if (selectedTile) setClasses({ type: 'add', classes: ['active'] });
+    if (selectedTile) setClasses({ type: 'add', class: 'active' });
   };
 
-  const handleClick = (ev: { stopPropagation: () => void }) => {
-    if (selectedTile && isValidMove(selectedTile.moves)) {
-      ev.stopPropagation();
-      hiveEventEmitter.emit({ type: 'move', move: { coords, tileId: selectedTile.id } });
-      hiveEventEmitter.emit({ type: 'tileClear', tile: selectedTile });
-    }
+  const handleClick = (ev: UIEvent) => {
+    if (!(selectedTile && isValidMove(selectedTile.moves))) return;
+    ev.stopPropagation();
+    hiveDispatcher.dispatch({ type: 'move', move: { coords, tileId: selectedTile.id } });
+    hiveDispatcher.dispatch({ type: 'tileClear', tile: selectedTile });
   };
 
   const handleKeydown = (e: KeyboardEvent) => {
@@ -59,7 +59,7 @@ export default (
   };
 
   const attributes = {
-    className: classes.join(' '),
+    class: classes,
     ondragover: handleDragOver,
     ondragleave: handleDragLeave,
     ondragenter: handleDragEnter,
