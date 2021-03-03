@@ -24,9 +24,9 @@ const Player: FunctionComponent<{ name: string; hide: boolean; id: PlayerId; cur
   const onClickHandler = (e: MouseEvent) => {
     e.stopPropagation();
     try {
-      navigator.clipboard.writeText(opponentGame.url).then();
-    } catch {
       navigator.share(opponentGame).then();
+    } catch {
+      navigator.clipboard.writeText(opponentGame.url).then();
     }
     return false;
   };
