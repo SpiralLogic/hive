@@ -1,14 +1,14 @@
 import { FunctionComponent, h } from 'preact';
-import { Players } from '../domain';
+import { PlayerId, Players } from '../domain';
 import ActiveTile from './ActiveTile';
 import Player from './Player';
 
-const Players: FunctionComponent<{ players: Players }> = (props) => {
-  const { players } = props;
+const Players: FunctionComponent<{ players: Players; currentPlayer: PlayerId }> = (props) => {
+  const { players, currentPlayer } = props;
   return (
     <aside className="players">
       {players.map((player) => (
-        <Player name={player.name} id={player.id} hide={!!player.tiles.length}>
+        <Player name={player.name} id={player.id} currentPlayer={currentPlayer} hide={!!player.tiles.length}>
           {player.tiles.map((tile) => (
             <ActiveTile key={tile.id} {...tile} />
           ))}

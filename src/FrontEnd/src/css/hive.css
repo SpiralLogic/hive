@@ -22,23 +22,23 @@ body > svg {
   width: 100vw;
   height: 100vh;
   user-select: none;
-  grid-template-columns: max-content max-content auto;
+  grid-template-columns: max-content auto;
 }
 
 .players {
-  display: contents;
+  display: inline-grid;
   border-radius: 0.1rem;
+  grid-template-columns: max-content max-content;
 }
 
 .player {
-  display: inline-grid;
-  overflow-y: auto;
+  display: inline-flex;
+  flex-direction: column;
+  height: 100vh;
   transition: 1s ease-out;
-  transition-property: width, height, border, padding;
+  transition-property: width, border, padding;
   border-right: 1px solid white;
   background-color: rgba(0, 0, 0, 0.7);
-  grid-auto-flow: row;
-  grid-template-rows: max-content auto;
 }
 
 .player.hiding {
@@ -71,10 +71,21 @@ body > svg {
   font-size: 1.5em;
   font-weight: bold;
   justify-content: center;
-  margin: 2vh 0;
+  padding: 2vh 0;
   text-align: center;
   color: white;
-  outline: none;
+  outline: none; 
+  height:2em;
+
+}
+
+.player .name  svg {
+  fill: var(--background);
+  height:1.5em;
+}
+.player .name svg:hover {
+  fill: var(--creature);  
+  height:1.5em;
 }
 
 .player .tile {
@@ -85,9 +96,7 @@ body > svg {
 .player .tiles {
   display: inline-grid;
   overflow: hidden auto;
-  align-items: center;
-  justify-content: flex-start;
-  padding: 2vh 1vw;
+  margin: 2vh 1vw;
   transition: all 0.1s ease-in;
   grid-auto-flow: row;
   grid-template-rows: max-content;
@@ -283,10 +292,11 @@ body > svg {
   right: 0;
   display: inline-flex;
 }
-.github{
-  padding:10px 0 0 10px;
-  width: 50px;
-  height: 50px;
+
+.github {
+  width: 40px;
+  height: 40px;
+  padding: 10px;
   fill: white;
 }
 
@@ -301,20 +311,22 @@ body > svg {
   .hive {
     gap: 0;
     grid-template-columns: unset;
-    grid-template-rows: max-content max-content auto;
+    grid-template-rows: max-content auto;
   }
 
   .players {
     position: sticky;
     top: 0;
-    border-radius: 0;
+    border-radius: 0.1rem;
+    grid-template-columns: unset;
+    grid-template-rows: max-content max-content;
   }
 
   .player {
+    flex-direction: row;
+    height: unset;
     border-right-width: 0;
-    grid-auto-flow: column;
-    grid-template-columns: max-content auto;
-    grid-template-rows: unset;
+    width: 100vw;
   }
 
   .player.hiding {
@@ -331,12 +343,14 @@ body > svg {
     align-self: center;
     justify-content: center;
     margin: 0 2vw;
+    width:3em;
   }
 
   .player .tiles {
     display: inline-grid;
     overflow: auto hidden;
-    padding: 1vh 2vw;
+    margin: 1vh 0 0 0;
+    padding: 0;
     border-left: 1px inset #7318B133;
     grid-auto-flow: column;
   }
@@ -359,9 +373,10 @@ body > svg {
   [draggable='true']:not(.selected):focus:before {
     box-shadow: 0 -7px 1em 5px var(--shadow), 0 7px 1em 5px var(--shadow);
   }
+
   .links {
-    bottom:0;
-    top:unset;
+    top: unset;
+    bottom: 0;
   }
 }
 

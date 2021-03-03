@@ -14,7 +14,7 @@ describe('PlayerList Tests', () => {
   let playerList: HTMLElement;
   beforeEach(() => {
     global.window.history.replaceState({}, global.document.title, `/game/33/1`);
-    playerList = renderElement(<Players players={players} />);
+    playerList = renderElement(<Players players={players} currentPlayer={0} />);
   });
 
   test('to have class', () => {

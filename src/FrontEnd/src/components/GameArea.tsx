@@ -24,7 +24,7 @@ const GameArea: FunctionComponent<Pick<GameState, 'players' | 'cells'> & { playe
   const rows = createRows(cells);
   return (
     <div {...attributes}>
-      <Players players={players} />
+      <Players players={players} opponent={playerId} />
       <Hextille>
         {rows.map((row) => (
           <Row key={row.id}>

@@ -6,7 +6,7 @@ import { renderElement } from './helpers';
 import Player from '../components/Player';
 
 describe('PlayerTiles Tests', () => {
-  const playerProps = { id: 1, name: 'Player 1', hide: false };
+  const playerProps = { id: 1, name: 'Player 1', hide: false, currentPlayer: 1 };
 
   let container: Element;
   let playerTiles: Element | null;
