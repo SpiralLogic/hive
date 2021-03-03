@@ -8,12 +8,21 @@ exports[`PlayerList Tests PlayerList snapshot matches current snapshot 1`] = `
     class="player player1"
     title="Player 1"
   >
-    <p
+    <div
       class="name"
+      title="share link for opponent"
     >
-       
-      Player 1
-    </p>
+      <svg
+        viewBox="0 0 100 100"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+         
+        <use
+          href="#share"
+        />
+         
+      </svg>
+    </div>
     <div
       class="tiles"
     >
@@ -78,12 +87,21 @@ exports[`PlayerList Tests PlayerList snapshot matches current snapshot 1`] = `
     class="player player2"
     title="Player 2"
   >
-    <p
+    <div
       class="name"
+      title="share link for opponent"
     >
-       
-      Player 2
-    </p>
+      <svg
+        viewBox="0 0 100 100"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+         
+        <use
+          href="#share"
+        />
+         
+      </svg>
+    </div>
     <div
       class="tiles"
     >
