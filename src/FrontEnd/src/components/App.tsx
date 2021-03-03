@@ -6,6 +6,7 @@ import { opponentSelectionHandler } from '../utilities/handlers';
 import { useEffect, useState } from 'preact/hooks';
 import Engine from '../utilities/game-engine';
 import GameArea from './GameArea';
+import Links from './Links';
 
 const App: FunctionComponent = () => {
   const [gameState, updateGameState] = useState<GameState | undefined>(undefined);
@@ -71,6 +72,7 @@ const App: FunctionComponent = () => {
   return (
     <>
       <GameArea players={gameState.players} cells={gameState.cells} playerId={playerId} />
+      <Links />
     </>
   );
 };

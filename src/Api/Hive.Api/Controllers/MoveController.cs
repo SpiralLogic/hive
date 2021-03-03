@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
+using Hive.Domain.Entities;
 using Hive.DTOs;
 using Hive.Hubs;
 using Microsoft.AspNetCore.Mvc;
@@ -39,7 +40,7 @@ namespace Hive.Controllers
             var (players, cells, _) = JsonSerializer.Deserialize<GameState>(gameSession, _jsonSerializerOptions)!;
 
             var game = new Domain.Hive(players.ToList(), cells.ToHashSet());
-            if (!game.Move(move.TileId, move.Coords))
+            if (game.Move(move.TileId, move.Coords)==MoveResult.Invalid)
             {
                 return Forbid();
             };

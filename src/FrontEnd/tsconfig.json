@@ -3,6 +3,7 @@
     "declaration": true,
     "declarationMap": true,
     "sourceMap": true,
+    "jsxFactory": "h",
     "checkJs": false,
     "removeComments": true,
     "noEmitOnError": true,
@@ -31,8 +32,8 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react-jsx",
-    "jsxImportSource": "preact",
+    "jsx": "react",
+    "jsxFragmentFactory": "Fragment"
   },
   "include": [
     "./src/**/*"

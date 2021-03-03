@@ -28,29 +28,26 @@ namespace Hive.Domain
             Players = players ?? throw new ArgumentNullException(nameof(players));
         }
 
-        public bool Move(int tileId, Coords coords)
+        public MoveResult Move(int tileId, Coords coords)
         {
-            if (!IsValidMove(tileId, coords)) return false;
+            if (!IsValidMove(tileId, coords)) return MoveResult.Invalid;
 
             var tileToMove = FindAndRemoveTile(tileId);
             PerformMove(coords, tileToMove);
 
             var nextPlayer = GetNextPlayer(tileToMove);
-            if (IsGameOver()) return true;
+            if (IsGameOver()) return MoveResult.GameOver;
 
             UpdateMoves(nextPlayer);
-            if (CountMovesAvailable() == 0)
-            {
-                UpdateMoves(SkipTurn(nextPlayer));
-            }
-
-            return true;
+            if (CountMovesAvailable() != 0) return MoveResult.Success;
+            
+            UpdateMoves(SkipTurn(nextPlayer));
+            return MoveResult.SuccessNextPlayerSkipped;
         }
 
         private Player SkipTurn(Player nextPlayer)
         {
-            nextPlayer = Players.First(p => p.Id != nextPlayer.Id);
-            return nextPlayer;
+            return Players.First(p => p.Id != nextPlayer.Id);
         }
 
         private void UpdateMoves(Player nextPlayer)

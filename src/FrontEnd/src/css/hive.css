@@ -23,7 +23,6 @@ body > svg {
   height: 100vh;
   user-select: none;
   grid-template-columns: max-content max-content auto;
-  
 }
 
 .players {
@@ -33,13 +32,13 @@ body > svg {
 
 .player {
   display: inline-grid;
+  overflow-y: auto;
   transition: 1s ease-out;
   transition-property: width, height, border, padding;
   border-right: 1px solid white;
   background-color: rgba(0, 0, 0, 0.7);
   grid-auto-flow: row;
   grid-template-rows: max-content auto;
-  overflow-y: auto;
 }
 
 .player.hiding {
@@ -79,18 +78,19 @@ body > svg {
 }
 
 .player .tile {
-  margin: 2px;
+  margin: 4px;
   --focus: #1A1A1DCC;
 }
 
 .player .tiles {
   display: inline-grid;
+  overflow: hidden auto;
   align-items: center;
   justify-content: flex-start;
-  padding: 1vh 1vw 0;
+  padding: 2vh 1vw;
   transition: all 0.1s ease-in;
-  overflow:  hidden auto ;
-  grid-auto-flow: row;  
+  grid-auto-flow: row;
+  grid-template-rows: max-content;
 }
 
 .player .tiles::-webkit-scrollbar {
@@ -224,7 +224,7 @@ body > svg {
 }
 
 .cell.can-drop .tile:not(.selected),
-.cell.no-drop .tile:not(.selected){
+.cell.no-drop .tile:not(.selected) {
   pointer-events: none;
   opacity: 100%;
 }
@@ -275,6 +275,17 @@ body > svg {
   50% {
     transform: rotate(1deg);
   }
+}
+
+.github {
+  position: fixed;
+  top: 0;
+  right: 0;
+  display: inline-flex;
+  width: 50px;
+  height: 50px;
+  padding:10px 0 0 10px;
+  fill: white;
 }
 
 @media only screen and (max-width: 720px) {
@@ -345,6 +356,10 @@ body > svg {
   [draggable='true']:not(.selected):hover:before,
   [draggable='true']:not(.selected):focus:before {
     box-shadow: 0 -7px 1em 5px var(--shadow), 0 7px 1em 5px var(--shadow);
+  }
+  .github {
+    bottom:0;
+    top:unset;
   }
 }
 

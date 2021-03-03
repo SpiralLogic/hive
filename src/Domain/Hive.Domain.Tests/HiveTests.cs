@@ -156,7 +156,7 @@ namespace Hive.Domain.Tests
         public void InvalidMovesHaveNoEffect()
         {
             var hive = new Hive(new[] {"player1", "player2"});
-            hive.Move(1, new Coords(34, 34)).Should().Be(false);
+            hive.Move(1, new Coords(34, 34)).Should().Be(MoveResult.Invalid);
         }
 
         [Fact]
@@ -180,7 +180,6 @@ namespace Hive.Domain.Tests
                 .Should()!.BeEquivalentTo(Creatures.Queen);
         }
 
-        /*
         [Fact]
         public void GameOver()
         {
@@ -201,11 +200,8 @@ namespace Hive.Domain.Tests
             var queen = players.First(p => p.Id != 1).Tiles.First(t => t.Creature == Creatures.Queen);
 
             var hive2 = new Hive(players, cells);
-            hive2.Move(queen.Id, new Coords(0, 0));
-
-            hive2.Cells.Should().NotContain(c => !c.IsEmpty() && c.TopTile().PlayerId == queen.PlayerId);
+            hive2.Move(queen.Id, new Coords(0, 0)).Should().Be(MoveResult.GameOver);
         }
-        */
 
         [Fact]
         public void TurnIsSkippedIfTheyHaveNoAvailableMoves()
