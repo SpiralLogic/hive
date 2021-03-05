@@ -1,6 +1,5 @@
 import { Cell, GameState, Player, PlayerId, Tile } from '../domain';
-
-export type Row = { id: number; cells: Array<Cell & { hidden?: boolean }> };
+import { Row } from '../domain/row';
 
 const getAllTiles = (...parents: Array<Array<Player | Cell>>): Array<Tile> =>
   parents.flatMap((p) => p.flatMap((p) => p.tiles));
@@ -37,6 +36,7 @@ export const createRows = (cells: Cell[]): Row[] => {
 
   const createEmptyRow = (i: number): Row => ({
     id: firstRow + i,
+    hidden: i === 0 || i === height - 1,
     cells: Array.from(Array(width).keys(), (j: number) => ({
       coords: { q: firstColumn + j, r: firstRow + i },
       tiles: [],

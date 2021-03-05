@@ -27,7 +27,7 @@ const GameArea: FunctionComponent<Pick<GameState, 'players' | 'cells'> & { playe
       <Players players={players} currentPlayer={playerId} />
       <Hextille>
         {rows.map((row) => (
-          <Row key={row.id}>
+          <Row key={row.id} {...row}>
             {row.cells.map((cell) => (
               <ActiveCell key={cellKey(cell.coords)} coords={cell.coords} hidden={!!cell.hidden}>
                 {cell.tiles.slice(0, 1).map((tile) => (
