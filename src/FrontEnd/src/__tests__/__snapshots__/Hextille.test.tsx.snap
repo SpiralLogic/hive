@@ -5,31 +5,29 @@ Object {
   "asFragment": [Function],
   "baseElement": <body>
     <div>
-      <div
-        class="hex-container "
-      >
-        <main
-          class="hextille right"
+      <main>
+        <div
+          class="right"
+          role="grid"
         >
           <div
-            class="hex-row"
+            role="row"
           />
-        </main>
-      </div>
+        </div>
+      </main>
     </div>
   </body>,
   "container": <div>
-    <div
-      class="hex-container "
-    >
-      <main
-        class="hextille right"
+    <main>
+      <div
+        class="right"
+        role="grid"
       >
         <div
-          class="hex-row"
+          role="row"
         />
-      </main>
-    </div>
+      </div>
+    </main>
   </div>,
   "debug": [Function],
   "findAllByAltText": [Function],

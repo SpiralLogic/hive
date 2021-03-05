@@ -64,6 +64,7 @@ const ActiveCell: FunctionComponent<CellProps> = (props) => {
   };
 
   const attributes = {
+    class: classes || undefined,
     tabindex: selectedTile && isValidMove(selectedTile.moves) ? 0 : undefined,
   };
 
@@ -77,7 +78,7 @@ const ActiveCell: FunctionComponent<CellProps> = (props) => {
     onkeydown: handleKeydown,
   };
   return (
-    <Cell classes={classes} hidden={hidden} {...attributes} {...handlers}>
+    <Cell hidden={hidden} {...attributes} {...handlers}>
       {children}
     </Cell>
   );

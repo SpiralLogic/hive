@@ -1,10 +1,10 @@
 import { FunctionComponent, h } from 'preact';
 
-const Cell: FunctionComponent<{ hidden?: boolean; classes?: string; [rest: string]: unknown }> = (props) => {
-  const { hidden, classes, children, ...rest } = props;
+const Cell: FunctionComponent<{ hidden?: boolean; [rest: string]: unknown }> = (props) => {
+  const { hidden, children, ...rest } = props;
 
   return (
-    <div class={'hex cell ' + classes} {...rest}>
+    <div role={hidden ? 'none' : 'cell'} {...rest}>
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
         <use href="#hex" />
       </svg>

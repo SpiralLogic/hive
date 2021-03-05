@@ -47,11 +47,6 @@ describe('Cell Tests', () => {
   const createCellWithTileNoDrop = createCellWithTile;
 
   describe('Cell render', () => {
-    test('has default classes', () => {
-      expect(createCellWithTile()).toHaveClass('hex cell');
-      expect(createCellWithNoTile()).toHaveClass('hex cell');
-    });
-
     test(`top tile is rendered when tiles isn't empty`, () => {
       const tiles = createCellWithTile().getElementsByClassName('tile');
       expect(tiles).toHaveLength(1);

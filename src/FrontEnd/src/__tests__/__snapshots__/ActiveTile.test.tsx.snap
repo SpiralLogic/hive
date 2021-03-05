@@ -2,7 +2,7 @@
 
 exports[`Tile Tests Tile Snapshot can move matches current snapshot 1`] = `
 <div
-  class="player1 hex tile"
+  class="player1 hex tile tile creature"
   draggable="true"
   tabindex="0"
   title="ant"
@@ -15,7 +15,7 @@ exports[`Tile Tests Tile Snapshot can move matches current snapshot 1`] = `
       href="#hex"
     />
     <use
-      class="creature"
+      class="creature ant"
       href="#ant"
     />
   </svg>
@@ -24,7 +24,7 @@ exports[`Tile Tests Tile Snapshot can move matches current snapshot 1`] = `
 
 exports[`Tile Tests Tile Snapshot no moves matches current snapshot 1`] = `
 <div
-  class="player0 hex tile"
+  class="player0 hex tile tile creature"
   draggable="false"
   title="fly"
 >
@@ -36,7 +36,7 @@ exports[`Tile Tests Tile Snapshot no moves matches current snapshot 1`] = `
       href="#hex"
     />
     <use
-      class="creature"
+      class="creature fly"
       href="#fly"
     />
   </svg>

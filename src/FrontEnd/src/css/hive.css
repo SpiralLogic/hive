@@ -71,21 +71,21 @@ body > svg {
   font-size: 1.5em;
   font-weight: bold;
   justify-content: center;
+  height: 2em;
   padding: 2vh 0;
   text-align: center;
   color: white;
-  outline: none; 
-  height:2em;
-
+  outline: none;
 }
 
-.player .name  svg {
+.player .name svg {
+  height: 1.5em;
   fill: var(--background);
-  height:1.5em;
 }
+
 .player .name svg:hover {
-  fill: var(--creature);  
-  height:1.5em;
+  height: 1.5em;
+  fill: var(--creature);
 }
 
 .player .tile {
@@ -96,31 +96,38 @@ body > svg {
 .player .tiles {
   display: inline-grid;
   overflow: hidden auto;
-  margin: 2vh 1vw;
+  padding: 2vh 1vw;
   transition: all 0.1s ease-in;
   grid-auto-flow: row;
   grid-template-rows: max-content;
 }
 
 .player .tiles::-webkit-scrollbar {
-  width: 5px;
-  height: 6px;
-  background-color: transparent; /* or add it to the track */
+  width: 7px;
+  height: 4px;
+  border-bottom: 1px inset #7318B133;
+  background-color: transparent;
 }
 
-/* Add a thumb */
 .player .tiles::-webkit-scrollbar-thumb {
-  background: #27272B;
+  transition-duration: .5s;
+  transition-property: background-color;
+  border-radius: 2px;
+  background-color: #FFFFFF30;
 }
 
-.hex-container {
+.player .tiles::-webkit-scrollbar-thumb:hover {
+  background-color: #FFFFFF;
+}
+
+main {
   display: grid;
   overflow: auto;
   align-items: center;
   background: #1A1A1D;
 }
 
-.hextille {
+[role='grid'] {
   display: flex;
   flex-direction: column;
   margin: 0 auto;
@@ -128,27 +135,27 @@ body > svg {
   --focus: #1712A290;
 }
 
-.hex-row {
+[role='row'] {
   display: inline-flex;
   flex-direction: row;
   min-width: calc(2 * var(--hex-size));
   margin: calc(var(--hex-size) * -0.1) 0;
 }
 
-.hex-row:nth-child(1) {
+[role='row']:nth-child(1) {
   margin-top: 0;
 }
 
-.hex-row:last-child {
+[role='row']:last-child {
   margin-bottom: 0;
 }
 
-.right > .hex-row:nth-child(even),
-.left > .hex-row:nth-child(odd) {
+.right > [role='row']:nth-child(even),
+.left > [role='row']:nth-child(odd) {
   transform: translateX(calc(var(--hex-size) / 2));
 }
 
-.hex {
+[role='cell'], .tile, [role='none'] {
   position: relative;
   display: inline-flex;
   align-items: center;
@@ -163,63 +170,57 @@ body > svg {
   fill: var(--background, #00000030);
 }
 
-.hex > * {
+[role='cell'] > *, .tile > * {
   position: absolute;
 }
 
-.hex > svg {
+[role='cell'] > svg {
   pointer-events: none;
 }
 
-.hidden {
+[role='none'] {
   width: var(--hex-size);
   margin: 0;
   background: transparent;
 }
 
-.hidden:last-child {
+[role='none']:last-child {
   display: none;
 }
 
-.hidden {
-  width: var(--hex-size);
-  margin: 0;
-  background: transparent;
-}
-
-.cell {
+[role='cell'] {
   transition-timing-function: ease-in;
   transition-duration: .4s;
   transition-property: transform, margin;
   --width: var(--hex-size);
 }
 
-.cell.hide {
+[role='cell'].hide, [role='none'] {
   margin: 0 0;
   transform: scale(0);
 }
 
-.cell .tile {
+[role='cell'] .tile {
   margin: 0;
 }
 
-.cell .tile:not([draggable='true']) {pointer-events: none;}
+[role='cell'] .tile:not([draggable='true']) {pointer-events: none;}
 
-.cell.no-drop.active,
-.cell.no-drop:focus,
-.cell.no-drop:hover {
+[role='cell'].no-drop.active,
+[role='cell'].no-drop:focus,
+[role='cell'].no-drop:hover {
   transition-duration: 0.1s;
   --focus: transparent;
   fill: #5D001E;
 }
 
-.cell.can-drop {
+[role='cell'].can-drop {
   fill: rgba(175, 210, 117, 0.2);
 }
 
-.cell.can-drop.active,
-.cell.can-drop:hover,
-.cell.can-drop:focus {
+[role='cell'].can-drop.active,
+[role='cell'].can-drop:hover,
+[role='cell'].can-drop:focus {
   fill: #AFD275;
 }
 
@@ -232,8 +233,8 @@ body > svg {
   fill: var(--creature);
 }
 
-.cell.can-drop .tile:not(.selected),
-.cell.no-drop .tile:not(.selected) {
+[role='cell'].can-drop .tile:not(.selected),
+[role='cell'].no-drop .tile:not(.selected) {
   pointer-events: none;
   opacity: 100%;
 }
@@ -251,6 +252,7 @@ body > svg {
 [draggable='true']:not(.selected):hover:before,
 [draggable='true']:not(.selected):focus:before {
   position: absolute;
+  z-index: -1;
   top: 0;
   left: 0;
   display: block;
@@ -260,7 +262,7 @@ body > svg {
   content: ' ';
   transition: box-shadow 0.2s ease-in;
   outline: none;
-  box-shadow: 0 -10px 2em 5px var(--shadow), 0 10px 2em 5px var(--shadow), 0 0 1em var(--shadow);
+  box-shadow: 0 -.4em 1em .4em var(--shadow), 0 .4em 1em .4em var(--shadow), 0 0 1em var(--shadow);
 }
 
 .tile.selected:before {
@@ -315,18 +317,15 @@ body > svg {
   }
 
   .players {
-    position: sticky;
-    top: 0;
-    border-radius: 0.1rem;
     grid-template-columns: unset;
     grid-template-rows: max-content max-content;
   }
 
   .player {
     flex-direction: row;
+    width: 100vw;
     height: unset;
     border-right-width: 0;
-    width: 100vw;
   }
 
   .player.hiding {
@@ -342,29 +341,34 @@ body > svg {
   .player .name {
     align-self: center;
     justify-content: center;
+    width: 3em;
+    height: 1em;
     margin: 0 2vw;
-    width:3em;
   }
 
   .player .tiles {
     display: inline-grid;
     overflow: auto hidden;
-    margin: 1vh 0 0 0;
-    padding: 0;
+    padding: 1vh 0;
     border-left: 1px inset #7318B133;
     grid-auto-flow: column;
   }
 
-  .hex-container {
+  .player .tiles::-webkit-scrollbar-thumb {
+    width: 3px;
+    background-color: #FFFFFF;
+  }
+
+  main {
     overflow: auto;
   }
 
-  .hextille {
+  [role='grid'] {
     padding: 5vh;
     border-radius: 0;
   }
 
-  .cell.can-drop {
+  [role='cell'].can-drop {
     fill: #AFD275;
   }
 
@@ -381,24 +385,113 @@ body > svg {
 }
 
 .rules {
-  --hex-size: 50px;
-  --tile-size: 40px
+  padding: 4vh;
+  background-color: #E6D3B3FF;
+  --hex-size: 60px;
+  --tile-size: 54px;
+  --outline: #FFFF00aa;
 }
 
-.rules .correct > svg {
-  stroke: green;
-  stroke-width: 2px;
+.rules [role='row'] {
+  z-index: unset;
+  pointer-events: none;
+  user-select: none;
 }
 
 .rules .correct {
-  font-size: 1.5em;
-  color: green;
+  --result: #1CCB1C
+}
+ 
+.rules .incorrect {
+  --result: red;
 }
 
-.rules .tile {
+.rules [role='cell'] > svg:first-child {
+  fill: var(--result);
+}
+
+.rules [role='cell'] {
   fill: white;
 }
 
-.rules .creature {
-  fill: mediumpurple;
+.rules .start {
+  z-index: 1;
+}
+
+.rules [role='cell'] span {
+  font-size: 1em;
+  color: var(--result);
+}
+
+.rules .tile.creature > span {
+  width: 1.2em;
+  text-align: center;
+  opacity: 75%;
+  background-color: black;
+  clip-path: circle(40%);
+}
+
+.rules [role='cell'] {
+  z-index: unset;
+  fill: black;
+}
+
+.rules .creature.beetle {
+  fill: #6726E3;
+}
+
+.rules .creature.queen {
+  fill: orange;
+}
+
+.rules .creature.grasshopper {
+  fill: #00D000;
+}
+
+.rules .creature.spider {
+  fill: #FF0000;
+}
+
+.rules .creature.ant {
+  fill: cyan;
+}
+
+.rules .tile {
+  z-index: unset; fill: black;
+}
+
+.rules .tile:not(.creature) svg use:only-child {
+  fill: white;
+}
+
+.rules .arrow {
+  transform: rotate(var(--arrow-deg)) translateY(calc(var(--hex-size) / -3)) scale(1, calc(var(--span) * .95));
+  transform-origin: center center;
+  fill: var(--result);
+  stroke-width: 1px;
+  --span: 1;
+}
+
+.arrow.left {
+  --arrow-deg: -90deg
+}
+
+.arrow.right {
+  --arrow-deg: 90deg
+}
+
+.arrow.bottomLeft {
+  --arrow-deg: -148deg
+}
+
+.arrow.topRight {
+  --arrow-deg: 30deg
+}
+
+.arrow.topLeft {
+  --arrow-deg: -30deg
+}
+
+.arrow.bottomRight {
+  --arrow-deg: 148deg
 }

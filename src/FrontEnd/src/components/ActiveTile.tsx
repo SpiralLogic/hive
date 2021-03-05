@@ -2,14 +2,12 @@ import { FunctionComponent, h } from 'preact';
 import { TileAction } from '../utilities/hive-dispatcher';
 import { Tile as TileType } from '../domain';
 import { addHiveEventListener, useClassReducer, useHiveDispatcher } from '../utilities/hooks';
-import { deepEqual } from 'fast-equals';
 import { handleDrop, handleKeyboardNav, isEnterOrSpace } from '../utilities/handlers';
-import { memo } from 'preact/compat';
 import { useEffect, useState } from 'preact/hooks';
 import Tile from './Tile';
 
 const tileSelector = `[tabindex].tile`;
-const cellSelector = `[tabindex].cell`;
+const cellSelector = `[tabindex][role="cell"]`;
 const playerSelector = `[tabindex].name`;
 
 const ActiveTile: FunctionComponent<TileType> = (tile: TileType) => {
@@ -80,7 +78,7 @@ const ActiveTile: FunctionComponent<TileType> = (tile: TileType) => {
 
   const attributes = {
     title: creature,
-    class: classes,
+    class: classes || undefined,
     draggable: !!moves.length,
     tabindex: moves.length ? 0 : undefined,
   };

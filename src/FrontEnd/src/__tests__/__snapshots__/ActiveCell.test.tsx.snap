@@ -2,7 +2,7 @@
 
 exports[`Cell Tests Cell Snapshot cell with no tile matches current snapshot 1`] = `
 <div
-  class="hex cell "
+  role="cell"
 >
   <svg
     viewBox="0 0 100 100"
@@ -17,7 +17,7 @@ exports[`Cell Tests Cell Snapshot cell with no tile matches current snapshot 1`]
 
 exports[`Cell Tests Cell Snapshot cell with tile matches current snapshot 1`] = `
 <div
-  class="hex cell "
+  role="cell"
 >
   <svg
     viewBox="0 0 100 100"
@@ -28,7 +28,7 @@ exports[`Cell Tests Cell Snapshot cell with tile matches current snapshot 1`] = 
     />
   </svg>
   <div
-    class="player1 hex tile"
+    class="player1 hex tile tile creature"
     draggable="false"
     title="fly"
   >
@@ -40,7 +40,7 @@ exports[`Cell Tests Cell Snapshot cell with tile matches current snapshot 1`] = 
         href="#hex"
       />
       <use
-        class="creature"
+        class="creature fly"
         href="#fly"
       />
     </svg>

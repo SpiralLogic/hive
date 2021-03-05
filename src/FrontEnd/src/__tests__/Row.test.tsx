@@ -25,10 +25,6 @@ describe('Row Tests', () => {
     );
   });
 
-  test('has class', () => {
-    expect(row).toHaveClass('hex-row');
-  });
-
   test('renders multiple cells', () => {
     expect(row.children).toHaveLength(4);
   });

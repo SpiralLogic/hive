@@ -1,3 +1,4 @@
+import { AntRule, BeetleRule, GrasshopperRule, QueenRule, SpiderRule } from './Rules';
 import { Fragment, FunctionComponent, h } from 'preact';
 import { GameId, GameState, PlayerId } from '../domain';
 import { MoveEvent, TileEvent } from '../utilities/hive-dispatcher';
