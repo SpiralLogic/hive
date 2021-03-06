@@ -76,7 +76,7 @@ const App: FunctionComponent = () => {
   return (
     <>
       <GameArea players={gameState.players} cells={gameState.cells} playerId={playerId} />
-      <Links showRules={() => setShowRules(true)} showShare={() => setShowShare(true)} />
+      <Links onShowRules={() => setShowRules(true)} onShowShare={() => setShowShare(true)} />
       {showRules ? <Rules setShowRules={setShowRules} /> : ''}
       {showShare ? <Share setShowShare={setShowShare} /> : ''}
     </>

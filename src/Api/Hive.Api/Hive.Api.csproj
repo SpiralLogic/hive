@@ -31,33 +31,23 @@
         <Content Include="$(SpaRoot)src\**" Exclude="$(SpaRoot)src\__tests__\__coverage__\**" LinkBase="FrontEnd" CopyToOutputDirectory="Never" CopyToPublishDirectory="Never" />
         <Content Include="$(SpaRoot)*" Exclude="$(SpaRoot)public\*,$(SpaRoot)src\*" CopyToOutputDirectory="Never" CopyToPublishDirectory="Never" />
         <Watch Include="$(SpaRoot)src\**;" Exclude="$(SpaRoot)node_modules\**\*;$(SpaRoot)public\**;$(DefaultExcludes)" />
-        <Content Update="..\..\FrontEnd\src\components\rules\RuleCell.tsx">
+        <Content Update="..\..\FrontEnd\src\__tests__\Link.test.tsx">
           <LinkBase>FrontEnd\</LinkBase>
-          <Link>FrontEnd\components\rules\RuleCell.tsx</Link>
+          <Link>FrontEnd\__tests__\AntRules.test.tsx</Link>
         </Content>
-        <Content Update="..\..\FrontEnd\src\components\rules\Beetle.tsx">
+        <Content Update="..\..\FrontEnd\src\__tests__\Share.tsx">
           <LinkBase>FrontEnd\</LinkBase>
-          <Link>FrontEnd\components\rules\Beetle.tsx</Link>
+          <Link>FrontEnd\__tests__\Share.tsx</Link>
         </Content>
-        <Content Update="..\..\FrontEnd\src\components\rules\GrasshopperRules.tsx">
+        <Content Update="..\..\FrontEnd\src\__tests__\Modal.tsx">
           <LinkBase>FrontEnd\</LinkBase>
-          <Link>FrontEnd\components\rules\GrasshopperRules.tsx</Link>
+          <Link>FrontEnd\__tests__\Modal.tsx</Link>
         </Content>
-        <Content Update="..\..\FrontEnd\src\components\rules\AntRules.tsx">
-          <Link>FrontEnd\components\rules\AntRules.tsx</Link>
-        </Content>
-        <Content Update="..\..\FrontEnd\src\components\rules\SpiderRules.tsx">
+        <Content Update="..\..\FrontEnd\src\__tests__\Rules.tsx">
           <LinkBase>FrontEnd\</LinkBase>
-          <Link>FrontEnd\components\rules\SpiderRules.tsx</Link>
+          <Link>FrontEnd\__tests__\Rules.tsx</Link>
         </Content>
-        <Content Update="..\..\FrontEnd\src\components\Modal.tsx">
-          <LinkBase>FrontEnd\</LinkBase>
-          <Link>FrontEnd\components\Modal.tsx</Link>
-        </Content>
-        <Content Update="..\..\FrontEnd\src\components\Share.tsx">
-          <LinkBase>FrontEnd\</LinkBase>
-          <Link>FrontEnd\components\Share.tsx</Link>
-        </Content>
+     
     </ItemGroup>
 
     <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
