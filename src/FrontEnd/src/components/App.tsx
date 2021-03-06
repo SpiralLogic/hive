@@ -1,4 +1,3 @@
-import { AntRule, BeetleRule, GrasshopperRule, QueenRule, SpiderRule } from './Rules';
 import { Fragment, FunctionComponent, h } from 'preact';
 import { GameId, GameState, PlayerId } from '../domain';
 import { MoveEvent, TileEvent } from '../utilities/hive-dispatcher';
@@ -8,10 +7,12 @@ import { useEffect, useState } from 'preact/hooks';
 import Engine from '../utilities/game-engine';
 import GameArea from './GameArea';
 import Links from './Links';
+import Rules from './Rules';
 
 const App: FunctionComponent = () => {
   const [gameState, updateGameState] = useState<GameState | undefined>(undefined);
   const [playerId, setPlayerId] = useState<PlayerId>(0);
+  const [showHelp, setShowHelp] = useState<boolean>(true);
 
   const initializeGame = (
     getInitial: (gameId: GameId) => Promise<GameState>,
@@ -73,7 +74,8 @@ const App: FunctionComponent = () => {
   return (
     <>
       <GameArea players={gameState.players} cells={gameState.cells} playerId={playerId} />
-      <Links />
+      <Links setShowHelp={setShowHelp} />
+      <Rules showHelp={showHelp} setShowHelp={setShowHelp} />
     </>
   );
 };

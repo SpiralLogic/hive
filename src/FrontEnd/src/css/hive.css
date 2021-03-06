@@ -72,7 +72,7 @@ body > svg {
   font-weight: bold;
   justify-content: center;
   height: 2em;
-  padding: 2vh 0;
+  padding: 2vh 0 0;
   text-align: center;
   color: white;
   outline: none;
@@ -96,7 +96,7 @@ body > svg {
 .player .tiles {
   display: inline-grid;
   overflow: hidden auto;
-  padding: 2vh 1vw;
+  padding: 1vh .5vw;
   transition: all 0.1s ease-in;
   grid-auto-flow: row;
   grid-template-rows: max-content;
@@ -262,7 +262,7 @@ main {
   content: ' ';
   transition: box-shadow 0.2s ease-in;
   outline: none;
-  box-shadow: 0 -.4em 1em .4em var(--shadow), 0 .4em 1em .4em var(--shadow), 0 0 1em var(--shadow);
+  box-shadow: 0 -.9em 1em .4em var(--shadow), 0 .9em 1em .4em var(--shadow), 0 0 1em var(--shadow);
 }
 
 .tile.selected:before {
@@ -293,13 +293,21 @@ main {
   top: 0;
   right: 0;
   display: inline-flex;
+  color: white;
+  flex-direction: row;
 }
 
-.github {
+.links .github {
   width: 40px;
   height: 40px;
   padding: 10px;
   fill: white;
+}
+.links .help, .links .help:visited, .links .help:active, .links .help:link, .links .help:active {
+  font-size: 3em;
+  margin-right:.5em;
+  text-decoration-color: white;
+  color:white;
 }
 
 @media only screen and (max-width: 720px) {
@@ -342,14 +350,13 @@ main {
     align-self: center;
     justify-content: center;
     width: 3em;
-    height: 1em;
     margin: 0 2vw;
   }
 
   .player .tiles {
     display: inline-grid;
     overflow: auto hidden;
-    padding: 1vh 0;
+    padding: 1vh 3vw;
     border-left: 1px inset #7318B133;
     grid-auto-flow: column;
   }
@@ -384,24 +391,51 @@ main {
   }
 }
 
+.rulesModal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  display: inline-flex;
+  align-content: center;
+  flex-direction: column-reverse;
+  width: max-content;
+  height: max-content;
+  transition-duration: .5s;
+  transition-property: height, width;
+  transform: translate(-50%, -50%);
+}
+
+.rulesModal [role='grid'] {
+  padding: 4vmax;
+}
+
+.rulesModal .menu {
+  display: flex;
+  justify-content: center;
+  padding: 1vmax;
+}
+
+.rulesModal.hide {
+  transform: scale(0);
+}
+
 .rules {
-  padding: 4vh;
   background-color: #E6D3B3FF;
   --hex-size: 60px;
   --tile-size: 54px;
-  --outline: #FFFF00aa;
+  --outline: #FFFF00AA;
 }
 
 .rules [role='row'] {
   z-index: unset;
-  pointer-events: none;
   user-select: none;
+  pointer-events: none;
 }
 
 .rules .correct {
   --result: #1CCB1C
 }
- 
+
 .rules .incorrect {
   --result: red;
 }

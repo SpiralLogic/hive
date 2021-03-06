@@ -4,10 +4,10 @@ import { TileEvent } from '../utilities/hive-dispatcher';
 import { addHiveEventListener, useClassReducer, useHiveDispatcher } from '../utilities/hooks';
 import { handleDragOver, handleKeyboardNav, isEnterOrSpace } from '../utilities/handlers';
 import { useEffect, useState } from 'preact/hooks';
-import Cell from './Cell';
+import Hexagon from './Hexagon';
 
-type CellProps = { coords: HexCoordinates; hidden?: boolean };
-const ActiveCell: FunctionComponent<CellProps> = (props) => {
+type Props = { coords: HexCoordinates; hidden?: boolean };
+const GameCell: FunctionComponent<Props> = (props) => {
   const { coords, children, hidden } = props;
   const [classes, setClasses] = useClassReducer('hide');
   const isValidMove = (validMoves: HexCoordinates[]) =>
@@ -66,6 +66,7 @@ const ActiveCell: FunctionComponent<CellProps> = (props) => {
   const attributes = {
     class: classes || undefined,
     tabindex: selectedTile && isValidMove(selectedTile.moves) ? 0 : undefined,
+    role: hidden ? 'none' : 'cell',
   };
 
   const handlers = {
@@ -78,10 +79,10 @@ const ActiveCell: FunctionComponent<CellProps> = (props) => {
     onkeydown: handleKeydown,
   };
   return (
-    <Cell hidden={hidden} {...attributes} {...handlers}>
+    <Hexagon hidden={hidden} {...attributes} {...handlers}>
       {children}
-    </Cell>
+    </Hexagon>
   );
 };
-ActiveCell.displayName = 'Cell';
-export default ActiveCell;
+GameCell.displayName = 'Cell';
+export default GameCell;

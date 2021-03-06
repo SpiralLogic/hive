@@ -1,5 +1,5 @@
 import { FunctionComponent, h } from 'preact';
-type Props = { class?: string; zIndex?: number; hidden: boolean };
+type Props = { class?: string; zIndex?: number; hidden?: boolean };
 const Row: FunctionComponent<Props> = (props) => {
   const { hidden, zIndex } = props;
   return (

@@ -1,4 +1,4 @@
-export * from './Cell';
+export * from './Hexagon';
 export * from './GameArea';
 export * from './Hextille';
 export * from './Player';

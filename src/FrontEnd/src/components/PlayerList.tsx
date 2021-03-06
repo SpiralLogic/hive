@@ -1,6 +1,6 @@
 import { FunctionComponent, h } from 'preact';
 import { PlayerId, Players } from '../domain';
-import ActiveTile from './ActiveTile';
+import GameTile from './GameTile';
 import Player from './Player';
 
 const Players: FunctionComponent<{ players: Players; currentPlayer: PlayerId }> = (props) => {
@@ -10,7 +10,7 @@ const Players: FunctionComponent<{ players: Players; currentPlayer: PlayerId }> 
       {players.map((player) => (
         <Player name={player.name} id={player.id} currentPlayer={currentPlayer} hide={!!player.tiles.length}>
           {player.tiles.map((tile) => (
-            <ActiveTile key={tile.id} {...tile} />
+            <GameTile key={tile.id} {...tile} />
           ))}
         </Player>
       ))}

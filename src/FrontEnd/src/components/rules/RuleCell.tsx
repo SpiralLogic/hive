@@ -1,9 +1,9 @@
 import { FunctionComponent, h } from 'preact';
-import Arrow, { Direction } from './Arrow';
-import Cell from './Cell';
-import Tile from './Tile';
+import Arrow, { Direction } from '../Arrow';
+import Hexagon from '../Hexagon';
+import Tile from '../Tile';
 
-export const RuleCell: FunctionComponent<{
+const RuleCell: FunctionComponent<{
   result?: 'correct' | 'incorrect';
   creature?: string;
   symbol?: string;
@@ -25,10 +25,8 @@ export const RuleCell: FunctionComponent<{
   };
 
   return (
-    <Cell class={props.result} style={zIndex ? { zIndex } : undefined}>
-      <Tile creature={props.creature} {...rest}>
-        {getResultChar()}
-      </Tile>
+    <Hexagon role="cell" class={props.result} style={zIndex ? { zIndex } : undefined}>
+      <Tile {...rest}>{getResultChar()}</Tile>
       {correct?.map((direction) => (
         <Arrow result="correct" direction={direction instanceof Array ? direction : [direction, undefined]} />
       ))}
@@ -38,6 +36,9 @@ export const RuleCell: FunctionComponent<{
           direction={direction instanceof Array ? direction : [direction, undefined]}
         />
       ))}
-    </Cell>
+    </Hexagon>
   );
 };
+
+RuleCell.displayName = 'RuleCell';
+export default RuleCell;

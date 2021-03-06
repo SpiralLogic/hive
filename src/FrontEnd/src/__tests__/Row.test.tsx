@@ -1,6 +1,6 @@
 import { h } from 'preact';
 import { renderElement } from './helpers';
-import Cell from '../components/Cell';
+import Hexagon from '../components/Hexagon';
 import Row from '../components/Row';
 
 require('@testing-library/jest-dom');
@@ -19,7 +19,7 @@ describe('Row Tests', () => {
     row = renderElement(
       <Row
         children={cells.map((c) => (
-          <Cell {...c} />
+          <Hexagon {...c} />
         ))}
       />
     );

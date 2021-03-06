@@ -31,6 +31,25 @@
         <Content Include="$(SpaRoot)src\**" Exclude="$(SpaRoot)src\__tests__\__coverage__\**" LinkBase="FrontEnd" CopyToOutputDirectory="Never" CopyToPublishDirectory="Never" />
         <Content Include="$(SpaRoot)*" Exclude="$(SpaRoot)public\*,$(SpaRoot)src\*" CopyToOutputDirectory="Never" CopyToPublishDirectory="Never" />
         <Watch Include="$(SpaRoot)src\**;" Exclude="$(SpaRoot)node_modules\**\*;$(SpaRoot)public\**;$(DefaultExcludes)" />
+        <Content Update="..\..\FrontEnd\src\components\rules\RuleCell.tsx">
+          <LinkBase>FrontEnd\</LinkBase>
+          <Link>FrontEnd\components\rules\RuleCell.tsx</Link>
+        </Content>
+        <Content Update="..\..\FrontEnd\src\components\rules\Beetle.tsx">
+          <LinkBase>FrontEnd\</LinkBase>
+          <Link>FrontEnd\components\rules\Beetle.tsx</Link>
+        </Content>
+        <Content Update="..\..\FrontEnd\src\components\rules\GrasshopperRules.tsx">
+          <LinkBase>FrontEnd\</LinkBase>
+          <Link>FrontEnd\components\rules\GrasshopperRules.tsx</Link>
+        </Content>
+        <Content Update="..\..\FrontEnd\src\components\rules\AntRules.tsx">
+          <Link>FrontEnd\components\rules\AntRules.tsx</Link>
+        </Content>
+        <Content Update="..\..\FrontEnd\src\components\rules\SpiderRules.tsx">
+          <LinkBase>FrontEnd\</LinkBase>
+          <Link>FrontEnd\components\rules\SpiderRules.tsx</Link>
+        </Content>
     </ItemGroup>
 
     <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
@@ -48,7 +67,7 @@
     </Target>
 
     <Target Name="DebugBuild" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug'">
-        <Exec WorkingDirectory="$(SpaRoot)" ConsoleToMSBuild="true" Command="pnpm build-watch">
+        <Exec WorkingDirectory="$(SpaRoot)" ConsoleToMSBuild="true" Command="pnpm run build:watch">
             <Output TaskParameter="ConsoleOutput" ItemName="OutputOfExec" />
             <Output TaskParameter="ExitCode" PropertyName="ErrorCode" />
         </Exec>

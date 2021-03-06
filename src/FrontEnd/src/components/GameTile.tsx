@@ -10,7 +10,7 @@ const tileSelector = `[tabindex].tile`;
 const cellSelector = `[tabindex][role="cell"]`;
 const playerSelector = `[tabindex].name`;
 
-const ActiveTile: FunctionComponent<TileType> = (tile: TileType) => {
+const GameTile: FunctionComponent<TileType> = (tile: TileType) => {
   const { id, moves, creature, playerId } = tile;
   const [focus, setFocus] = useState(tileSelector);
   const [classes, setClassList] = useClassReducer(`player${playerId} hex tile`);
@@ -96,5 +96,5 @@ const ActiveTile: FunctionComponent<TileType> = (tile: TileType) => {
       };
   return <Tile creature={creature} {...attributes} {...handlers} />;
 };
-ActiveTile.displayName = 'Tile';
-export default ActiveTile;
+GameTile.displayName = 'Tile';
+export default GameTile;

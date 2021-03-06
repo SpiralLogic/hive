@@ -3,7 +3,7 @@ import { fireEvent } from '@testing-library/preact';
 import { h } from 'preact';
 import { renderElement, simulateEvent } from './helpers';
 import { useHiveDispatcher } from '../utilities/hooks';
-import ActiveTile from '../components/ActiveTile';
+import GameTile from '../components/GameTile';
 
 describe('Tile Tests', () => {
   const tileCanMove = {
@@ -15,11 +15,11 @@ describe('Tile Tests', () => {
   const tileNoMove = { id: 2, playerId: 0, creature: 'fly', moves: [] };
 
   const createTileCanMove = () => {
-    return renderElement(<ActiveTile {...tileCanMove} />);
+    return renderElement(<GameTile {...tileCanMove} />);
   };
 
   const createTileNoMove = () => {
-    return renderElement(<ActiveTile {...tileNoMove} />);
+    return renderElement(<GameTile {...tileNoMove} />);
   };
 
   const expectedHiveEvent: HiveAction = {
