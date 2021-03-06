@@ -8,11 +8,13 @@ import Engine from '../utilities/game-engine';
 import GameArea from './GameArea';
 import Links from './Links';
 import Rules from './Rules';
+import Share from './Share';
 
 const App: FunctionComponent = () => {
   const [gameState, updateGameState] = useState<GameState | undefined>(undefined);
   const [playerId, setPlayerId] = useState<PlayerId>(0);
-  const [showHelp, setShowHelp] = useState<boolean>(true);
+  const [showRules, setShowRules] = useState<boolean>(false);
+  const [showShare, setShowShare] = useState<boolean>(false);
 
   const initializeGame = (
     getInitial: (gameId: GameId) => Promise<GameState>,
@@ -74,8 +76,9 @@ const App: FunctionComponent = () => {
   return (
     <>
       <GameArea players={gameState.players} cells={gameState.cells} playerId={playerId} />
-      <Links setShowHelp={setShowHelp} />
-      <Rules showHelp={showHelp} setShowHelp={setShowHelp} />
+      <Links showRules={() => setShowRules(true)} showShare={() => setShowShare(true)} />
+      {showRules ? <Rules setShowRules={setShowRules} /> : ''}
+      {showShare ? <Share setShowShare={setShowShare} /> : ''}
     </>
   );
 };

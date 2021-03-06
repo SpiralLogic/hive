@@ -16,34 +16,9 @@ const Player: FunctionComponent<{ name: string; hide: boolean; id: PlayerId; cur
     }
   }, [hide]);
 
-  const opponentGame = {
-    title: 'Hive board game',
-    text: 'Share game to opponent!',
-    url: `${window.location.href.slice(0, -1)}${id}`,
-  };
-  const onClickHandler = (e: MouseEvent) => {
-    e.stopPropagation();
-    try {
-      navigator.share(opponentGame).then();
-    } catch {
-      navigator.clipboard.writeText(opponentGame.url).then();
-    }
-    return false;
-  };
-
   return (
     <div class={classes} title={name}>
-      <div class="name" title={'share link for opponent'}>
-        {id === currentPlayer ? (
-          name
-        ) : (
-          <svg onClick={onClickHandler} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-            Queen
-            <use href="#share" />
-            Queen
-          </svg>
-        )}
-      </div>
+      <div class="name">{name}</div>
       <div class="tiles">{props.children}</div>
     </div>
   );

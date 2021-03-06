@@ -30,11 +30,11 @@ const GameTile: FunctionComponent<TileType> = (tile: TileType) => {
   };
 
   addHiveEventListener<TileAction>('tileSelect', (event: TileAction) => {
-    if (event.tile.id == id) select();
+    if (event.tile.id === id) select();
   });
 
   addHiveEventListener<TileAction>('tileDeselect', (event: TileAction) => {
-    if (event.tile.id == id) deselect();
+    if (event.tile.id === id) deselect();
   });
 
   addHiveEventListener('tileClear', () => {

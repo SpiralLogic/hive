@@ -10,18 +10,8 @@ exports[`PlayerList Tests PlayerList snapshot matches current snapshot 1`] = `
   >
     <div
       class="name"
-      title="share link for opponent"
     >
-      <svg
-        viewBox="0 0 100 100"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-         
-        <use
-          href="#share"
-        />
-         
-      </svg>
+      Player 1
     </div>
     <div
       class="tiles"
@@ -89,18 +79,8 @@ exports[`PlayerList Tests PlayerList snapshot matches current snapshot 1`] = `
   >
     <div
       class="name"
-      title="share link for opponent"
     >
-      <svg
-        viewBox="0 0 100 100"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-         
-        <use
-          href="#share"
-        />
-         
-      </svg>
+      Player 2
     </div>
     <div
       class="tiles"

@@ -10,18 +10,6 @@ exports[`Grasshopper Rule snapshot tests snapshot 1`] = `
     style="z-index: 1;"
   >
     <div
-      role="none"
-    >
-      <svg
-        viewBox="0 0 100 100"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <use
-          href="#hex"
-        />
-      </svg>
-    </div>
-    <div
       class="correct"
       role="cell"
     >
@@ -182,6 +170,7 @@ exports[`Grasshopper Rule snapshot tests snapshot 1`] = `
     <div
       class="correct"
       role="cell"
+      style="z-index: -2;"
     >
       <svg
         viewBox="0 0 100 100"
@@ -213,18 +202,6 @@ exports[`Grasshopper Rule snapshot tests snapshot 1`] = `
   <div
     role="row"
   >
-    <div
-      role="none"
-    >
-      <svg
-        viewBox="0 0 100 100"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <use
-          href="#hex"
-        />
-      </svg>
-    </div>
     <div
       role="none"
     >
@@ -311,18 +288,6 @@ exports[`Grasshopper Rule snapshot tests snapshot 1`] = `
   <div
     role="row"
   >
-    <div
-      role="none"
-    >
-      <svg
-        viewBox="0 0 100 100"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <use
-          href="#hex"
-        />
-      </svg>
-    </div>
     <div
       role="none"
     >
@@ -438,35 +403,6 @@ exports[`Grasshopper Rule snapshot tests snapshot 1`] = `
   <div
     role="row"
   >
-    <div
-      role="cell"
-    >
-      <svg
-        viewBox="0 0 100 100"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <use
-          href="#hex"
-        />
-      </svg>
-      <div
-        class="tile creature"
-      >
-        <svg
-          viewBox="0 0 100 100"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <use
-            href="#hex"
-          />
-          <use
-            class="creature spider"
-            href="#spider"
-          />
-        </svg>
-        
-      </div>
-    </div>
     <div
       class="correct"
       role="cell"

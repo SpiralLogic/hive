@@ -292,24 +292,35 @@ main {
   position: fixed;
   top: 0;
   right: 0;
-  display: inline-flex;
+  display: grid;
+  grid-auto-flow: column;
+  grid-template-columns: max-content;
   color: white;
-  flex-direction: row;
+  width: fit-content;
+  justify-content: center;
+  align-content: center;
 }
 
-.links .github {
-  width: 40px;
-  height: 40px;
+.links a {
+  font-size: 40px;
   padding: 10px;
+  text-decoration: none;
+  color: white;
   fill: white;
 }
-.links .help, .links .help:visited, .links .help:active, .links .help:link, .links .help:active {
-  font-size: 3em;
-  margin-right:.5em;
-  text-decoration-color: white;
-  color:white;
+
+.links :hover {
+  color:hotpink;
+  fill: hotpink;
 }
 
+.links a:visited, .links a:active {
+  text-decoration: none;
+  color: white;
+}
+.links svg{
+  width: 30px;
+}
 @media only screen and (max-width: 720px) {
   body {
     margin: 0;
@@ -391,38 +402,43 @@ main {
   }
 }
 
-.rulesModal {
+.modal {
   position: fixed;
   top: 20%;
   left: 50%;
   display: inline-flex;
   align-content: center;
-  flex-direction: column-reverse;
+  flex-direction: column;
   width: max-content;
   height: max-content;
   transition-duration: .5s;
   transition-property: height, width;
   transform: translateX(-50%);
+  padding: 1vmax 3vmax 0;
 }
 
-.rulesModal [role='grid'] {
-  padding: 3vmax;
+.modal> button:last-child{
+  margin: 1rem;
+}
+
+.rules [role='grid'] {
   max-width: 98vmax;
+  padding:0;
 }
 
-.rulesModal .menu {
+.modal .menu {
   display: flex;
   justify-content: center;
   padding: 1vmax;
 }
 
-.rulesModal.hide {
+.modal.hide {
   transform: scale(0);
 }
 
 .rules {
-  background-color: rgb(249 235 208);
   border-radius: 5px;
+  background-color: rgb(249 235 208);
   --hex-size: 56px;
   --tile-size: 48px;
   --outline: #FFFF00AA;
@@ -473,23 +489,27 @@ main {
 }
 
 .rules .creature.beetle {
-  fill: #6726E3;
+  --fill: #6726E3;
 }
 
 .rules .creature.queen {
-  fill: orange;
+  --fill: orange;
 }
 
 .rules .creature.grasshopper {
-  fill: #00D000;
+  --fill: #00D000;
 }
 
 .rules .creature.spider {
-  fill: #FF0000;
+  --fill: #FF0000;
 }
 
 .rules .creature.ant {
-  fill: cyan;
+  --fill: cyan;
+}
+.rules .creature {
+  --outline:var(--fill);
+  fill:var(--fill);
 }
 
 .rules .tile {

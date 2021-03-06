@@ -50,6 +50,14 @@
           <LinkBase>FrontEnd\</LinkBase>
           <Link>FrontEnd\components\rules\SpiderRules.tsx</Link>
         </Content>
+        <Content Update="..\..\FrontEnd\src\components\Modal.tsx">
+          <LinkBase>FrontEnd\</LinkBase>
+          <Link>FrontEnd\components\Modal.tsx</Link>
+        </Content>
+        <Content Update="..\..\FrontEnd\src\components\Share.tsx">
+          <LinkBase>FrontEnd\</LinkBase>
+          <Link>FrontEnd\components\Share.tsx</Link>
+        </Content>
     </ItemGroup>
 
     <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

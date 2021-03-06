@@ -10,9 +10,10 @@ type Props = { coords: HexCoordinates; hidden?: boolean };
 const GameCell: FunctionComponent<Props> = (props) => {
   const { coords, children, hidden } = props;
   const [classes, setClasses] = useClassReducer('hide');
+  const [selectedTile, setSelectedTile] = useState<TileType | null>(null);
+
   const isValidMove = (validMoves: HexCoordinates[]) =>
     validMoves.some((dest) => dest.q == coords.q && dest.r == coords.r);
-  const [selectedTile, setSelectedTile] = useState<TileType | null>(null);
   const hiveDispatcher = useHiveDispatcher();
   useEffect(() => setClasses({ type: hidden ? 'add' : 'remove', class: 'hide' }), [hidden]);
 
