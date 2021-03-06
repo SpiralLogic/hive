@@ -1,0 +1,694 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Ant Rule snapshot tests snapshot 1`] = `
+<div
+  class="right"
+  role="grid"
+>
+  <div
+    role="row"
+  >
+    <div
+      role="none"
+    >
+      <svg
+        viewBox="0 0 100 100"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <use
+          href="#hex"
+        />
+      </svg>
+    </div>
+    <div
+      class="correct"
+      role="cell"
+      style="z-index: 1;"
+    >
+      <svg
+        viewBox="0 0 100 100"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <use
+          href="#hex"
+        />
+      </svg>
+      <div
+        class="tile"
+      >
+        <svg
+          viewBox="0 0 100 100"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <use
+            href="#hex"
+          />
+        </svg>
+        <span>
+          <span>
+            ✓
+          </span>
+        </span>
+      </div>
+      <svg
+        class="arrow right correct"
+        viewBox="0 0 100 100"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <use
+          href="#arrow"
+        />
+      </svg>
+    </div>
+    <div
+      class="correct"
+      role="cell"
+    >
+      <svg
+        viewBox="0 0 100 100"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <use
+          href="#hex"
+        />
+      </svg>
+      <div
+        class="tile"
+      >
+        <svg
+          viewBox="0 0 100 100"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <use
+            href="#hex"
+          />
+        </svg>
+        <span>
+          <span>
+            ✓
+          </span>
+        </span>
+      </div>
+    </div>
+    <div
+      role="none"
+    >
+      <svg
+        viewBox="0 0 100 100"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <use
+          href="#hex"
+        />
+      </svg>
+    </div>
+    <div
+      role="none"
+    >
+      <svg
+        viewBox="0 0 100 100"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <use
+          href="#hex"
+        />
+      </svg>
+    </div>
+  </div>
+  <div
+    role="row"
+  >
+    <div
+      class="correct"
+      role="cell"
+    >
+      <svg
+        viewBox="0 0 100 100"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <use
+          href="#hex"
+        />
+      </svg>
+      <div
+        class="tile"
+      >
+        <svg
+          viewBox="0 0 100 100"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <use
+            href="#hex"
+          />
+        </svg>
+        <span>
+          <span>
+            ✓
+          </span>
+        </span>
+      </div>
+      <svg
+        class="arrow topRight correct"
+        viewBox="0 0 100 100"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <use
+          href="#arrow"
+        />
+      </svg>
+    </div>
+    <div
+      role="cell"
+    >
+      <svg
+        viewBox="0 0 100 100"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <use
+          href="#hex"
+        />
+      </svg>
+      <div
+        class="tile creature"
+      >
+        <svg
+          viewBox="0 0 100 100"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <use
+            href="#hex"
+          />
+          <use
+            class="creature queen"
+            href="#queen"
+          />
+        </svg>
+        
+      </div>
+    </div>
+    <div
+      class="correct"
+      role="cell"
+    >
+      <svg
+        viewBox="0 0 100 100"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <use
+          href="#hex"
+        />
+      </svg>
+      <div
+        class="tile"
+      >
+        <svg
+          viewBox="0 0 100 100"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <use
+            href="#hex"
+          />
+        </svg>
+        <span>
+          <span>
+            ✓
+          </span>
+        </span>
+      </div>
+    </div>
+    <div
+      class="correct"
+      role="cell"
+    >
+      <svg
+        viewBox="0 0 100 100"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <use
+          href="#hex"
+        />
+      </svg>
+      <div
+        class="tile"
+      >
+        <svg
+          viewBox="0 0 100 100"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <use
+            href="#hex"
+          />
+        </svg>
+        <span>
+          <span>
+            ✓
+          </span>
+        </span>
+      </div>
+      <svg
+        class="arrow left correct"
+        viewBox="0 0 100 100"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <use
+          href="#arrow"
+        />
+      </svg>
+    </div>
+  </div>
+  <div
+    role="row"
+  >
+    <div
+      class="correct"
+      role="cell"
+    >
+      <svg
+        viewBox="0 0 100 100"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <use
+          href="#hex"
+        />
+      </svg>
+      <div
+        class="tile"
+      >
+        <svg
+          viewBox="0 0 100 100"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <use
+            href="#hex"
+          />
+        </svg>
+        <span>
+          <span>
+            ✓
+          </span>
+        </span>
+      </div>
+      <svg
+        class="arrow topRight correct"
+        viewBox="0 0 100 100"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <use
+          href="#arrow"
+        />
+      </svg>
+    </div>
+    <div
+      role="cell"
+    >
+      <svg
+        viewBox="0 0 100 100"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <use
+          href="#hex"
+        />
+      </svg>
+      <div
+        class="tile creature"
+      >
+        <svg
+          viewBox="0 0 100 100"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <use
+            href="#hex"
+          />
+          <use
+            class="creature grasshopper"
+            href="#grasshopper"
+          />
+        </svg>
+        
+      </div>
+    </div>
+    <div
+      role="none"
+    >
+      <svg
+        viewBox="0 0 100 100"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <use
+          href="#hex"
+        />
+      </svg>
+    </div>
+    <div
+      role="cell"
+    >
+      <svg
+        viewBox="0 0 100 100"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <use
+          href="#hex"
+        />
+      </svg>
+      <div
+        class="tile creature"
+      >
+        <svg
+          viewBox="0 0 100 100"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <use
+            href="#hex"
+          />
+          <use
+            class="creature queen"
+            href="#queen"
+          />
+        </svg>
+        
+      </div>
+    </div>
+    <div
+      class="correct"
+      role="cell"
+    >
+      <svg
+        viewBox="0 0 100 100"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <use
+          href="#hex"
+        />
+      </svg>
+      <div
+        class="tile"
+      >
+        <svg
+          viewBox="0 0 100 100"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <use
+            href="#hex"
+          />
+        </svg>
+        <span>
+          <span>
+            ✓
+          </span>
+        </span>
+      </div>
+      <svg
+        class="arrow topLeft correct"
+        viewBox="0 0 100 100"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <use
+          href="#arrow"
+        />
+      </svg>
+    </div>
+  </div>
+  <div
+    role="row"
+  >
+    <div
+      class="correct"
+      role="cell"
+    >
+      <svg
+        viewBox="0 0 100 100"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <use
+          href="#hex"
+        />
+      </svg>
+      <div
+        class="tile"
+      >
+        <svg
+          viewBox="0 0 100 100"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <use
+            href="#hex"
+          />
+        </svg>
+        <span>
+          <span>
+            ✓
+          </span>
+        </span>
+      </div>
+      <svg
+        class="arrow topLeft correct"
+        viewBox="0 0 100 100"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <use
+          href="#arrow"
+        />
+      </svg>
+    </div>
+    <div
+      role="cell"
+    >
+      <svg
+        viewBox="0 0 100 100"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <use
+          href="#hex"
+        />
+      </svg>
+      <div
+        class="tile creature"
+      >
+        <svg
+          viewBox="0 0 100 100"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <use
+            href="#hex"
+          />
+          <use
+            class="creature beetle"
+            href="#beetle"
+          />
+        </svg>
+        
+      </div>
+    </div>
+    <div
+      role="cell"
+    >
+      <svg
+        viewBox="0 0 100 100"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <use
+          href="#hex"
+        />
+      </svg>
+      <div
+        class="tile creature"
+      >
+        <svg
+          viewBox="0 0 100 100"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <use
+            href="#hex"
+          />
+          <use
+            class="creature beetle"
+            href="#beetle"
+          />
+        </svg>
+        
+      </div>
+    </div>
+    <div
+      class="correct"
+      role="cell"
+    >
+      <svg
+        viewBox="0 0 100 100"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <use
+          href="#hex"
+        />
+      </svg>
+      <div
+        class="tile"
+      >
+        <svg
+          viewBox="0 0 100 100"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <use
+            href="#hex"
+          />
+        </svg>
+        <span>
+          <span>
+            ✓
+          </span>
+        </span>
+      </div>
+      <svg
+        class="arrow topRight correct"
+        viewBox="0 0 100 100"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <use
+          href="#arrow"
+        />
+      </svg>
+    </div>
+  </div>
+  <div
+    role="row"
+  >
+    <div
+      role="none"
+    >
+      <svg
+        viewBox="0 0 100 100"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <use
+          href="#hex"
+        />
+      </svg>
+    </div>
+    <div
+      class="correct"
+      role="cell"
+    >
+      <svg
+        viewBox="0 0 100 100"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <use
+          href="#hex"
+        />
+      </svg>
+      <div
+        class="tile"
+      >
+        <svg
+          viewBox="0 0 100 100"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <use
+            href="#hex"
+          />
+        </svg>
+        <span>
+          <span>
+            ✓
+          </span>
+        </span>
+      </div>
+      <svg
+        class="arrow topLeft correct"
+        viewBox="0 0 100 100"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <use
+          href="#arrow"
+        />
+      </svg>
+    </div>
+    <div
+      role="cell"
+      style="z-index: 1;"
+    >
+      <svg
+        viewBox="0 0 100 100"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <use
+          href="#hex"
+        />
+      </svg>
+      <div
+        class="selected tile creature"
+      >
+        <svg
+          viewBox="0 0 100 100"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <use
+            href="#hex"
+          />
+          <use
+            class="creature ant"
+            href="#ant"
+          />
+        </svg>
+        
+      </div>
+      <svg
+        class="arrow left correct"
+        viewBox="0 0 100 100"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <use
+          href="#arrow"
+        />
+      </svg>
+      <svg
+        class="arrow right correct"
+        viewBox="0 0 100 100"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <use
+          href="#arrow"
+        />
+      </svg>
+    </div>
+    <div
+      class="correct"
+      role="cell"
+    >
+      <svg
+        viewBox="0 0 100 100"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <use
+          href="#hex"
+        />
+      </svg>
+      <div
+        class="tile"
+      >
+        <svg
+          viewBox="0 0 100 100"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <use
+            href="#hex"
+          />
+        </svg>
+        <span>
+          <span>
+            ✓
+          </span>
+        </span>
+      </div>
+      <svg
+        class="arrow topRight correct"
+        viewBox="0 0 100 100"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <use
+          href="#arrow"
+        />
+      </svg>
+    </div>
+  </div>
+</div>
+`;

@@ -38,8 +38,9 @@ const Player: FunctionComponent<{ name: string; hide: boolean; id: PlayerId; cur
           name
         ) : (
           <svg onClick={onClickHandler} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-            {' '}
-            <use href="#share" />{' '}
+            Queen
+            <use href="#share" />
+            Queen
           </svg>
         )}
       </div>

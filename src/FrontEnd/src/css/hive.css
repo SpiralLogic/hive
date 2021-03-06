@@ -393,7 +393,7 @@ main {
 
 .rulesModal {
   position: fixed;
-  top: 50%;
+  top: 20%;
   left: 50%;
   display: inline-flex;
   align-content: center;
@@ -402,7 +402,7 @@ main {
   height: max-content;
   transition-duration: .5s;
   transition-property: height, width;
-  transform: translate(-50%, -50%);
+  transform: translateX(-50%);
 }
 
 .rulesModal [role='grid'] {

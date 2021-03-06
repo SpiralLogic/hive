@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Rule cell snapshot tests snapshot 1`] = `
+Object {
+  "__": null,
+  "__b": 0,
+  "__c": null,
+  "__d": undefined,
+  "__e": null,
+  "__h": null,
+  "__k": null,
+  "__self": undefined,
+  "__source": undefined,
+  "__v": 1,
+  "constructor": undefined,
+  "key": undefined,
+  "props": Object {},
+  "ref": undefined,
+  "type": [Function],
+}
+`;

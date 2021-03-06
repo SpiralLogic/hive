@@ -14,18 +14,19 @@ const RuleCell: FunctionComponent<{
 }> = (props) => {
   const { correct, incorrect, symbol, zIndex, result, ...rest } = props;
   const getResultChar = () => {
-    const char = symbol ? symbol : result === 'correct' ? '✔' : 'x';
-    switch (props.result) {
+    const char = symbol ? symbol : result === 'correct' ? <span>&#10003;</span> : <span>&#10008;</span>;
+    switch (result) {
       case 'correct':
         return <span>{char}</span>;
       case 'incorrect':
         return <span>{char}</span>;
+      default:
+        return '';
     }
-    return '';
   };
 
   return (
-    <Hexagon role="cell" class={props.result} style={zIndex ? { zIndex } : undefined}>
+    <Hexagon role="cell" class={result} style={zIndex ? { zIndex } : undefined}>
       <Tile {...rest}>{getResultChar()}</Tile>
       {correct?.map((direction) => (
         <Arrow result="correct" direction={direction instanceof Array ? direction : [direction, undefined]} />
