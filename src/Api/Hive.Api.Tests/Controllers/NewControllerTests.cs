@@ -37,14 +37,15 @@ namespace Hive.Api.Tests.Controllers
         [Fact]
         public void Post_CreatesNewGame()
         {
-            _controller.Post().Should().BeAssignableTo<CreatedResult>().Which.Value.Should().BeAssignableTo<GameState>().Which.GameId.Should().Be(NewGameId);
+            _controller.Post().Should().BeAssignableTo<CreatedResult>().Which.Value.Should().BeAssignableTo<GameState>().Which.GameId.Should().BeAssignableTo<string>();
         }
         
         [Fact]
         public void Post_StoresNewGameInCache()
         {
-            _controller.Post();
-            _memoryCacheMock.Verify(m=>m.Set(NewGameId, It.IsAny<byte[]>(),It.IsAny<DistributedCacheEntryOptions>()));
+            var result = _controller.Post();
+            var gameId = result.Value.Should().BeAssignableTo<GameState>().Subject.GameId;
+            _memoryCacheMock.Verify(m=>m.Set(gameId, It.IsAny<byte[]>(),It.IsAny<DistributedCacheEntryOptions>()));
         }
     }
 }

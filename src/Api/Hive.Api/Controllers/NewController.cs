@@ -1,8 +1,11 @@
-﻿using System.Text.Json;
+﻿using System;
+using System.Linq;
+using System.Text.Json;
 using Hive.DTOs;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Options;
+using Microsoft.VisualBasic;
 
 namespace Hive.Controllers
 {
@@ -12,8 +15,7 @@ namespace Hive.Controllers
         private readonly IDistributedCache _distributedCache;
         private readonly JsonSerializerOptions _jsonSerializerOptions;
 
-        public NewController(IOptions<JsonOptions> jsonOptions,
-            IDistributedCache distributedCache)
+        public NewController(IOptions<JsonOptions> jsonOptions, IDistributedCache distributedCache)
         {
             _distributedCache = distributedCache;
             _jsonSerializerOptions = jsonOptions.Value.JsonSerializerOptions;
@@ -24,7 +26,10 @@ namespace Hive.Controllers
         [Produces("application/json")]
         public CreatedResult Post()
         {
-            var gameId = HttpContext.TraceIdentifier.Split(":")[0];
+            var gameId = new string(HttpContext.TraceIdentifier
+                .Split(":")[0]
+                .ToCharArray()
+                .OrderBy(x => Guid.NewGuid()).ToArray());
 
             var newGame = new Domain.Hive(new[] {"P1", "P2"});
             var gameState = new GameState(newGame.Players, newGame.Cells, gameId);
