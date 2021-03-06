@@ -1,9 +1,9 @@
 import { Fragment, FunctionComponent, h } from 'preact';
-import { GameId, GameState, PlayerId } from '../domain';
+import { GameState, PlayerId } from '../domain';
 import { MoveEvent, TileEvent } from '../utilities/hive-dispatcher';
-import { addHiveEventListener, useHiveDispatcher } from '../utilities/hooks';
 import { opponentSelectionHandler } from '../utilities/handlers';
 import { useEffect, useState } from 'preact/hooks';
+import { useHiveDispatcher } from '../utilities/hooks';
 import Engine from '../utilities/game-engine';
 import GameArea from './GameArea';
 import Links from './Links';
@@ -15,65 +15,55 @@ const App: FunctionComponent = () => {
   const [playerId, setPlayerId] = useState<PlayerId>(0);
   const [showRules, setShowRules] = useState<boolean>(false);
   const [showShare, setShowShare] = useState<boolean>(false);
-
-  const initializeGame = (
-    getInitial: (gameId: GameId) => Promise<GameState>,
-    gameId: string,
-    routePlayerId: string
-  ) =>
-    getInitial(gameId).then((gameState) => {
-      const { gameId } = gameState;
-      const [player] = gameState.players;
-      const playerId = (Number(routePlayerId) as PlayerId) ? Number(routePlayerId) : player.id;
-      updateGameState(gameState);
-      setPlayerId(playerId);
-      window.history.replaceState({ playerId, gameId }, document.title, `/game/${gameId}/${playerId}`);
-    });
+  const [fetchStatus, setFetchStatus] = useState(<h1>loading !</h1>);
 
   useEffect(() => {
     const [, route, gameId, routePlayerId] = window.location.pathname.split('/');
-    const loadExistingGame = gameId && route === 'game';
+    const loadExistingGame = gameId && routePlayerId && route === 'game';
     const getInitial = loadExistingGame ? Engine.getExistingGame : Engine.getNewGame;
-    initializeGame(getInitial, gameId, routePlayerId).then();
+    const currentPlayerId = Number(routePlayerId) || 0;
+    setPlayerId(currentPlayerId);
+
+    getInitial(gameId)
+      .then((gameState) => {
+        window.history.replaceState(
+          { currentPlayerId, gameId },
+          document.title,
+          `/game/${gameState.gameId}/${currentPlayerId}`
+        );
+        updateGameState(gameState);
+      })
+      .catch((e) => setFetchStatus(<h1>{e}</h1>));
   }, []);
 
-  if (gameState === undefined) return <h1>loading !</h1>;
-  const hiveDispatcher = useHiveDispatcher();
-
-  addHiveEventListener<MoveEvent>('move', async (event) => {
-    const newGameState = await Engine.moveTile(gameState.gameId, event.move);
-    updateGameState(newGameState);
-  });
-
   useEffect(() => {
+    if (!gameState) return;
     const { closeConnection, sendSelection } = Engine.connectGame(gameState.gameId, {
       updateGameState,
       opponentSelection: opponentSelectionHandler,
     });
+    const hiveDispatcher = useHiveDispatcher();
 
-    const selectionChangeHandler = (event: TileEvent) => {
-      if (sendSelection) {
-        sendSelection('select', event.tile);
-      }
-    };
+    const selectionChangeHandler = (event: TileEvent) => sendSelection('select', event.tile);
+    const deselectionChangeHandler = (event: TileEvent) => sendSelection('deselect', event.tile);
+    const moveHandler = (event: MoveEvent) =>
+      Engine.moveTile(gameState.gameId, event.move).then(updateGameState);
 
-    const deselectionChangeHandler = (event: TileEvent) => {
-      if (sendSelection) {
-        sendSelection('deselect', event.tile);
-      }
-    };
-
+    hiveDispatcher.add<MoveEvent>('move', moveHandler);
     hiveDispatcher.add<TileEvent>('tileSelected', selectionChangeHandler);
     hiveDispatcher.add<TileEvent>('tileDeselected', deselectionChangeHandler);
 
     return () => {
+      hiveDispatcher.remove<MoveEvent>('move', moveHandler);
       hiveDispatcher.remove<TileEvent>('tileSelected', selectionChangeHandler);
       hiveDispatcher.remove<TileEvent>('tileDeselected', deselectionChangeHandler);
       closeConnection().then();
     };
-  }, []);
+  }, [gameState?.gameId]);
 
-  return (
+  return gameState === undefined ? (
+    fetchStatus
+  ) : (
     <>
       <GameArea players={gameState.players} cells={gameState.cells} playerId={playerId} />
       <Links onShowRules={() => setShowRules(true)} onShowShare={() => setShowShare(true)} />

@@ -10,9 +10,7 @@ const getAllPlayerTiles = (playerId: PlayerId, ...parents: Array<Array<Player | 
 export const removeOtherPlayerMoves = (
   playerId: number,
   { players, cells }: Pick<GameState, 'players' | 'cells'>
-) => {
-  getAllPlayerTiles(playerId, players, cells).forEach((t) => t.moves.splice(0, t.moves.length));
-};
+): void => getAllPlayerTiles(playerId, players, cells).forEach((t) => t.moves.splice(0, t.moves.length));
 
 const getWidth = (cells: Cell[]): [number, number] => {
   const [min, max] = cells.reduce(([min, max], c) => [Math.min(min, c.coords.q), Math.max(max, c.coords.q)], [

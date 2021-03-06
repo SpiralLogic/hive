@@ -7,7 +7,7 @@ export const useHiveDispatcher = (): HiveDispatcher => {
   return hiveDispatcher;
 };
 
-export const addHiveEventListener = <T extends HiveIntent>(
+export const addHiveDispatchListener = <T extends HiveIntent>(
   type: T['type'],
   listener: HiveEventListener<T>
 ): void => {
@@ -17,12 +17,17 @@ export const addHiveEventListener = <T extends HiveIntent>(
   });
 };
 
-const classReducer = (initialClasses: string, action: { type: 'add' | 'remove'; class: string }): string => {
+export const dispatchHiveEvent = hiveDispatcher.dispatch;
+
+const classReducer = (
+  initialClasses: string,
+  action: { type: 'add' | 'remove'; classes: string[] }
+): string => {
   const classList = new Set(initialClasses.split(' '));
   if (action.type === `add`) {
-    classList.add(action.class);
+    action.classes.forEach((c) => classList.add(c));
   } else if (action.type === 'remove') {
-    classList.delete(action.class);
+    action.classes.forEach((c) => classList.delete(c));
   }
   classList.delete('');
   return Array.from(classList).join(' ');
@@ -30,5 +35,5 @@ const classReducer = (initialClasses: string, action: { type: 'add' | 'remove'; 
 
 export const useClassReducer = (
   initialClasses: string
-): [string, (action: { type: 'add' | 'remove'; class: string }) => void] =>
+): [string, (action: { type: 'add' | 'remove'; classes: string[] }) => void] =>
   useReducer(classReducer, initialClasses);

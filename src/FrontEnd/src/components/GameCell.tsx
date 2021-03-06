@@ -1,7 +1,7 @@
 import { FunctionComponent, h } from 'preact';
 import { HexCoordinates, Tile as TileType } from '../domain';
-import { TileEvent } from '../utilities/hive-dispatcher';
-import { addHiveEventListener, useClassReducer, useHiveDispatcher } from '../utilities/hooks';
+import { MoveEvent, TileEvent } from '../utilities/hive-dispatcher';
+import { addHiveDispatchListener, dispatchHiveEvent, useClassReducer } from '../utilities/hooks';
 import { handleDragOver, handleKeyboardNav, isEnterOrSpace } from '../utilities/handlers';
 import { useEffect, useState } from 'preact/hooks';
 import Hexagon from './Hexagon';
@@ -14,30 +14,28 @@ const GameCell: FunctionComponent<Props> = (props) => {
 
   const isValidMove = (validMoves: HexCoordinates[]) =>
     validMoves.some((dest) => dest.q == coords.q && dest.r == coords.r);
-  const hiveDispatcher = useHiveDispatcher();
-  useEffect(() => setClasses({ type: hidden ? 'add' : 'remove', class: 'hide' }), [hidden]);
+  useEffect(() => setClasses({ type: hidden ? 'add' : 'remove', classes: ['hide'] }), [hidden]);
 
-  addHiveEventListener<TileEvent>('tileDeselected', (event) => {
+  addHiveDispatchListener<TileEvent>('tileDeselected', (event) => {
     if (!isValidMove(event.tile.moves)) {
-      setClasses({ type: 'remove', class: 'no-drop' });
+      setClasses({ type: 'remove', classes: ['no-drop'] });
     }
     setSelectedTile(null);
-    setClasses({ type: 'remove', class: 'can-drop' });
-    setClasses({ type: 'remove', class: 'active' });
+    setClasses({ type: 'remove', classes: ['active', 'can-drop'] });
   });
 
-  addHiveEventListener<TileEvent>('tileSelected', (event) => {
+  addHiveDispatchListener<TileEvent>('tileSelected', (event) => {
     if (!isValidMove(event.tile.moves)) {
-      setClasses({ type: 'add', class: 'no-drop' });
+      setClasses({ type: 'add', classes: ['no-drop'] });
     } else {
       setSelectedTile(event.tile);
-      setClasses({ type: 'add', class: 'can-drop' });
+      setClasses({ type: 'add', classes: ['can-drop'] });
     }
   });
 
-  addHiveEventListener<TileEvent>('tileDropped', () => {
+  addHiveDispatchListener<TileEvent>('tileDropped', () => {
     if (classes.includes('active') && selectedTile && isValidMove(selectedTile.moves)) {
-      hiveDispatcher.dispatch({
+      dispatchHiveEvent<MoveEvent>({
         type: 'move',
         move: { coords, tileId: selectedTile.id },
       });
@@ -46,18 +44,18 @@ const GameCell: FunctionComponent<Props> = (props) => {
 
   const handleDragLeave = (event: DragEvent) => {
     event.stopPropagation();
-    setClasses({ type: 'remove', class: 'active' });
+    setClasses({ type: 'remove', classes: ['active'] });
   };
 
   const handleDragEnter = () => {
-    setClasses({ type: 'add', class: 'active' });
+    setClasses({ type: 'add', classes: ['active'] });
   };
 
   const handleClick = (event: UIEvent) => {
     if (!(selectedTile && isValidMove(selectedTile.moves))) return;
     event.stopPropagation();
-    hiveDispatcher.dispatch({ type: 'move', move: { coords, tileId: selectedTile.id } });
-    hiveDispatcher.dispatch({ type: 'tileClear', tile: selectedTile });
+    dispatchHiveEvent({ type: 'move', move: { coords, tileId: selectedTile.id } });
+    dispatchHiveEvent({ type: 'tileClear', tile: selectedTile });
   };
 
   const handleKeydown = (e: KeyboardEvent) => {

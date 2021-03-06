@@ -11,8 +11,8 @@ const Player: FunctionComponent<{ name: string; hide: boolean; id: PlayerId; cur
 
   useEffect(() => {
     if (!hide && !classes.includes('hide')) {
-      setClassList({ type: 'add', class: 'hiding' });
-      setTimeout(() => setClassList({ type: 'add', class: 'hide' }), 50);
+      setClassList({ type: 'add', classes: ['hiding'] });
+      setTimeout(() => setClassList({ type: 'add', classes: ['hide'] }), 50);
     }
   }, [hide]);
 
