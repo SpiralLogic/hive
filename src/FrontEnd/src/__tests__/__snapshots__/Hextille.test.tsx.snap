@@ -5,20 +5,6 @@ Object {
   "asFragment": [Function],
   "baseElement": <body>
     <div>
-      <main>
-        <div
-          class="right"
-          role="grid"
-        >
-          <div
-            role="row"
-          />
-        </div>
-      </main>
-    </div>
-  </body>,
-  "container": <div>
-    <main>
       <div
         class="right"
         role="grid"
@@ -27,7 +13,17 @@ Object {
           role="row"
         />
       </div>
-    </main>
+    </div>
+  </body>,
+  "container": <div>
+    <div
+      class="right"
+      role="grid"
+    >
+      <div
+        role="row"
+      />
+    </div>
   </div>,
   "debug": [Function],
   "findAllByAltText": [Function],
