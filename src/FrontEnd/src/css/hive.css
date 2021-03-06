@@ -152,7 +152,7 @@ main {
 
 .right > [role='row']:nth-child(even),
 .left > [role='row']:nth-child(odd) {
-  transform: translateX(calc(var(--hex-size) / 2));
+  margin-left: calc(var(--hex-size) / 2);
 }
 
 [role='cell'], .tile, [role='none'] {
@@ -315,7 +315,7 @@ main {
     margin: 0;
     --hex-size: 60px;
     --tile-size: 45px;
-    filter: brightness(1.5);
+    filter: brightness(1.1);
   }
 
   .hive {
@@ -406,7 +406,8 @@ main {
 }
 
 .rulesModal [role='grid'] {
-  padding: 4vmax;
+  padding: 3vmax;
+  max-width: 98vmax;
 }
 
 .rulesModal .menu {
@@ -420,9 +421,10 @@ main {
 }
 
 .rules {
-  background-color: #E6D3B3FF;
-  --hex-size: 60px;
-  --tile-size: 54px;
+  background-color: rgb(249 235 208);
+  border-radius: 5px;
+  --hex-size: 56px;
+  --tile-size: 48px;
   --outline: #FFFF00AA;
 }
 
