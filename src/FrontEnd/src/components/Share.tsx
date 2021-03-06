@@ -28,7 +28,7 @@ const fallbackCopyTextToClipboard = (text: string) => {
 };
 
 const Share: FunctionComponent<Props> = (props) => {
-  const id = window.location.href.substring(0, -1) === '1' ? 0 : 1;
+  const id = window.location.href.split('/').pop()?.includes('1') ? 0 : 1;
   const opponentGame = {
     title: 'Hive board game',
     text: 'Share game to opponent!',
