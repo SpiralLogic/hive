@@ -9,35 +9,35 @@ export const AntRules: FunctionComponent = () => {
     <Hextille class="rules">
       <Row>
         <Hexagon hidden={true} />
-        <RuleCell result="correct" correct={['right']} zIndex={1} />
+        <RuleCell result="correct" correctArrows={['right']} zIndex={1} />
         <RuleCell result="correct" />
         <Hexagon hidden={true} />
         <Hexagon hidden={true} />
       </Row>
       <Row>
-        <RuleCell result="correct" correct={['topRight']} />
+        <RuleCell result="correct" correctArrows={['topRight']} />
         <RuleCell creature="queen" />
         <RuleCell result="correct" />
-        <RuleCell result="correct" correct={['left']} />
+        <RuleCell result="correct" correctArrows={['left']} />
       </Row>
       <Row>
-        <RuleCell result="correct" correct={['topRight']} />
+        <RuleCell result="correct" correctArrows={['topRight']} />
         <RuleCell creature="grasshopper" />
         <Hexagon hidden={true} />
         <RuleCell creature="queen" />
-        <RuleCell result="correct" correct={['topLeft']} />
+        <RuleCell result="correct" correctArrows={['topLeft']} />
       </Row>
       <Row>
-        <RuleCell result="correct" correct={['topLeft']} />
+        <RuleCell result="correct" correctArrows={['topLeft']} />
         <RuleCell creature="beetle" />
         <RuleCell creature="beetle" />
-        <RuleCell result="correct" correct={['topRight']} />
+        <RuleCell result="correct" correctArrows={['topRight']} />
       </Row>
       <Row>
         <Hexagon hidden={true} />
-        <RuleCell result="correct" correct={['topLeft']} />
-        <RuleCell class="selected" creature="ant" correct={['left', 'right']} zIndex={1} />
-        <RuleCell result="correct" correct={['topRight']} />
+        <RuleCell result="correct" correctArrows={['topLeft']} />
+        <RuleCell class="selected" creature="ant" correctArrows={['left', 'right']} zIndex={1} />
+        <RuleCell result="correct" correctArrows={['topRight']} />
       </Row>
     </Hextille>
   );

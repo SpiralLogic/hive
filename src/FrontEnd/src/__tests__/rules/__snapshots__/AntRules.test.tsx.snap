@@ -52,6 +52,7 @@ exports[`Ant Rule snapshot tests snapshot 1`] = `
       </div>
       <svg
         class="arrow right correct"
+        style="--span: 1;"
         viewBox="0 0 100 100"
         xmlns="http://www.w3.org/2000/svg"
       >
@@ -149,6 +150,7 @@ exports[`Ant Rule snapshot tests snapshot 1`] = `
       </div>
       <svg
         class="arrow topRight correct"
+        style="--span: 1;"
         viewBox="0 0 100 100"
         xmlns="http://www.w3.org/2000/svg"
       >
@@ -247,6 +249,7 @@ exports[`Ant Rule snapshot tests snapshot 1`] = `
       </div>
       <svg
         class="arrow left correct"
+        style="--span: 1;"
         viewBox="0 0 100 100"
         xmlns="http://www.w3.org/2000/svg"
       >
@@ -290,6 +293,7 @@ exports[`Ant Rule snapshot tests snapshot 1`] = `
       </div>
       <svg
         class="arrow topRight correct"
+        style="--span: 1;"
         viewBox="0 0 100 100"
         xmlns="http://www.w3.org/2000/svg"
       >
@@ -399,6 +403,7 @@ exports[`Ant Rule snapshot tests snapshot 1`] = `
       </div>
       <svg
         class="arrow topLeft correct"
+        style="--span: 1;"
         viewBox="0 0 100 100"
         xmlns="http://www.w3.org/2000/svg"
       >
@@ -442,6 +447,7 @@ exports[`Ant Rule snapshot tests snapshot 1`] = `
       </div>
       <svg
         class="arrow topLeft correct"
+        style="--span: 1;"
         viewBox="0 0 100 100"
         xmlns="http://www.w3.org/2000/svg"
       >
@@ -539,6 +545,7 @@ exports[`Ant Rule snapshot tests snapshot 1`] = `
       </div>
       <svg
         class="arrow topRight correct"
+        style="--span: 1;"
         viewBox="0 0 100 100"
         xmlns="http://www.w3.org/2000/svg"
       >
@@ -594,6 +601,7 @@ exports[`Ant Rule snapshot tests snapshot 1`] = `
       </div>
       <svg
         class="arrow topLeft correct"
+        style="--span: 1;"
         viewBox="0 0 100 100"
         xmlns="http://www.w3.org/2000/svg"
       >
@@ -633,6 +641,7 @@ exports[`Ant Rule snapshot tests snapshot 1`] = `
       </div>
       <svg
         class="arrow left correct"
+        style="--span: 1;"
         viewBox="0 0 100 100"
         xmlns="http://www.w3.org/2000/svg"
       >
@@ -642,6 +651,7 @@ exports[`Ant Rule snapshot tests snapshot 1`] = `
       </svg>
       <svg
         class="arrow right correct"
+        style="--span: 1;"
         viewBox="0 0 100 100"
         xmlns="http://www.w3.org/2000/svg"
       >
@@ -681,6 +691,7 @@ exports[`Ant Rule snapshot tests snapshot 1`] = `
       </div>
       <svg
         class="arrow topRight correct"
+        style="--span: 1;"
         viewBox="0 0 100 100"
         xmlns="http://www.w3.org/2000/svg"
       >

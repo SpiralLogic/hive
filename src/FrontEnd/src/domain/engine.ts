@@ -2,9 +2,9 @@ import { GameId, GameState } from './game-state';
 import { HubConnectionState } from '@microsoft/signalr';
 import { Move } from './move';
 import { Tile } from './tile';
-
+export type PlayerSelectionEvent = 'select' | 'deselect';
 export type GameStateUpdateHandler = (gameState: GameState) => void;
-export type OpponentSelectionHandler = (type: 'select' | 'deselect', tile: Tile) => void;
+export type OpponentSelectionHandler = (type: PlayerSelectionEvent, tile: Tile) => void;
 export type GameConnection = {
   getConnectionState: () => HubConnectionState;
   closeConnection: () => Promise<void>;

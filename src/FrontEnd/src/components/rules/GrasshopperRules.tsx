@@ -13,12 +13,12 @@ export const GrasshopperRules: FunctionComponent = () => {
         <RuleCell
           creature="grasshopper"
           class="selected"
-          correct={[
+          correctArrows={[
             ['left', 3],
             ['right', 3],
             ['bottomLeft', 5],
           ]}
-          incorrect={[['bottomRight', 5]]}
+          incorrectArrows={[['bottomRight', 5]]}
         />
         <RuleCell creature="queen" zIndex={-1} />
         <RuleCell result="correct" zIndex={-2} />

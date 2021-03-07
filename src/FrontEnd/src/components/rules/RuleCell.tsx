@@ -2,41 +2,43 @@ import { FunctionComponent, h } from 'preact';
 import Arrow, { Direction } from '../Arrow';
 import Hexagon from '../Hexagon';
 import Tile from '../Tile';
+type Result = 'correct' | 'incorrect';
+type Arrows = ([Direction, number | undefined] | Direction)[];
+
+const createArrows = (arrows: Arrows | undefined, style: Result) =>
+  arrows?.map((a) => {
+    const [direction, length] = a instanceof Array ? a : [a];
+    return <Arrow result={style} direction={direction} length={length} />;
+  });
+
+const getResultChar = (result?: Result, symbol?: string) => {
+  const char = symbol ? symbol : result === 'correct' ? <span>&#10003;</span> : <span>&#10008;</span>;
+  switch (result) {
+    case 'correct':
+      return <span>{char}</span>;
+    case 'incorrect':
+      return <span>{char}</span>;
+    default:
+      return '';
+  }
+};
 
 const RuleCell: FunctionComponent<{
-  result?: 'correct' | 'incorrect';
+  result?: Result;
   creature?: string;
   symbol?: string;
   zIndex?: number;
   class?: string;
-  correct?: ([Direction, number | undefined] | Direction)[];
-  incorrect?: ([Direction, number | undefined] | Direction)[];
+  correctArrows?: Arrows;
+  incorrectArrows?: Arrows;
 }> = (props) => {
-  const { correct, incorrect, symbol, zIndex, result, ...rest } = props;
-  const getResultChar = () => {
-    const char = symbol ? symbol : result === 'correct' ? <span>&#10003;</span> : <span>&#10008;</span>;
-    switch (result) {
-      case 'correct':
-        return <span>{char}</span>;
-      case 'incorrect':
-        return <span>{char}</span>;
-      default:
-        return '';
-    }
-  };
+  const { correctArrows, incorrectArrows, symbol, zIndex, result, ...rest } = props;
 
   return (
     <Hexagon role="cell" class={result} style={zIndex ? { zIndex } : undefined}>
-      <Tile {...rest}>{getResultChar()}</Tile>
-      {correct?.map((direction) => (
-        <Arrow result="correct" direction={direction instanceof Array ? direction : [direction, undefined]} />
-      ))}
-      {incorrect?.map((direction) => (
-        <Arrow
-          result="incorrect"
-          direction={direction instanceof Array ? direction : [direction, undefined]}
-        />
-      ))}
+      <Tile {...rest}>{getResultChar(result, symbol)}</Tile>
+      {createArrows(correctArrows, 'correct')}
+      {createArrows(incorrectArrows, 'incorrect')}
     </Hexagon>
   );
 };

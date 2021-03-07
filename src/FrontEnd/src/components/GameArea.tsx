@@ -5,7 +5,7 @@ import { handleDragOver } from '../utilities/handlers';
 import GameCell from './GameCell';
 import GameTile from './GameTile';
 import Hextille from './Hextille';
-import Players from './PlayerList';
+import Players from './Players';
 import Row from './Row';
 
 const cellKey = ({ q, r }: HexCoordinates) => `${q}-${r}`;

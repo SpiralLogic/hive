@@ -19,7 +19,7 @@ const QueenRules: FunctionComponent = () => {
           zIndex={1}
           creature="queen"
           class="selected"
-          correct={['topLeft', 'left', 'right', 'bottomRight']}
+          correctArrows={['topLeft', 'left', 'right', 'bottomRight']}
         />
         <RuleCell result="correct" />
         <RuleCell creature="spider" />

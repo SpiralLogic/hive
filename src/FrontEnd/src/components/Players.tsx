@@ -18,5 +18,5 @@ const Players: FunctionComponent<{ players: Players; currentPlayer: PlayerId }> 
   );
 };
 
-Players.displayName = 'Player List';
+Players.displayName = 'Players';
 export default Players;

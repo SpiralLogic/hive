@@ -1,6 +1,6 @@
 import { h } from 'preact';
 import { renderElement } from './helpers';
-import Players from '../components/PlayerList';
+import Players from '../components/Players';
 
 describe('PlayerList Tests', () => {
   const ant = { id: 1, playerId: 1, creature: 'ant', moves: [{ q: 1, r: 1 }] };

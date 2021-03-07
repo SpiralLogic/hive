@@ -17,7 +17,7 @@ export const BeetleRules: FunctionComponent = () => {
         <RuleCell
           creature="beetle"
           class="selected"
-          correct={['topLeft', 'left', 'bottomLeft', 'bottomRight']}
+          correctArrows={['topLeft', 'left', 'bottomLeft', 'bottomRight']}
         />
       </Row>
       <Row>

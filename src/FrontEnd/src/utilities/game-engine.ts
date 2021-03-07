@@ -1,4 +1,4 @@
-import { GameConnection, GameHandlers, HexEngine } from '../domain/engine';
+import { GameConnection, GameHandlers, HexEngine, OpponentSelectionHandler } from '../domain/engine';
 import { GameId, GameState, Move, Tile } from '../domain';
 import { HubConnection, HubConnectionBuilder, HubConnectionState } from '@microsoft/signalr';
 
@@ -47,7 +47,7 @@ const connectGame = (gameId: GameId, handlers: GameHandlers): GameConnection => 
 
   const connection = getConnection(gameId);
 
-  const sendSelection = (type: 'select' | 'deselect', tile: Tile) =>
+  const sendSelection: OpponentSelectionHandler = (type: 'select' | 'deselect', tile: Tile) =>
     connection.state === HubConnectionState.Connected &&
     connection.invoke('SendSelection', type, tile).catch(function (err) {
       return console.error(err.toString());
