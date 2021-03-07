@@ -2,13 +2,15 @@ import { Fragment, FunctionComponent, h } from 'preact';
 import { GameState, PlayerId } from '../domain';
 import { attachServerHandlers, opponentSelectionHandler } from '../utilities/handlers';
 import { useEffect, useState } from 'preact/hooks';
-import Engine from '../utilities/game-engine';
 import GameArea from './GameArea';
+import GameEngine from '../utilities/game-engine';
 import Links from './Links';
 import Rules from './Rules';
+import ServerConnection from '../utilities/server-connection';
 import Share from './Share';
 
-const App: FunctionComponent = () => {
+const App: FunctionComponent<{ engine: GameEngine }> = (props) => {
+  const { engine } = props;
   const [gameState, updateGameState] = useState<GameState | undefined>(undefined);
   const [playerId, setPlayerId] = useState<PlayerId>(0);
   const [showRules, setShowRules] = useState<boolean>(false);
@@ -18,7 +20,7 @@ const App: FunctionComponent = () => {
   useEffect(() => {
     const [, route, gameId, routePlayerId] = window.location.pathname.split('/');
     const loadExistingGame = gameId && routePlayerId && route === 'game';
-    const getInitial = loadExistingGame ? Engine.getExistingGame : Engine.getNewGame;
+    const getInitial = loadExistingGame ? engine.getExistingGame : engine.getNewGame;
     const currentPlayerId = Number(routePlayerId) || 0;
     setPlayerId(currentPlayerId);
 
@@ -36,13 +38,22 @@ const App: FunctionComponent = () => {
 
   useEffect(() => {
     if (!gameState) return;
-    const gameHandlers = { updateGameState, opponentSelection: opponentSelectionHandler };
-    const { closeConnection, sendSelection } = Engine.connectGame(gameState.gameId, gameHandlers);
-    const removeServerHandlers = attachServerHandlers(sendSelection, gameState, updateGameState);
+    const serverConnection = new ServerConnection(
+      gameState.gameId,
+      updateGameState,
+      opponentSelectionHandler
+    );
+    serverConnection.connectGame().then();
+    const removeServerHandlers = attachServerHandlers(
+      serverConnection.sendSelection,
+      gameState,
+      updateGameState,
+      engine.moveTile
+    );
 
     return () => {
       removeServerHandlers();
-      closeConnection().then();
+      serverConnection.closeConnection().then();
     };
   }, [gameState?.gameId]);
 

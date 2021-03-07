@@ -1,35 +1,32 @@
 import { GameState } from '../domain';
-import { HiveEvent, MoveEvent } from '../utilities/hive-dispatcher';
+import { MoveEvent } from '../utilities/hive-dispatcher';
 import { h } from 'preact';
 import { render } from '@testing-library/preact';
 import { renderElement } from './helpers';
 import { useHiveDispatcher } from '../utilities/hooks';
 import App from '../components/App';
-import Engine from '../utilities/game-engine';
 import GameArea from '../components/GameArea';
-
+import GameEngine from '../utilities/game-engine';
 jest.mock('../utilities/game-engine');
 jest.mock('../components/GameArea');
-
+jest.mock('../utilities/server-connection', () => {
+  return jest.fn().mockImplementation(() => {
+    return {
+      connectGame: jest.fn().mockResolvedValue(undefined),
+      getConnectionState: jest.fn(),
+      closeConnection: jest.fn().mockResolvedValue(undefined),
+      sendSelection: jest.fn().mockResolvedValue(undefined),
+    };
+  });
+});
 describe('App Tests', () => {
   const cellMoveEvent: MoveEvent = {
     move: { coords: { q: 1, r: 1 }, tileId: 1 },
     type: 'move',
   };
-  const tileSelectEvent: HiveEvent = {
-    type: 'tileSelected',
-    tile: { id: 2, playerId: 1, creature: 'ant', moves: [{ q: 0, r: 0 }] },
-  };
-  const tileDeselectEvent: HiveEvent = {
-    type: 'tileDeselected',
-    tile: { id: 2, playerId: 1, creature: 'ant', moves: [{ q: 0, r: 0 }] },
-  };
-  const gameConnection = {
-    closeConnection: jest.fn().mockImplementation(() => ({ then: jest.fn() })),
-    sendSelection: jest.fn(),
-  };
-  let gameState: GameState;
 
+  const engine = new GameEngine();
+  let gameState: GameState;
   beforeEach(() => {
     global.window.history.replaceState({}, global.document.title, `/`);
     const cell = {
@@ -47,78 +44,54 @@ describe('App Tests', () => {
       cells: [cell, cell],
       players: [player, player2],
     };
-    Engine.getExistingGame = jest.fn().mockResolvedValue(gameState);
-    Engine.getNewGame = jest.fn().mockResolvedValue(gameState);
-    Engine.moveTile = jest.fn().mockResolvedValue(gameAfterMove);
-    Engine.connectGame = jest.fn().mockReturnValue(gameConnection);
+    engine.moveTile = jest.fn().mockResolvedValue(gameAfterMove);
+    engine.getNewGame = jest.fn().mockResolvedValue(gameState);
+    engine.getExistingGame = jest.fn().mockResolvedValue(gameState);
   });
 
   test('shows loading', () => {
-    const app = renderElement(<App />);
+    const app = renderElement(<App engine={engine} />);
     expect(app).toMatchSnapshot();
   });
 
   test('shows game when loaded', async () => {
-    render(<App />);
-    await Engine.getNewGame();
+    render(<App engine={engine} />);
+    await engine.getNewGame();
     expect(GameArea).toHaveBeenCalledTimes(1);
-  });
-
-  test('connects to server', async () => {
-    const app = render(<App />);
-    await Engine.getNewGame();
-    app.rerender(<App />);
-    expect(Engine.connectGame).toHaveBeenCalledTimes(1);
   });
 
   test('loads existing game', async () => {
     global.window.history.replaceState({}, global.document.title, `/game/33/1`);
-    const app = render(<App />);
-    await Engine.getExistingGame;
-    app.rerender(<App />);
-    expect(Engine.getExistingGame).toHaveBeenCalled();
+    const app = render(<App engine={engine} />);
+    await engine.getExistingGame;
+    app.rerender(<App engine={engine} />);
+    expect(engine.getExistingGame).toHaveBeenCalled();
   });
 
   test('updates game after move', async () => {
-    const app = render(<App />);
-    await Engine.getExistingGame;
+    const app = render(<App engine={engine} />);
+    await engine.getExistingGame;
 
-    app.rerender(<App />);
+    app.rerender(<App engine={engine} />);
     expect(GameArea).toHaveBeenLastCalledWith(
       expect.objectContaining({ players: gameState.players, cells: gameState.cells, playerId: 0 }),
       {}
     );
   });
 
-  test('emits event on opponent selection', async () => {
-    const app = render(<App />);
-    await Engine.getExistingGame;
-    app.rerender(<App />);
-    useHiveDispatcher().dispatch(tileSelectEvent);
-    expect(gameConnection.sendSelection).toHaveBeenLastCalledWith('select', tileSelectEvent.tile);
-  });
-
-  test('emits event on opponent deselect', async () => {
-    const app = render(<App />);
-    await Engine.getExistingGame;
-    app.rerender(<App />);
-    useHiveDispatcher().dispatch(tileDeselectEvent);
-    expect(gameConnection.sendSelection).toHaveBeenLastCalledWith('deselect', tileDeselectEvent.tile);
-  });
-
   test('moveTile is called on move events', async () => {
-    const app = render(<App />);
-    await Engine.getNewGame();
-    app.rerender(<App />);
+    const app = render(<App engine={engine} />);
+    await engine.getNewGame();
+    app.rerender(<App engine={engine} />);
     useHiveDispatcher().dispatch(cellMoveEvent);
 
-    expect(Engine.moveTile).toHaveBeenCalledTimes(1);
+    expect(engine.moveTile).toHaveBeenCalledTimes(1);
   });
 
   test('game is updated after move', async () => {
-    const app = render(<App />);
-    await Engine.getNewGame();
-    app.rerender(<App />);
+    const app = render(<App engine={engine} />);
+    await engine.getNewGame();
+    app.rerender(<App engine={engine} />);
 
     useHiveDispatcher().dispatch(cellMoveEvent);
 

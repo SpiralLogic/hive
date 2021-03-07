@@ -1,4 +1,4 @@
-import { GameState, Tile } from '../domain';
+import { GameState, MoveTile, Tile } from '../domain';
 import { MoveEvent, TileEvent } from './hive-dispatcher';
 import { OpponentSelectionHandler } from '../domain/engine';
 import { dispatchHiveEvent, useHiveDispatcher } from './hooks';
@@ -51,14 +51,14 @@ export const opponentSelectionHandler: OpponentSelectionHandler = (type, tile) =
 export const attachServerHandlers = (
   sendSelection: (type: 'select' | 'deselect', tile: Tile) => void,
   gameState: GameState,
-  updateGameState: (value: GameState) => void
+  updateGameState: (value: GameState) => void,
+  moveTile: MoveTile
 ) => {
   const hiveDispatcher = useHiveDispatcher();
 
   const selectionChangeHandler = (event: TileEvent) => sendSelection('select', event.tile);
   const deselectionChangeHandler = (event: TileEvent) => sendSelection('deselect', event.tile);
-  const moveHandler = (event: MoveEvent) =>
-    Engine.moveTile(gameState.gameId, event.move).then(updateGameState);
+  const moveHandler = (event: MoveEvent) => moveTile(gameState.gameId, event.move).then(updateGameState);
 
   hiveDispatcher.add<MoveEvent>('move', moveHandler);
   hiveDispatcher.add<TileEvent>('tileSelected', selectionChangeHandler);

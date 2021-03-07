@@ -1,4 +1,4 @@
-import { GameId } from './game-state';
+import { GameId, GameState } from './game-state';
 import { HexCoordinates } from './hex-coordinates';
 import { TileId } from './tile';
 
@@ -7,4 +7,4 @@ export type Move = {
   coords: HexCoordinates;
 };
 
-export type MoveTile = (gameId: GameId, move: Move) => void;
+export type MoveTile = (gameId: GameId, move: Move) => Promise<GameState>;
