@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Share tests Share snapshot tests snapshot 1`] = `
+<div
+  class="modal rules"
+>
+  Opponent link has been copied to clipboard!
+  <button>
+    Close
+  </button>
+</div>
+`;

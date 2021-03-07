@@ -21,24 +21,26 @@ const fallbackCopyTextToClipboard = (text: string) => {
     if (currentFocus && currentFocus.focus) currentFocus.focus();
     return true;
   } catch (e) {
-    console.error(e);
+    if (process.env.NODE_ENV !== 'production') console.error(e);
+  } finally {
+    document.body.removeChild(textArea);
   }
-  document.body.removeChild(textArea);
   return false;
 };
 
 const Share: FunctionComponent<Props> = (props) => {
-  const id = window.location.href.split('/').pop()?.includes('1') ? 0 : 1;
+  const parts = window.location.href.split('/');
+  parts.push(parts.pop() === '1' ? '0' : '1');
   const opponentGame = {
     title: 'Hive board game',
     text: 'Share game to opponent!',
-    url: `${window.location.href.slice(0, -1)}${id}`,
+    url: parts.join('/'),
   };
   try {
     navigator.share(opponentGame).then();
     return null;
   } catch {
-    if (navigator.clipboard) {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
       navigator.clipboard.writeText(opponentGame.url).then();
     } else {
       if (!fallbackCopyTextToClipboard(opponentGame.url)) return null;

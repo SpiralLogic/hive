@@ -108,8 +108,7 @@ describe('Tile Tests', () => {
       mock.mockClear();
       fireEvent.click(tile);
 
-      expect(useHiveDispatcher().dispatch).not.toHaveBeenCalledWith(
-        expect.objectContaining({ type: 'tileSelect' })
+      expect(useHiveDispatcher().dispatch).not.toHaveBeenCalledWith(        expect.objectContaining({ type: 'tileSelect' })
       );
     });
 

@@ -10,9 +10,9 @@ const Tile: FunctionComponent<Props> = (props) => {
   if (creature) classes.push('creature');
   rest.class = classes.join(' ');
 
-  const svgs = creature ? (
-    <use class={`creature ${creature.toLowerCase()}`} href={`#${creature.toLowerCase()}`} />
-  ) : undefined;
+  const svgs = creature
+    ? [<use className={`creature ${creature.toLowerCase()}`} href={`#${creature.toLowerCase()}`} />]
+    : undefined;
 
   return <Hexagon svgs={svgs} {...rest} />;
 };

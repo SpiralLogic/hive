@@ -5,9 +5,8 @@ exports[`Row Tests Row snapshot tests Row snapshot 1`] = `
   role="row"
 >
   <div
-    coords="[object Object]"
-    ishidden="true"
-    tiles=""
+    class="hide"
+    role="none"
   >
     <svg
       viewBox="0 0 100 100"
@@ -19,8 +18,7 @@ exports[`Row Tests Row snapshot tests Row snapshot 1`] = `
     </svg>
   </div>
   <div
-    coords="[object Object]"
-    tiles=""
+    role="cell"
   >
     <svg
       viewBox="0 0 100 100"
@@ -32,8 +30,7 @@ exports[`Row Tests Row snapshot tests Row snapshot 1`] = `
     </svg>
   </div>
   <div
-    coords="[object Object]"
-    tiles=""
+    role="cell"
   >
     <svg
       viewBox="0 0 100 100"
@@ -45,9 +42,8 @@ exports[`Row Tests Row snapshot tests Row snapshot 1`] = `
     </svg>
   </div>
   <div
-    coords="[object Object]"
-    ishidden="true"
-    tiles=""
+    class="hide"
+    role="none"
   >
     <svg
       viewBox="0 0 100 100"

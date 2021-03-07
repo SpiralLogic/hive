@@ -1,32 +1,22 @@
 import { h } from 'preact';
 import { renderElement } from './helpers';
-import Hexagon from '../components/Hexagon';
+import { screen } from '@testing-library/preact';
+import GameCell from '../components/GameCell';
 import Row from '../components/Row';
 
-require('@testing-library/jest-dom');
-jest.mock('fast-equals');
-
-let row: HTMLElement;
-
 describe('Row Tests', () => {
-  beforeEach(() => {
-    const cells = [
-      { coords: { q: 0, r: 1 }, tiles: [], isHidden: true },
-      { coords: { q: 0, r: 1 }, tiles: [] },
-      { coords: { q: 1, r: 1 }, tiles: [] },
-      { coords: { q: 0, r: 1 }, tiles: [], isHidden: true },
-    ];
-    row = renderElement(
-      <Row
-        children={cells.map((c) => (
-          <Hexagon {...c} />
-        ))}
-      />
-    );
-  });
+  const row = renderElement(
+    <Row>
+      <GameCell coords={{ q: 0, r: 1 }} hidden={true} />
+      <GameCell coords={{ q: 1, r: 1 }} />
+      <GameCell coords={{ q: 2, r: 1 }} />
+      <GameCell coords={{ q: 0, r: 1 }} hidden={true} />
+    </Row>
+  );
 
   test('renders multiple cells', () => {
-    expect(row.children).toHaveLength(4);
+    expect(screen.getAllByRole('cell')).toHaveLength(2);
+    expect(screen.getAllByRole('none')).toHaveLength(2);
   });
 
   describe('Row snapshot tests', () => {

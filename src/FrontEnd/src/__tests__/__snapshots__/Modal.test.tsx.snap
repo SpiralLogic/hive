@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Modal snapshot tests snapshot 1`] = `
+<div
+  class="modal test"
+>
+  <button>
+    Close
+  </button>
+</div>
+`;

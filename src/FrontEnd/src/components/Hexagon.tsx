@@ -1,6 +1,8 @@
 import { FunctionComponent, h } from 'preact';
+import { JSX } from 'preact';
+import HTMLAttributes = JSX.HTMLAttributes;
 
-type Props = { hidden?: boolean; [rest: string]: unknown };
+type Props = { hidden?: boolean } & { svgs?: JSX.Element[] | undefined } & Partial<HTMLAttributes>;
 const Hexagon: FunctionComponent<Props> = (props) => {
   const { hidden, children, svgs, ...rest } = props;
   if (hidden) rest.role = 'none';
