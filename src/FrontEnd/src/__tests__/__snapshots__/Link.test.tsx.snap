@@ -18,7 +18,6 @@ exports[`Links snapshot tests snapshot 1`] = `
       />
     </svg>
   </a>
-   
   <a
     href="/"
     name="New game!"

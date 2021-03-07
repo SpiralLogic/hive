@@ -1,6 +1,8 @@
 import { FunctionComponent, h } from 'preact';
+import SVG from './SVG';
 
 type Props = { onShowRules: () => void; onShowShare: () => void };
+
 const Links: FunctionComponent<Props> = (props) => {
   const handle = (handler: () => void) => (e: MouseEvent) => {
     e.preventDefault();
@@ -11,22 +13,22 @@ const Links: FunctionComponent<Props> = (props) => {
   return (
     <div class="links">
       <a href="#" name="Share game to opponent" title="Share" onClick={handle(props.onShowShare)}>
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+        <SVG>
           <use href="#share" />
-        </svg>
-      </a>{' '}
+        </SVG>
+      </a>
       <a href="/" name="New game!" title="New Game">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+        <SVG>
           <use href="#new" />
-        </svg>
+        </SVG>
       </a>
       <a href="#" name="Show rules" onClick={handle(props.onShowRules)} title="Rules">
         ?
       </a>
       <a class="github" href="https://github.com/SpiralLogic/hive" title="Source code">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+        <SVG>
           <use href="#github" />
-        </svg>
+        </SVG>
       </a>
     </div>
   );

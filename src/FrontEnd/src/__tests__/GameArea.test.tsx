@@ -6,8 +6,8 @@ import Engine from '../utilities/game-engine';
 import GameArea from '../components/GameArea';
 import PlayerList from '../components/Players';
 jest.mock('../components/Players');
-
 jest.mock('../utilities/game-engine');
+
 describe('GameArea Tests', () => {
   let gameState: GameState;
   beforeEach(() => {

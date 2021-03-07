@@ -1,15 +1,16 @@
 import { FunctionComponent, JSX, h } from 'preact';
+import SVG from './SVG';
 
 type Props = { hidden?: boolean } & { svgs?: JSX.Element[] | undefined } & Partial<JSX.HTMLAttributes>;
 const Hexagon: FunctionComponent<Props> = (props) => {
-  const { hidden, children, svgs, ...rest } = props;
-  if (hidden) rest.role = 'none';
+  const { hidden, children, svgs, ...attributes } = props;
+  if (hidden) attributes.role = 'none';
   return (
-    <div {...rest}>
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+    <div {...attributes}>
+      <SVG>
         <use href="#hex" />
         {svgs}
-      </svg>
+      </SVG>
       {children}
     </div>
   );
