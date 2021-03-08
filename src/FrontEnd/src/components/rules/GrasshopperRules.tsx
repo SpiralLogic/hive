@@ -26,7 +26,7 @@ const GrasshopperRules: FunctionComponent = () => {
       <Row>
         <Hexagon hidden={true} />
         <RuleCell creature="grasshopper" />
-        <Hexagon hidden={true} />
+        <RuleCell style={{ '--tile-size': 'var(--hex-size)' }} />
         <RuleCell creature="ant" />
       </Row>
       <Row>

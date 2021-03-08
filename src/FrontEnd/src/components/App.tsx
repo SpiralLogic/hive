@@ -8,7 +8,6 @@ import Links from './Links';
 import RuleModal from './RuleModal';
 import ServerConnection from '../services/server-connection';
 import Share from './Share';
-import SpiderRules from './rules/SpiderRules';
 
 const App: FunctionComponent<{ engine: GameEngine }> = (props) => {
   const { engine } = props;

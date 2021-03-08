@@ -3,10 +3,9 @@ import { PlayerId } from '../domain';
 import { useClassReducer } from '../utilities/hooks';
 import { useEffect } from 'preact/hooks';
 
-const Player: FunctionComponent<{ name: string; hide: boolean; id: PlayerId; currentPlayer: PlayerId }> = (
-  props
-) => {
-  const { name, hide, id, currentPlayer } = props;
+type Props = { name: string; hide: boolean; id: PlayerId };
+const Player: FunctionComponent<Props> = (props) => {
+  const { name, hide, id } = props;
   const [classes, setClassList] = useClassReducer(`player player${id}${hide ? '' : ' hide'}`);
 
   useEffect(() => {

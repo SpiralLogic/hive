@@ -1,14 +1,13 @@
 import { GameState } from '../domain';
-import { MoveEvent } from '../services';
+import { cellMoveEvent, createGameState } from './fixtures/app.fixture';
 import { h } from 'preact';
-import { render } from '@testing-library/preact';
-import { renderElement } from './helpers';
+import { mockExecCommand } from './helpers/clipboard';
+import { render, screen } from '@testing-library/preact';
 import { useHiveDispatcher } from '../utilities/hooks';
 import App from '../components/App';
-import GameArea from '../components/GameArea';
 import GameEngine from '../services/game-engine';
-jest.mock('../services/game-engine');
-jest.mock('../components/GameArea');
+import userEvent from '@testing-library/user-event';
+
 jest.mock('../services/server-connection', () => {
   return jest.fn().mockImplementation(() => {
     return {
@@ -19,48 +18,31 @@ jest.mock('../services/server-connection', () => {
     };
   });
 });
-describe('App Tests', () => {
-  const cellMoveEvent: MoveEvent = {
-    move: { coords: { q: 1, r: 1 }, tileId: 1 },
-    type: 'move',
-  };
 
+describe('App Tests', () => {
   const engine = new GameEngine();
   let gameState: GameState;
   beforeEach(() => {
     global.window.history.replaceState({}, global.document.title, `/`);
-    const cell = {
-      coords: { q: 0, r: 0 },
-      tiles: [{ id: 2, playerId: 1, creature: 'ant', moves: [{ q: 0, r: 0 }] }],
-    };
-    const player = { id: 0, name: 'Player 1', tiles: [] };
-    const player2 = {
-      id: 1,
-      name: 'Player 2',
-      tiles: [{ id: 1, playerId: 1, creature: 'ant', moves: [{ q: 0, r: 0 }] }],
-    };
-    gameState = { gameId: '33', cells: [cell], players: [player, player2] };
-    const gameAfterMove = {
-      cells: [cell, cell],
-      players: [player, player2],
-    };
+    gameState = createGameState(1);
+    const gameAfterMove = createGameState(2);
     engine.moveTile = jest.fn().mockResolvedValue(gameAfterMove);
     engine.getNewGame = jest.fn().mockResolvedValue(gameState);
     engine.getExistingGame = jest.fn().mockResolvedValue(gameState);
   });
 
   test('shows loading', () => {
-    const app = renderElement(<App engine={engine} />);
-    expect(app).toMatchSnapshot();
+    render(<App engine={engine} />);
+    expect(screen.getByText(/loading/)).toBeInTheDocument();
   });
 
   test('shows game when loaded', async () => {
     render(<App engine={engine} />);
     await engine.getNewGame();
-    expect(GameArea).toHaveBeenCalledTimes(1);
+    expect(screen.getByTitle('Hive Game Area')).toBeInTheDocument();
   });
 
-  test('loads existing game', async () => {
+  test('can load existing game', async () => {
     global.window.history.replaceState({}, global.document.title, `/game/33/1`);
     const app = render(<App engine={engine} />);
     await engine.getExistingGame;
@@ -73,10 +55,7 @@ describe('App Tests', () => {
     await engine.getExistingGame;
 
     app.rerender(<App engine={engine} />);
-    expect(GameArea).toHaveBeenLastCalledWith(
-      expect.objectContaining({ players: gameState.players, cells: gameState.cells, playerId: 0 }),
-      {}
-    );
+    expect(app).toMatchSnapshot();
   });
 
   test('moveTile is called on move events', async () => {
@@ -88,13 +67,22 @@ describe('App Tests', () => {
     expect(engine.moveTile).toHaveBeenCalledTimes(1);
   });
 
-  test('game is updated after move', async () => {
+  test('show rules is rendered', async () => {
     const app = render(<App engine={engine} />);
     await engine.getNewGame();
     app.rerender(<App engine={engine} />);
+    userEvent.click(screen.getByTitle(/Rules/));
 
-    useHiveDispatcher().dispatch(cellMoveEvent);
+    expect(screen.getByRole('dialog')).toBeInTheDocument();
+  });
 
-    expect(GameArea).toHaveBeenCalledTimes(2);
+  test('show share dialog is shown', async () => {
+    mockExecCommand();
+    const app = render(<App engine={engine} />);
+    await engine.getNewGame();
+    app.rerender(<App engine={engine} />);
+    userEvent.click(screen.getByTitle(/Share/));
+
+    expect(screen.getByRole('dialog')).toBeInTheDocument();
   });
 });

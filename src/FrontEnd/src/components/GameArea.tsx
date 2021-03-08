@@ -1,6 +1,6 @@
+import { Cell, GameState, HexCoordinates, Player, PlayerId, Tile } from '../domain';
 import { FunctionComponent, h } from 'preact';
-import { GameState, HexCoordinates, PlayerId } from '../domain';
-import { createRows, removeOtherPlayerMoves } from '../services';
+import { HextilleBuilder } from '../services';
 import { handleDragOver } from '../utilities/handlers';
 import GameCell from './GameCell';
 import GameTile from './GameTile';
@@ -9,22 +9,32 @@ import Players from './Players';
 import Row from './Row';
 
 const cellKey = ({ q, r }: HexCoordinates) => `${q}-${r}`;
+const getAllTiles = (...parents: Array<Array<Player | Cell>>): Array<Tile> =>
+  parents.flatMap((p) => p.flatMap((p) => p.tiles));
 
-const GameArea: FunctionComponent<Pick<GameState, 'players' | 'cells'> & { playerId: PlayerId }> = ({
-  players,
-  cells,
-  playerId,
-}) => {
+const getAllPlayerTiles = (playerId: PlayerId, ...parents: Array<Array<Player | Cell>>) =>
+  getAllTiles(...parents).filter((t) => t.playerId !== playerId && playerId !== 2);
+
+const removeOtherPlayerMoves = (
+  playerId: number,
+  { players, cells }: Pick<GameState, 'players' | 'cells'>
+): void => getAllPlayerTiles(playerId, players, cells).forEach((t) => t.moves.splice(0, t.moves.length));
+
+type Props = Pick<GameState, 'players' | 'cells'> & { playerId: PlayerId };
+
+const GameArea: FunctionComponent<Props> = ({ players, cells, playerId }) => {
   const attributes = {
     ondragover: handleDragOver,
     className: 'hive',
   };
+  const hextilleBuilder = new HextilleBuilder(cells);
+
   removeOtherPlayerMoves(playerId, { players, cells });
 
-  const rows = createRows(cells);
+  const rows = hextilleBuilder.createRows();
   return (
-    <div {...attributes}>
-      <Players players={players} currentPlayer={playerId} />
+    <div {...attributes} title={'Hive Game Area'}>
+      <Players players={players} />
       <main>
         <Hextille>
           {rows.map((row) => (

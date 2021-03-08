@@ -47,7 +47,7 @@ const Share: FunctionComponent<Props> = (props) => {
     }
   }
   return (
-    <Modal name="rules" onClose={() => props.setShowShare(false)}>
+    <Modal name="Share" onClose={() => props.setShowShare(false)}>
       Opponent link has been copied to clipboard!
     </Modal>
   );

@@ -78,7 +78,7 @@ exports[`Spider Rule snapshot tests snapshot 1`] = `
     </div>
     <div
       role="cell"
-      style="z-index: 5;"
+      style="z-index: 4;"
     >
       <svg
         viewBox="0 0 100 100"
@@ -129,7 +129,7 @@ exports[`Spider Rule snapshot tests snapshot 1`] = `
     <div
       class="correct"
       role="cell"
-      style="z-index: 4;"
+      style="z-index: 3;"
     >
       <svg
         viewBox="0 0 100 100"
@@ -168,7 +168,6 @@ exports[`Spider Rule snapshot tests snapshot 1`] = `
   </div>
   <div
     role="row"
-    style="z-index: 3;"
   >
     <div
       role="cell"
@@ -329,7 +328,6 @@ exports[`Spider Rule snapshot tests snapshot 1`] = `
   </div>
   <div
     role="row"
-    style="z-index: 2;"
   >
     <div
       role="cell"
@@ -363,7 +361,7 @@ exports[`Spider Rule snapshot tests snapshot 1`] = `
     <div
       class="correct"
       role="cell"
-      style="z-index: 2;"
+      style="z-index: 1;"
     >
       <svg
         viewBox="0 0 100 100"
@@ -402,7 +400,7 @@ exports[`Spider Rule snapshot tests snapshot 1`] = `
     <div
       class="correct"
       role="cell"
-      style="z-index: 2;"
+      style="z-index: 1;"
     >
       <svg
         viewBox="0 0 100 100"
@@ -480,7 +478,6 @@ exports[`Spider Rule snapshot tests snapshot 1`] = `
     <div
       class="correct"
       role="cell"
-      style="z-index: 1;"
     >
       <svg
         viewBox="0 0 100 100"
@@ -511,7 +508,6 @@ exports[`Spider Rule snapshot tests snapshot 1`] = `
   </div>
   <div
     role="row"
-    style="z-index: 1;"
   >
     <div
       role="cell"

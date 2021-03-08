@@ -1,4 +1,5 @@
 import { FunctionComponent, h } from 'preact';
+import { JSXInternal } from 'preact/src/jsx';
 import Arrow, { Direction } from '../Arrow';
 import Hexagon from '../Hexagon';
 import Tile from '../Tile';
@@ -31,6 +32,7 @@ const RuleCell: FunctionComponent<{
   class?: string;
   correctArrows?: Arrows;
   incorrectArrows?: Arrows;
+  style?: JSXInternal.CSSProperties;
 }> = (props) => {
   const { correctArrows, incorrectArrows, symbol, zIndex, result, ...rest } = props;
 

@@ -23,7 +23,6 @@ exports[`Ant Rule snapshot tests snapshot 1`] = `
     <div
       class="correct"
       role="cell"
-      style="z-index: 1;"
     >
       <svg
         viewBox="0 0 100 100"
