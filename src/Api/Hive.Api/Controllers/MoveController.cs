@@ -43,7 +43,8 @@ namespace Hive.Controllers
             if (game.Move(move.TileId, move.Coords)==MoveResult.Invalid)
             {
                 return Forbid();
-            };
+            }
+
             var newGameState = new GameState(game.Players, game.Cells, id);
 
             var json = JsonSerializer.Serialize(newGameState, _jsonSerializerOptions);

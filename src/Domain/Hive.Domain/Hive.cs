@@ -88,7 +88,7 @@ namespace Hive.Domain
         {
             var availableCells = player.Tiles.Count == _startingTiles.Length
                 ? Cells.WhereEmpty()
-                : Cells.WherePlayerOccupies(player.Id).SelectMany(c => Cells.SelectEmptyNeighbors(c)).Where(c => Cells.SelectNeighbors(c).WhereOccupied().All(c => c.TopTile().PlayerId == player.Id));
+                : Cells.WherePlayerOccupies(player.Id).SelectMany(c => Cells.SelectEmptyNeighbors(c)).Where(c => Cells.SelectNeighbors(c).WhereOccupied().All(c2 => c2.TopTile().PlayerId == player.Id));
             
             var availableMoves = availableCells.ToCoords();
 
