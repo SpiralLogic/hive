@@ -190,6 +190,7 @@ exports[`Ant Rule snapshot tests snapshot 1`] = `
     <div
       class="correct"
       role="cell"
+      style="z-index: 1;"
     >
       <svg
         viewBox="0 0 100 100"
@@ -218,7 +219,7 @@ exports[`Ant Rule snapshot tests snapshot 1`] = `
       </div>
       <svg
         class="arrow bottomLeft incorrect"
-        style="--span: 5;"
+        style="--span: 1;"
         viewBox="0 0 100 100"
         xmlns="http://www.w3.org/2000/svg"
       >
@@ -230,6 +231,7 @@ exports[`Ant Rule snapshot tests snapshot 1`] = `
     <div
       class="correct"
       role="cell"
+      style="z-index: 1;"
     >
       <svg
         viewBox="0 0 100 100"
@@ -274,6 +276,7 @@ exports[`Ant Rule snapshot tests snapshot 1`] = `
     <div
       class="correct"
       role="cell"
+      style="z-index: 1;"
     >
       <svg
         viewBox="0 0 100 100"
@@ -341,6 +344,7 @@ exports[`Ant Rule snapshot tests snapshot 1`] = `
       </div>
     </div>
     <div
+      class="incorrect"
       role="cell"
     >
       <svg
@@ -362,10 +366,13 @@ exports[`Ant Rule snapshot tests snapshot 1`] = `
             href="#hex"
           />
         </svg>
-        
+        <span>
+          <span>
+            ✘
+          </span>
+        </span>
       </div>
     </div>
-     
     <div
       role="cell"
     >
@@ -398,6 +405,7 @@ exports[`Ant Rule snapshot tests snapshot 1`] = `
     <div
       class="correct"
       role="cell"
+      style="z-index: 1;"
     >
       <svg
         viewBox="0 0 100 100"
@@ -442,6 +450,7 @@ exports[`Ant Rule snapshot tests snapshot 1`] = `
     <div
       class="correct"
       role="cell"
+      style="z-index: 1;"
     >
       <svg
         viewBox="0 0 100 100"
@@ -540,6 +549,7 @@ exports[`Ant Rule snapshot tests snapshot 1`] = `
     <div
       class="correct"
       role="cell"
+      style="z-index: 1;"
     >
       <svg
         viewBox="0 0 100 100"
@@ -635,7 +645,7 @@ exports[`Ant Rule snapshot tests snapshot 1`] = `
     </div>
     <div
       role="cell"
-      style="z-index: 1;"
+      style="z-index: 2;"
     >
       <svg
         viewBox="0 0 100 100"
@@ -686,6 +696,7 @@ exports[`Ant Rule snapshot tests snapshot 1`] = `
     <div
       class="correct"
       role="cell"
+      style="z-index: 1;"
     >
       <svg
         viewBox="0 0 100 100"
