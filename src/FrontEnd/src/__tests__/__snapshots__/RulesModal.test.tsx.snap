@@ -1,8 +1,10 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Rules snapshot tests snapshot 1`] = `
+exports[`Rules tests snapshot 1`] = `
 <div
   class="modal rules"
+  role="dialog"
+  title="rules"
 >
   <div
     class="menu"
@@ -511,7 +513,9 @@ exports[`Rules snapshot tests snapshot 1`] = `
       </div>
     </div>
   </div>
-  <button>
+  <button
+    title="Close"
+  >
     Close
   </button>
 </div>

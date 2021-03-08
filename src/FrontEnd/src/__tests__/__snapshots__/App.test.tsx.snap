@@ -1,11 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`App Tests shows loading 1`] = `
-<h1>
-  loading !
-</h1>
-`;
-
 exports[`App Tests updates game after move 1`] = `
 Object {
   "asFragment": [Function],

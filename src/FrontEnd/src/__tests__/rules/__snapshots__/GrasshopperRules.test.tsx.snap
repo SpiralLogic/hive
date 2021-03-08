@@ -244,7 +244,7 @@ exports[`Grasshopper Rule snapshot tests snapshot 1`] = `
       </div>
     </div>
     <div
-      role="none"
+      role="cell"
     >
       <svg
         viewBox="0 0 100 100"
@@ -254,6 +254,20 @@ exports[`Grasshopper Rule snapshot tests snapshot 1`] = `
           href="#hex"
         />
       </svg>
+      <div
+        class="tile"
+        style="--tile-size: var(--hex-size);"
+      >
+        <svg
+          viewBox="0 0 100 100"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <use
+            href="#hex"
+          />
+        </svg>
+        
+      </div>
     </div>
     <div
       role="cell"
