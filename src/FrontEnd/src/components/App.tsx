@@ -1,13 +1,14 @@
 import { Fragment, FunctionComponent, h } from 'preact';
 import { GameState, PlayerId } from '../domain';
-import GameEngine from '../services/game-engine';
-import ServerConnection from '../services/server-connection';
 import { attachServerHandlers, opponentSelectionHandler } from '../utilities/handlers';
 import { useEffect, useState } from 'preact/hooks';
 import GameArea from './GameArea';
+import GameEngine from '../services/game-engine';
 import Links from './Links';
 import RuleModal from './RuleModal';
+import ServerConnection from '../services/server-connection';
 import Share from './Share';
+import SpiderRules from './rules/SpiderRules';
 
 const App: FunctionComponent<{ engine: GameEngine }> = (props) => {
   const { engine } = props;
@@ -61,6 +62,9 @@ const App: FunctionComponent<{ engine: GameEngine }> = (props) => {
 
   return (
     <>
+      <div class="rules">
+        <SpiderRules />
+      </div>
       <GameArea players={gameState.players} cells={gameState.cells} playerId={playerId} />
       <Links onShowRules={() => setShowRules(true)} onShowShare={() => setShowShare(true)} />
       {showRules ? <RuleModal setShowRules={setShowRules} /> : ''}

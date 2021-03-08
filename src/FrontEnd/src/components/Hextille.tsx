@@ -1,6 +1,6 @@
 import { FunctionComponent, h, toChildArray } from 'preact';
 import { Row } from '../domain/row';
-import { VNode } from 'preact/debug/src/internal';
+import { VNode } from 'preact';
 
 const Hextille: FunctionComponent<{ class?: string }> = (props) => {
   const childArray = toChildArray(props.children);
