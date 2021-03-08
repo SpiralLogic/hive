@@ -21,7 +21,7 @@ const fallbackCopyTextToClipboard = (text: string) => {
     if (currentFocus && currentFocus.focus) currentFocus.focus();
     return true;
   } catch (e) {
-    if (process.env.NODE_ENV !== 'production') console.error(e);
+    //  if (process.env.NODE_ENV !== 'production') console.error(e);
   } finally {
     document.body.removeChild(textArea);
   }
