@@ -17,7 +17,7 @@ const AntRules: FunctionComponent = () => {
       <Row>
         <RuleCell result="correct" correctArrows={['topRight']} />
         <RuleCell creature="queen" />
-        <RuleCell result="correct" incorrectArrows={[['bottomLeft', 5]]} />
+        <RuleCell result="incorrect" incorrectArrows={['bottomLeft']} />
         <RuleCell result="correct" correctArrows={['left']} />
       </Row>
       <Row>
