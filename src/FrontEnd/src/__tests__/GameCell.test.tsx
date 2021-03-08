@@ -1,4 +1,4 @@
-import { MoveEvent } from '../utilities/hive-dispatcher';
+import { MoveEvent } from '../services';
 import { act, fireEvent } from '@testing-library/preact';
 import { h } from 'preact';
 import { renderElement, simulateEvent } from './helpers';

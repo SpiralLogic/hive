@@ -1,4 +1,4 @@
-import { GameId, GameState, Move, Tile } from '../domain';
+import { GameId, GameState, Move } from '../domain';
 import { HexEngine } from '../domain/engine';
 
 export default class GameEngine implements HexEngine {

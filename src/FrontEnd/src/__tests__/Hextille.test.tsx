@@ -12,7 +12,6 @@ describe('Hextille Tests', () => {
         renderElement(
           <Hextille>
             <Row>
-              {' '}
               <GameCell coords={{ q: 0, r: 0 }}>
                 <GameTile {...{ creature: 'ant', id: 0, playerId: 0, moves: [] }} />
               </GameCell>

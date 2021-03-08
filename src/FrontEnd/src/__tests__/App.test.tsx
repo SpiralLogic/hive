@@ -1,15 +1,15 @@
 import { GameState } from '../domain';
-import { MoveEvent } from '../utilities/hive-dispatcher';
+import { MoveEvent } from '../services';
 import { h } from 'preact';
 import { render } from '@testing-library/preact';
 import { renderElement } from './helpers';
 import { useHiveDispatcher } from '../utilities/hooks';
 import App from '../components/App';
 import GameArea from '../components/GameArea';
-import GameEngine from '../utilities/game-engine';
-jest.mock('../utilities/game-engine');
+import GameEngine from '../services/game-engine';
+jest.mock('../services/game-engine');
 jest.mock('../components/GameArea');
-jest.mock('../utilities/server-connection', () => {
+jest.mock('../services/server-connection', () => {
   return jest.fn().mockImplementation(() => {
     return {
       connectGame: jest.fn().mockResolvedValue(undefined),

@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import { HexServerConnection } from '../domain/engine';
+import { HexServerConnection } from '../../domain/engine';
 import { HubConnectionState } from '@microsoft/signalr';
-import Engine from '../utilities/game-engine';
-import gameState from './fixtures/gameState.json';
-
+import GameEngine from '../../services/game-engine';
+import gameState from '../fixtures/gameState.json';
 jest.mock('@microsoft/signalr');
+
 const createHubConnection = (state: HubConnectionState) => ({
   start: jest.fn().mockResolvedValue(true),
   on: jest.fn().mockResolvedValue(true),
@@ -27,13 +27,13 @@ const updateHandler = jest.fn();
 const opponentSelectionHandler = jest.fn();
 let serverConnection: HexServerConnection;
 describe('Game Engine Tests', () => {
-  let engine: Engine;
+  let engine: GameEngine;
   beforeEach(function () {
     // eslint-disable-next-line no-undef
     global.fetch = jest
       .fn()
       .mockImplementation(() => ({ ok: true, json: jest.fn().mockResolvedValue(gameState) }));
-    engine = new Engine();
+    engine = new GameEngine();
   });
 
   test('new game', async () => {

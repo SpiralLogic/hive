@@ -1,13 +1,13 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import { HexServerConnection } from '../domain/engine';
+import { HexServerConnection } from '../../domain/engine';
 import { HubConnectionState } from '@microsoft/signalr';
-import { mockLocation, restoreLocation } from './helpers/location';
-import ServerConnection from '../utilities/server-connection';
-import gameState from './fixtures/gameState.json';
+import { mockLocation, restoreLocation } from '../helpers/location';
+import ServerConnection from '../../services/server-connection';
+import gameState from '../fixtures/gameState.json';
 
 jest.mock('@microsoft/signalr');
 
-describe('Gameserver Connection Tests', () => {
+describe('Game Server Connection Tests', () => {
   const signalR = require('@microsoft/signalr');
 
   const createHubConnection = (state: HubConnectionState) => ({

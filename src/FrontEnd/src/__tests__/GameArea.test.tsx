@@ -2,11 +2,9 @@ import { GameState } from '../domain';
 import { h } from 'preact';
 import { render } from '@testing-library/preact';
 import { simulateEvent } from './helpers';
-import Engine from '../utilities/game-engine';
 import GameArea from '../components/GameArea';
 import PlayerList from '../components/Players';
 jest.mock('../components/Players');
-jest.mock('../utilities/game-engine');
 
 describe('GameArea Tests', () => {
   let gameState: GameState;
@@ -23,13 +21,10 @@ describe('GameArea Tests', () => {
       cells: [emptyCell, emptyCell],
       players: [player, player],
     };
-    Engine.getNewGame = jest.fn().mockResolvedValue(gameState);
-    Engine.moveTile = jest.fn().mockResolvedValue(gameAfterMove);
   });
 
   test('default on drop is prevented', async () => {
     const gameArea = render(<GameArea players={gameState.players} cells={gameState.cells} playerId={2} />);
-    await Engine.getNewGame();
     gameArea.rerender(<GameArea players={gameState.players} cells={gameState.cells} playerId={2} />);
 
     const preventDefault = simulateEvent(gameArea.container.firstElementChild as HTMLElement, 'dragover');

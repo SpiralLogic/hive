@@ -1,12 +1,12 @@
 import { Fragment, FunctionComponent, h } from 'preact';
 import { GameState, PlayerId } from '../domain';
+import GameEngine from '../services/game-engine';
+import ServerConnection from '../services/server-connection';
 import { attachServerHandlers, opponentSelectionHandler } from '../utilities/handlers';
 import { useEffect, useState } from 'preact/hooks';
 import GameArea from './GameArea';
-import GameEngine from '../utilities/game-engine';
 import Links from './Links';
-import Rules from './Rules';
-import ServerConnection from '../utilities/server-connection';
+import RuleModal from './RuleModal';
 import Share from './Share';
 
 const App: FunctionComponent<{ engine: GameEngine }> = (props) => {
@@ -63,7 +63,7 @@ const App: FunctionComponent<{ engine: GameEngine }> = (props) => {
     <>
       <GameArea players={gameState.players} cells={gameState.cells} playerId={playerId} />
       <Links onShowRules={() => setShowRules(true)} onShowShare={() => setShowShare(true)} />
-      {showRules ? <Rules setShowRules={setShowRules} /> : ''}
+      {showRules ? <RuleModal setShowRules={setShowRules} /> : ''}
       {showShare ? <Share setShowShare={setShowShare} /> : ''}
     </>
   );

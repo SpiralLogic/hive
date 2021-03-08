@@ -1,6 +1,6 @@
 import { FunctionComponent, h } from 'preact';
-import { TileAction } from '../utilities/hive-dispatcher';
 import { Tile as TileType } from '../domain';
+import { TileAction } from '../services';
 import { addHiveDispatchListener, dispatchHiveEvent, useClassReducer } from '../utilities/hooks';
 import { handleDrop, handleKeyboardNav, isEnterOrSpace } from '../utilities/handlers';
 import { useEffect, useState } from 'preact/hooks';

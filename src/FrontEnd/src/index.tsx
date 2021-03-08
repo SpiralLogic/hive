@@ -10,7 +10,7 @@ import creatures from './svg/creatures.svg';
 import './css/hive.css';
 import { h, render } from 'preact';
 import App from './components/App';
-import GameEngine from './utilities/game-engine';
+import GameEngine from './services/game-engine';
 
 document.body.insertAdjacentHTML('beforeend', creatures);
 

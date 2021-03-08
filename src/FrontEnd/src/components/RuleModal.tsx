@@ -9,9 +9,9 @@ import SpiderRules from './rules/SpiderRules';
 
 type Props = { setShowRules: (value: boolean) => void };
 
-const Rules: FunctionComponent<Props> = (props) => {
+const RuleModal: FunctionComponent<Props> = (props) => {
   const ruleList = [<QueenRules />, <BeetleRules />, <SpiderRules />, <GrasshopperRules />, <AntRules />];
-  const changeRule = (currentRuleIndex: number, action: { type: 'next' | 'prev' }): number => {
+  const changeRule = (currentRuleIndex: number): number => {
     return ++currentRuleIndex % ruleList.length;
   };
   const [currentRuleIndex, changeCurrentRule] = useReducer(changeRule, 0);
@@ -26,5 +26,5 @@ const Rules: FunctionComponent<Props> = (props) => {
   );
 };
 
-Rules.displayName = 'Rules';
-export default Rules;
+RuleModal.displayName = 'Rules';
+export default RuleModal;

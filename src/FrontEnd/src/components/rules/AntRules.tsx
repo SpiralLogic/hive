@@ -4,7 +4,7 @@ import Hextille from '../Hextille';
 import Row from '../Row';
 import RuleCell from './RuleCell';
 
-export const AntRules: FunctionComponent = () => {
+const AntRules: FunctionComponent = () => {
   return (
     <Hextille class="rules">
       <Row>

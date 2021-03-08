@@ -1,6 +1,6 @@
 import { FunctionComponent, h } from 'preact';
 import { GameState, HexCoordinates, PlayerId } from '../domain';
-import { createRows, removeOtherPlayerMoves } from '../utilities/hextille-builder';
+import { createRows, removeOtherPlayerMoves } from '../services';
 import { handleDragOver } from '../utilities/handlers';
 import GameCell from './GameCell';
 import GameTile from './GameTile';

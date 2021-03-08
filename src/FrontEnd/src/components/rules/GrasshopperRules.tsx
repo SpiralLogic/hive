@@ -4,7 +4,7 @@ import Hextille from '../Hextille';
 import Row from '../Row';
 import RuleCell from './RuleCell';
 
-export const GrasshopperRules: FunctionComponent = () => {
+const GrasshopperRules: FunctionComponent = () => {
   return (
     <Hextille class="rules">
       <Row zIndex={1}>

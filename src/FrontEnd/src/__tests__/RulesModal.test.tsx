@@ -1,9 +1,9 @@
 import { h } from 'preact';
 import { renderElement } from './helpers';
-import Rules from '../components/Rules';
+import RuleModal from '../components/RuleModal';
 
 describe('Rules snapshot tests', () => {
   test('snapshot', () => {
-    expect(renderElement(<Rules setShowRules={() => ({})} />)).toMatchSnapshot();
+    expect(renderElement(<RuleModal setShowRules={() => ({})} />)).toMatchSnapshot();
   });
 });

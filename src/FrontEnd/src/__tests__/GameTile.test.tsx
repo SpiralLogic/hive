@@ -1,4 +1,4 @@
-import { HiveEvent, MoveEvent, TileEvent } from '../utilities/hive-dispatcher';
+import { HiveEvent, TileEvent } from '../services/hive-dispatcher';
 import { fireEvent } from '@testing-library/preact';
 import { h } from 'preact';
 import { renderElement, simulateEvent } from './helpers';
@@ -108,7 +108,8 @@ describe('Tile Tests', () => {
       mock.mockClear();
       fireEvent.click(tile);
 
-      expect(useHiveDispatcher().dispatch).not.toHaveBeenCalledWith(        expect.objectContaining({ type: 'tileSelect' })
+      expect(useHiveDispatcher().dispatch).not.toHaveBeenCalledWith(
+        expect.objectContaining({ type: 'tileSelect' })
       );
     });
 

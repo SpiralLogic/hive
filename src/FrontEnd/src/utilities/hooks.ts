@@ -1,4 +1,4 @@
-import { HiveDispatcher, HiveEventListener, HiveIntent } from './hive-dispatcher';
+import { HiveDispatcher, HiveEventListener, HiveIntent } from '../services/hive-dispatcher';
 import { useEffect, useReducer } from 'preact/hooks';
 
 const hiveDispatcher = new HiveDispatcher();
