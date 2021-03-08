@@ -10,10 +10,10 @@ const SpiderRules: FunctionComponent = () => {
       <Row>
         <RuleCell result="correct" />
         <RuleCell result="correct" symbol="2" correctArrows={['left']} />
-        <RuleCell class="selected" creature="spider" zIndex={5} correctArrows={['right', 'bottomLeft']} />
-        <RuleCell result="correct" symbol="1" zIndex={4} correctArrows={['bottomRight']} />
+        <RuleCell class="selected" zIndex={4} creature="spider" correctArrows={['right', 'bottomLeft']} />
+        <RuleCell result="correct" zIndex={3} symbol="1" correctArrows={['bottomRight']} />
       </Row>
-      <Row zIndex={3}>
+      <Row>
         <RuleCell creature="beetle" />
         <RuleCell
           result="correct"
@@ -22,16 +22,16 @@ const SpiderRules: FunctionComponent = () => {
           correctArrows={['topLeft', 'bottomLeft', 'bottomRight']}
         />
         <RuleCell creature="spider" />
-        <RuleCell result="correct" symbol="2" zIndex={2} correctArrows={['bottomRight']} />
+        <RuleCell result="correct" zIndex={2} symbol="2" correctArrows={['bottomRight']} />
       </Row>
-      <Row zIndex={2}>
+      <Row>
         <RuleCell creature="ant" />
-        <RuleCell result="correct" symbol="2" zIndex={2} correctArrows={['bottomRight']} />
-        <RuleCell result="correct" symbol="2" zIndex={2} correctArrows={['bottomLeft', 'bottomRight']} />
+        <RuleCell result="correct" zIndex={1} symbol="2" correctArrows={['bottomRight']} />
+        <RuleCell result="correct" zIndex={1} symbol="2" correctArrows={['bottomLeft', 'bottomRight']} />
         <RuleCell creature="queen" />
-        <RuleCell result="correct" zIndex={1} />
+        <RuleCell result="correct" />
       </Row>
-      <Row zIndex={1}>
+      <Row>
         <RuleCell creature="queen" />
         <RuleCell result="correct" />
         <RuleCell result="correct" />

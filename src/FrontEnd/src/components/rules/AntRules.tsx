@@ -9,7 +9,7 @@ const AntRules: FunctionComponent = () => {
     <Hextille class="rules">
       <Row>
         <Hexagon hidden={true} />
-        <RuleCell result="correct" correctArrows={['right']} zIndex={1} />
+        <RuleCell result="correct" correctArrows={['right']} />
         <RuleCell result="correct" />
         <Hexagon hidden={true} />
         <Hexagon hidden={true} />
