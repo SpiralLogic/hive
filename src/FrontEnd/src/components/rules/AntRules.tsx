@@ -17,13 +17,13 @@ const AntRules: FunctionComponent = () => {
       <Row>
         <RuleCell result="correct" correctArrows={['topRight']} />
         <RuleCell creature="queen" />
-        <RuleCell result="correct" />
+        <RuleCell result="correct" incorrectArrows={[['bottomLeft', 5]]} />
         <RuleCell result="correct" correctArrows={['left']} />
       </Row>
       <Row>
         <RuleCell result="correct" correctArrows={['topRight']} />
         <RuleCell creature="grasshopper" />
-        <Hexagon hidden={true} />
+        <RuleCell />
         <RuleCell creature="queen" />
         <RuleCell result="correct" correctArrows={['topLeft']} />
       </Row>
