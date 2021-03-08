@@ -62,9 +62,6 @@ const App: FunctionComponent<{ engine: GameEngine }> = (props) => {
 
   return (
     <>
-      <div class="rules">
-        <SpiderRules />
-      </div>
       <GameArea players={gameState.players} cells={gameState.cells} playerId={playerId} />
       <Links onShowRules={() => setShowRules(true)} onShowShare={() => setShowShare(true)} />
       {showRules ? <RuleModal setShowRules={setShowRules} /> : ''}
