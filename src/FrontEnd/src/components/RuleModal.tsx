@@ -20,8 +20,12 @@ const RuleModal: FunctionComponent<Props> = (props) => {
   return (
     <Modal name="rules" onClose={() => props.setShowRules(false)}>
       <div class="menu">
-        <button onClick={() => changeCurrentRule({ type: 'next' })}>&lt;</button>
-        <button onClick={() => changeCurrentRule({ type: 'prev' })}>&gt;</button>
+        <button title="Previous" onClick={() => changeCurrentRule({ type: 'next' })}>
+          &lt;
+        </button>
+        <button title="Next" onClick={() => changeCurrentRule({ type: 'prev' })}>
+          &gt;
+        </button>
       </div>
       {ruleList[currentRuleIndex]}
     </Modal>

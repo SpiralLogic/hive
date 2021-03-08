@@ -2,14 +2,18 @@
 
 exports[`Modal snapshot tests snapshot 1`] = `
 <div
-  class="modal test"
-  role="dialog"
-  title="test"
+  class="modal"
 >
-  <button
-    title="Close"
+  <div
+    class="test"
+    role="dialog"
+    title="test"
   >
-    Close
-  </button>
+    <button
+      title="Close"
+    >
+      Close
+    </button>
+  </div>
 </div>
 `;

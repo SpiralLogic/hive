@@ -2,15 +2,19 @@
 
 exports[`Share tests Share snapshot tests snapshot 1`] = `
 <div
-  class="modal Share"
-  role="dialog"
-  title="Share"
+  class="modal"
 >
-  Opponent link has been copied to clipboard!
-  <button
-    title="Close"
+  <div
+    class="share"
+    role="dialog"
+    title="share"
   >
-    Close
-  </button>
+    Opponent link has been copied to clipboard!
+    <button
+      title="Close"
+    >
+      Close
+    </button>
+  </div>
 </div>
 `;

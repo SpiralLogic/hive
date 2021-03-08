@@ -293,12 +293,12 @@ main {
   top: 0;
   right: 0;
   display: grid;
+  align-content: center;
+  justify-content: center;
+  width: fit-content;
+  color: white;
   grid-auto-flow: column;
   grid-template-columns: max-content;
-  color: white;
-  width: fit-content;
-  justify-content: center;
-  align-content: center;
 }
 
 .links a {
@@ -310,7 +310,7 @@ main {
 }
 
 .links :hover {
-  color:hotpink;
+  color: hotpink;
   fill: hotpink;
 }
 
@@ -318,9 +318,11 @@ main {
   text-decoration: none;
   color: white;
 }
-.links svg{
+
+.links svg {
   width: 30px;
 }
+
 @media only screen and (max-width: 720px) {
   body {
     margin: 0;
@@ -404,6 +406,16 @@ main {
 
 .modal {
   position: fixed;
+  width: 100vw;
+  height: 100vh;
+  background-color: transparent;
+  backdrop-filter: blur(5px);
+  top:0;
+  left:0;
+}
+
+.modal > div {
+  position: fixed;
   top: 20%;
   left: 50%;
   display: inline-flex;
@@ -411,19 +423,19 @@ main {
   flex-direction: column;
   width: max-content;
   height: max-content;
+  padding: 1vmax 3vmax 0;
   transition-duration: .5s;
   transition-property: height, width;
   transform: translateX(-50%);
-  padding: 1vmax 3vmax 0;
 }
 
-.modal> button:last-child{
+.modal > div > button:last-child {
   margin: 1rem;
 }
 
 .rules [role='grid'] {
   max-width: 98vmax;
-  padding:0;
+  padding: 0;
 }
 
 .modal .menu {
@@ -434,6 +446,11 @@ main {
 
 .modal.hide {
   transform: scale(0);
+}
+
+.share {
+  border-radius: 5px;
+  background-color: rgb(249 235 208);
 }
 
 .rules {
@@ -507,9 +524,10 @@ main {
 .rules .creature.ant {
   --fill: cyan;
 }
+
 .rules .creature {
-  --outline:var(--fill);
-  fill:var(--fill);
+  --outline: var(--fill);
+  fill: var(--fill);
 }
 
 .rules .tile {
