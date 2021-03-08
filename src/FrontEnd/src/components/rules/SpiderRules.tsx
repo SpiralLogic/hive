@@ -39,6 +39,7 @@ const SpiderRules: FunctionComponent = () => {
         <Hexagon hidden={true} />
       </Row>
       <Row>
+        <Hexagon hidden={true} />
         <RuleCell creature="grasshopper" />
         <RuleCell creature="grasshopper" />
         <RuleCell creature="ant" />
