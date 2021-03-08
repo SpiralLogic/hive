@@ -17,27 +17,27 @@ const AntRules: FunctionComponent = () => {
       <Row>
         <RuleCell result="correct" correctArrows={['topRight']} />
         <RuleCell creature="queen" />
-        <RuleCell result="incorrect" incorrectArrows={['bottomLeft']} />
-        <RuleCell result="correct" correctArrows={['left']} />
+        <RuleCell result="correct" incorrectArrows={['bottomLeft']} zIndex={1} />
+        <RuleCell result="correct" correctArrows={['left']} zIndex={1} />
       </Row>
       <Row>
-        <RuleCell result="correct" correctArrows={['topRight']} />
+        <RuleCell result="correct" correctArrows={['topRight']} zIndex={1} />
         <RuleCell creature="grasshopper" />
-        <RuleCell />
+        <RuleCell result="incorrect" />
         <RuleCell creature="queen" />
-        <RuleCell result="correct" correctArrows={['topLeft']} />
+        <RuleCell result="correct" correctArrows={['topLeft']} zIndex={1} />
       </Row>
       <Row>
-        <RuleCell result="correct" correctArrows={['topLeft']} />
+        <RuleCell result="correct" correctArrows={['topLeft']} zIndex={1} />
         <RuleCell creature="beetle" />
         <RuleCell creature="beetle" />
-        <RuleCell result="correct" correctArrows={['topRight']} />
+        <RuleCell result="correct" correctArrows={['topRight']} zIndex={1} />
       </Row>
       <Row>
         <Hexagon hidden={true} />
         <RuleCell result="correct" correctArrows={['topLeft']} />
-        <RuleCell class="selected" creature="ant" correctArrows={['left', 'right']} zIndex={1} />
-        <RuleCell result="correct" correctArrows={['topRight']} />
+        <RuleCell class="selected" creature="ant" correctArrows={['left', 'right']} zIndex={2} />
+        <RuleCell result="correct" correctArrows={['topRight']} zIndex={1} />
       </Row>
     </Hextille>
   );

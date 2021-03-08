@@ -11,8 +11,10 @@ type Props = { setShowRules: (value: boolean) => void };
 
 const RuleModal: FunctionComponent<Props> = (props) => {
   const ruleList = [<QueenRules />, <BeetleRules />, <SpiderRules />, <GrasshopperRules />, <AntRules />];
-  const changeRule = (currentRuleIndex: number): number => {
-    return ++currentRuleIndex % ruleList.length;
+  const changeRule = (currentRuleIndex: number, { type }: { type: 'next' | 'prev' }): number => {
+    if (type === 'next') return ++currentRuleIndex % ruleList.length;
+    if (type === 'prev' && currentRuleIndex > 0) return --currentRuleIndex % ruleList.length;
+    return ruleList.length - 1;
   };
   const [currentRuleIndex, changeCurrentRule] = useReducer(changeRule, 0);
   return (
