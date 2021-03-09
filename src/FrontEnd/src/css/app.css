@@ -11,6 +11,7 @@ body {
   overscroll-behavior-y: contain;
   --hex-size: 95px;
   --tile-size: 70px;
+  height: 100vh;
 }
 
 body > svg {
@@ -20,7 +21,6 @@ body > svg {
 @media only screen and (max-width: 720px) {
   body {
     filter: brightness(1.1);
-    height: 100vh;
     /*noinspection CssInvalidPropertyValue*/
     max-height: -webkit-fill-available;
     margin: 0;
