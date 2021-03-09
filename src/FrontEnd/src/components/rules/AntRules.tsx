@@ -9,13 +9,13 @@ const AntRules: FunctionComponent = () => {
     <Hextille class="rules">
       <Row>
         <Hexagon hidden={true} />
-        <RuleCell result="correct" correctArrows={['right']} />
-        <RuleCell result="correct" />
+        <RuleCell result="correct" correctArrows={['right']} zIndex={1} />
+        <RuleCell result="correct" zIndex={0} />
         <Hexagon hidden={true} />
         <Hexagon hidden={true} />
       </Row>
       <Row>
-        <RuleCell result="correct" correctArrows={['topRight']} />
+        <RuleCell result="correct" correctArrows={['topRight']} zIndex={1} />
         <RuleCell creature="queen" />
         <RuleCell result="correct" incorrectArrows={['bottomLeft']} zIndex={1} />
         <RuleCell result="correct" correctArrows={['left']} zIndex={1} />
@@ -35,7 +35,7 @@ const AntRules: FunctionComponent = () => {
       </Row>
       <Row>
         <Hexagon hidden={true} />
-        <RuleCell result="correct" correctArrows={['topLeft']} />
+        <RuleCell result="correct" correctArrows={['topLeft']} zIndex={1} />
         <RuleCell class="selected" creature="ant" correctArrows={['left', 'right']} zIndex={2} />
         <RuleCell result="correct" correctArrows={['topRight']} zIndex={1} />
       </Row>

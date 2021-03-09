@@ -1,5 +1,4 @@
 body {
-  margin: 0;
   --focus: #1712A2A0;
   --p0background: #FFEE0B;
   --p0creature: #000000;
@@ -7,10 +6,11 @@ body {
   --p1background: #000000;
   --p1creature: #FFEE0B;
   --p1outline: #8A2BE2A0;
+  margin: 0;
   --hex-offset: -1;
+  overscroll-behavior-y: contain;
   --hex-size: 95px;
   --tile-size: 70px;
-  overscroll-behavior-y: contain;
 }
 
 body > svg {
@@ -19,26 +19,26 @@ body > svg {
 
 .hive {
   display: inline-grid;
-  width: 100vw;
+  grid-template-columns: max-content auto;
   height: 100vh;
   user-select: none;
-  grid-template-columns: max-content auto;
+  width: 100vw;
 }
 
 .players {
-  display: inline-grid;
   border-radius: 0.1rem;
+  display: inline-grid;
   grid-template-columns: max-content max-content;
 }
 
 .player {
+  background-color: rgba(0, 0, 0, 0.7);
+  border-right: 1px solid white;
   display: inline-flex;
   flex-direction: column;
   height: 100vh;
   transition: 1s ease-out;
   transition-property: width, border, padding;
-  border-right: 1px solid white;
-  background-color: rgba(0, 0, 0, 0.7);
 }
 
 .player.hiding {
@@ -46,9 +46,9 @@ body > svg {
 }
 
 .player.hide {
-  width: 0;
-  padding: 0;
   border: 0;
+  padding: 0;
+  width: 0;
 }
 
 .player0 {
@@ -68,52 +68,52 @@ body > svg {
 }
 
 .player .name {
+  color: white;
   font-size: 1.5em;
   font-weight: bold;
-  justify-content: center;
   height: 2em;
+  justify-content: center;
+  outline: none;
   padding: 2vh 0 0;
   text-align: center;
-  color: white;
-  outline: none;
 }
 
 .player .name svg {
-  height: 1.5em;
   fill: var(--background);
+  height: 1.5em;
 }
 
 .player .name svg:hover {
-  height: 1.5em;
   fill: var(--creature);
+  height: 1.5em;
 }
 
 .player .tile {
-  margin: .4vh;
   --focus: #1A1A1DCC;
+  margin: .4vh;
 }
 
 .player .tiles {
   display: inline-grid;
+  grid-auto-flow: row;
+  grid-template-rows: max-content;
   overflow: hidden auto;
   padding: 1vh .5vw;
   transition: all 0.1s ease-in;
-  grid-auto-flow: row;
-  grid-template-rows: max-content;
 }
 
 .player .tiles::-webkit-scrollbar {
-  width: 7px;
-  height: 4px;
-  border-bottom: 1px inset #7318B133;
   background-color: transparent;
+  border-bottom: 1px inset #7318B133;
+  height: 4px;
+  width: 7px;
 }
 
 .player .tiles::-webkit-scrollbar-thumb {
+  background-color: #FFFFFF30;
+  border-radius: 2px;
   transition-duration: .5s;
   transition-property: background-color;
-  border-radius: 2px;
-  background-color: #FFFFFF30;
 }
 
 .player .tiles::-webkit-scrollbar-thumb:hover {
@@ -121,25 +121,25 @@ body > svg {
 }
 
 main {
-  display: grid;
-  overflow: auto;
   align-items: center;
   background: #1A1A1D;
+  display: grid;
+  overflow: auto;
 }
 
 [role='grid'] {
+  --focus: #1712A290;
+  border-radius: 0.05rem;
   display: flex;
   flex-direction: column;
   margin: 0 auto;
-  border-radius: 0.05rem;
-  --focus: #1712A290;
 }
 
 [role='row'] {
   display: inline-flex;
   flex-direction: row;
-  min-width: calc(2 * var(--hex-size));
   margin: calc(var(--hex-size) * -0.1) 0;
+  min-width: calc(2 * var(--hex-size));
 }
 
 [role='row']:nth-child(1) {
@@ -156,18 +156,18 @@ main {
 }
 
 [role='cell'], .tile, [role='none'] {
-  position: relative;
-  display: inline-flex;
   align-items: center;
-  justify-content: center;
-  width: var(--width);
-  min-width: fit-content;
-  height: var(--width);
-  min-height: fit-content;
-  margin: 0;
-  transition: fill 0.1s ease-in;
-  outline: none;
+  display: inline-flex;
   fill: var(--background, #00000030);
+  height: var(--width);
+  justify-content: center;
+  margin: 0;
+  min-height: fit-content;
+  min-width: fit-content;
+  outline: none;
+  position: relative;
+  transition: fill 0.1s ease-in;
+  width: var(--width);
 }
 
 [role='cell'] > *, .tile > * {
@@ -179,9 +179,9 @@ main {
 }
 
 [role='none'] {
-  width: var(--hex-size);
-  margin: 0;
   background: transparent;
+  margin: 0;
+  width: var(--hex-size);
 }
 
 [role='none']:last-child {
@@ -189,10 +189,10 @@ main {
 }
 
 [role='cell'] {
-  transition-timing-function: ease-in;
+  --width: var(--hex-size);
   transition-duration: .4s;
   transition-property: transform, margin;
-  --width: var(--hex-size);
+  transition-timing-function: ease-in;
 }
 
 [role='cell'].hide, [role='none'] {
@@ -204,14 +204,16 @@ main {
   margin: 0;
 }
 
-[role='cell'] .tile:not([draggable='true']) {pointer-events: none;}
+[role='cell'] .tile:not([draggable='true']) {
+  pointer-events: none;
+}
 
 [role='cell'].no-drop.active,
 [role='cell'].no-drop:focus,
 [role='cell'].no-drop:hover {
-  transition-duration: 0.1s;
   --focus: transparent;
   fill: #5D001E;
+  transition-duration: 0.1s;
 }
 
 [role='cell'].can-drop {
@@ -229,14 +231,14 @@ main {
 }
 
 .tile .creature {
-  pointer-events: none;
   fill: var(--creature);
+  pointer-events: none;
 }
 
 [role='cell'].can-drop .tile:not(.selected),
 [role='cell'].no-drop .tile:not(.selected) {
-  pointer-events: none;
   opacity: 100%;
+  pointer-events: none;
 }
 
 .tile[draggable='false'] {
@@ -244,25 +246,25 @@ main {
 }
 
 .tile.selected {
-  transform: rotate(-3deg);
   animation: selected 0.2s infinite;
+  transform: rotate(-3deg);
 }
 
 .tile.selected:before,
 [draggable='true']:not(.selected):hover:before,
 [draggable='true']:not(.selected):focus:before {
-  position: absolute;
-  z-index: -1;
-  top: 0;
-  left: 0;
-  display: block;
-  width: 90%;
-  height: 50%;
-  margin: 25% 5%;
-  content: ' ';
-  transition: box-shadow 0.2s ease-in;
-  outline: none;
   box-shadow: 0 -.9em 1em .4em var(--shadow), 0 .9em 1em .4em var(--shadow), 0 0 1em var(--shadow);
+  content: ' ';
+  display: block;
+  height: 50%;
+  left: 0;
+  margin: 25% 5%;
+  outline: none;
+  position: absolute;
+  top: 0;
+  transition: box-shadow 0.2s ease-in;
+  width: 90%;
+  z-index: -1;
 }
 
 .tile.selected:before {
@@ -275,8 +277,8 @@ main {
 }
 
 .beforeDrag:before {
-  display: none !important;
   box-shadow: none !important;
+  display: none !important;
 }
 
 @keyframes selected {
@@ -289,24 +291,24 @@ main {
 }
 
 .links {
-  position: fixed;
-  top: 0;
-  right: 0;
-  display: grid;
   align-content: center;
-  justify-content: center;
-  width: fit-content;
   color: white;
+  display: grid;
   grid-auto-flow: column;
   grid-template-columns: max-content;
+  justify-content: center;
+  position: fixed;
+  right: 0;
+  top: 0;
+  width: fit-content;
 }
 
 .links a {
+  color: white;
+  fill: white;
   font-size: 40px;
   padding: 10px;
   text-decoration: none;
-  color: white;
-  fill: white;
 }
 
 .links :hover {
@@ -315,8 +317,8 @@ main {
 }
 
 .links a:visited, .links a:active {
-  text-decoration: none;
   color: white;
+  text-decoration: none;
 }
 
 .links svg {
@@ -325,10 +327,13 @@ main {
 
 @media only screen and (max-width: 720px) {
   body {
+    filter: brightness(1.1);
+    height: 100vh;
+    /*noinspection CssInvalidPropertyValue*/
+    max-height: -webkit-fill-available;
     margin: 0;
     --hex-size: 60px;
     --tile-size: 45px;
-    filter: brightness(1.1);
   }
 
   .hive {
@@ -343,40 +348,41 @@ main {
   }
 
   .player {
-    flex-direction: row;
-    width: 100vw;
-    height: unset;
     border-right-width: 0;
+    flex-direction: row;
+    height: unset;
+    width: 100vw;
+    transition-property: height, border, padding;
   }
 
   .player.hiding {
-    width: auto;
     height: var(--tile-size);
+    width: auto;
   }
 
   .player.hide {
-    width: auto;
     height: 0;
+    width: auto;
   }
 
   .player .name {
     align-self: center;
     justify-content: center;
-    width: 3em;
     margin: 0 2vw;
+    width: 3em;
   }
 
   .player .tiles {
+    border-left: 1px inset #7318B133;
     display: inline-grid;
+    grid-auto-flow: column;
     overflow: auto hidden;
     padding: 1vh 3vw;
-    border-left: 1px inset #7318B133;
-    grid-auto-flow: column;
   }
 
   .player .tiles::-webkit-scrollbar-thumb {
-    width: 3px;
     background-color: #FFFFFF;
+    width: 3px;
   }
 
   main {
@@ -384,8 +390,8 @@ main {
   }
 
   [role='grid'] {
-    padding: 5vh;
     border-radius: 0;
+    padding: 5vh;
   }
 
   [role='cell'].can-drop {
@@ -399,34 +405,34 @@ main {
   }
 
   .links {
-    top: unset;
     bottom: 0;
+    top: unset;
   }
 }
 
 .modal {
-  position: fixed;
-  width: 100vw;
-  height: 100vh;
-  background-color: transparent;
   backdrop-filter: blur(5px);
-  top:0;
-  left:0;
+  background-color: transparent;
+  height: 100vh;
+  left: 0;
+  position: fixed;
+  top: 0;
+  width: 100vw;
 }
 
 .modal > div {
+  align-content: center;
+  display: inline-flex;
+  flex-direction: column;
+  height: max-content;
+  left: 50%;
+  padding: 1vmax 3vmax 0;
   position: fixed;
   top: 20%;
-  left: 50%;
-  display: inline-flex;
-  align-content: center;
-  flex-direction: column;
-  width: max-content;
-  height: max-content;
-  padding: 1vmax 3vmax 0;
+  transform: translateX(-50%);
   transition-duration: .5s;
   transition-property: height, width;
-  transform: translateX(-50%);
+  width: max-content;
 }
 
 .modal > div > button:last-child {
@@ -449,22 +455,22 @@ main {
 }
 
 .share {
-  border-radius: 5px;
   background-color: rgb(249 235 208);
+  border-radius: 5px;
 }
 
 .rules {
-  border-radius: 5px;
+  --outline: #FFFF00AA;
   background-color: rgb(249 235 208);
+  border-radius: 5px;
   --hex-size: 56px;
   --tile-size: 48px;
-  --outline: #FFFF00AA;
 }
 
 .rules [role='row'] {
-  z-index: unset;
-  user-select: none;
   pointer-events: none;
+  user-select: none;
+  z-index: unset;
 }
 
 .rules .correct {
@@ -488,21 +494,21 @@ main {
 }
 
 .rules [role='cell'] span {
-  font-size: 1em;
   color: var(--result);
+  font-size: 1em;
 }
 
 .rules .tile.creature > span {
-  width: 1.2em;
-  text-align: center;
-  opacity: 75%;
   background-color: black;
   clip-path: circle(40%);
+  opacity: 75%;
+  text-align: center;
+  width: 1.2em;
 }
 
 .rules [role='cell'] {
-  z-index: unset;
   fill: black;
+  z-index: unset;
 }
 
 .rules .creature.beetle {
@@ -531,7 +537,8 @@ main {
 }
 
 .rules .tile {
-  z-index: unset; fill: black;
+  fill: black;
+  z-index: unset;
 }
 
 .rules .tile:not(.creature) svg use:only-child {
@@ -539,11 +546,11 @@ main {
 }
 
 .rules .arrow {
-  transform: rotate(var(--arrow-deg)) translateY(calc(var(--hex-size) / -3)) scale(1, calc(var(--span) * .95));
-  transform-origin: center center;
+  --span: 1;
   fill: var(--result);
   stroke-width: 1px;
-  --span: 1;
+  transform: rotate(var(--arrow-deg)) translateY(calc(var(--hex-size) / -3)) scale(1, calc(var(--span) * .95));
+  transform-origin: center center;
 }
 
 .arrow.left {
