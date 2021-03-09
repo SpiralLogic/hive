@@ -3,16 +3,17 @@
   display: grid;
   grid-auto-flow: column;
   grid-template-columns: max-content;
-  position: fixed;
+  position: absolute;
   right: 0;
   top: 0;
+  gap: 20px;
+  padding: 10px;
 }
 
 .links a {
   color: white;
   fill: white;
   font-size: 40px;
-  padding: 10px;
   text-decoration: none;
 }
 
@@ -30,12 +31,18 @@
   width: 30px;
 }
 
-
 @media only screen and (max-width: 720px) {
-
   .links {
-    bottom: 0;
-    top: unset;
+    top: calc(var(--tile-size) * 3.2);
+    gap: 10px;
+  }
+
+  .links svg {
+    width: 20px;
+  }
+
+  .links a {
+    font-size: 30px;
   }
 }
 

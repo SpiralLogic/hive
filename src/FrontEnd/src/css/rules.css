@@ -1,7 +1,7 @@
 
 .rules [role='grid'] {
   max-width: 95vmax;
-  padding: 0;
+  padding: 1vmax;
 }
 
 .rules {
@@ -33,6 +33,7 @@
 .rules [role='cell'] {
   fill: white;
 }
+
 .rules [role='none'] {
   width: var(--hex-size);
 }
@@ -91,4 +92,11 @@
 
 .rules .tile:not(.creature) svg use:only-child {
   fill: white;
+}
+
+@media only screen and (max-width: 720px) {
+  .rules {
+    --hex-size: max(40px, 16vmin);
+    --tile-size: max(36px, 14vmin);
+  }
 }
