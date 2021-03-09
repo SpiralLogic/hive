@@ -7,7 +7,7 @@
     "removeComments": true,
     "noEmitOnError": true,
     "pretty": true,
-    "target": "es5",
+    "target": "ESNext",
     "lib": [
       "dom",
       "dom.iterable",
