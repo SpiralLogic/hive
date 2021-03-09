@@ -26,8 +26,7 @@
 .tile.selected:before,
 [draggable='true']:not(.selected):hover:before,
 [draggable='true']:not(.selected):focus:before {
-  box-shadow: 0 -.9em 1em .4em var(--shadow), 0 .9em 1em .4em var(--shadow), 0 0 1em var(--shadow);
-  content: ' ';
+  box-shadow: 0 calc(var(--tile-size) / -4) calc(var(--tile-size) / 3) .5vh var(--shadow), 0 calc(var(--tile-size) / 4) calc(var(--tile-size) / 3) .5vh var(--shadow), 0 0 calc(var(--tile-size) / 3) .5vw var(--shadow);  content: ' ';
   display: block;
   height: 50%;
   left: 0;
@@ -68,13 +67,5 @@
   }
   50% {
     transform: rotate(1deg);
-  }
-}
-
-@media only screen and (max-width: 720px) {
-  .tile.selected:before,
-  [draggable='true']:not(.selected):hover:before,
-  [draggable='true']:not(.selected):focus:before {
-    box-shadow: 0 -.3em 1.5em .4em var(--shadow), 0 .3em 1.5em .4em var(--shadow);
   }
 }
