@@ -1,3 +1,4 @@
+import '../css/arrow.css';
 import { FunctionComponent, h } from 'preact';
 export type Direction = 'left' | 'right' | 'topLeft' | 'topRight' | 'bottomLeft' | 'bottomRight';
 export const Arrow: FunctionComponent<{

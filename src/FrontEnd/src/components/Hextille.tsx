@@ -1,3 +1,4 @@
+import '../css/hextille.css'
 import { FunctionComponent, h, toChildArray } from 'preact';
 import { Row } from '../domain';
 import { VNode } from 'preact';

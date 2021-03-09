@@ -1,3 +1,4 @@
+import '../css/row.css';
 import { FunctionComponent, h } from 'preact';
 type Props = { class?: string; zIndex?: number; hidden?: boolean };
 

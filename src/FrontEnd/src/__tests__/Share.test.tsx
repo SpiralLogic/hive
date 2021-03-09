@@ -7,36 +7,29 @@ import userEvent from '@testing-library/user-event';
 
 describe('Share tests', () => {
   test('No share possible', () => {
-    render(<Share setShowShare={() => ({})} />);
+    render(<Share url={`/game/33/1`} setShowShare={() => ({})} />);
     expect(screen.queryAllByRole('dialog')).toHaveLength(0);
   });
 
   test('if available share API is called', () => {
     const restore = mockShare();
-    render(<Share setShowShare={() => ({})} />);
-    expect(navigator.share).toBeCalledWith(expect.objectContaining({ url: expect.stringMatching(/.*1$/) }));
-    restore();
-  });
-
-  test('share API is called for opponent', () => {
-    global.window.history.replaceState({}, global.document.title, `/game/33/1`);
-    const restore = mockShare();
-    render(<Share setShowShare={() => ({})} />);
-    expect(navigator.share).toBeCalledWith(expect.objectContaining({ url: expect.stringMatching(/.*0$/) }));
-    global.window.history.replaceState({}, global.document.title, `/game/33/0`);
+    const url = `/game/33/1`;
+    render(<Share url={url} setShowShare={() => ({})} />);
+    expect(navigator.share).toBeCalledWith(expect.objectContaining({ url }));
     restore();
   });
 
   test('Click copies opponent link to clipboard with navigator', () => {
     const restore = mockClipboard();
-    render(<Share setShowShare={() => ({})} />);
-    expect(navigator.clipboard.writeText).toBeCalledWith(expect.stringMatching(/.*1$/));
+    const url = `/game/33/1`;
+    render(<Share url={url} setShowShare={() => ({})} />);
+    expect(navigator.clipboard.writeText).toBeCalledWith(url);
     restore();
   });
 
   test('Click copies opponent link to clipboard with exec command', () => {
     const restore = mockExecCommand();
-    render(<Share setShowShare={() => ({})} />);
+    render(<Share url={`/game/33/1`} setShowShare={() => ({})} />);
     expect(document.execCommand).toBeCalledWith('copy');
     restore();
   });
@@ -44,7 +37,7 @@ describe('Share tests', () => {
   test('Share modal calls close', () => {
     const restore = mockExecCommand();
     const close = jest.fn();
-    render(<Share setShowShare={close} />);
+    render(<Share url={`/game/33/1`} setShowShare={close} />);
     userEvent.click(screen.getByRole('button'));
 
     expect(close).toBeCalledWith(false);
@@ -53,7 +46,7 @@ describe('Share tests', () => {
 
   describe('Share snapshot tests', () => {
     test('snapshot', () => {
-      expect(renderElement(<Share setShowShare={() => ({})} />)).toMatchSnapshot();
+      expect(renderElement(<Share url={`/game/33/1`} setShowShare={() => ({})} />)).toMatchSnapshot();
     });
   });
 });

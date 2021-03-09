@@ -8,7 +8,7 @@
     "clean": "git clean -x -d -f $(git rev-parse --show-toplevel)/**",
     "test": "pnpx tsc --noEmit && npx jest --coverage",
     "build:dev": "pnpx rimraf ./public/js/** && pnpx tsc --noEmit && pnpm run esbuild:dev && pnpx cpy ./src/index.html ./public/ && pnpx cachebust -n",
-    "build": "pnpx tsc --noEmit && pnpm run esbuild  && pnpx cpy ./src/index.html ./public/ && pnpx cachebust -n",
+    "build": "pnpx rimraf ./public/js/** && pnpx tsc --noEmit && pnpm run esbuild  && pnpx cpy ./src/index.html ./public/ && pnpx cachebust -n",
     "start": "dotnet watch -v -p ../Api/Hive.Api run",
     "preinstall": "npx only-allow pnpm",
     "watch": " pnpx rimraf ./public/js/** && pnpx cpy ./src/index.html ./public/ && pnpx esbuild --loader:.svg=text --inject:./src/react-shim.js   --define:process.env.NODE_ENV=\\\"development\\\" ./src/index.tsx --bundle  --sourcemap --watch --outfile=./public/js/hive.js",
@@ -66,6 +66,9 @@
       "json",
       "node"
     ],
+    "moduleNameMapper": {
+      "\\.(css)$": "<rootDir>/src/styleMock.js"
+    },
     "roots": [
       "./src/"
     ],

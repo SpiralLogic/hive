@@ -1,0 +1,130 @@
+.player {
+  background-color: rgba(0, 0, 0, 0.7);
+  border-right: 1px solid white;
+  display: inline-flex;
+  flex-direction: column;
+  height: 100vh;
+  transition: 1s ease-out;
+  transition-property: width, border, padding;
+}
+
+.player.hiding {
+  width: var(--tile-size);
+}
+
+.player.hide {
+  border: 0;
+  padding: 0;
+  width: 0;
+}
+
+.player0 {
+  --background: var(--p0background);
+  --creature: var(--p0creature);
+  --outline: var(--p0outline0);
+}
+
+.player1 {
+  --background: var(--p1background);
+  --creature: var(--p1creature);
+  --outline: var(--p1outline);
+}
+
+.name:focus {
+  text-decoration-color: var(--creature);
+}
+
+.player .name {
+  color: white;
+  font-size: 1.5em;
+  font-weight: bold;
+  height: 2em;
+  justify-content: center;
+  outline: none;
+  padding: 2vh 0 0;
+  text-align: center;
+}
+
+.player .name svg {
+  fill: var(--background);
+  height: 1.5em;
+}
+
+.player .name svg:hover {
+  fill: var(--creature);
+  height: 1.5em;
+}
+
+.player .tile {
+  --focus: #1A1A1DCC;
+  margin: .4vh;
+}
+
+.player .tiles {
+  display: inline-grid;
+  grid-auto-flow: row;
+  grid-template-rows: max-content;
+  overflow: hidden auto;
+  padding: 1vh .5vw;
+  transition: all 0.1s ease-in;
+}
+
+.player .tiles::-webkit-scrollbar {
+  background-color: transparent;
+  border-bottom: 1px inset #7318B133;
+  height: 4px;
+  width: 7px;
+}
+
+.player .tiles::-webkit-scrollbar-thumb {
+  background-color: #FFFFFF30;
+  border-radius: 2px;
+  transition-duration: .5s;
+  transition-property: background-color;
+}
+
+.player .tiles::-webkit-scrollbar-thumb:hover {
+  background-color: #FFFFFF;
+}
+
+
+@media only screen and (max-width: 720px) {
+
+  .player {
+    border-right-width: 0;
+    flex-direction: row;
+    height: unset;
+    width: 100vw;
+    transition-property: height, border, padding;
+  }
+
+  .player.hiding {
+    height: var(--tile-size);
+    width: auto;
+  }
+
+  .player.hide {
+    height: 0;
+    width: auto;
+  }
+
+  .player .name {
+    align-self: center;
+    justify-content: center;
+    margin: 0 2vw;
+    width: 3em;
+  }
+
+  .player .tiles {
+    border-left: 1px inset #7318B133;
+    display: inline-grid;
+    grid-auto-flow: column;
+    overflow: auto hidden;
+    padding: 1vh 3vw;
+  }
+
+  .player .tiles::-webkit-scrollbar-thumb {
+    background-color: #FFFFFF;
+    width: 3px;
+  }
+}

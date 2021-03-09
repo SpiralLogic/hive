@@ -1,3 +1,4 @@
+import '../css/modal.css'
 import { FunctionComponent, h } from 'preact';
 
 const Modal: FunctionComponent<{ name: string; onClose: () => void }> = (props) => (

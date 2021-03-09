@@ -1,3 +1,4 @@
+import '../css/player.css'
 import { FunctionComponent, h } from 'preact';
 import { PlayerId } from '../domain';
 import { useClassReducer } from '../utilities/hooks';

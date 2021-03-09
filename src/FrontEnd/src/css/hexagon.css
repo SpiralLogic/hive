@@ -1,0 +1,44 @@
+[role='cell'] > *, .tile > * {
+  position: absolute;
+}
+
+[role='cell'] > svg {
+  pointer-events: none;
+}
+
+[role='cell'] {
+  --width: var(--hex-size);
+  transition-duration: .4s;
+  transition-property: transform, margin;
+  transition-timing-function: ease-in;
+}
+
+[role='cell'].hide, [role='none'] {
+  margin: 0 0;
+  transform: scale(0);
+}
+
+[role='cell'].no-drop.active,
+[role='cell'].no-drop:focus,
+[role='cell'].no-drop:hover {
+  --focus: transparent;
+  fill: #5D001E;
+  transition-duration: 0.1s;
+}
+
+[role='cell'].can-drop {
+  fill: rgba(175, 210, 117, 0.2);
+}
+
+[role='cell'].can-drop.active,
+[role='cell'].can-drop:hover,
+[role='cell'].can-drop:focus {
+  fill: #AFD275;
+}
+
+@media only screen and (max-width: 720px) {
+
+  [role='cell'].can-drop {
+    fill: #AFD275;
+  }
+}

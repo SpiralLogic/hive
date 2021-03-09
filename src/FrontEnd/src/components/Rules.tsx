@@ -1,3 +1,4 @@
+import '../css/rules.css';
 import { FunctionComponent, h } from 'preact';
 import { useReducer } from 'preact/hooks';
 import AntRules from './rules/AntRules';
@@ -9,7 +10,7 @@ import SpiderRules from './rules/SpiderRules';
 
 type Props = { setShowRules: (value: boolean) => void };
 
-const RuleModal: FunctionComponent<Props> = (props) => {
+const Rules: FunctionComponent<Props> = (props) => {
   const ruleList = [<QueenRules />, <BeetleRules />, <SpiderRules />, <GrasshopperRules />, <AntRules />];
   const changeRule = (currentRuleIndex: number, { type }: { type: 'next' | 'prev' }): number => {
     if (type === 'next') return ++currentRuleIndex % ruleList.length;
@@ -32,5 +33,5 @@ const RuleModal: FunctionComponent<Props> = (props) => {
   );
 };
 
-RuleModal.displayName = 'Rules';
-export default RuleModal;
+Rules.displayName = 'Rules';
+export default Rules;

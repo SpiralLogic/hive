@@ -7,7 +7,6 @@ if (process.env.NODE_ENV !== 'production') {
 // @ts-ignore
 import creatures from './svg/creatures.svg';
 
-import './css/hive.css';
 import { h, render } from 'preact';
 import App from './components/App';
 import GameEngine from './services/game-engine';

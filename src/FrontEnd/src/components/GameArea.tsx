@@ -1,3 +1,4 @@
+import '../css/gameArea.css';
 import { Cell, GameState, HexCoordinates, Player, PlayerId, Tile } from '../domain';
 import { FunctionComponent, h } from 'preact';
 import { HextilleBuilder } from '../services';

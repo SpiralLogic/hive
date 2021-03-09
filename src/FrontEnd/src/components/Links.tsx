@@ -1,7 +1,8 @@
+import '../css/links.css';
 import { FunctionComponent, h } from 'preact';
 import SVG from './SVG';
 
-type Props = { onShowRules: () => void; onShowShare: () => void };
+type Props = { shareUrl: string; onShowRules: () => void; onShowShare: () => void };
 
 const Links: FunctionComponent<Props> = (props) => {
   const handle = (handler: () => void) => (e: MouseEvent) => {
@@ -12,7 +13,11 @@ const Links: FunctionComponent<Props> = (props) => {
 
   return (
     <div class="links">
-      <a href="#" name="Share game to opponent" title="Share" onClick={handle(props.onShowShare)}>
+      <a
+        href={props.shareUrl}
+        name="Share game to opponent"
+        title="Share"
+        onClick={handle(props.onShowShare)}>
         <SVG>
           <use href="#share" />
         </SVG>

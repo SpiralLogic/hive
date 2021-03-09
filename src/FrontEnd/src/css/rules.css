@@ -1,0 +1,91 @@
+
+.rules [role='grid'] {
+  max-width: 98vmax;
+  padding: 0;
+}
+
+.rules {
+  --outline: #FFFF00AA;
+  background-color: rgb(249 235 208);
+  border-radius: 5px;
+  --hex-size: 56px;
+  --tile-size: 48px;
+}
+
+.rules [role='row'] {
+  pointer-events: none;
+  user-select: none;
+  z-index: unset;
+}
+
+.rules .correct {
+  --result: #1CCB1C
+}
+
+.rules .incorrect {
+  --result: red;
+}
+
+.rules [role='cell'] > svg:first-child {
+  fill: var(--result);
+}
+
+.rules [role='cell'] {
+  fill: white;
+}
+
+.rules .start {
+  z-index: 1;
+}
+
+.rules [role='cell'] span {
+  color: var(--result);
+  font-size: 1em;
+}
+
+.rules .tile.creature > span {
+  background-color: black;
+  clip-path: circle(40%);
+  opacity: 75%;
+  text-align: center;
+  width: 1.2em;
+}
+
+.rules [role='cell'] {
+  fill: black;
+  z-index: unset;
+}
+
+.rules .creature.beetle {
+  --fill: #6726E3;
+}
+
+.rules .creature.queen {
+  --fill: orange;
+}
+
+.rules .creature.grasshopper {
+  --fill: #00D000;
+}
+
+.rules .creature.spider {
+  --fill: #FF0000;
+}
+
+.rules .creature.ant {
+  --fill: cyan;
+}
+
+.rules .creature {
+  --outline: var(--fill);
+  fill: var(--fill);
+}
+
+.rules .tile {
+  fill: black;
+  z-index: unset;
+}
+
+.rules .tile:not(.creature) svg use:only-child {
+  fill: white;
+}

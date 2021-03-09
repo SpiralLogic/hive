@@ -1,0 +1,38 @@
+.modal {
+  backdrop-filter: blur(5px);
+  background-color: transparent;
+  height: 100vh;
+  left: 0;
+  position: fixed;
+  top: 0;
+  width: 100vw;
+}
+
+.modal > div {
+  align-content: center;
+  display: inline-flex;
+  flex-direction: column;
+  height: max-content;
+  left: 50%;
+  padding: 1vmax 3vmax 0;
+  position: fixed;
+  top: 20%;
+  transform: translateX(-50%);
+  transition-duration: .5s;
+  transition-property: height, width;
+  width: max-content;
+}
+
+.modal > div > button:last-child {
+  margin: 1rem;
+}
+
+.modal .menu {
+  display: flex;
+  justify-content: center;
+  padding: 1vmax;
+}
+
+.modal.hide {
+  transform: scale(0);
+}

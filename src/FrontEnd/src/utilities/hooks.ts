@@ -1,11 +1,9 @@
-import { HiveDispatcher, HiveEventListener, HiveIntent } from '../services/hive-dispatcher';
+import { HiveDispatcher, HiveEventListener, HiveIntent } from '../services';
 import { useEffect, useReducer } from 'preact/hooks';
 
 const hiveDispatcher = new HiveDispatcher();
 
-export const useHiveDispatcher = (): HiveDispatcher => {
-  return hiveDispatcher;
-};
+export const useHiveDispatcher = (): HiveDispatcher => hiveDispatcher;
 
 export const addHiveDispatchListener = <T extends HiveIntent>(
   type: T['type'],

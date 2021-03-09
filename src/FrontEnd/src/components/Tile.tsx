@@ -1,3 +1,4 @@
+import '../css/tile.css';
 import { FunctionComponent, h } from 'preact';
 import Hexagon from './Hexagon';
 

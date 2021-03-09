@@ -1,0 +1,31 @@
+.rules .arrow {
+  --span: 1;
+  fill: var(--result);
+  stroke-width: 1px;
+  transform: rotate(var(--arrow-deg)) translateY(calc(var(--hex-size) / -3)) scale(1, calc(var(--span) * .95));
+  transform-origin: center center;
+}
+
+.arrow.left {
+  --arrow-deg: -90deg
+}
+
+.arrow.right {
+  --arrow-deg: 90deg
+}
+
+.arrow.bottomLeft {
+  --arrow-deg: -148deg
+}
+
+.arrow.topRight {
+  --arrow-deg: 30deg
+}
+
+.arrow.topLeft {
+  --arrow-deg: -30deg
+}
+
+.arrow.bottomRight {
+  --arrow-deg: 148deg
+}

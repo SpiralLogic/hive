@@ -1,0 +1,30 @@
+body {
+  --focus: #1712A2A0;
+  --p0background: #FFEE0B;
+  --p0creature: #000000;
+  --p0outline0: #D2116AA0;
+  --p1background: #000000;
+  --p1creature: #FFEE0B;
+  --p1outline: #8A2BE2A0;
+  margin: 0;
+  --hex-offset: -1;
+  overscroll-behavior-y: contain;
+  --hex-size: 95px;
+  --tile-size: 70px;
+}
+
+body > svg {
+  display: none;
+}
+
+@media only screen and (max-width: 720px) {
+  body {
+    filter: brightness(1.1);
+    height: 100vh;
+    /*noinspection CssInvalidPropertyValue*/
+    max-height: -webkit-fill-available;
+    margin: 0;
+    --hex-size: 60px;
+    --tile-size: 45px;
+  }
+}

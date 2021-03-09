@@ -1,3 +1,4 @@
+import '../css/hexagon.css'
 import { FunctionComponent, JSX, h } from 'preact';
 import SVG from './SVG';
 

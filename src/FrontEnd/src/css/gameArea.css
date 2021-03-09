@@ -1,0 +1,26 @@
+.hive {
+  display: inline-grid;
+  grid-template-columns: max-content auto;
+  height: 100vh;
+  user-select: none;
+  width: 100vw;
+}
+
+main {
+  align-items: center;
+  background: #1A1A1D;
+  display: grid;
+  overflow: auto;
+}
+
+@media only screen and (max-width: 720px) {
+
+    .hive {
+      gap: 0;
+      grid-template-columns: unset;
+      grid-template-rows: max-content auto;
+    }
+  main {
+    overflow: auto;
+  }
+}

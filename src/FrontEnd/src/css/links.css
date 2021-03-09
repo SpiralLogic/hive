@@ -1,0 +1,45 @@
+.links {
+  align-content: center;
+  color: white;
+  display: grid;
+  grid-auto-flow: column;
+  grid-template-columns: max-content;
+  justify-content: center;
+  position: fixed;
+  right: 0;
+  top: 0;
+  width: fit-content;
+}
+
+.links a {
+  color: white;
+  fill: white;
+  font-size: 40px;
+  padding: 10px;
+  text-decoration: none;
+}
+
+.links :hover {
+  color: hotpink;
+  fill: hotpink;
+}
+
+.links a:visited, .links a:active {
+  color: white;
+  text-decoration: none;
+}
+
+.links svg {
+  width: 30px;
+}
+
+
+@media only screen and (max-width: 720px) {
+
+  .links {
+    bottom: 0;
+    top: unset;
+  }
+}
+
+

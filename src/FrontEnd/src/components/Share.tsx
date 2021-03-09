@@ -1,7 +1,8 @@
+import '../css/share.css';
 import { FunctionComponent, h } from 'preact';
 import Modal from './Modal';
 
-type Props = { setShowShare: (value: boolean) => void };
+type Props = { url: string; setShowShare: (value: boolean) => void };
 
 const fallbackCopyTextToClipboard = (text: string) => {
   const currentFocus = document.activeElement as HTMLElement;
@@ -29,12 +30,10 @@ const fallbackCopyTextToClipboard = (text: string) => {
 };
 
 const Share: FunctionComponent<Props> = (props) => {
-  const parts = window.location.href.split('/');
-  parts.push(parts.pop() === '1' ? '0' : '1');
   const opponentGame = {
     title: 'Hive board game',
-    text: 'Share game to opponent!',
-    url: parts.join('/'),
+    text: 'Join me in a game of the Hive!',
+    url: props.url,
   };
   try {
     navigator.share(opponentGame).then();
