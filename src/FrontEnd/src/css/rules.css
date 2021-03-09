@@ -1,6 +1,6 @@
 
 .rules [role='grid'] {
-  max-width: 98vmax;
+  max-width: 95vmax;
   padding: 0;
 }
 
@@ -32,6 +32,9 @@
 
 .rules [role='cell'] {
   fill: white;
+}
+.rules [role='none'] {
+  width: var(--hex-size);
 }
 
 .rules .start {
@@ -76,7 +79,7 @@
   --fill: cyan;
 }
 
-.rules .creature {
+.rules .tile .creature {
   --outline: var(--fill);
   fill: var(--fill);
 }
