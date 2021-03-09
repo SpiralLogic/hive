@@ -1,8 +1,8 @@
 FROM node:latest as node-build
 
 WORKDIR /source
+RUN npm i -g pnpm 
 COPY ./src/FrontEnd .
-RUN curl --retry 4 --retry-connrefused -L https://raw.githubusercontent.com/pnpm/self-installer/master/install.js | node
 RUN pnpm install
 RUN pnpm run build
 
