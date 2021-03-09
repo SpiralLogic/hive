@@ -38,10 +38,10 @@
   color: white;
   font-size: 1.5em;
   font-weight: bold;
-  height: 2em;
+  line-height: 2em;
   justify-content: center;
   outline: none;
-  padding: 2vh 0 0;
+  padding: 1vh 0 0;
   text-align: center;
 }
 
@@ -65,7 +65,7 @@
   grid-auto-flow: row;
   grid-template-rows: max-content;
   overflow: hidden auto;
-  padding: 1vh .5vw;
+  padding: 2vh .5vw;
   transition: all 0.1s ease-in;
 }
 
@@ -111,8 +111,7 @@
   .player .name {
     align-self: center;
     justify-content: center;
-    margin: 0 2vw;
-    width: 3em;
+    margin: 0 3vw;
   }
 
   .player .tiles {

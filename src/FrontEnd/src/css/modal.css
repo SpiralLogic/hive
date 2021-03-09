@@ -14,7 +14,6 @@
   flex-direction: column;
   height: max-content;
   left: 50%;
-  padding: 0;
   position: fixed;
   top: 20%;
   transform: translateX(-50%);
@@ -22,6 +21,7 @@
   transition-property: height, width;
   width: max-content;
   max-width: 98vw;
+  padding:1vmin;
 }
 
 .modal > div > button:last-child {

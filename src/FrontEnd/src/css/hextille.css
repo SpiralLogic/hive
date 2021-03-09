@@ -20,7 +20,6 @@
   align-items: center;
   display: inline-flex;
   fill: var(--background, #00000030);
-  height: var(--width);
   justify-content: center;
   margin: 0;
   min-height: fit-content;
@@ -28,7 +27,6 @@
   outline: none;
   position: relative;
   transition: fill 0.1s ease-in;
-  width: var(--width);
 }
 
 @media only screen and (max-width: 720px) {

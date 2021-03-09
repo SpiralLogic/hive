@@ -1,5 +1,6 @@
 .tile {
-  --width: var(--tile-size);
+  height: var(--tile-size);
+  width: var(--tile-size);
 }
 
 .tile .creature {
@@ -71,10 +72,9 @@
 }
 
 @media only screen and (max-width: 720px) {
-
   .tile.selected:before,
   [draggable='true']:not(.selected):hover:before,
   [draggable='true']:not(.selected):focus:before {
-    box-shadow: 0 -7px 1em 5px var(--shadow), 0 7px 1em 5px var(--shadow);
+    box-shadow: 0 -.3em 1.5em .4em var(--shadow), 0 .3em 1.5em .4em var(--shadow);
   }
 }

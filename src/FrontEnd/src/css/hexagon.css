@@ -7,7 +7,8 @@
 }
 
 [role='cell'] {
-  --width: var(--hex-size);
+  height: var(--hex-size);
+  width: var(--hex-size);
   transition-duration: .4s;
   transition-property: transform, margin;
   transition-timing-function: ease-in;

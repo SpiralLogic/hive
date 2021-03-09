@@ -5,7 +5,7 @@
 }
 
 .rules {
-  --outline: #FFFF00AA;
+  --outline: #ff00e5;
   background-color: rgb(249 235 208);
   border-radius: 5px;
   --hex-size: 56px;
@@ -97,6 +97,6 @@
 @media only screen and (max-width: 720px) {
   .rules {
     --hex-size: max(40px, 16vmin);
-    --tile-size: max(36px, 14vmin);
+    --tile-size: max(36px, 13vmin);
   }
 }

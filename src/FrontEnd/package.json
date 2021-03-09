@@ -7,7 +7,7 @@
     "esbuild": "pnpx esbuild --loader:.svg=text --jsx-factory=h --jsx-fragment=Fragment --define:process.env.NODE_ENV=\\\"production\\\" ./src/index.tsx --bundle --minify --outfile=./public/js/hive.js",
     "clean": "git clean -x -d -f $(git rev-parse --show-toplevel)/**",
     "test": "pnpx tsc --noEmit && npx jest --coverage",
-    "build:dev": "pnpx rimraf ./public/js/** && pnpx tsc --noEmit && pnpm run esbuild:dev && pnpx cpy ./src/index.html ./public/ && pnpx cachebust -n",
+    "build:dev": "pnpx tsc --noEmit && pnpm run esbuild:dev && pnpx cpy ./src/index.html ./public/ && pnpx cachebust -n",
     "build": "pnpx rimraf ./public/js/** && pnpx tsc --noEmit && pnpm run esbuild  && pnpx cpy ./src/index.html ./public/ && pnpx cachebust -n",
     "start": "dotnet watch -v -p ../Api/Hive.Api run",
     "preinstall": "npx only-allow pnpm",
