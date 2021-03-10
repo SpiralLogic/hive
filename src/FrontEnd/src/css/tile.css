@@ -22,10 +22,6 @@
   transform: rotate(-3deg);
 }
 
-[draggable='true']:not(.selected):hover
-[draggable='true']:not(.selected):focus {
-}
-
 .tile.selected:before,
 [draggable='true']:not(.selected):hover:before,
 [draggable='true']:not(.selected):focus:before {
