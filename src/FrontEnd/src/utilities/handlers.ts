@@ -57,7 +57,10 @@ export const attachServerHandlers = (
 
   const selectionChangeHandler = (event: TileEvent) => sendSelection('select', event.tile);
   const deselectionChangeHandler = (event: TileEvent) => sendSelection('deselect', event.tile);
-  const moveHandler = (event: MoveEvent) => moveTile(gameState.gameId, event.move).then(updateGameState);
+  const moveHandler = async (event: MoveEvent) => {
+    const gt = await moveTile(gameState.gameId, event.move);
+    return updateGameState(gt);
+  };
 
   hiveDispatcher.add<MoveEvent>('move', moveHandler);
   hiveDispatcher.add<TileEvent>('tileSelected', selectionChangeHandler);

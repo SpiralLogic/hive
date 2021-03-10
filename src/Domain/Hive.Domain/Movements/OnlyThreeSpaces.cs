@@ -9,11 +9,13 @@ namespace Hive.Domain.Movements
     public class OnlyThreeSpaces : IMovements
     {
         public ISet<Coords> GetMoves(Cell originCell, ISet<Cell> allCells)
-            => new Path(originCell).Extend(allCells)
+        {
+            return new Path(originCell).Extend(allCells)
                 .SelectMany(p => p.Extend(allCells))
                 .SelectMany(p => p.Extend(allCells))
                 .Select(p => p.Last)
                 .ToCoords();
+        }
     }
 
     internal sealed record Path(Cell Last)
@@ -21,11 +23,15 @@ namespace Hive.Domain.Movements
         private ImmutableHashSet<Cell> Cells { get; init; } = ImmutableHashSet.Create(Last);
 
         internal IEnumerable<Path> Extend(ISet<Cell> allCells)
-            => Last.SelectNeighbors(allCells.WhereEmpty().Except(Cells))
+        {
+            return Last.SelectNeighbors(allCells.WhereEmpty()
+                    .Except(Cells))
                 .Where(c => c.SelectNeighbors(allCells)
                     .Except(Cells)
-                    .Intersect(Last.SelectNeighbors(allCells).WhereOccupied())
+                    .Intersect(Last.SelectNeighbors(allCells)
+                        .WhereOccupied())
                     .Any())
-                .Select(cell => this with { Cells = Cells.Add(cell), Last = cell });
+                .Select(cell => this with {Cells = Cells.Add(cell), Last = cell});
+        }
     }
 }

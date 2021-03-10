@@ -17,7 +17,7 @@ exports[`PlayerList Tests PlayerList snapshot matches current snapshot 1`] = `
       class="tiles"
     >
       <div
-        class="player1 hex tile tile creature"
+        class="player1 hex tile creature"
         draggable="true"
         tabindex="0"
         title="ant"
@@ -36,7 +36,7 @@ exports[`PlayerList Tests PlayerList snapshot matches current snapshot 1`] = `
         </svg>
       </div>
       <div
-        class="player0 hex tile tile creature"
+        class="player0 hex tile creature"
         draggable="false"
         title="fly"
       >
@@ -54,7 +54,7 @@ exports[`PlayerList Tests PlayerList snapshot matches current snapshot 1`] = `
         </svg>
       </div>
       <div
-        class="player0 hex tile tile creature"
+        class="player0 hex tile creature"
         draggable="false"
         title="fly"
       >
@@ -86,7 +86,7 @@ exports[`PlayerList Tests PlayerList snapshot matches current snapshot 1`] = `
       class="tiles"
     >
       <div
-        class="player1 hex tile tile creature"
+        class="player1 hex tile creature"
         draggable="true"
         tabindex="0"
         title="ant"

@@ -27,7 +27,8 @@ namespace Hive.Domain.Tests.CreatureTests
 
             var spider = Creatures.Spider;
 
-            spider.Should().HaveMoves(initial, expected);
+            spider.Should()
+                .HaveMoves(initial, expected);
         }
 
         [Fact]
@@ -53,8 +54,11 @@ namespace Hive.Domain.Tests.CreatureTests
 
             var spider = Creatures.Spider;
 
-            spider.Should().HaveMoves(initial, expected);
-        }    [Fact]
+            spider.Should()
+                .HaveMoves(initial, expected);
+        }
+
+        [Fact]
         public void HasThreeSpacesRuleRule()
         {
             var initial = new InitialHiveBuilder();
@@ -75,8 +79,10 @@ namespace Hive.Domain.Tests.CreatureTests
 
             var spider = Creatures.Spider;
 
-            spider.Should().HaveMoves(initial, expected);
+            spider.Should()
+                .HaveMoves(initial, expected);
         }
+
         [Fact]
         public void HasNeighborsOccupiedRule()
         {
@@ -98,7 +104,8 @@ namespace Hive.Domain.Tests.CreatureTests
 
             var spider = Creatures.Spider;
 
-            spider.Should().HaveMoves(initial, expected);
+            spider.Should()
+                .HaveMoves(initial, expected);
         }
     }
 }

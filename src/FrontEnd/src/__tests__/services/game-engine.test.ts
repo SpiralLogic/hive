@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import { HexServerConnection } from '../../domain/engine';
 import { HubConnectionState } from '@microsoft/signalr';
 import GameEngine from '../../services/game-engine';
 import gameState from '../fixtures/gameState.json';
@@ -23,9 +22,6 @@ const builder = jest.fn().mockImplementation(() => ({
   withAutomaticReconnect: jest.fn().mockReturnThis(),
   build: jest.fn().mockReturnValue(hubConnection),
 }));
-const updateHandler = jest.fn();
-const opponentSelectionHandler = jest.fn();
-let serverConnection: HexServerConnection;
 describe('Game Engine Tests', () => {
   let engine: GameEngine;
   beforeEach(function () {

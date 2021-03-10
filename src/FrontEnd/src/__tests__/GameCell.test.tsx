@@ -101,6 +101,19 @@ describe('Cell Tests', () => {
       expect(emptyCell).toHaveClass('active');
     });
 
+    test('available cell is no longer active on tile drag leave', () => {
+      const cellWithTile = createCellWithTileAndDrop();
+      const emptyCell = createCellCanDrop();
+      emitHiveEvent('tileSelected');
+      fireEvent.dragEnter(cellWithTile);
+      fireEvent.dragEnter(emptyCell);
+      fireEvent.dragLeave(cellWithTile);
+      fireEvent.dragLeave(emptyCell);
+
+      expect(cellWithTile).not.toHaveClass('active');
+      expect(emptyCell).not.toHaveClass('active');
+    });
+
     test('move calls moves tile when cell is valid and active', () => {
       const cellWithTile = createCellWithTileAndDrop();
       const emptyCell = createCellCanDrop();

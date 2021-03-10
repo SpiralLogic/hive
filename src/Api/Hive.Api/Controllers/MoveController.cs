@@ -14,8 +14,8 @@ namespace Hive.Controllers
     [ApiController]
     public class MoveController : ControllerBase
     {
-        private readonly IHubContext<GameHub> _hubContext;
         private readonly IDistributedCache _distributedCache;
+        private readonly IHubContext<GameHub> _hubContext;
         private readonly JsonSerializerOptions _jsonSerializerOptions;
 
         public MoveController(IHubContext<GameHub> hubContext, IOptions<JsonOptions> jsonOptions, IDistributedCache distributedCache)
@@ -40,16 +40,14 @@ namespace Hive.Controllers
             var (players, cells, _) = JsonSerializer.Deserialize<GameState>(gameSession, _jsonSerializerOptions)!;
 
             var game = new Domain.Hive(players.ToList(), cells.ToHashSet());
-            if (game.Move(move.TileId, move.Coords)==MoveResult.Invalid)
-            {
-                return Forbid();
-            }
+            if (game.Move(move.TileId, move.Coords) == MoveResult.Invalid) return Forbid();
 
             var newGameState = new GameState(game.Players, game.Cells, id);
 
             var json = JsonSerializer.Serialize(newGameState, _jsonSerializerOptions);
             await _distributedCache.SetStringAsync(id, json);
-            await _hubContext.Clients.Group(id).SendAsync("ReceiveGameState", newGameState);
+            await _hubContext.Clients.Group(id)
+                .SendAsync("ReceiveGameState", newGameState);
 
             return Accepted($"/game/{id}", newGameState);
         }

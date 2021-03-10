@@ -1,4 +1,5 @@
 import '../css/app.css';
+// noinspection ES6UnusedImports
 import { Fragment, FunctionComponent, h } from 'preact';
 import { GameState, PlayerId } from '../domain';
 import { attachServerHandlers, opponentSelectionHandler } from '../utilities/handlers';

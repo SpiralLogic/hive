@@ -25,10 +25,10 @@ namespace Hive.Controllers
         [Produces("application/json")]
         public CreatedResult Post()
         {
-            var gameId = new string(HttpContext.TraceIdentifier
-                .Split(":")[0]
+            var gameId = new string(HttpContext.TraceIdentifier.Split(":")[0]
                 .ToCharArray()
-                .OrderBy(_ => Guid.NewGuid()).ToArray());
+                .OrderBy(_ => Guid.NewGuid())
+                .ToArray());
 
             var newGame = new Domain.Hive(new[] {"P1", "P2"});
             var gameState = new GameState(newGame.Players, newGame.Cells, gameId);

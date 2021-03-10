@@ -13,14 +13,18 @@ namespace Hive.Domain.Movements
 
             var allOccupiedNonNeighbors = new HashSet<Cell>(allCells.WhereOccupied());
             allOccupiedNonNeighbors.Remove(currentCell);
-            if (allOccupiedNonNeighbors.Count==0) return allCells.ToCoords();
+            if (allOccupiedNonNeighbors.Count == 0) return allCells.ToCoords();
 
             if (allOccupiedNonNeighbors.Count == 1)
-                return allOccupiedNonNeighbors.Union(allCells.SelectNeighbors(allOccupiedNonNeighbors.First())).ToCoords();
+                return allOccupiedNonNeighbors.Union(allCells.SelectNeighbors(allOccupiedNonNeighbors.First()))
+                    .ToCoords();
 
             CheckIsInHive(allOccupiedNonNeighbors, allOccupiedNonNeighbors.First());
 
-            return !allOccupiedNonNeighbors.Any() ? allCells.RemoveCell(currentCell).ToCoords() : new HashSet<Coords>();
+            return !allOccupiedNonNeighbors.Any()
+                ? allCells.RemoveCell(currentCell)
+                    .ToCoords()
+                : new HashSet<Coords>();
         }
 
         private static void CheckIsInHive(ISet<Cell> allOccupiedNonNeighbors, Cell toCheck)

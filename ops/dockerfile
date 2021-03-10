@@ -9,11 +9,9 @@ RUN pnpm run build
 FROM mcr.microsoft.com/dotnet/sdk:5.0 AS dotnet-build
 WORKDIR /source
 
-# copy and publish app and libraries
 COPY ./src .
 RUN dotnet publish -c release -o /app
 
-# final stage/image
 FROM mcr.microsoft.com/dotnet/aspnet:latest
 WORKDIR /app
 COPY --from=dotnet-build /app .

@@ -13,10 +13,7 @@ namespace Hive.Controllers
         private readonly IDistributedCache _distributedCache;
         private readonly JsonSerializerOptions _jsonSerializerOptions;
 
-        public GameController(
-            IOptions<JsonOptions> jsonOptions,
-            IDistributedCache distributedCache
-        )
+        public GameController(IOptions<JsonOptions> jsonOptions, IDistributedCache distributedCache)
         {
             _distributedCache = distributedCache;
             _jsonSerializerOptions = jsonOptions.Value.JsonSerializerOptions;
@@ -27,11 +24,8 @@ namespace Hive.Controllers
         public async Task<IActionResult> Get(string id, int playerId = 0)
         {
             var gameSession = await _distributedCache.GetStringAsync(id);
-            if (string.IsNullOrEmpty(gameSession)) 
-            {
-                return Redirect("/");
-            }
-            
+            if (string.IsNullOrEmpty(gameSession)) return Redirect("/");
+
             return new VirtualFileResult("/index.html", "text/html");
         }
 

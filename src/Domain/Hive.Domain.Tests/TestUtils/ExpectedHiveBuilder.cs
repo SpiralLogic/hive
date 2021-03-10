@@ -17,13 +17,20 @@ namespace Hive.Domain.Tests.TestUtils
         }
 
         private IEnumerable<Cell> ExpectedCells =>
-            AllCells
-                .Where(c => !c.IsEmpty() && c.TopTile().Creature.Name == Expected.Name)
+            AllCells.Where(c => !c.IsEmpty() && c.TopTile()
+                    .Creature.Name == Expected.Name)
                 .ToHashSet();
 
-        public static ExpectedHiveBuilder operator +(ExpectedHiveBuilder builder, string newRow) => AddRow(builder, newRow);
+        public static ExpectedHiveBuilder operator +(ExpectedHiveBuilder builder, string newRow)
+        {
+            return AddRow(builder, newRow);
+        }
 
-        internal ISet<Coords> ExpectedMoves() => ExpectedCells.Select(c => c.Coords).ToHashSet();
+        internal ISet<Coords> ExpectedMoves()
+        {
+            return ExpectedCells.Select(c => c.Coords)
+                .ToHashSet();
+        }
 
         protected override void ModifyCell(Cell cell, char cellString)
         {
@@ -39,16 +46,22 @@ namespace Hive.Domain.Tests.TestUtils
 
             foreach (var (q, r) in unexpected)
             {
-                var rowSplit = actualRows[r].Split(Separator);
-                var qOffset = q + GetQOffset(RowStrings[r],r);
+                var rowSplit = actualRows[r]
+                    .Split(Separator);
+                var qOffset = q + GetQOffset(RowStrings[r], r);
                 rowSplit[qOffset] = Unexpected.ToString();
                 actualRows[r] = string.Join(Separator, rowSplit);
             }
-            var coloredRows = ToColoredString().Split("\n");
 
-            return $"\u001b[37m{string.Join("\n", actualRows.Select((row, i)=> row + " | " + coloredRows[i]))}\u001b[0m";
+            var coloredRows = ToColoredString()
+                .Split("\n");
+
+            return $"\u001b[37m{string.Join("\n", actualRows.Select((row, i) => row + " | " + coloredRows[i]))}\u001b[0m";
         }
 
-        private static int GetQOffset(string rowString,int r) => rowString.StartsWith(Separator) && (r%2!=0) ? 1 : 0;
+        private static int GetQOffset(string rowString, int r)
+        {
+            return rowString.StartsWith(Separator) && r % 2 != 0 ? 1 : 0;
+        }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Hive.Domain.Tests.TestUtils;
+﻿using Hive.Domain.Movements;
+using Hive.Domain.Tests.TestUtils;
 using Xunit;
 
 namespace Hive.Domain.Tests.MovementTests
@@ -24,9 +25,10 @@ namespace Hive.Domain.Tests.MovementTests
             expected += "⬡ ⬡ ⬡ ✔ ✔ ✔ ✔ ✔ ⬡ ⬡";
             expected += " ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
 
-            var move = new Movements.HasAnyNeighbour();
+            var move = new HasAnyNeighbour();
 
-            move.Should().HaveMoves(initial, expected);
+            move.Should()
+                .HaveMoves(initial, expected);
         }
     }
 }

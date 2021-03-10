@@ -12,7 +12,7 @@ namespace Hive.Domain.Entities
                 new IsEmpty(),
                 new CanSlideTo(),
                 new WontSplitHive(),
-                new HasAnyNeighbour(),
+                new HasAnyNeighbour()
             }
         };
 
@@ -23,7 +23,7 @@ namespace Hive.Domain.Entities
                 new HiveHasQueen(),
                 new IsAdjacent(),
                 new WontSplitHive(),
-                new HasAnyNeighbour(),
+                new HasAnyNeighbour()
             }
         };
 
@@ -34,7 +34,7 @@ namespace Hive.Domain.Entities
                 new OnlyJumpStraightOver(),
                 new HiveHasQueen(),
                 new WontSplitHive(),
-                new HasAnyNeighbour(),
+                new HasAnyNeighbour()
             }
         };
 
@@ -46,7 +46,7 @@ namespace Hive.Domain.Entities
                 new CanSlideTo(),
                 new HiveHasQueen(),
                 new WontSplitHive(),
-                new HasAnyNeighbour(),
+                new HasAnyNeighbour()
             }
         };
 
@@ -57,7 +57,7 @@ namespace Hive.Domain.Entities
                 new CanSlideTo(),
                 new HiveHasQueen(),
                 new WontSplitHive(),
-                new HasAnyNeighbour(),
+                new HasAnyNeighbour()
             }
         };
     }

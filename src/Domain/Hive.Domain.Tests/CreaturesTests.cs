@@ -10,7 +10,8 @@ namespace Hive.Domain.Tests
         public void CanCreateQueen()
         {
             var queen = Creatures.Queen;
-            queen.Name.Should().Be("Queen");
+            queen.Name.Should()
+                .Be("Queen");
         }
     }
 }

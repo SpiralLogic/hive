@@ -16,9 +16,9 @@ namespace Hive.Api.Tests.Controllers
 {
     public class GameControllerTests
     {
-        private readonly GameController _controller;
         private const string ExistingGameId = "EXISTING_GAME_ID";
         private const string MissingGameId = "MISSING_GAME_ID";
+        private readonly GameController _controller;
 
         public GameControllerTests()
         {
@@ -30,38 +30,51 @@ namespace Hive.Api.Tests.Controllers
             jsonOptions.JsonSerializerOptions.Converters.Add(new StackJsonConverter());
 
             var optionsMock = new Mock<IOptions<JsonOptions>>();
-            optionsMock.SetupGet(m => m.Value).Returns(jsonOptions);
+            optionsMock.SetupGet(m => m.Value)
+                .Returns(jsonOptions);
 
             var memoryCacheMock = new Mock<IDistributedCache>();
-            memoryCacheMock.Setup(m => m.GetAsync(ExistingGameId, It.IsAny<CancellationToken>())).Returns(() => Task.FromResult(Encoding.Default.GetBytes(JsonSerializer.Serialize(gameState, jsonOptions.JsonSerializerOptions))));
-            memoryCacheMock.Setup(m => m.GetAsync(MissingGameId, It.IsAny<CancellationToken>())).Returns(() => Task.FromResult<byte[]>(null));
+            memoryCacheMock.Setup(m => m.GetAsync(ExistingGameId, It.IsAny<CancellationToken>()))
+                .Returns(() => Task.FromResult(Encoding.Default.GetBytes(JsonSerializer.Serialize(gameState, jsonOptions.JsonSerializerOptions))));
+            memoryCacheMock.Setup(m => m.GetAsync(MissingGameId, It.IsAny<CancellationToken>()))
+                .Returns(() => Task.FromResult<byte[]>(null));
             _controller = new GameController(optionsMock.Object, memoryCacheMock.Object);
         }
 
         [Fact]
         public async Task Get_GameInCache_ReturnsIndexHtml()
         {
-            (await _controller.Get(ExistingGameId)).Should().BeAssignableTo<VirtualFileResult>().Which.FileName.Should().Be("/index.html");
+            (await _controller.Get(ExistingGameId)).Should()
+                .BeAssignableTo<VirtualFileResult>()
+                .Which.FileName.Should()
+                .Be("/index.html");
         }
 
         [Fact]
         public async Task Get_GameInNotCache_Redirects()
         {
-            (await _controller.Get(MissingGameId)).Should().BeAssignableTo<RedirectResult>().Which.Url.Should().Be("/");
+            (await _controller.Get(MissingGameId)).Should()
+                .BeAssignableTo<RedirectResult>()
+                .Which.Url.Should()
+                .Be("/");
         }
-        
+
         [Fact]
         public async Task GetGame_GameInCache_ReturnsGame()
         {
-            var actionResult = (await _controller.GetGame(ExistingGameId)).Result.Should().BeOfType<OkObjectResult>().Subject;
-            actionResult.Value.Should().BeAssignableTo<GameState>();
+            var actionResult = (await _controller.GetGame(ExistingGameId)).Result.Should()
+                .BeOfType<OkObjectResult>()
+                .Subject;
+            actionResult.Value.Should()
+                .BeAssignableTo<GameState>();
         }
 
         [Fact]
         public async Task GetGame_GameNotInCache_ReturnsNotFound()
         {
-            var res =await _controller.GetGame(MissingGameId);
-            res.Result.Should().BeOfType<NotFoundResult>();
+            var res = await _controller.GetGame(MissingGameId);
+            res.Result.Should()
+                .BeOfType<NotFoundResult>();
         }
     }
 }

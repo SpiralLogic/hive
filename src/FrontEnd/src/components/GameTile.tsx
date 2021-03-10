@@ -14,7 +14,7 @@ const playerSelector = `[tabindex].name`;
 const GameTile: FunctionComponent<TileType> = (tile: TileType) => {
   const { id, moves, creature, playerId } = tile;
   const [focus, setFocus] = useState(tileSelector);
-  const [classes, setClassList] = useClassReducer(`player${playerId} hex tile`);
+  const [classes, setClassList] = useClassReducer(`player${playerId} hex`);
 
   const deselect = () => {
     if (!classes.includes('selected')) return;
@@ -78,7 +78,7 @@ const GameTile: FunctionComponent<TileType> = (tile: TileType) => {
 
   const attributes = {
     title: creature,
-    class: classes || undefined,
+    class: classes ,
     draggable: !!moves.length,
     tabindex: moves.length ? 0 : undefined,
   };

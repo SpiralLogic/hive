@@ -12,23 +12,26 @@ namespace Hive.Domain.Tests.TestUtils
         private static readonly HiveCharacter Origin = new("Origin", '★', ConsoleColor.Yellow);
         internal static readonly HiveCharacter Friend = new("Cyan", '⬢', ConsoleColor.Cyan);
         internal static readonly HiveCharacter Enemy = new("Enemy", '⏣', ConsoleColor.Magenta);
-
-        private int _currentR;
-        protected static readonly ISet<HiveCharacter> AllSymbols = new[] { Empty, Origin, Friend, Enemy }.ToHashSet();
+        protected static readonly ISet<HiveCharacter> AllSymbols = new[] {Empty, Origin, Friend, Enemy}.ToHashSet();
 
         internal readonly HashSet<Cell> AllCells = new();
         protected readonly List<string> RowStrings = new();
 
+        private int _currentR;
+        internal Cell OriginCell { get; private set; } = new(new Coords(0, 0));
+
         protected static T AddRow<T>(T builder, string rowString) where T : HiveBuilder
         {
-            var rowSplit = rowString.Trim().Replace(Separator, "").ToCharArray();
+            var rowSplit = rowString.Trim()
+                .Replace(Separator, "")
+                .ToCharArray();
             var q = builder.GetQOffset(rowString);
 
             foreach (var token in rowSplit)
             {
                 if (token == Origin.Symbol)
                 {
-                    builder.OriginCell = builder.OriginCell with { Coords = new Coords(q++,builder._currentR) };
+                    builder.OriginCell = builder.OriginCell with {Coords = new Coords(q++, builder._currentR)};
                     builder.OriginCell.AddTile(new Tile(1, 1, Origin.Creature));
                     continue;
                 }
@@ -44,10 +47,24 @@ namespace Hive.Domain.Tests.TestUtils
             return builder;
         }
 
-        private int GetQOffset(string rowString) => rowString.Trim().Length == rowString.Length ? 0 : (_currentR + 1) % 2;
-        internal Cell OriginCell { get; private set; } = new(new Coords(0, 0));
-        internal string ToColoredString() => AllSymbols.Aggregate(ToString(), (str, row) => str.Replace(row.Symbol.ToString(), row.ToString()));
+        private int GetQOffset(string rowString)
+        {
+            return rowString.Trim()
+                .Length == rowString.Length
+                ? 0
+                : (_currentR + 1) % 2;
+        }
+
+        internal string ToColoredString()
+        {
+            return AllSymbols.Aggregate(ToString(), (str, row) => str.Replace(row.Symbol.ToString(), row.ToString()));
+        }
+
         protected abstract void ModifyCell(Cell cell, char symbol);
-        public override string ToString() => $"\u001b[0m{string.Join("\n", RowStrings)}\u001b[0m";
+
+        public override string ToString()
+        {
+            return $"\u001b[0m{string.Join("\n", RowStrings)}\u001b[0m";
+        }
     }
 }

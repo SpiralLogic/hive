@@ -17,7 +17,6 @@ export default class ServerConnection implements HexServerConnection {
     this.opponentSelectionHandler = opponentSelectionHandler;
     this.updateHandler = updateHandler;
     this.connection = this.createConnection();
-    return this;
   }
 
   connectGame = (): Promise<void> => {
@@ -39,15 +38,12 @@ export default class ServerConnection implements HexServerConnection {
   getConnectionState = (): HubConnectionState => this.connection.state;
 
   sendSelection: OpponentSelectionHandler = (type: 'select' | 'deselect', tile: Tile) => {
-    if (!this.connection) return;
     this.connection.state === HubConnectionState.Connected &&
-      this.connection.invoke('SendSelection', type, tile).catch(function (err) {
-        return console.error(err.toString());
-      });
+      this.connection.invoke('SendSelection', type, tile);
+    //.catch(err => console.error(err.toString()));
   };
 
   closeConnection = (): Promise<void> => {
-    if (!this.connection) return Promise.resolve();
     this.connection.off('ReceiveGameState', this.updateHandler);
     return this.connection.stop();
   };

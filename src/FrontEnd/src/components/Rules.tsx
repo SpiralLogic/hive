@@ -21,10 +21,10 @@ const Rules: FunctionComponent<Props> = (props) => {
   return (
     <Modal name="rules" onClose={() => props.setShowRules(false)}>
       <div class="menu">
-        <button title="Previous" onClick={() => changeCurrentRule({ type: 'next' })}>
+        <button title="Previous" onClick={() => changeCurrentRule({ type: 'prev' })}>
           &lt;
         </button>
-        <button title="Next" onClick={() => changeCurrentRule({ type: 'prev' })}>
+        <button title="Next" onClick={() => changeCurrentRule({ type: 'next' })}>
           &gt;
         </button>
       </div>

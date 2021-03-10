@@ -12,21 +12,25 @@ namespace Hive
         [ExcludeFromCodeCoverage]
         public static void Main(string[] args)
         {
-            CreateWebHostBuilder(args).Build().Run();
+            CreateWebHostBuilder(args)
+                .Build()
+                .Run();
         }
 
         [ExcludeFromCodeCoverage]
         // ReSharper disable once MemberCanBePrivate.Global
-        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
+        public static IWebHostBuilder CreateWebHostBuilder(string[] args)
+        {
+            return WebHost.CreateDefaultBuilder(args)
                 .ConfigureAppConfiguration((context, _) =>
                 {
                     if (context.HostingEnvironment.IsDevelopment())
                     {
                         var webRoot = context.HostingEnvironment.ContentRootPath + "/../../FrontEnd/public";
-                        context.HostingEnvironment.WebRootFileProvider =
-                            new PhysicalFileProvider(webRoot);
+                        context.HostingEnvironment.WebRootFileProvider = new PhysicalFileProvider(webRoot);
                     }
-                }).UseStartup<Startup>();
+                })
+                .UseStartup<Startup>();
+        }
     }
 }

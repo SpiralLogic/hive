@@ -1,5 +1,7 @@
 using System.Threading;
 using System.Threading.Tasks;
+using FluentAssertions;
+using Hive.Domain.Entities;
 using Hive.Hubs;
 using Microsoft.AspNetCore.Http.Connections.Features;
 using Microsoft.AspNetCore.Http.Features;
@@ -14,8 +16,9 @@ namespace Hive.Api.Tests.Hubs
     {
         private const string HubConnectionId = "HUB_CONNECTION_ID";
         private const string HubGroupName = "HUB_GROUP_NAME";
-        private readonly GameHub _hub;
+        private readonly Mock<IClientProxy> _clientProxyMock;
         private readonly Mock<IGroupManager> _groupManagerMock;
+        private readonly GameHub _hub;
 
         public GameHubTests()
         {
@@ -25,16 +28,28 @@ namespace Hive.Api.Tests.Hubs
             _groupManagerMock.Setup(m => m.RemoveFromGroupAsync(HubConnectionId, HubGroupName, It.IsAny<CancellationToken>()));
 
             var httpContextFeatureMock = new Mock<IHttpContextFeature>();
-            httpContextFeatureMock.Setup(m => m.HttpContext.Features.Get<IRoutingFeature>()).Returns(() => new RoutingFeature {RouteData = new RouteData {Values = {{"id", HubConnectionId}}}});
+            httpContextFeatureMock.SetupSequence(m => m.HttpContext.Features.Get<IRoutingFeature>())
+                .Returns(() => new RoutingFeature {RouteData = new RouteData {Values = {{"id", HubConnectionId}}}})
+                .Returns(() => new RoutingFeature {RouteData = new RouteData {Values = {{"id", null}}}});
 
             var featureCollectionMock = new Mock<IFeatureCollection>();
-            featureCollectionMock.Setup(m => m.Get<IHttpContextFeature>()).Returns(httpContextFeatureMock.Object);
+            featureCollectionMock.Setup(m => m.Get<IHttpContextFeature>())
+                .Returns(httpContextFeatureMock.Object);
 
             var hubCallerContextMock = new Mock<HubCallerContext>();
-            hubCallerContextMock.SetupGet(m => m.ConnectionId).Returns(HubConnectionId);
-            hubCallerContextMock.SetupGet(m => m.Features).Returns(featureCollectionMock.Object);
+            hubCallerContextMock.SetupGet(m => m.ConnectionId)
+                .Returns(HubConnectionId);
+            hubCallerContextMock.SetupGet(m => m.Features)
+                .Returns(featureCollectionMock.Object);
 
-            _hub = new GameHub {Context = hubCallerContextMock.Object, Groups = _groupManagerMock.Object};
+            _clientProxyMock = new Mock<IClientProxy>();
+            _clientProxyMock.Setup(m => m.SendCoreAsync(It.IsAny<string>(), It.IsAny<object[]>(), It.IsAny<CancellationToken>()));
+
+            var hubCallerClientsMock = new Mock<IHubCallerClients>();
+            hubCallerClientsMock.Setup(m => m.OthersInGroup(It.IsAny<string>()))
+                .Returns(_clientProxyMock.Object);
+
+            _hub = new GameHub {Context = hubCallerContextMock.Object, Groups = _groupManagerMock.Object, Clients = hubCallerClientsMock.Object};
         }
 
         [Fact]
@@ -49,6 +64,24 @@ namespace Hive.Api.Tests.Hubs
         {
             await _hub.OnDisconnectedAsync(null);
             _groupManagerMock.Verify(g => g.RemoveFromGroupAsync(HubConnectionId, HubConnectionId, It.IsAny<CancellationToken>()));
+        }
+
+        [Fact]
+        public async Task SendsPieceSelectionToGroup()
+        {
+            var selectedTile = new Tile(1, 1, Creatures.Grasshopper);
+            await _hub.SendSelection("select", selectedTile);
+            _clientProxyMock.Verify(c => c.SendCoreAsync("OpponentSelection", new object?[] {"select", selectedTile}, It.IsAny<CancellationToken>()));
+        }
+
+        [Fact]
+        public async Task InvalidGroupReturnsTask()
+        {
+            var selectedTile = new Tile(1, 1, Creatures.Grasshopper);
+            await _hub.SendSelection("select", selectedTile);
+            _hub.SendSelection("select", selectedTile)
+                .IsCompletedSuccessfully.Should()
+                .BeTrue();
         }
     }
 }

@@ -5,6 +5,6 @@ namespace Hive.Domain.Entities
         Success,
         SuccessNextPlayerSkipped,
         Invalid,
-        GameOver,
+        GameOver
     }
 }

@@ -9,7 +9,7 @@ const Players: FunctionComponent<{ players: Players }> = (props) => {
   return (
     <aside className="players">
       {players.map((player) => (
-        <Player name={player.name} id={player.id} hide={!!player.tiles.length}>
+        <Player name={player.name} id={player.id} show={!!player.tiles.length}>
           {player.tiles.map((tile) => (
             <GameTile key={tile.id} {...tile} />
           ))}

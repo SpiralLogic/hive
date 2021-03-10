@@ -29,7 +29,8 @@ namespace Hive.Domain.Tests.MovementTests
             expected += "✔ ✔ ✔ ✔ ✔";
             expected += " ✔ ✔ ✔ ✔ ";
 
-            new CanSlideTo().Should().HaveMoves(initial, expected);
+            new CanSlideTo().Should()
+                .HaveMoves(initial, expected);
         }
 
         [Fact]
@@ -59,7 +60,8 @@ namespace Hive.Domain.Tests.MovementTests
             expected += "⬡ ⬢ ⬢ ✔ ✔ ✔ ⬢ ⬡ ⬡ ⬡";
             expected += " ⬡ ⬡ ⬡ ⬢ ⬢ ⬢ ⬡ ⬡ ⬡ ";
 
-            new CanSlideTo().Should().HaveMoves(initial, expected);
+            new CanSlideTo().Should()
+                .HaveMoves(initial, expected);
         }
 
         [Fact]
@@ -76,8 +78,9 @@ namespace Hive.Domain.Tests.MovementTests
             expected += "✔ ✔ ✔ ✔ ✔ ✔ ✔ ✔ ✔ ✔";
             expected += " ✔ ⬢ ⬢ ⬢ ★ ⬢ ⬢ ⬢ ✔ ";
             expected += "✔ ✔ ✔ ✔ ✔ ✔ ✔ ✔ ✔ ✔";
-            
-            new CanSlideTo().Should().HaveMoves(initial, expected);
+
+            new CanSlideTo().Should()
+                .HaveMoves(initial, expected);
         }
     }
 }

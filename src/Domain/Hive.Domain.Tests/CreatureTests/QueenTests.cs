@@ -27,7 +27,8 @@ namespace Hive.Domain.Tests.CreatureTests
 
             var queen = Creatures.Queen;
 
-            queen.Should().HaveMoves(initial, expected);
+            queen.Should()
+                .HaveMoves(initial, expected);
         }
     }
 }

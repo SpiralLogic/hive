@@ -12,11 +12,13 @@ namespace Hive.Domain.Tests.TestUtils
     internal static class HiveTestExtensions
     {
         public static RuleAssertions Should(this IMovements movements)
-            => new(initialHiveBuilder =>
-                movements.GetMoves(initialHiveBuilder.OriginCell, initialHiveBuilder.AllCells));
+        {
+            return new(initialHiveBuilder => movements.GetMoves(initialHiveBuilder.OriginCell, initialHiveBuilder.AllCells));
+        }
 
         public static RuleAssertions Should(this Creature creature)
-            => new(initialHiveBuilder =>
+        {
+            return new(initialHiveBuilder =>
             {
                 var currentCell = initialHiveBuilder.OriginCell;
                 currentCell.RemoveTopTile();
@@ -24,15 +26,17 @@ namespace Hive.Domain.Tests.TestUtils
                 initialHiveBuilder.AllCells.Add(currentCell);
                 return creature.GetAvailableMoves(initialHiveBuilder.OriginCell, initialHiveBuilder.AllCells);
             });
+        }
     }
 
     internal class RuleAssertions : ReferenceTypeAssertions<Func<InitialHiveBuilder, ISet<Coords>>, RuleAssertions>
     {
-        protected override string Identifier => "move";
 
         public RuleAssertions(Func<InitialHiveBuilder, ISet<Coords>> subject) : base(subject)
         {
         }
+
+        protected override string Identifier => "move";
 
         public AndConstraint<RuleAssertions> HaveMoves(InitialHiveBuilder initial, ExpectedHiveBuilder expected)
         {
@@ -40,11 +44,7 @@ namespace Hive.Domain.Tests.TestUtils
 
             Execute.Assertion.Given(() => Subject(initial))
                 .ForCondition(coords => coords.SetEquals(expectedCoords))
-                .FailWith(
-                    "\nResulting " + Identifier +
-                    "s did not match expected\n\nInitial:\n{1}\n\nActual - Expected:\n{2}\n",
-                    _ => initial.OriginCell.Coords,
-                    _ => new StringBuilder(initial.ToColoredString()),
+                .FailWith("\nResulting " + Identifier + "s did not match expected\n\nInitial:\n{1}\n\nActual - Expected:\n{2}\n", _ => initial.OriginCell.Coords, _ => new StringBuilder(initial.ToColoredString()),
                     actual => new StringBuilder(expected.GetDiff(actual)));
 
             return new AndConstraint<RuleAssertions>(this);

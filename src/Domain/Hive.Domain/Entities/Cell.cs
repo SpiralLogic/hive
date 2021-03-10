@@ -7,24 +7,36 @@ namespace Hive.Domain.Entities
     {
         public Stack<Tile> Tiles { get; init; } = new();
 
-        public Cell AddTile(Tile tile)
-        {
-            Tiles.Push(tile);
-            return this;
-        }
-
-        public bool IsEmpty() => !Tiles.Any();
-
-        public Tile TopTile() => Tiles.Peek();
-
-        public Tile RemoveTopTile() => Tiles.Pop();
-
         public bool Equals(Cell? other)
         {
             if (ReferenceEquals(other, null)) return false;
             return ReferenceEquals(this, other) || Coords.Equals(other.Coords);
         }
 
-        public override int GetHashCode() => Coords.GetHashCode();
+        public Cell AddTile(Tile tile)
+        {
+            Tiles.Push(tile);
+            return this;
+        }
+
+        public bool IsEmpty()
+        {
+            return !Tiles.Any();
+        }
+
+        public Tile TopTile()
+        {
+            return Tiles.Peek();
+        }
+
+        public Tile RemoveTopTile()
+        {
+            return Tiles.Pop();
+        }
+
+        public override int GetHashCode()
+        {
+            return Coords.GetHashCode();
+        }
     }
 }

@@ -38,7 +38,6 @@
 }
 
 @media only screen and (max-width: 720px) {
-
   [role='cell'].can-drop {
     fill: #AFD275;
   }

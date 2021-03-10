@@ -13,8 +13,8 @@ namespace Hive
     [ExcludeFromCodeCoverage]
     public class Startup
     {
-        private readonly IWebHostEnvironment _currentEnvironment;
         private readonly IConfiguration _configuration;
+        private readonly IWebHostEnvironment _currentEnvironment;
 
         [ExcludeFromCodeCoverage]
         public Startup(IWebHostEnvironment env, IConfiguration configuration)
@@ -60,16 +60,15 @@ namespace Hive
                 app.UseDeveloperExceptionPage();
                 app.UseHttpsRedirection();
             }
-            
+
             app.UseDefaultFiles();
             app.UseStaticFiles(new StaticFileOptions
             {
                 OnPrepareResponse = ctx =>
                 {
                     const int durationInSeconds = 60 * 60 * 24 * 30;
-                    ctx.Context.Response.Headers[HeaderNames.CacheControl] =
-                        "public,max-age=" + durationInSeconds;
-                },
+                    ctx.Context.Response.Headers[HeaderNames.CacheControl] = "public,max-age=" + durationInSeconds;
+                }
             });
 
             app.UseRouting();

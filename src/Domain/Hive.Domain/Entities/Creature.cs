@@ -10,10 +10,9 @@ namespace Hive.Domain.Entities
         internal IEnumerable<IMovements> Movements { get; init; } = new List<IMovements>();
 
         public ISet<Coords> GetAvailableMoves(Cell originCell, ISet<Cell> cells)
-            => Movements.Aggregate(
-                    cells
-                        .SelectCoords(),
-                    (moves, rule) => moves.Intersect(rule.GetMoves(originCell, cells))
-                    ).ToHashSet();
+        {
+            return Movements.Aggregate(cells.SelectCoords(), (moves, rule) => moves.Intersect(rule.GetMoves(originCell, cells)))
+                .ToHashSet();
+        }
     }
 }

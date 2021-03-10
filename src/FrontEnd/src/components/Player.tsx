@@ -4,17 +4,17 @@ import { PlayerId } from '../domain';
 import { useClassReducer } from '../utilities/hooks';
 import { useEffect } from 'preact/hooks';
 
-type Props = { name: string; hide: boolean; id: PlayerId };
+type Props = { name: string; show: boolean; id: PlayerId };
 const Player: FunctionComponent<Props> = (props) => {
-  const { name, hide, id } = props;
-  const [classes, setClassList] = useClassReducer(`player player${id}${hide ? '' : ' hide'}`);
+  const { name, show, id } = props;
+  const [classes, setClassList] = useClassReducer(`player player${id}${show ? '' : ' hide'}`);
 
   useEffect(() => {
-    if (!hide && !classes.includes('hide')) {
+    if (!show && !classes.includes('hide')) {
       setClassList({ type: 'add', classes: ['hiding'] });
       setTimeout(() => setClassList({ type: 'add', classes: ['hide'] }), 50);
     }
-  }, [hide]);
+  }, [show]);
 
   return (
     <div class={classes} title={name}>

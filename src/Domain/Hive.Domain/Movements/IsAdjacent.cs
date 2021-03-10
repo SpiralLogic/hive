@@ -5,6 +5,9 @@ namespace Hive.Domain.Movements
 {
     public class IsAdjacent : IMovements
     {
-        public ISet<Coords> GetMoves(Cell originCell, ISet<Cell> allCells) => originCell.Coords.GetNeighbors();
+        public ISet<Coords> GetMoves(Cell originCell, ISet<Cell> allCells)
+        {
+            return originCell.Coords.GetNeighbors();
+        }
     }
 }

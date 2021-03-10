@@ -35,10 +35,11 @@ namespace Hive.Domain.Tests.MovementTests
 
             var move = new OnlyJumpStraightOver();
 
-            move.Should().HaveMoves(initial, expected);
+            move.Should()
+                .HaveMoves(initial, expected);
         }
 
-            [Fact]
+        [Fact]
         public void DoesntIncludeAdjacent()
         {
             var initial = new InitialHiveBuilder();
@@ -67,7 +68,8 @@ namespace Hive.Domain.Tests.MovementTests
 
             var move = new OnlyJumpStraightOver();
 
-            move.Should().HaveMoves(initial, expected);
+            move.Should()
+                .HaveMoves(initial, expected);
         }
     }
 }

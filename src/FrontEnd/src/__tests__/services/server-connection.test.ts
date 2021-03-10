@@ -18,6 +18,7 @@ describe('Game Server Connection Tests', () => {
     onreconnecting: jest.fn(),
     onreconnected: jest.fn(),
     onclose: jest.fn(),
+    invoke:jest.fn().mockResolvedValue(true),
     state: state,
   });
 
@@ -69,7 +70,7 @@ describe('Game Server Connection Tests', () => {
     expect(hubConnection.stop).toBeCalledTimes(1);
   });
 
-  test(`opponentSelection is update`, async () => {
+  test(`opponentSelection is updated`, async () => {
     await serverConnection.connectGame();
 
     expect(hubConnection.on).toHaveBeenLastCalledWith('OpponentSelection', opponentSelectionHandler);
@@ -88,14 +89,46 @@ describe('Game Server Connection Tests', () => {
     expect(serverConnection.getConnectionState()).toBe(HubConnectionState.Connected);
   });
 
+  test(`sendSelection invokes on server`, async () => {
+    serverConnection.sendSelection('select', {id:1,playerId:1,creature:'duck',moves:[]})
+    expect(hubConnection.invoke).toHaveBeenCalled();
+  });
+
+  test(`sendSelection invokes on server`, async () => {
+    serverConnection.sendSelection('select', {id:1,playerId:1,creature:'duck',moves:[]})
+    expect(hubConnection.invoke).toHaveBeenCalled();
+  });
+  
+  test(`sendSelection doesn't send without being connected`, async () => {
+    hubConnection = createHubConnection(HubConnectionState.Disconnected);
+    serverConnection.sendSelection('select', {id:1,playerId:1,creature:'duck',moves:[]})
+    expect(hubConnection.invoke).not.toHaveBeenCalled();
+  });
+
+  test(`connection has connected state`, async () => {
+    await serverConnection.connectGame();
+    await serverConnection.closeConnection();
+    expect(serverConnection.getConnectionState()).toBe(HubConnectionState.Connected);
+  });
+
   test(`debugging connection handlers are called`, async () => {
     const location = mockLocation({ reload: jest.fn() });
     global.console.info = jest.fn();
+    global.console.warn = jest.fn();
+    global.console.error = jest.fn();
     await serverConnection.connectGame();
 
     expect(hubConnection.onclose).toBeCalled();
     expect(hubConnection.onreconnected).toBeCalled();
     expect(hubConnection.onreconnecting).toBeCalled();
+
+    const onReconnectingHandler = hubConnection.onreconnecting.mock.calls[0][0];
+    onReconnectingHandler('test error');
+    expect(global.console.warn).toBeCalled();
+
+    const onCloseHandler = hubConnection.onclose.mock.calls[0][0];
+    onCloseHandler('test error');
+    expect(global.console.info).toBeCalled();
 
     const onReconnectedHandler = hubConnection.onreconnected.mock.calls[0][0];
     onReconnectedHandler('test error');

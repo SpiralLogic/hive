@@ -11,10 +11,14 @@ namespace Hive.Domain.Movements
         {
             var cells = new HashSet<Cell>(allCells);
             cells.Remove(currentCell);
-            var occupied = cells.WhereOccupied().ToHashSet();
+            var occupied = cells.WhereOccupied()
+                .ToHashSet();
             return occupied.Count() == 1
-                ? occupied.Union(occupied.First().SelectNeighbors(allCells)).ToCoords()
-                : occupied.SelectMany(c=>c.SelectNeighbors(allCells)).ToCoords();
+                ? occupied.Union(occupied.First()
+                        .SelectNeighbors(allCells))
+                    .ToCoords()
+                : occupied.SelectMany(c => c.SelectNeighbors(allCells))
+                    .ToCoords();
 
         }
     }

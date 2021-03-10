@@ -18,7 +18,8 @@ namespace Hive.Converters
         {
             string name = reader.GetString() ?? throw new JsonException(nameof(Creature));
 
-            return _creaturesType.GetField(name)?.GetValue(null) as Creature ?? throw new JsonException(typeToConvert.Name);
+            return _creaturesType.GetField(name)
+                ?.GetValue(null) as Creature ?? throw new JsonException(typeToConvert.Name);
         }
 
         public override void Write(Utf8JsonWriter writer, Creature value, JsonSerializerOptions options)

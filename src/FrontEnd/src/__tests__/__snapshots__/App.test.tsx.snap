@@ -38,7 +38,7 @@ Object {
               class="tiles"
             >
               <div
-                class="player1 hex tile tile creature"
+                class="player1 hex tile creature"
                 draggable="false"
                 title="ant"
               >
@@ -95,7 +95,7 @@ Object {
                   />
                 </svg>
                 <div
-                  class="player1 hex tile tile creature"
+                  class="player1 hex tile creature"
                   draggable="false"
                   title="ant"
                 >
@@ -225,7 +225,7 @@ Object {
             class="tiles"
           >
             <div
-              class="player1 hex tile tile creature"
+              class="player1 hex tile creature"
               draggable="false"
               title="ant"
             >
@@ -282,7 +282,7 @@ Object {
                 />
               </svg>
               <div
-                class="player1 hex tile tile creature"
+                class="player1 hex tile creature"
                 draggable="false"
                 title="ant"
               >
