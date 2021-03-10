@@ -29,7 +29,8 @@
 .tile.selected:before,
 [draggable='true']:not(.selected):hover:before,
 [draggable='true']:not(.selected):focus:before {
-  box-shadow: 0 calc(var(--tile-size) / -4) calc(var(--tile-size) / 3) .5vh var(--shadow), 0 calc(var(--tile-size) / 4) calc(var(--tile-size) / 3) .5vh var(--shadow), 0 0 calc(var(--tile-size) / 3) .5vw var(--shadow);  content: ' ';
+  box-shadow: 0 calc(var(--tile-size) / -4) calc(var(--tile-size) / 3) .5vh var(--shadow), 0 calc(var(--tile-size) / 4) calc(var(--tile-size) / 3) .5vh var(--shadow), 0 0 calc(var(--tile-size) / 3) .5vw var(--shadow);  
+  content: ' ';
   display: block;
   height: 50%;
   left: 0;
