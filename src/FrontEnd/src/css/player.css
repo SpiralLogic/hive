@@ -56,7 +56,7 @@
 }
 
 .player .tile {
-  --focus: #1A1A1DCC;
+  --shadow: #1A1A1DCC;
   margin: .4vh;
 }
 

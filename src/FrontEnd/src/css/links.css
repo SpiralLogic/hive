@@ -13,7 +13,7 @@
 .links a {
   color: white;
   fill: white;
-  font-size: 40px;
+  font-size: 67px;
   text-decoration: none;
 }
 
@@ -28,12 +28,12 @@
 }
 
 .links svg {
-  width: 30px;
+  width: 48px;
 }
 
 @media only screen and (max-width: 720px) {
   .links {
-    top: calc(var(--tile-size) * 3.2);
+    top: calc(var(--tile-size) * 4);
     gap: 10px;
   }
 
@@ -42,7 +42,7 @@
   }
 
   .links a {
-    font-size: 30px;
+    font-size: 48px;
   }
 }
 

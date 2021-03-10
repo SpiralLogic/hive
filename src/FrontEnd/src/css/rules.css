@@ -1,3 +1,7 @@
+.rules {
+  --hex-size: max(56px, 10vmin);
+  --tile-size: max(48px, 8vmin);
+}
 
 .rules [role='grid'] {
   max-width: 95vmax;
@@ -8,8 +12,7 @@
   --outline: #ff00e5a3;
   background-color: rgb(249 235 208);
   border-radius: 5px;
-  --hex-size: 56px;
-  --tile-size: 48px;
+
 }
 
 .rules [role='row'] {

@@ -11,7 +11,6 @@
 [role='cell'].can-drop .tile:not(.selected),
 [role='cell'].no-drop .tile:not(.selected) {
   opacity: 100%;
-  pointer-events: none;
 }
 
 .tile[draggable='false'] {
@@ -21,6 +20,10 @@
 .tile.selected {
   animation: selected 0.2s infinite;
   transform: rotate(-3deg);
+}
+
+[draggable='true']:not(.selected):hover
+[draggable='true']:not(.selected):focus {
 }
 
 .tile.selected:before,
@@ -36,16 +39,10 @@
   top: 0;
   transition: box-shadow 0.2s ease-in;
   width: 90%;
-  z-index: -1;
 }
 
 .tile.selected:before {
   --shadow: var(--outline);
-}
-
-[draggable='true']:not(.selected):hover:before,
-[draggable='true']:not(.selected):focus:before {
-  --shadow: var(--focus);
 }
 
 .beforeDrag:before {
@@ -55,10 +52,6 @@
 
 [role='cell'] .tile {
   margin: 0;
-}
-
-[role='cell'] .tile:not([draggable='true']) {
-  pointer-events: none;
 }
 
 @keyframes selected {

@@ -66,7 +66,7 @@ namespace Hive
             {
                 OnPrepareResponse = ctx =>
                 {
-                    const int durationInSeconds = 60 * 60 * 24 * 30;
+                    const int durationInSeconds = 31536000;
                     ctx.Context.Response.Headers[HeaderNames.CacheControl] = "public,max-age=" + durationInSeconds;
                 }
             });
