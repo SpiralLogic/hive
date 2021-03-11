@@ -96,8 +96,8 @@
     "extends": [
       "eslint:recommended",
       "plugin:@typescript-eslint/recommended",
-      "plugin:jest/recommended",
-      "prettier/@typescript-eslint"
+      "plugin:jest/all",
+      "plugin:prettier/recommended"
     ],
     "globals": {
       "Atomics": "readonly",

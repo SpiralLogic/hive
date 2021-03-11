@@ -27,7 +27,7 @@ export default class GameEngine implements HexEngine {
       body: JSON.stringify(move),
     });
 
-    return  response.json();
+    return response.json();
   };
 
   private requestHeaders = {

@@ -14,7 +14,7 @@ const getAllTiles = (...parents: Array<Array<Player | Cell>>): Array<Tile> =>
   parents.flatMap((p) => p.flatMap((p) => p.tiles));
 
 const getAllPlayerTiles = (playerId: PlayerId, ...parents: Array<Array<Player | Cell>>) =>
-  getAllTiles(...parents).filter((t) => t.playerId !== playerId && playerId !== 2);
+  getAllTiles(...parents).filter((t) => t.playerId !== playerId);
 
 const removeOtherPlayerMoves = (
   playerId: number,
@@ -29,8 +29,7 @@ const GameArea: FunctionComponent<Props> = ({ players, cells, playerId }) => {
     className: 'hive',
   };
   const hextilleBuilder = new HextilleBuilder(cells);
-
-  removeOtherPlayerMoves(playerId, { players, cells });
+  if (!new URLSearchParams(location.search).has('2')) removeOtherPlayerMoves(playerId, { players, cells });
 
   const rows = hextilleBuilder.createRows();
   return (
