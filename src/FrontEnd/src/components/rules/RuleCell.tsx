@@ -3,6 +3,7 @@ import { JSXInternal } from 'preact/src/jsx';
 import Arrow, { Direction } from '../Arrow';
 import Hexagon from '../Hexagon';
 import Tile from '../Tile';
+
 type Result = 'correct' | 'incorrect';
 type Arrows = ([Direction, number | undefined] | Direction)[];
 
@@ -25,7 +26,6 @@ const getResultChar = (result?: Result, symbol?: string) => {
 };
 
 const RuleCell: FunctionComponent<{
-  result?: Result;
   creature?: string;
   symbol?: string;
   zIndex?: number;
