@@ -12,7 +12,6 @@
   --outline: #ff00e5a3;
   background-color: rgb(249 235 208);
   border-radius: 5px;
-
 }
 
 .rules [role='row'] {
@@ -96,6 +95,11 @@
 .rules .tile:not(.creature) svg use:only-child {
   fill: white;
 }
+
+.rules .tile:not([draggable="true"]) {
+  opacity: 100%;
+}
+
 
 @media only screen and (max-width: 720px) {
   .rules {

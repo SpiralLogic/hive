@@ -31,7 +31,7 @@ const App: FunctionComponent<{ engine: GameEngine }> = (props) => {
         window.history.replaceState(
           { currentPlayerId, gameId },
           document.title,
-          `/game/${gameState.gameId}/${currentPlayerId}`
+          `/game/${gameState.gameId}/${currentPlayerId}${document.location.search}`
         );
         updateGameState(gameState);
       })

@@ -8,12 +8,11 @@
   pointer-events: none;
 }
 
-[role='cell'].can-drop .tile:not(.selected),
-[role='cell'].no-drop .tile:not(.selected) {
+[role='cell'].can-drop .tile:not(.selected) {
   opacity: 100%;
 }
 
-.tile[draggable='false'] {
+.tile:not([draggable="true"]) {
   opacity: 30%;
 }
 

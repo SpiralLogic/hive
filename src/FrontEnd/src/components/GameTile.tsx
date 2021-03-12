@@ -78,8 +78,8 @@ const GameTile: FunctionComponent<TileType> = (tile: TileType) => {
 
   const attributes = {
     title: creature,
-    class: classes ,
-    draggable: !!moves.length,
+    class: classes,
+    draggable: moves.length ? true : undefined,
     tabindex: moves.length ? 0 : undefined,
   };
   const handlers = moves.length
