@@ -80,7 +80,7 @@ describe('tile Tests', () => {
       jest.spyOn(tile, 'focus');
       fireEvent.keyDown(tile, { key: 'ArrowDown' });
 
-      expect(tile.focus).toHaveBeenCalled();
+      expect(tile.focus).toHaveBeenCalledWith();
     });
 
     it('space emits tile start event', () => {
@@ -214,8 +214,8 @@ describe('tile Tests', () => {
     });
 
     it('default on drop is prevented', () => {
-      expect(simulateEvent(createTileCanMove(), 'drop')).toHaveBeenCalled();
-      expect(simulateEvent(createTileNoMove(), 'drop')).toHaveBeenCalled();
+      expect(simulateEvent(createTileCanMove(), 'drop')).toHaveBeenCalledWith();
+      expect(simulateEvent(createTileNoMove(), 'drop')).toHaveBeenCalledWith();
     });
   });
 

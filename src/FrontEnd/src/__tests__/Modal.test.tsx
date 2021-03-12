@@ -10,7 +10,7 @@ describe('modal snapshot tests', () => {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     fireEvent.click(document.querySelector('.modal')!);
 
-    expect(close).toHaveBeenCalled();
+    expect(close).toHaveBeenCalledWith();
   });
 
   it('snapshot', () => {

@@ -6,7 +6,6 @@ import { render, screen } from '@testing-library/preact';
 import { useHiveDispatcher } from '../utilities/hooks';
 import App from '../components/App';
 import GameEngine from '../services/game-engine';
-import userEvent from '@testing-library/user-event';
 
 jest.mock('../services/server-connection', () => {
   return jest.fn().mockImplementation(() => {
@@ -19,38 +18,38 @@ jest.mock('../services/server-connection', () => {
   });
 });
 
-describe('App Tests', () => {
+describe('app Tests', () => {
   const engine = new GameEngine();
   let gameState: GameState;
   beforeEach(() => {
     global.window.history.replaceState({}, global.document.title, `/`);
     gameState = createGameState(1);
     const gameAfterMove = createGameState(2);
-    engine.moveTile = jest.fn().mockResolvedValue(gameAfterMove);
-    engine.getNewGame = jest.fn().mockResolvedValue(gameState);
-    engine.getExistingGame = jest.fn().mockResolvedValue(gameState);
+    jest.spyOn(engine, 'moveTile').mockImplementation().mockResolvedValue(gameAfterMove);
+    jest.spyOn(engine, 'getNewGame').mockImplementation().mockResolvedValue(gameState);
+    jest.spyOn(engine, 'getExistingGame').mockImplementation().mockResolvedValue(gameState);
   });
 
-  test('shows loading', () => {
+  it('shows loading', () => {
     render(<App engine={engine} />);
     expect(screen.getByText(/loading/)).toBeInTheDocument();
   });
 
-  test('shows game when loaded', async () => {
+  it('shows game when loaded', async () => {
     render(<App engine={engine} />);
     await engine.getNewGame();
     expect(screen.getByTitle('Hive Game Area')).toBeInTheDocument();
   });
 
-  test('can load existing game', async () => {
+  it('can load existing game', async () => {
     global.window.history.replaceState({}, global.document.title, `/game/33/1`);
     const app = render(<App engine={engine} />);
     await engine.getExistingGame;
     app.rerender(<App engine={engine} />);
-    expect(engine.getExistingGame).toHaveBeenCalled();
+    expect(engine.getExistingGame).toHaveBeenCalledWith('33');
   });
 
-  test('updates game after move', async () => {
+  it('updates game after move', async () => {
     const app = render(<App engine={engine} />);
     await engine.getExistingGame;
 
@@ -58,31 +57,12 @@ describe('App Tests', () => {
     expect(app).toMatchSnapshot();
   });
 
-  test('moveTile is called on move events', async () => {
+  it('moveTile is called on move events', async () => {
     const app = render(<App engine={engine} />);
     await engine.getNewGame();
     app.rerender(<App engine={engine} />);
     useHiveDispatcher().dispatch(cellMoveEvent);
 
     expect(engine.moveTile).toHaveBeenCalledTimes(1);
-  });
-
-  test('show rules is rendered', async () => {
-    const app = render(<App engine={engine} />);
-    await engine.getNewGame();
-    app.rerender(<App engine={engine} />);
-    userEvent.click(screen.getByTitle(/Rules/));
-
-    expect(screen.getByRole('dialog')).toBeInTheDocument();
-  });
-
-  test('show share dialog is shown', async () => {
-    mockExecCommand();
-    const app = render(<App engine={engine} />);
-    await engine.getNewGame();
-    app.rerender(<App engine={engine} />);
-    userEvent.click(screen.getByTitle(/Share/));
-
-    expect(screen.getByRole('dialog')).toBeInTheDocument();
   });
 });

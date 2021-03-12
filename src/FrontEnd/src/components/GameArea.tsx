@@ -3,11 +3,15 @@ import { Cell, GameState, HexCoordinates, Player, PlayerId, Tile } from '../doma
 import { FunctionComponent, h } from 'preact';
 import { HextilleBuilder } from '../services';
 import { handleDragOver } from '../utilities/handlers';
+import { useState } from 'preact/hooks';
 import GameCell from './GameCell';
 import GameTile from './GameTile';
 import Hextille from './Hextille';
+import Links from './Links';
 import Players from './Players';
 import Row from './Row';
+import Rules from './Rules';
+import Share from './Share';
 
 const cellKey = ({ q, r }: HexCoordinates) => `${q}-${r}`;
 const getAllTiles = (...parents: Array<Array<Player | Cell>>): Array<Tile> =>
@@ -31,11 +35,22 @@ const GameArea: FunctionComponent<Props> = ({ players, cells, playerId }) => {
   const hextilleBuilder = new HextilleBuilder(cells);
   if (!new URLSearchParams(location.search).has('2')) removeOtherPlayerMoves(playerId, { players, cells });
 
+  const parts = window.location.href.split('/');
+  parts.push(parts.pop() === '1' ? '0' : '1');
+  const shareUrl = parts.join('/');
+
+  const [showRules, setShowRules] = useState<boolean>(false);
+  const [showShare, setShowShare] = useState<boolean>(false);
   const rows = hextilleBuilder.createRows();
   return (
     <div {...attributes} title={'Hive Game Area'}>
       <Players players={players} />
       <main>
+        <Links
+          shareUrl={shareUrl}
+          onShowRules={() => setShowRules(true)}
+          onShowShare={() => setShowShare(true)}
+        />
         <Hextille>
           {rows.map((row) => (
             <Row key={row.id} {...row}>
@@ -50,6 +65,8 @@ const GameArea: FunctionComponent<Props> = ({ players, cells, playerId }) => {
           ))}
         </Hextille>
       </main>
+      {showRules ? <Rules setShowRules={setShowRules} /> : ''}
+      {showShare ? <Share url={shareUrl} setShowShare={setShowShare} /> : ''}
     </div>
   );
 };

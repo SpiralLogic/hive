@@ -6,7 +6,7 @@ import { renderElement } from './helpers';
 import Player from '../components/Player';
 
 describe('players Tests', () => {
-  const playerProps = { id: 1, name: 'Player 1', show: false, currentPlayer: 1 };
+  const playerProps = { id: 1, name: 'Player 1', show: false, currentPlayer: 1, onHidden: jest.fn() };
 
   let container: Element;
   let player: Element | null;
@@ -41,13 +41,12 @@ describe('players Tests', () => {
 
     it(`player is hidden when last tile is played`, () => {
       jest.useFakeTimers();
-      const player = render(<Player show={true} id={1} name="P1" />);
+      const player = render(<Player onHidden={jest.fn()} id={1} name="P1" />);
       expect(screen.getByTitle('P1')).not.toHaveClass('hide');
-      player.rerender(<Player show={false} id={1} name="P1" />);
+      player.rerender(<Player onHidden={jest.fn()} id={1} name="P1" />);
 
-      expect(screen.getByTitle('P1')).toHaveClass('hiding');
       jest.advanceTimersByTime(100);
-      player.rerender(<Player show={false} id={1} name="P1" />);
+      player.rerender(<Player onHidden={jest.fn()} id={1} name="P1" />);
       expect(screen.getByTitle('P1')).toHaveClass('hide');
     });
 

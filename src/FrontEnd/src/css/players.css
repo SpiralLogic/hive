@@ -1,7 +1,7 @@
 .players {
   border-radius: 0.1rem;
   display: inline-grid;
-  grid-template-columns: max-content max-content;
+  grid-template-columns: max-content max-content;  
 }
 
 @media only screen and (max-width: 720px) {

@@ -1,23 +1,28 @@
-import '../css/player.css'
-import { FunctionComponent, h } from 'preact';
+import '../css/player.css';
+import { FunctionComponent, h, toChildArray } from 'preact';
 import { PlayerId } from '../domain';
 import { useClassReducer } from '../utilities/hooks';
 import { useEffect } from 'preact/hooks';
 
-type Props = { name: string; show: boolean; id: PlayerId };
+type Props = {
+  name: string;
+  id: PlayerId;
+  onHidden: (action: [boolean, number]) => void;
+};
 const Player: FunctionComponent<Props> = (props) => {
-  const { name, show, id } = props;
-  const [classes, setClassList] = useClassReducer(`player player${id}${show ? '' : ' hide'}`);
+  const { name, id, onHidden } = props;
+  const [classes, setClassList] = useClassReducer(`player player${id}`);
 
   useEffect(() => {
-    if (!show && !classes.includes('hide')) {
-      setClassList({ type: 'add', classes: ['hiding'] });
-      setTimeout(() => setClassList({ type: 'add', classes: ['hide'] }), 50);
+    if (!toChildArray(props.children).length) {
+      setTimeout(() => setClassList({ type: 'add', classes: ['hide'] }), 100);
     }
-  }, [show]);
+  }, [toChildArray(props.children).length === 0]);
+
+  const ontransitionend = () => onHidden([toChildArray(props.children).length === 0, id]);
 
   return (
-    <div class={classes} title={name}>
+    <div class={classes} title={name} onTransitionEnd={ontransitionend}>
       <div class="name">{name}</div>
       <div class="tiles">{props.children}</div>
     </div>

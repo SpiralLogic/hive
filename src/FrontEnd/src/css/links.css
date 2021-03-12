@@ -5,7 +5,6 @@
   grid-template-columns: max-content;
   position: absolute;
   right: 0;
-  top: 0;
   gap: 20px;
   padding: 10px;
 }
@@ -33,7 +32,6 @@
 
 @media only screen and (max-width: 720px) {
   .links {
-    top: calc(var(--tile-size) * 3);
     gap: 10px;
   }
 
@@ -42,7 +40,7 @@
   }
 
   .links a {
-    font-size: 48px;
+    font-size: 2em;
   }
 }
 

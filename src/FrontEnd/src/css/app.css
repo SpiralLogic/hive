@@ -12,6 +12,7 @@ body {
   margin: 0;
   overscroll-behavior-y: contain;
   height: 100vh;
+  background: #4c4c4c;
 }
 
 body > svg {
