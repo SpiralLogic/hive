@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Tile Tests Tile Snapshot can move matches current snapshot 1`] = `
+exports[`tile Tests tile Snapshot can move matches current snapshot 1`] = `
 <div
   class="player1 hex tile creature"
   draggable="true"
@@ -22,10 +22,9 @@ exports[`Tile Tests Tile Snapshot can move matches current snapshot 1`] = `
 </div>
 `;
 
-exports[`Tile Tests Tile Snapshot no moves matches current snapshot 1`] = `
+exports[`tile Tests tile Snapshot no moves matches current snapshot 1`] = `
 <div
   class="player0 hex tile creature"
-  draggable="false"
   title="fly"
 >
   <svg

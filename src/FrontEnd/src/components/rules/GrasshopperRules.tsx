@@ -8,20 +8,11 @@ const GrasshopperRules: FunctionComponent = () => {
   return (
     <Hextille class="rules">
       <Row zIndex={1}>
-        <RuleCell result="correct" />
+        <RuleCell correctArrows={['right']} />
         <RuleCell creature="beetle" />
-        <RuleCell
-          creature="grasshopper"
-          class="selected"
-          correctArrows={[
-            ['left', 3],
-            ['right', 3],
-            ['bottomLeft', 5],
-          ]}
-          incorrectArrows={[['bottomRight', 5]]}
-        />
+        <RuleCell creature="grasshopper" class="selected" />
         <RuleCell creature="queen" zIndex={-1} />
-        <RuleCell result="correct" zIndex={-2} />
+        <RuleCell zIndex={-2} correctArrows={['left']} />
       </Row>
       <Row>
         <Hexagon hidden={true} />
@@ -37,10 +28,10 @@ const GrasshopperRules: FunctionComponent = () => {
         <Hexagon hidden={true} />
       </Row>
       <Row>
-        <RuleCell result="correct" />
+        <RuleCell correctArrows={['topRight']} />
         <RuleCell creature="beetle" />
         <Hexagon hidden={true} />
-        <RuleCell result="incorrect" />
+        <RuleCell incorrectArrows={[['topLeft', 5]]} />
       </Row>
       <Row>
         <Hexagon hidden={true} />

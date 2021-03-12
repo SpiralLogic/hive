@@ -29,7 +29,6 @@ exports[`Cell Tests Cell Snapshot cell with tile matches current snapshot 1`] = 
   </svg>
   <div
     class="player1 hex tile creature"
-    draggable="false"
     title="fly"
   >
     <svg

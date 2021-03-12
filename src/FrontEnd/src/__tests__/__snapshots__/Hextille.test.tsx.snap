@@ -21,7 +21,6 @@ exports[`Hextille Tests Hextille Snapshot matches current snapshot 1`] = `
       </svg>
       <div
         class="player0 hex tile creature"
-        draggable="false"
         title="ant"
       >
         <svg

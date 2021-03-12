@@ -34,8 +34,8 @@ const RuleCell: FunctionComponent<{
   incorrectArrows?: Arrows;
   style?: JSXInternal.CSSProperties;
 }> = (props) => {
-  const { correctArrows, incorrectArrows, symbol, zIndex, result, ...rest } = props;
-
+  const { correctArrows, incorrectArrows, symbol, zIndex, ...rest } = props;
+  const result = correctArrows ? 'correct' : incorrectArrows ? 'incorrect' : undefined;
   return (
     <Hexagon role="cell" class={result} style={zIndex ? { zIndex } : undefined}>
       <Tile {...rest}>{getResultChar(result, symbol)}</Tile>

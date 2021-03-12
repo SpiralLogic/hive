@@ -23,7 +23,183 @@ exports[`Ant Rule snapshot tests snapshot 1`] = `
     <div
       class="correct"
       role="cell"
-      style="z-index: 1;"
+    >
+      <svg
+        viewBox="0 0 100 100"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <use
+          href="#hex"
+        />
+      </svg>
+      <div
+        class="tile"
+      >
+        <svg
+          viewBox="0 0 100 100"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <use
+            href="#hex"
+          />
+        </svg>
+        <span>
+          <span>
+            ✓
+          </span>
+        </span>
+      </div>
+      <svg
+        class="arrow bottomLeft correct"
+        style="--span: 1;"
+        viewBox="0 0 100 100"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <use
+          href="#arrow"
+        />
+      </svg>
+    </div>
+    <div
+      class="correct"
+      role="cell"
+    >
+      <svg
+        viewBox="0 0 100 100"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <use
+          href="#hex"
+        />
+      </svg>
+      <div
+        class="tile"
+      >
+        <svg
+          viewBox="0 0 100 100"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <use
+            href="#hex"
+          />
+        </svg>
+        <span>
+          <span>
+            ✓
+          </span>
+        </span>
+      </div>
+      <svg
+        class="arrow left correct"
+        style="--span: 1;"
+        viewBox="0 0 100 100"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <use
+          href="#arrow"
+        />
+      </svg>
+    </div>
+    <div
+      role="none"
+    >
+      <svg
+        viewBox="0 0 100 100"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <use
+          href="#hex"
+        />
+      </svg>
+    </div>
+    <div
+      role="none"
+    >
+      <svg
+        viewBox="0 0 100 100"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <use
+          href="#hex"
+        />
+      </svg>
+    </div>
+  </div>
+  <div
+    role="row"
+  >
+    <div
+      class="correct"
+      role="cell"
+    >
+      <svg
+        viewBox="0 0 100 100"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <use
+          href="#hex"
+        />
+      </svg>
+      <div
+        class="tile"
+      >
+        <svg
+          viewBox="0 0 100 100"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <use
+            href="#hex"
+          />
+        </svg>
+        <span>
+          <span>
+            ✓
+          </span>
+        </span>
+      </div>
+      <svg
+        class="arrow bottomLeft correct"
+        style="--span: 1;"
+        viewBox="0 0 100 100"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <use
+          href="#arrow"
+        />
+      </svg>
+    </div>
+    <div
+      role="cell"
+    >
+      <svg
+        viewBox="0 0 100 100"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <use
+          href="#hex"
+        />
+      </svg>
+      <div
+        class="tile creature"
+      >
+        <svg
+          viewBox="0 0 100 100"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <use
+            href="#hex"
+          />
+          <use
+            class="creature queen"
+            href="#queen"
+          />
+        </svg>
+        
+      </div>
+    </div>
+    <div
+      class="correct"
+      role="cell"
     >
       <svg
         viewBox="0 0 100 100"
@@ -90,178 +266,8 @@ exports[`Ant Rule snapshot tests snapshot 1`] = `
           </span>
         </span>
       </div>
-    </div>
-    <div
-      role="none"
-    >
       <svg
-        viewBox="0 0 100 100"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <use
-          href="#hex"
-        />
-      </svg>
-    </div>
-    <div
-      role="none"
-    >
-      <svg
-        viewBox="0 0 100 100"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <use
-          href="#hex"
-        />
-      </svg>
-    </div>
-  </div>
-  <div
-    role="row"
-  >
-    <div
-      class="correct"
-      role="cell"
-      style="z-index: 1;"
-    >
-      <svg
-        viewBox="0 0 100 100"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <use
-          href="#hex"
-        />
-      </svg>
-      <div
-        class="tile"
-      >
-        <svg
-          viewBox="0 0 100 100"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <use
-            href="#hex"
-          />
-        </svg>
-        <span>
-          <span>
-            ✓
-          </span>
-        </span>
-      </div>
-      <svg
-        class="arrow topRight correct"
-        style="--span: 1;"
-        viewBox="0 0 100 100"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <use
-          href="#arrow"
-        />
-      </svg>
-    </div>
-    <div
-      role="cell"
-    >
-      <svg
-        viewBox="0 0 100 100"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <use
-          href="#hex"
-        />
-      </svg>
-      <div
-        class="tile creature"
-      >
-        <svg
-          viewBox="0 0 100 100"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <use
-            href="#hex"
-          />
-          <use
-            class="creature queen"
-            href="#queen"
-          />
-        </svg>
-        
-      </div>
-    </div>
-    <div
-      class="correct"
-      role="cell"
-      style="z-index: 1;"
-    >
-      <svg
-        viewBox="0 0 100 100"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <use
-          href="#hex"
-        />
-      </svg>
-      <div
-        class="tile"
-      >
-        <svg
-          viewBox="0 0 100 100"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <use
-            href="#hex"
-          />
-        </svg>
-        <span>
-          <span>
-            ✓
-          </span>
-        </span>
-      </div>
-      <svg
-        class="arrow bottomLeft incorrect"
-        style="--span: 1;"
-        viewBox="0 0 100 100"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <use
-          href="#arrow"
-        />
-      </svg>
-    </div>
-    <div
-      class="correct"
-      role="cell"
-      style="z-index: 1;"
-    >
-      <svg
-        viewBox="0 0 100 100"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <use
-          href="#hex"
-        />
-      </svg>
-      <div
-        class="tile"
-      >
-        <svg
-          viewBox="0 0 100 100"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <use
-            href="#hex"
-          />
-        </svg>
-        <span>
-          <span>
-            ✓
-          </span>
-        </span>
-      </div>
-      <svg
-        class="arrow left correct"
+        class="arrow bottomRight correct"
         style="--span: 1;"
         viewBox="0 0 100 100"
         xmlns="http://www.w3.org/2000/svg"
@@ -278,7 +284,6 @@ exports[`Ant Rule snapshot tests snapshot 1`] = `
     <div
       class="correct"
       role="cell"
-      style="z-index: 1;"
     >
       <svg
         viewBox="0 0 100 100"
@@ -306,7 +311,7 @@ exports[`Ant Rule snapshot tests snapshot 1`] = `
         </span>
       </div>
       <svg
-        class="arrow topRight correct"
+        class="arrow bottomRight correct"
         style="--span: 1;"
         viewBox="0 0 100 100"
         xmlns="http://www.w3.org/2000/svg"
@@ -374,6 +379,16 @@ exports[`Ant Rule snapshot tests snapshot 1`] = `
           </span>
         </span>
       </div>
+      <svg
+        class="arrow topRight incorrect"
+        style="--span: 1;"
+        viewBox="0 0 100 100"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <use
+          href="#arrow"
+        />
+      </svg>
     </div>
     <div
       role="cell"
@@ -407,7 +422,6 @@ exports[`Ant Rule snapshot tests snapshot 1`] = `
     <div
       class="correct"
       role="cell"
-      style="z-index: 1;"
     >
       <svg
         viewBox="0 0 100 100"
@@ -435,7 +449,7 @@ exports[`Ant Rule snapshot tests snapshot 1`] = `
         </span>
       </div>
       <svg
-        class="arrow topLeft correct"
+        class="arrow bottomLeft correct"
         style="--span: 1;"
         viewBox="0 0 100 100"
         xmlns="http://www.w3.org/2000/svg"
@@ -452,7 +466,6 @@ exports[`Ant Rule snapshot tests snapshot 1`] = `
     <div
       class="correct"
       role="cell"
-      style="z-index: 1;"
     >
       <svg
         viewBox="0 0 100 100"
@@ -480,7 +493,7 @@ exports[`Ant Rule snapshot tests snapshot 1`] = `
         </span>
       </div>
       <svg
-        class="arrow topLeft correct"
+        class="arrow bottomRight correct"
         style="--span: 1;"
         viewBox="0 0 100 100"
         xmlns="http://www.w3.org/2000/svg"
@@ -551,7 +564,6 @@ exports[`Ant Rule snapshot tests snapshot 1`] = `
     <div
       class="correct"
       role="cell"
-      style="z-index: 1;"
     >
       <svg
         viewBox="0 0 100 100"
@@ -579,7 +591,7 @@ exports[`Ant Rule snapshot tests snapshot 1`] = `
         </span>
       </div>
       <svg
-        class="arrow topRight correct"
+        class="arrow bottomLeft correct"
         style="--span: 1;"
         viewBox="0 0 100 100"
         xmlns="http://www.w3.org/2000/svg"
@@ -608,7 +620,6 @@ exports[`Ant Rule snapshot tests snapshot 1`] = `
     <div
       class="correct"
       role="cell"
-      style="z-index: 1;"
     >
       <svg
         viewBox="0 0 100 100"
@@ -636,7 +647,7 @@ exports[`Ant Rule snapshot tests snapshot 1`] = `
         </span>
       </div>
       <svg
-        class="arrow topLeft correct"
+        class="arrow right correct"
         style="--span: 1;"
         viewBox="0 0 100 100"
         xmlns="http://www.w3.org/2000/svg"
@@ -675,31 +686,10 @@ exports[`Ant Rule snapshot tests snapshot 1`] = `
         </svg>
         
       </div>
-      <svg
-        class="arrow left correct"
-        style="--span: 1;"
-        viewBox="0 0 100 100"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <use
-          href="#arrow"
-        />
-      </svg>
-      <svg
-        class="arrow right correct"
-        style="--span: 1;"
-        viewBox="0 0 100 100"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <use
-          href="#arrow"
-        />
-      </svg>
     </div>
     <div
       class="correct"
       role="cell"
-      style="z-index: 1;"
     >
       <svg
         viewBox="0 0 100 100"
@@ -727,7 +717,7 @@ exports[`Ant Rule snapshot tests snapshot 1`] = `
         </span>
       </div>
       <svg
-        class="arrow topRight correct"
+        class="arrow left correct"
         style="--span: 1;"
         viewBox="0 0 100 100"
         xmlns="http://www.w3.org/2000/svg"

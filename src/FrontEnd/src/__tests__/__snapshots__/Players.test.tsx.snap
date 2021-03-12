@@ -37,7 +37,6 @@ exports[`PlayerList Tests PlayerList snapshot matches current snapshot 1`] = `
       </div>
       <div
         class="player0 hex tile creature"
-        draggable="false"
         title="fly"
       >
         <svg
@@ -55,7 +54,6 @@ exports[`PlayerList Tests PlayerList snapshot matches current snapshot 1`] = `
       </div>
       <div
         class="player0 hex tile creature"
-        draggable="false"
         title="fly"
       >
         <svg

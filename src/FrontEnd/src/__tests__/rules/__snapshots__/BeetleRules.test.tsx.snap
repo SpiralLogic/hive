@@ -37,6 +37,16 @@ exports[`Beetle Rule snapshot tests snapshot 1`] = `
           </span>
         </span>
       </div>
+      <svg
+        class="arrow bottomRight correct"
+        style="--span: 1;"
+        viewBox="0 0 100 100"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <use
+          href="#arrow"
+        />
+      </svg>
     </div>
     <div
       role="none"
@@ -100,6 +110,16 @@ exports[`Beetle Rule snapshot tests snapshot 1`] = `
           </span>
         </span>
       </div>
+      <svg
+        class="arrow right correct"
+        style="--span: 1;"
+        viewBox="0 0 100 100"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <use
+          href="#arrow"
+        />
+      </svg>
     </div>
     <div
       role="cell"
@@ -129,46 +149,6 @@ exports[`Beetle Rule snapshot tests snapshot 1`] = `
         </svg>
         
       </div>
-      <svg
-        class="arrow topLeft correct"
-        style="--span: 1;"
-        viewBox="0 0 100 100"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <use
-          href="#arrow"
-        />
-      </svg>
-      <svg
-        class="arrow left correct"
-        style="--span: 1;"
-        viewBox="0 0 100 100"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <use
-          href="#arrow"
-        />
-      </svg>
-      <svg
-        class="arrow bottomLeft correct"
-        style="--span: 1;"
-        viewBox="0 0 100 100"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <use
-          href="#arrow"
-        />
-      </svg>
-      <svg
-        class="arrow bottomRight correct"
-        style="--span: 1;"
-        viewBox="0 0 100 100"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <use
-          href="#arrow"
-        />
-      </svg>
     </div>
   </div>
   <div
@@ -207,6 +187,16 @@ exports[`Beetle Rule snapshot tests snapshot 1`] = `
           </span>
         </span>
       </div>
+      <svg
+        class="arrow topRight correct"
+        style="--span: 1;"
+        viewBox="0 0 100 100"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <use
+          href="#arrow"
+        />
+      </svg>
     </div>
     <div
       class="correct"
@@ -237,6 +227,16 @@ exports[`Beetle Rule snapshot tests snapshot 1`] = `
           </span>
         </span>
       </div>
+      <svg
+        class="arrow topLeft correct"
+        style="--span: 1;"
+        viewBox="0 0 100 100"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <use
+          href="#arrow"
+        />
+      </svg>
     </div>
     <div
       role="none"

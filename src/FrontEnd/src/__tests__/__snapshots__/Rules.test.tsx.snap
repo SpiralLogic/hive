@@ -59,6 +59,16 @@ exports[`Rules tests snapshot 1`] = `
               </span>
             </span>
           </div>
+          <svg
+            class="arrow bottomRight correct"
+            style="--span: 1;"
+            viewBox="0 0 100 100"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <use
+              href="#arrow"
+            />
+          </svg>
         </div>
         <div
           role="cell"
@@ -132,7 +142,6 @@ exports[`Rules tests snapshot 1`] = `
         </div>
       </div>
       <div
-        class="start"
         role="row"
       >
         <div
@@ -164,6 +173,16 @@ exports[`Rules tests snapshot 1`] = `
               </span>
             </span>
           </div>
+          <svg
+            class="arrow right correct"
+            style="--span: 1;"
+            viewBox="0 0 100 100"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <use
+              href="#arrow"
+            />
+          </svg>
         </div>
         <div
           role="cell"
@@ -194,46 +213,6 @@ exports[`Rules tests snapshot 1`] = `
             </svg>
             
           </div>
-          <svg
-            class="arrow topLeft correct"
-            style="--span: 1;"
-            viewBox="0 0 100 100"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <use
-              href="#arrow"
-            />
-          </svg>
-          <svg
-            class="arrow left correct"
-            style="--span: 1;"
-            viewBox="0 0 100 100"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <use
-              href="#arrow"
-            />
-          </svg>
-          <svg
-            class="arrow right correct"
-            style="--span: 1;"
-            viewBox="0 0 100 100"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <use
-              href="#arrow"
-            />
-          </svg>
-          <svg
-            class="arrow bottomRight correct"
-            style="--span: 1;"
-            viewBox="0 0 100 100"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <use
-              href="#arrow"
-            />
-          </svg>
         </div>
         <div
           class="correct"
@@ -264,6 +243,16 @@ exports[`Rules tests snapshot 1`] = `
               </span>
             </span>
           </div>
+          <svg
+            class="arrow left correct"
+            style="--span: 1;"
+            viewBox="0 0 100 100"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <use
+              href="#arrow"
+            />
+          </svg>
         </div>
         <div
           role="cell"
@@ -356,6 +345,16 @@ exports[`Rules tests snapshot 1`] = `
               </span>
             </span>
           </div>
+          <svg
+            class="arrow topLeft correct"
+            style="--span: 1;"
+            viewBox="0 0 100 100"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <use
+              href="#arrow"
+            />
+          </svg>
         </div>
         <div
           role="cell"

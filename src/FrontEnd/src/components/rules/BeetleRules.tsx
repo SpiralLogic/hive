@@ -8,21 +8,17 @@ const BeetleRules: FunctionComponent = () => {
   return (
     <Hextille class="rules">
       <Row>
-        <RuleCell result="correct" />
+        <RuleCell correctArrows={['bottomRight']} />
         <Hexagon hidden={true} />
         <Hexagon hidden={true} />
       </Row>
       <Row class="start">
-        <RuleCell result="correct" creature="spider" />
-        <RuleCell
-          creature="beetle"
-          class="selected"
-          correctArrows={['topLeft', 'left', 'bottomLeft', 'bottomRight']}
-        />
+        <RuleCell creature="spider" correctArrows={['right']} />
+        <RuleCell creature="beetle" class="selected" />
       </Row>
       <Row>
-        <RuleCell result="correct" creature="ant" />
-        <RuleCell result="correct" />
+        <RuleCell creature="ant" correctArrows={['topRight']} />
+        <RuleCell correctArrows={['topLeft']} />
 
         <Hexagon hidden={true} />
       </Row>
