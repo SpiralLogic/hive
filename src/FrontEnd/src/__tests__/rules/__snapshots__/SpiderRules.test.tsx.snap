@@ -9,6 +9,7 @@ exports[`Spider Rule snapshot tests snapshot 1`] = `
     role="row"
   >
     <div
+      class="correct"
       role="cell"
     >
       <svg
@@ -30,7 +31,11 @@ exports[`Spider Rule snapshot tests snapshot 1`] = `
             href="#hex"
           />
         </svg>
-        
+        <span>
+          <span>
+            ✓
+          </span>
+        </span>
       </div>
     </div>
     <div
@@ -72,7 +77,6 @@ exports[`Spider Rule snapshot tests snapshot 1`] = `
       </svg>
     </div>
     <div
-      class="correct"
       role="cell"
       style="z-index: 4;"
     >
@@ -99,11 +103,7 @@ exports[`Spider Rule snapshot tests snapshot 1`] = `
             href="#spider"
           />
         </svg>
-        <span>
-          <span>
-            ✓
-          </span>
-        </span>
+        
       </div>
       <svg
         class="arrow right correct"
@@ -476,6 +476,7 @@ exports[`Spider Rule snapshot tests snapshot 1`] = `
       </div>
     </div>
     <div
+      class="correct"
       role="cell"
     >
       <svg
@@ -497,7 +498,11 @@ exports[`Spider Rule snapshot tests snapshot 1`] = `
             href="#hex"
           />
         </svg>
-        
+        <span>
+          <span>
+            ✓
+          </span>
+        </span>
       </div>
     </div>
   </div>
@@ -534,6 +539,7 @@ exports[`Spider Rule snapshot tests snapshot 1`] = `
       </div>
     </div>
     <div
+      class="correct"
       role="cell"
     >
       <svg
@@ -555,10 +561,15 @@ exports[`Spider Rule snapshot tests snapshot 1`] = `
             href="#hex"
           />
         </svg>
-        
+        <span>
+          <span>
+            ✓
+          </span>
+        </span>
       </div>
     </div>
     <div
+      class="correct"
       role="cell"
     >
       <svg
@@ -580,7 +591,11 @@ exports[`Spider Rule snapshot tests snapshot 1`] = `
             href="#hex"
           />
         </svg>
-        
+        <span>
+          <span>
+            ✓
+          </span>
+        </span>
       </div>
     </div>
     <div

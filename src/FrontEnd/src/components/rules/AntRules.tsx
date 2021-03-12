@@ -9,35 +9,35 @@ const AntRules: FunctionComponent = () => {
     <Hextille class="rules">
       <Row>
         <Hexagon hidden={true} />
-        <RuleCell correctArrows={['bottomLeft']} />
-        <RuleCell correctArrows={['left']} />
+        <RuleCell result="correct" correctArrows={['right']} zIndex={1} />
+        <RuleCell result="correct" zIndex={0} />
         <Hexagon hidden={true} />
         <Hexagon hidden={true} />
       </Row>
       <Row>
-        <RuleCell correctArrows={['bottomLeft']} />
+        <RuleCell result="correct" correctArrows={['topRight']} zIndex={1} />
         <RuleCell creature="queen" />
-        <RuleCell correctArrows={['right']} />
-        <RuleCell correctArrows={['bottomRight']} />
+        <RuleCell result="correct" incorrectArrows={['bottomLeft']} zIndex={1} />
+        <RuleCell result="correct" correctArrows={['left']} zIndex={1} />
       </Row>
       <Row>
-        <RuleCell correctArrows={['bottomRight']} />
+        <RuleCell result="correct" correctArrows={['topRight']} zIndex={1} />
         <RuleCell creature="grasshopper" />
-        <RuleCell incorrectArrows={['topRight']} />
+        <RuleCell result="incorrect" />
         <RuleCell creature="queen" />
-        <RuleCell correctArrows={['bottomLeft']} />
+        <RuleCell result="correct" correctArrows={['topLeft']} zIndex={1} />
       </Row>
       <Row>
-        <RuleCell correctArrows={['bottomRight']} />
+        <RuleCell result="correct" correctArrows={['topLeft']} zIndex={1} />
         <RuleCell creature="beetle" />
         <RuleCell creature="beetle" />
-        <RuleCell correctArrows={['bottomLeft']} />
+        <RuleCell result="correct" correctArrows={['topRight']} zIndex={1} />
       </Row>
       <Row>
         <Hexagon hidden={true} />
-        <RuleCell correctArrows={['right']} />
-        <RuleCell class="selected" creature="ant" zIndex={2} />
-        <RuleCell correctArrows={['left']} />
+        <RuleCell result="correct" correctArrows={['topLeft']} zIndex={1} />
+        <RuleCell class="selected" creature="ant" correctArrows={['left', 'right']} zIndex={2} />
+        <RuleCell result="correct" correctArrows={['topRight']} zIndex={1} />
       </Row>
     </Hextille>
   );

@@ -8,28 +8,33 @@ const SpiderRules: FunctionComponent = () => {
   return (
     <Hextille class="rules">
       <Row>
-        <RuleCell />
-        <RuleCell symbol="2" correctArrows={['left']} />
+        <RuleCell result="correct" />
+        <RuleCell result="correct" symbol="2" correctArrows={['left']} />
         <RuleCell class="selected" zIndex={4} creature="spider" correctArrows={['right', 'bottomLeft']} />
-        <RuleCell zIndex={3} symbol="1" correctArrows={['bottomRight']} />
+        <RuleCell result="correct" zIndex={3} symbol="1" correctArrows={['bottomRight']} />
       </Row>
       <Row>
         <RuleCell creature="beetle" />
-        <RuleCell symbol="1" zIndex={3} correctArrows={['topLeft', 'bottomLeft', 'bottomRight']} />
+        <RuleCell
+          result="correct"
+          symbol="1"
+          zIndex={3}
+          correctArrows={['topLeft', 'bottomLeft', 'bottomRight']}
+        />
         <RuleCell creature="spider" />
-        <RuleCell zIndex={2} symbol="2" correctArrows={['bottomRight']} />
+        <RuleCell result="correct" zIndex={2} symbol="2" correctArrows={['bottomRight']} />
       </Row>
       <Row>
         <RuleCell creature="ant" />
-        <RuleCell zIndex={1} symbol="2" correctArrows={['bottomRight']} />
-        <RuleCell zIndex={1} symbol="2" correctArrows={['bottomLeft', 'bottomRight']} />
+        <RuleCell result="correct" zIndex={1} symbol="2" correctArrows={['bottomRight']} />
+        <RuleCell result="correct" zIndex={1} symbol="2" correctArrows={['bottomLeft', 'bottomRight']} />
         <RuleCell creature="queen" />
-        <RuleCell />
+        <RuleCell result="correct" />
       </Row>
       <Row>
         <RuleCell creature="queen" />
-        <RuleCell />
-        <RuleCell />
+        <RuleCell result="correct" />
+        <RuleCell result="correct" />
         <RuleCell creature="beetle" />
         <Hexagon hidden={true} />
       </Row>

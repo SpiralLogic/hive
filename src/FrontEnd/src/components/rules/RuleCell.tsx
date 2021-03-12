@@ -3,7 +3,6 @@ import { JSXInternal } from 'preact/src/jsx';
 import Arrow, { Direction } from '../Arrow';
 import Hexagon from '../Hexagon';
 import Tile from '../Tile';
-
 type Result = 'correct' | 'incorrect';
 type Arrows = ([Direction, number | undefined] | Direction)[];
 
@@ -26,6 +25,7 @@ const getResultChar = (result?: Result, symbol?: string) => {
 };
 
 const RuleCell: FunctionComponent<{
+  result?: Result;
   creature?: string;
   symbol?: string;
   zIndex?: number;
@@ -34,8 +34,8 @@ const RuleCell: FunctionComponent<{
   incorrectArrows?: Arrows;
   style?: JSXInternal.CSSProperties;
 }> = (props) => {
-  const { correctArrows, incorrectArrows, symbol, zIndex, ...rest } = props;
-  const result = correctArrows ? 'correct' : incorrectArrows ? 'incorrect' : undefined;
+  const { correctArrows, incorrectArrows, symbol, zIndex, result, ...rest } = props;
+
   return (
     <Hexagon role="cell" class={result} style={zIndex ? { zIndex } : undefined}>
       <Tile {...rest}>{getResultChar(result, symbol)}</Tile>

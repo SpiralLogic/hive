@@ -8,20 +8,25 @@ const QueenRules: FunctionComponent = () => {
   return (
     <Hextille class="rules">
       <Row>
-        <RuleCell correctArrows={['bottomRight']} />
+        <RuleCell result="correct" />
         <RuleCell creature="ant" />
         <RuleCell creature="spider" />
         <Hexagon hidden={true} />
       </Row>
-      <Row>
-        <RuleCell correctArrows={['right']} />
-        <RuleCell zIndex={1} creature="queen" class="selected" />
-        <RuleCell correctArrows={['left']} />
+      <Row class="start">
+        <RuleCell result="correct" />
+        <RuleCell
+          zIndex={1}
+          creature="queen"
+          class="selected"
+          correctArrows={['topLeft', 'left', 'right', 'bottomRight']}
+        />
+        <RuleCell result="correct" />
         <RuleCell creature="spider" />
       </Row>
       <Row>
         <RuleCell creature="grasshopper" />
-        <RuleCell correctArrows={['topLeft']} />
+        <RuleCell result="correct" />
         <RuleCell creature="queen" />
         <RuleCell creature="beetle" />
       </Row>
