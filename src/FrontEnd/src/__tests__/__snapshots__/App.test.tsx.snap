@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`App Tests updates game after move 1`] = `
+exports[`app Tests updates game after move 1`] = `
 Object {
   "asFragment": [Function],
   "baseElement": <body>
@@ -12,19 +12,6 @@ Object {
         <aside
           class="players"
         >
-          <div
-            class="player player0 hide"
-            title="Player 1"
-          >
-            <div
-              class="name"
-            >
-              Player 1
-            </div>
-            <div
-              class="tiles"
-            />
-          </div>
           <div
             class="player player1"
             title="Player 2"
@@ -58,6 +45,59 @@ Object {
           </div>
         </aside>
         <main>
+          <div
+            class="links"
+          >
+            <a
+              href="http://localhost/game/33/1"
+              name="Share game to opponent"
+              title="Share"
+            >
+              <svg
+                viewBox="0 0 100 100"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <use
+                  href="#share"
+                />
+              </svg>
+            </a>
+            <a
+              href="/"
+              name="New game!"
+              title="New Game"
+            >
+              <svg
+                viewBox="0 0 100 100"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <use
+                  href="#new"
+                />
+              </svg>
+            </a>
+            <a
+              href="#"
+              name="Show rules"
+              title="Rules"
+            >
+              ?
+            </a>
+            <a
+              class="github"
+              href="https://github.com/SpiralLogic/hive"
+              title="Source code"
+            >
+              <svg
+                viewBox="0 0 100 100"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <use
+                  href="#github"
+                />
+              </svg>
+            </a>
+          </div>
           <div
             class="left"
             role="grid"
@@ -131,62 +171,9 @@ Object {
             </div>
           </div>
         </main>
+        
+        
       </div>
-      <div
-        class="links"
-      >
-        <a
-          href="http://localhost/game/33/1"
-          name="Share game to opponent"
-          title="Share"
-        >
-          <svg
-            viewBox="0 0 100 100"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <use
-              href="#share"
-            />
-          </svg>
-        </a>
-        <a
-          href="/"
-          name="New game!"
-          title="New Game"
-        >
-          <svg
-            viewBox="0 0 100 100"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <use
-              href="#new"
-            />
-          </svg>
-        </a>
-        <a
-          href="#"
-          name="Show rules"
-          title="Rules"
-        >
-          ?
-        </a>
-        <a
-          class="github"
-          href="https://github.com/SpiralLogic/hive"
-          title="Source code"
-        >
-          <svg
-            viewBox="0 0 100 100"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <use
-              href="#github"
-            />
-          </svg>
-        </a>
-      </div>
-      
-      
     </div>
   </body>,
   "container": <div>
@@ -197,19 +184,6 @@ Object {
       <aside
         class="players"
       >
-        <div
-          class="player player0 hide"
-          title="Player 1"
-        >
-          <div
-            class="name"
-          >
-            Player 1
-          </div>
-          <div
-            class="tiles"
-          />
-        </div>
         <div
           class="player player1"
           title="Player 2"
@@ -243,6 +217,59 @@ Object {
         </div>
       </aside>
       <main>
+        <div
+          class="links"
+        >
+          <a
+            href="http://localhost/game/33/1"
+            name="Share game to opponent"
+            title="Share"
+          >
+            <svg
+              viewBox="0 0 100 100"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <use
+                href="#share"
+              />
+            </svg>
+          </a>
+          <a
+            href="/"
+            name="New game!"
+            title="New Game"
+          >
+            <svg
+              viewBox="0 0 100 100"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <use
+                href="#new"
+              />
+            </svg>
+          </a>
+          <a
+            href="#"
+            name="Show rules"
+            title="Rules"
+          >
+            ?
+          </a>
+          <a
+            class="github"
+            href="https://github.com/SpiralLogic/hive"
+            title="Source code"
+          >
+            <svg
+              viewBox="0 0 100 100"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <use
+                href="#github"
+              />
+            </svg>
+          </a>
+        </div>
         <div
           class="left"
           role="grid"
@@ -316,62 +343,9 @@ Object {
           </div>
         </div>
       </main>
+      
+      
     </div>
-    <div
-      class="links"
-    >
-      <a
-        href="http://localhost/game/33/1"
-        name="Share game to opponent"
-        title="Share"
-      >
-        <svg
-          viewBox="0 0 100 100"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <use
-            href="#share"
-          />
-        </svg>
-      </a>
-      <a
-        href="/"
-        name="New game!"
-        title="New Game"
-      >
-        <svg
-          viewBox="0 0 100 100"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <use
-            href="#new"
-          />
-        </svg>
-      </a>
-      <a
-        href="#"
-        name="Show rules"
-        title="Rules"
-      >
-        ?
-      </a>
-      <a
-        class="github"
-        href="https://github.com/SpiralLogic/hive"
-        title="Source code"
-      >
-        <svg
-          viewBox="0 0 100 100"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <use
-            href="#github"
-          />
-        </svg>
-      </a>
-    </div>
-    
-    
   </div>,
   "debug": [Function],
   "findAllByAltText": [Function],

@@ -1,8 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Players Tests Players snapshot matches current snapshot 1`] = `
+exports[`players Tests players snapshot matches current snapshot 1`] = `
 <div
-  class="player player1 hide"
+  class="player player1"
   title="Player 1"
 >
   <div
