@@ -1,16 +1,16 @@
-import { FunctionComponent, h } from 'preact';
+import { Fragment, h } from 'preact';
 import Hexagon from '../Hexagon';
 import Hextille from '../Hextille';
 import Row from '../Row';
 import RuleCell from './RuleCell';
 
-const SpiderRules: FunctionComponent = () => {
-  return (
+const SpiderRules = () => (
+  <>
     <Hextille class="rules">
       <Row>
         <RuleCell result="correct" />
         <RuleCell result="correct" symbol="2" correctArrows={['left']} />
-        <RuleCell class="selected" zIndex={4} creature="spider" correctArrows={['right', 'bottomLeft']} />
+        <RuleCell selected creature="spider" correctArrows={['right', 'bottomLeft']} />
         <RuleCell result="correct" zIndex={3} symbol="1" correctArrows={['bottomRight']} />
       </Row>
       <Row>
@@ -45,7 +45,8 @@ const SpiderRules: FunctionComponent = () => {
         <RuleCell creature="ant" />
       </Row>
     </Hextille>
-  );
-};
+    <caption>The spider can move 3 cells only without backtracking</caption>
+  </>
+);
 SpiderRules.displayName = 'SpiderRules';
 export default SpiderRules;

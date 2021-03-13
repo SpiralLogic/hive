@@ -1,11 +1,11 @@
-import { FunctionComponent, h } from 'preact';
+import { Fragment, h } from 'preact';
 import Hexagon from '../Hexagon';
 import Hextille from '../Hextille';
 import Row from '../Row';
 import RuleCell from './RuleCell';
 
-const QueenRules: FunctionComponent = () => {
-  return (
+const QueenRules = () => (
+  <>
     <Hextille class="rules">
       <Row>
         <RuleCell result="correct" />
@@ -13,12 +13,12 @@ const QueenRules: FunctionComponent = () => {
         <RuleCell creature="spider" />
         <Hexagon hidden={true} />
       </Row>
-      <Row class="start">
+      <Row>
         <RuleCell result="correct" />
         <RuleCell
           zIndex={1}
           creature="queen"
-          class="selected"
+          selected
           correctArrows={['topLeft', 'left', 'right', 'bottomRight']}
         />
         <RuleCell result="correct" />
@@ -37,8 +37,9 @@ const QueenRules: FunctionComponent = () => {
         <RuleCell creature="beetle" />
       </Row>
     </Hextille>
-  );
-};
+    <caption>The queen can move one cell</caption>
+  </>
+);
 
 QueenRules.displayName = 'QueenRules';
 export default QueenRules;

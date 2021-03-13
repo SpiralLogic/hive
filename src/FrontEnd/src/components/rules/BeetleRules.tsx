@@ -1,22 +1,22 @@
-import { FunctionComponent, h } from 'preact';
+import { Fragment, h } from 'preact';
 import Hexagon from '../Hexagon';
 import Hextille from '../Hextille';
 import Row from '../Row';
 import RuleCell from './RuleCell';
 
-const BeetleRules: FunctionComponent = () => {
-  return (
+const BeetleRules = () => (
+  <>
     <Hextille class="rules">
       <Row>
         <RuleCell result="correct" />
         <Hexagon hidden={true} />
         <Hexagon hidden={true} />
       </Row>
-      <Row class="start">
+      <Row>
         <RuleCell result="correct" creature="spider" />
         <RuleCell
           creature="beetle"
-          class="selected"
+          selected
           correctArrows={['topLeft', 'left', 'bottomLeft', 'bottomRight']}
         />
       </Row>
@@ -32,8 +32,9 @@ const BeetleRules: FunctionComponent = () => {
         <RuleCell creature="grasshopper" />
       </Row>
     </Hextille>
-  );
-};
+    <caption>The beetle can move one cell and climb on top of other creatures</caption>
+  </>
+);
 
 BeetleRules.displayName = 'BeetleRules';
 export default BeetleRules;

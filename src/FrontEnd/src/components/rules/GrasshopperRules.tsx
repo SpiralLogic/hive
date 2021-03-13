@@ -1,18 +1,18 @@
-import { FunctionComponent, h } from 'preact';
+import { Fragment, h } from 'preact';
 import Hexagon from '../Hexagon';
 import Hextille from '../Hextille';
 import Row from '../Row';
 import RuleCell from './RuleCell';
 
-const GrasshopperRules: FunctionComponent = () => {
-  return (
+const GrasshopperRules = () => (
+  <>
     <Hextille class="rules">
       <Row zIndex={1}>
         <RuleCell result="correct" />
         <RuleCell creature="beetle" />
         <RuleCell
           creature="grasshopper"
-          class="selected"
+          selected
           correctArrows={[
             ['left', 3],
             ['right', 3],
@@ -48,8 +48,9 @@ const GrasshopperRules: FunctionComponent = () => {
         <RuleCell creature="spider" />
       </Row>
     </Hextille>
-  );
-};
+    <caption>The grasshopper can jump across connected creatures in straight line</caption>
+  </>
+);
 
 GrasshopperRules.displayName = 'GrasshopperRules';
 export default GrasshopperRules;

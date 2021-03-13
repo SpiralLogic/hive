@@ -9,15 +9,15 @@
 }
 
 .rules {
-  --outline: #ff00e5a3;
-  background-color: rgb(249 235 208);
   border-radius: 5px;
+  background-color: rgb(249 235 208);
+  --shadow: #FF00E5A3;
 }
 
 .rules [role='row'] {
-  pointer-events: none;
-  user-select: none;
   z-index: unset;
+  user-select: none;
+  pointer-events: none;
 }
 
 .rules .correct {
@@ -40,70 +40,72 @@
   width: var(--hex-size);
 }
 
-.rules .start {
-  z-index: 1;
-}
-
 .rules [role='cell'] span {
+  font-size: 3vmin;
   color: var(--result);
-  font-size: 1em;
 }
 
 .rules .tile.creature > span {
+  width: 1.2em;
+  text-align: center;
+  opacity: 75%;
   background-color: black;
   clip-path: circle(40%);
-  opacity: 75%;
-  text-align: center;
-  width: 1.2em;
 }
 
 .rules [role='cell'] {
-  fill: black;
   z-index: unset;
+  fill: black;
 }
 
-.rules .creature.beetle {
+.rules .beetle {
   --fill: #6726E3;
 }
 
-.rules .creature.queen {
+.rules .queen {
   --fill: orange;
 }
 
-.rules .creature.grasshopper {
+.rules .grasshopper {
   --fill: #00D000;
 }
 
-.rules .creature.spider {
+.rules .spider {
   --fill: #FF0000;
 }
 
-.rules .creature.ant {
+.rules .ant {
   --fill: cyan;
 }
 
-.rules .tile .creature {
-  --outline: var(--fill);
-  fill: var(--fill);
+.rules .creature {
+  --creature: var(--fill);
+}
+
+.rules .tile.selected:before {
+  --shadow: var(--fill);
 }
 
 .rules .tile {
-  fill: black;
   z-index: unset;
+  fill: black;
 }
 
 .rules .tile:not(.creature) svg use:only-child {
   fill: white;
 }
 
-.rules .tile:not([draggable="true"]) {
+.rules .tile:not([draggable='true']) {
   opacity: 100%;
 }
-
 
 @media only screen and (max-width: 720px) {
   .rules {
     --hex-size: max(40px, 16vmin);
     --tile-size: max(36px, 13vmin);
   }
+}
+
+caption {
+  margin: 1vmin 0;
 }

@@ -1,11 +1,11 @@
-import { FunctionComponent, h } from 'preact';
+import { Fragment, h } from 'preact';
 import Hexagon from '../Hexagon';
 import Hextille from '../Hextille';
 import Row from '../Row';
 import RuleCell from './RuleCell';
 
-const AntRules: FunctionComponent = () => {
-  return (
+const AntRules = () => (
+  <>
     <Hextille class="rules">
       <Row>
         <Hexagon hidden={true} />
@@ -36,11 +36,12 @@ const AntRules: FunctionComponent = () => {
       <Row>
         <Hexagon hidden={true} />
         <RuleCell result="correct" correctArrows={['topLeft']} zIndex={1} />
-        <RuleCell class="selected" creature="ant" correctArrows={['left', 'right']} zIndex={2} />
+        <RuleCell selected creature="ant" correctArrows={['left', 'right']} zIndex={2} />
         <RuleCell result="correct" correctArrows={['topRight']} zIndex={1} />
       </Row>
     </Hextille>
-  );
-};
+    <caption>The ant can move any number of cells</caption>
+  </>
+);
 AntRules.displayName = 'AntRules';
 export default AntRules;

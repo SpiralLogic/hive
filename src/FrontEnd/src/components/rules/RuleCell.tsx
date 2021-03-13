@@ -29,16 +29,21 @@ const RuleCell: FunctionComponent<{
   creature?: string;
   symbol?: string;
   zIndex?: number;
-  class?: string;
+  selected?: boolean;
   correctArrows?: Arrows;
   incorrectArrows?: Arrows;
   style?: JSXInternal.CSSProperties;
 }> = (props) => {
-  const { correctArrows, incorrectArrows, symbol, zIndex, result, ...rest } = props;
+  const { selected, correctArrows, incorrectArrows, symbol, zIndex, result, ...rest } = props;
+  if (selected) {
+    props.zIndex = 4;
+  }
 
   return (
-    <Hexagon role="cell" class={result} style={zIndex ? { zIndex } : undefined}>
-      <Tile {...rest}>{getResultChar(result, symbol)}</Tile>
+    <Hexagon role="cell" class={result} style={props.zIndex ? { zIndex: props.zIndex } : undefined}>
+      <Tile class={selected ? 'selected' : undefined} {...rest}>
+        {getResultChar(result, symbol)}
+      </Tile>
       {createArrows(correctArrows, 'correct')}
       {createArrows(incorrectArrows, 'incorrect')}
     </Hexagon>

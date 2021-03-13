@@ -1,7 +1,9 @@
 # Hive
 
 ## Hive board game.
-The game requires 2 players. You can change player by clicking either P1 or P2 in the tile list. The link for either player can be shared and played in real time by anything that can access the same host
+The game requires 2 players. You can share a link to an opponent using the share icon and play in real time. An deployed version can be found here (https://hive.sorijen.net.au)
+
+The game is created by [Gen42 Games](http://gen42.com/). Here is a link to the [original rules](https://www.gen42.com/download/rules/hive/Hive_English_Rules.pdf)
 
 ### Requires:
 - node latest
@@ -41,3 +43,21 @@ open browser [https://localhost:5001](https://localhost:5001)
 * github actions for CI
 * rancher config for CD (just automates all the above)
 * kubernetes deployment script for k8s
+
+### goals
+- [x] To minimise non-dev dependencies.
+- [x] use latest .net5 to try new features
+- [x] investigate build and bundler options
+    - esbuild wins (webpack, rollup, parcel, browserify)
+- [x] vanilla css3
+- [x] well tested clean domain layer
+- [x] all networking and hardware to be self hosted and managed on prem
+- [x] apply a user centric testing to each layer aiming for 100% coverage (to understand when bang for buck runs out)
+- [x] playable real time via web sockets
+- [x] all SVGs self made (excluding github icon)
+- [x] self created kubernetes cluster automated (inc tls)
+- [x] no database instances
+- [x] be accessible, mobile friendly, responsive with 100 lighthouse score
+- [ ] attempt ML for an AI player
+- [ ] ability to find other players
+- [ ] see move history

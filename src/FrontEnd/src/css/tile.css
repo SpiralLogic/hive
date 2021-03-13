@@ -38,7 +38,7 @@
 }
 
 .tile.selected:before {
-  --shadow: var(--outline);
+  --shadow: var(--shadow);
 }
 
 .beforeDrag:before {

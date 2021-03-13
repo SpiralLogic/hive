@@ -48,6 +48,9 @@ const Share: FunctionComponent<Props> = (props) => {
   return (
     <Modal name="share" onClose={() => props.setShowShare(false)}>
       <p>Opponent's link has been copied to clipboard!</p>
+      <button title="Close" onClick={() => props.setShowShare(false)}>
+        Close
+      </button>{' '}
     </Modal>
   );
 };

@@ -22,13 +22,13 @@
 .player0 {
   --background: var(--p0background);
   --creature: var(--p0creature);
-  --outline: var(--p0outline0);
+  --shadow: var(--p0shadow);
 }
 
 .player1 {
   --background: var(--p1background);
   --creature: var(--p1creature);
-  --outline: var(--p1outline);
+  --shadow: var(--p1shadow);
 }
 
 .player .name {

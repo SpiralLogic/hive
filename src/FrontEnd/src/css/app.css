@@ -2,10 +2,10 @@ body {
   --focus: #1712A2A0;
   --p0background: #FFEE0B;
   --p0creature: #000000;
-  --p0outline0: #D2116A7d;
+  --p0shadow: #D2116A7d;
   --p1background: #000000;
   --p1creature: #FFEE0B;
-  --p1outline: #8A2BE27d;
+  --p1shadow: #8A2BE27d;
   --hex-offset: -1;
   --hex-size: 95px;
   --tile-size: 70px;
