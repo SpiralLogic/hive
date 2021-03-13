@@ -24,7 +24,7 @@ const Objective = () => (
       </Row>
     </Hextille>
     <caption>
-      The first player to have a surrounded queen loses. New creatures entering the game can only touch
+      The first player to have a surrounded queen loses.<br/> New creatures entering the game can only touch
       friendly creatures.
     </caption>
   </>

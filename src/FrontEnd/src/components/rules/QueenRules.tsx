@@ -38,7 +38,7 @@ const QueenRules = () => (
       </Row>
     </Hextille>
     <caption>
-      The queen can move one cell and must be palced by the 4th turn. No centre pieces can move until placed.
+      The queen can move one cell and must be palced by the 4th turn.<br/> No centre pieces can move until placed.
     </caption>
   </>
 );
