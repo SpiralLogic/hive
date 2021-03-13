@@ -71,7 +71,7 @@ namespace Hive.Api.Tests.Hubs
         {
             var selectedTile = new Tile(1, 1, Creatures.Grasshopper);
             await _hub.SendSelection("select", selectedTile);
-            _clientProxyMock.Verify(c => c.SendCoreAsync("OpponentSelection", new object?[] {"select", selectedTile}, It.IsAny<CancellationToken>()));
+            _clientProxyMock.Verify(c => c.SendCoreAsync("OpponentSelection", new object[] {"select", selectedTile}, It.IsAny<CancellationToken>()));
         }
 
         [Fact]
