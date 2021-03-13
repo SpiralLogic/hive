@@ -1,9 +1,11 @@
-name: 'Hive Backend Tests'
+name: 'Hive Tests'
 on:
   push:
     paths:
       - 'src/Api/**'
       - 'src/Domain/**'
+      - 'src/FrontEnd/**'
+      - '.github/**'
 jobs:
   tests:
     runs-on: ubuntu-20.04	
@@ -24,4 +26,22 @@ jobs:
       - name: Test Domain
         run: dotnet test ./Domain/Hive.Domain.Tests  /p:CollectCoverage=true  /p:CoverletOutputFormat=lcov /p:SkipAutoProps=true  /p:ExcludeByAttribute="ExcludeFromCodeCoverage"
         working-directory: './src'
-        
+    tests:
+      runs-on: ubuntu-20.04
+      name: 'Front End Tests'
+      defaults:
+        run:
+          working-directory: './src/FrontEnd/'
+      steps:
+        - uses: actions/checkout@v2
+        - uses: actions/setup-node@v2
+          with:
+            node-version: '15.x'
+            check-latest: true
+        - name: Install pnpm
+          run: npm install -g pnpm
+        - name: Installs
+          run: pnpm install
+        - name: Test
+          run: pnpm test 
+
