@@ -1,4 +1,4 @@
-name: 'Hive Tests'
+name: 'Hive AWS'
 on: workflow_dispatch
 jobs:
   build-and-push:
