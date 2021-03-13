@@ -10,33 +10,28 @@ describe('Rules tests', () => {
     const rules = render(<Rules setShowRules={close} />);
     return [rules, close];
   };
-  test('modal calls close', () => {
-    const [, close] = renderRules();
-    userEvent.click(screen.getByTitle('Close'));
-
-    expect(close).toBeCalledWith(false);
-  });
 
   test('next button moves next', () => {
     renderRules();
     userEvent.click(screen.getByTitle('Next'));
 
-    expect(document.querySelector('.selected .beetle')).toBeInTheDocument();
+    expect(document.querySelector('.selected.queen')).toBeInTheDocument();
   });
 
   test('prev button goes back to end', () => {
     renderRules();
     userEvent.click(screen.getByTitle('Previous'));
 
-    expect(document.querySelector('.selected .ant')).toBeInTheDocument();
+    expect(document.querySelector('.ant')).toBeInTheDocument();
   });
 
   test('prev button moves back', () => {
     renderRules();
     userEvent.click(screen.getByTitle('Next'));
+    userEvent.click(screen.getByTitle('Next'));
     userEvent.click(screen.getByTitle('Previous'));
 
-    expect(document.querySelector('.selected .queen')).toBeInTheDocument();
+    expect(document.querySelector('.selected.queen')).toBeInTheDocument();
   });
 
   test('snapshot', () => {
