@@ -26,7 +26,7 @@ const GrasshopperRules = () => (
       <Row>
         <Hexagon hidden={true} />
         <RuleCell creature="grasshopper" />
-        <RuleCell style={{ '--tile-size': 'var(--hex-size)' }} />
+        <RuleCell />
         <RuleCell creature="ant" />
       </Row>
       <Row>
@@ -39,7 +39,7 @@ const GrasshopperRules = () => (
       <Row>
         <RuleCell result="correct" />
         <RuleCell creature="beetle" />
-        <Hexagon hidden={true} />
+        <RuleCell />
         <RuleCell result="incorrect" />
       </Row>
       <Row>

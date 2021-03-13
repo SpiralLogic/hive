@@ -3,15 +3,27 @@ import { FunctionComponent, h } from 'preact';
 import { useReducer } from 'preact/hooks';
 import AntRules from './rules/AntRules';
 import BeetleRules from './rules/BeetleRules';
+import FreedomToMove from './rules/FreedomToMove';
 import GrasshopperRules from './rules/GrasshopperRules';
 import Modal from './Modal';
+import Objective from './rules/Objective';
+import OneHiveRule from './rules/OneHiveRule';
 import QueenRules from './rules/QueenRules';
 import SpiderRules from './rules/SpiderRules';
 
 type Props = { setShowRules: (value: boolean) => void };
 
 const Rules: FunctionComponent<Props> = (props) => {
-  const ruleList = [<QueenRules />, <BeetleRules />, <SpiderRules />, <GrasshopperRules />, <AntRules />];
+  const ruleList = [
+    <Objective />,
+    <QueenRules />,
+    <BeetleRules />,
+    <SpiderRules />,
+    <GrasshopperRules />,
+    <AntRules />,
+    <OneHiveRule />,
+    <FreedomToMove />,
+  ];
   const changeRule = (currentRuleIndex: number, { type }: { type: 'next' | 'prev' }): number => {
     if (type === 'next') return ++currentRuleIndex % ruleList.length;
     if (type === 'prev' && currentRuleIndex > 0) return --currentRuleIndex % ruleList.length;

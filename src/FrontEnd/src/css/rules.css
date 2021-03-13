@@ -107,5 +107,9 @@
 }
 
 caption {
-  margin: 1vmin 0;
+  margin: 4vmin;
+}
+
+.rules .blank {
+  --tile-size: var(--hex-size);
 }
