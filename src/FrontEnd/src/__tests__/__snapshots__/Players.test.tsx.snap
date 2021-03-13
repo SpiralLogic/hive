@@ -106,3 +106,110 @@ exports[`PlayerList Tests PlayerList snapshot matches current snapshot 1`] = `
   </div>
 </aside>
 `;
+
+exports[`PlayerList Tests snapshot 1`] = `
+<aside
+  class="players"
+>
+  <div
+    class="player player1"
+    title="Player 1"
+  >
+    <div
+      class="name"
+    >
+      Player 1
+    </div>
+    <div
+      class="tiles"
+    >
+      <div
+        class="player1 hex tile creature"
+        draggable="true"
+        tabindex="0"
+        title="ant"
+      >
+        <svg
+          viewBox="0 0 100 100"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <use
+            href="#hex"
+          />
+          <use
+            class="creature ant"
+            href="#ant"
+          />
+        </svg>
+      </div>
+      <div
+        class="player0 hex tile creature"
+        title="fly"
+      >
+        <svg
+          viewBox="0 0 100 100"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <use
+            href="#hex"
+          />
+          <use
+            class="creature fly"
+            href="#fly"
+          />
+        </svg>
+      </div>
+      <div
+        class="player0 hex tile creature"
+        title="fly"
+      >
+        <svg
+          viewBox="0 0 100 100"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <use
+            href="#hex"
+          />
+          <use
+            class="creature fly"
+            href="#fly"
+          />
+        </svg>
+      </div>
+    </div>
+  </div>
+  <div
+    class="player player2"
+    title="Player 2"
+  >
+    <div
+      class="name"
+    >
+      Player 2
+    </div>
+    <div
+      class="tiles"
+    >
+      <div
+        class="player1 hex tile creature"
+        draggable="true"
+        tabindex="0"
+        title="ant"
+      >
+        <svg
+          viewBox="0 0 100 100"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <use
+            href="#hex"
+          />
+          <use
+            class="creature ant"
+            href="#ant"
+          />
+        </svg>
+      </div>
+    </div>
+  </div>
+</aside>
+`;

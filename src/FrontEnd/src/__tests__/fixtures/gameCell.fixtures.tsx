@@ -16,9 +16,7 @@ export const createCellWithTileAndDrop = () => {
   return { coords: { q: 2, r: 2 }, children: <GameTile {...tile} /> };
 };
 
-export const createCellNoDrop = () => {
-  return { coords: { q: 6, r: 6 }, tiles: [] };
-};
+export const createCellNoDrop = () => ({ coords: { q: 6, r: 6 }, tiles: [] });
 
 export const createCellCanDrop = createCellWithNoTile;
 export const createCellWithTileNoDrop = createCellWithTile;
@@ -42,7 +40,7 @@ export const createEmitter = () => {
   return moveEvents;
 };
 
-export const emitHiveEvent = (type: 'tileSelected' | 'tileDropped' | 'tileDeselected') => {
+export const emitHiveEvent = (type: 'tileSelected' | 'tileDropped' | 'tileDeselected') => 
   act(() => {
     const emitter = useHiveDispatcher();
     emitter.dispatch({
@@ -50,4 +48,3 @@ export const emitHiveEvent = (type: 'tileSelected' | 'tileDropped' | 'tileDesele
       tile: movingTile,
     });
   });
-};

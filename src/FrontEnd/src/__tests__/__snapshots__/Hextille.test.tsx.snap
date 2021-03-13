@@ -19,23 +19,6 @@ exports[`Hextille Tests Hextille Snapshot matches current snapshot 1`] = `
           href="#hex"
         />
       </svg>
-      <div
-        class="player0 hex tile creature"
-        title="ant"
-      >
-        <svg
-          viewBox="0 0 100 100"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <use
-            href="#hex"
-          />
-          <use
-            class="creature ant"
-            href="#ant"
-          />
-        </svg>
-      </div>
     </div>
   </div>
 </div>
