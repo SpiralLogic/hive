@@ -1,21 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Player Tests player snapshot matches current snapshot 1`] = `
-<div
-  class="player player1"
-  title="Player 1"
->
-  <div
-    class="name"
-  >
-    Player 1
-  </div>
-  <div
-    class="tiles"
-  />
-</div>
-`;
-
 exports[`Player Tests snapshot 1`] = `
 Object {
   "asFragment": [Function],
@@ -103,20 +87,4 @@ Object {
   "rerender": [Function],
   "unmount": [Function],
 }
-`;
-
-exports[`players Tests players snapshot matches current snapshot 1`] = `
-<div
-  class="player player1"
-  title="Player 1"
->
-  <div
-    class="name"
-  >
-    Player 1
-  </div>
-  <div
-    class="tiles"
-  />
-</div>
 `;

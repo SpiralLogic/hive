@@ -1,26 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Share tests Share snapshot tests snapshot 1`] = `
-<div
-  class="modal"
->
-  <div
-    class="share"
-    role="dialog"
-    title="share"
-  >
-    <p>
-      Opponent's link has been copied to clipboard!
-    </p>
-    <button
-      title="Close"
-    >
-      Close
-    </button>
-  </div>
-</div>
-`;
-
 exports[`Share tests snapshot 1`] = `
 <div
   class="modal"
