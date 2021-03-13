@@ -35,9 +35,8 @@ namespace Hive
 
             if (_currentEnvironment.IsProduction())
             {
-              //  services.AddStackExchangeRedisCache(options => options.Configuration = _configuration["RedisHost"]);
-            //    sigR.AddStackExchangeRedis(_configuration["RedisHost"]);
-                services.AddDistributedMemoryCache();
+                services.AddStackExchangeRedisCache(options => options.Configuration = _configuration["RedisHost"]);
+                sigR.AddStackExchangeRedis(_configuration["RedisHost"]);
             }
             else
             {
