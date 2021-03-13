@@ -26,7 +26,7 @@ jobs:
       - name: Test Domain
         run: dotnet test ./Domain/Hive.Domain.Tests  /p:CollectCoverage=true  /p:CoverletOutputFormat=lcov /p:SkipAutoProps=true  /p:ExcludeByAttribute="ExcludeFromCodeCoverage"
         working-directory: './src'
-  tests:
+  frontend:
     runs-on: ubuntu-20.04
     name: 'Front End Tests'
     defaults:
