@@ -19,9 +19,7 @@ describe('Row Tests', () => {
     expect(screen.getAllByRole('none')).toHaveLength(2);
   });
 
-  describe('Row snapshot tests', () => {
-    test('Row snapshot', () => {
-      expect(row).toMatchSnapshot();
-    });
+  test('snapshot', () => {
+    expect(row).toMatchSnapshot();
   });
 });

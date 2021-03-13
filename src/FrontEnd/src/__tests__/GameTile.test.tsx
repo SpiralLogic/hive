@@ -1,4 +1,4 @@
-import { HiveEvent, TileAction, TileEvent } from '../services/hive-dispatcher';
+import { HiveEvent, TileAction, TileEvent } from '../services';
 import { act, fireEvent } from '@testing-library/preact';
 import { h } from 'preact';
 import { renderElement, simulateEvent } from './helpers';
@@ -21,53 +21,54 @@ describe('tile Tests', () => {
   const createTileNoMove = () => {
     return renderElement(<GameTile {...tileNoMove} />);
   };
-  const tileEvents: TileEvent[] = [];
-  const listener = (e: TileEvent) => tileEvents.push(e);
-  beforeAll(() => {
-    const emitter = useHiveDispatcher();
-    emitter.add<TileEvent>('tileSelected', listener);
-  });
 
-  afterAll(() => {
+  const createEmitter = (): [TileEvent[], () => void] => {
+    const tileEvents: TileEvent[] = [];
+    const listener = (e: TileEvent) => tileEvents.push(e);
+
     const emitter = useHiveDispatcher();
-    tileEvents.splice(0, tileEvents.length);
-    emitter.remove<TileEvent>('tileSelected', listener);
-  });
+    const cleanup = emitter.add<TileEvent>('tileSelected', listener);
+    return [tileEvents, cleanup];
+  };
 
   describe('tile render', () => {
-    it('has creature', () => {
+    test('has creature', () => {
       expect(createTileNoMove().querySelectorAll('.creature')).toHaveLength(1);
       expect(createTileCanMove().querySelectorAll('.creature')).toHaveLength(1);
     });
   });
 
   describe('tile events', () => {
-    it('click emits tile start event', () => {
+    test('click emits tile start event', () => {
+      const [tileEvents, cleanup] = createEmitter();
       fireEvent.click(createTileCanMove());
       const expectedEvent: TileEvent = {
         type: 'tileSelected',
         tile: tileCanMove,
       };
       expect(tileEvents).toEqual(expect.arrayContaining([expect.objectContaining(expectedEvent)]));
+      cleanup();
     });
 
-    it('enter emits tile start event', () => {
+    test('enter emits tile start event', () => {
+      const [tileEvents, cleanup] = createEmitter();
       fireEvent.keyDown(createTileCanMove(), { key: 'Enter' });
       const expectedEvent: TileEvent = {
         type: 'tileSelected',
         tile: tileCanMove,
       };
       expect(tileEvents).toEqual(expect.arrayContaining([expect.objectContaining(expectedEvent)]));
+      cleanup();
     });
 
-    it('enter selects tile', () => {
+    test('enter selects tile', () => {
       const tile = createTileCanMove();
       fireEvent.keyDown(tile, { key: 'Enter' });
 
       expect(tile).toHaveClass('selected');
     });
 
-    it('second enter deselects tile', () => {
+    test('second enter deselects tile', () => {
       const tile = createTileCanMove();
       fireEvent.keyDown(tile, { key: 'Enter' });
       fireEvent.keyDown(tile, { key: 'Enter' });
@@ -75,7 +76,7 @@ describe('tile Tests', () => {
       expect(tile).not.toHaveClass('selected');
     });
 
-    it('arrow keys use handler', () => {
+    test('arrow keys use handler', () => {
       const tile = createTileCanMove();
       jest.spyOn(tile, 'focus');
       fireEvent.keyDown(tile, { key: 'ArrowDown' });
@@ -83,16 +84,18 @@ describe('tile Tests', () => {
       expect(tile.focus).toHaveBeenCalledWith();
     });
 
-    it('space emits tile start event', () => {
+    test('space emits tile start event', () => {
+      const [tileEvents, cleanup] = createEmitter();
       fireEvent.keyDown(createTileCanMove(), { key: ' ' });
       const expectedEvent: TileEvent = {
         type: 'tileSelected',
         tile: tileCanMove,
       };
       expect(tileEvents).toEqual(expect.arrayContaining([expect.objectContaining(expectedEvent)]));
+      cleanup();
     });
 
-    it('click deselects previous selected tile', () => {
+    test('click deselects previous selected tile', () => {
       jest.spyOn(useHiveDispatcher(), 'dispatch');
       const tile = createTileCanMove();
       fireEvent.click(tile);
@@ -100,7 +103,7 @@ describe('tile Tests', () => {
       expect(tile).toHaveClass('selected');
     });
 
-    it('clicking same tile doesnt fire a tile start event', () => {
+    test('clicking same tile doesnt fire a tile start event', () => {
       const mock = jest.spyOn(useHiveDispatcher(), 'dispatch');
       const tile = createTileCanMove();
       fireEvent.click(tile);
@@ -113,31 +116,33 @@ describe('tile Tests', () => {
       );
     });
 
-    it('mouseLeave activates blur', () => {
+    test('mouseLeave activates blur', () => {
       const tile = createTileCanMove();
       tile.focus();
       fireEvent.mouseLeave(tile);
       expect(tile).not.toHaveFocus();
     });
 
-    it('is draggable when there are available moves', () => {
+    test('is draggable when there are available moves', () => {
       expect(createTileCanMove()).toHaveAttribute('draggable', 'true');
     });
 
-    it('is *not* draggable when there are no moves available', () => {
+    test('is *not* draggable when there are no moves available', () => {
       expect(createTileNoMove()).not.toHaveAttribute('draggable', 'false');
     });
 
-    it('on drag emits start event', () => {
+    test('on drag emits start event', () => {
+      const [tileEvents, cleanup] = createEmitter();
       fireEvent.dragStart(createTileCanMove());
       const expectedEvent: TileEvent = {
         type: 'tileSelected',
         tile: tileCanMove,
       };
       expect(tileEvents).toEqual(expect.arrayContaining([expect.objectContaining(expectedEvent)]));
+      cleanup();
     });
 
-    it('on dragEnd emits end event', () => {
+    test('on dragEnd emits end event', () => {
       const dropEvents: TileEvent[] = [];
       useHiveDispatcher().add<TileEvent>('tileDropped', (e) => dropEvents.push(e));
       fireEvent.dragEnd(createTileCanMove());
@@ -149,7 +154,7 @@ describe('tile Tests', () => {
       expect(dropEvents).toEqual(expect.arrayContaining([expect.objectContaining(expectedEvent)]));
     });
 
-    it(`tile can be selected via action`, () => {
+    test(`tile can be selected via action`, () => {
       const tile = createTileCanMove();
       act(() => {
         useHiveDispatcher().dispatch<TileAction>({ type: 'tileSelect', tile: tileCanMove });
@@ -157,7 +162,7 @@ describe('tile Tests', () => {
       expect(tile).toHaveClass('selected');
     });
 
-    it(`an already selected tile doesnt fire a selected event when selected`, () => {
+    test(`an already selected tile doesnt fire a selected event when selected`, () => {
       const selectEvents: TileEvent[] = [];
       useHiveDispatcher().add<TileEvent>('tileSelected', (e) => selectEvents.push(e));
       createTileCanMove();
@@ -170,7 +175,7 @@ describe('tile Tests', () => {
       expect(selectEvents).toHaveLength(1);
     });
 
-    it(`an already deselected tile doesnt fire a deselected event when deselected`, () => {
+    test(`an already deselected tile doesnt fire a deselected event when deselected`, () => {
       const deselectEvents: TileEvent[] = [];
       useHiveDispatcher().add<TileEvent>('tileDeselected', (e) => deselectEvents.push(e));
       createTileCanMove();
@@ -186,7 +191,7 @@ describe('tile Tests', () => {
       expect(deselectEvents).toHaveLength(1);
     });
 
-    it(`tile can be deselected via action`, () => {
+    test(`tile can be deselected via action`, () => {
       const tile = createTileCanMove();
       act(() => {
         useHiveDispatcher().dispatch<TileAction>({ type: 'tileSelect', tile: tileCanMove });
@@ -197,14 +202,14 @@ describe('tile Tests', () => {
       expect(tile).not.toHaveClass('selected');
     });
 
-    it(`tile is only selected on matching select events`, () => {
+    test(`tile is only selected on matching select events`, () => {
       const tile = createTileCanMove();
       useHiveDispatcher().dispatch<TileAction>({ type: 'tileSelect', tile: tileNoMove });
 
       expect(tile).not.toHaveClass('selected');
     });
 
-    it(`tile is only deselected on matching select events`, () => {
+    test(`tile is only deselected on matching select events`, () => {
       const deselectEvents: TileEvent[] = [];
       useHiveDispatcher().add<TileEvent>('tileDeselected', (e) => deselectEvents.push(e));
       useHiveDispatcher().dispatch<TileAction>({ type: 'tileSelect', tile: tileCanMove });
@@ -213,18 +218,18 @@ describe('tile Tests', () => {
       expect(deselectEvents).toHaveLength(0);
     });
 
-    it('default on drop is prevented', () => {
+    test('default on drop is prevented', () => {
       expect(simulateEvent(createTileCanMove(), 'drop')).toHaveBeenCalledWith();
       expect(simulateEvent(createTileNoMove(), 'drop')).toHaveBeenCalledWith();
     });
   });
 
   describe('tile Snapshot', () => {
-    it('can move matches current snapshot', () => {
+    test('can move matches current snapshot', () => {
       expect(createTileCanMove()).toMatchSnapshot();
     });
 
-    it('no moves matches current snapshot', () => {
+    test('no moves matches current snapshot', () => {
       expect(createTileNoMove()).toMatchSnapshot();
     });
   });

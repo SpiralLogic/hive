@@ -14,7 +14,6 @@ export const mockClipboard = () => {
 };
 
 export const mockExecCommand = () => {
-  const execCommand = document.execCommand;
   Object.defineProperty(document, 'execCommand', {
     value: jest.fn(),
     configurable: true,

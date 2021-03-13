@@ -15,17 +15,9 @@ const createHubConnection = (state: HubConnectionState) => ({
   state: state,
 });
 
-let hubConnection: ReturnType<typeof createHubConnection>;
-const signalRWithUrlMock = jest.fn().mockReturnThis();
-const builder = jest.fn().mockImplementation(() => ({
-  withUrl: signalRWithUrlMock,
-  withAutomaticReconnect: jest.fn().mockReturnThis(),
-  build: jest.fn().mockReturnValue(hubConnection),
-}));
 describe('Game Engine Tests', () => {
   let engine: GameEngine;
   beforeEach(function () {
-    // eslint-disable-next-line no-undef
     global.fetch = jest
       .fn()
       .mockImplementation(() => ({ ok: true, json: jest.fn().mockResolvedValue(gameState) }));

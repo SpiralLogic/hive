@@ -44,9 +44,7 @@ describe('Share tests', () => {
     restore();
   });
 
-  describe('Share snapshot tests', () => {
-    test('snapshot', () => {
-      expect(renderElement(<Share url={`/game/33/1`} setShowShare={() => ({})} />)).toMatchSnapshot();
-    });
+  test('snapshot', () => {
+    expect(renderElement(<Share url={`/game/33/1`} setShowShare={() => ({})} />)).toMatchSnapshot();
   });
 });

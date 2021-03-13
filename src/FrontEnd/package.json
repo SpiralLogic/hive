@@ -137,9 +137,6 @@
         {
           "property": "freeze",
           "object": "Object"
-        },
-        {
-          "property": "myFavoriteWrapper"
         }
       ],
       "linkComponents": [

@@ -26,7 +26,7 @@ namespace Hive.Controllers
             var gameSession = await _distributedCache.GetStringAsync(id);
             if (string.IsNullOrEmpty(gameSession)) return Redirect("/");
 
-            return new VirtualFileResult("/index.html", "text/html");
+            return File("/index.html", "text/html");
         }
 
         [HttpGet]

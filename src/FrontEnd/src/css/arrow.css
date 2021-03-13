@@ -1,4 +1,4 @@
-.rules .arrow {
+ .arrow {
   --span: 1;
   fill: var(--result);
   stroke-width: 1px;

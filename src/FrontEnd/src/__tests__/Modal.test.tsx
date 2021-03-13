@@ -4,16 +4,15 @@ import { renderElement } from './helpers';
 import Modal from '../components/Modal';
 
 describe('modal snapshot tests', () => {
-  it('click on modal background calls close', () => {
+  test('click on modal background calls close', () => {
     const close = jest.fn();
-    render(<Modal name="test" onClose={close} />);
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    fireEvent.click(document.querySelector('.modal')!);
+    const modal = renderElement(<Modal name="test" onClose={close} />);
+    fireEvent.click(modal);
 
     expect(close).toHaveBeenCalledWith();
   });
 
-  it('snapshot', () => {
+  test('snapshot', () => {
     expect(renderElement(<Modal name="test" onClose={() => ({})} />)).toMatchSnapshot();
   });
 });

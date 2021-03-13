@@ -1,13 +1,13 @@
 import '../css/app.css';
 import { Fragment, FunctionComponent, h } from 'preact';
 import { GameState, PlayerId } from '../domain';
+import { HexEngine } from '../domain/engine';
+import ServerConnection from '../services/server-connection';
 import { attachServerHandlers, opponentSelectionHandler } from '../utilities/handlers';
 import { useEffect, useState } from 'preact/hooks';
 import GameArea from './GameArea';
-import GameEngine from '../services/game-engine';
-import ServerConnection from '../services/server-connection';
 
-const App: FunctionComponent<{ engine: GameEngine }> = (props) => {
+const App: FunctionComponent<{ engine: HexEngine }> = (props) => {
   const { engine } = props;
   const [gameState, updateGameState] = useState<GameState | undefined>(undefined);
   const [playerId, setPlayerId] = useState<PlayerId>(0);

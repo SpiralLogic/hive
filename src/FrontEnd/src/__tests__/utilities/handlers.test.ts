@@ -1,4 +1,4 @@
-import { GameId, Move} from '../../domain';
+import { GameId, Move } from '../../domain';
 import { TileAction } from '../../services';
 import {
   attachServerHandlers,
@@ -20,15 +20,13 @@ describe(`handler tests`, () => {
     creature: '',
     playerId: 1,
   };
-  describe(`handle drag over tests`, () => {
+  describe(`handle drag tests`, () => {
     test('should prevent default on dragover', () => {
       const preventDefault = jest.fn();
       handleDragOver({ preventDefault });
       expect(preventDefault).toBeCalled();
     });
-  });
 
-  describe(`handle drop tests`, () => {
     test('should prevent default ondrop', () => {
       const preventDefault = jest.fn();
       handleDrop({ preventDefault });
@@ -93,7 +91,8 @@ describe(`handler tests`, () => {
       expect(div3).not.toHaveFocus();
     });
   });
-  describe(`server conncection events`, () => {
+
+  describe(`server connection events`, () => {
     test(`opponent selection selects tile`, () => {
       const tile = { id: 1, playerId: 1, creature: 'swan', moves: [] };
       const dispatcher = useHiveDispatcher();

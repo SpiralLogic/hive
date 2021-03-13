@@ -9,7 +9,6 @@ const Players: FunctionComponent<{ players: Players }> = (props) => {
   const { players } = props;
   const [hiddenPlayers, dispatch] = useReducer(
     (state: Array<boolean>, action: [boolean, PlayerId]) => {
-      console.log(state, action);
       state[action[1]] = action[0];
       return [...state];
     },

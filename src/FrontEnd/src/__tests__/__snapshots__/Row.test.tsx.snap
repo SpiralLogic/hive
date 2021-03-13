@@ -56,3 +56,60 @@ exports[`Row Tests Row snapshot tests Row snapshot 1`] = `
   </div>
 </div>
 `;
+
+exports[`Row Tests snapshot 1`] = `
+<div
+  role="row"
+>
+  <div
+    class="hide"
+    role="none"
+  >
+    <svg
+      viewBox="0 0 100 100"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <use
+        href="#hex"
+      />
+    </svg>
+  </div>
+  <div
+    role="cell"
+  >
+    <svg
+      viewBox="0 0 100 100"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <use
+        href="#hex"
+      />
+    </svg>
+  </div>
+  <div
+    role="cell"
+  >
+    <svg
+      viewBox="0 0 100 100"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <use
+        href="#hex"
+      />
+    </svg>
+  </div>
+  <div
+    class="hide"
+    role="none"
+  >
+    <svg
+      viewBox="0 0 100 100"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <use
+        href="#hex"
+      />
+    </svg>
+  </div>
+</div>
+`;

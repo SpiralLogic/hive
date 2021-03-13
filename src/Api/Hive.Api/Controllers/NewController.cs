@@ -35,7 +35,7 @@ namespace Hive.Controllers
             var json = JsonSerializer.Serialize(gameState, _jsonSerializerOptions);
             _distributedCache.SetString(gameId, json);
 
-            return Created($"/game/{gameId}/{0}", gameState);
+            return Created($"/api/game/{gameId}/{0}", gameState);
         }
     }
 }

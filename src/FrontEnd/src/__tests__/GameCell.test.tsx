@@ -1,98 +1,44 @@
-import { MoveEvent } from '../services';
-import { act, fireEvent } from '@testing-library/preact';
+import { fireEvent } from '@testing-library/preact';
 import { h } from 'preact';
+import {
+  createCellCanDrop,
+  createCellWithTileAndDrop,
+  createCellWithTile,
+  emitHiveEvent,
+  createCellWithTileNoDrop,
+  createCellNoDrop,
+  moveTileSpy,
+  createCellWithNoTile,
+  createEmitter,
+} from './fixtures/gameCell.fixtures';
 import { renderElement, simulateEvent } from './helpers';
 import { useHiveDispatcher } from '../utilities/hooks';
 import GameCell from '../components/GameCell';
-import GameTile from '../components/GameTile';
 
-describe('cell Tests', () => {
-  const moveTileSpy = jest.fn();
-
-  const movingTile = {
-    id: 2,
-    moves: [
-      { q: 0, r: 0 },
-      { q: 2, r: 2 },
-    ],
-    creature: '',
-    playerId: 1,
-  };
-  const moveEvents: MoveEvent[] = [];
-  const moveListener = (e: MoveEvent) => moveEvents.push(e);
-  beforeAll(() => {
-    const emitter = useHiveDispatcher();
-    emitter.add<MoveEvent>('move', moveListener);
-  });
-
-  afterAll(() => {
-    const emitter = useHiveDispatcher();
-    moveEvents.splice(0, moveEvents.length);
-    emitter.remove<MoveEvent>('move', moveListener);
-  });
-
-  const createCellWithNoTile = () => {
-    const cell = { coords: { q: 0, r: 0 }, tiles: [] };
-    return renderElement(<GameCell {...cell} />);
-  };
-
-  const createCellWithTile = () => {
-    const tile = { id: 2, playerId: 1, creature: 'fly', moves: [] };
-    const cell = { coords: { q: 1, r: 1 }, children: <GameTile {...tile} /> };
-
-    return renderElement(<GameCell {...cell} />);
-  };
-
-  const createCellWithTileAndDrop = () => {
-    const tile = { id: 2, playerId: 1, creature: 'ant', moves: [{ r: 0, q: 0 }] };
-    const cell = { coords: { q: 2, r: 2 }, children: <GameTile {...tile} /> };
-
-    return renderElement(<GameCell {...cell} />);
-  };
-
-  const createCellNoDrop = () => {
-    const cell = { coords: { q: 6, r: 6 }, tiles: [] };
-    return renderElement(<GameCell {...cell} />);
-  };
-
-  const createCellCanDrop = createCellWithNoTile;
-  const createCellWithTileNoDrop = createCellWithTile;
-
-  describe('cell render', () => {
-    it(`top tile is rendered when tiles isn't empty`, () => {
-      const tiles = createCellWithTile().getElementsByClassName('tile');
-      expect(tiles).toHaveLength(1);
-    });
+describe('Cell Tests', () => {
+  test(`top tile is rendered when tiles isn't empty`, () => {
+    const tiles = renderElement(<GameCell {...createCellWithTile()} />).getElementsByClassName('tile');
+    expect(tiles).toHaveLength(1);
   });
 
   describe('drag and drop', () => {
-    function emitHiveEvent(type: 'tileSelected' | 'tileDropped' | 'tileDeselected') {
-      act(() => {
-        const emitter = useHiveDispatcher();
-        emitter.dispatch({
-          type,
-          tile: movingTile,
-        });
-      });
-    }
-
-    it('dragover allows drop', () => {
-      const preventDefault = simulateEvent(createCellWithTile(), 'dragover');
+    test('dragover allows drop', () => {
+      const preventDefault = simulateEvent(renderElement(<GameCell {...createCellWithTile()} />), 'dragover');
       expect(preventDefault).toHaveBeenCalledWith();
     });
 
-    it('cell is available on drag start', () => {
-      const cellWithTile = createCellWithTileAndDrop();
-      const emptyCell = createCellCanDrop();
+    test('cell is available on drag start', () => {
+      const cellWithTile = renderElement(<GameCell {...createCellWithTileAndDrop()} />);
+      const emptyCell = renderElement(<GameCell {...createCellCanDrop()} />);
       emitHiveEvent('tileSelected');
 
       expect(cellWithTile).toHaveClass('can-drop');
       expect(emptyCell).toHaveClass('can-drop');
     });
 
-    it('available cell is active on tile drag enter', () => {
-      const cellWithTile = createCellWithTileAndDrop();
-      const emptyCell = createCellCanDrop();
+    test('available cell is active on tile drag enter', () => {
+      const cellWithTile = renderElement(<GameCell {...createCellWithTileAndDrop()} />);
+      const emptyCell = renderElement(<GameCell {...createCellCanDrop()} />);
       emitHiveEvent('tileSelected');
       fireEvent.dragEnter(cellWithTile);
       fireEvent.dragEnter(emptyCell);
@@ -101,9 +47,9 @@ describe('cell Tests', () => {
       expect(emptyCell).toHaveClass('active');
     });
 
-    it('available cell is no longer active on tile drag leave', () => {
-      const cellWithTile = createCellWithTileAndDrop();
-      const emptyCell = createCellCanDrop();
+    test('available cell is no longer active on tile drag leave', () => {
+      const cellWithTile = renderElement(<GameCell {...createCellWithTileAndDrop()} />);
+      const emptyCell = renderElement(<GameCell {...createCellCanDrop()} />);
       emitHiveEvent('tileSelected');
       fireEvent.dragEnter(cellWithTile);
       fireEvent.dragEnter(emptyCell);
@@ -114,9 +60,10 @@ describe('cell Tests', () => {
       expect(emptyCell).not.toHaveClass('active');
     });
 
-    it('move calls moves tile when cell is valid and active', () => {
-      const cellWithTile = createCellWithTileAndDrop();
-      const emptyCell = createCellCanDrop();
+    test('move calls moves tile when cell is valid and active', () => {
+      const moveEvents = createEmitter();
+      const cellWithTile = renderElement(<GameCell {...createCellWithTileAndDrop()} />);
+      const emptyCell = renderElement(<GameCell {...createCellCanDrop()} />);
       emitHiveEvent('tileSelected');
       fireEvent.dragEnter(cellWithTile);
       fireEvent.dragEnter(emptyCell);
@@ -136,41 +83,42 @@ describe('cell Tests', () => {
       );
     });
 
-    it(`drop doesn't call move tile when cell doesn't allow drop`, () => {
+    test(`drop doesn't call move tile when cell doesn't allow drop`, () => {
       jest.spyOn(useHiveDispatcher(), 'dispatch');
-      createCellWithTile();
-      createCellNoDrop();
+      renderElement(<GameCell {...createCellWithTile()} />);
+      renderElement(<GameCell {...createCellNoDrop()} />);
       emitHiveEvent('tileSelected');
       emitHiveEvent('tileDropped');
 
       expect(useHiveDispatcher().dispatch).not.toHaveBeenCalledWith({ type: 'move' });
     });
 
-    it(`invalid cells don't call move tile on drop`, () => {
-      createCellWithTileNoDrop();
-      createCellNoDrop();
+    test(`invalid cells don't call move tile on drop`, () => {
+      renderElement(<GameCell {...createCellWithTileNoDrop()} />);
+      renderElement(<GameCell {...createCellNoDrop()} />);
       document.querySelectorAll('.cell').forEach((c) => fireEvent.dragEnter(c));
 
       expect(moveTileSpy).not.toHaveBeenCalledWith();
     });
 
-    it('active classes are removed on drag leave', () => {
+    test('active classes are removed on drag leave', () => {
       createCellWithTile();
       createCellWithNoTile();
-      createCellWithTileNoDrop();
-      createCellNoDrop();
+      renderElement(<GameCell {...createCellWithTileNoDrop()} />);
+      renderElement(<GameCell {...createCellNoDrop()} />);
       emitHiveEvent('tileSelected');
+
       document.querySelectorAll('.cell').forEach((c) => fireEvent.dragEnter(c));
       document.querySelectorAll('.cell').forEach((c) => fireEvent.dragLeave(c));
 
       expect(document.getElementsByClassName('active')).toHaveLength(0);
     });
 
-    it('active and can-drop classes are removed on drop', () => {
-      createCellWithTile();
+    test('active and can-drop classes are removed on drop', () => {
+      renderElement(<GameCell {...createCellWithTile()} />);
       createCellWithNoTile();
-      createCellWithTileNoDrop();
-      createCellNoDrop();
+      renderElement(<GameCell {...createCellWithTileNoDrop()} />);
+      renderElement(<GameCell {...createCellNoDrop()} />);
       emitHiveEvent('tileSelected');
       document.querySelectorAll('.cell').forEach((c) => fireEvent.dragEnter(c));
       emitHiveEvent('tileDropped');
@@ -180,16 +128,17 @@ describe('cell Tests', () => {
       expect(document.getElementsByClassName('can-drop')).toHaveLength(0);
     });
 
-    it(`occupied cell with no active tile doesn't stop event propagation'`, () => {
+    test(`occupied cell with no active tile doesn't stop event propagation'`, () => {
       jest.spyOn(useHiveDispatcher(), 'dispatch');
-      const cellWithTile = createCellWithTileAndDrop();
+      const cellWithTile = renderElement(<GameCell {...createCellWithTileAndDrop()} />);
       fireEvent.click(cellWithTile);
 
       expect(useHiveDispatcher().dispatch).not.toHaveBeenCalledWith();
     });
 
-    it(`cell click with active tile makes a move`, () => {
-      const emptyCell = createCellCanDrop();
+    test(`cell click with active tile makes a move`, () => {
+      const moveEvents = createEmitter();
+      const emptyCell = renderElement(<GameCell {...createCellCanDrop()} />);
       emitHiveEvent('tileSelected');
       fireEvent.click(emptyCell);
 
@@ -203,54 +152,54 @@ describe('cell Tests', () => {
       );
     });
 
-    it(`cell click with no active tile shouldn't move`, () => {
+    test(`cell click with no active tile shouldn't move`, () => {
       jest.spyOn(useHiveDispatcher(), 'dispatch');
-      const emptyCell = createCellNoDrop();
+      const emptyCell = renderElement(<GameCell {...createCellNoDrop()} />);
       fireEvent.click(emptyCell);
 
       expect(useHiveDispatcher().dispatch).not.toHaveBeenCalledWith();
     });
 
-    it(`cell click with invalid tile shouldn't move`, () => {
+    test(`cell click with invalid tile shouldn't move`, () => {
       jest.spyOn(useHiveDispatcher(), 'dispatch');
-      const emptyCell = createCellNoDrop();
+      const emptyCell = renderElement(<GameCell {...createCellNoDrop()} />);
       emitHiveEvent('tileSelected');
       fireEvent.click(emptyCell);
+      fireEvent.click(emptyCell);
 
       expect(useHiveDispatcher().dispatch).not.toHaveBeenCalledWith();
     });
 
-    it(`enter fires emit event on keydown enter`, () => {
-      const emptyCell = createCellCanDrop();
+    test(`enter fires emit event on keydown enter`, () => {
+      const moveEvents = createEmitter();
+      const emptyCell = renderElement(<GameCell {...createCellCanDrop()} />);
       emitHiveEvent('tileSelected');
       fireEvent.keyDown(emptyCell, { key: 'Enter' });
 
       expect(moveEvents).toEqual(expect.arrayContaining([expect.objectContaining({ type: 'move' })]));
     });
 
-    it(`space fires emit event on keydown enter`, () => {
-      const emptyCell = createCellCanDrop();
+    test(`space fires emit event on keydown enter`, () => {
+      const moveEvents = createEmitter();
+      const emptyCell = renderElement(<GameCell {...createCellCanDrop()} />);
       emitHiveEvent('tileSelected');
       fireEvent.keyDown(emptyCell, { key: ' ' });
 
       expect(moveEvents).toEqual(expect.arrayContaining([expect.objectContaining({ type: 'move' })]));
     });
 
-    it(`other keys dont emits tile start event`, () => {
+    test(`other keys dont emits tile start event`, () => {
       jest.spyOn(useHiveDispatcher(), 'dispatch');
-      fireEvent.keyDown(createCellCanDrop(), { key: 'Tab' });
+      fireEvent.keyDown(renderElement(<GameCell {...createCellCanDrop()} />), { key: 'Tab' });
 
       expect(useHiveDispatcher().dispatch).not.toHaveBeenCalledWith();
     });
-  });
-
-  describe('cell Snapshot', () => {
-    it('cell with tile matches current snapshot', () => {
-      expect(createCellWithTile()).toMatchSnapshot();
+    test('cell with tile matches current snapshot', () => {
+      expect(renderElement(<GameCell {...createCellWithTile()} />)).toMatchSnapshot();
     });
 
-    it('cell with no tile matches current snapshot', () => {
-      expect(createCellWithNoTile()).toMatchSnapshot();
+    test('cell with no tile matches current snapshot', () => {
+      expect(renderElement(<GameCell {...createCellWithNoTile()} />)).toMatchSnapshot();
     });
   });
 });

@@ -20,8 +20,4 @@ main {
     grid-template-columns: unset;
     grid-template-rows: max-content auto;
   }
-
-  main {
-    overflow: auto;
-  }
 }

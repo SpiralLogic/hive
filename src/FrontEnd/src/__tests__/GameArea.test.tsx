@@ -13,14 +13,14 @@ describe('gameArea Tests', () => {
     gameState = createGameState(1);
   });
 
-  it('default drag over is prevented to allow drop', async () => {
+  test('default drag over is prevented to allow drop', async () => {
     render(<GameArea players={gameState.players} cells={gameState.cells} playerId={2} />);
     const preventDefault = simulateEvent(screen.getByTitle('Hive Game Area'), 'dragover');
 
     expect(preventDefault).toHaveBeenCalledWith();
   });
 
-  it(`removes moves for tiles which aren't the current player`, async () => {
+  test(`removes moves for tiles which aren't the current player`, async () => {
     global.window.history.replaceState({}, global.document.title, `/game/33/0`);
     render(<GameArea players={gameState.players} cells={gameState.cells} playerId={1} />);
 
@@ -28,7 +28,7 @@ describe('gameArea Tests', () => {
     expect(screen.getByTitle('Player 2').querySelectorAll('[draggable="true"]')).toHaveLength(1);
   });
 
-  it('show rules is rendered', async () => {
+  test('show rules is rendered', async () => {
     render(<GameArea players={gameState.players} cells={gameState.cells} playerId={1} />);
 
     userEvent.click(screen.getByTitle(/Rules/));
@@ -36,7 +36,7 @@ describe('gameArea Tests', () => {
     expect(screen.getByRole('dialog')).toBeInTheDocument();
   });
 
-  it('show share dialog is shown', async () => {
+  test('show share dialog is shown', async () => {
     mockExecCommand();
     render(<GameArea players={gameState.players} cells={gameState.cells} playerId={1} />);
 
