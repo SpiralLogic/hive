@@ -51,7 +51,7 @@ exports[`Grasshopper Rule snapshot tests snapshot 1`] = `
         />
       </svg>
       <div
-        class="tile creature"
+        class="tile beetle"
       >
         <svg
           viewBox="0 0 100 100"
@@ -61,7 +61,7 @@ exports[`Grasshopper Rule snapshot tests snapshot 1`] = `
             href="#hex"
           />
           <use
-            class="creature beetle"
+            class="creature"
             href="#beetle"
           />
         </svg>
@@ -70,6 +70,7 @@ exports[`Grasshopper Rule snapshot tests snapshot 1`] = `
     </div>
     <div
       role="cell"
+      style="z-index: 4;"
     >
       <svg
         viewBox="0 0 100 100"
@@ -80,7 +81,7 @@ exports[`Grasshopper Rule snapshot tests snapshot 1`] = `
         />
       </svg>
       <div
-        class="selected tile creature"
+        class="tile grasshopper selected"
       >
         <svg
           viewBox="0 0 100 100"
@@ -90,7 +91,7 @@ exports[`Grasshopper Rule snapshot tests snapshot 1`] = `
             href="#hex"
           />
           <use
-            class="creature grasshopper"
+            class="creature"
             href="#grasshopper"
           />
         </svg>
@@ -150,7 +151,7 @@ exports[`Grasshopper Rule snapshot tests snapshot 1`] = `
         />
       </svg>
       <div
-        class="tile creature"
+        class="tile queen"
       >
         <svg
           viewBox="0 0 100 100"
@@ -160,7 +161,7 @@ exports[`Grasshopper Rule snapshot tests snapshot 1`] = `
             href="#hex"
           />
           <use
-            class="creature queen"
+            class="creature"
             href="#queen"
           />
         </svg>
@@ -226,7 +227,7 @@ exports[`Grasshopper Rule snapshot tests snapshot 1`] = `
         />
       </svg>
       <div
-        class="tile creature"
+        class="tile grasshopper"
       >
         <svg
           viewBox="0 0 100 100"
@@ -236,7 +237,7 @@ exports[`Grasshopper Rule snapshot tests snapshot 1`] = `
             href="#hex"
           />
           <use
-            class="creature grasshopper"
+            class="creature"
             href="#grasshopper"
           />
         </svg>
@@ -244,6 +245,7 @@ exports[`Grasshopper Rule snapshot tests snapshot 1`] = `
       </div>
     </div>
     <div
+      class="blank"
       role="cell"
     >
       <svg
@@ -256,7 +258,6 @@ exports[`Grasshopper Rule snapshot tests snapshot 1`] = `
       </svg>
       <div
         class="tile"
-        style="--tile-size: var(--hex-size);"
       >
         <svg
           viewBox="0 0 100 100"
@@ -281,7 +282,7 @@ exports[`Grasshopper Rule snapshot tests snapshot 1`] = `
         />
       </svg>
       <div
-        class="tile creature"
+        class="tile ant"
       >
         <svg
           viewBox="0 0 100 100"
@@ -291,7 +292,7 @@ exports[`Grasshopper Rule snapshot tests snapshot 1`] = `
             href="#hex"
           />
           <use
-            class="creature ant"
+            class="creature"
             href="#ant"
           />
         </svg>
@@ -326,7 +327,7 @@ exports[`Grasshopper Rule snapshot tests snapshot 1`] = `
         />
       </svg>
       <div
-        class="tile creature"
+        class="tile queen"
       >
         <svg
           viewBox="0 0 100 100"
@@ -336,7 +337,7 @@ exports[`Grasshopper Rule snapshot tests snapshot 1`] = `
             href="#hex"
           />
           <use
-            class="creature queen"
+            class="creature"
             href="#queen"
           />
         </svg>
@@ -355,7 +356,7 @@ exports[`Grasshopper Rule snapshot tests snapshot 1`] = `
         />
       </svg>
       <div
-        class="tile creature"
+        class="tile spider"
       >
         <svg
           viewBox="0 0 100 100"
@@ -365,7 +366,7 @@ exports[`Grasshopper Rule snapshot tests snapshot 1`] = `
             href="#hex"
           />
           <use
-            class="creature spider"
+            class="creature"
             href="#spider"
           />
         </svg>
@@ -384,7 +385,7 @@ exports[`Grasshopper Rule snapshot tests snapshot 1`] = `
         />
       </svg>
       <div
-        class="tile creature"
+        class="tile ant"
       >
         <svg
           viewBox="0 0 100 100"
@@ -394,7 +395,7 @@ exports[`Grasshopper Rule snapshot tests snapshot 1`] = `
             href="#hex"
           />
           <use
-            class="creature ant"
+            class="creature"
             href="#ant"
           />
         </svg>
@@ -459,7 +460,7 @@ exports[`Grasshopper Rule snapshot tests snapshot 1`] = `
         />
       </svg>
       <div
-        class="tile creature"
+        class="tile beetle"
       >
         <svg
           viewBox="0 0 100 100"
@@ -469,7 +470,7 @@ exports[`Grasshopper Rule snapshot tests snapshot 1`] = `
             href="#hex"
           />
           <use
-            class="creature beetle"
+            class="creature"
             href="#beetle"
           />
         </svg>
@@ -477,7 +478,8 @@ exports[`Grasshopper Rule snapshot tests snapshot 1`] = `
       </div>
     </div>
     <div
-      role="none"
+      class="blank"
+      role="cell"
     >
       <svg
         viewBox="0 0 100 100"
@@ -487,6 +489,19 @@ exports[`Grasshopper Rule snapshot tests snapshot 1`] = `
           href="#hex"
         />
       </svg>
+      <div
+        class="tile"
+      >
+        <svg
+          viewBox="0 0 100 100"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <use
+            href="#hex"
+          />
+        </svg>
+        
+      </div>
     </div>
     <div
       class="incorrect"
@@ -546,7 +561,7 @@ exports[`Grasshopper Rule snapshot tests snapshot 1`] = `
         />
       </svg>
       <div
-        class="tile creature"
+        class="tile spider"
       >
         <svg
           viewBox="0 0 100 100"
@@ -556,7 +571,7 @@ exports[`Grasshopper Rule snapshot tests snapshot 1`] = `
             href="#hex"
           />
           <use
-            class="creature spider"
+            class="creature"
             href="#spider"
           />
         </svg>
@@ -575,7 +590,7 @@ exports[`Grasshopper Rule snapshot tests snapshot 1`] = `
         />
       </svg>
       <div
-        class="tile creature"
+        class="tile spider"
       >
         <svg
           viewBox="0 0 100 100"
@@ -585,7 +600,7 @@ exports[`Grasshopper Rule snapshot tests snapshot 1`] = `
             href="#hex"
           />
           <use
-            class="creature spider"
+            class="creature"
             href="#spider"
           />
         </svg>

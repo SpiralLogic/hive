@@ -17,7 +17,7 @@ exports[`PlayerList Tests snapshot 1`] = `
       class="tiles"
     >
       <div
-        class="player1 hex tile creature"
+        class="player1 hex tile ant"
         draggable="true"
         tabindex="0"
         title="ant"
@@ -30,13 +30,13 @@ exports[`PlayerList Tests snapshot 1`] = `
             href="#hex"
           />
           <use
-            class="creature ant"
+            class="creature"
             href="#ant"
           />
         </svg>
       </div>
       <div
-        class="player0 hex tile creature"
+        class="player0 hex tile fly"
         title="fly"
       >
         <svg
@@ -47,13 +47,13 @@ exports[`PlayerList Tests snapshot 1`] = `
             href="#hex"
           />
           <use
-            class="creature fly"
+            class="creature"
             href="#fly"
           />
         </svg>
       </div>
       <div
-        class="player0 hex tile creature"
+        class="player0 hex tile fly"
         title="fly"
       >
         <svg
@@ -64,7 +64,7 @@ exports[`PlayerList Tests snapshot 1`] = `
             href="#hex"
           />
           <use
-            class="creature fly"
+            class="creature"
             href="#fly"
           />
         </svg>
@@ -84,7 +84,7 @@ exports[`PlayerList Tests snapshot 1`] = `
       class="tiles"
     >
       <div
-        class="player1 hex tile creature"
+        class="player1 hex tile ant"
         draggable="true"
         tabindex="0"
         title="ant"
@@ -97,7 +97,7 @@ exports[`PlayerList Tests snapshot 1`] = `
             href="#hex"
           />
           <use
-            class="creature ant"
+            class="creature"
             href="#ant"
           />
         </svg>

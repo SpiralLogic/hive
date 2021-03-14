@@ -28,7 +28,7 @@ exports[`Cell Tests drag and drop cell with tile matches current snapshot 1`] = 
     />
   </svg>
   <div
-    class="player1 hex tile creature"
+    class="player1 hex tile fly"
     title="fly"
   >
     <svg
@@ -39,7 +39,7 @@ exports[`Cell Tests drag and drop cell with tile matches current snapshot 1`] = 
         href="#hex"
       />
       <use
-        class="creature fly"
+        class="creature"
         href="#fly"
       />
     </svg>

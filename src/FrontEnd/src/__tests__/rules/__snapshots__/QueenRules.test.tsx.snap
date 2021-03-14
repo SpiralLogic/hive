@@ -50,7 +50,7 @@ exports[`Queen Rule snapshot tests snapshot 1`] = `
         />
       </svg>
       <div
-        class="tile creature"
+        class="tile ant"
       >
         <svg
           viewBox="0 0 100 100"
@@ -60,7 +60,7 @@ exports[`Queen Rule snapshot tests snapshot 1`] = `
             href="#hex"
           />
           <use
-            class="creature ant"
+            class="creature"
             href="#ant"
           />
         </svg>
@@ -79,7 +79,7 @@ exports[`Queen Rule snapshot tests snapshot 1`] = `
         />
       </svg>
       <div
-        class="tile creature"
+        class="tile spider"
       >
         <svg
           viewBox="0 0 100 100"
@@ -89,7 +89,7 @@ exports[`Queen Rule snapshot tests snapshot 1`] = `
             href="#hex"
           />
           <use
-            class="creature spider"
+            class="creature"
             href="#spider"
           />
         </svg>
@@ -110,7 +110,6 @@ exports[`Queen Rule snapshot tests snapshot 1`] = `
     </div>
   </div>
   <div
-    class="start"
     role="row"
   >
     <div
@@ -145,7 +144,7 @@ exports[`Queen Rule snapshot tests snapshot 1`] = `
     </div>
     <div
       role="cell"
-      style="z-index: 1;"
+      style="z-index: 4;"
     >
       <svg
         viewBox="0 0 100 100"
@@ -156,7 +155,7 @@ exports[`Queen Rule snapshot tests snapshot 1`] = `
         />
       </svg>
       <div
-        class="selected tile creature"
+        class="tile queen selected"
       >
         <svg
           viewBox="0 0 100 100"
@@ -166,7 +165,7 @@ exports[`Queen Rule snapshot tests snapshot 1`] = `
             href="#hex"
           />
           <use
-            class="creature queen"
+            class="creature"
             href="#queen"
           />
         </svg>
@@ -255,7 +254,7 @@ exports[`Queen Rule snapshot tests snapshot 1`] = `
         />
       </svg>
       <div
-        class="tile creature"
+        class="tile spider"
       >
         <svg
           viewBox="0 0 100 100"
@@ -265,7 +264,7 @@ exports[`Queen Rule snapshot tests snapshot 1`] = `
             href="#hex"
           />
           <use
-            class="creature spider"
+            class="creature"
             href="#spider"
           />
         </svg>
@@ -288,7 +287,7 @@ exports[`Queen Rule snapshot tests snapshot 1`] = `
         />
       </svg>
       <div
-        class="tile creature"
+        class="tile grasshopper"
       >
         <svg
           viewBox="0 0 100 100"
@@ -298,7 +297,7 @@ exports[`Queen Rule snapshot tests snapshot 1`] = `
             href="#hex"
           />
           <use
-            class="creature grasshopper"
+            class="creature"
             href="#grasshopper"
           />
         </svg>
@@ -347,7 +346,7 @@ exports[`Queen Rule snapshot tests snapshot 1`] = `
         />
       </svg>
       <div
-        class="tile creature"
+        class="tile queen"
       >
         <svg
           viewBox="0 0 100 100"
@@ -357,7 +356,7 @@ exports[`Queen Rule snapshot tests snapshot 1`] = `
             href="#hex"
           />
           <use
-            class="creature queen"
+            class="creature"
             href="#queen"
           />
         </svg>
@@ -376,7 +375,7 @@ exports[`Queen Rule snapshot tests snapshot 1`] = `
         />
       </svg>
       <div
-        class="tile creature"
+        class="tile beetle"
       >
         <svg
           viewBox="0 0 100 100"
@@ -386,7 +385,7 @@ exports[`Queen Rule snapshot tests snapshot 1`] = `
             href="#hex"
           />
           <use
-            class="creature beetle"
+            class="creature"
             href="#beetle"
           />
         </svg>
@@ -421,7 +420,7 @@ exports[`Queen Rule snapshot tests snapshot 1`] = `
         />
       </svg>
       <div
-        class="tile creature"
+        class="tile grasshopper"
       >
         <svg
           viewBox="0 0 100 100"
@@ -431,7 +430,7 @@ exports[`Queen Rule snapshot tests snapshot 1`] = `
             href="#hex"
           />
           <use
-            class="creature grasshopper"
+            class="creature"
             href="#grasshopper"
           />
         </svg>
@@ -450,7 +449,7 @@ exports[`Queen Rule snapshot tests snapshot 1`] = `
         />
       </svg>
       <div
-        class="tile creature"
+        class="tile ant"
       >
         <svg
           viewBox="0 0 100 100"
@@ -460,7 +459,7 @@ exports[`Queen Rule snapshot tests snapshot 1`] = `
             href="#hex"
           />
           <use
-            class="creature ant"
+            class="creature"
             href="#ant"
           />
         </svg>
@@ -479,7 +478,7 @@ exports[`Queen Rule snapshot tests snapshot 1`] = `
         />
       </svg>
       <div
-        class="tile creature"
+        class="tile beetle"
       >
         <svg
           viewBox="0 0 100 100"
@@ -489,7 +488,7 @@ exports[`Queen Rule snapshot tests snapshot 1`] = `
             href="#hex"
           />
           <use
-            class="creature beetle"
+            class="creature"
             href="#beetle"
           />
         </svg>

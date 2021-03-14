@@ -172,7 +172,7 @@ exports[`ant Rule snapshot tests snapshot 1`] = `
         />
       </svg>
       <div
-        class="tile creature"
+        class="tile queen"
       >
         <svg
           viewBox="0 0 100 100"
@@ -182,7 +182,7 @@ exports[`ant Rule snapshot tests snapshot 1`] = `
             href="#hex"
           />
           <use
-            class="creature queen"
+            class="creature"
             href="#queen"
           />
         </svg>
@@ -328,7 +328,7 @@ exports[`ant Rule snapshot tests snapshot 1`] = `
         />
       </svg>
       <div
-        class="tile creature"
+        class="tile grasshopper"
       >
         <svg
           viewBox="0 0 100 100"
@@ -338,7 +338,7 @@ exports[`ant Rule snapshot tests snapshot 1`] = `
             href="#hex"
           />
           <use
-            class="creature grasshopper"
+            class="creature"
             href="#grasshopper"
           />
         </svg>
@@ -387,7 +387,7 @@ exports[`ant Rule snapshot tests snapshot 1`] = `
         />
       </svg>
       <div
-        class="tile creature"
+        class="tile queen"
       >
         <svg
           viewBox="0 0 100 100"
@@ -397,7 +397,7 @@ exports[`ant Rule snapshot tests snapshot 1`] = `
             href="#hex"
           />
           <use
-            class="creature queen"
+            class="creature"
             href="#queen"
           />
         </svg>
@@ -502,7 +502,7 @@ exports[`ant Rule snapshot tests snapshot 1`] = `
         />
       </svg>
       <div
-        class="tile creature"
+        class="tile beetle"
       >
         <svg
           viewBox="0 0 100 100"
@@ -512,7 +512,7 @@ exports[`ant Rule snapshot tests snapshot 1`] = `
             href="#hex"
           />
           <use
-            class="creature beetle"
+            class="creature"
             href="#beetle"
           />
         </svg>
@@ -531,7 +531,7 @@ exports[`ant Rule snapshot tests snapshot 1`] = `
         />
       </svg>
       <div
-        class="tile creature"
+        class="tile beetle"
       >
         <svg
           viewBox="0 0 100 100"
@@ -541,7 +541,7 @@ exports[`ant Rule snapshot tests snapshot 1`] = `
             href="#hex"
           />
           <use
-            class="creature beetle"
+            class="creature"
             href="#beetle"
           />
         </svg>
@@ -648,7 +648,7 @@ exports[`ant Rule snapshot tests snapshot 1`] = `
     </div>
     <div
       role="cell"
-      style="z-index: 2;"
+      style="z-index: 4;"
     >
       <svg
         viewBox="0 0 100 100"
@@ -659,7 +659,7 @@ exports[`ant Rule snapshot tests snapshot 1`] = `
         />
       </svg>
       <div
-        class="selected tile creature"
+        class="tile ant selected"
       >
         <svg
           viewBox="0 0 100 100"
@@ -669,7 +669,7 @@ exports[`ant Rule snapshot tests snapshot 1`] = `
             href="#hex"
           />
           <use
-            class="creature ant"
+            class="creature"
             href="#ant"
           />
         </svg>
