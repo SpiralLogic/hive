@@ -44,16 +44,3 @@ jobs:
         run: pnpm install
       - name: Test
         run: pnpm test 
-  build-and-push:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: kciter/aws-ecr-action@master
-        with:
-          access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          account_id: ${{ secrets.AWS_ACCOUNT_ID }}
-          dockerfile: ops/dockerfile
-          repo: hive
-          region: ap-southeast-2
-          tags: latest,${{ github.sha }}
