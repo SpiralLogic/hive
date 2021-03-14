@@ -2,7 +2,7 @@
 
 exports[`ant Rule snapshot tests snapshot 1`] = `
 <div
-  class="right"
+  class="left"
   role="grid"
 >
   <div
@@ -91,34 +91,22 @@ exports[`ant Rule snapshot tests snapshot 1`] = `
         </span>
       </div>
     </div>
-    <div
-      role="none"
-    >
-      <svg
-        viewBox="0 0 100 100"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <use
-          href="#hex"
-        />
-      </svg>
-    </div>
-    <div
-      role="none"
-    >
-      <svg
-        viewBox="0 0 100 100"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <use
-          href="#hex"
-        />
-      </svg>
-    </div>
   </div>
   <div
     role="row"
   >
+    <div
+      role="none"
+    >
+      <svg
+        viewBox="0 0 100 100"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <use
+          href="#hex"
+        />
+      </svg>
+    </div>
     <div
       class="correct"
       role="cell"
@@ -450,6 +438,18 @@ exports[`ant Rule snapshot tests snapshot 1`] = `
     role="row"
   >
     <div
+      role="none"
+    >
+      <svg
+        viewBox="0 0 100 100"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <use
+          href="#hex"
+        />
+      </svg>
+    </div>
+    <div
       class="correct"
       role="cell"
       style="z-index: 1;"
@@ -593,6 +593,18 @@ exports[`ant Rule snapshot tests snapshot 1`] = `
   <div
     role="row"
   >
+    <div
+      role="none"
+    >
+      <svg
+        viewBox="0 0 100 100"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <use
+          href="#hex"
+        />
+      </svg>
+    </div>
     <div
       role="none"
     >

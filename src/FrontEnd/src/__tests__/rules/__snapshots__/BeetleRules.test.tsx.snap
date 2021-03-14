@@ -2,12 +2,24 @@
 
 exports[`Beetle Rule snapshot tests snapshot 1`] = `
 <div
-  class="left"
+  class="right"
   role="grid"
 >
   <div
     role="row"
   >
+    <div
+      role="none"
+    >
+      <svg
+        viewBox="0 0 100 100"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <use
+          href="#hex"
+        />
+      </svg>
+    </div>
     <div
       class="correct"
       role="cell"
@@ -63,18 +75,6 @@ exports[`Beetle Rule snapshot tests snapshot 1`] = `
         </svg>
         
       </div>
-    </div>
-    <div
-      role="none"
-    >
-      <svg
-        viewBox="0 0 100 100"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <use
-          href="#hex"
-        />
-      </svg>
     </div>
   </div>
   <div
@@ -215,6 +215,18 @@ exports[`Beetle Rule snapshot tests snapshot 1`] = `
     role="row"
   >
     <div
+      role="none"
+    >
+      <svg
+        viewBox="0 0 100 100"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <use
+          href="#hex"
+        />
+      </svg>
+    </div>
+    <div
       class="correct"
       role="cell"
     >
@@ -276,32 +288,6 @@ exports[`Beetle Rule snapshot tests snapshot 1`] = `
             ✓
           </span>
         </span>
-      </div>
-    </div>
-    <div
-      class="blank"
-      role="cell"
-    >
-      <svg
-        viewBox="0 0 100 100"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <use
-          href="#hex"
-        />
-      </svg>
-      <div
-        class="tile"
-      >
-        <svg
-          viewBox="0 0 100 100"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <use
-            href="#hex"
-          />
-        </svg>
-        
       </div>
     </div>
   </div>

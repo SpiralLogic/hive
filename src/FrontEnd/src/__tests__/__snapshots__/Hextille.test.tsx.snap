@@ -2,7 +2,7 @@
 
 exports[`Hextille Tests Hextille Snapshot matches current snapshot 1`] = `
 <div
-  class="right"
+  class="left"
   role="grid"
 >
   <div

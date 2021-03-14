@@ -2,7 +2,7 @@
 
 exports[`Grasshopper Rule snapshot tests snapshot 1`] = `
 <div
-  class="right"
+  class="left"
   role="grid"
 >
   <div
@@ -203,6 +203,18 @@ exports[`Grasshopper Rule snapshot tests snapshot 1`] = `
   <div
     role="row"
   >
+    <div
+      role="none"
+    >
+      <svg
+        viewBox="0 0 100 100"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <use
+          href="#hex"
+        />
+      </svg>
+    </div>
     <div
       role="none"
     >
@@ -418,6 +430,18 @@ exports[`Grasshopper Rule snapshot tests snapshot 1`] = `
   <div
     role="row"
   >
+    <div
+      role="none"
+    >
+      <svg
+        viewBox="0 0 100 100"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <use
+          href="#hex"
+        />
+      </svg>
+    </div>
     <div
       class="correct"
       role="cell"
