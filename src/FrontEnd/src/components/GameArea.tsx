@@ -2,6 +2,7 @@ import '../css/gameArea.css';
 import { Cell, GameState, HexCoordinates, Player, PlayerId, Tile } from '../domain';
 import { FunctionComponent, h } from 'preact';
 import { HextilleBuilder } from '../services';
+import { shareGame } from '../utilities/clipboard';
 import { handleDragOver } from '../utilities/handlers';
 import { useState } from 'preact/hooks';
 import GameCell from './GameCell';
@@ -35,21 +36,28 @@ const GameArea: FunctionComponent<Props> = ({ players, cells, playerId }) => {
   const hextilleBuilder = new HextilleBuilder(cells);
   if (!new URLSearchParams(location.search).has('2')) removeOtherPlayerMoves(playerId, { players, cells });
 
-  const parts = window.location.href.split('/');
-  parts.push(parts.pop() === '1' ? '0' : '1');
-  const shareUrl = parts.join('/');
-
   const [showRules, setShowRules] = useState<boolean>(false);
   const [showShare, setShowShare] = useState<boolean>(false);
   const rows = hextilleBuilder.createRows();
+
+  const getShareUrl = () => {
+    const parts = window.location.href.split('/');
+    parts.push(parts.pop() === '1' ? '0' : '1');
+    return parts.join('/');
+  };
+
+  const shareComponent = async () => {
+    setShowShare(await shareGame(getShareUrl()));
+  };
+
   return (
     <div {...attributes} title={'Hive Game Area'}>
       <Players players={players} />
       <main>
         <Links
-          shareUrl={shareUrl}
+          shareUrl={getShareUrl()}
           onShowRules={() => setShowRules(true)}
-          onShowShare={() => setShowShare(true)}
+          onShowShare={() => shareComponent()}
         />
         <Hextille>
           {rows.map((row) => (
@@ -66,7 +74,7 @@ const GameArea: FunctionComponent<Props> = ({ players, cells, playerId }) => {
         </Hextille>
       </main>
       {showRules ? <Rules setShowRules={setShowRules} /> : ''}
-      {showShare ? <Share url={shareUrl} setShowShare={setShowShare} /> : ''}
+      {showShare ? <Share setShowShare={setShowShare} /> : ''}
     </div>
   );
 };

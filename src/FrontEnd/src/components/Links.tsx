@@ -7,6 +7,7 @@ type Props = { shareUrl: string; onShowRules: () => void; onShowShare: () => voi
 const Links: FunctionComponent<Props> = (props) => {
   const handle = (handler: () => void) => (e: MouseEvent) => {
     e.preventDefault();
+    e.stopPropagation();
     handler();
     return false;
   };

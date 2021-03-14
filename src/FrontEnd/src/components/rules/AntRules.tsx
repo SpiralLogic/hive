@@ -35,7 +35,6 @@ const AntRules = () => (
       </Row>
       <Row>
         <Hexagon hidden={true} />
-        <Hexagon hidden={true} />
         <RuleCell result="correct" correctArrows={['topLeft']} zIndex={1} />
         <RuleCell selected creature="ant" correctArrows={['left', 'right']} zIndex={2} />
         <RuleCell result="correct" correctArrows={['topRight']} zIndex={1} />
