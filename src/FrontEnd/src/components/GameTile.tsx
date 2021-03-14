@@ -48,14 +48,17 @@ const GameTile: FunctionComponent<TileType> = (tile: TileType) => {
     setClassList({ type: 'add', classes: ['beforeDrag'] });
     setTimeout(() => setClassList({ type: 'remove', classes: ['beforeDrag'] }), 1);
   };
+
   const handleDragEnd = () => {
     dispatchHiveEvent({ type: 'tileClear' });
     dispatchHiveEvent({ type: 'tileDropped', tile: tile });
   };
+
   const handleClick = (event: MouseEvent) => {
     event.stopPropagation();
     !classes.includes('selected') ? select() : deselect();
   };
+
   const handleKeyDown = (e: KeyboardEvent) => {
     if (handleKeyboardNav(e) || !isEnterOrSpace(e)) return;
     e.stopPropagation();

@@ -9,7 +9,8 @@
 }
 
 [role='cell'].can-drop .tile:not(.selected) {
-  opacity: 100%;
+  opacity: 100%; 
+  pointer-events: none;
 }
 
 .tile:not([draggable="true"]) {
@@ -35,10 +36,6 @@
   top: 0;
   transition: box-shadow 0.2s ease-in;
   width: 90%;
-}
-
-.tile.selected:before {
-  --shadow: var(--shadow);
 }
 
 .beforeDrag:before {

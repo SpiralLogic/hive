@@ -1,9 +1,12 @@
 [role='grid'] {
-  --focus: #1712A290;
   border-radius: 0.05rem;
   display: flex;
   flex-direction: column;
   margin: 0 auto;
+}
+
+[role='grid'] .tile:not(.selected):before {
+  --shadow: #1712A290;
 }
 
 [role='none'] {
