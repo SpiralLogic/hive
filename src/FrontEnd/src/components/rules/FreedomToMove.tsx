@@ -1,5 +1,4 @@
 import { Fragment, h } from 'preact';
-import Hexagon from '../Hexagon';
 import Hextille from '../Hextille';
 import Row from '../Row';
 import RuleCell from './RuleCell';
@@ -8,10 +7,8 @@ const FreedomToMove = () => (
   <>
     <Hextille class="rules">
       <Row>
-        <Hexagon hidden={true} />
         <RuleCell creature="ant" />
         <RuleCell creature="grasshopper" />
-        <Hexagon hidden={true} />
       </Row>
       <Row>
         <RuleCell creature="spider" />
@@ -19,7 +16,6 @@ const FreedomToMove = () => (
         <RuleCell creature={'beetle'} />
       </Row>
       <Row>
-        <Hexagon hidden={true} />
         <RuleCell creature="ant" />
         <RuleCell result="incorrect" />
       </Row>

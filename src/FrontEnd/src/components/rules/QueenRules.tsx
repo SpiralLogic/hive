@@ -8,10 +8,10 @@ const QueenRules = () => (
   <>
     <Hextille class="rules">
       <Row>
+        <Hexagon hidden={true} />
         <RuleCell result="correct" />
         <RuleCell creature="ant" />
         <RuleCell creature="spider" />
-        <Hexagon hidden={true} />
       </Row>
       <Row>
         <RuleCell result="correct" />
@@ -25,13 +25,12 @@ const QueenRules = () => (
         <RuleCell creature="spider" />
       </Row>
       <Row>
-        <RuleCell creature="grasshopper" />
-        <RuleCell result="correct" />
+        <Hexagon hidden={true} />
         <RuleCell creature="queen" />
+        <RuleCell result="correct" />
         <RuleCell creature="beetle" />
       </Row>
       <Row>
-        <Hexagon hidden={true} />
         <RuleCell creature="grasshopper" />
         <RuleCell creature="ant" />
         <RuleCell creature="beetle" />

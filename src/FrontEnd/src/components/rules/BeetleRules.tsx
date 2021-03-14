@@ -8,9 +8,9 @@ const BeetleRules = () => (
   <>
     <Hextille class="rules">
       <Row>
+        <Hexagon hidden={true} />
         <RuleCell result="correct" />
         <RuleCell />
-        <Hexagon hidden={true} />
       </Row>
       <Row>
         <RuleCell result="correct" creature="spider" />
@@ -22,9 +22,9 @@ const BeetleRules = () => (
         <RuleCell />
       </Row>
       <Row>
+        <Hexagon hidden={true} />
         <RuleCell result="correct" creature="ant" />
         <RuleCell result="correct" />
-        <RuleCell />
       </Row>
       <Row>
         <Hexagon hidden={true} />

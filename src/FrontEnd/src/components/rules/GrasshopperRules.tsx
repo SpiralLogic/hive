@@ -25,6 +25,7 @@ const GrasshopperRules = () => (
       </Row>
       <Row>
         <Hexagon hidden={true} />
+        <Hexagon hidden={true} />
         <RuleCell creature="grasshopper" />
         <RuleCell />
         <RuleCell creature="ant" />
@@ -37,6 +38,7 @@ const GrasshopperRules = () => (
         <Hexagon hidden={true} />
       </Row>
       <Row>
+        <Hexagon hidden={true} />
         <RuleCell result="correct" />
         <RuleCell creature="beetle" />
         <RuleCell />

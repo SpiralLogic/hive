@@ -8,7 +8,6 @@ const OneHiveRule = () => (
   <>
     <Hextille class="rules">
       <Row>
-        <Hexagon hidden={true} />
         <RuleCell creature="beetle" />
         <RuleCell creature="beetle" />
       </Row>
@@ -19,7 +18,6 @@ const OneHiveRule = () => (
         <RuleCell />
       </Row>
       <Row>
-        <Hexagon hidden={true} />
         <RuleCell creature="ant" />
         <RuleCell creature="queen" incorrectArrows={['topRight']} />
         <RuleCell creature="grasshopper" />

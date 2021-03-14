@@ -11,10 +11,9 @@ const AntRules = () => (
         <Hexagon hidden={true} />
         <RuleCell result="correct" correctArrows={['right']} zIndex={1} />
         <RuleCell result="correct" zIndex={0} />
-        <Hexagon hidden={true} />
-        <Hexagon hidden={true} />
       </Row>
       <Row>
+        <Hexagon hidden={true} />
         <RuleCell result="correct" correctArrows={['topRight']} zIndex={1} />
         <RuleCell creature="queen" />
         <RuleCell result="correct" incorrectArrows={['bottomLeft']} zIndex={1} />
@@ -28,12 +27,14 @@ const AntRules = () => (
         <RuleCell result="correct" correctArrows={['topLeft']} zIndex={1} />
       </Row>
       <Row>
+        <Hexagon hidden={true} />
         <RuleCell result="correct" correctArrows={['topLeft']} zIndex={1} />
         <RuleCell creature="beetle" />
         <RuleCell creature="beetle" />
         <RuleCell result="correct" correctArrows={['topRight']} zIndex={1} />
       </Row>
       <Row>
+        <Hexagon hidden={true} />
         <Hexagon hidden={true} />
         <RuleCell result="correct" correctArrows={['topLeft']} zIndex={1} />
         <RuleCell selected creature="ant" correctArrows={['left', 'right']} zIndex={2} />

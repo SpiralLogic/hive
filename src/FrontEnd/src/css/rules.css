@@ -53,6 +53,10 @@
   clip-path: circle(40%);
 }
 
+.rules .correct .tile .creature {
+  opacity: 30%;
+}
+
 .rules [role='cell'] {
   z-index: unset;
   fill: black;

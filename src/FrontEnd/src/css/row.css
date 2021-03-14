@@ -1,8 +1,8 @@
 [role='row'] {
   display: inline-flex;
   flex-direction: row;
-  margin: calc(var(--hex-size) * -0.1) 0;
   min-width: calc(2 * var(--hex-size));
+  margin: calc(var(--hex-size) * -0.1) 0;
 }
 
 [role='row']:nth-child(1) {
@@ -16,4 +16,5 @@
 .right > [role='row']:nth-child(even),
 .left > [role='row']:nth-child(odd) {
   margin-left: calc(var(--hex-size) / 2);
+  margin-right: calc(var(--hex-size) / 2);
 }

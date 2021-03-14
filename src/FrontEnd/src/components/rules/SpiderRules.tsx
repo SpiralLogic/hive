@@ -14,6 +14,7 @@ const SpiderRules = () => (
         <RuleCell result="correct" zIndex={3} symbol="1" correctArrows={['bottomRight']} />
       </Row>
       <Row>
+        <Hexagon hidden={true} />
         <RuleCell creature="beetle" />
         <RuleCell
           result="correct"
@@ -32,11 +33,11 @@ const SpiderRules = () => (
         <RuleCell result="correct" />
       </Row>
       <Row>
+        <Hexagon hidden={true} />
         <RuleCell creature="queen" />
         <RuleCell result="correct" />
         <RuleCell result="correct" />
         <RuleCell creature="beetle" />
-        <Hexagon hidden={true} />
       </Row>
       <Row>
         <Hexagon hidden={true} />
