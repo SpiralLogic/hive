@@ -17,7 +17,6 @@ exports[`Share tests snapshot 1`] = `
     >
       Close
     </button>
-     
   </div>
 </div>
 `;
