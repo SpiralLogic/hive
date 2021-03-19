@@ -1,12 +1,15 @@
 ﻿using System;
+using System.Linq;
 using Hive.Domain.Entities;
 
 namespace Hive.Domain.Tests.TestUtils
 {
-    internal record HiveCharacter(string Name, char Symbol, ConsoleColor Color)
+    internal record HiveCharacter(Creature Creature, char Symbol, ConsoleColor Color)
     {
-
-        internal readonly Creature Creature = Creatures.Queen with {Name = Name};
+        public HiveCharacter(string Name, char Symbol, ConsoleColor Color) :this(Creatures.Queen with {Name = Name}, Symbol, Color)
+        {
+            
+        }
 
         public override string ToString()
         {
@@ -18,6 +21,21 @@ namespace Hive.Domain.Tests.TestUtils
                 Color is ConsoleColor.Cyan ? 36 : 0;
 
             return $"\u001b[{color}m{Symbol}\u001b[0m";
+        }
+    }
+
+    internal record HiveCreature : HiveCharacter
+    {
+        public HiveCreature(Creature creature, bool isEnemy) : base(
+            creature,
+            isEnemy ?  creature.Name.ToLowerInvariant().First():creature.Name.ToUpperInvariant().First(),
+            isEnemy ? ConsoleColor.Magenta : ConsoleColor.Cyan)
+        {
+        }
+
+        public override string ToString()
+        {
+            return base.ToString();
         }
     }
 }

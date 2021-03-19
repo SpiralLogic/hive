@@ -7,6 +7,16 @@ namespace Hive.Domain.Entities
 {
     public sealed record Creature(string Name)
     {
+        public bool Equals(Creature? other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
+            return Name == other.Name;
+        }
+
+        public override int GetHashCode() =>
+            Name.GetHashCode();
+
         internal IEnumerable<IMovements> Movements { get; init; } = new List<IMovements>();
 
         public ISet<Coords> GetAvailableMoves(Cell originCell, ISet<Cell> cells)

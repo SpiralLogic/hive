@@ -11,28 +11,25 @@ namespace Hive.Domain.Movements
         {
             if (currentCell.Tiles.Count > 1) return allCells.ToCoords();
 
-            var allOccupiedNonNeighbors = new HashSet<Cell>(allCells.WhereOccupied());
-            allOccupiedNonNeighbors.Remove(currentCell);
-            if (allOccupiedNonNeighbors.Count == 0) return allCells.ToCoords();
+            var allOccupied = new HashSet<Cell>(allCells.WhereOccupied());
+            allOccupied.Remove(currentCell);
+            if (allOccupied.Count == 0) return allCells.ToCoords();
 
-            if (allOccupiedNonNeighbors.Count == 1)
-                return allOccupiedNonNeighbors.Union(allCells.SelectNeighbors(allOccupiedNonNeighbors.First()))
-                    .ToCoords();
+            if (allOccupied.Count == 1)
+                return allOccupied.Union(allOccupied.First().SelectNeighbors(allCells)).ToCoords();
 
-            CheckIsInHive(allOccupiedNonNeighbors, allOccupiedNonNeighbors.First());
+            CheckIsInHive(allOccupied, allOccupied.First());
 
-            return !allOccupiedNonNeighbors.Any()
-                ? allCells.RemoveCell(currentCell)
-                    .ToCoords()
-                : new HashSet<Coords>();
+            if (allOccupied.Any()) return new HashSet<Coords>();
+
+            return allCells.ToCoords();
         }
 
-        private static void CheckIsInHive(ISet<Cell> allOccupiedNonNeighbors, Cell toCheck)
+        private static void CheckIsInHive(ISet<Cell> remaining, Cell toCheck)
         {
-            allOccupiedNonNeighbors.Remove(toCheck);
-            toCheck.SelectNeighbors(allOccupiedNonNeighbors)
-                .ToList()
-                .ForEach(c => CheckIsInHive(allOccupiedNonNeighbors, c));
+            remaining.Remove(toCheck);
+            foreach (var cell in toCheck.SelectNeighbors(remaining))
+                CheckIsInHive(remaining, cell);
         }
     }
 }

@@ -65,13 +65,12 @@ namespace Hive.Domain.Tests
                 .First()
                 .Tiles.First(t => t.Creature == Creatures.Queen);
 
-            hive.Move(p1Queen.Id, new Coords(0, 0));
-            hive.Move(p2Queen.Id, new Coords(0, -1));
+            hive.Move(new Move(p1Queen, new Coords(0, 0)));
+            hive.Move(new Move(p2Queen, new Coords(0, -1)));
 
             var cell = new Cell(new Coords(q, r));
 
-            hive.Cells.Should()
-                .Contain(cell);
+            hive.Cells.Should().Contain(cell);
         }
 
         [Fact]
@@ -81,7 +80,7 @@ namespace Hive.Domain.Tests
             var player = hive.Players[0];
             var playerTile = player.Tiles.First();
 
-            hive.Move(playerTile.Id, playerTile.Moves.First());
+            hive.Move(new Move(playerTile, playerTile.Moves.First()));
 
             hive.Cells.Should()
                 .Contain(cell => cell.TopTile() == playerTile);
@@ -96,14 +95,14 @@ namespace Hive.Domain.Tests
             var player1Tile = player1.Tiles.First();
             var player2Tile = player2.Tiles.First();
 
-            hive.Move(player1Tile.Id, player1Tile.Moves.First());
-            hive.Move(player2Tile.Id, player2Tile.Moves.First());
+            hive.Move(new Move(player1Tile, player1Tile.Moves.First()));
+            hive.Move(new Move(player2Tile, player2Tile.Moves.First()));
 
             var fromCell = hive.Cells.First(cell => !cell.IsEmpty());
             var tileToMove = fromCell.TopTile();
             var toCell = hive.Cells.Single(cell => cell.Coords == tileToMove.Moves.First());
 
-            hive.Move(tileToMove.Id, toCell.Coords);
+            hive.Move(new Move(tileToMove, toCell.Coords));
 
             toCell.TopTile()
                 .Should()
@@ -142,12 +141,12 @@ namespace Hive.Domain.Tests
                 .First();
             var secondPlayerTile = secondPlayer.Tiles.First();
 
-            hive.Move(firstPlayerTile.Id, firstPlayerTile.Moves.First());
+            hive.Move(new Move(firstPlayerTile, firstPlayerTile.Moves.First()));
 
             var secondPlayerCanMoveSecond = hive.Players.SelectMany(p => p.Tiles)
                 .Where(t => t.Moves.Any())
                 .All(t => t.PlayerId == secondPlayer.Id);
-            hive.Move(secondPlayerTile.Id, secondPlayerTile.Moves.First());
+            hive.Move(new Move(secondPlayerTile, secondPlayerTile.Moves.First()));
 
             var firstPlayerCanMoveThird = hive.Players.SelectMany(p => p.Tiles)
                 .Where(t => t.Moves.Any())
@@ -178,7 +177,7 @@ namespace Hive.Domain.Tests
         public void InvalidMovesHaveNoEffect()
         {
             var hive = new Hive(new[] {"player1", "player2"});
-            hive.Move(1, new Coords(34, 34))
+            hive.Move(new Move(new Tile(1,1,Creatures.Grasshopper), new Coords(34, 34)))
                 .Should()
                 .Be(MoveResult.Invalid);
         }
@@ -195,8 +194,8 @@ namespace Hive.Domain.Tests
                 .Take(3);
             foreach (var z in player1Tiles.Zip(player2Tiles))
             {
-                hive.Move(z.First.Id, z.First.Moves.First());
-                hive.Move(z.Second.Id, z.Second.Moves.First());
+                hive.Move(new Move(z.First, z.First.Moves.First()));
+                hive.Move(new Move(z.Second, z.Second.Moves.First()));
             }
 
             hive.Players.SelectMany(p => p.Tiles)
@@ -227,7 +226,7 @@ namespace Hive.Domain.Tests
                 .Tiles.First(t => t.Creature == Creatures.Queen);
 
             var hive2 = new Hive(players, cells);
-            hive2.Move(queen.Id, new Coords(0, 0))
+            hive2.Move(new Move(queen, new Coords(0, 0)))
                 .Should()
                 .Be(MoveResult.GameOver);
         }
@@ -244,8 +243,7 @@ namespace Hive.Domain.Tests
                 player1, player2
             }, hive.Cells);
 
-            hive.Move(player1.Tiles.First()
-                .Id, new Coords(0, 0));
+            hive.Move(new Move(player1.Tiles.First(), new Coords(0, 0)));
 
             var allTiles = hive.Cells.SelectMany(c => c.Tiles)
                 .Concat(hive.Players.SelectMany(p => p.Tiles))

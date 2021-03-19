@@ -6,10 +6,9 @@ namespace Hive.Domain.Entities
     {
         public ISet<Tile> Tiles { get; init; } = new HashSet<Tile>();
 
-        internal Tile RemoveTile(Tile tile)
+        internal void RemoveTile(Tile tile)
         {
             Tiles.Remove(tile);
-            return tile;
         }
     }
 }

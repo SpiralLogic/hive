@@ -15,7 +15,7 @@ namespace Hive.Domain.Tests.MovementTests
             initial += "⬡ ★ ⬡";
             initial += " ⬡ ⬡ ";
 
-            var expected = new ExpectedHiveBuilder();
+            var expected = new ExpectedMovementBuilder();
 
             expected += " ✔ ✔ ";
             expected += "✔ ★ ✔";
@@ -38,7 +38,7 @@ namespace Hive.Domain.Tests.MovementTests
             initial += " ⬡ ⬡ ⬡ ⬡ ";
             initial += "⬡ ⬡ ⬡ ⬡ ⬡";
 
-            var expected = new ExpectedHiveBuilder();
+            var expected = new ExpectedMovementBuilder();
 
             expected += "⬡ ⬡ ⬡ ⬡ ⬡";
             expected += " ⬡ ✔ ✔ ⬡ ";

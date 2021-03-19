@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
+using System.Text.Json;
 using Hive.Domain.Entities;
 using Hive.Domain.Extensions;
 
@@ -9,11 +10,10 @@ namespace Hive.Domain
 {
     public class Hive
     {
-
         private readonly Coords _initialCoords = new(0, 0);
 
-        private readonly ImmutableArray<Creature> _startingTiles = ImmutableArray.Create(Creatures.Queen, Creatures.Spider, Creatures.Spider, Creatures.Beetle, Creatures.Beetle, Creatures.Grasshopper, Creatures.Grasshopper,
-            Creatures.Grasshopper, Creatures.Ant, Creatures.Ant, Creatures.Ant);
+        private readonly ImmutableArray<Creature> _startingTiles = ImmutableArray.Create(Creatures.Spider, Creatures.Spider, Creatures.Beetle, Creatures.Beetle, Creatures.Grasshopper, Creatures.Grasshopper,
+            Creatures.Grasshopper, Creatures.Queen,  Creatures.Ant, Creatures.Ant, Creatures.Ant);
 
         public Hive(IEnumerable<string> playerNames)
         {
@@ -25,22 +25,35 @@ namespace Hive.Domain
         {
             Cells = cells ?? throw new ArgumentNullException(nameof(cells));
             Players = players ?? throw new ArgumentNullException(nameof(players));
+            /*var moves = GetMoves();
+            if (!moves.Any())
+            {
+                var currentPlayer = Players.FindPlayerById(0);
+                UpdateMoves(currentPlayer);
+            }*/
         }
 
         public ISet<Cell> Cells { get; }
         public IList<Player> Players { get; }
 
-        public MoveResult Move(int tileId, Coords coords)
+        public MoveResult Move(Move move)
         {
-            if (!IsValidMove(tileId, coords)) return MoveResult.Invalid;
+            if (!IsValidMove(move)) return MoveResult.Invalid;
 
-            var tileToMove = FindAndRemoveTile(tileId);
-            PerformMove(coords, tileToMove);
+            PerformMove(move);
 
-            var nextPlayer = GetNextPlayer(tileToMove);
+            var nextPlayer = GetNextPlayer(move.Tile);
             if (IsGameOver()) return MoveResult.GameOver;
 
             UpdateMoves(nextPlayer);
+            /*if (nextPlayer.Id == 1)
+            {
+                var newHive = new Hive(JsonSerializer.Deserialize<IList<Player>>(JsonSerializer.Serialize(Players))!, JsonSerializer.Deserialize<ISet<Cell>>(JsonSerializer.Serialize(Cells))!);
+                var aiMove = new ComputerPlayer(nextPlayer).GetMove(newHive);
+                Move(aiMove);
+
+                return MoveResult.Success;
+            }*/
             if (CountMovesAvailable() != 0) return MoveResult.Success;
 
             UpdateMoves(SkipTurn(nextPlayer));
@@ -61,10 +74,21 @@ namespace Hive.Domain
             UpdatePlayerTileMoves(nextPlayer);
         }
 
-        private void PerformMove(Coords coords, Tile movedTile)
+        /*private ISet<Move> GetMoves()
         {
-            Cells.FindCell(coords)
-                .AddTile(movedTile);
+
+            return Players.SelectMany(p => p.Tiles)
+                .Concat(Cells.SelectMany(c => c.Tiles))
+                .SelectMany(t => t.Moves.Select(m => new Move(t, m)))
+                .ToHashSet();
+        }*/
+
+        private void PerformMove(Move move)
+        {
+            RemoveTile(move.Tile);
+            var (tile, coords) = move;
+            Cells.First(c => c.Coords == coords)
+                .AddTile(tile);
             ClearAllTileMoves();
         }
 
@@ -136,26 +160,23 @@ namespace Hive.Domain
                 .Count();
         }
 
-        private bool IsValidMove(int tileId, Coords coords)
+        private bool IsValidMove(Move move)
         {
+            var (tile, coords) = move;
             return Players.SelectMany(p => p.Tiles)
                 .Union(Cells.SelectMany(p => p.Tiles))
-                .Single(t => t.Id == tileId)
-                .Moves.Contains(coords);
+                .SingleOrDefault(t => t == tile)
+                ?.Moves?.Contains(coords) ?? false;
         }
 
-        private Tile FindAndRemoveTile(int tileId)
+        private void RemoveTile(Tile tile)
         {
-            var pTile = Players.SelectMany(p => p.Tiles)
-                .FirstOrDefault(t => t.Id == tileId);
+            Players.FindPlayerById(tile.PlayerId)
+                .RemoveTile(tile);
 
-            return pTile != null
-                ? Players.FindPlayerById(pTile.PlayerId)
-                    .RemoveTile(pTile)
-                : Cells.WhereOccupied()
-                    .First(c => c.TopTile()
-                        .Id == tileId)
-                    .RemoveTopTile();
+            Cells.WhereOccupied()
+                .FirstOrDefault(c => c.TopTile() == tile)
+                ?.RemoveTopTile();
         }
 
         private IList<Player> CreatePlayers(IEnumerable<string> playerNames)

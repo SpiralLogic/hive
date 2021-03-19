@@ -15,6 +15,7 @@ using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Options;
 using Moq;
 using Xunit;
+using Move = Hive.DTOs.Move;
 
 namespace Hive.Api.Tests.Controllers
 {
@@ -28,12 +29,11 @@ namespace Hive.Api.Tests.Controllers
         public MoveControllerTests()
         {
             var game = new Domain.Hive(new[] {"player1", "player2"});
-            game.Move(game.Players[0]
+            game.Move(new Domain.Entities.Move(game.Players[0]
+                .Tiles.First(), new Coords(1, 0)));
+            game.Move(new Domain.Entities.Move(game.Players[1]
                 .Tiles.First()
-                .Id, new Coords(1, 0));
-            game.Move(game.Players[1]
-                .Tiles.First()
-                .Id, new Coords(2, 0));
+                , new Coords(2, 0)));
             var gameState = new GameState(game.Players, game.Cells, ExistingGameId);
 
             var jsonOptions = new JsonOptions();

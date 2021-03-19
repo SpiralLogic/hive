@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Options;
+using Move = Hive.DTOs.Move;
 
 namespace Hive.Controllers
 {
@@ -40,7 +41,8 @@ namespace Hive.Controllers
             var (players, cells, _) = JsonSerializer.Deserialize<GameState>(gameSession, _jsonSerializerOptions)!;
 
             var game = new Domain.Hive(players.ToList(), cells.ToHashSet());
-            if (game.Move(move.TileId, move.Coords) == MoveResult.Invalid) return Forbid();
+            var tile = players.SelectMany(p => p.Tiles).Concat(cells.SelectMany(c => c.Tiles)).FirstOrDefault(t => t.Id == move.TileId);
+            if (tile==null || game.Move(new Domain.Entities.Move(tile,move.Coords)) == MoveResult.Invalid) return Forbid();
 
             var newGameState = new GameState(game.Players, game.Cells, id);
 
