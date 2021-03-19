@@ -46,8 +46,8 @@ const GameArea: FunctionComponent<Props> = ({ players, cells, playerId }) => {
     return parts.join('/');
   };
 
-  const shareComponent = async () => {
-    setShowShare(await shareGame(getShareUrl()));
+  const shareComponent = () => {
+    setShowShare(shareGame(getShareUrl()));
   };
 
   return (

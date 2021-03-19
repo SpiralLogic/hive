@@ -96,17 +96,16 @@ namespace Hive.Domain.Tests
                 .Should()
                 .BeSameAs(topTile);
         }
-
+        
         [Fact]
         public void RemoveTopTile_RemovesTile()
         {
             var topTile = new Tile(1, 2, Creatures.Queen);
-            var cell = new Cell(new Coords(1, 1)).AddTile(new Tile(1, 2, Creatures.Queen))
-                .AddTile(new Tile(1, 2, Creatures.Queen));
+            var cell = new Cell(new Coords(1, 1)).AddTile(new Tile(1, 4, Creatures.Ant))
+                .AddTile(topTile);
 
             cell.RemoveTopTile();
-            cell.Tiles.Should()
-                .NotContain(topTile);
+            cell.Tiles.Should().NotContain(topTile);
         }
 
         [Fact]

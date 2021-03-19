@@ -7,10 +7,7 @@ export const mockClipboard = () => {
     configurable: true,
     writable: true,
   });
-  return (): void =>
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    Object.defineProperty(navigator, 'clipboard', { value: clipboard });
+  return (): void => Object.defineProperty(navigator, 'clipboard', { value: clipboard });
 };
 
 export const mockExecCommand = () => {
@@ -30,8 +27,13 @@ export const mockShare = () => {
     configurable: true,
     writable: true,
   });
-  return (): void =>
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
+  return (): void => Object.defineProperty(navigator, 'share', { value: share });
+};
+
+export const noShare = () => {
+  const share = navigator.share;
+  Object.defineProperty(navigator, 'share', { value: undefined });
+  return (): void => {
     Object.defineProperty(navigator, 'share', { value: share });
+  };
 };

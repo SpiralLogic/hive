@@ -6,7 +6,7 @@ namespace Hive.Domain.Tests
 {
     public class ComputerPlayerTests
     {
-        [Fact]
+        /*[Fact]
         public void HasCanSlideRule()
         {
             var initial = new InitialHiveBuilder();
@@ -48,6 +48,6 @@ namespace Hive.Domain.Tests
             expected += " ⬡ ⬡ ⬡ ⬡ ⬡ ⬡";
      
             new ComputerPlayer(new Player(1,"P2")).Should().MakeMove(initial, expected);  
-        }
+        }*/
     }
 }

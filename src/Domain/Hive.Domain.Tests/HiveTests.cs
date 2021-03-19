@@ -86,7 +86,7 @@ namespace Hive.Domain.Tests
                 .Contain(cell => cell.TopTile() == playerTile);
         }
 
-        [Fact]
+        /*[Fact]
         public void CanMoveFromAnotherCell()
         {
             var hive = new Hive(new[] {"player1", "player2"});
@@ -107,7 +107,7 @@ namespace Hive.Domain.Tests
             toCell.TopTile()
                 .Should()
                 .Be(tileToMove);
-        }
+        }*/
 
         [Fact]
         public void AnyPlayerCanStart()

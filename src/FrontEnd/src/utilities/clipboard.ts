@@ -22,23 +22,21 @@ const fallbackCopyTextToClipboard = (text: string) => {
   return false;
 };
 
-export const shareGame = async (url: string) => {
+export const shareGame = (url: string) => {
   const opponentGame = {
     title: 'Hive board game',
     text: 'Join me in a game of the Hive!',
     url,
   };
   try {
-    await navigator.share(opponentGame);
+    navigator.share(opponentGame).then();
     return false;
   } catch {
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-      try {
-        await navigator.clipboard.writeText(opponentGame.url);
-        return true;
-      } catch {
-        return fallbackCopyTextToClipboard(opponentGame.url);
-      }
+    try {
+      navigator.clipboard.writeText(opponentGame.url).then();
+      return true;
+    } catch {
+      return fallbackCopyTextToClipboard(opponentGame.url);
     }
   }
   return false;
