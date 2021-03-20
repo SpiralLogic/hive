@@ -40,7 +40,7 @@ namespace Hive.Domain.Tests.TestUtils
             var actualRows = new List<string>(RowStrings);
             var expected = ExpectedMove();
             var move = expected;
-            var (_, coords) = move;
+            var (_, coords,_) = move;
 
             UpdateCoords(Unexpected.ToString(), coords, actualRows);
             UpdateCoords(Origin.ToString(), OriginCell.Coords, actualRows);

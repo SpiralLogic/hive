@@ -42,7 +42,7 @@ namespace Hive.Controllers
 
             var game = new Domain.Hive(players.ToList(), cells.ToHashSet());
             var tile = players.SelectMany(p => p.Tiles).Concat(cells.SelectMany(c => c.Tiles)).FirstOrDefault(t => t.Id == move.TileId);
-            if (tile==null || game.Move(new Domain.Entities.Move(tile,move.Coords)) == MoveResult.Invalid) return Forbid();
+            if (tile==null || game.Move(new Domain.Entities.Move(tile,move.Coords, move.UseAi)) == MoveResult.Invalid) return Forbid();
 
             var newGameState = new GameState(game.Players, game.Cells, id);
 
