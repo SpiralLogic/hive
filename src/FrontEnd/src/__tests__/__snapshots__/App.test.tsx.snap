@@ -86,6 +86,13 @@ Object {
               ?
             </a>
             <a
+              href="#"
+              name="Toggle Ai"
+              title="Toggle Ai"
+            >
+              Ai
+            </a>
+            <a
               class="github"
               href="https://github.com/SpiralLogic/hive"
               title="Source code"
@@ -260,6 +267,13 @@ Object {
             title="Rules"
           >
             ?
+          </a>
+          <a
+            href="#"
+            name="Toggle Ai"
+            title="Toggle Ai"
+          >
+            Ai
           </a>
           <a
             class="github"

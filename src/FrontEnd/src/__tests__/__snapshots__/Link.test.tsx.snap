@@ -40,6 +40,13 @@ exports[`Links snapshot tests snapshot 1`] = `
     ?
   </a>
   <a
+    href="#"
+    name="Toggle Ai"
+    title="Toggle Ai"
+  >
+    Ai
+  </a>
+  <a
     class="github"
     href="https://github.com/SpiralLogic/hive"
     title="Source code"

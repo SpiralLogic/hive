@@ -135,6 +135,7 @@ exports[`Rules tests snapshot 1`] = `
           </div>
         </div>
         <div
+          class="correct"
           role="cell"
         >
           <svg
@@ -160,7 +161,11 @@ exports[`Rules tests snapshot 1`] = `
                 href="#queen"
               />
             </svg>
-            
+            <span>
+              <span>
+                ✓
+              </span>
+            </span>
           </div>
         </div>
         <div

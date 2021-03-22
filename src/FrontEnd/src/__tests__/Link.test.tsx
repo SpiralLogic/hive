@@ -5,7 +5,9 @@ import Links from '../components/Links';
 describe('Links snapshot tests', () => {
   test('snapshot', () => {
     expect(
-      renderElement(<Links shareUrl="#" onShowShare={() => ({})} onShowRules={() => ({})} />)
+      renderElement(
+        <Links shareUrl="#" onShowShare={() => ({})} toggleAi={() => ({})} onShowRules={() => ({})} />
+      )
     ).toMatchSnapshot();
   });
 });
