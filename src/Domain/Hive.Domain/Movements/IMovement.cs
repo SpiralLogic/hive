@@ -3,7 +3,7 @@ using Hive.Domain.Entities;
 
 namespace Hive.Domain.Movements
 {
-    public interface IMovements
+    public interface IMovement
     {
         ISet<Coords> GetMoves(Cell currentCell, ISet<Cell> allCells);
     }

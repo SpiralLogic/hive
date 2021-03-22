@@ -26,35 +26,40 @@ namespace Hive.Domain
         {
             Cells = cells ?? throw new ArgumentNullException(nameof(cells));
             Players = players ?? throw new ArgumentNullException(nameof(players));
-            var moves = GetMoves();
-            if (!moves.Any())
-            {
-                var currentPlayer = Players.FindPlayerById(0);
-                UpdateMoves(currentPlayer);
-            }
+        }
+
+        public Hive(IList<Player> players, ISet<Cell> cells, int playerId)
+        {
+            Cells = cells ?? throw new ArgumentNullException(nameof(cells));
+            Players = players ?? throw new ArgumentNullException(nameof(players));
+
+            var currentPlayer = Players.FindPlayerById(playerId);
+            UpdateMoves(currentPlayer);
         }
 
         public ISet<Cell> Cells { get; }
         public IList<Player> Players { get; }
 
-        public MoveResult Move(Move move)
+        public MoveResult Move(Move move, bool useAi=false)
         {
             if (!IsValidMove(move)) return MoveResult.Invalid;
 
             PerformMove(move);
+            ClearAllTileMoves();
 
             var nextPlayer = GetNextPlayer(move.Tile);
             if (IsGameOver()) return MoveResult.GameOver;
 
             UpdateMoves(nextPlayer);
-            if (nextPlayer.Id == 1 && move.UseAi)
+            if (nextPlayer.Id == 1 && useAi)
             {
-                var newHive = new Hive(JsonSerializer.Deserialize<IList<Player>>(JsonSerializer.Serialize(Players))!, JsonSerializer.Deserialize<ISet<Cell>>(JsonSerializer.Serialize(Cells))!);
-                var aiMove = new ComputerPlayer(nextPlayer).GetMove(newHive);
+              
+                var aiMove = new ComputerPlayer(this).GetMove();
                 Move(aiMove);
 
                 return MoveResult.Success;
             }
+
             if (CountMovesAvailable() != 0) return MoveResult.Success;
 
             UpdateMoves(SkipTurn(nextPlayer));
@@ -74,22 +79,11 @@ namespace Hive.Domain
             UpdatedPlacedTileMoves(nextPlayer);
             UpdatePlayerTileMoves(nextPlayer);
         }
-
-        private ISet<Move> GetMoves()
-        {
-
-            return Players.SelectMany(p => p.Tiles)
-                .Concat(Cells.SelectMany(c => c.Tiles))
-                .SelectMany(t => t.Moves.Select(m => new Move(t, m)))
-                .ToHashSet();
-        }
-
-        private void PerformMove(Move move)
+        internal void PerformMove(Move move)
         {
             RemoveTile(move.Tile);
-            var (tile, coords,_) = move;
+            var (tile, coords) = move;
             Cells.First(c => c.Coords == coords).AddTile(tile);
-            ClearAllTileMoves();
         }
 
         private Player GetNextPlayer(Tile movedTile)
@@ -149,7 +143,7 @@ namespace Hive.Domain
 
         private bool IsValidMove(Move move)
         {
-            var (tile, coords,_) = move;
+            var (tile, coords) = move;
             return Players.SelectMany(p => p.Tiles)
                 .Union(Cells.SelectMany(p => p.Tiles))
                 .SingleOrDefault(t => t == tile)
@@ -178,6 +172,14 @@ namespace Hive.Domain
         private ISet<Cell> CreateCells()
         {
             return _initialCoords.GetNeighbors().Prepend(_initialCoords).ToCells();
+        }
+
+        public void ReplaceTile( Tile tile)
+        {
+            var cell = Cells.First(c => c.Tiles.Any(t => t.Id == tile.Id));
+              cell.RemoveTopTile();
+            Players[tile.PlayerId].Tiles.Add(tile);
+
         }
     }
 }

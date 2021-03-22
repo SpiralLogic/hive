@@ -5,7 +5,7 @@ using Hive.Domain.Extensions;
 
 namespace Hive.Domain.Movements
 {
-    public class CanSlideTo : IMovements
+    public class CanSlideTo : IMovement
     {
 
         public ISet<Coords> GetMoves(Cell originCell, ISet<Cell> allCells)

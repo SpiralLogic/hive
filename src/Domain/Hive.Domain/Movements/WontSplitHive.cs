@@ -5,7 +5,7 @@ using Hive.Domain.Extensions;
 
 namespace Hive.Domain.Movements
 {
-    public class WontSplitHive : IMovements
+    public class WontSplitHive : IMovement
     {
         public ISet<Coords> GetMoves(Cell currentCell, ISet<Cell> allCells)
         {

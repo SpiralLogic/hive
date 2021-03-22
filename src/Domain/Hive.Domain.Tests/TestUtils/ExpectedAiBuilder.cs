@@ -24,36 +24,31 @@ namespace Hive.Domain.Tests.TestUtils
             return AddRow(builder, newRow);
         }
 
-        private ISet<Coords> ExpectedMoves()
+        internal ISet<Coords> ExpectedMoves()
         {
             return ExpectedCells.Select(c => c.Coords).ToHashSet();
         }
 
         protected override void ModifyCell(Cell cell, char cellString)
         {
-            if (cellString == Expected.Symbol) cell.AddTile(new Tile(1, 1, Expected.Creature));
+            if (cellString == Expected.Symbol) cell.AddTile(new Tile(1, 2, Expected.Creature));
             if (cellString == Unexpected.Symbol) cell.AddTile(new Tile(1, 2, Unexpected.Creature));
         }
 
-        internal string GetMoveDiff(Move result)
+        internal string GetMoveDiff(Move move)
         {
             var actualRows = new List<string>(RowStrings);
-            var expected = ExpectedMove();
-            var move = expected;
-            var (_, coords,_) = move;
+            foreach (var cell in ExpectedCells)
+            {
+                UpdateCoords(Unexpected.ToString(), cell.Coords, actualRows);
+            }
 
-            UpdateCoords(Unexpected.ToString(), coords, actualRows);
             UpdateCoords(Origin.ToString(), OriginCell.Coords, actualRows);
-            UpdateCoords(Expected.ToString(), result.Coords, actualRows);
+            UpdateCoords(Expected.ToString(), move.Coords, actualRows);
 
             var coloredRows = ToColoredString().Split("\n");
             var comparison = actualRows.Select((row, i) => $"{row:coloredRows[0].Length+4} | {coloredRows[i]:coloredRows[0].Length+4}");
             return $"\u001b[37m{string.Join("\n", comparison)}\u001b[0m";
-        }
-
-        internal Move ExpectedMove()
-        {
-            return new(OriginCell.TopTile(), ExpectedCells.First()!.Coords);
         }
     }
 }

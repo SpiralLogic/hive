@@ -17,7 +17,7 @@ namespace Hive.Domain.Tests.TestUtils
             else
             {
                 var symbol = AllSymbols.Single(s => s.Symbol == cellString);
-                var playerId = symbol.Symbol.ToString().ToUpper() == symbol.Symbol.ToString() ? 0 : 1;
+                var playerId = symbol.Symbol.ToString().ToUpper() == symbol.Symbol.ToString() ? 1 : 0;
                 cell.AddTile(new Tile(AllCells.Count, playerId, symbol.Creature));
             }
         }

@@ -6,7 +6,7 @@ namespace Hive.Domain.Entities
     {
         public static readonly Creature Queen = new("Queen")
         {
-            Movements = new IMovements[]
+            Movements = new IMovement[]
             {
                 new IsAdjacent(),
                 new IsEmpty(),
@@ -18,7 +18,7 @@ namespace Hive.Domain.Entities
 
         public static readonly Creature Beetle = new("Beetle")
         {
-            Movements = new IMovements[]
+            Movements = new IMovement[]
             {
                 new HiveHasQueen(),
                 new IsAdjacent(),
@@ -29,7 +29,7 @@ namespace Hive.Domain.Entities
 
         public static readonly Creature Grasshopper = new("Grasshopper")
         {
-            Movements = new IMovements[]
+            Movements = new IMovement[]
             {
                 new OnlyJumpStraightOver(),
                 new HiveHasQueen(),
@@ -40,7 +40,7 @@ namespace Hive.Domain.Entities
 
         public static readonly Creature Spider = new("Spider")
         {
-            Movements = new IMovements[]
+            Movements = new IMovement[]
             {
                 new OnlyThreeSpaces(),
                 new CanSlideTo(),
@@ -52,7 +52,7 @@ namespace Hive.Domain.Entities
 
         public static readonly Creature Ant = new("Ant")
         {
-            Movements = new IMovements[]
+            Movements = new IMovement[]
             {
                 new CanSlideTo(),
                 new HiveHasQueen(),

@@ -5,7 +5,7 @@ using Hive.Domain.Extensions;
 
 namespace Hive.Domain.Movements
 {
-    public class HasAnyNeighbour : IMovements
+    public class HasAnyNeighbour : IMovement
     {
         public ISet<Coords> GetMoves(Cell currentCell, ISet<Cell> allCells)
         {

@@ -1,56 +1,106 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.Json;
 using Hive.Domain.Entities;
 using Hive.Domain.Extensions;
 
 namespace Hive.Domain
 {
-    public class ComputerPlayer : NegaMax<Hive, Move>
+    public class ComputerPlayer
     {
-        public ComputerPlayer(Player player) : base(player.Id)
+
+        private readonly Hive _board;
+
+        private readonly Stack<MoveMade> _previousMoves = new();
+
+        public ComputerPlayer(Hive board)
         {
+            _board = board;
         }
 
-        public Move GetMove(Hive hive)
+        public Move GetMove()
         {
-            var moves = GetNextMoves(hive);
-            var move = GetMove(hive, moves, 1);
-            return move;
+            return Run();
         }
 
-        protected override int Evaluate(Hive hive, Move move, int player)
+        private Move Run()
         {
-            var opponentId = hive.Players.First(p => p.Id != player).Id;
-            hive.Move(move);
+            var moves = GetMoves().ToArray();
+            var best=moves.First();
+            foreach (var move in moves)
+            {
+                var surroundingPlayer0Queen = GetPlayerQueenCount(0);
+                var surroundingPlayer1Queen = GetPlayerQueenCount(1);
+                MakeMove(move);
+                var surroundingPlayer0QueenAfter = GetPlayerQueenCount(0);
+                var surroundingPlayer1QueenAfter = GetPlayerQueenCount(1);
+                var moveIsQueensNeighbour = MoveNeighboursQueen(move);
+                RevertMove();
+                if (surroundingPlayer0Queen == 6 || surroundingPlayer1Queen == 6) return move;
 
-            var opponentQueenCount = GetPlayerQueenCount(hive, opponentId);
-            var ownQueenCount = GetPlayerQueenCount(hive, player);
+                if (surroundingPlayer0Queen < surroundingPlayer0QueenAfter) return move;
+                if (surroundingPlayer1Queen > surroundingPlayer1QueenAfter) return move;
+                if (surroundingPlayer1Queen == surroundingPlayer1QueenAfter && surroundingPlayer0Queen == surroundingPlayer0QueenAfter &&
+                    !moveIsQueensNeighbour) best = move;
 
-            if (ownQueenCount == 6) return int.MinValue;
-            if (opponentQueenCount == 6) return int.MinValue;
-            return opponentQueenCount - ownQueenCount;
+            }
+
+            return best;
         }
 
-        protected override (Hive, ISet<Move>) NextStateFunc(Hive board, Move move)
-        {
-            var newHive = new Hive(JsonSerializer.Deserialize<IList<Player>>(JsonSerializer.Serialize(board.Players))!, JsonSerializer.Deserialize<ISet<Cell>>(JsonSerializer.Serialize(board.Cells))!);
-            newHive.Move(move);
-            var moves = GetNextMoves(newHive);
+        private bool MoveNeighboursQueen(Move move) =>
+            _board.Cells.FindCell(move.Coords).SelectNeighbors(_board.Cells).Any(c => c.Tiles.Any(t => t.IsQueen()));
 
-            return (newHive, moves);
+        private void MakeMove(Move move)
+        {
+            var originalCell = _board.Cells.SingleOrDefault(c => c.Tiles.Any(t => t.Id == move.Tile.Id))?.Coords;
+            _board.PerformMove(move);
+
+            _previousMoves.Push(new MoveMade(move.Tile with {Moves = new HashSet<Coords>(move.Tile.Moves)}, originalCell));
+
         }
 
-        private static ISet<Move> GetNextMoves(Hive hive)
+        private void RevertMove()
         {
-            var cells = hive.Cells;
-            return hive.Players.SelectMany(p => p.Tiles).Concat(cells.SelectMany(c => c.Tiles)).SelectMany(t => t.Moves.Select(m => new Move(t, m))).ToHashSet();
+
+            var move = _previousMoves.Pop();
+            if (move.IsPlayerMove)
+            {
+                _board.ReplaceTile(move.Tile);
+                return;
+            }
+
+            _board.PerformMove(move.ToMove());
         }
 
-        private static int GetPlayerQueenCount(Hive hive, int playerId)
+        private IEnumerable<Move> GetMoves()
         {
-            return hive.Cells.FirstOrDefault(c => c.HasQueen() && c.TopTile().PlayerId == playerId)?.SelectNeighbors(hive.Cells).WhereOccupied().Count() ?? 0;
+            var cells = _board.Cells;
+            var rnd = new Random();
+            return _board.Players.SelectMany(p => p.Tiles)
+                .Concat(cells.WhereOccupied().Select(c => c.TopTile()))
+                .SelectMany(t => t.Moves.Select(m => new Move(t, m)))
+                .OrderBy(item => rnd.Next())
+                .ToHashSet();
         }
 
+        private int GetPlayerQueenCount(int playerId)
+        {
+            return _board.Cells.WherePlayerOccupies(playerId)
+                .FirstOrDefault(c => c.HasQueen())
+                ?.SelectNeighbors(_board.Cells)
+                .WhereOccupied()
+                .Count() ?? 0;
+        }
+
+        private record MoveMade(Tile Tile, Coords? Coords)
+        {
+            internal bool IsPlayerMove => Coords == null;
+
+            internal Move ToMove()
+            {
+                return Coords != null ? new Move(Tile, Coords) : throw new ApplicationException();
+            }
+        }
     }
 }

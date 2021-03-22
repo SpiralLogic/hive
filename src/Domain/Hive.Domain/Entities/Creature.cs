@@ -17,7 +17,7 @@ namespace Hive.Domain.Entities
         public override int GetHashCode() =>
             Name.GetHashCode();
 
-        internal IEnumerable<IMovements> Movements { get; init; } = new List<IMovements>();
+        internal IEnumerable<IMovement> Movements { get; init; } = new List<IMovement>();
 
         public ISet<Coords> GetAvailableMoves(Cell originCell, ISet<Cell> cells)
         {

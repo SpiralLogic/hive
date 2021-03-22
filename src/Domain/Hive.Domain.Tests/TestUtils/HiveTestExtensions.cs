@@ -6,9 +6,9 @@ namespace Hive.Domain.Tests.TestUtils
 {
     internal static class HiveTestExtensions
     {
-        public static MovementAssertion Should(this IMovements movements)
+        public static MovementAssertion Should(this IMovement movement)
         {
-            return new(initialHiveBuilder => movements.GetMoves(initialHiveBuilder.OriginCell, initialHiveBuilder.AllCells));
+            return new(initialHiveBuilder => movement.GetMoves(initialHiveBuilder.OriginCell, initialHiveBuilder.AllCells));
         }
 
         public static MovementAssertion Should(this Creature creature)
@@ -25,13 +25,7 @@ namespace Hive.Domain.Tests.TestUtils
 
         public static AiAssertions Should(this ComputerPlayer computerPlayer)
         {
-            return new(initialHiveBuilder =>
-            {
-                var player1 = new Player(0, "1");
-                var player2 = new Player(1, "2");
-                var hive = new Hive(new List<Player> {player1,player2}, initialHiveBuilder.AllCells);
-                return new ComputerPlayer(player1).GetMove(hive);
-            });
+            return new(() => computerPlayer.GetMove());
         }
     }
 }
