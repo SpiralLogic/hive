@@ -45,6 +45,12 @@ const GameArea: FunctionComponent<Props> = ({ players, cells, playerId }) => {
     parts.push(parts.pop() === '1' ? '0' : '1');
     return parts.join('/');
   };
+  const toggleAi = () => {
+    const search = new URLSearchParams(location.search);
+
+    search.has('useai') ? search.delete('useai') : search.set('useai', 'true');
+    location.search = search.toString();
+  };
 
   const shareComponent = () => {
     setShowShare(shareGame(getShareUrl()));
@@ -58,6 +64,7 @@ const GameArea: FunctionComponent<Props> = ({ players, cells, playerId }) => {
           shareUrl={getShareUrl()}
           onShowRules={() => setShowRules(true)}
           onShowShare={() => shareComponent()}
+          toggleAi={toggleAi}
         />
         <Hextille>
           {rows.map((row) => (

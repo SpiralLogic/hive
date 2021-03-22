@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
-using System.Text.Json;
 using Hive.Domain.Entities;
 using Hive.Domain.Extensions;
 
@@ -40,7 +39,7 @@ namespace Hive.Domain
         public ISet<Cell> Cells { get; }
         public IList<Player> Players { get; }
 
-        public MoveResult Move(Move move, bool useAi=false)
+        public MoveResult Move(Move move, bool useAi = false)
         {
             if (!IsValidMove(move)) return MoveResult.Invalid;
 
@@ -51,9 +50,9 @@ namespace Hive.Domain
             if (IsGameOver()) return MoveResult.GameOver;
 
             UpdateMoves(nextPlayer);
-            if (nextPlayer.Id == 1 && useAi)
+            if (useAi)
             {
-              
+
                 var aiMove = new ComputerPlayer(this).GetMove();
                 Move(aiMove);
 
@@ -79,6 +78,7 @@ namespace Hive.Domain
             UpdatedPlacedTileMoves(nextPlayer);
             UpdatePlayerTileMoves(nextPlayer);
         }
+
         internal void PerformMove(Move move)
         {
             RemoveTile(move.Tile);
@@ -174,10 +174,10 @@ namespace Hive.Domain
             return _initialCoords.GetNeighbors().Prepend(_initialCoords).ToCells();
         }
 
-        public void ReplaceTile( Tile tile)
+        public void ReplaceTile(Tile tile)
         {
             var cell = Cells.First(c => c.Tiles.Any(t => t.Id == tile.Id));
-              cell.RemoveTopTile();
+            cell.RemoveTopTile();
             Players[tile.PlayerId].Tiles.Add(tile);
 
         }

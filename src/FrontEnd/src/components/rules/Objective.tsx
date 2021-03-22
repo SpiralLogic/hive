@@ -13,7 +13,7 @@ const Objective = () => (
       </Row>
       <Row>
         <RuleCell creature="spider" />
-        <RuleCell creature="queen" />
+        <RuleCell creature="queen" result="correct" />
         <RuleCell creature="beetle" />
       </Row>
       <Row>

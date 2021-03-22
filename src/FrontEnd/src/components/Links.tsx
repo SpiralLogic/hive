@@ -2,7 +2,7 @@ import '../css/links.css';
 import { FunctionComponent, h } from 'preact';
 import SVG from './SVG';
 
-type Props = { shareUrl: string; onShowRules: () => void; onShowShare: () => void };
+type Props = { shareUrl: string; onShowRules: () => void; onShowShare: () => void; toggleAi: () => void };
 
 const Links: FunctionComponent<Props> = (props) => {
   const handle = (handler: () => void) => (e: MouseEvent) => {
@@ -30,6 +30,9 @@ const Links: FunctionComponent<Props> = (props) => {
       </a>
       <a href="#" name="Show rules" onClick={handle(props.onShowRules)} title="Rules">
         ?
+      </a>
+      <a href="#" name="Toggle Ai" onClick={handle(props.toggleAi)} title="Toggle Ai">
+        Ai
       </a>
       <a class="github" href="https://github.com/SpiralLogic/hive" title="Source code">
         <SVG>
