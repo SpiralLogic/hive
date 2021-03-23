@@ -51,5 +51,6 @@
       ]
     }
   ],
-  "gameStatus": "MoveSuccess"
+  "gameStatus": "MoveSuccess",
+  "gameId": "eer"
 }
