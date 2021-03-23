@@ -46,14 +46,14 @@ namespace Hive.Controllers
 
             var gameStatus = game.Move(new Domain.Entities.Move(tile, move.Coords), move.UseAi);
 
-            if (gameStatus == GameStatus.Invalid) return Forbid();
+            if (gameStatus == GameStatus.MoveInvalid) return Forbid();
 
             var newGameState = new GameState(game.Players, game.Cells, id, gameStatus);
 
             var json = JsonSerializer.Serialize(newGameState, _jsonSerializerOptions);
             await _distributedCache.SetStringAsync(id, json);
             await _hubContext.Clients.Group(id).SendAsync("ReceiveGameState", newGameState);
-
+            
             return Accepted($"/game/{id}", newGameState);
         }
     }

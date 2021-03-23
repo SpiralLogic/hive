@@ -4,13 +4,14 @@
   display: grid;
   padding: 10px;
   color: white;
-  grid-auto-flow: column;
+  grid-auto-flow: row;
   grid-template-columns: max-content;
   gap: 20px;
+  justify-items: center;
 }
 
 .links a {
-  font-size: 67px;
+  font-size: 50px;
   text-decoration: none;
   color: white;
   fill: white;
@@ -27,7 +28,7 @@
 }
 
 .links svg {
-  width: 48px;
+  width: 40px;
 }
 
 .links .ai-off {
@@ -37,6 +38,7 @@
 @media only screen and (max-width: 720px) {
   .links {
     gap: 10px;
+    grid-auto-flow: column;
   }
 
   .links svg {

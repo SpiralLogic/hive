@@ -39,6 +39,14 @@
           <LinkBase>FrontEnd\</LinkBase>
           <Link>FrontEnd\components\PlayerConnected.tsx</Link>
         </Content>
+        <Content Update="..\..\FrontEnd\src\__tests__\GameOver.tsx">
+          <LinkBase>FrontEnd\</LinkBase>
+          <Link>FrontEnd\__tests__\GameOver.tsx</Link>
+        </Content>
+        <Content Update="..\..\FrontEnd\src\__tests__\PlayerConnected.tsx">
+          <LinkBase>FrontEnd\</LinkBase>
+          <Link>FrontEnd\__tests__\PlayerConnected.tsx</Link>
+        </Content>
     </ItemGroup>
 
     <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

@@ -162,7 +162,7 @@ namespace Hive.Domain.Tests
         public void InvalidMovesHaveNoEffect()
         {
             var hive = new Hive(new[] {"player1", "player2"});
-            hive.Move(new Move(new Tile(1, 1, Creatures.Grasshopper), new Coords(34, 34))).Should().Be(GameStatus.Invalid);
+            hive.Move(new Move(new Tile(1, 1, Creatures.Grasshopper), new Coords(34, 34))).Should().Be(GameStatus.MoveInvalid);
         }
 
         [Fact]

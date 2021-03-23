@@ -12,7 +12,7 @@ describe('gameArea Tests', () => {
     render(
       <GameArea
         aiState={[false, (on) => {}]}
-        gameStatus="Success"
+        gameStatus="MoveSuccess"
         players={gameState.players}
         cells={gameState.cells}
         playerId={2}
@@ -29,7 +29,7 @@ describe('gameArea Tests', () => {
     render(
       <GameArea
         aiState={[false, (on) => {}]}
-        gameStatus="Success"
+        gameStatus="MoveSuccess"
         players={gameState.players}
         cells={gameState.cells}
         playerId={1}
@@ -45,7 +45,7 @@ describe('gameArea Tests', () => {
     render(
       <GameArea
         aiState={[false, (on) => {}]}
-        gameStatus="Success"
+        gameStatus="MoveSuccess"
         players={gameState.players}
         cells={gameState.cells}
         playerId={1}
@@ -65,7 +65,7 @@ describe('gameArea Tests', () => {
     render(
       <GameArea
         aiState={[false, (on) => {}]}
-        gameStatus="Success"
+        gameStatus="MoveSuccess"
         players={gameState.players}
         cells={gameState.cells}
         playerId={1}
@@ -85,7 +85,7 @@ describe('gameArea Tests', () => {
     render(
       <GameArea
         aiState={[false, (on) => {}]}
-        gameStatus="Success"
+        gameStatus="MoveSuccess"
         players={gameState.players}
         cells={gameState.cells}
         playerId={1}
@@ -105,7 +105,7 @@ describe('gameArea Tests', () => {
     render(
       <GameArea
         aiState={[false, (on) => {}]}
-        gameStatus="Success"
+        gameStatus="MoveSuccess"
         players={gameState.players}
         cells={gameState.cells}
         playerId={1}

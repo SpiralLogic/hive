@@ -3,9 +3,12 @@ namespace Hive.Domain.Entities
     public enum GameStatus
     {
         NewGame,
-        Success,
-        SuccessNextPlayerSkipped,
-        Invalid,
+        MoveSuccess,
+        AiWin,
+        Player0Win,
+        Player1Win,
+        MoveSuccessNextPlayerSkipped,
+        MoveInvalid,
         GameOver
     }
 }

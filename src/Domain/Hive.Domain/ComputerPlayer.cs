@@ -62,7 +62,7 @@ namespace Hive.Domain
             var move = _previousMoves.Pop();
             if (move.IsPlayerMove)
             {
-                _board.ReplaceTile(move.Tile);
+                _board.ReturnTileToPlayer(move.Tile);
                 return;
             }
 

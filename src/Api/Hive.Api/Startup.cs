@@ -69,8 +69,11 @@ namespace Hive
             {
                 OnPrepareResponse = ctx =>
                 {
-                    const int durationInSeconds = 31536000;
-                    ctx.Context.Response.Headers[HeaderNames.CacheControl] = "public,max-age=" + durationInSeconds;
+                    if (ctx.File.Name != "index.html")
+                    {
+                        const int durationInSeconds = 31536000;
+                        ctx.Context.Response.Headers[HeaderNames.CacheControl] = "public,max-age=" + durationInSeconds;    
+                    }
                 }
             });
 

@@ -40,13 +40,16 @@ const GameArea: FunctionComponent<Props> = ({ players, cells, playerId, gameStat
     className: 'hive',
   };
   const hextilleBuilder = new HextilleBuilder(cells);
-  if (!new URLSearchParams(location.search).has('2')) removeOtherPlayerMoves(playerId, { players, cells });
+  removeOtherPlayerMoves(playerId, { players, cells });
 
   const [showRules, setShowRules] = useState<boolean>(false);
   const [showShare, setShowShare] = useState<boolean>(false);
   const [playerConnected, setPlayerConnected] = useState<'connected' | 'disconnected' | undefined>(undefined);
+  const [_, setUseAi] = aiState;
   const rows = hextilleBuilder.createRows();
-  const gameOver = gameStatus === 'GameOver';
+  const gameOver = ['Player1Win', 'Player0Win', 'AiWin', 'GameOver'].includes(gameStatus);
+  const winner =
+    (gameStatus === 'Player0Win' && playerId === 0) || (gameStatus === 'Player1Win' && playerId === 1);
 
   const getShareUrl = () => {
     const parts = window.location.href.split('/');
@@ -60,6 +63,7 @@ const GameArea: FunctionComponent<Props> = ({ players, cells, playerId, gameStat
 
   addHiveDispatchListener<HiveEvent>('opponentConnected', () => {
     setPlayerConnected('connected');
+    setUseAi(false);
   });
 
   addHiveDispatchListener<HiveEvent>('opponentDisconnected', () => {
@@ -97,7 +101,7 @@ const GameArea: FunctionComponent<Props> = ({ players, cells, playerId, gameStat
       ) : (
         ''
       )}
-      {gameOver ? <GameOver /> : ''}
+      {gameOver ? <GameOver win={winner} /> : ''}
     </div>
   );
 };

@@ -41,13 +41,13 @@ namespace Hive.Domain
 
         public GameStatus Move(Move move, bool useAi = false)
         {
-            if (!IsValidMove(move)) return GameStatus.Invalid;
+            if (!IsValidMove(move)) return GameStatus.MoveInvalid;
 
             PerformMove(move);
-            ClearAllTileMoves();
+            ClearAllMoves();
 
             var nextPlayer = GetNextPlayer(move.Tile);
-            if (IsGameOver()) return GameStatus.GameOver;
+            if (IsGameOver()) return DetermineWinner(nextPlayer, useAi);
 
             UpdateMoves(nextPlayer);
             if (useAi)
@@ -56,10 +56,22 @@ namespace Hive.Domain
                 return Move(aiMove);
             }
 
-            if (CountMovesAvailable() != 0) return GameStatus.Success;
+            if (CountMovesAvailable() != 0) return GameStatus.MoveSuccess;
 
             UpdateMoves(SkipTurn(nextPlayer));
-            return GameStatus.SuccessNextPlayerSkipped;
+            return GameStatus.MoveSuccessNextPlayerSkipped;
+        }
+
+        private GameStatus DetermineWinner(Player nextPlayer, bool useAi)
+        {
+            if (useAi) return GameStatus.AiWin;
+            return nextPlayer.Id switch
+            {
+                1 => GameStatus.Player0Win,
+                0 => GameStatus.Player1Win,
+                _ => GameStatus.GameOver
+            };
+
         }
 
         private Player SkipTurn(Player nextPlayer) =>
@@ -87,7 +99,7 @@ namespace Hive.Domain
         private bool IsGameOver()
         {
             var loser = Cells.WhereOccupied().Where(c => c.HasQueen()).FirstOrDefault(q => q.SelectNeighbors(Cells).All(n => !n.IsEmpty()));
-            return (loser != null);
+            return loser != null;
         }
 
         private void UpdatePlayerTileMoves(Player player)
@@ -119,7 +131,7 @@ namespace Hive.Domain
             }
         }
 
-        private void ClearAllTileMoves()
+        private void ClearAllMoves()
         {
             foreach (var tile in Players.SelectMany(p => p.Tiles).Concat(Cells.SelectMany(c => c.Tiles))) tile.Moves.Clear();
         }
@@ -133,13 +145,12 @@ namespace Hive.Domain
             return Players.SelectMany(p => p.Tiles)
                 .Union(Cells.SelectMany(p => p.Tiles))
                 .SingleOrDefault(t => t == tile)
-                ?.Moves?.Contains(coords) ?? false;
+                ?.Moves.Contains(coords) ?? false;
         }
 
         private void RemoveTile(Tile tile)
         {
             Players.FindPlayerById(tile.PlayerId).RemoveTile(tile);
-
             Cells.WhereOccupied().FirstOrDefault(c => c.TopTile() == tile)?.RemoveTopTile();
         }
 
@@ -154,10 +165,9 @@ namespace Hive.Domain
         private ISet<Cell> CreateCells() =>
             _initialCoords.GetNeighbors().Prepend(_initialCoords).ToCells();
 
-        public void ReplaceTile(Tile tile)
+        public void ReturnTileToPlayer(Tile tile)
         {
-            var cell = Cells.First(c => c.Tiles.Any(t => t.Id == tile.Id));
-            cell.RemoveTopTile();
+            Cells.First(c => c.Tiles.Any(t => t.Id == tile.Id)).RemoveTopTile();
             Players[tile.PlayerId].Tiles.Add(tile);
         }
     }

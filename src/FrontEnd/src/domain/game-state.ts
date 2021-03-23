@@ -5,7 +5,15 @@ export type GameState = {
   cells: Cell[];
   players: Player[];
   gameId: GameId;
-  gameStatus: string;
+  gameStatus:
+    | 'NewGame'
+    | 'MoveSuccess'
+    | 'AiWin'
+    | 'Player0Win'
+    | 'Player1Win'
+    | 'MoveSuccessNextPlayerSkipped'
+    | 'MoveInvalid'
+    | 'GameOver';
 };
 
 export type GameId = string;

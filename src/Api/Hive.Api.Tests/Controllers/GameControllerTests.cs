@@ -25,7 +25,7 @@ namespace Hive.Api.Tests.Controllers
         public GameControllerTests()
         {
             var game = new Domain.Hive(new[] {"player1", "player2"});
-            var gameState = new GameState(game.Players, game.Cells, ExistingGameId, GameStatus.Success);
+            var gameState = new GameState(game.Players, game.Cells, ExistingGameId, GameStatus.MoveSuccess);
 
             var jsonOptions = new JsonOptions();
             jsonOptions.JsonSerializerOptions.Converters.Add(new CreatureJsonConverter());

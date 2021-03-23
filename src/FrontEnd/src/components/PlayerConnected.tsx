@@ -2,7 +2,7 @@ import '../css/share.css';
 import { FunctionComponent, h } from 'preact';
 import Modal from './Modal';
 type Props = {
-  type: 'connected' | 'disconnected';
+  type: 'connected' | 'disconnected' | undefined;
   setPlayerConnected: (value: 'connected' | 'disconnected' | undefined) => void;
 };
 const PlayerConnected: FunctionComponent<Props> = (props) => {
