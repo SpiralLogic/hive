@@ -42,7 +42,9 @@ const Links: FunctionComponent<Props> = (props) => {
         class={useAi ? undefined : 'ai-off'}
         onClick={handle(() => setUseAi(!useAi))}
         title="Toggle Ai">
-        Ai
+        <SVG>
+          <use href="#ai" />
+        </SVG>
       </a>
       <a class="github" href="https://github.com/SpiralLogic/hive" title="Source code">
         <SVG>

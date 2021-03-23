@@ -32,7 +32,7 @@
 }
 
 .links .ai-off {
-  text-decoration: line-through;
+  filter: opacity(.2);
 }
 
 @media only screen and (max-width: 720px) {

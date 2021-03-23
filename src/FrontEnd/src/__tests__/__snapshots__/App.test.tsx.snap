@@ -90,7 +90,14 @@ Object {
               name="Toggle Ai"
               title="Toggle Ai"
             >
-              Ai
+              <svg
+                viewBox="0 0 100 100"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <use
+                  href="#ai"
+                />
+              </svg>
             </a>
             <a
               class="github"
@@ -275,7 +282,14 @@ Object {
             name="Toggle Ai"
             title="Toggle Ai"
           >
-            Ai
+            <svg
+              viewBox="0 0 100 100"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <use
+                href="#ai"
+              />
+            </svg>
           </a>
           <a
             class="github"
