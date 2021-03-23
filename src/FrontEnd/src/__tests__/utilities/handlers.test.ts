@@ -134,7 +134,7 @@ describe(`handler tests`, () => {
 
       const removeHandlers = attachServerHandlers(
         sendSelection,
-        { gameId: '1', cells: [], players: [] },
+        { gameId: '1', cells: [], players: [], gameStatus: 'Success' },
         jest.fn(),
         moveTile
       );

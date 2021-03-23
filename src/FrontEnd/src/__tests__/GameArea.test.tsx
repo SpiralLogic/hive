@@ -9,7 +9,9 @@ import userEvent from '@testing-library/user-event';
 describe('gameArea Tests', () => {
   test('default drag over is prevented to allow drop', async () => {
     const gameState = createGameState(1);
-    render(<GameArea players={gameState.players} cells={gameState.cells} playerId={2} />);
+    render(
+      <GameArea gameStatus="Success" players={gameState.players} cells={gameState.cells} playerId={2} />
+    );
     const preventDefault = simulateEvent(screen.getByTitle('Hive Game Area'), 'dragover');
 
     expect(preventDefault).toHaveBeenCalledWith();
@@ -18,7 +20,9 @@ describe('gameArea Tests', () => {
   test(`removes moves for tiles which aren't the current player`, async () => {
     const gameState = createGameState(1);
     global.window.history.replaceState({}, global.document.title, `/game/33/0`);
-    render(<GameArea players={gameState.players} cells={gameState.cells} playerId={1} />);
+    render(
+      <GameArea gameStatus="Success" players={gameState.players} cells={gameState.cells} playerId={1} />
+    );
 
     expect(screen.getByTitle('Player 1').querySelectorAll('[draggable]')).toHaveLength(0);
     expect(screen.getByTitle('Player 2').querySelectorAll('[draggable="true"]')).toHaveLength(1);
@@ -26,7 +30,9 @@ describe('gameArea Tests', () => {
 
   test('show rules is rendered', async () => {
     const gameState = createGameState(1);
-    render(<GameArea players={gameState.players} cells={gameState.cells} playerId={1} />);
+    render(
+      <GameArea gameStatus="Success" players={gameState.players} cells={gameState.cells} playerId={1} />
+    );
 
     userEvent.click(screen.getByTitle(/Rules/));
 
@@ -38,7 +44,9 @@ describe('gameArea Tests', () => {
     const url = `http://localhost/game/33/1`;
     const gameState = createGameState(1);
     global.window.history.replaceState({}, global.document.title, `/game/33/0`);
-    render(<GameArea players={gameState.players} cells={gameState.cells} playerId={1} />);
+    render(
+      <GameArea gameStatus="Success" players={gameState.players} cells={gameState.cells} playerId={1} />
+    );
     userEvent.click(screen.getByTitle(/Share/));
     expect(navigator.share).toBeCalledWith(expect.objectContaining({ url }));
     restore();
@@ -50,7 +58,9 @@ describe('gameArea Tests', () => {
 
     const url = `http://localhost/game/33/1`;
     const gameState = createGameState(1);
-    render(<GameArea players={gameState.players} cells={gameState.cells} playerId={1} />);
+    render(
+      <GameArea gameStatus="Success" players={gameState.players} cells={gameState.cells} playerId={1} />
+    );
     userEvent.click(screen.getByTitle(/Share/));
     expect(navigator.clipboard.writeText).toBeCalledWith(url);
     restore1();
@@ -62,7 +72,9 @@ describe('gameArea Tests', () => {
 
     const restore = mockExecCommand();
     const gameState = createGameState(1);
-    render(<GameArea players={gameState.players} cells={gameState.cells} playerId={1} />);
+    render(
+      <GameArea gameStatus="Success" players={gameState.players} cells={gameState.cells} playerId={1} />
+    );
     userEvent.click(screen.getByTitle(/Share/));
     expect(document.execCommand).toBeCalledWith('copy');
     restore1();
