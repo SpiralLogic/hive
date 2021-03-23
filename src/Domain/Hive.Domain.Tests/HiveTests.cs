@@ -206,7 +206,7 @@ namespace Hive.Domain.Tests
             var queen = players.First(p => p.Id != 1).Tiles.First(t => t.Creature == Creatures.Queen);
 
             var hive2 = new Hive(players, cells);
-            hive2.Move(new Move(queen, new Coords(0, 0))).Should().Be(GameStatus.GameOver);
+            hive2.Move(new Move(queen, new Coords(0, 0))).Should().Be(GameStatus.Player0Win);
         }
 
         [Fact]
