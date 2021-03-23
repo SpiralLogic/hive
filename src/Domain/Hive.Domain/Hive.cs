@@ -87,11 +87,7 @@ namespace Hive.Domain
         private bool IsGameOver()
         {
             var loser = Cells.WhereOccupied().Where(c => c.HasQueen()).FirstOrDefault(q => q.SelectNeighbors(Cells).All(n => !n.IsEmpty()));
-
-            if (loser == null) return false;
-            foreach (var cell in Cells.WherePlayerOccupies(loser.TopTile().PlayerId).Where(c => !c.HasQueen())) cell.Tiles.Clear();
-
-            return true;
+            return (loser != null);
         }
 
         private void UpdatePlayerTileMoves(Player player)
