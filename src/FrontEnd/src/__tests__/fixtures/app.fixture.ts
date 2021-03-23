@@ -1,10 +1,11 @@
+import { GameState } from '../../domain';
 import { MoveEvent } from '../../services';
 
 export const cellMoveEvent: MoveEvent = {
   move: { coords: { q: 1, r: 1 }, tileId: 1 },
   type: 'move',
 };
-export const createGameState = (cells: number) => {
+export const createGameState = (cells: number): GameState => {
   const cell = {
     coords: { q: 0, r: 0 },
     tiles: [{ id: 2, playerId: 1, creature: 'ant', moves: [{ q: 0, r: 0 }] }],
@@ -19,6 +20,6 @@ export const createGameState = (cells: number) => {
     gameId: '33',
     cells: new Array(cells).fill(cell),
     players: [player, player2],
-    gameStatus: 'Success',
+    gameStatus: 'MoveSuccess',
   };
 };
