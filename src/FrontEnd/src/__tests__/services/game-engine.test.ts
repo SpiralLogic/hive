@@ -48,8 +48,8 @@ describe('Game Engine Tests', () => {
   test('move tile', async () => {
     const response = await engine.moveTile('1', {
       tileId: 1,
-      coords: { q: 0, r: 0 },
-    });
+      coords: { q: 0, r: 0 }
+    },false);
     expect(response).not.toBeFalsy();
     expect(response.cells).toHaveLength(2);
     expect(response.players).toHaveLength(2);
