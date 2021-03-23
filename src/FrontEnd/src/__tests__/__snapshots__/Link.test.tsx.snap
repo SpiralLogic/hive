@@ -40,6 +40,7 @@ exports[`Links snapshot tests snapshot 1`] = `
     ?
   </a>
   <a
+    class="ai-off"
     href="#"
     name="Toggle Ai"
     title="Toggle Ai"

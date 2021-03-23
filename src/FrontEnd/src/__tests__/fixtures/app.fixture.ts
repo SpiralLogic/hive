@@ -15,5 +15,10 @@ export const createGameState = (cells: number) => {
     name: 'Player 2',
     tiles: [{ id: 1, playerId: 1, creature: 'ant', moves: [{ q: 0, r: 0 }] }],
   };
-  return { gameId: '33', cells: new Array(cells).fill(cell), players: [player, player2] };
+  return {
+    gameId: '33',
+    cells: new Array(cells).fill(cell),
+    players: [player, player2],
+    gameStatus: 'Success',
+  };
 };

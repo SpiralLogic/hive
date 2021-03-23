@@ -86,6 +86,7 @@ Object {
               ?
             </a>
             <a
+              class="ai-off"
               href="#"
               name="Toggle Ai"
               title="Toggle Ai"
@@ -184,6 +185,7 @@ Object {
         </main>
         
         
+        
       </div>
     </div>
   </body>,
@@ -269,6 +271,7 @@ Object {
             ?
           </a>
           <a
+            class="ai-off"
             href="#"
             name="Toggle Ai"
             title="Toggle Ai"
@@ -365,6 +368,7 @@ Object {
           </div>
         </div>
       </main>
+      
       
       
     </div>

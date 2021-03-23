@@ -6,7 +6,13 @@ describe('Links snapshot tests', () => {
   test('snapshot', () => {
     expect(
       renderElement(
-        <Links shareUrl="#" onShowShare={() => ({})} toggleAi={() => ({})} onShowRules={() => ({})} />
+        <Links
+          shareUrl="#"
+          aiOn={false}
+          onShowShare={() => ({})}
+          toggleAi={() => ({})}
+          onShowRules={() => ({})}
+        />
       )
     ).toMatchSnapshot();
   });
