@@ -30,7 +30,9 @@ namespace Hive.Api.Tests.Hubs
             var httpContextFeatureMock = new Mock<IHttpContextFeature>();
             httpContextFeatureMock.SetupSequence(m => m.HttpContext.Features.Get<IRoutingFeature>())
                 .Returns(() => new RoutingFeature {RouteData = new RouteData {Values = {{"id", HubConnectionId}}}})
-                .Returns(() => new RoutingFeature {RouteData = new RouteData {Values = {{"id", null}}}});
+                .Returns(() => new RoutingFeature {RouteData = new RouteData {Values = {{"playerId", 0}}}})
+                .Returns(() => new RoutingFeature {RouteData = new RouteData {Values = {{"id", null}}}})
+                .Returns(() => new RoutingFeature {RouteData = new RouteData {Values = {{"playerId", null}}}});
 
             var featureCollectionMock = new Mock<IFeatureCollection>();
             featureCollectionMock.Setup(m => m.Get<IHttpContextFeature>()).Returns(httpContextFeatureMock.Object);

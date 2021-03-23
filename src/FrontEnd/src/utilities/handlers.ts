@@ -1,6 +1,6 @@
 import { GameState, MoveTile, Tile } from '../domain';
 import { MoveEvent, TileEvent } from '../services';
-import { OpponentSelectionHandler } from '../domain/engine';
+import { OpponentConnectedHandler, OpponentSelectionHandler } from '../domain/engine';
 import { dispatchHiveEvent, useHiveDispatcher } from './hooks';
 
 export function handleDragOver(ev: { preventDefault: () => void }): boolean {
@@ -47,6 +47,14 @@ export const opponentSelectionHandler: OpponentSelectionHandler = (type, tile) =
   }
 };
 
+export const opponentConnectedHandler: OpponentConnectedHandler = (type) => {
+  if (type === 'connect') {
+    dispatchHiveEvent({ type: 'opponentConnected' });
+  } else if (type === 'disconnect') {
+    dispatchHiveEvent({ type: 'opponentDisconnected' });
+  }
+};
+
 export const attachServerHandlers = (
   sendSelection: (type: 'select' | 'deselect', tile: Tile) => void,
   gameState: GameState,
@@ -58,7 +66,7 @@ export const attachServerHandlers = (
   const selectionChangeHandler = (event: TileEvent) => sendSelection('select', event.tile);
   const deselectionChangeHandler = (event: TileEvent) => sendSelection('deselect', event.tile);
   const moveHandler = async (event: MoveEvent) => {
-    const gt = await moveTile(gameState.gameId, event.move);
+    const gt = await moveTile(event.move);
     return updateGameState(gt);
   };
 

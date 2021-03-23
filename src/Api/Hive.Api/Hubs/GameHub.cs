@@ -20,13 +20,31 @@ namespace Hive.Hubs
         public override async Task OnConnectedAsync()
         {
             Context.GetHttpContext().GetRouteData().Values.TryGetValue("id", out var gameId);
-            if (gameId is string groupName) await Groups.AddToGroupAsync(Context.ConnectionId, groupName);
+            Context.GetHttpContext().GetRouteData().Values.TryGetValue("playerId", out var playerId);
+            if (gameId is string groupName)
+            {
+                await Groups.AddToGroupAsync(Context.ConnectionId, groupName);
+                if (playerId is string player)
+                {
+                    await Groups.AddToGroupAsync(Context.ConnectionId,$"{groupName}-{player}");
+                    await Clients.Group($"{groupName}-{(player=="0"?"1":"0")}").SendAsync("PlayerConnection","connect");
+                }
+            }
         }
 
         public override async Task OnDisconnectedAsync(Exception? exception)
         {
             Context.GetHttpContext().GetRouteData().Values.TryGetValue("id", out var gameId);
-            if (gameId is string groupName) await Groups.RemoveFromGroupAsync(Context.ConnectionId, groupName);
+            Context.GetHttpContext().GetRouteData().Values.TryGetValue("playerId", out var playerId);
+            if (gameId is string groupName)
+            {
+                await Groups.RemoveFromGroupAsync(Context.ConnectionId, groupName);
+                if (playerId is string player)
+                {
+                    await Groups.RemoveFromGroupAsync(Context.ConnectionId,$"{groupName}-{player}");
+                    await Clients.Group($"{groupName}-{(player=="0"?"1":"0")}").SendAsync("PlayerConnection", "disconnect");
+                }
+            }
         }
     }
 }

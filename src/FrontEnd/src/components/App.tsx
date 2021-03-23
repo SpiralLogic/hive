@@ -3,15 +3,20 @@ import { Fragment, FunctionComponent, h } from 'preact';
 import { GameState, PlayerId } from '../domain';
 import { HexEngine } from '../domain/engine';
 import ServerConnection from '../services/server-connection';
-import { attachServerHandlers, opponentSelectionHandler } from '../utilities/handlers';
+import {
+  attachServerHandlers,
+  opponentConnectedHandler,
+  opponentSelectionHandler,
+} from '../utilities/handlers';
 import { useEffect, useState } from 'preact/hooks';
 import GameArea from './GameArea';
 
 const App: FunctionComponent<{ engine: HexEngine }> = (props) => {
   const { engine } = props;
   const [gameState, updateGameState] = useState<GameState | undefined>(undefined);
-  const [playerId, setPlayerId] = useState<PlayerId>(0);
   const [fetchStatus, setFetchStatus] = useState(<h1>loading !</h1>);
+  const [playerId, setPlayerId] = useState<PlayerId>(0);
+  const aiState = useState(true);
 
   useEffect(() => {
     const [, route, gameId, routePlayerId] = window.location.pathname.split('/');
@@ -35,23 +40,26 @@ const App: FunctionComponent<{ engine: HexEngine }> = (props) => {
   useEffect(() => {
     if (!gameState) return;
     const serverConnection = new ServerConnection(
+      playerId,
       gameState.gameId,
       updateGameState,
-      opponentSelectionHandler
+      opponentSelectionHandler,
+      opponentConnectedHandler
     );
     serverConnection.connectGame().then();
+
     const removeServerHandlers = attachServerHandlers(
       serverConnection.sendSelection,
       gameState,
       updateGameState,
-      engine.moveTile
+      (move) => engine.moveTile(gameState.gameId, move, aiState[0])
     );
 
     return () => {
       removeServerHandlers();
       serverConnection.closeConnection().then();
     };
-  }, [gameState?.gameId]);
+  }, [gameState?.gameId, aiState[0]]);
 
   if (gameState === undefined) return fetchStatus;
 
@@ -61,6 +69,7 @@ const App: FunctionComponent<{ engine: HexEngine }> = (props) => {
       cells={gameState.cells}
       gameStatus={gameState.gameStatus}
       playerId={playerId}
+      aiState={aiState}
     />
   );
 };

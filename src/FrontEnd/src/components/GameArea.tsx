@@ -1,15 +1,17 @@
 import '../css/gameArea.css';
 import { Cell, GameState, HexCoordinates, Player, PlayerId, Tile } from '../domain';
 import { FunctionComponent, h } from 'preact';
-import { HextilleBuilder } from '../services';
+import { HextilleBuilder, HiveEvent } from '../services';
 import { shareGame } from '../utilities/clipboard';
 import { handleDragOver } from '../utilities/handlers';
 import { useState } from 'preact/hooks';
+import { addHiveDispatchListener } from '../utilities/hooks';
 import GameCell from './GameCell';
 import GameOver from './GameOver';
 import GameTile from './GameTile';
 import Hextille from './Hextille';
 import Links from './Links';
+import PlayerConnected from './PlayerConnected';
 import Players from './Players';
 import Row from './Row';
 import Rules from './Rules';
@@ -27,9 +29,12 @@ const removeOtherPlayerMoves = (
   { players, cells }: Pick<GameState, 'players' | 'cells'>
 ): void => getAllPlayerTiles(playerId, players, cells).forEach((t) => t.moves.splice(0, t.moves.length));
 
-type Props = Pick<GameState, 'players' | 'cells' | 'gameStatus'> & { playerId: PlayerId };
+type Props = Pick<GameState, 'players' | 'cells' | 'gameStatus'> & {
+  playerId: PlayerId;
+  aiState: [boolean, (on: boolean) => void];
+};
 
-const GameArea: FunctionComponent<Props> = ({ players, cells, playerId, gameStatus }) => {
+const GameArea: FunctionComponent<Props> = ({ players, cells, playerId, gameStatus, aiState }) => {
   const attributes = {
     ondragover: handleDragOver,
     className: 'hive',
@@ -39,24 +44,27 @@ const GameArea: FunctionComponent<Props> = ({ players, cells, playerId, gameStat
 
   const [showRules, setShowRules] = useState<boolean>(false);
   const [showShare, setShowShare] = useState<boolean>(false);
+  const [playerConnected, setPlayerConnected] = useState<'connected' | 'disconnected' | undefined>(undefined);
   const rows = hextilleBuilder.createRows();
   const gameOver = gameStatus === 'GameOver';
-  const isAiOn = new URLSearchParams(location.search).has('useai');
 
   const getShareUrl = () => {
     const parts = window.location.href.split('/');
     parts.push(parts.pop() === '1' ? '0' : '1');
     return parts.join('/');
   };
-  const toggleAi = () => {
-    const search = new URLSearchParams(location.search);
-    isAiOn ? search.delete('useai') : search.set('useai', 'true');
-    location.search = search.toString();
-  };
 
   const shareComponent = () => {
     setShowShare(shareGame(getShareUrl()));
   };
+
+  addHiveDispatchListener<HiveEvent>('opponentConnected', () => {
+    setPlayerConnected('connected');
+  });
+
+  addHiveDispatchListener<HiveEvent>('opponentDisconnected', () => {
+    setPlayerConnected('disconnected');
+  });
 
   return (
     <div {...attributes} title={'Hive Game Area'}>
@@ -66,8 +74,7 @@ const GameArea: FunctionComponent<Props> = ({ players, cells, playerId, gameStat
           shareUrl={getShareUrl()}
           onShowRules={() => setShowRules(true)}
           onShowShare={() => shareComponent()}
-          toggleAi={toggleAi}
-          aiOn={isAiOn}
+          aiState={aiState}
         />
         <Hextille>
           {rows.map((row) => (
@@ -85,6 +92,11 @@ const GameArea: FunctionComponent<Props> = ({ players, cells, playerId, gameStat
       </main>
       {showRules ? <Rules setShowRules={setShowRules} /> : ''}
       {showShare ? <Share setShowShare={setShowShare} /> : ''}
+      {playerConnected ? (
+        <PlayerConnected type={playerConnected} setPlayerConnected={setPlayerConnected} />
+      ) : (
+        ''
+      )}
       {gameOver ? <GameOver /> : ''}
     </div>
   );

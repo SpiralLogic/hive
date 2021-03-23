@@ -130,7 +130,7 @@ describe(`handler tests`, () => {
       const dispatcher = useHiveDispatcher();
       jest.spyOn(dispatcher, 'remove');
       const sendSelection = jest.fn();
-      const moveTile = (gameId: GameId, move: Move) => Promise.resolve({ gameId: 'eer', ...gameState });
+      const moveTile = (move: Move) => Promise.resolve({ gameId: 'eer', ...gameState });
 
       const removeHandlers = attachServerHandlers(
         sendSelection,

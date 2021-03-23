@@ -3,11 +3,10 @@ import { FunctionComponent, h } from 'preact';
 import SVG from './SVG';
 
 type Props = {
-  aiOn: boolean;
   shareUrl: string;
   onShowRules: () => void;
   onShowShare: () => void;
-  toggleAi: () => void;
+  aiState: [boolean, (on: boolean) => void];
 };
 
 const Links: FunctionComponent<Props> = (props) => {
@@ -17,7 +16,7 @@ const Links: FunctionComponent<Props> = (props) => {
     handler();
     return false;
   };
-
+  const [useAi, setUseAi] = props.aiState;
   return (
     <div class="links">
       <a
@@ -40,8 +39,8 @@ const Links: FunctionComponent<Props> = (props) => {
       <a
         href="#"
         name="Toggle Ai"
-        class={props.aiOn ? undefined : 'ai-off'}
-        onClick={handle(props.toggleAi)}
+        class={useAi ? undefined : 'ai-off'}
+        onClick={handle(() => setUseAi(!useAi))}
         title="Toggle Ai">
         Ai
       </a>

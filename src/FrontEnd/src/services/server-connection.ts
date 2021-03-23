@@ -1,5 +1,10 @@
-import { GameId, Tile } from '../domain';
-import { GameStateUpdateHandler, HexServerConnection, OpponentSelectionHandler } from '../domain/engine';
+import { GameId, PlayerId, Tile } from '../domain';
+import {
+  GameStateUpdateHandler,
+  HexServerConnection,
+  OpponentConnectedHandler,
+  OpponentSelectionHandler,
+} from '../domain/engine';
 import { HubConnection, HubConnectionBuilder, HubConnectionState } from '@microsoft/signalr';
 
 export default class ServerConnection implements HexServerConnection {
@@ -7,14 +12,20 @@ export default class ServerConnection implements HexServerConnection {
   private readonly gameId: GameId;
   private readonly connection: HubConnection;
   private readonly opponentSelectionHandler: OpponentSelectionHandler;
+  private readonly opponentConnectedHandler: OpponentConnectedHandler;
+  private readonly playerId: PlayerId;
 
   constructor(
+    playerId: PlayerId,
     gameId: GameId,
     updateHandler: GameStateUpdateHandler,
-    opponentSelectionHandler: OpponentSelectionHandler
+    opponentSelectionHandler: OpponentSelectionHandler,
+    opponentConnectedHandler: OpponentConnectedHandler
   ) {
+    this.playerId = playerId;
     this.gameId = gameId;
     this.opponentSelectionHandler = opponentSelectionHandler;
+    this.opponentConnectedHandler = opponentConnectedHandler;
     this.updateHandler = updateHandler;
     this.connection = this.createConnection();
   }
@@ -49,10 +60,11 @@ export default class ServerConnection implements HexServerConnection {
   };
 
   private createConnection = () => {
-    const hubUrl = `${window.location.protocol}//${window.location.host}/gamehub/${this.gameId}`;
+    const hubUrl = `${window.location.protocol}//${window.location.host}/gamehub/${this.gameId}/${this.playerId}`;
     const connection = new HubConnectionBuilder().withUrl(hubUrl).withAutomaticReconnect().build();
     connection.on('ReceiveGameState', this.updateHandler);
     connection.on('OpponentSelection', this.opponentSelectionHandler);
+    connection.on('PlayerConnection', this.opponentConnectedHandler);
     return connection;
   };
 }

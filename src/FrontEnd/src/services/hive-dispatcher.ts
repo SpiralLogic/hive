@@ -19,7 +19,7 @@ export class HiveDispatcher {
 
 export type HiveEventListener<T extends HiveIntent> = <HiveIntent extends T>(intent: HiveIntent) => void;
 export type HiveIntent = HiveEvent | HiveAction;
-export type HiveEvent = MoveEvent | TileEvent;
+export type HiveEvent = MoveEvent | TileEvent | { type: 'opponentConnected' | 'opponentDisconnected' };
 export type HiveAction = Action | TileAction;
 export type MoveEvent = { type: 'move'; move: Move };
 export type Action = {

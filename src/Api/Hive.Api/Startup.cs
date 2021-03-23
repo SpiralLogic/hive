@@ -78,7 +78,7 @@ namespace Hive
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-                endpoints.MapHub<GameHub>("/gamehub/{id}");
+                endpoints.MapHub<GameHub>("/gamehub/{id}/{playerId}");
             });
         }
     }

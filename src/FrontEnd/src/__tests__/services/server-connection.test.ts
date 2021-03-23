@@ -30,6 +30,7 @@ describe('game Server Connection Tests', () => {
   }));
   const updateHandler = jest.fn();
   const opponentSelectionHandler = jest.fn();
+  const opponentConnectionHandler = jest.fn();
   let serverConnection: HexServerConnection;
 
   beforeEach(function () {
@@ -44,15 +45,21 @@ describe('game Server Connection Tests', () => {
     signalR.HubConnectionBuilder = builder;
     updateHandler.mockReset();
     opponentSelectionHandler.mockReset();
-    serverConnection = new ServerConnection('33', updateHandler, opponentSelectionHandler);
+    serverConnection = new ServerConnection(
+      0,
+      '33',
+      updateHandler,
+      opponentSelectionHandler,
+      opponentConnectionHandler
+    );
   });
 
   test(`connectGame connects to hub for game id`, async () => {
-    global.window.history.replaceState({ gameId: 33 }, document.title, `/game/33`);
+    global.window.history.replaceState({ gameId: 33 }, document.title, `/game/33/0`);
 
     await serverConnection.connectGame();
     await serverConnection.getConnectionState();
-    expect(signalRWithUrlMock).toHaveBeenCalledWith('http://localhost/gamehub/33');
+    expect(signalRWithUrlMock).toHaveBeenCalledWith('http://localhost/gamehub/33/0');
   });
 
   test(`web socket connection state can be retrieved`, async () => {
@@ -72,13 +79,19 @@ describe('game Server Connection Tests', () => {
   test(`opponentSelection is updated`, async () => {
     await serverConnection.connectGame();
 
-    expect(hubConnection.on).toHaveBeenLastCalledWith('OpponentSelection', opponentSelectionHandler);
+    expect(hubConnection.on).toHaveBeenLastCalledWith('PlayerConnection', opponentConnectionHandler);
   });
 
   test(`connection state is disconnected initially`, async () => {
     hubConnection = createHubConnection(HubConnectionState.Disconnected);
     jest.spyOn(signalR, 'HubConnection').mockImplementation(() => hubConnection);
-    serverConnection = new ServerConnection('33', updateHandler, opponentSelectionHandler);
+    serverConnection = new ServerConnection(
+      0,
+      '33',
+      updateHandler,
+      opponentSelectionHandler,
+      opponentConnectionHandler
+    );
     expect(serverConnection.getConnectionState()).toBe(HubConnectionState.Disconnected);
   });
 
