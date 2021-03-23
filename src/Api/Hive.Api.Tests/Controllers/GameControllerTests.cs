@@ -1,5 +1,6 @@
 using System.Text;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
@@ -21,14 +22,15 @@ namespace Hive.Api.Tests.Controllers
         private const string MissingGameId = "MISSING_GAME_ID";
         private readonly GameController _controller;
 
-        public GameControllerTests(GameStatus gameStatus)
+        public GameControllerTests()
         {
             var game = new Domain.Hive(new[] {"player1", "player2"});
-            var gameState = new GameState(game.Players, game.Cells, ExistingGameId, GameStatus.NewGame);
+            var gameState = new GameState(game.Players, game.Cells, ExistingGameId, GameStatus.Success);
 
             var jsonOptions = new JsonOptions();
             jsonOptions.JsonSerializerOptions.Converters.Add(new CreatureJsonConverter());
             jsonOptions.JsonSerializerOptions.Converters.Add(new StackJsonConverter());
+            jsonOptions.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
 
             var optionsMock = new Mock<IOptions<JsonOptions>>();
             optionsMock.SetupGet(m => m.Value).Returns(jsonOptions);
