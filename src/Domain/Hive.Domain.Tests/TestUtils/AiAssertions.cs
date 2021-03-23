@@ -8,9 +8,9 @@ using Hive.Domain.Entities;
 
 namespace Hive.Domain.Tests.TestUtils
 {
-    internal class AiAssertions : ReferenceTypeAssertions<Func< Move >, AiAssertions>
+    internal class AiAssertions : ReferenceTypeAssertions<Func<Move>, AiAssertions>
     {
-        public AiAssertions(Func< Move> subject) : base(subject)
+        public AiAssertions(Func<Move> subject) : base(subject)
         {
         }
 

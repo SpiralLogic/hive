@@ -1,7 +1,8 @@
 namespace Hive.Domain.Entities
 {
-    public enum MoveResult
+    public enum GameStatus
     {
+        NewGame,
         Success,
         SuccessNextPlayerSkipped,
         Invalid,

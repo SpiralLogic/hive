@@ -25,14 +25,11 @@ namespace Hive.Domain.Entities
             return Q == other.Q && R == other.R;
         }
 
-        public override int GetHashCode()
-        {
-            return HashCode.Combine(Q, R);
-        }
+        public override int GetHashCode() =>
+            HashCode.Combine(Q, R);
 
-        internal ISet<Coords> GetNeighbors()
-        {
-            return new HashSet<Coords>
+        internal ISet<Coords> GetNeighbors() =>
+            new HashSet<Coords>
             {
                 TopLeft,
                 TopRight,
@@ -41,6 +38,5 @@ namespace Hive.Domain.Entities
                 BottomLeft,
                 BottomRight
             };
-        }
     }
 }

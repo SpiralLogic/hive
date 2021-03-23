@@ -25,8 +25,7 @@ namespace Hive.Domain.Tests.CreatureTests
             expected += " ⬡ ⬡ ⬡ ⬡ ";
             expected += "⬡ ⬡ ⬡ ⬡ ⬡";
 
-            Creatures.Ant.Should()
-                .HaveMoves(initial, expected);
+            Creatures.Ant.Should().HaveMoves(initial, expected);
         }
 
         [Fact]
@@ -50,8 +49,7 @@ namespace Hive.Domain.Tests.CreatureTests
             expected += "⬡ ⬢ ⬢ ✔ ⬢";
             expected += " ⬡ ⬢ ⬢ ⬢ ⬢";
 
-            Creatures.Ant.Should()
-                .HaveMoves(initial, expected);
+            Creatures.Ant.Should().HaveMoves(initial, expected);
         }
 
         [Fact]
@@ -73,8 +71,7 @@ namespace Hive.Domain.Tests.CreatureTests
             expected += " ✔ ⬢ ⬢ ✔ ";
             expected += "⬡ ✔ ✔ ✔ ⬡";
 
-            Creatures.Ant.Should()
-                .HaveMoves(initial, expected);
+            Creatures.Ant.Should().HaveMoves(initial, expected);
         }
     }
 }

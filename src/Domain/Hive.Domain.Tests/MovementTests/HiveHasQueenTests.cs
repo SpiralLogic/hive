@@ -21,9 +21,7 @@ namespace Hive.Domain.Tests.MovementTests
 
             var move = new HiveHasQueen();
 
-            move.GetMoves(cells.First(), cells)
-                .Should()
-                .BeEmpty();
+            move.GetMoves(cells.First(), cells).Should().BeEmpty();
         }
 
         [Fact]
@@ -39,9 +37,7 @@ namespace Hive.Domain.Tests.MovementTests
 
             var move = new HiveHasQueen();
 
-            move.GetMoves(cells.First(), cells)
-                .Should()
-                .NotBeEmpty();
+            move.GetMoves(cells.First(), cells).Should().NotBeEmpty();
         }
     }
 }

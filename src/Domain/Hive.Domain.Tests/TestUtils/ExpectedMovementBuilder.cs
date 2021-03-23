@@ -19,10 +19,8 @@ namespace Hive.Domain.Tests.TestUtils
         private IEnumerable<Cell> ExpectedCells =>
             AllCells.Where(c => !c.IsEmpty() && c.TopTile().Creature.Name == Expected.Creature.Name).ToHashSet();
 
-        public static ExpectedMovementBuilder operator +(ExpectedMovementBuilder builder, string newRow)
-        {
-            return AddRow(builder, newRow);
-        }
+        public static ExpectedMovementBuilder operator +(ExpectedMovementBuilder builder, string newRow) =>
+            AddRow(builder, newRow);
 
         internal ISet<Coords> ExpectedMoves()
         {
@@ -41,10 +39,7 @@ namespace Hive.Domain.Tests.TestUtils
             var unexpected = ExpectedMoves();
             unexpected.SymmetricExceptWith(actual);
 
-            foreach (var coords in unexpected)
-            {
-                UpdateCoords(Unexpected.ToString(), coords, actualRows);
-            }
+            foreach (var coords in unexpected) UpdateCoords(Unexpected.ToString(), coords, actualRows);
 
             var coloredRows = ToColoredString().Split("\n");
 

@@ -27,8 +27,7 @@ namespace Hive.Domain.Tests.MovementTests
 
             var move = new HasAnyNeighbour();
 
-            move.Should()
-                .HaveMoves(initial, expected);
+            move.Should().HaveMoves(initial, expected);
         }
     }
 }

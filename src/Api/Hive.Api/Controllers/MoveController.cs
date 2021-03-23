@@ -38,18 +38,21 @@ namespace Hive.Controllers
             var gameSession = await _distributedCache.GetStringAsync(id);
             if (string.IsNullOrEmpty(gameSession)) return NotFound();
 
-            var (players, cells, _) = JsonSerializer.Deserialize<GameState>(gameSession, _jsonSerializerOptions)!;
+            var (players, cells, _, _) = JsonSerializer.Deserialize<GameState>(gameSession, _jsonSerializerOptions)!;
 
             var game = new Domain.Hive(players.ToList(), cells.ToHashSet());
             var tile = players.SelectMany(p => p.Tiles).Concat(cells.SelectMany(c => c.Tiles)).FirstOrDefault(t => t.Id == move.TileId);
-            if (tile==null || game.Move(new Domain.Entities.Move(tile,move.Coords), move.UseAi) == MoveResult.Invalid) return Forbid();
+            if (tile == null) return Forbid();
 
-            var newGameState = new GameState(game.Players, game.Cells, id);
+            var gameStatus = game.Move(new Domain.Entities.Move(tile, move.Coords), move.UseAi);
+
+            if (gameStatus == GameStatus.Invalid) return Forbid();
+
+            var newGameState = new GameState(game.Players, game.Cells, id, gameStatus);
 
             var json = JsonSerializer.Serialize(newGameState, _jsonSerializerOptions);
             await _distributedCache.SetStringAsync(id, json);
-            await _hubContext.Clients.Group(id)
-                .SendAsync("ReceiveGameState", newGameState);
+            await _hubContext.Clients.Group(id).SendAsync("ReceiveGameState", newGameState);
 
             return Accepted($"/game/{id}", newGameState);
         }

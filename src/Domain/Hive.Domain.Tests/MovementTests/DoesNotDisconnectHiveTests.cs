@@ -36,8 +36,7 @@ namespace Hive.Domain.Tests.MovementTests
 
             var move = new WontSplitHive();
 
-            move.Should()
-                .HaveMoves(initial, expected);
+            move.Should().HaveMoves(initial, expected);
         }
 
         [Fact]
@@ -67,8 +66,7 @@ namespace Hive.Domain.Tests.MovementTests
             expected += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡";
             expected += " ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
 
-            new WontSplitHive().Should()
-                .HaveMoves(initial, expected);
+            new WontSplitHive().Should().HaveMoves(initial, expected);
         }
 
         [Fact]
@@ -98,8 +96,7 @@ namespace Hive.Domain.Tests.MovementTests
             expected += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡";
             expected += " ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
 
-            new WontSplitHive().Should()
-                .HaveMoves(initial, expected);
+            new WontSplitHive().Should().HaveMoves(initial, expected);
         }
 
         [Fact]
@@ -129,8 +126,7 @@ namespace Hive.Domain.Tests.MovementTests
             expected += "✔ ✔ ✔ ✔ ✔ ✔ ✔ ✔ ✔ ✔";
             expected += " ✔ ✔ ✔ ✔ ✔ ✔ ✔ ✔ ✔ ";
 
-            new WontSplitHive().Should()
-                .HaveMoves(initial, expected);
+            new WontSplitHive().Should().HaveMoves(initial, expected);
         }
 
         [Fact]
@@ -160,8 +156,7 @@ namespace Hive.Domain.Tests.MovementTests
             expected += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡";
             expected += " ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
 
-            new WontSplitHive().Should()
-                .HaveMoves(initial, expected);
+            new WontSplitHive().Should().HaveMoves(initial, expected);
         }
 
         [Fact]
@@ -180,8 +175,7 @@ namespace Hive.Domain.Tests.MovementTests
             expected += "✔ ★ ✔";
             expected += " ✔ ✔ ";
 
-            new WontSplitHive().Should()
-                .HaveMoves(initial, expected);
+            new WontSplitHive().Should().HaveMoves(initial, expected);
         }
 
         [Fact]
@@ -211,8 +205,7 @@ namespace Hive.Domain.Tests.MovementTests
             expected += "✔ ✔ ✔ ✔ ✔ ✔ ✔ ✔ ✔ ✔";
             expected += " ✔ ✔ ✔ ✔ ✔ ✔ ✔ ✔ ✔ ";
 
-            new WontSplitHive().Should()
-                .HaveMoves(initial, expected);
+            new WontSplitHive().Should().HaveMoves(initial, expected);
         }
     }
 }

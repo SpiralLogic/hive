@@ -12,9 +12,7 @@ namespace Hive
         [ExcludeFromCodeCoverage]
         public static void Main(string[] args)
         {
-            CreateWebHostBuilder(args)
-                .Build()
-                .Run();
+            CreateWebHostBuilder(args).Build().Run();
         }
 
         [ExcludeFromCodeCoverage]

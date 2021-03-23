@@ -55,7 +55,14 @@ const App: FunctionComponent<{ engine: HexEngine }> = (props) => {
 
   if (gameState === undefined) return fetchStatus;
 
-  return <GameArea players={gameState.players} cells={gameState.cells} playerId={playerId} />;
+  return (
+    <GameArea
+      players={gameState.players}
+      cells={gameState.cells}
+      gameStatus={gameState.gameStatus}
+      playerId={playerId}
+    />
+  );
 };
 
 App.displayName = 'App';

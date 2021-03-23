@@ -24,7 +24,8 @@ namespace Hive.Domain.Tests.TestUtils
 
             Execute.Assertion.Given(() => Subject(initial))
                 .ForCondition(coords => coords.SetEquals(expectedCoords))
-                .FailWith("\nResulting " + Identifier + "s did not match expected\n\nInitial:\n{1}\n\nActual - Expected:\n{2}\n", _ => initial.OriginCell.Coords, _ => new StringBuilder(initial.ToColoredString()),
+                .FailWith("\nResulting " + Identifier + "s did not match expected\n\nInitial:\n{1}\n\nActual - Expected:\n{2}\n",
+                    _ => initial.OriginCell.Coords, _ => new StringBuilder(initial.ToColoredString()),
                     actual => new StringBuilder(expected.GetMovementDiff(actual)));
 
             return new AndConstraint<MovementAssertion>(this);

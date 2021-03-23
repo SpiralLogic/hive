@@ -27,8 +27,7 @@ namespace Hive.Domain.Tests.CreatureTests
 
             var spider = Creatures.Spider;
 
-            spider.Should()
-                .HaveMoves(initial, expected);
+            spider.Should().HaveMoves(initial, expected);
         }
 
         [Fact]
@@ -54,8 +53,7 @@ namespace Hive.Domain.Tests.CreatureTests
 
             var spider = Creatures.Spider;
 
-            spider.Should()
-                .HaveMoves(initial, expected);
+            spider.Should().HaveMoves(initial, expected);
         }
 
         [Fact]
@@ -79,8 +77,7 @@ namespace Hive.Domain.Tests.CreatureTests
 
             var spider = Creatures.Spider;
 
-            spider.Should()
-                .HaveMoves(initial, expected);
+            spider.Should().HaveMoves(initial, expected);
         }
 
         [Fact]
@@ -104,8 +101,7 @@ namespace Hive.Domain.Tests.CreatureTests
 
             var spider = Creatures.Spider;
 
-            spider.Should()
-                .HaveMoves(initial, expected);
+            spider.Should().HaveMoves(initial, expected);
         }
     }
 }

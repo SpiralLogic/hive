@@ -1,4 +1,3 @@
-using System.Linq;
 using Hive.Domain.Entities;
 using Hive.Domain.Tests.TestUtils;
 using Xunit;
@@ -26,7 +25,7 @@ namespace Hive.Domain.Tests
             expected += "✔ q b b Q ⬡ ";
             expected += " ✔ ✔ ⬡ ⬡ ⬡ ⬡";
 
-            var hive = new Hive(new[] {new Player(0, "P1"), new Player(1, "P1")}, initial.AllCells,1 );
+            var hive = new Hive(new[] {new Player(0, "P1"), new Player(1, "P1")}, initial.AllCells, 1);
 
             new ComputerPlayer(hive).Should().MatchHive(initial, expected);
         }

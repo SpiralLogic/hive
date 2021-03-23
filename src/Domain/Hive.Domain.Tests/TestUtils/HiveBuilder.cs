@@ -13,18 +13,19 @@ namespace Hive.Domain.Tests.TestUtils
         internal static readonly HiveCharacter Friend = new("Cyan", '⬢', ConsoleColor.Cyan);
         internal static readonly HiveCharacter Enemy = new("Enemy", '⏣', ConsoleColor.Magenta);
 
-        protected readonly ISet<HiveCharacter> AllSymbols = new[] {Empty, Origin, Friend, Enemy}.ToHashSet();
-
         internal readonly HashSet<Cell> AllCells = new();
+
+        protected readonly ISet<HiveCharacter> AllSymbols = new[] {Empty, Origin, Friend, Enemy}.ToHashSet();
         protected readonly List<string> RowStrings = new();
 
         private int _currentR;
-        internal Cell OriginCell { get; private set; } = new(new Coords(0, 0));
 
         internal HiveBuilder()
         {
             WithCreatureSymbols();
         }
+
+        internal Cell OriginCell { get; private set; } = new(new Coords(0, 0));
 
         protected static T AddRow<T>(T builder, string rowString) where T : HiveBuilder
         {
@@ -51,10 +52,8 @@ namespace Hive.Domain.Tests.TestUtils
             return builder;
         }
 
-        private int GetQOffset(string rowString)
-        {
-            return rowString.Trim().Length == rowString.Length ? 0 : (_currentR + 1) % 2;
-        }
+        private int GetQOffset(string rowString) =>
+            rowString.Trim().Length == rowString.Length ? 0 : (_currentR + 1) % 2;
 
         private void WithCreatureSymbols()
         {
@@ -74,12 +73,10 @@ namespace Hive.Domain.Tests.TestUtils
             rowSplit[qOffset] = newSymbol;
             actualRows[coords.R] = string.Join(Separator, rowSplit);
         }
-        
-        private static int GetQOffset(string rowString, int r)
-        {
-            return rowString.StartsWith(Separator) && r % 2 != 0 ? 1 : 0;
-        }
-        
+
+        private static int GetQOffset(string rowString, int r) =>
+            rowString.StartsWith(Separator) && r % 2 != 0 ? 1 : 0;
+
         internal string ToColoredString() =>
             AllSymbols.Aggregate(ToString(), (str, row) => str.Replace(row.Symbol.ToString(), row.ToString()));
 

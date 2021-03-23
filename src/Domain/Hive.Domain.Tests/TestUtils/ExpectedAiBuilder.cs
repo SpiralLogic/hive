@@ -19,10 +19,8 @@ namespace Hive.Domain.Tests.TestUtils
         private IEnumerable<Cell> ExpectedCells =>
             AllCells.Where(c => !c.IsEmpty() && c.TopTile().Creature.Name == Expected.Creature.Name).ToHashSet();
 
-        public static ExpectedAiBuilder operator +(ExpectedAiBuilder builder, string newRow)
-        {
-            return AddRow(builder, newRow);
-        }
+        public static ExpectedAiBuilder operator +(ExpectedAiBuilder builder, string newRow) =>
+            AddRow(builder, newRow);
 
         internal ISet<Coords> ExpectedMoves()
         {
@@ -38,10 +36,7 @@ namespace Hive.Domain.Tests.TestUtils
         internal string GetMoveDiff(Move move)
         {
             var actualRows = new List<string>(RowStrings);
-            foreach (var cell in ExpectedCells)
-            {
-                UpdateCoords(Unexpected.ToString(), cell.Coords, actualRows);
-            }
+            foreach (var cell in ExpectedCells) UpdateCoords(Unexpected.ToString(), cell.Coords, actualRows);
 
             UpdateCoords(Origin.ToString(), OriginCell.Coords, actualRows);
             UpdateCoords(Expected.ToString(), move.Coords, actualRows);

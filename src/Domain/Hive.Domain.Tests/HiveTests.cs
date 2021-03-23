@@ -14,10 +14,8 @@ namespace Hive.Domain.Tests
         {
             var hive = new Hive(new[] {"player1", "player2"});
 
-            hive.Players.Should()
-                .ContainSingle(p => p.Name == "player1");
-            hive.Players.Should()
-                .ContainSingle(p => p.Name == "player2");
+            hive.Players.Should().ContainSingle(p => p.Name == "player1");
+            hive.Players.Should().ContainSingle(p => p.Name == "player2");
         }
 
         [Theory]
@@ -34,8 +32,7 @@ namespace Hive.Domain.Tests
 
             var cell = new Cell(new Coords(q, r));
 
-            hive.Cells.Should()
-                .Contain(cell);
+            hive.Cells.Should().Contain(cell);
         }
 
         [Fact]
@@ -59,11 +56,8 @@ namespace Hive.Domain.Tests
         public void EvenHeightHasCorrectNeighbours(int q, int r)
         {
             var hive = new Hive(new[] {"player1", "player2"});
-            var p1Queen = hive.Players.First()
-                .Tiles.First(t => t.Creature == Creatures.Queen);
-            var p2Queen = hive.Players.Skip(1)
-                .First()
-                .Tiles.First(t => t.Creature == Creatures.Queen);
+            var p1Queen = hive.Players.First().Tiles.First(t => t.Creature == Creatures.Queen);
+            var p2Queen = hive.Players.Skip(1).First().Tiles.First(t => t.Creature == Creatures.Queen);
 
             hive.Move(new Move(p1Queen, new Coords(0, 0)));
             hive.Move(new Move(p2Queen, new Coords(0, -1)));
@@ -82,8 +76,7 @@ namespace Hive.Domain.Tests
 
             hive.Move(new Move(playerTile, playerTile.Moves.First()));
 
-            hive.Cells.Should()
-                .Contain(cell => cell.TopTile() == playerTile);
+            hive.Cells.Should().Contain(cell => cell.TopTile() == playerTile);
         }
 
         /*[Fact]
@@ -114,8 +107,7 @@ namespace Hive.Domain.Tests
         {
             var hive = new Hive(new[] {"player1", "player2"});
             var firstPlayer = hive.Players.First();
-            var secondPlayer = hive.Players.Skip(1)
-                .First();
+            var secondPlayer = hive.Players.Skip(1).First();
 
             var firstPlayerCanMoveFirst = hive.Players.SelectMany(p => p.Tiles)
                 .Where(t => t.Moves.Any())
@@ -124,10 +116,8 @@ namespace Hive.Domain.Tests
                 .Where(t => t.Moves.Any())
                 .Any(t => t.PlayerId == secondPlayer.Id);
 
-            firstPlayerCanMoveFirst.Should()
-                .BeTrue();
-            secondPlayerCanMoveFirst.Should()
-                .BeTrue();
+            firstPlayerCanMoveFirst.Should().BeTrue();
+            secondPlayerCanMoveFirst.Should().BeTrue();
         }
 
         [Fact]
@@ -137,8 +127,7 @@ namespace Hive.Domain.Tests
             var firstPlayer = hive.Players.First();
             var firstPlayerTile = firstPlayer.Tiles.First();
 
-            var secondPlayer = hive.Players.Skip(1)
-                .First();
+            var secondPlayer = hive.Players.Skip(1).First();
             var secondPlayerTile = secondPlayer.Tiles.First();
 
             hive.Move(new Move(firstPlayerTile, firstPlayerTile.Moves.First()));
@@ -152,10 +141,8 @@ namespace Hive.Domain.Tests
                 .Where(t => t.Moves.Any())
                 .All(t => t.PlayerId == firstPlayer.Id);
 
-            secondPlayerCanMoveSecond.Should()
-                .BeTrue();
-            firstPlayerCanMoveThird.Should()
-                .BeTrue();
+            secondPlayerCanMoveSecond.Should().BeTrue();
+            firstPlayerCanMoveThird.Should().BeTrue();
         }
 
         [Fact]
@@ -167,19 +154,15 @@ namespace Hive.Domain.Tests
 
             var hive2 = new Hive(players, cells);
 
-            hive2.Cells.Should()
-                .BeSameAs(cells);
-            hive2.Players.Should()
-                .BeSameAs(players);
+            hive2.Cells.Should().BeSameAs(cells);
+            hive2.Players.Should().BeSameAs(players);
         }
 
         [Fact]
         public void InvalidMovesHaveNoEffect()
         {
             var hive = new Hive(new[] {"player1", "player2"});
-            hive.Move(new Move(new Tile(1,1,Creatures.Grasshopper), new Coords(34, 34)))
-                .Should()
-                .Be(MoveResult.Invalid);
+            hive.Move(new Move(new Tile(1, 1, Creatures.Grasshopper), new Coords(34, 34))).Should().Be(GameStatus.Invalid);
         }
 
         [Fact]
@@ -188,10 +171,8 @@ namespace Hive.Domain.Tests
             var hive = new Hive(new[] {"player1", "player2"});
             var player1 = hive.Players[0];
             var player2 = hive.Players[1];
-            var player1Tiles = player1.Tiles.Skip(1)
-                .Take(3);
-            var player2Tiles = player2.Tiles.Skip(1)
-                .Take(3);
+            var player1Tiles = player1.Tiles.Skip(1).Take(3);
+            var player2Tiles = player2.Tiles.Skip(1).Take(3);
             foreach (var z in player1Tiles.Zip(player2Tiles))
             {
                 hive.Move(new Move(z.First, z.First.Moves.First()));
@@ -222,13 +203,10 @@ namespace Hive.Domain.Tests
 
             cells.Add(new Cell(new Coords(0, 0)));
 
-            var queen = players.First(p => p.Id != 1)
-                .Tiles.First(t => t.Creature == Creatures.Queen);
+            var queen = players.First(p => p.Id != 1).Tiles.First(t => t.Creature == Creatures.Queen);
 
             var hive2 = new Hive(players, cells);
-            hive2.Move(new Move(queen, new Coords(0, 0)))
-                .Should()
-                .Be(MoveResult.GameOver);
+            hive2.Move(new Move(queen, new Coords(0, 0))).Should().Be(GameStatus.GameOver);
         }
 
         [Fact]
@@ -245,14 +223,9 @@ namespace Hive.Domain.Tests
 
             hive.Move(new Move(player1.Tiles.First(), new Coords(0, 0)));
 
-            var allTiles = hive.Cells.SelectMany(c => c.Tiles)
-                .Concat(hive.Players.SelectMany(p => p.Tiles))
-                .ToList();
-            allTiles.Should()
-                .NotContain(t => t.PlayerId == player2.Id);
-            allTiles.Where(t => t.PlayerId == player1.Id)
-                .Should()
-                .NotBeEmpty();
+            var allTiles = hive.Cells.SelectMany(c => c.Tiles).Concat(hive.Players.SelectMany(p => p.Tiles)).ToList();
+            allTiles.Should().NotContain(t => t.PlayerId == player2.Id);
+            allTiles.Where(t => t.PlayerId == player1.Id).Should().NotBeEmpty();
         }
     }
 }

@@ -33,23 +33,20 @@ namespace Hive.Api.Tests.Hubs
                 .Returns(() => new RoutingFeature {RouteData = new RouteData {Values = {{"id", null}}}});
 
             var featureCollectionMock = new Mock<IFeatureCollection>();
-            featureCollectionMock.Setup(m => m.Get<IHttpContextFeature>())
-                .Returns(httpContextFeatureMock.Object);
+            featureCollectionMock.Setup(m => m.Get<IHttpContextFeature>()).Returns(httpContextFeatureMock.Object);
 
             var hubCallerContextMock = new Mock<HubCallerContext>();
-            hubCallerContextMock.SetupGet(m => m.ConnectionId)
-                .Returns(HubConnectionId);
-            hubCallerContextMock.SetupGet(m => m.Features)
-                .Returns(featureCollectionMock.Object);
+            hubCallerContextMock.SetupGet(m => m.ConnectionId).Returns(HubConnectionId);
+            hubCallerContextMock.SetupGet(m => m.Features).Returns(featureCollectionMock.Object);
 
             _clientProxyMock = new Mock<IClientProxy>();
             _clientProxyMock.Setup(m => m.SendCoreAsync(It.IsAny<string>(), It.IsAny<object[]>(), It.IsAny<CancellationToken>()));
 
             var hubCallerClientsMock = new Mock<IHubCallerClients>();
-            hubCallerClientsMock.Setup(m => m.OthersInGroup(It.IsAny<string>()))
-                .Returns(_clientProxyMock.Object);
+            hubCallerClientsMock.Setup(m => m.OthersInGroup(It.IsAny<string>())).Returns(_clientProxyMock.Object);
 
-            _hub = new GameHub {Context = hubCallerContextMock.Object, Groups = _groupManagerMock.Object, Clients = hubCallerClientsMock.Object};
+            _hub = new GameHub
+                {Context = hubCallerContextMock.Object, Groups = _groupManagerMock.Object, Clients = hubCallerClientsMock.Object};
         }
 
         [Fact]
@@ -71,7 +68,8 @@ namespace Hive.Api.Tests.Hubs
         {
             var selectedTile = new Tile(1, 1, Creatures.Grasshopper);
             await _hub.SendSelection("select", selectedTile);
-            _clientProxyMock.Verify(c => c.SendCoreAsync("OpponentSelection", new object[] {"select", selectedTile}, It.IsAny<CancellationToken>()));
+            _clientProxyMock.Verify(c =>
+                c.SendCoreAsync("OpponentSelection", new object[] {"select", selectedTile}, It.IsAny<CancellationToken>()));
         }
 
         [Fact]
@@ -79,9 +77,7 @@ namespace Hive.Api.Tests.Hubs
         {
             var selectedTile = new Tile(1, 1, Creatures.Grasshopper);
             await _hub.SendSelection("select", selectedTile);
-            _hub.SendSelection("select", selectedTile)
-                .IsCompletedSuccessfully.Should()
-                .BeTrue();
+            _hub.SendSelection("select", selectedTile).IsCompletedSuccessfully.Should().BeTrue();
         }
     }
 }

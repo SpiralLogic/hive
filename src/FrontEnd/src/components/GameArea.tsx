@@ -6,6 +6,7 @@ import { shareGame } from '../utilities/clipboard';
 import { handleDragOver } from '../utilities/handlers';
 import { useState } from 'preact/hooks';
 import GameCell from './GameCell';
+import GameOver from './GameOver';
 import GameTile from './GameTile';
 import Hextille from './Hextille';
 import Links from './Links';
@@ -26,9 +27,9 @@ const removeOtherPlayerMoves = (
   { players, cells }: Pick<GameState, 'players' | 'cells'>
 ): void => getAllPlayerTiles(playerId, players, cells).forEach((t) => t.moves.splice(0, t.moves.length));
 
-type Props = Pick<GameState, 'players' | 'cells'> & { playerId: PlayerId };
+type Props = Pick<GameState, 'players' | 'cells' | 'gameStatus'> & { playerId: PlayerId };
 
-const GameArea: FunctionComponent<Props> = ({ players, cells, playerId }) => {
+const GameArea: FunctionComponent<Props> = ({ players, cells, playerId, gameStatus }) => {
   const attributes = {
     ondragover: handleDragOver,
     className: 'hive',
@@ -39,6 +40,8 @@ const GameArea: FunctionComponent<Props> = ({ players, cells, playerId }) => {
   const [showRules, setShowRules] = useState<boolean>(false);
   const [showShare, setShowShare] = useState<boolean>(false);
   const rows = hextilleBuilder.createRows();
+  const gameOver = gameStatus === 'GameOver';
+  const isAiOn = new URLSearchParams(location.search).has('useai');
 
   const getShareUrl = () => {
     const parts = window.location.href.split('/');
@@ -47,8 +50,7 @@ const GameArea: FunctionComponent<Props> = ({ players, cells, playerId }) => {
   };
   const toggleAi = () => {
     const search = new URLSearchParams(location.search);
-
-    search.has('useai') ? search.delete('useai') : search.set('useai', 'true');
+    isAiOn ? search.delete('useai') : search.set('useai', 'true');
     location.search = search.toString();
   };
 
@@ -65,6 +67,7 @@ const GameArea: FunctionComponent<Props> = ({ players, cells, playerId }) => {
           onShowRules={() => setShowRules(true)}
           onShowShare={() => shareComponent()}
           toggleAi={toggleAi}
+          aiOn={isAiOn}
         />
         <Hextille>
           {rows.map((row) => (
@@ -82,6 +85,7 @@ const GameArea: FunctionComponent<Props> = ({ players, cells, playerId }) => {
       </main>
       {showRules ? <Rules setShowRules={setShowRules} /> : ''}
       {showShare ? <Share setShowShare={setShowShare} /> : ''}
+      {gameOver ? <GameOver /> : ''}
     </div>
   );
 };

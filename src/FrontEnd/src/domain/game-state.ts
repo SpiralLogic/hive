@@ -5,6 +5,7 @@ export type GameState = {
   cells: Cell[];
   players: Player[];
   gameId: GameId;
+  gameStatus: string;
 };
 
 export type GameId = string;

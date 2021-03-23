@@ -39,36 +39,31 @@ namespace Hive.Domain
         public ISet<Cell> Cells { get; }
         public IList<Player> Players { get; }
 
-        public MoveResult Move(Move move, bool useAi = false)
+        public GameStatus Move(Move move, bool useAi = false)
         {
-            if (!IsValidMove(move)) return MoveResult.Invalid;
+            if (!IsValidMove(move)) return GameStatus.Invalid;
 
             PerformMove(move);
             ClearAllTileMoves();
 
             var nextPlayer = GetNextPlayer(move.Tile);
-            if (IsGameOver()) return MoveResult.GameOver;
+            if (IsGameOver()) return GameStatus.GameOver;
 
             UpdateMoves(nextPlayer);
             if (useAi)
             {
-
                 var aiMove = new ComputerPlayer(this).GetMove();
-                Move(aiMove);
-
-                return MoveResult.Success;
+                return Move(aiMove);
             }
 
-            if (CountMovesAvailable() != 0) return MoveResult.Success;
+            if (CountMovesAvailable() != 0) return GameStatus.Success;
 
             UpdateMoves(SkipTurn(nextPlayer));
-            return MoveResult.SuccessNextPlayerSkipped;
+            return GameStatus.SuccessNextPlayerSkipped;
         }
 
-        private Player SkipTurn(Player nextPlayer)
-        {
-            return Players.First(p => p.Id != nextPlayer.Id);
-        }
+        private Player SkipTurn(Player nextPlayer) =>
+            Players.First(p => p.Id != nextPlayer.Id);
 
         private void UpdateMoves(Player nextPlayer)
         {
@@ -86,11 +81,8 @@ namespace Hive.Domain
             Cells.First(c => c.Coords == coords).AddTile(tile);
         }
 
-        private Player GetNextPlayer(Tile movedTile)
-        {
-            var nextPlayer = Players.First(p => p.Id != movedTile.PlayerId);
-            return nextPlayer;
-        }
+        private Player GetNextPlayer(Tile movedTile) =>
+            Players.First(p => p.Id != movedTile.PlayerId);
 
         private bool IsGameOver()
         {
@@ -136,10 +128,8 @@ namespace Hive.Domain
             foreach (var tile in Players.SelectMany(p => p.Tiles).Concat(Cells.SelectMany(c => c.Tiles))) tile.Moves.Clear();
         }
 
-        private int CountMovesAvailable()
-        {
-            return Players.SelectMany(p => p.Tiles).Concat(Cells.SelectMany(c => c.Tiles)).SelectMany(t => t.Moves).Count();
-        }
+        private int CountMovesAvailable() =>
+            Players.SelectMany(p => p.Tiles).Concat(Cells.SelectMany(c => c.Tiles)).SelectMany(t => t.Moves).Count();
 
         private bool IsValidMove(Move move)
         {
@@ -157,29 +147,22 @@ namespace Hive.Domain
             Cells.WhereOccupied().FirstOrDefault(c => c.TopTile() == tile)?.RemoveTopTile();
         }
 
-        private IList<Player> CreatePlayers(IEnumerable<string> playerNames)
-        {
-            return playerNames.Select((name, id) => new Player(id, name) {Tiles = CreateStartingTiles(id)}).ToList();
-        }
+        private IList<Player> CreatePlayers(IEnumerable<string> playerNames) =>
+            playerNames.Select((name, id) => new Player(id, name) {Tiles = CreateStartingTiles(id)}).ToList();
 
-        private ISet<Tile> CreateStartingTiles(int playerId)
-        {
-            return _startingTiles.Select((creature, i) => (creature, id: playerId * _startingTiles.Length + i))
+        private ISet<Tile> CreateStartingTiles(int playerId) =>
+            _startingTiles.Select((creature, i) => (creature, id: playerId * _startingTiles.Length + i))
                 .Select(t => new Tile(t.id, playerId, t.creature) {Moves = Cells.ToCoords()})
                 .ToHashSet();
-        }
 
-        private ISet<Cell> CreateCells()
-        {
-            return _initialCoords.GetNeighbors().Prepend(_initialCoords).ToCells();
-        }
+        private ISet<Cell> CreateCells() =>
+            _initialCoords.GetNeighbors().Prepend(_initialCoords).ToCells();
 
         public void ReplaceTile(Tile tile)
         {
             var cell = Cells.First(c => c.Tiles.Any(t => t.Id == tile.Id));
             cell.RemoveTopTile();
             Players[tile.PlayerId].Tiles.Add(tile);
-
         }
     }
 }

@@ -22,9 +22,7 @@ namespace Hive.Api.Tests.Converters
             writer.Flush();
             stream.Seek(0, SeekOrigin.Begin);
             using var sr = new StreamReader(stream, Encoding.UTF8);
-            sr.ReadToEnd()
-                .Should()
-                .Be("\"Ant\"");
+            sr.ReadToEnd().Should().Be("\"Ant\"");
         }
 
         [Fact]
@@ -34,8 +32,7 @@ namespace Hive.Api.Tests.Converters
             var reader = new Utf8JsonReader(new ReadOnlySequence<byte>(json));
             reader.Read();
             var result = _converter.Read(ref reader, typeof(Creature), new JsonSerializerOptions(JsonSerializerDefaults.Web));
-            result.Should()
-                .BeEquivalentTo(Creatures.Grasshopper);
+            result.Should().BeEquivalentTo(Creatures.Grasshopper);
         }
 
         [Fact]

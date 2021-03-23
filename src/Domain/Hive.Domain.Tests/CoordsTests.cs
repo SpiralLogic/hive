@@ -14,8 +14,7 @@ namespace Hive.Domain.Tests
             var coords1 = new Coords(1, 1);
             var coords2 = new Coords(1, 1);
 
-            coords1.Should()
-                .IsSameOrEqualTo(coords2);
+            coords1.Should().IsSameOrEqualTo(coords2);
         }
 
         [Fact]
@@ -24,8 +23,7 @@ namespace Hive.Domain.Tests
             var coords1 = new Coords(1, 1);
             var coords2 = new Coords(1, 2);
 
-            coords1.Should()
-                .NotBe(coords2);
+            coords1.Should().NotBe(coords2);
         }
 
         [Fact]
@@ -35,8 +33,7 @@ namespace Hive.Domain.Tests
             var coords2 = new Coords(1, 2);
             var coords3 = coords2 with {R = 1};
 
-            coords1.Should()
-                .IsSameOrEqualTo(coords3);
+            coords1.Should().IsSameOrEqualTo(coords3);
         }
 
         [Fact]
@@ -45,27 +42,19 @@ namespace Hive.Domain.Tests
             var coords1 = new Coords(1, 1);
             var coords2 = coords1 with {R = 2};
 
-            coords1.Should()
-                .NotBe(coords2);
+            coords1.Should().NotBe(coords2);
         }
 
         [Fact]
         public void Equality()
         {
             var coords1 = new Coords(1, 1);
-            coords1.Should()
-                .NotBeNull();
-            coords1.Equals(new object())
-                .Should()
-                .BeFalse();
-            coords1.Equals(null)
-                .Should()
-                .BeFalse();
+            coords1.Should().NotBeNull();
+            coords1.Equals(new object()).Should().BeFalse();
+            coords1.Equals(null).Should().BeFalse();
 
             IEquatable<Coords> coords2 = new Coords(2, 2);
-            coords2.Equals(null)
-                .Should()
-                .BeFalse();
+            coords2.Equals(null).Should().BeFalse();
         }
     }
 }

@@ -13,20 +13,16 @@ namespace Hive.Domain
 
         private readonly Stack<MoveMade> _previousMoves = new();
 
-        public ComputerPlayer(Hive board)
-        {
+        public ComputerPlayer(Hive board) =>
             _board = board;
-        }
 
-        public Move GetMove()
-        {
-            return Run();
-        }
+        public Move GetMove() =>
+            Run();
 
         private Move Run()
         {
             var moves = GetMoves().ToArray();
-            var best=moves.First();
+            var best = moves.First();
             foreach (var move in moves)
             {
                 var surroundingPlayer0Queen = GetPlayerQueenCount(0);
@@ -84,23 +80,19 @@ namespace Hive.Domain
                 .ToHashSet();
         }
 
-        private int GetPlayerQueenCount(int playerId)
-        {
-            return _board.Cells.WherePlayerOccupies(playerId)
+        private int GetPlayerQueenCount(int playerId) =>
+            _board.Cells.WherePlayerOccupies(playerId)
                 .FirstOrDefault(c => c.HasQueen())
                 ?.SelectNeighbors(_board.Cells)
                 .WhereOccupied()
                 .Count() ?? 0;
-        }
 
         private record MoveMade(Tile Tile, Coords? Coords)
         {
             internal bool IsPlayerMove => Coords == null;
 
-            internal Move ToMove()
-            {
-                return Coords != null ? new Move(Tile, Coords) : throw new ApplicationException();
-            }
+            internal Move ToMove() =>
+                Coords != null ? new Move(Tile, Coords) : throw new ApplicationException();
         }
     }
 }

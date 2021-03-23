@@ -21,7 +21,9 @@
   transition-property: height, width;
   width: max-content;
   max-width: 98vw;
-  padding:1vmin;
+  padding:1vmin; 
+  background-color: rgb(249 235 208);
+  border-radius: 5px;
 }
 
 .modal > div > button:last-child {

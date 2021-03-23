@@ -15,18 +15,15 @@ namespace Hive.Domain.Tests
         {
             var cell = new Cell(new Coords(1, 1));
 
-            cell.Tiles.Should()
-                .BeEmpty();
+            cell.Tiles.Should().BeEmpty();
         }
 
         [Fact]
         public void CanAddTile()
         {
-            var cell = new Cell(new Coords(1, 1)).AddTile(new Tile(1, 2, Creatures.Queen))
-                .AddTile(new Tile(1, 2, Creatures.Queen));
+            var cell = new Cell(new Coords(1, 1)).AddTile(new Tile(1, 2, Creatures.Queen)).AddTile(new Tile(1, 2, Creatures.Queen));
 
-            cell.Tiles.Should()
-                .HaveCount(2);
+            cell.Tiles.Should().HaveCount(2);
         }
 
         [Fact]
@@ -38,9 +35,7 @@ namespace Hive.Domain.Tests
                 .AddTile(new Tile(3, 2, Creatures.Queen))
                 .AddTile(topTile);
 
-            cell.Tiles.Peek()
-                .Should()
-                .BeSameAs(topTile);
+            cell.Tiles.Peek().Should().BeSameAs(topTile);
         }
 
         [Fact]
@@ -48,9 +43,7 @@ namespace Hive.Domain.Tests
         {
             var cell = new Cell(new Coords(1, 1));
 
-            cell.IsEmpty()
-                .Should()
-                .BeTrue();
+            cell.IsEmpty().Should().BeTrue();
         }
 
         [Fact]
@@ -58,51 +51,40 @@ namespace Hive.Domain.Tests
         {
             var cell = new Cell(new Coords(1, 1)).AddTile(new Tile(1, 2, Creatures.Queen));
 
-            cell.IsEmpty()
-                .Should()
-                .BeFalse();
+            cell.IsEmpty().Should().BeFalse();
         }
 
         [Fact]
         public void CanGetTopTile()
         {
             var topTile = new Tile(1, 2, Creatures.Queen);
-            var cell = new Cell(new Coords(1, 1)).AddTile(new Tile(1, 2, Creatures.Queen))
-                .AddTile(topTile);
+            var cell = new Cell(new Coords(1, 1)).AddTile(new Tile(1, 2, Creatures.Queen)).AddTile(topTile);
 
-            cell.TopTile()
-                .Should()
-                .BeSameAs(topTile);
+            cell.TopTile().Should().BeSameAs(topTile);
         }
 
         [Fact]
         public void TopTile_DoesntRemoveTile()
         {
-            var cell = new Cell(new Coords(1, 1)).AddTile(new Tile(1, 2, Creatures.Queen))
-                .AddTile(new Tile(1, 2, Creatures.Queen));
+            var cell = new Cell(new Coords(1, 1)).AddTile(new Tile(1, 2, Creatures.Queen)).AddTile(new Tile(1, 2, Creatures.Queen));
 
-            cell.Tiles.Should()
-                .HaveCount(2);
+            cell.Tiles.Should().HaveCount(2);
         }
 
         [Fact]
         public void RemoveTopTile_ReturnsTile()
         {
             var topTile = new Tile(1, 2, Creatures.Queen);
-            var cell = new Cell(new Coords(1, 1)).AddTile(new Tile(1, 2, Creatures.Queen))
-                .AddTile(topTile);
+            var cell = new Cell(new Coords(1, 1)).AddTile(new Tile(1, 2, Creatures.Queen)).AddTile(topTile);
 
-            cell.RemoveTopTile()
-                .Should()
-                .BeSameAs(topTile);
+            cell.RemoveTopTile().Should().BeSameAs(topTile);
         }
-        
+
         [Fact]
         public void RemoveTopTile_RemovesTile()
         {
             var topTile = new Tile(1, 2, Creatures.Queen);
-            var cell = new Cell(new Coords(1, 1)).AddTile(new Tile(1, 4, Creatures.Ant))
-                .AddTile(topTile);
+            var cell = new Cell(new Coords(1, 1)).AddTile(new Tile(1, 4, Creatures.Ant)).AddTile(topTile);
 
             cell.RemoveTopTile();
             cell.Tiles.Should().NotContain(topTile);
@@ -114,11 +96,8 @@ namespace Hive.Domain.Tests
             var cell1 = new Cell(new Coords(1, 1));
             var cell2 = new Cell(new Coords(1, 1)).AddTile(new Tile(1, 2, Creatures.Queen));
 
-            cell1.Should()
-                .IsSameOrEqualTo(cell2);
-            cell1.Coords.Equals(cell2.Coords)
-                .Should()
-                .BeTrue();
+            cell1.Should().IsSameOrEqualTo(cell2);
+            cell1.Coords.Equals(cell2.Coords).Should().BeTrue();
         }
 
         [Fact]
@@ -128,25 +107,18 @@ namespace Hive.Domain.Tests
             var cellsWithOverlap = new[] {new Cell(new Coords(1, 1)).AddTile(new Tile(1, 2, Creatures.Queen))}.ToHashSet();
 
             cells.UnionWith(cellsWithOverlap);
-            cells.Should()
-                .ContainSingle(c => c.Coords == new Coords(1, 1));
+            cells.Should().ContainSingle(c => c.Coords == new Coords(1, 1));
         }
 
         [Fact]
         public void Equality()
         {
             var cell1 = new Cell(new Coords(1, 1));
-            cell1.Equals(new object())
-                .Should()
-                .BeFalse();
-            cell1.Equals(null)
-                .Should()
-                .BeFalse();
+            cell1.Equals(new object()).Should().BeFalse();
+            cell1.Equals(null).Should().BeFalse();
 
             IEquatable<Cell> cell2 = new Cell(new Coords(1, 1));
-            cell2.Equals(null)
-                .Should()
-                .BeFalse();
+            cell2.Equals(null).Should().BeFalse();
         }
     }
 }

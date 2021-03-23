@@ -24,16 +24,15 @@ namespace Hive.Api.Tests.Controllers
             jsonOptions.JsonSerializerOptions.Converters.Add(new StackJsonConverter());
 
             var optionsMock = new Mock<IOptions<JsonOptions>>();
-            optionsMock.SetupGet(m => m.Value)
-                .Returns(jsonOptions);
+            optionsMock.SetupGet(m => m.Value).Returns(jsonOptions);
 
             _memoryCacheMock = new Mock<IDistributedCache>();
             _memoryCacheMock.Setup(m => m.Set(It.IsAny<string>(), It.IsAny<byte[]>(), It.IsAny<DistributedCacheEntryOptions>()));
 
             var httpContextMock = new Mock<HttpContext>();
-            httpContextMock.SetupGet(m => m.TraceIdentifier)
-                .Returns(NewGameId);
-            _controller = new NewController(optionsMock.Object, _memoryCacheMock.Object) {ControllerContext = {HttpContext = httpContextMock.Object}};
+            httpContextMock.SetupGet(m => m.TraceIdentifier).Returns(NewGameId);
+            _controller = new NewController(optionsMock.Object, _memoryCacheMock.Object)
+                {ControllerContext = {HttpContext = httpContextMock.Object}};
         }
 
         [Fact]
@@ -52,9 +51,7 @@ namespace Hive.Api.Tests.Controllers
         public void Post_StoresNewGameInCache()
         {
             var result = _controller.Post();
-            var gameId = result.Value.Should()
-                .BeAssignableTo<GameState>()
-                .Subject.GameId;
+            var gameId = result.Value.Should().BeAssignableTo<GameState>().Subject.GameId;
             _memoryCacheMock.Verify(m => m.Set(gameId, It.IsAny<byte[]>(), It.IsAny<DistributedCacheEntryOptions>()));
         }
     }

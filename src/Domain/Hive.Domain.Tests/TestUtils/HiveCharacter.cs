@@ -6,9 +6,9 @@ namespace Hive.Domain.Tests.TestUtils
 {
     internal record HiveCharacter(Creature Creature, char Symbol, ConsoleColor Color)
     {
-        public HiveCharacter(string Name, char Symbol, ConsoleColor Color) :this(Creatures.Queen with {Name = Name}, Symbol, Color)
+        public HiveCharacter(string Name, char Symbol, ConsoleColor Color) : this(Creatures.Queen with {Name = Name}, Symbol, Color)
         {
-            
+
         }
 
         public override string ToString()
@@ -26,16 +26,13 @@ namespace Hive.Domain.Tests.TestUtils
 
     internal record HiveCreature : HiveCharacter
     {
-        public HiveCreature(Creature creature, bool isEnemy) : base(
-            creature,
-            isEnemy ?  creature.Name.ToLowerInvariant().First():creature.Name.ToUpperInvariant().First(),
+        public HiveCreature(Creature creature, bool isEnemy) : base(creature,
+            isEnemy ? creature.Name.ToLowerInvariant().First() : creature.Name.ToUpperInvariant().First(),
             isEnemy ? ConsoleColor.Magenta : ConsoleColor.Cyan)
         {
         }
 
-        public override string ToString()
-        {
-            return base.ToString();
-        }
+        public override string ToString() =>
+            base.ToString();
     }
 }

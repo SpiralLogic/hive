@@ -1,4 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
+using System.Text.Json.Serialization;
 using Hive.Converters;
 using Hive.Hubs;
 using Microsoft.AspNetCore.Builder;
@@ -31,6 +32,7 @@ namespace Hive
                 {
                     options.PayloadSerializerOptions.Converters.Add(new CreatureJsonConverter());
                     options.PayloadSerializerOptions.Converters.Add(new StackJsonConverter());
+                    options.PayloadSerializerOptions.Converters.Add(new JsonStringEnumConverter());
                 });
 
             if (_currentEnvironment.IsProduction())
@@ -48,6 +50,7 @@ namespace Hive
                 {
                     options.JsonSerializerOptions.Converters.Add(new CreatureJsonConverter());
                     options.JsonSerializerOptions.Converters.Add(new StackJsonConverter());
+                    options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
                 });
         }
 

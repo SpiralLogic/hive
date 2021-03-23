@@ -1,19 +1,19 @@
 .links {
-  color: white;
-  display: grid;
-  grid-auto-flow: column;
-  grid-template-columns: max-content;
   position: absolute;
   right: 0;
-  gap: 20px;
+  display: grid;
   padding: 10px;
+  color: white;
+  grid-auto-flow: column;
+  grid-template-columns: max-content;
+  gap: 20px;
 }
 
 .links a {
-  color: white;
-  fill: white;
   font-size: 67px;
   text-decoration: none;
+  color: white;
+  fill: white;
 }
 
 .links :hover {
@@ -22,12 +22,16 @@
 }
 
 .links a:visited, .links a:active {
-  color: white;
   text-decoration: none;
+  color: white;
 }
 
 .links svg {
   width: 48px;
+}
+
+.links .ai-off {
+  text-decoration: line-through;
 }
 
 @media only screen and (max-width: 720px) {

@@ -5,6 +5,9 @@ namespace Hive.Domain.Entities
 {
     public sealed record Tile(int Id, int PlayerId, Creature Creature)
     {
+
+        public ISet<Coords> Moves { get; init; } = new HashSet<Coords>();
+
         public bool Equals(Tile? other)
         {
             if (ReferenceEquals(null, other)) return false;
@@ -12,11 +15,7 @@ namespace Hive.Domain.Entities
             return Id == other.Id && PlayerId == other.PlayerId && Creature.Equals(other.Creature);
         }
 
-        public override int GetHashCode()
-        {
-            return HashCode.Combine(Id, PlayerId, Creature);
-        }
-
-        public ISet<Coords> Moves { get; init; } = new HashSet<Coords>();
+        public override int GetHashCode() =>
+            HashCode.Combine(Id, PlayerId, Creature);
     }
 }

@@ -23,8 +23,7 @@ namespace Hive.Domain.Tests.MovementTests
 
             var move = new IsAdjacent();
 
-            move.Should()
-                .HaveMoves(initial, expected);
+            move.Should().HaveMoves(initial, expected);
         }
 
         [Fact]
@@ -48,8 +47,7 @@ namespace Hive.Domain.Tests.MovementTests
 
             var move = new IsAdjacent();
 
-            move.Should()
-                .HaveMoves(initial, expected);
+            move.Should().HaveMoves(initial, expected);
         }
     }
 }

@@ -22,14 +22,13 @@ namespace Hive.Domain.Movements
                 GetFirstEmpty(allCells, c => c.BottomRight, currentCell.Coords)
             };
 
-            return cells.Except(currentCell.SelectNeighbors(allCells))
-                .ToCoords();
+            return cells.Except(currentCell.SelectNeighbors(allCells)).ToCoords();
         }
 
         private Cell GetFirstEmpty(ISet<Cell> allCells, Func<Coords, Coords> nextFunc, Coords current)
         {
-            return allCells.Where(c => c.Coords == current)
-                .FirstOrDefault(c => c.IsEmpty()) ?? GetFirstEmpty(allCells, nextFunc, nextFunc(current));
+            return allCells.Where(c => c.Coords == current).FirstOrDefault(c => c.IsEmpty()) ??
+                   GetFirstEmpty(allCells, nextFunc, nextFunc(current));
         }
     }
 }

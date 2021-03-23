@@ -27,8 +27,7 @@ namespace Hive.Domain.Tests.CreatureTests
 
             var grasshopper = Creatures.Grasshopper;
 
-            grasshopper.Should()
-                .HaveMoves(initial, expected);
+            grasshopper.Should().HaveMoves(initial, expected);
         }
 
         [Fact]
@@ -52,8 +51,7 @@ namespace Hive.Domain.Tests.CreatureTests
 
             var grasshopper = Creatures.Grasshopper;
 
-            grasshopper.Should()
-                .HaveMoves(initial, expected);
+            grasshopper.Should().HaveMoves(initial, expected);
         }
 
         [Fact]
@@ -77,8 +75,7 @@ namespace Hive.Domain.Tests.CreatureTests
 
             var grasshopper = Creatures.Grasshopper;
 
-            grasshopper.Should()
-                .HaveMoves(initial, expected);
+            grasshopper.Should().HaveMoves(initial, expected);
         }
     }
 }
