@@ -47,7 +47,7 @@ namespace Hive.Domain
             ClearAllMoves();
 
             var nextPlayer = GetNextPlayer(move.Tile);
-            if (IsGameOver()) return DetermineWinner(nextPlayer, useAi);
+            if (IsGameOver()) return DetermineWinner(nextPlayer);
 
             UpdateMoves(nextPlayer);
             if (useAi)
@@ -62,9 +62,8 @@ namespace Hive.Domain
             return GameStatus.MoveSuccessNextPlayerSkipped;
         }
 
-        private GameStatus DetermineWinner(Player nextPlayer, bool useAi)
+        private GameStatus DetermineWinner(Player nextPlayer)
         {
-            if (useAi) return GameStatus.AiWin;
             return nextPlayer.Id switch
             {
                 1 => GameStatus.Player0Win,
