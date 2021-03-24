@@ -12,6 +12,7 @@ using Hive.Hubs;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Caching.Distributed;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Options;
 using Moq;
 using Xunit;
@@ -33,26 +34,18 @@ namespace Hive.Api.Tests.Controllers
             game.Move(new Move(game.Players[1].Tiles.First(), new Coords(2, 0)));
             var gameState = new GameState(game.Players, game.Cells, ExistingGameId, GameStatus.NewGame);
 
-            var jsonOptions = new JsonOptions();
-            jsonOptions.JsonSerializerOptions.Converters.Add(new CreatureJsonConverter());
-            jsonOptions.JsonSerializerOptions.Converters.Add(new StackJsonConverter());
+            var jsonOptions = CreateJsonOptions();
+            var memoryCache = CreateTestMemoryCache();
+            memoryCache.Set(ExistingGameId, GetSerializedBytes(gameState, jsonOptions));
 
             _hubMock = new Mock<IHubContext<GameHub>>();
             _hubMock.Setup(m =>
-                    m.Clients.Group(It.IsAny<string>())
+                    m.Clients
+                        .Group(It.IsAny<string>())
                         .SendCoreAsync(It.IsAny<string>(), It.IsAny<object[]>(), It.IsAny<CancellationToken>()))
                 .Returns(() => Task.CompletedTask);
-
-            var optionsMock = new Mock<IOptions<JsonOptions>>();
-            optionsMock.SetupGet(m => m.Value).Returns(jsonOptions);
-
-            var memoryCacheMock = new Mock<IDistributedCache>();
-            memoryCacheMock.Setup(m => m.GetAsync(MissingGameId, It.IsAny<CancellationToken>()))
-                .Returns(() => Task.FromResult<byte[]>(null));
-            memoryCacheMock.Setup(m => m.GetAsync(ExistingGameId, It.IsAny<CancellationToken>()))
-                .Returns(() =>
-                    Task.FromResult(Encoding.Default.GetBytes(JsonSerializer.Serialize(gameState, jsonOptions.JsonSerializerOptions))));
-            _controller = new MoveController(_hubMock.Object, optionsMock.Object, memoryCacheMock.Object);
+            
+            _controller = new MoveController(_hubMock.Object, Options.Create(jsonOptions), memoryCache);
         }
 
         [Fact]
@@ -107,7 +100,8 @@ namespace Hive.Api.Tests.Controllers
             _hubMock.Verify(m => m.Clients.Group(ExistingGameId), Times.Once);
             _hubMock.Verify(
                 m => m.Clients.Group(ExistingGameId)
-                    .SendCoreAsync("ReceiveGameState", It.Is<object[]>(a => a.OfType<GameState>().Single() == newGameState),
+                    .SendCoreAsync("ReceiveGameState",
+                        It.Is<object[]>(a => a.OfType<GameState>().Single() == newGameState),
                         It.IsAny<CancellationToken>()), Times.Once);
         }
 
@@ -117,6 +111,25 @@ namespace Hive.Api.Tests.Controllers
             DTOs.Move move = new(4, new Coords(4, 4));
 
             var result = (await _controller.Post(ExistingGameId, move)).Should().BeOfType<ForbidResult>().Subject;
+        }
+        
+        private static JsonOptions CreateJsonOptions()
+        {
+            var jsonOptions = new JsonOptions();
+            jsonOptions.JsonSerializerOptions.Converters.Add(new CreatureJsonConverter());
+            jsonOptions.JsonSerializerOptions.Converters.Add(new StackJsonConverter());
+            return jsonOptions;
+        }
+
+        private static byte[] GetSerializedBytes(GameState gameState, JsonOptions jsonOptions)
+        {
+            return Encoding.Default.GetBytes(JsonSerializer.Serialize(gameState, jsonOptions.JsonSerializerOptions));
+        }
+
+        private static MemoryDistributedCache CreateTestMemoryCache()
+        {
+            return new (
+                new OptionsWrapper<MemoryDistributedCacheOptions>(new MemoryDistributedCacheOptions()));
         }
     }
 }
