@@ -8,7 +8,7 @@ const GameOver: FunctionComponent<{ win: boolean }> = ({ win }) => {
   };
   return (
     <Modal name="game over" onClose={newGame}>
-      <p>Game Over! {win ? 'You win!' : ' Your Lose!'}</p>
+      <p>Game Over! {win ? 'You Win!' : ' You Lose!'}</p>
       <button title="New Game" onClick={newGame}>
         Close
       </button>

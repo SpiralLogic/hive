@@ -11,8 +11,10 @@ namespace Hive.Domain
     {
         private readonly Coords _initialCoords = new(0, 0);
 
-        private readonly ImmutableArray<Creature> _startingTiles = ImmutableArray.Create(Creatures.Spider, Creatures.Spider,
-            Creatures.Beetle, Creatures.Beetle, Creatures.Grasshopper, Creatures.Grasshopper, Creatures.Grasshopper, Creatures.Queen,
+        private readonly ImmutableArray<Creature> _startingTiles = ImmutableArray.Create(Creatures.Spider,
+            Creatures.Spider,
+            Creatures.Beetle, Creatures.Beetle, Creatures.Grasshopper, Creatures.Grasshopper, Creatures.Grasshopper,
+            Creatures.Queen,
             Creatures.Ant, Creatures.Ant, Creatures.Ant);
 
         public Hive(IEnumerable<string> playerNames)
@@ -52,7 +54,7 @@ namespace Hive.Domain
             UpdateMoves(nextPlayer);
             if (useAi)
             {
-                var aiMove = new ComputerPlayer(this).GetMove();
+                var aiMove = new ComputerPlayer(this).GetMove(nextPlayer.Id, move.Tile.PlayerId);
                 return Move(aiMove);
             }
 
@@ -70,7 +72,6 @@ namespace Hive.Domain
                 0 => GameStatus.Player1Win,
                 _ => GameStatus.GameOver
             };
-
         }
 
         private Player SkipTurn(Player nextPlayer) =>
@@ -97,7 +98,8 @@ namespace Hive.Domain
 
         private bool IsGameOver()
         {
-            var loser = Cells.WhereOccupied().Where(c => c.HasQueen()).FirstOrDefault(q => q.SelectNeighbors(Cells).All(n => !n.IsEmpty()));
+            var loser = Cells.WhereOccupied().Where(c => c.HasQueen())
+                .FirstOrDefault(q => q.SelectNeighbors(Cells).All(n => !n.IsEmpty()));
             return loser != null;
         }
 
@@ -132,7 +134,8 @@ namespace Hive.Domain
 
         private void ClearAllMoves()
         {
-            foreach (var tile in Players.SelectMany(p => p.Tiles).Concat(Cells.SelectMany(c => c.Tiles))) tile.Moves.Clear();
+            foreach (var tile in Players.SelectMany(p => p.Tiles).Concat(Cells.SelectMany(c => c.Tiles)))
+                tile.Moves.Clear();
         }
 
         private int CountMovesAvailable() =>

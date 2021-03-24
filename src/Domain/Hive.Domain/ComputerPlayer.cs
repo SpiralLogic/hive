@@ -16,20 +16,20 @@ namespace Hive.Domain
         public ComputerPlayer(Hive board) =>
             _board = board;
 
-        public Move GetMove() =>
-            Run();
+        public Move GetMove(int p1, int p2) =>
+            Run(p1, p2);
 
-        private Move Run()
+        private Move Run(int p1, int p2)
         {
             var moves = GetMoves().ToArray();
             var best = moves.First();
             foreach (var move in moves)
             {
-                var surroundingPlayer0Queen = GetPlayerQueenCount(0);
-                var surroundingPlayer1Queen = GetPlayerQueenCount(1);
+                var surroundingPlayer0Queen = GetPlayerQueenCount(p2);
+                var surroundingPlayer1Queen = GetPlayerQueenCount(p1);
                 MakeMove(move);
-                var surroundingPlayer0QueenAfter = GetPlayerQueenCount(0);
-                var surroundingPlayer1QueenAfter = GetPlayerQueenCount(1);
+                var surroundingPlayer0QueenAfter = GetPlayerQueenCount(p2);
+                var surroundingPlayer1QueenAfter = GetPlayerQueenCount(p1);
                 var moveIsQueensNeighbour = MoveNeighboursQueen(move);
                 RevertMove();
                 if (surroundingPlayer0Queen == 6 || surroundingPlayer1Queen == 6) return move;
@@ -93,5 +93,7 @@ namespace Hive.Domain
             internal Move ToMove() =>
                 Coords != null ? new Move(Tile, Coords) : throw new ApplicationException();
         }
+
+        
     }
 }
