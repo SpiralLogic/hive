@@ -34,8 +34,7 @@ namespace Hive.Domain
                 RevertMove();
                 if (surroundingPlayer0Queen == 6 || surroundingPlayer1Queen == 6) return move;
 
-                if (surroundingPlayer0Queen < surroundingPlayer0QueenAfter) return move;
-                if (surroundingPlayer1Queen > surroundingPlayer1QueenAfter) return move;
+                if (surroundingPlayer0QueenAfter - surroundingPlayer0Queen  >   surroundingPlayer1QueenAfter - surroundingPlayer1Queen) return move;
                 if (surroundingPlayer1Queen == surroundingPlayer1QueenAfter && surroundingPlayer0Queen == surroundingPlayer0QueenAfter &&
                     !moveIsQueensNeighbour) best = move;
 
