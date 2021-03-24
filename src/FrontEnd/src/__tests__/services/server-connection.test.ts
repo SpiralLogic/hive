@@ -1,6 +1,6 @@
 import { HexServerConnection } from '../../domain/engine';
 import { HubConnectionState } from '@microsoft/signalr';
-import { mockLocation, restoreLocation } from '../helpers/location';
+import { mockLocation, restoreLocation } from '../helpers';
 import ServerConnection from '../../services/server-connection';
 import gameState from '../fixtures/gameState.json';
 
@@ -28,6 +28,7 @@ describe('game Server Connection Tests', () => {
     withAutomaticReconnect: jest.fn().mockReturnThis(),
     build: jest.fn().mockReturnValue(hubConnection),
   }));
+
   const updateHandler = jest.fn();
   const opponentSelectionHandler = jest.fn();
   const opponentConnectionHandler = jest.fn();

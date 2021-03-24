@@ -1,6 +1,6 @@
-import { GameState, MoveTile, Tile } from '../domain';
-import { MoveEvent, TileEvent } from '../services';
-import { OpponentConnectedHandler, OpponentSelectionHandler } from '../domain/engine';
+import { AiAction, HiveEvent, MoveEvent, TileEvent } from '../services';
+import { EngineMove, OpponentConnectedHandler, OpponentSelectionHandler } from '../domain/engine';
+import { GameState, Tile } from '../domain';
 import { dispatchHiveEvent, useHiveDispatcher } from './hooks';
 
 export function handleDragOver(ev: { preventDefault: () => void }): boolean {
@@ -59,23 +59,26 @@ export const attachServerHandlers = (
   sendSelection: (type: 'select' | 'deselect', tile: Tile) => void,
   gameState: GameState,
   updateGameState: (value: GameState) => void,
-  moveTile: MoveTile
+  move: EngineMove
 ) => {
+  let useAi = true;
   const hiveDispatcher = useHiveDispatcher();
 
   const selectionChangeHandler = (event: TileEvent) => sendSelection('select', event.tile);
   const deselectionChangeHandler = (event: TileEvent) => sendSelection('deselect', event.tile);
   const moveHandler = async (event: MoveEvent) => {
-    const gt = await moveTile(event.move);
-    return updateGameState(gt);
+    const state = await move(gameState.gameId, event.move, useAi);
+    return updateGameState(state);
   };
 
   hiveDispatcher.add<MoveEvent>('move', moveHandler);
   hiveDispatcher.add<TileEvent>('tileSelected', selectionChangeHandler);
   hiveDispatcher.add<TileEvent>('tileDeselected', deselectionChangeHandler);
+  const removeAi = hiveDispatcher.add<AiAction>('toggleAi', ({ newState }) => (useAi = newState));
   return () => {
     hiveDispatcher.remove<MoveEvent>('move', moveHandler);
     hiveDispatcher.remove<TileEvent>('tileSelected', selectionChangeHandler);
     hiveDispatcher.remove<TileEvent>('tileDeselected', deselectionChangeHandler);
+    removeAi();
   };
 };

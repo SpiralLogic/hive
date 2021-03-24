@@ -12,5 +12,6 @@ import App from './components/App';
 import GameEngine from './services/game-engine';
 
 document.body.insertAdjacentHTML('beforeend', creatures);
+const [, route, gameId, routePlayerId] = window.location.pathname.split('/');
 
-render(h(App, { engine: new GameEngine() }), document.body);
+render(h(App, { engine: new GameEngine(route, gameId, routePlayerId) }), document.body);

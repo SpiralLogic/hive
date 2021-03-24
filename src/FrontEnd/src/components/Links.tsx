@@ -1,22 +1,34 @@
 import '../css/links.css';
+import { AiAction, HiveEvent } from '../services';
 import { FunctionComponent, h } from 'preact';
+import { addHiveDispatchListener, useHiveDispatcher } from '../utilities/hooks';
+import { useState } from 'preact/hooks';
 import SVG from './SVG';
 
 type Props = {
   shareUrl: string;
   onShowRules: () => void;
   onShowShare: () => void;
-  aiState: [boolean, (on: boolean) => void];
+};
+const handle = (handler: () => void) => (e: MouseEvent) => {
+  e.preventDefault();
+  e.stopPropagation();
+  handler();
+  return false;
 };
 
 const Links: FunctionComponent<Props> = (props) => {
-  const handle = (handler: () => void) => (e: MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    handler();
-    return false;
+  const [useAi, setUseAi] = useState(true);
+
+  const clickHandler = () => {
+    useHiveDispatcher().dispatch<AiAction>({ type: 'toggleAi', newState: !useAi });
+    setUseAi(!useAi);
   };
-  const [useAi, setUseAi] = props.aiState;
+
+  addHiveDispatchListener<HiveEvent>('opponentConnected', () => {
+    setUseAi(false);
+  });
+
   return (
     <div class="links">
       <a
@@ -40,7 +52,7 @@ const Links: FunctionComponent<Props> = (props) => {
         href="#"
         name="Toggle Ai"
         class={useAi ? undefined : 'ai-off'}
-        onClick={handle(() => setUseAi(!useAi))}
+        onClick={handle(clickHandler)}
         title="Toggle Ai">
         <SVG>
           <use href="#ai" />

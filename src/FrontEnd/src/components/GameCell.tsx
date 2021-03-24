@@ -5,6 +5,8 @@ import { addHiveDispatchListener, dispatchHiveEvent, useClassReducer } from '../
 import { handleDragOver, handleKeyboardNav, isEnterOrSpace } from '../utilities/handlers';
 import { useEffect, useState } from 'preact/hooks';
 import Hexagon from './Hexagon';
+const isValidMove = (validMoves: HexCoordinates[], coords: HexCoordinates) =>
+  validMoves.some((dest) => dest.q == coords.q && dest.r == coords.r);
 
 type Props = { coords: HexCoordinates; hidden?: boolean };
 const GameCell: FunctionComponent<Props> = (props) => {
@@ -12,12 +14,10 @@ const GameCell: FunctionComponent<Props> = (props) => {
   const [classes, setClasses] = useClassReducer('hide');
   const [selectedTile, setSelectedTile] = useState<TileType | null>(null);
 
-  const isValidMove = (validMoves: HexCoordinates[]) =>
-    validMoves.some((dest) => dest.q == coords.q && dest.r == coords.r);
   useEffect(() => setClasses({ type: hidden ? 'add' : 'remove', classes: ['hide'] }), [hidden]);
 
   addHiveDispatchListener<TileEvent>('tileDeselected', (event) => {
-    if (!isValidMove(event.tile.moves)) {
+    if (!isValidMove(event.tile.moves, coords)) {
       setClasses({ type: 'remove', classes: ['no-drop'] });
     }
     setSelectedTile(null);
@@ -25,7 +25,7 @@ const GameCell: FunctionComponent<Props> = (props) => {
   });
 
   addHiveDispatchListener<TileEvent>('tileSelected', (event) => {
-    if (!isValidMove(event.tile.moves)) {
+    if (!isValidMove(event.tile.moves, coords)) {
       setClasses({ type: 'add', classes: ['no-drop'] });
     } else {
       setSelectedTile(event.tile);
@@ -34,7 +34,7 @@ const GameCell: FunctionComponent<Props> = (props) => {
   });
 
   addHiveDispatchListener<TileEvent>('tileDropped', () => {
-    if (classes.includes('active') && selectedTile && isValidMove(selectedTile.moves)) {
+    if (classes.includes('active') && selectedTile && isValidMove(selectedTile.moves, coords)) {
       dispatchHiveEvent<MoveEvent>({
         type: 'move',
         move: { coords, tileId: selectedTile.id },
@@ -52,7 +52,7 @@ const GameCell: FunctionComponent<Props> = (props) => {
   };
 
   const handleClick = (event: UIEvent) => {
-    if (!(selectedTile && isValidMove(selectedTile.moves))) return;
+    if (!(selectedTile && isValidMove(selectedTile.moves, coords))) return;
     event.stopPropagation();
     dispatchHiveEvent({ type: 'move', move: { coords, tileId: selectedTile.id } });
     dispatchHiveEvent({ type: 'tileClear', tile: selectedTile });
@@ -64,7 +64,7 @@ const GameCell: FunctionComponent<Props> = (props) => {
 
   const attributes = {
     class: classes || undefined,
-    tabindex: selectedTile && isValidMove(selectedTile.moves) ? 0 : undefined,
+    tabindex: selectedTile && isValidMove(selectedTile.moves, coords) ? 0 : undefined,
     role: hidden ? 'none' : 'cell',
   };
 

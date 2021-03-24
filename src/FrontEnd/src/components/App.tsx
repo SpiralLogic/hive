@@ -1,8 +1,7 @@
 import '../css/app.css';
-import { Fragment, FunctionComponent, h } from 'preact';
-import { GameState, PlayerId } from '../domain';
+import { FunctionComponent, h } from 'preact';
+import { GameState } from '../domain';
 import { HexEngine } from '../domain/engine';
-import ServerConnection from '../services/server-connection';
 import {
   attachServerHandlers,
   opponentConnectedHandler,
@@ -10,37 +9,30 @@ import {
 } from '../utilities/handlers';
 import { useEffect, useState } from 'preact/hooks';
 import GameArea from './GameArea';
+import ServerConnection from '../services/server-connection';
 
 const App: FunctionComponent<{ engine: HexEngine }> = (props) => {
   const { engine } = props;
   const [gameState, updateGameState] = useState<GameState | undefined>(undefined);
-  const [fetchStatus, setFetchStatus] = useState(<h1>loading !</h1>);
-  const [playerId, setPlayerId] = useState<PlayerId>(0);
-  const aiState = useState(true);
+  const [fetchStatus, setFetchStatus] = useState('loading !');
 
   useEffect(() => {
-    const [, route, gameId, routePlayerId] = window.location.pathname.split('/');
-    const loadExistingGame = gameId && routePlayerId && route === 'game';
-    const getInitial = loadExistingGame ? engine.getExistingGame : engine.getNewGame;
-    const currentPlayerId = Number(routePlayerId) || 0;
-    setPlayerId(currentPlayerId);
-
-    getInitial(gameId)
+    engine.initialGame
       .then((gameState) => {
         window.history.replaceState(
-          { currentPlayerId, gameId },
+          { playerId: engine.playerId, gameId: gameState.gameId },
           document.title,
-          `/game/${gameState.gameId}/${currentPlayerId}${document.location.search}`
+          `/game/${gameState.gameId}/${engine.playerId}${document.location.search}`
         );
         updateGameState(gameState);
       })
-      .catch((e) => setFetchStatus(<h1>{e}</h1>));
+      .catch((e) => setFetchStatus(e));
   }, []);
 
   useEffect(() => {
     if (!gameState) return;
     const serverConnection = new ServerConnection(
-      playerId,
+      engine.playerId,
       gameState.gameId,
       updateGameState,
       opponentSelectionHandler,
@@ -52,24 +44,23 @@ const App: FunctionComponent<{ engine: HexEngine }> = (props) => {
       serverConnection.sendSelection,
       gameState,
       updateGameState,
-      (move) => engine.moveTile(gameState.gameId, move, aiState[0])
+      engine.move
     );
 
     return () => {
       removeServerHandlers();
       serverConnection.closeConnection().then();
     };
-  }, [gameState?.gameId, aiState[0]]);
+  }, [gameState?.gameId]);
 
-  if (gameState === undefined) return fetchStatus;
+  if (gameState === undefined) return <h1>{fetchStatus}</h1>;
 
   return (
     <GameArea
       players={gameState.players}
       cells={gameState.cells}
       gameStatus={gameState.gameStatus}
-      playerId={playerId}
-      aiState={aiState}
+      playerId={engine.playerId}
     />
   );
 };

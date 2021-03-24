@@ -1,15 +1,25 @@
 import '../css/share.css';
 import { FunctionComponent, h } from 'preact';
+import { HiveEvent } from '../services';
+import { addHiveDispatchListener } from '../utilities/hooks';
+import { useState } from 'preact/hooks';
 import Modal from './Modal';
-type Props = {
-  type: 'connected' | 'disconnected' | undefined;
-  setPlayerConnected: (value: 'connected' | 'disconnected' | undefined) => void;
-};
-const PlayerConnected: FunctionComponent<Props> = (props) => {
-  const { type, setPlayerConnected } = props;
+
+const PlayerConnected: FunctionComponent = () => {
+  const [playerConnected, setPlayerConnected] = useState<'connected' | 'disconnected' | undefined>(undefined);
+
+  addHiveDispatchListener<HiveEvent>('opponentConnected', () => {
+    setPlayerConnected('connected');
+  });
+
+  addHiveDispatchListener<HiveEvent>('opponentDisconnected', () => {
+    setPlayerConnected('disconnected');
+  });
+  if (playerConnected === undefined) return null;
+
   return (
     <Modal name="player connected" onClose={() => setPlayerConnected(undefined)}>
-      <p>Player has {type}!</p>
+      <p>Player has {playerConnected}!</p>
       <button title="New Game" onClick={() => setPlayerConnected(undefined)}>
         Close
       </button>
