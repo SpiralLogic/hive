@@ -1,6 +1,5 @@
 using FluentAssertions;
 using Hive.Controllers;
-using Hive.Converters;
 using Hive.DTOs;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -15,24 +14,14 @@ namespace Hive.Api.Tests.Controllers
     {
         private const string NewGameId = "NEW_GAME_ID";
         private readonly NewController _controller;
-        private readonly Mock<IDistributedCache> _memoryCacheMock;
+        private readonly MemoryDistributedCache _memoryCache;
 
         public NewControllerTests()
         {
-            var jsonOptions = new JsonOptions();
-            jsonOptions.JsonSerializerOptions.Converters.Add(new CreatureJsonConverter());
-            jsonOptions.JsonSerializerOptions.Converters.Add(new StackJsonConverter());
-
-            var optionsMock = new Mock<IOptions<JsonOptions>>();
-            optionsMock.SetupGet(m => m.Value).Returns(jsonOptions);
-
-            _memoryCacheMock = new Mock<IDistributedCache>();
-            _memoryCacheMock.Setup(m => m.Set(It.IsAny<string>(), It.IsAny<byte[]>(), It.IsAny<DistributedCacheEntryOptions>()));
-
-            var httpContextMock = new Mock<HttpContext>();
-            httpContextMock.SetupGet(m => m.TraceIdentifier).Returns(NewGameId);
-            _controller = new NewController(optionsMock.Object, _memoryCacheMock.Object)
-                {ControllerContext = {HttpContext = httpContextMock.Object}};
+            var jsonOptions = TestHelpers.CreateJsonOptions();
+            _memoryCache = TestHelpers.CreateTestMemoryCache();
+            var httpContext = new DefaultHttpContext {TraceIdentifier = NewGameId};
+            _controller = new NewController(Options.Create(jsonOptions), _memoryCache) {ControllerContext = {HttpContext = httpContext}};
         }
 
         [Fact]
@@ -52,7 +41,7 @@ namespace Hive.Api.Tests.Controllers
         {
             var result = _controller.Post();
             var gameId = result.Value.Should().BeAssignableTo<GameState>().Subject.GameId;
-            _memoryCacheMock.Verify(m => m.Set(gameId, It.IsAny<byte[]>(), It.IsAny<DistributedCacheEntryOptions>()));
+            _memoryCache.GetString(gameId).Should().NotBeNullOrEmpty();
         }
     }
 }

@@ -11,7 +11,6 @@ using Hive.DTOs;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Options;
-using Moq;
 using Xunit;
 
 namespace Hive.Api.Tests.Controllers
@@ -27,26 +26,17 @@ namespace Hive.Api.Tests.Controllers
             var game = new Domain.Hive(new[] {"player1", "player2"});
             var gameState = new GameState(game.Players, game.Cells, ExistingGameId, GameStatus.MoveSuccess);
 
-            var jsonOptions = new JsonOptions();
-            jsonOptions.JsonSerializerOptions.Converters.Add(new CreatureJsonConverter());
-            jsonOptions.JsonSerializerOptions.Converters.Add(new StackJsonConverter());
-            jsonOptions.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+            var jsonOptions = TestHelpers.CreateJsonOptions();
+            var memoryCache = TestHelpers.CreateTestMemoryCache();
+            memoryCache.Set(TestHelpers.ExistingGameId, TestHelpers.GetSerializedBytes(gameState, jsonOptions));
 
-            var optionsMock = new Mock<IOptions<JsonOptions>>();
-            optionsMock.SetupGet(m => m.Value).Returns(jsonOptions);
-
-            var memoryCacheMock = new Mock<IDistributedCache>();
-            memoryCacheMock.Setup(m => m.GetAsync(ExistingGameId, It.IsAny<CancellationToken>()))
-                .Returns(() =>
-                    Task.FromResult(Encoding.Default.GetBytes(JsonSerializer.Serialize(gameState, jsonOptions.JsonSerializerOptions))));
-            memoryCacheMock.Setup(m => m.GetAsync(MissingGameId, It.IsAny<CancellationToken>()))
-                .Returns(() => Task.FromResult<byte[]>(null));
-            _controller = new GameController(optionsMock.Object, memoryCacheMock.Object);
+            _controller = new GameController(Options.Create(jsonOptions), memoryCache);
         }
 
         [Fact]
         public async Task Get_GameInCache_ReturnsIndexHtml() =>
-            (await _controller.Get(ExistingGameId)).Should().BeAssignableTo<VirtualFileResult>().Which.FileName.Should().Be("/index.html");
+            (await _controller.Get(ExistingGameId)).Should().BeAssignableTo<VirtualFileResult>().Which.FileName.Should()
+            .Be("/index.html");
 
         [Fact]
         public async Task Get_GameInNotCache_Redirects() =>
@@ -55,7 +45,8 @@ namespace Hive.Api.Tests.Controllers
         [Fact]
         public async Task GetGame_GameInCache_ReturnsGame()
         {
-            var actionResult = (await _controller.GetGame(ExistingGameId)).Result.Should().BeOfType<OkObjectResult>().Subject;
+            var actionResult = (await _controller.GetGame(ExistingGameId)).Result.Should().BeOfType<OkObjectResult>()
+                .Subject;
             actionResult.Value.Should().BeAssignableTo<GameState>();
         }
 
