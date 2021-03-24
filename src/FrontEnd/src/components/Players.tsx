@@ -5,13 +5,14 @@ import { useReducer } from 'preact/hooks';
 import GameTile from './GameTile';
 import Player from './Player';
 
+const hidePlayer = (state: Array<boolean>, action: [boolean, PlayerId]) => {
+  state[action[1]] = action[0];
+  return [...state];
+};
 const Players: FunctionComponent<{ players: Players }> = (props) => {
   const { players } = props;
   const [hiddenPlayers, dispatch] = useReducer(
-    (state: Array<boolean>, action: [boolean, PlayerId]) => {
-      state[action[1]] = action[0];
-      return [...state];
-    },
+    hidePlayer,
     players.map((p) => p.tiles.length === 0)
   );
   return (

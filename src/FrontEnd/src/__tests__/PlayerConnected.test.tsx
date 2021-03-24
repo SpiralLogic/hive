@@ -5,8 +5,6 @@ import Links from '../components/Links';
 
 describe('Player connected snapshot tests', () => {
   test('snapshot', () => {
-    expect(
-      renderElement(<PlayerConnected type={'connected'} setPlayerConnected={() => ({})} />)
-    ).toMatchSnapshot();
+    expect(renderElement(<PlayerConnected />)).toMatchSnapshot();
   });
 });

@@ -10,8 +10,17 @@ import creatures from './svg/creatures.svg';
 import { h, render } from 'preact';
 import App from './components/App';
 import GameEngine from './services/game-engine';
+import { serverConnectionFactory } from './services';
 
 document.body.insertAdjacentHTML('beforeend', creatures);
-const [, route, gameId, routePlayerId] = window.location.pathname.split('/');
+const [, route, gameId, playerId] = window.location.pathname.split('/');
 
-render(h(App, { engine: new GameEngine(route, gameId, routePlayerId) }), document.body);
+render(
+  h(App, {
+    engine: new GameEngine({ route, gameId, playerId }),
+    connectionFactory: serverConnectionFactory,
+  }),
+  document.body
+);
+export { removeOtherPlayerMoves } from './utilities/hextille';
+export { cellKey } from './utilities/hextille';

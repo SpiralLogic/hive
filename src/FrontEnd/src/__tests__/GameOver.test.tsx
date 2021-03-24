@@ -3,7 +3,10 @@ import GameOver from '../components/GameOver';
 import { renderElement } from './helpers';
 
 describe('GameOver snapshot tests', () => {
-  test('snapshot', () => {
+  test('win snapshot', () => {
+    expect(renderElement(<GameOver win={true} />)).toMatchSnapshot();
+  });
+  test('lose snapshot', () => {
     expect(renderElement(<GameOver win={false} />)).toMatchSnapshot();
   });
 });

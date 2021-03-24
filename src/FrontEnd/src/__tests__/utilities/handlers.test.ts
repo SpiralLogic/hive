@@ -130,7 +130,7 @@ describe(`handler tests`, () => {
       const dispatcher = useHiveDispatcher();
       jest.spyOn(dispatcher, 'remove');
       const sendSelection = jest.fn();
-      const moveTile = (move: Move): Promise<GameState> => Promise.resolve(gameState as GameState);
+      const moveTile = (gameId: GameId, move: Move) => Promise.resolve(gameState as GameState);
 
       const removeHandlers = attachServerHandlers(
         sendSelection,
@@ -151,7 +151,7 @@ describe(`handler tests`, () => {
       expect(sendSelection).toBeCalled();
 
       removeHandlers();
-      expect(dispatcher.remove).toBeCalledTimes(3);
+      expect(dispatcher.remove).toBeCalledTimes(4);
     });
   });
 });

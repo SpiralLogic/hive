@@ -1,4 +1,4 @@
-import { AiAction, HiveEvent, MoveEvent, TileEvent } from '../services';
+import { AiAction, MoveEvent, TileEvent } from '../services';
 import { EngineMove, OpponentConnectedHandler, OpponentSelectionHandler } from '../domain/engine';
 import { GameState, Tile } from '../domain';
 import { dispatchHiveEvent, useHiveDispatcher } from './hooks';
@@ -81,4 +81,10 @@ export const attachServerHandlers = (
     hiveDispatcher.remove<TileEvent>('tileDeselected', deselectionChangeHandler);
     removeAi();
   };
+};
+export const handle = (handler: () => void) => (e: MouseEvent) => {
+  e.preventDefault();
+  e.stopPropagation();
+  handler();
+  return false;
 };

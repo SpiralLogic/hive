@@ -11,24 +11,24 @@ import OneHiveRule from './rules/OneHiveRule';
 import QueenRules from './rules/QueenRules';
 import SpiderRules from './rules/SpiderRules';
 
+const ruleList = [
+  <Objective />,
+  <QueenRules />,
+  <BeetleRules />,
+  <SpiderRules />,
+  <GrasshopperRules />,
+  <AntRules />,
+  <OneHiveRule />,
+  <FreedomToMove />,
+];
+const changeRule = (currentRuleIndex: number, { type }: { type: 'next' | 'prev' }): number => {
+  if (type === 'next') return ++currentRuleIndex % ruleList.length;
+  if (type === 'prev' && currentRuleIndex > 0) return --currentRuleIndex % ruleList.length;
+  return ruleList.length - 1;
+};
 type Props = { setShowRules: (value: boolean) => void };
 
 const Rules: FunctionComponent<Props> = (props) => {
-  const ruleList = [
-    <Objective />,
-    <QueenRules />,
-    <BeetleRules />,
-    <SpiderRules />,
-    <GrasshopperRules />,
-    <AntRules />,
-    <OneHiveRule />,
-    <FreedomToMove />,
-  ];
-  const changeRule = (currentRuleIndex: number, { type }: { type: 'next' | 'prev' }): number => {
-    if (type === 'next') return ++currentRuleIndex % ruleList.length;
-    if (type === 'prev' && currentRuleIndex > 0) return --currentRuleIndex % ruleList.length;
-    return ruleList.length - 1;
-  };
   const [currentRuleIndex, changeCurrentRule] = useReducer(changeRule, 0);
   return (
     <Modal name="rules" onClose={() => props.setShowRules(false)}>

@@ -1,0 +1,45 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GameOver snapshot tests lose snapshot 1`] = `
+<div
+  class="modal"
+>
+  <div
+    class="game over"
+    role="dialog"
+    title="game over"
+  >
+    <p>
+      Game Over! 
+       You Lose!
+    </p>
+    <button
+      title="New Game"
+    >
+      Close
+    </button>
+  </div>
+</div>
+`;
+
+exports[`GameOver snapshot tests win snapshot 1`] = `
+<div
+  class="modal"
+>
+  <div
+    class="game over"
+    role="dialog"
+    title="game over"
+  >
+    <p>
+      Game Over! 
+      You Win!
+    </p>
+    <button
+      title="New Game"
+    >
+      Close
+    </button>
+  </div>
+</div>
+`;

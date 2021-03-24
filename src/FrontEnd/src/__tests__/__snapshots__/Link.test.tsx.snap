@@ -5,7 +5,7 @@ exports[`Links snapshot tests snapshot 1`] = `
   class="links"
 >
   <a
-    href="#"
+    href="http://localhost/1"
     name="Share game to opponent"
     title="Share"
   >
@@ -40,7 +40,6 @@ exports[`Links snapshot tests snapshot 1`] = `
     ?
   </a>
   <a
-    class="ai-off"
     href="#"
     name="Toggle Ai"
     title="Toggle Ai"

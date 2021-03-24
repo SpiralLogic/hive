@@ -1,9 +1,9 @@
 import '../css/gameArea.css';
-import { Cell, GameState, HexCoordinates, Player, PlayerId, Tile } from '../domain';
+import { GameState, PlayerId } from '../domain';
 import { FunctionComponent, h } from 'preact';
 import { HextilleBuilder } from '../services';
 import { handleDragOver } from '../utilities/handlers';
-import { shareGame } from '../utilities/clipboard';
+import { getShareUrl, shareGame } from '../utilities/clipboard';
 import { useState } from 'preact/hooks';
 import GameCell from './GameCell';
 import GameOver from './GameOver';
@@ -15,27 +15,9 @@ import Players from './Players';
 import Row from './Row';
 import Rules from './Rules';
 import Share from './Share';
+import { cellKey, removeOtherPlayerMoves } from '../utilities/hextille';
 
-const cellKey = ({ q, r }: HexCoordinates) => `${q}-${r}`;
-const getAllTiles = (...parents: Array<Array<Player | Cell>>): Array<Tile> =>
-  parents.flatMap((p) => p.flatMap((p) => p.tiles));
-
-const getAllPlayerTiles = (playerId: PlayerId, ...parents: Array<Array<Player | Cell>>) =>
-  getAllTiles(...parents).filter((t) => t.playerId !== playerId);
-
-const removeOtherPlayerMoves = (
-  playerId: number,
-  { players, cells }: Pick<GameState, 'players' | 'cells'>
-): void => getAllPlayerTiles(playerId, players, cells).forEach((t) => t.moves.splice(0, t.moves.length));
-
-type Props = Pick<GameState, 'players' | 'cells' | 'gameStatus'> & {
-  playerId: PlayerId;
-};
-const getShareUrl = () => {
-  const parts = window.location.href.split('/');
-  parts.push(parts.pop() === '1' ? '0' : '1');
-  return parts.join('/');
-};
+type Props = Omit<GameState, 'gameId'> & { playerId: PlayerId };
 
 const GameArea: FunctionComponent<Props> = ({ players, cells, playerId, gameStatus }) => {
   const attributes = {
@@ -53,18 +35,14 @@ const GameArea: FunctionComponent<Props> = ({ players, cells, playerId, gameStat
     (gameStatus === 'Player0Win' && playerId === 0) || (gameStatus === 'Player1Win' && playerId === 1);
 
   const shareComponent = () => {
-    setShowShare(shareGame(getShareUrl()));
+    setShowShare(shareGame());
   };
 
   return (
     <div {...attributes} title={'Hive Game Area'}>
       <Players players={players} />
       <main>
-        <Links
-          shareUrl={getShareUrl()}
-          onShowRules={() => setShowRules(true)}
-          onShowShare={() => shareComponent()}
-        />
+        <Links onShowRules={() => setShowRules(true)} onShowShare={() => shareComponent()} />
         <Hextille>
           {rows.map((row) => (
             <Row key={row.id} {...row}>

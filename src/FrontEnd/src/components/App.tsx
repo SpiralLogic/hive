@@ -1,7 +1,7 @@
 import '../css/app.css';
 import { FunctionComponent, h } from 'preact';
 import { GameState } from '../domain';
-import { HexEngine } from '../domain/engine';
+import { HexEngine, HexServerConnectionFactory } from '../domain/engine';
 import {
   attachServerHandlers,
   opponentConnectedHandler,
@@ -9,11 +9,12 @@ import {
 } from '../utilities/handlers';
 import { useEffect, useState } from 'preact/hooks';
 import GameArea from './GameArea';
-import ServerConnection from '../services/server-connection';
 
-const App: FunctionComponent<{ engine: HexEngine }> = (props) => {
-  const { engine } = props;
-  const [gameState, updateGameState] = useState<GameState | undefined>(undefined);
+const App: FunctionComponent<{ engine: HexEngine; connectionFactory: HexServerConnectionFactory }> = (
+  props
+) => {
+  const { engine, connectionFactory } = props;
+  const [gameState, updateHandler] = useState<GameState | undefined>(undefined);
   const [fetchStatus, setFetchStatus] = useState('loading !');
 
   useEffect(() => {
@@ -24,26 +25,26 @@ const App: FunctionComponent<{ engine: HexEngine }> = (props) => {
           document.title,
           `/game/${gameState.gameId}/${engine.playerId}${document.location.search}`
         );
-        updateGameState(gameState);
+        updateHandler(gameState);
       })
       .catch((e) => setFetchStatus(e));
   }, []);
 
   useEffect(() => {
     if (!gameState) return;
-    const serverConnection = new ServerConnection(
-      engine.playerId,
-      gameState.gameId,
-      updateGameState,
+    const serverConnection = connectionFactory({
+      playerId: engine.playerId,
+      gameId: gameState.gameId,
+      updateHandler,
       opponentSelectionHandler,
-      opponentConnectedHandler
-    );
+      opponentConnectedHandler,
+    });
     serverConnection.connectGame().then();
 
     const removeServerHandlers = attachServerHandlers(
       serverConnection.sendSelection,
       gameState,
-      updateGameState,
+      updateHandler,
       engine.move
     );
 

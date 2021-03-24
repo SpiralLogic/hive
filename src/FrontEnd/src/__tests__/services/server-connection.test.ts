@@ -1,8 +1,7 @@
-import { HexServerConnection } from '../../domain/engine';
 import { HubConnectionState } from '@microsoft/signalr';
 import { mockLocation, restoreLocation } from '../helpers';
-import ServerConnection from '../../services/server-connection';
 import gameState from '../fixtures/gameState.json';
+import { serverConnectionFactory } from '../../services';
 
 jest.mock('@microsoft/signalr');
 
@@ -31,45 +30,45 @@ describe('game Server Connection Tests', () => {
 
   const updateHandler = jest.fn();
   const opponentSelectionHandler = jest.fn();
-  const opponentConnectionHandler = jest.fn();
-  let serverConnection: HexServerConnection;
+  const opponentConnectedHandler = jest.fn();
 
-  beforeEach(function () {
+  const setupServer = (connection = HubConnectionState.Connected) => {
     // eslint-disable-next-line no-undef
     global.fetch = jest
       .fn()
       .mockImplementation(() => ({ ok: true, json: jest.fn().mockResolvedValue(gameState) }));
 
-    hubConnection = createHubConnection(HubConnectionState.Connected);
+    hubConnection = createHubConnection(connection);
 
     jest.spyOn(signalR, 'HubConnection').mockImplementation(() => hubConnection);
     signalR.HubConnectionBuilder = builder;
     updateHandler.mockReset();
     opponentSelectionHandler.mockReset();
-    serverConnection = new ServerConnection(
-      0,
-      '33',
+    return serverConnectionFactory({
+      playerId: 0,
+      gameId: '33',
       updateHandler,
       opponentSelectionHandler,
-      opponentConnectionHandler
-    );
-  });
-
+      opponentConnectedHandler,
+    });
+  };
   test(`connectGame connects to hub for game id`, async () => {
     global.window.history.replaceState({ gameId: 33 }, document.title, `/game/33/0`);
-
+    const serverConnection = setupServer();
     await serverConnection.connectGame();
     await serverConnection.getConnectionState();
     expect(signalRWithUrlMock).toHaveBeenCalledWith('http://localhost/gamehub/33/0');
   });
 
   test(`web socket connection state can be retrieved`, async () => {
+    const serverConnection = setupServer();
     await serverConnection.connectGame();
     await serverConnection.getConnectionState();
     expect(hubConnection.start).toHaveBeenCalledWith();
   });
 
   test(`web socket connection can be closed`, async () => {
+    const serverConnection = setupServer();
     await serverConnection.connectGame();
     await serverConnection.getConnectionState();
     await serverConnection.closeConnection();
@@ -78,31 +77,27 @@ describe('game Server Connection Tests', () => {
   });
 
   test(`opponentSelection is updated`, async () => {
+    const serverConnection = setupServer();
     await serverConnection.connectGame();
 
-    expect(hubConnection.on).toHaveBeenLastCalledWith('PlayerConnection', opponentConnectionHandler);
+    expect(hubConnection.on).toHaveBeenLastCalledWith('PlayerConnection', opponentConnectedHandler);
   });
 
   test(`connection state is disconnected initially`, async () => {
-    hubConnection = createHubConnection(HubConnectionState.Disconnected);
     jest.spyOn(signalR, 'HubConnection').mockImplementation(() => hubConnection);
-    serverConnection = new ServerConnection(
-      0,
-      '33',
-      updateHandler,
-      opponentSelectionHandler,
-      opponentConnectionHandler
-    );
+    const serverConnection = setupServer(HubConnectionState.Disconnected);
     expect(serverConnection.getConnectionState()).toBe(HubConnectionState.Disconnected);
   });
 
   test(`connection has connected state`, async () => {
+    const serverConnection = setupServer();
     await serverConnection.connectGame();
     await serverConnection.closeConnection();
     expect(serverConnection.getConnectionState()).toBe(HubConnectionState.Connected);
   });
 
   test(`sendSelection invokes on server`, async () => {
+    const serverConnection = setupServer();
     serverConnection.sendSelection('select', { id: 1, playerId: 1, creature: 'duck', moves: [] });
     expect(hubConnection.invoke).toHaveBeenCalledWith('SendSelection', 'select', {
       creature: 'duck',
@@ -113,12 +108,14 @@ describe('game Server Connection Tests', () => {
   });
 
   test(`sendSelection doesn't send without being connected`, async () => {
+    const serverConnection = setupServer();
     hubConnection = createHubConnection(HubConnectionState.Disconnected);
     serverConnection.sendSelection('select', { id: 1, playerId: 1, creature: 'duck', moves: [] });
     expect(hubConnection.invoke).not.toHaveBeenCalledWith();
   });
 
   test(`connection has connected state`, async () => {
+    const serverConnection = setupServer();
     await serverConnection.connectGame();
     await serverConnection.closeConnection();
     expect(serverConnection.getConnectionState()).toBe(HubConnectionState.Connected);
@@ -129,6 +126,7 @@ describe('game Server Connection Tests', () => {
     jest.spyOn(global.console, 'info').mockImplementation();
     jest.spyOn(global.console, 'warn').mockImplementation();
     jest.spyOn(global.console, 'error').mockImplementation();
+    const serverConnection = setupServer();
     await serverConnection.connectGame();
 
     expect(hubConnection.onclose).toHaveBeenCalledWith(expect.anything());

@@ -47,6 +47,9 @@
           <LinkBase>FrontEnd\</LinkBase>
           <Link>FrontEnd\__tests__\PlayerConnected.tsx</Link>
         </Content>
+        <Content Update="..\..\FrontEnd\src\utilities\hextille.tsx">
+          <Link>FrontEnd\utilities\hextille.tsx</Link>
+        </Content>
     </ItemGroup>
 
     <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

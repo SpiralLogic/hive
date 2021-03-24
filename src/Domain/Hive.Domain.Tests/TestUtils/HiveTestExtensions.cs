@@ -24,7 +24,7 @@ namespace Hive.Domain.Tests.TestUtils
 
         public static AiAssertions Should(this ComputerPlayer computerPlayer)
         {
-            return new(() => computerPlayer.GetMove());
+            return new(() => computerPlayer.GetMove(1,0));
         }
     }
 }

@@ -21,8 +21,14 @@ const fallbackCopyTextToClipboard = (text: string) => {
   }
   return false;
 };
+export const getShareUrl = () => {
+  const parts = window.location.href.split('/');
+  parts.push(parts.pop() === '1' ? '0' : '1');
+  return parts.join('/');
+};
 
-export const shareGame = (url: string) => {
+export const shareGame = () => {
+  const url = getShareUrl();
   const opponentGame = {
     title: 'Hive board game',
     text: 'Join me in a game of the Hive!',

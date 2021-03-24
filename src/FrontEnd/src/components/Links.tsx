@@ -4,17 +4,12 @@ import { FunctionComponent, h } from 'preact';
 import { addHiveDispatchListener, useHiveDispatcher } from '../utilities/hooks';
 import { useState } from 'preact/hooks';
 import SVG from './SVG';
+import { handle } from '../utilities/handlers';
+import { getShareUrl } from '../utilities/clipboard';
 
 type Props = {
-  shareUrl: string;
   onShowRules: () => void;
   onShowShare: () => void;
-};
-const handle = (handler: () => void) => (e: MouseEvent) => {
-  e.preventDefault();
-  e.stopPropagation();
-  handler();
-  return false;
 };
 
 const Links: FunctionComponent<Props> = (props) => {
@@ -31,11 +26,7 @@ const Links: FunctionComponent<Props> = (props) => {
 
   return (
     <div class="links">
-      <a
-        href={props.shareUrl}
-        name="Share game to opponent"
-        title="Share"
-        onClick={handle(props.onShowShare)}>
+      <a href={getShareUrl()} name="Share game to opponent" title="Share" onClick={handle(props.onShowShare)}>
         <SVG>
           <use href="#share" />
         </SVG>
