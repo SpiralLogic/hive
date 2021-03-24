@@ -22,7 +22,6 @@ namespace Hive.Api.Tests.Hubs
 
         public GameHubTests()
         {
-
             _groupManagerMock = new Mock<IGroupManager>();
             _groupManagerMock.Setup(m => m.AddToGroupAsync(HubConnectionId, HubGroupName, It.IsAny<CancellationToken>()));
             _groupManagerMock.Setup(m => m.RemoveFromGroupAsync(HubConnectionId, HubGroupName, It.IsAny<CancellationToken>()));

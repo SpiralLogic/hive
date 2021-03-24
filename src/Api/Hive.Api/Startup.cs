@@ -30,9 +30,8 @@ namespace Hive
             var sigR = services.AddSignalR()
                 .AddJsonProtocol(options =>
                 {
-                    options.PayloadSerializerOptions.Converters.Add(new CreatureJsonConverter());
-                    options.PayloadSerializerOptions.Converters.Add(new StackJsonConverter());
-                    options.PayloadSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+                    
+                    options.PayloadSerializerOptions.Converters.AddAllJsonConverters();
                 });
 
             if (_currentEnvironment.IsProduction())
@@ -48,9 +47,7 @@ namespace Hive
             services.AddControllers()
                 .AddJsonOptions(options =>
                 {
-                    options.JsonSerializerOptions.Converters.Add(new CreatureJsonConverter());
-                    options.JsonSerializerOptions.Converters.Add(new StackJsonConverter());
-                    options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+                    options.JsonSerializerOptions.Converters.AddAllJsonConverters();
                 });
         }
 

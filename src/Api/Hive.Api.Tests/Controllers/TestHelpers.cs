@@ -17,8 +17,7 @@ namespace Hive.Api.Tests.Controllers
         internal static JsonOptions CreateJsonOptions()
         {
             var jsonOptions = new JsonOptions();
-            jsonOptions.JsonSerializerOptions.Converters.Add(new CreatureJsonConverter());
-            jsonOptions.JsonSerializerOptions.Converters.Add(new StackJsonConverter());
+            jsonOptions.JsonSerializerOptions.Converters.AddAllJsonConverters();
             return jsonOptions;
         }
 
