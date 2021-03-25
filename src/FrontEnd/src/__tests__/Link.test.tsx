@@ -4,6 +4,8 @@ import Links from '../components/Links';
 
 describe('Links snapshot tests', () => {
   test('snapshot', () => {
-    expect(renderElement(<Links onShowShare={() => ({})} onShowRules={() => ({})} />)).toMatchSnapshot();
+    expect(
+      renderElement(<Links playerId={0} onShowShare={() => ({})} onShowRules={() => ({})} />)
+    ).toMatchSnapshot();
   });
 });
