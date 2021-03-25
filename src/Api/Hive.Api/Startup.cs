@@ -1,5 +1,4 @@
 using System.Diagnostics.CodeAnalysis;
-using System.Text.Json.Serialization;
 using Hive.Converters;
 using Hive.Hubs;
 using Microsoft.AspNetCore.Builder;
@@ -28,11 +27,7 @@ namespace Hive
         public void ConfigureServices(IServiceCollection services)
         {
             var sigR = services.AddSignalR()
-                .AddJsonProtocol(options =>
-                {
-                    
-                    options.PayloadSerializerOptions.Converters.AddAllJsonConverters();
-                });
+                .AddJsonProtocol(options => { options.PayloadSerializerOptions.Converters.AddAllJsonConverters(); });
 
             if (_currentEnvironment.IsProduction())
             {
@@ -45,10 +40,7 @@ namespace Hive
             }
 
             services.AddControllers()
-                .AddJsonOptions(options =>
-                {
-                    options.JsonSerializerOptions.Converters.AddAllJsonConverters();
-                });
+                .AddJsonOptions(options => { options.JsonSerializerOptions.Converters.AddAllJsonConverters(); });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

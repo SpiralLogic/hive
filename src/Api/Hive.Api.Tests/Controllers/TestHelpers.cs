@@ -28,7 +28,7 @@ namespace Hive.Api.Tests.Controllers
 
         internal static MemoryDistributedCache CreateTestMemoryCache()
         {
-            return new (
+            return new(
                 new OptionsWrapper<MemoryDistributedCacheOptions>(new MemoryDistributedCacheOptions()));
         }
     }

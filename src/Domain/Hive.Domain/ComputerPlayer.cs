@@ -8,18 +8,16 @@ namespace Hive.Domain
 {
     public class ComputerPlayer
     {
-
         private readonly Hive _board;
 
         private readonly Stack<MoveMade> _previousMoves = new();
 
-        public ComputerPlayer(Hive board) =>
+        public ComputerPlayer(Hive board)
+        {
             _board = board;
+        }
 
-        public Move GetMove(int p1, int p2) =>
-            Run(p1, p2);
-
-        private Move Run(int p1, int p2)
+        public Move GetMove(int p1, int p2)
         {
             var moves = GetMoves().ToArray();
             var best = moves.First();
@@ -30,34 +28,36 @@ namespace Hive.Domain
                 MakeMove(move);
                 var surroundingPlayer0QueenAfter = GetPlayerQueenCount(p2);
                 var surroundingPlayer1QueenAfter = GetPlayerQueenCount(p1);
-                var moveIsQueensNeighbour = MoveNeighboursQueen(move);
+                var moveIsQueensNeighbour = MoveHasQueenNeighbour(move);
                 RevertMove();
                 if (surroundingPlayer0Queen == 6 || surroundingPlayer1Queen == 6) return move;
 
-                if (surroundingPlayer0QueenAfter - surroundingPlayer0Queen  >   surroundingPlayer1QueenAfter - surroundingPlayer1Queen) return move;
-                if (surroundingPlayer1Queen == surroundingPlayer1QueenAfter && surroundingPlayer0Queen == surroundingPlayer0QueenAfter &&
+                if (surroundingPlayer0QueenAfter - surroundingPlayer0Queen >
+                    surroundingPlayer1QueenAfter - surroundingPlayer1Queen) return move;
+                if (surroundingPlayer1Queen == surroundingPlayer1QueenAfter &&
+                    surroundingPlayer0Queen == surroundingPlayer0QueenAfter &&
                     !moveIsQueensNeighbour) best = move;
-
             }
 
             return best;
         }
 
-        private bool MoveNeighboursQueen(Move move) =>
-            _board.Cells.FindCell(move.Coords).SelectNeighbors(_board.Cells).Any(c => c.Tiles.Any(t => t.IsQueen()));
+        private bool MoveHasQueenNeighbour(Move move)
+        {
+            return _board.Cells.FindCell(move.Coords).SelectNeighbors(_board.Cells).Any(c => c.HasQueen());
+        }
 
         private void MakeMove(Move move)
         {
-            var originalCell = _board.Cells.SingleOrDefault(c => c.Tiles.Any(t => t.Id == move.Tile.Id))?.Coords;
+            var originalCell = _board.Cells.FindCell(move.Tile)?.Coords;
             _board.PerformMove(move);
 
-            _previousMoves.Push(new MoveMade(move.Tile with {Moves = new HashSet<Coords>(move.Tile.Moves)}, originalCell));
-
+            _previousMoves.Push(new MoveMade(move.Tile with {Moves = new HashSet<Coords>(move.Tile.Moves)},
+                originalCell));
         }
 
         private void RevertMove()
         {
-
             var move = _previousMoves.Pop();
             if (move.IsPlayerMove)
             {
@@ -79,21 +79,23 @@ namespace Hive.Domain
                 .ToHashSet();
         }
 
-        private int GetPlayerQueenCount(int playerId) =>
-            _board.Cells.WherePlayerOccupies(playerId)
+        private int GetPlayerQueenCount(int playerId)
+        {
+            return _board.Cells.WherePlayerOccupies(playerId)
                 .FirstOrDefault(c => c.HasQueen())
                 ?.SelectNeighbors(_board.Cells)
                 .WhereOccupied()
                 .Count() ?? 0;
+        }
 
         private record MoveMade(Tile Tile, Coords? Coords)
         {
             internal bool IsPlayerMove => Coords == null;
 
-            internal Move ToMove() =>
-                Coords != null ? new Move(Tile, Coords) : throw new ApplicationException();
+            internal Move ToMove()
+            {
+                return Coords != null ? new Move(Tile, Coords) : throw new ApplicationException();
+            }
         }
-
-        
     }
 }

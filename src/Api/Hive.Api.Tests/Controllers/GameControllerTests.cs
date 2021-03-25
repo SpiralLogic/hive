@@ -1,11 +1,6 @@
-using System.Text;
-using System.Text.Json;
-using System.Text.Json.Serialization;
-using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Hive.Controllers;
-using Hive.Converters;
 using Hive.Domain.Entities;
 using Hive.DTOs;
 using Microsoft.AspNetCore.Mvc;
@@ -34,13 +29,17 @@ namespace Hive.Api.Tests.Controllers
         }
 
         [Fact]
-        public async Task Get_GameInCache_ReturnsIndexHtml() =>
+        public async Task Get_GameInCache_ReturnsIndexHtml()
+        {
             (await _controller.Get(ExistingGameId)).Should().BeAssignableTo<VirtualFileResult>().Which.FileName.Should()
-            .Be("/index.html");
+                .Be("/index.html");
+        }
 
         [Fact]
-        public async Task Get_GameInNotCache_Redirects() =>
+        public async Task Get_GameInNotCache_Redirects()
+        {
             (await _controller.Get(MissingGameId)).Should().BeAssignableTo<RedirectResult>().Which.Url.Should().Be("/");
+        }
 
         [Fact]
         public async Task GetGame_GameInCache_ReturnsGame()

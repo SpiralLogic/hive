@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Options;
-using Moq;
 using Xunit;
 
 namespace Hive.Api.Tests.Controllers
@@ -21,7 +20,8 @@ namespace Hive.Api.Tests.Controllers
             var jsonOptions = TestHelpers.CreateJsonOptions();
             _memoryCache = TestHelpers.CreateTestMemoryCache();
             var httpContext = new DefaultHttpContext {TraceIdentifier = NewGameId};
-            _controller = new NewController(Options.Create(jsonOptions), _memoryCache) {ControllerContext = {HttpContext = httpContext}};
+            _controller = new NewController(Options.Create(jsonOptions), _memoryCache)
+                {ControllerContext = {HttpContext = httpContext}};
         }
 
         [Fact]

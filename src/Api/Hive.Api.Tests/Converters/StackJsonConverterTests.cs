@@ -23,7 +23,6 @@ namespace Hive.Api.Tests.Converters
             _stack.Push(1);
             _stack.Push(2);
             _stack.Push(3);
-
         }
 
         [Fact]
@@ -44,26 +43,21 @@ namespace Hive.Api.Tests.Converters
             var json = Encoding.UTF8.GetBytes("[3,2,1]");
             var reader = new Utf8JsonReader(new ReadOnlySequence<byte>(json));
             reader.Read();
-            var result = _converter.Read(ref reader, typeof(int), new JsonSerializerOptions(JsonSerializerDefaults.Web));
+            var result = _converter.Read(ref reader, typeof(int),
+                new JsonSerializerOptions(JsonSerializerDefaults.Web));
             result.Should().BeEquivalentTo(_stack);
         }
 
         [Fact]
         public void ThrowsExceptionWhenNotArray()
         {
-            Assert.Throws<JsonException>(() =>
-            {
-                DeserializeStringToStack("3,2,1]");
-            });
+            Assert.Throws<JsonException>(() => { DeserializeStringToStack("3,2,1]"); });
         }
 
         [Fact]
         public void ThrowsExceptionWhenArrayIsNotComplete()
         {
-            Assert.Throws<JsonException>(() =>
-            {
-                DeserializeStringToStack("[3,2,1,\"sd\"]");
-            });
+            Assert.Throws<JsonException>(() => { DeserializeStringToStack("[3,2,1,\"sd\"]"); });
         }
 
         [ExcludeFromCodeCoverage]

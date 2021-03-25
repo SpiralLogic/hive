@@ -27,7 +27,8 @@ namespace Hive.Hubs
                 if (playerId is string player)
                 {
                     await Groups.AddToGroupAsync(Context.ConnectionId, $"{groupName}-{player}");
-                    await Clients.Group($"{groupName}-{(player == "0" ? "1" : "0")}").SendAsync("PlayerConnection", "connect");
+                    await Clients.Group($"{groupName}-{(player == "0" ? "1" : "0")}")
+                        .SendAsync("PlayerConnection", "connect");
                 }
             }
         }
@@ -42,7 +43,8 @@ namespace Hive.Hubs
                 if (playerId is string player)
                 {
                     await Groups.RemoveFromGroupAsync(Context.ConnectionId, $"{groupName}-{player}");
-                    await Clients.Group($"{groupName}-{(player == "0" ? "1" : "0")}").SendAsync("PlayerConnection", "disconnect");
+                    await Clients.Group($"{groupName}-{(player == "0" ? "1" : "0")}")
+                        .SendAsync("PlayerConnection", "disconnect");
                 }
             }
         }

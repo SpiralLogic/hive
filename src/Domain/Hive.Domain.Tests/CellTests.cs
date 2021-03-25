@@ -9,7 +9,6 @@ namespace Hive.Domain.Tests
 {
     public class CellTests
     {
-
         [Fact]
         public void CanCreate_WithNoTiles()
         {
@@ -21,7 +20,8 @@ namespace Hive.Domain.Tests
         [Fact]
         public void CanAddTile()
         {
-            var cell = new Cell(new Coords(1, 1)).AddTile(new Tile(1, 2, Creatures.Queen)).AddTile(new Tile(1, 2, Creatures.Queen));
+            var cell = new Cell(new Coords(1, 1)).AddTile(new Tile(1, 2, Creatures.Queen))
+                .AddTile(new Tile(1, 2, Creatures.Queen));
 
             cell.Tiles.Should().HaveCount(2);
         }
@@ -66,7 +66,8 @@ namespace Hive.Domain.Tests
         [Fact]
         public void TopTile_DoesntRemoveTile()
         {
-            var cell = new Cell(new Coords(1, 1)).AddTile(new Tile(1, 2, Creatures.Queen)).AddTile(new Tile(1, 2, Creatures.Queen));
+            var cell = new Cell(new Coords(1, 1)).AddTile(new Tile(1, 2, Creatures.Queen))
+                .AddTile(new Tile(1, 2, Creatures.Queen));
 
             cell.Tiles.Should().HaveCount(2);
         }
@@ -104,7 +105,8 @@ namespace Hive.Domain.Tests
         public void CellSetsAreUniqueByCoordinate()
         {
             var cells = new[] {new Cell(new Coords(1, 1))}.ToHashSet();
-            var cellsWithOverlap = new[] {new Cell(new Coords(1, 1)).AddTile(new Tile(1, 2, Creatures.Queen))}.ToHashSet();
+            var cellsWithOverlap =
+                new[] {new Cell(new Coords(1, 1)).AddTile(new Tile(1, 2, Creatures.Queen))}.ToHashSet();
 
             cells.UnionWith(cellsWithOverlap);
             cells.Should().ContainSingle(c => c.Coords == new Coords(1, 1));

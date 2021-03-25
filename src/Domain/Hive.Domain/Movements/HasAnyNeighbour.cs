@@ -16,7 +16,6 @@ namespace Hive.Domain.Movements
             return occupied.Count == 1
                 ? occupied.Union(occupied.First().SelectNeighbors(allCells)).ToCoords()
                 : occupied.SelectMany(c => c.SelectNeighbors(allCells)).ToCoords();
-
         }
     }
 }

@@ -9,8 +9,10 @@ namespace Hive.Converters
 {
     public class StackJsonConverter : JsonConverterFactory
     {
-        public override bool CanConvert(Type typeToConvert) =>
-            typeToConvert.IsGenericType && typeToConvert.GetGenericTypeDefinition() == typeof(Stack<>);
+        public override bool CanConvert(Type typeToConvert)
+        {
+            return typeToConvert.IsGenericType && typeToConvert.GetGenericTypeDefinition() == typeof(Stack<>);
+        }
 
         public override JsonConverter CreateConverter(Type typeToConvert, JsonSerializerOptions options)
         {
@@ -18,7 +20,8 @@ namespace Hive.Converters
 
             Type elementType = typeToConvert.GetGenericArguments()[0];
 
-            JsonConverter converter = (JsonConverter) Activator.CreateInstance(typeof(StackJsonConverter<>).MakeGenericType(elementType),
+            JsonConverter converter = (JsonConverter) Activator.CreateInstance(
+                typeof(StackJsonConverter<>).MakeGenericType(elementType),
                 BindingFlags.Instance | BindingFlags.Public, null, null, null)!;
 
             return converter;

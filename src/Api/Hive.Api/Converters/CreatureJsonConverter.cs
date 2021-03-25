@@ -9,14 +9,17 @@ namespace Hive.Converters
     {
         private readonly Type _creaturesType;
 
-        public CreatureJsonConverter() =>
+        public CreatureJsonConverter()
+        {
             _creaturesType = typeof(Creatures);
+        }
 
         public override Creature Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
             string name = reader.GetString() ?? throw new JsonException(nameof(Creature));
 
-            return _creaturesType.GetField(name)?.GetValue(null) as Creature ?? throw new JsonException(typeToConvert.Name);
+            return _creaturesType.GetField(name)?.GetValue(null) as Creature ??
+                   throw new JsonException(typeToConvert.Name);
         }
 
         public override void Write(Utf8JsonWriter writer, Creature value, JsonSerializerOptions options)

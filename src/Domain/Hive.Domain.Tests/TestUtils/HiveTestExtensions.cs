@@ -7,7 +7,8 @@ namespace Hive.Domain.Tests.TestUtils
     {
         public static MovementAssertion Should(this IMovement movement)
         {
-            return new(initialHiveBuilder => movement.GetMoves(initialHiveBuilder.OriginCell, initialHiveBuilder.AllCells));
+            return new(initialHiveBuilder =>
+                movement.GetMoves(initialHiveBuilder.OriginCell, initialHiveBuilder.AllCells));
         }
 
         public static MovementAssertion Should(this Creature creature)
@@ -24,7 +25,7 @@ namespace Hive.Domain.Tests.TestUtils
 
         public static AiAssertions Should(this ComputerPlayer computerPlayer)
         {
-            return new(() => computerPlayer.GetMove(1,0));
+            return new(() => computerPlayer.GetMove(1, 0));
         }
     }
 }

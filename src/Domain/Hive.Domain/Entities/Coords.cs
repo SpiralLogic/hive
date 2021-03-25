@@ -5,7 +5,6 @@ namespace Hive.Domain.Entities
 {
     public sealed record Coords(int Q, int R)
     {
-
         internal Coords TopLeft => R % 2 == 0 ? this with {Q = Q - 1, R = R - 1} : this with {R = R - 1};
 
         internal Coords BottomLeft => R % 2 == 0 ? this with {Q = Q - 1, R = R + 1} : this with {R = R + 1};
@@ -25,11 +24,14 @@ namespace Hive.Domain.Entities
             return Q == other.Q && R == other.R;
         }
 
-        public override int GetHashCode() =>
-            HashCode.Combine(Q, R);
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(Q, R);
+        }
 
-        internal ISet<Coords> GetNeighbors() =>
-            new HashSet<Coords>
+        internal ISet<Coords> GetNeighbors()
+        {
+            return new HashSet<Coords>
             {
                 TopLeft,
                 TopRight,
@@ -38,5 +40,6 @@ namespace Hive.Domain.Entities
                 BottomLeft,
                 BottomRight
             };
+        }
     }
 }

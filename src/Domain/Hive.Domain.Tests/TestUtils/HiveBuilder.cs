@@ -52,8 +52,10 @@ namespace Hive.Domain.Tests.TestUtils
             return builder;
         }
 
-        private int GetQOffset(string rowString) =>
-            rowString.Trim().Length == rowString.Length ? 0 : (_currentR + 1) % 2;
+        private int GetQOffset(string rowString)
+        {
+            return rowString.Trim().Length == rowString.Length ? 0 : (_currentR + 1) % 2;
+        }
 
         private void WithCreatureSymbols()
         {
@@ -67,22 +69,27 @@ namespace Hive.Domain.Tests.TestUtils
 
         protected void UpdateCoords(string newSymbol, Coords coords, List<string> actualRows)
         {
-
             var rowSplit = actualRows[coords.R].Split(Separator);
             var qOffset = coords.Q + GetQOffset(RowStrings[coords.R], coords.R);
             rowSplit[qOffset] = newSymbol;
             actualRows[coords.R] = string.Join(Separator, rowSplit);
         }
 
-        private static int GetQOffset(string rowString, int r) =>
-            rowString.StartsWith(Separator) && r % 2 != 0 ? 1 : 0;
+        private static int GetQOffset(string rowString, int r)
+        {
+            return rowString.StartsWith(Separator) && r % 2 != 0 ? 1 : 0;
+        }
 
-        internal string ToColoredString() =>
-            AllSymbols.Aggregate(ToString(), (str, row) => str.Replace(row.Symbol.ToString(), row.ToString()));
+        internal string ToColoredString()
+        {
+            return AllSymbols.Aggregate(ToString(), (str, row) => str.Replace(row.Symbol.ToString(), row.ToString()));
+        }
 
         protected abstract void ModifyCell(Cell cell, char symbol);
 
-        public override string ToString() =>
-            $"\u001b[0m{string.Join("\n", RowStrings)}\u001b[0m";
+        public override string ToString()
+        {
+            return $"\u001b[0m{string.Join("\n", RowStrings)}\u001b[0m";
+        }
     }
 }

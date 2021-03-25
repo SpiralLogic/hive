@@ -7,7 +7,6 @@ namespace Hive.Domain.Movements
 {
     public class CanSlideTo : IMovement
     {
-
         public ISet<Coords> GetMoves(Cell originCell, ISet<Cell> allCells)
         {
             var moves = new HashSet<Cell>();

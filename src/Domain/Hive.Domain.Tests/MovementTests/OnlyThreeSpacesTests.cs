@@ -9,7 +9,6 @@ namespace Hive.Domain.Tests.MovementTests
         [Fact]
         public void Moves3PlacesWithoutBacktracking()
         {
-
             var initial = new InitialHiveBuilder();
 
             initial += " ⬡ ⬢ ⬢ ⬡ ";
@@ -34,7 +33,6 @@ namespace Hive.Domain.Tests.MovementTests
         [Fact]
         public void Moves3Places()
         {
-
             var initial = new InitialHiveBuilder();
 
             initial += " ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";

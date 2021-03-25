@@ -6,9 +6,9 @@ namespace Hive.Domain.Tests.TestUtils
 {
     internal record HiveCharacter(Creature Creature, char Symbol, ConsoleColor Color)
     {
-        public HiveCharacter(string Name, char Symbol, ConsoleColor Color) : this(Creatures.Queen with {Name = Name}, Symbol, Color)
+        public HiveCharacter(string Name, char Symbol, ConsoleColor Color) : this(Creatures.Queen with {Name = Name},
+            Symbol, Color)
         {
-
         }
 
         public override string ToString()
@@ -32,7 +32,9 @@ namespace Hive.Domain.Tests.TestUtils
         {
         }
 
-        public override string ToString() =>
-            base.ToString();
+        public override string ToString()
+        {
+            return base.ToString();
+        }
     }
 }

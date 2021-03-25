@@ -19,16 +19,24 @@ namespace Hive.Domain.Entities
             return this;
         }
 
-        public bool IsEmpty() =>
-            !Tiles.Any();
+        public bool IsEmpty()
+        {
+            return !Tiles.Any();
+        }
 
-        public Tile TopTile() =>
-            Tiles.Peek();
+        public Tile TopTile()
+        {
+            return Tiles.Peek();
+        }
 
-        public Tile RemoveTopTile() =>
-            Tiles.Pop();
+        public Tile RemoveTopTile()
+        {
+            return Tiles.Pop();
+        }
 
-        public override int GetHashCode() =>
-            Coords.GetHashCode();
+        public override int GetHashCode()
+        {
+            return Coords.GetHashCode();
+        }
     }
 }

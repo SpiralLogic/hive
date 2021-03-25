@@ -31,26 +31,21 @@ namespace Hive.Api.Tests.Converters
             var json = Encoding.UTF8.GetBytes("\"Grasshopper\"");
             var reader = new Utf8JsonReader(new ReadOnlySequence<byte>(json));
             reader.Read();
-            var result = _converter.Read(ref reader, typeof(Creature), new JsonSerializerOptions(JsonSerializerDefaults.Web));
+            var result = _converter.Read(ref reader, typeof(Creature),
+                new JsonSerializerOptions(JsonSerializerDefaults.Web));
             result.Should().BeEquivalentTo(Creatures.Grasshopper);
         }
 
         [Fact]
         public void ThrowsExceptionWhenNotString()
         {
-            Assert.Throws<JsonException>(() =>
-            {
-                DeserializeStringToCreature("null");
-            });
+            Assert.Throws<JsonException>(() => { DeserializeStringToCreature("null"); });
         }
 
         [Fact]
         public void ThrowsExceptionWhenCreatureDoesntExist()
         {
-            Assert.Throws<JsonException>(() =>
-            {
-                DeserializeStringToCreature("\"Turtle\"");
-            });
+            Assert.Throws<JsonException>(() => { DeserializeStringToCreature("\"Turtle\""); });
         }
 
         private void DeserializeStringToCreature(string s)

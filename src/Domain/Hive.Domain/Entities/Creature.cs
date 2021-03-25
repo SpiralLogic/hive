@@ -7,7 +7,6 @@ namespace Hive.Domain.Entities
 {
     public sealed record Creature(string Name)
     {
-
         internal IEnumerable<IMovement> Movements { get; init; } = new List<IMovement>();
 
         public bool Equals(Creature? other)
@@ -17,12 +16,15 @@ namespace Hive.Domain.Entities
             return Name == other.Name;
         }
 
-        public override int GetHashCode() =>
-            Name.GetHashCode();
+        public override int GetHashCode()
+        {
+            return Name.GetHashCode();
+        }
 
         public ISet<Coords> GetAvailableMoves(Cell originCell, ISet<Cell> cells)
         {
-            return Movements.Aggregate(cells.SelectCoords(), (moves, rule) => moves.Intersect(rule.GetMoves(originCell, cells)))
+            return Movements.Aggregate(cells.SelectCoords(),
+                    (moves, rule) => moves.Intersect(rule.GetMoves(originCell, cells)))
                 .ToHashSet();
         }
     }

@@ -5,8 +5,10 @@ namespace Hive.Domain.Tests.TestUtils
 {
     internal class InitialHiveBuilder : HiveBuilder
     {
-        public static InitialHiveBuilder operator +(InitialHiveBuilder builder, string newRow) =>
-            AddRow(builder, newRow);
+        public static InitialHiveBuilder operator +(InitialHiveBuilder builder, string newRow)
+        {
+            return AddRow(builder, newRow);
+        }
 
         protected override void ModifyCell(Cell cell, char cellString)
         {

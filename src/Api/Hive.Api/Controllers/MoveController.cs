@@ -19,7 +19,8 @@ namespace Hive.Controllers
         private readonly IHubContext<GameHub> _hubContext;
         private readonly JsonSerializerOptions _jsonSerializerOptions;
 
-        public MoveController(IHubContext<GameHub> hubContext, IOptions<JsonOptions> jsonOptions, IDistributedCache distributedCache)
+        public MoveController(IHubContext<GameHub> hubContext, IOptions<JsonOptions> jsonOptions,
+            IDistributedCache distributedCache)
         {
             _hubContext = hubContext;
             _distributedCache = distributedCache;
@@ -29,7 +30,7 @@ namespace Hive.Controllers
         [HttpPost]
         [Route("/api/move/{id}")]
         [Produces("application/json")]
-        [ProducesErrorResponseType(typeof(NotFoundResult))]
+        [ProducesErrorResponseType(typeof(BadRequestResult))]
         public async Task<IActionResult> Post(string id, [FromBody] Move move)
         {
             if (move == null) return BadRequest();
@@ -41,7 +42,8 @@ namespace Hive.Controllers
             var (players, cells, _, _) = JsonSerializer.Deserialize<GameState>(gameSession, _jsonSerializerOptions)!;
 
             var game = new Domain.Hive(players.ToList(), cells.ToHashSet());
-            var tile = players.SelectMany(p => p.Tiles).Concat(cells.SelectMany(c => c.Tiles)).FirstOrDefault(t => t.Id == move.TileId);
+            var tile = players.SelectMany(p => p.Tiles).Concat(cells.SelectMany(c => c.Tiles))
+                .FirstOrDefault(t => t.Id == move.TileId);
             if (tile == null) return Forbid();
 
             var gameStatus = game.Move(new Domain.Entities.Move(tile, move.Coords), move.UseAi);

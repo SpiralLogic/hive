@@ -19,8 +19,10 @@ namespace Hive.Domain.Tests.TestUtils
         private IEnumerable<Cell> ExpectedCells =>
             AllCells.Where(c => !c.IsEmpty() && c.TopTile().Creature.Name == Expected.Creature.Name).ToHashSet();
 
-        public static ExpectedMovementBuilder operator +(ExpectedMovementBuilder builder, string newRow) =>
-            AddRow(builder, newRow);
+        public static ExpectedMovementBuilder operator +(ExpectedMovementBuilder builder, string newRow)
+        {
+            return AddRow(builder, newRow);
+        }
 
         internal ISet<Coords> ExpectedMoves()
         {
@@ -43,7 +45,8 @@ namespace Hive.Domain.Tests.TestUtils
 
             var coloredRows = ToColoredString().Split("\n");
 
-            return $"\u001b[37m{string.Join("\n", actualRows.Select((row, i) => row + " | " + coloredRows[i]))}\u001b[0m";
+            return
+                $"\u001b[37m{string.Join("\n", actualRows.Select((row, i) => row + " | " + coloredRows[i]))}\u001b[0m";
         }
     }
 }

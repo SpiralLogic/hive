@@ -7,8 +7,10 @@ namespace Hive.Domain.Movements
 {
     public class HiveHasQueen : IMovement
     {
-        public ISet<Coords> GetMoves(Cell currentCell, ISet<Cell> allCells) =>
-            QueenHasBeenPlaced(currentCell, allCells) ? allCells.ToCoords() : new HashSet<Coords>();
+        public ISet<Coords> GetMoves(Cell currentCell, ISet<Cell> allCells)
+        {
+            return QueenHasBeenPlaced(currentCell, allCells) ? allCells.ToCoords() : new HashSet<Coords>();
+        }
 
         private static bool QueenHasBeenPlaced(Cell currentCell, ISet<Cell> allCells)
         {
