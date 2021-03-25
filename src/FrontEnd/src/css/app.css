@@ -37,9 +37,9 @@ body > svg {
   animation: loading 2s infinite;
   background: whitesmoke;
   display: inline-flex;
-  height: 100%;
+  height: 100vh;
   justify-content: center;
-  width: 100%;
+  width: 100vw;
 }
 
 @keyframes loading {
