@@ -4,8 +4,8 @@ import { MoveEvent, TileEvent } from '../services';
 import { handleDragOver, handleKeyboardNav, isEnterOrSpace } from '../utilities/handlers';
 import { useEffect, useState } from 'preact/hooks';
 import Hexagon from './Hexagon';
-import {addHiveDispatchListener, dispatchHiveEvent} from "../utilities/dispatcher";
-import {useClassReducer} from "../utilities/class-reducer";
+import { addHiveDispatchListener, dispatchHiveEvent } from '../utilities/dispatcher';
+import { useClassReducer } from '../utilities/class-reducer';
 const isValidMove = (validMoves: HexCoordinates[], coords: HexCoordinates) =>
   validMoves.some((dest) => dest.q == coords.q && dest.r == coords.r);
 
@@ -55,8 +55,8 @@ const GameCell: FunctionComponent<Props> = (props) => {
   const handleClick = (event: UIEvent) => {
     if (!(selectedTile && isValidMove(selectedTile.moves, coords))) return;
     event.stopPropagation();
-    dispatchHiveEvent({ type: 'move', move: { coords, tileId: selectedTile.id } });
     dispatchHiveEvent({ type: 'tileClear', tile: selectedTile });
+    dispatchHiveEvent({ type: 'move', move: { coords, tileId: selectedTile.id } });
   };
 
   const handleKeydown = (e: KeyboardEvent) => {

@@ -50,6 +50,7 @@ export const opponentSelectionHandler: OpponentSelectionHandler = (type, tile) =
 export const opponentConnectedHandler: OpponentConnectedHandler = (type) => {
   if (type === 'connect') {
     dispatchHiveEvent({ type: 'opponentConnected' });
+    dispatchHiveEvent<AiAction>({ type: 'toggleAi', newState: false });
   } else if (type === 'disconnect') {
     dispatchHiveEvent({ type: 'opponentDisconnected' });
   }
@@ -59,9 +60,9 @@ export const attachServerHandlers = (
   sendSelection: (type: 'select' | 'deselect', tile: Tile) => void,
   gameState: GameState,
   updateGameState: (value: GameState) => void,
-  move: EngineMove
+  move: EngineMove,
+  useAi: boolean = false
 ) => {
-  let useAi = true;
   const hiveDispatcher = useHiveDispatcher();
 
   const selectionChangeHandler = (event: TileEvent) => sendSelection('select', event.tile);

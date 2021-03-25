@@ -22,8 +22,9 @@ const Objective = () => (
       </Row>
     </Hextille>
     <caption>
-      The first player to have a surrounded queen loses.
-      <br /> New creatures entering the game can only touch friendly creatures.
+      The first player to have a surrounded queen loses. <br />
+      The queen must be placed before center pieces can be moved. <br />
+      Creatures being placed in the center for the first time, much touch only friendly peices.
     </caption>
   </>
 );

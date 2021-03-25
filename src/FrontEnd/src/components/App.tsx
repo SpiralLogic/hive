@@ -7,7 +7,7 @@ import {
   opponentConnectedHandler,
   opponentSelectionHandler,
 } from '../utilities/handlers';
-import { useEffect, useLayoutEffect, useState } from 'preact/hooks';
+import { useLayoutEffect, useState } from 'preact/hooks';
 import GameArea from './GameArea';
 
 const App: FunctionComponent<{ engine: HexEngine; connectionFactory: HexServerConnectionFactory }> = (
@@ -45,7 +45,8 @@ const App: FunctionComponent<{ engine: HexEngine; connectionFactory: HexServerCo
       serverConnection.sendSelection,
       gameState,
       updateHandler,
-      engine.move
+      engine.move,
+      engine.playerId === 0
     );
 
     return () => {

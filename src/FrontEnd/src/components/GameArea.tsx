@@ -15,7 +15,7 @@ import Row from './Row';
 import Rules from './Rules';
 import Share from './Share';
 import { cellKey, removeOtherPlayerMoves } from '../utilities/hextille';
-import {shareGame} from "../utilities/share";
+import { shareGame } from '../utilities/share';
 
 type Props = Omit<GameState, 'gameId'> & { playerId: PlayerId };
 
@@ -32,14 +32,18 @@ const GameArea: FunctionComponent<Props> = ({ players, cells, playerId, gameStat
   const attributes = { ondragover: handleDragOver, className: 'hive' };
   const hextilleBuilder = new HextilleBuilder(cells);
   const rows = hextilleBuilder.createRows();
-  
+
   removeOtherPlayerMoves(playerId, { players, cells });
 
   return (
     <div {...attributes} title={'Hive Game Area'}>
       <Players players={players} />
       <main>
-        <Links onShowRules={() => setShowRules(true)} onShowShare={() => shareComponent()} />
+        <Links
+          onShowRules={() => setShowRules(true)}
+          onShowShare={() => shareComponent()}
+          playerId={playerId}
+        />
         <Hextille>
           {rows.map((row) => (
             <Row key={row.id} {...row}>

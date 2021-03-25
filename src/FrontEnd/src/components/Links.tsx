@@ -1,19 +1,21 @@
 import '../css/links.css';
+import { PlayerId } from '../domain';
 import { AiAction, HiveEvent } from '../services';
 import { FunctionComponent, h } from 'preact';
 import { useState } from 'preact/hooks';
 import SVG from './SVG';
 import { handle } from '../utilities/handlers';
-import {addHiveDispatchListener, useHiveDispatcher} from "../utilities/dispatcher";
-import {getShareUrl} from "../utilities/share";
+import { addHiveDispatchListener, useHiveDispatcher } from '../utilities/dispatcher';
+import { getShareUrl } from '../utilities/share';
 
 type Props = {
   onShowRules: () => void;
   onShowShare: () => void;
+  playerId: PlayerId;
 };
 
 const Links: FunctionComponent<Props> = (props) => {
-  const [useAi, setUseAi] = useState(true);
+  const [useAi, setUseAi] = useState(props.playerId === 0);
 
   const clickHandler = () => {
     useHiveDispatcher().dispatch<AiAction>({ type: 'toggleAi', newState: !useAi });

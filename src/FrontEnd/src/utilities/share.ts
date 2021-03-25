@@ -31,7 +31,7 @@ export const shareGame = () => {
   const url = getShareUrl();
   const opponentGame = {
     title: 'Hive board game',
-    text: 'Join me in a game of the Hive!',
+    text: 'Click this link to join me in a game of the Hive!',
     url,
   };
   try {

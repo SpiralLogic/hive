@@ -108,8 +108,7 @@ namespace Hive.Api.Tests.Controllers
         {
             DTOs.Move move = new(4, new Coords(4, 4));
 
-            var result = (await _controller.Post(TestHelpers.ExistingGameId, move)).Should().BeOfType<ForbidResult>()
-                .Subject;
+            (await _controller.Post(TestHelpers.ExistingGameId, move)).Should().BeOfType<ForbidResult>();
         }
     }
 }
