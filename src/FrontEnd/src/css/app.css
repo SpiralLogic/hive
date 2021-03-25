@@ -6,13 +6,13 @@ body {
   --p1background: #000000;
   --p1creature: #FFEE0B;
   --p1shadow: #8A2BE27d;
+  background: #4c4c4c;
+  height: 100vh;
+  margin: 0;
   --hex-offset: -1;
+  overscroll-behavior-y: contain;
   --hex-size: 95px;
   --tile-size: 70px;
-  margin: 0;
-  overscroll-behavior-y: contain;
-  height: 100vh;
-  background: #4c4c4c;
 }
 
 body > svg {
@@ -22,10 +22,31 @@ body > svg {
 @media only screen and (max-width: 720px) {
   body {
     filter: brightness(1.1);
+    margin: 0;
     /*noinspection CssInvalidPropertyValue*/
     max-height: -webkit-fill-available;
-    margin: 0;
     --hex-size: 60px;
     --tile-size: 45px;
+  }
+
+}
+
+.loading {
+  text-align: center;
+  align-items: center;
+  animation: loading 2s infinite;
+  background: whitesmoke;
+  display: inline-flex;
+  height: 100%;
+  justify-content: center;
+  width: 100%;
+}
+
+@keyframes loading {
+  0% {
+    transform: scale(.7);
+  }
+  50% {
+    transform: scale(2);
   }
 }

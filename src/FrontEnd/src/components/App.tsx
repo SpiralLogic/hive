@@ -7,7 +7,7 @@ import {
   opponentConnectedHandler,
   opponentSelectionHandler,
 } from '../utilities/handlers';
-import { useEffect, useState } from 'preact/hooks';
+import { useEffect, useLayoutEffect, useState } from 'preact/hooks';
 import GameArea from './GameArea';
 
 const App: FunctionComponent<{ engine: HexEngine; connectionFactory: HexServerConnectionFactory }> = (
@@ -17,7 +17,7 @@ const App: FunctionComponent<{ engine: HexEngine; connectionFactory: HexServerCo
   const [gameState, updateHandler] = useState<GameState | undefined>(undefined);
   const [fetchStatus, setFetchStatus] = useState('loading !');
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     engine.initialGame
       .then((gameState) => {
         window.history.replaceState(
@@ -30,7 +30,7 @@ const App: FunctionComponent<{ engine: HexEngine; connectionFactory: HexServerCo
       .catch((e) => setFetchStatus(e));
   }, []);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (!gameState) return;
     const serverConnection = connectionFactory({
       playerId: engine.playerId,
@@ -54,7 +54,14 @@ const App: FunctionComponent<{ engine: HexEngine; connectionFactory: HexServerCo
     };
   }, [gameState?.gameId]);
 
-  if (gameState === undefined) return <h1>{fetchStatus}</h1>;
+  if (gameState === undefined)
+    return (
+      <h1 class="loading">
+        {fetchStatus}
+        <br />
+        (or broken)
+      </h1>
+    );
 
   return (
     <GameArea
