@@ -3,7 +3,6 @@ import { GameState, PlayerId } from '../domain';
 import { FunctionComponent, h } from 'preact';
 import { HextilleBuilder } from '../services';
 import { handleDragOver } from '../utilities/handlers';
-import { getShareUrl, shareGame } from '../utilities/clipboard';
 import { useState } from 'preact/hooks';
 import GameCell from './GameCell';
 import GameOver from './GameOver';
@@ -16,20 +15,13 @@ import Row from './Row';
 import Rules from './Rules';
 import Share from './Share';
 import { cellKey, removeOtherPlayerMoves } from '../utilities/hextille';
+import {shareGame} from "../utilities/share";
 
 type Props = Omit<GameState, 'gameId'> & { playerId: PlayerId };
 
 const GameArea: FunctionComponent<Props> = ({ players, cells, playerId, gameStatus }) => {
-  const attributes = {
-    ondragover: handleDragOver,
-    className: 'hive',
-  };
-  const hextilleBuilder = new HextilleBuilder(cells);
-  removeOtherPlayerMoves(playerId, { players, cells });
-
   const [showRules, setShowRules] = useState<boolean>(false);
   const [showShare, setShowShare] = useState<boolean>(false);
-  const rows = hextilleBuilder.createRows();
   const gameOver = ['Player1Win', 'Player0Win', 'AiWin', 'GameOver'].includes(gameStatus);
   const winner =
     (gameStatus === 'Player0Win' && playerId === 0) || (gameStatus === 'Player1Win' && playerId === 1);
@@ -37,6 +29,11 @@ const GameArea: FunctionComponent<Props> = ({ players, cells, playerId, gameStat
   const shareComponent = () => {
     setShowShare(shareGame());
   };
+  const attributes = { ondragover: handleDragOver, className: 'hive' };
+  const hextilleBuilder = new HextilleBuilder(cells);
+  const rows = hextilleBuilder.createRows();
+  
+  removeOtherPlayerMoves(playerId, { players, cells });
 
   return (
     <div {...attributes} title={'Hive Game Area'}>

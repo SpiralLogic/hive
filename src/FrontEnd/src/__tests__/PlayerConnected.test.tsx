@@ -1,7 +1,6 @@
 import { h } from 'preact';
 import PlayerConnected from '../components/PlayerConnected';
-import { renderElement } from './helpers';
-import Links from '../components/Links';
+import { renderElement } from './test-helpers';
 
 describe('Player connected snapshot tests', () => {
   test('snapshot', () => {

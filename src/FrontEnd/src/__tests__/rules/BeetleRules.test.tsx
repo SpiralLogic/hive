@@ -1,5 +1,5 @@
 import { h } from 'preact';
-import { renderElement } from '../helpers';
+import { renderElement } from '../test-helpers';
 import BeetleRules from '../../components/rules/BeetleRules';
 
 describe('Beetle Rule snapshot tests', () => {

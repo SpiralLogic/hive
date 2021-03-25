@@ -1,4 +1,4 @@
-import { GameId, GameState, Move } from '../../domain';
+import {  GameState } from '../../domain';
 import { TileAction } from '../../services';
 import {
   attachServerHandlers,
@@ -7,8 +7,8 @@ import {
   handleKeyboardNav,
   opponentSelectionHandler,
 } from '../../utilities/handlers';
-import { useHiveDispatcher } from '../../utilities/hooks';
 import gameState from '../fixtures/gameState.json';
+import {useHiveDispatcher} from "../../utilities/dispatcher";
 
 describe(`handler tests`, () => {
   const selectedTile = {
@@ -130,7 +130,7 @@ describe(`handler tests`, () => {
       const dispatcher = useHiveDispatcher();
       jest.spyOn(dispatcher, 'remove');
       const sendSelection = jest.fn();
-      const moveTile = (gameId: GameId, move: Move) => Promise.resolve(gameState as GameState);
+      const moveTile = () => Promise.resolve(gameState as GameState);
 
       const removeHandlers = attachServerHandlers(
         sendSelection,

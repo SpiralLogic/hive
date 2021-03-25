@@ -1,6 +1,6 @@
 import { h } from 'preact';
 import { render, screen } from '@testing-library/preact';
-import { renderElement } from './helpers';
+import { renderElement } from './test-helpers';
 import Rules from '../components/Rules';
 import userEvent from '@testing-library/user-event';
 

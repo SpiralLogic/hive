@@ -1,7 +1,7 @@
 import { AiAction, MoveEvent, TileEvent } from '../services';
 import { EngineMove, OpponentConnectedHandler, OpponentSelectionHandler } from '../domain/engine';
 import { GameState, Tile } from '../domain';
-import { dispatchHiveEvent, useHiveDispatcher } from './hooks';
+import { dispatchHiveEvent, useHiveDispatcher } from './dispatcher';
 
 export function handleDragOver(ev: { preventDefault: () => void }): boolean {
   ev.preventDefault();

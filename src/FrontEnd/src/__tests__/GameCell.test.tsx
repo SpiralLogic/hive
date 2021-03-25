@@ -11,8 +11,8 @@ import {
   createCellWithNoTile,
   createEmitter,
 } from './fixtures/gameCell.fixtures';
-import { renderElement, simulateEvent } from './helpers';
-import { useHiveDispatcher } from '../utilities/hooks';
+import { renderElement, simulateEvent } from './test-helpers';
+import { useHiveDispatcher } from '../utilities/dispatcher';
 import GameCell from '../components/GameCell';
 
 describe('Cell Tests', () => {

@@ -1,8 +1,8 @@
 import { createGameState } from './fixtures/gameArea.fixtures';
 import { h } from 'preact';
-import { mockClipboard, mockExecCommand, mockShare, noShare } from './helpers';
+import { mockClipboard, mockExecCommand, mockShare, noShare } from './test-helpers';
 import { render, screen } from '@testing-library/preact';
-import { simulateEvent } from './helpers';
+import { simulateEvent } from './test-helpers';
 import GameArea from '../components/GameArea';
 import userEvent from '@testing-library/user-event';
 

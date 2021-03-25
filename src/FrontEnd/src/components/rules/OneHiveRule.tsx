@@ -1,5 +1,4 @@
 import { Fragment, h } from 'preact';
-import Hexagon from '../Hexagon';
 import Hextille from '../Hextille';
 import Row from '../Row';
 import RuleCell from './RuleCell';

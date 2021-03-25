@@ -2,7 +2,7 @@ import { HexEngine, HexServerConnectionFactory } from '../domain/engine';
 import { RenderResult, render, screen } from '@testing-library/preact';
 import { cellMoveEvent, createGameState } from './fixtures/app.fixture';
 import { h } from 'preact';
-import { useHiveDispatcher } from '../utilities/hooks';
+import {useHiveDispatcher} from "../utilities/dispatcher";
 import App from '../components/App';
 
 describe('app tests', () => {

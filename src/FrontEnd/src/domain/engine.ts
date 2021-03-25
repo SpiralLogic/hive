@@ -18,14 +18,16 @@ export type HexEngine = {
   getExistingGame: (gameId: GameId) => Promise<GameState>;
 };
 
+export type ServerConnectionConfig = {
+  playerId: PlayerId;
+  gameId: GameId;
+  updateHandler: GameStateUpdateHandler;
+  opponentSelectionHandler: OpponentSelectionHandler;
+  opponentConnectedHandler: OpponentConnectedHandler;
+};
+
 export type HexServerConnectionFactory = (
-  config: Required<{
-    playerId: PlayerId;
-    gameId: GameId;
-    updateHandler: GameStateUpdateHandler;
-    opponentSelectionHandler: OpponentSelectionHandler;
-    opponentConnectedHandler: OpponentConnectedHandler;
-  }>
+  config: Required<ServerConnectionConfig>
 ) => {
   connectGame: () => Promise<void>;
   getConnectionState: () => HubConnectionState;

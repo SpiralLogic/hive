@@ -1,5 +1,5 @@
 import { h } from 'preact';
-import { renderElement } from './helpers';
+import { renderElement } from './test-helpers';
 import Players from '../components/Players';
 
 describe('PlayerList Tests', () => {

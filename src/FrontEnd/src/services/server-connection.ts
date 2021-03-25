@@ -1,9 +1,9 @@
 import { GameId, PlayerId, Tile } from '../domain';
 import {
-  GameStateUpdateHandler,
   HexServerConnectionFactory,
   OpponentConnectedHandler,
   OpponentSelectionHandler,
+  ServerConnectionConfig,
 } from '../domain/engine';
 import { HubConnection, HubConnectionBuilder, HubConnectionState } from '@microsoft/signalr';
 
@@ -64,12 +64,5 @@ class ServerConnection {
   };
 }
 
-export type ServerConnectionConfig = {
-  playerId: PlayerId;
-  gameId: GameId;
-  updateHandler: GameStateUpdateHandler;
-  opponentSelectionHandler: OpponentSelectionHandler;
-  opponentConnectedHandler: OpponentConnectedHandler;
-};
 export const serverConnectionFactory: HexServerConnectionFactory = (config: ServerConnectionConfig) =>
   new ServerConnection(config);

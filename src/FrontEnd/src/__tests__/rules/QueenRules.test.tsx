@@ -1,5 +1,5 @@
 import { h } from 'preact';
-import { renderElement } from '../helpers';
+import { renderElement } from '../test-helpers';
 import QueenRules from '../../components/rules/QueenRules';
 
 describe('Queen Rule snapshot tests', () => {

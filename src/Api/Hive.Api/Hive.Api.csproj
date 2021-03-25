@@ -31,25 +31,6 @@
         <Content Include="$(SpaRoot)src\**" Exclude="$(SpaRoot)src\__tests__\__coverage__\**" LinkBase="FrontEnd" CopyToOutputDirectory="Never" CopyToPublishDirectory="Never" />
         <Content Include="$(SpaRoot)*" Exclude="$(SpaRoot)public\*,$(SpaRoot)src\*" CopyToOutputDirectory="Never" CopyToPublishDirectory="Never" />
         <Watch Include="$(SpaRoot)src\**;" Exclude="$(SpaRoot)node_modules\**\*;$(SpaRoot)public\**;$(DefaultExcludes)" />
-        <Content Update="..\..\FrontEnd\src\components\GameOver.tsx">
-          <LinkBase>FrontEnd\</LinkBase>
-          <Link>FrontEnd\components\GameOver.tsx</Link>
-        </Content>
-        <Content Update="..\..\FrontEnd\src\components\PlayerConnected.tsx">
-          <LinkBase>FrontEnd\</LinkBase>
-          <Link>FrontEnd\components\PlayerConnected.tsx</Link>
-        </Content>
-        <Content Update="..\..\FrontEnd\src\__tests__\GameOver.tsx">
-          <LinkBase>FrontEnd\</LinkBase>
-          <Link>FrontEnd\__tests__\GameOver.tsx</Link>
-        </Content>
-        <Content Update="..\..\FrontEnd\src\__tests__\PlayerConnected.tsx">
-          <LinkBase>FrontEnd\</LinkBase>
-          <Link>FrontEnd\__tests__\PlayerConnected.tsx</Link>
-        </Content>
-        <Content Update="..\..\FrontEnd\src\utilities\hextille.tsx">
-          <Link>FrontEnd\utilities\hextille.tsx</Link>
-        </Content>
     </ItemGroup>
 
     <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
@@ -67,7 +48,7 @@
     </Target>
 
     <Target Name="DebugBuild" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug'">
-        <Exec WorkingDirectory="$(SpaRoot)" ConsoleToMSBuild="true" Command="pnpm run build:watch">
+        <Exec WorkingDirectory="$(SpaRoot)" ConsoleToMSBuild="true" Command="pnpm run dotnet:watch">
             <Output TaskParameter="ConsoleOutput" ItemName="OutputOfExec" />
             <Output TaskParameter="ExitCode" PropertyName="ErrorCode" />
         </Exec>

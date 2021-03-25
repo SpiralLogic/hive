@@ -2,10 +2,11 @@ import { FunctionComponent, h } from 'preact';
 import { Tile as TileType } from '../domain';
 
 import { TileAction } from '../services';
-import { addHiveDispatchListener, dispatchHiveEvent, useClassReducer } from '../utilities/hooks';
 import { handleDrop, handleKeyboardNav, isEnterOrSpace } from '../utilities/handlers';
 import { useEffect, useState } from 'preact/hooks';
 import Tile from './Tile';
+import {addHiveDispatchListener, dispatchHiveEvent} from "../utilities/dispatcher";
+import {useClassReducer} from "../utilities/class-reducer";
 
 const tileSelector = `[tabindex].tile`;
 const cellSelector = `[tabindex][role="cell"]`;
@@ -84,6 +85,7 @@ const GameTile: FunctionComponent<TileType> = (tile: TileType) => {
     class: classes,
     draggable: moves.length ? true : undefined,
     tabindex: moves.length ? 0 : undefined,
+    creature,
   };
   const handlers = moves.length
     ? {
@@ -97,7 +99,7 @@ const GameTile: FunctionComponent<TileType> = (tile: TileType) => {
     : {
         ondrop: handleDrop,
       };
-  return <Tile creature={creature} {...attributes} {...handlers} />;
+  return <Tile {...attributes} {...handlers} />;
 };
 GameTile.displayName = 'Tile';
 export default GameTile;

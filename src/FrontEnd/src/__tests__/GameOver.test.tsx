@@ -1,6 +1,6 @@
 import { h } from 'preact';
 import GameOver from '../components/GameOver';
-import { renderElement } from './helpers';
+import { renderElement } from './test-helpers';
 
 describe('GameOver snapshot tests', () => {
   test('win snapshot', () => {

@@ -1,6 +1,6 @@
 import { h } from 'preact';
 import OneHiveRule from '../../components/rules/OneHiveRule';
-import { renderElement } from '../helpers';
+import { renderElement } from '../test-helpers';
 
 describe('One Hive Rule snapshot tests', () => {
   test('snapshot', () => {

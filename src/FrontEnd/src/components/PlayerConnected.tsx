@@ -1,9 +1,9 @@
 import '../css/share.css';
 import { FunctionComponent, h } from 'preact';
 import { HiveEvent } from '../services';
-import { addHiveDispatchListener } from '../utilities/hooks';
 import { useState } from 'preact/hooks';
 import Modal from './Modal';
+import {addHiveDispatchListener} from "../utilities/dispatcher";
 
 const PlayerConnected: FunctionComponent = () => {
   const [playerConnected, setPlayerConnected] = useState<'connected' | 'disconnected' | undefined>(undefined);

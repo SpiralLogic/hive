@@ -45,5 +45,4 @@ export const shareGame = () => {
       return fallbackCopyTextToClipboard(opponentGame.url);
     }
   }
-  return false;
 };

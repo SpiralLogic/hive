@@ -1,5 +1,5 @@
 import { h } from 'preact';
-import { renderElement } from './helpers';
+import { renderElement } from './test-helpers';
 import Links from '../components/Links';
 
 describe('Links snapshot tests', () => {

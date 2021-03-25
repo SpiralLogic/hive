@@ -1,5 +1,5 @@
 import { h } from 'preact';
-import { renderElement } from './helpers';
+import { renderElement } from './test-helpers';
 import { screen } from '@testing-library/preact';
 import GameCell from '../components/GameCell';
 import Row from '../components/Row';

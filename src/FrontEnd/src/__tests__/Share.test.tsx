@@ -1,7 +1,6 @@
 import { h } from 'preact';
-import { mockClipboard, mockExecCommand, mockShare } from './helpers/clipboard';
 import { render, screen } from '@testing-library/preact';
-import { renderElement } from './helpers';
+import { mockExecCommand, renderElement } from './test-helpers';
 import Share from '../components/Share';
 import userEvent from '@testing-library/user-event';
 

@@ -1,5 +1,5 @@
 import { HubConnectionState } from '@microsoft/signalr';
-import { mockLocation, restoreLocation } from '../helpers';
+import { mockLocation, restoreLocation } from '../test-helpers';
 import gameState from '../fixtures/gameState.json';
 import { serverConnectionFactory } from '../../services';
 

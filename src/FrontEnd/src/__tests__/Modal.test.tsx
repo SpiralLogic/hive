@@ -1,6 +1,6 @@
-import { fireEvent, render } from '@testing-library/preact';
+import { fireEvent } from '@testing-library/preact';
 import { h } from 'preact';
-import { renderElement } from './helpers';
+import { renderElement } from './test-helpers';
 import Modal from '../components/Modal';
 
 describe('modal snapshot tests', () => {

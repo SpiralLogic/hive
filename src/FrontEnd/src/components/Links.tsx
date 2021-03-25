@@ -1,11 +1,11 @@
 import '../css/links.css';
 import { AiAction, HiveEvent } from '../services';
 import { FunctionComponent, h } from 'preact';
-import { addHiveDispatchListener, useHiveDispatcher } from '../utilities/hooks';
 import { useState } from 'preact/hooks';
 import SVG from './SVG';
 import { handle } from '../utilities/handlers';
-import { getShareUrl } from '../utilities/clipboard';
+import {addHiveDispatchListener, useHiveDispatcher} from "../utilities/dispatcher";
+import {getShareUrl} from "../utilities/share";
 
 type Props = {
   onShowRules: () => void;
