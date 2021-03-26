@@ -17,28 +17,26 @@ namespace Hive.Domain
             _board = board;
         }
 
-        public Move GetMove(int p1, int p2)
+        public Move GetMove(int maximize, int minimize)
         {
             var moves = GetMoves().ToArray();
-            var best = moves.First(m=>m.Tile.IsQueen());
+            var best = moves.FirstOrDefault(m => m.Tile.Creature == Creatures.Ant) ?? moves.First();
             foreach (var move in moves)
             {
-                var surroundingPlayer0Queen = GetPlayerQueenCount(p2);
-                var surroundingPlayer1Queen = GetPlayerQueenCount(p1);
+                var maximizeQueenInitialNeighbours = CountQueenNeighbours(maximize);
+                var minimizeQueenInitialNeighbours = CountQueenNeighbours(minimize);
                 MakeMove(move);
-                var surroundingPlayer0QueenAfter = GetPlayerQueenCount(p2);
-                var surroundingPlayer1QueenAfter = GetPlayerQueenCount(p1);
-                var moveIsQueensNeighbour = MoveHasQueenNeighbour(move);
-                var neighbours = _board.Cells.FindCell(move.Coords).SelectNeighbors(_board.Cells).WhereOccupied()
-                    .Count();
+                var minimizeQueenNeighbours = CountQueenNeighbours(minimize);
+                var maximizeQueenNeighbours = CountQueenNeighbours(maximize);
+                var moveHasQueenNeighbour = MoveHasQueenNeighbour(move);
+                var movesNeighbours = _board.Cells.FindCell(move.Coords).SelectNeighbors(_board.Cells).WhereOccupied().Count();
                 RevertMove();
-                if (surroundingPlayer0Queen == 6 || surroundingPlayer1Queen == 6) return move;
+                if (minimizeQueenNeighbours == 6) return move;
 
-                if (surroundingPlayer0QueenAfter - surroundingPlayer0Queen >
-                    surroundingPlayer1QueenAfter - surroundingPlayer1Queen) return move;
-                if (surroundingPlayer1Queen == surroundingPlayer1QueenAfter &&
-                    surroundingPlayer0Queen == surroundingPlayer0QueenAfter &&
-                    !moveIsQueensNeighbour && neighbours > 1) best = move;
+                if (minimizeQueenNeighbours > minimizeQueenInitialNeighbours) return move;
+                if (maximizeQueenNeighbours < maximizeQueenInitialNeighbours) return move;
+                if (minimizeQueenInitialNeighbours == minimizeQueenNeighbours && maximizeQueenNeighbours == maximizeQueenInitialNeighbours &&
+                    !moveHasQueenNeighbour && movesNeighbours > 1) best = move;
             }
 
             return best;
@@ -54,8 +52,7 @@ namespace Hive.Domain
             var originalCell = _board.Cells.FindCell(move.Tile)?.Coords;
             _board.PerformMove(move);
 
-            _previousMoves.Push(new MoveMade(move.Tile with {Moves = new HashSet<Coords>(move.Tile.Moves)},
-                originalCell));
+            _previousMoves.Push(new MoveMade(move.Tile with {Moves = new HashSet<Coords>(move.Tile.Moves)}, originalCell));
         }
 
         private void RevertMove()
@@ -81,7 +78,7 @@ namespace Hive.Domain
                 .ToHashSet();
         }
 
-        private int GetPlayerQueenCount(int playerId)
+        private int CountQueenNeighbours(int playerId)
         {
             return _board.Cells.WherePlayerOccupies(playerId)
                 .FirstOrDefault(c => c.HasQueen())
