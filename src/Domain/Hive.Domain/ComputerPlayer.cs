@@ -20,7 +20,7 @@ namespace Hive.Domain
         public Move GetMove(int p1, int p2)
         {
             var moves = GetMoves().ToArray();
-            var best = moves.First();
+            var best = moves.First(m=>m.Tile.IsQueen());
             foreach (var move in moves)
             {
                 var surroundingPlayer0Queen = GetPlayerQueenCount(p2);
