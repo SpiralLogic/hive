@@ -29,6 +29,8 @@ namespace Hive.Domain
                 var surroundingPlayer0QueenAfter = GetPlayerQueenCount(p2);
                 var surroundingPlayer1QueenAfter = GetPlayerQueenCount(p1);
                 var moveIsQueensNeighbour = MoveHasQueenNeighbour(move);
+                var neighbours = _board.Cells.FindCell(move.Coords).SelectNeighbors(_board.Cells).WhereOccupied()
+                    .Count();
                 RevertMove();
                 if (surroundingPlayer0Queen == 6 || surroundingPlayer1Queen == 6) return move;
 
@@ -36,7 +38,7 @@ namespace Hive.Domain
                     surroundingPlayer1QueenAfter - surroundingPlayer1Queen) return move;
                 if (surroundingPlayer1Queen == surroundingPlayer1QueenAfter &&
                     surroundingPlayer0Queen == surroundingPlayer0QueenAfter &&
-                    !moveIsQueensNeighbour) best = move;
+                    !moveIsQueensNeighbour && neighbours > 1) best = move;
             }
 
             return best;
