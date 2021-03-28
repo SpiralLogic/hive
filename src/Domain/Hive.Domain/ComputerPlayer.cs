@@ -18,7 +18,7 @@ namespace Hive.Domain
         public Move GetMove(int maximize, int minimize) =>
             Run(maximize, minimize).best;
 
-        public (Move best, int score) Run(int maximize, int minimize)
+        private (Move best, int score) Run(int maximize, int minimize)
         {
             var moves = GetMoves(maximize).ToArray();
             var best = moves.FirstOrDefault(m => m.Tile.Creature == Creatures.Ant) ?? moves.First();

@@ -25,9 +25,10 @@ namespace Hive.Domain.Movements
             return cells.Except(currentCell.SelectNeighbors(allCells)).ToCoords();
         }
 
-        private Cell GetFirstEmpty(ISet<Cell> allCells, Func<Coords, Coords> nextFunc, Coords current)
+        private static Cell GetFirstEmpty(ISet<Cell> allCells, Func<Coords, Coords> nextFunc, Coords current)
         {
-            return allCells.Where(c => c.Coords == current).FirstOrDefault(c => c.IsEmpty()) ??
+            if (allCells.FindCell(current) == null) return new Cell(current);
+            return allCells.FirstOrDefault(c => c.Coords == current && c.IsEmpty()) ??
                    GetFirstEmpty(allCells, nextFunc, nextFunc(current));
         }
     }
