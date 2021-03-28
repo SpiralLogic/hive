@@ -1,5 +1,5 @@
-import { GameId, GameState } from './game-state';
 import { HubConnectionState } from '@microsoft/signalr';
+import { GameId, GameState } from './game-state';
 import { Move } from './move';
 import { PlayerId } from './player';
 import { Tile } from './tile';

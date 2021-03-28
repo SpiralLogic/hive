@@ -1,10 +1,10 @@
 import { h } from 'preact';
-import { renderElement } from './test-helpers';
 import { screen } from '@testing-library/preact';
 import GameCell from '../components/GameCell';
 import Row from '../components/Row';
+import { renderElement } from './test-helpers';
 
-describe('Row Tests', () => {
+describe('row Tests', () => {
   const row = renderElement(
     <Row>
       <GameCell coords={{ q: 0, r: 1 }} hidden={true} />
@@ -14,12 +14,12 @@ describe('Row Tests', () => {
     </Row>
   );
 
-  test('renders multiple cells', () => {
+  it('renders multiple cells', () => {
     expect(screen.getAllByRole('cell')).toHaveLength(2);
     expect(screen.getAllByRole('none')).toHaveLength(2);
   });
 
-  test('snapshot', () => {
+  it('snapshot', () => {
     expect(row).toMatchSnapshot();
   });
 });

@@ -1,16 +1,16 @@
-if (process.env.NODE_ENV !== 'production') {
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-  import('preact/debug');
-}
+import { h, render } from 'preact';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
+// @ts-expect-error
 import creatures from './svg/creatures.svg';
 
-import { h, render } from 'preact';
+import { serverConnectionFactory } from './services';
 import App from './components/App';
 import GameEngine from './services/game-engine';
-import { serverConnectionFactory } from './services';
+if (process.env.NODE_ENV !== 'production') {
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-expect-error
+  import('preact/debug');
+}
 
 document.body.insertAdjacentHTML('beforeend', creatures);
 const [, route, gameId, playerId] = window.location.pathname.split('/');

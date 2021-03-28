@@ -1,3 +1,4 @@
+import { HubConnection, HubConnectionBuilder, HubConnectionState } from '@microsoft/signalr';
 import { GameId, PlayerId, Tile } from '../domain';
 import {
   HexServerConnectionFactory,
@@ -5,7 +6,6 @@ import {
   OpponentSelectionHandler,
   ServerConnectionConfig,
 } from '../domain/engine';
-import { HubConnection, HubConnectionBuilder, HubConnectionState } from '@microsoft/signalr';
 
 class ServerConnection {
   private readonly updateHandler;
@@ -44,9 +44,10 @@ class ServerConnection {
   getConnectionState = (): HubConnectionState => this.connection.state;
 
   sendSelection: OpponentSelectionHandler = (type: 'select' | 'deselect', tile: Tile) => {
-    this.connection.state === HubConnectionState.Connected &&
-      this.connection.invoke('SendSelection', type, tile);
-    //.catch(err => console.error(err.toString()));
+    if (this.connection.state === HubConnectionState.Connected)
+      this.connection
+        .invoke('SendSelection', type, tile)
+        .catch((err: Error) => console.error(err.message.toString()));
   };
 
   closeConnection = (): Promise<void> => {

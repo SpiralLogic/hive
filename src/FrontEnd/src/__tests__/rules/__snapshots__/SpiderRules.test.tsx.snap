@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Spider Rule snapshot tests snapshot 1`] = `
+exports[`spider Rule snapshot tests snapshot 1`] = `
 <div
   class="left"
   role="grid"

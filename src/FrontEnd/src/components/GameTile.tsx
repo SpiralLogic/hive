@@ -1,12 +1,12 @@
 import { FunctionComponent, h } from 'preact';
+import { useEffect, useState } from 'preact/hooks';
 import { Tile as TileType } from '../domain';
 
 import { TileAction } from '../services';
+import { addHiveDispatchListener, dispatchHiveEvent } from '../utilities/dispatcher';
 import { handleDrop, handleKeyboardNav, isEnterOrSpace } from '../utilities/handlers';
-import { useEffect, useState } from 'preact/hooks';
+import { useClassReducer } from '../utilities/class-reducer';
 import Tile from './Tile';
-import {addHiveDispatchListener, dispatchHiveEvent} from "../utilities/dispatcher";
-import {useClassReducer} from "../utilities/class-reducer";
 
 const tileSelector = `[tabindex].tile`;
 const cellSelector = `[tabindex][role="cell"]`;
@@ -57,7 +57,7 @@ const GameTile: FunctionComponent<TileType> = (tile: TileType) => {
 
   const handleClick = (event: MouseEvent) => {
     event.stopPropagation();
-    !classes.includes('selected') ? select() : deselect();
+    return classes.includes('selected') ? deselect() : select();
   };
 
   const handleKeyDown = (e: KeyboardEvent) => {
@@ -75,7 +75,7 @@ const GameTile: FunctionComponent<TileType> = (tile: TileType) => {
   useEffect(() => {
     if (!focus) return;
     const focusElement =
-      document.querySelector<HTMLElement>(focus) || document.querySelector<HTMLElement>(playerSelector);
+      document.querySelector<HTMLElement>(focus) ?? document.querySelector<HTMLElement>(playerSelector);
     focusElement?.focus();
     setFocus('');
   }, [focus]);

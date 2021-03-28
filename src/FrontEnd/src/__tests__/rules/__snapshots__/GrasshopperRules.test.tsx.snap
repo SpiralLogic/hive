@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Grasshopper Rule snapshot tests snapshot 1`] = `
+exports[`grasshopper Rule snapshot tests snapshot 1`] = `
 <div
   class="left"
   role="grid"

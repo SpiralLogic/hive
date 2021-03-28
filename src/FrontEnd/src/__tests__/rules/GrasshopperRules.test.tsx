@@ -2,8 +2,8 @@ import { h } from 'preact';
 import { renderElement } from '../test-helpers';
 import GrasshopperRules from '../../components/rules/GrasshopperRules';
 
-describe('Grasshopper Rule snapshot tests', () => {
-  test('snapshot', () => {
+describe('grasshopper Rule snapshot tests', () => {
+  it('snapshot', () => {
     expect(renderElement(<GrasshopperRules />)).toMatchSnapshot();
   });
 });

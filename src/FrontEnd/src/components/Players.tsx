@@ -1,7 +1,7 @@
 import '../css/players.css';
 import { FunctionComponent, h } from 'preact';
-import { PlayerId, Players } from '../domain';
 import { useReducer } from 'preact/hooks';
+import { PlayerId, Players } from '../domain';
 import GameTile from './GameTile';
 import Player from './Player';
 

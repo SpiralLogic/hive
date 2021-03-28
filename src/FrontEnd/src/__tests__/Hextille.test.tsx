@@ -1,11 +1,11 @@
 import { h } from 'preact';
-import { renderElement } from './test-helpers';
 import GameCell from '../components/GameCell';
 import Hextille from '../components/Hextille';
 import Row from '../components/Row';
+import { renderElement } from './test-helpers';
 
-describe('Hextille Tests', () => {
-  test('matches current snapshot', () => {
+describe('hextille Tests', () => {
+  it('matches current snapshot', () => {
     expect(
       renderElement(
         <Hextille>

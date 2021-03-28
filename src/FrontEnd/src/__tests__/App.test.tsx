@@ -1,9 +1,9 @@
-import { HexEngine, HexServerConnectionFactory } from '../domain/engine';
 import { RenderResult, render, screen } from '@testing-library/preact';
-import { cellMoveEvent, createGameState } from './fixtures/app.fixture';
 import { h } from 'preact';
-import {useHiveDispatcher} from "../utilities/dispatcher";
+import { HexEngine, HexServerConnectionFactory } from '../domain/engine';
+import { useHiveDispatcher } from '../utilities/dispatcher';
 import App from '../components/App';
+import { cellMoveEvent, createGameState } from './fixtures/app.fixture';
 
 describe('app tests', () => {
   const connectionFactory: HexServerConnectionFactory = (config) => ({

@@ -3,7 +3,7 @@ import { renderElement } from '../test-helpers';
 import AntRules from '../../components/rules/AntRules';
 
 describe('ant Rule snapshot tests', () => {
-  test('snapshot', () => {
+  it('snapshot', () => {
     expect(renderElement(<AntRules />)).toMatchSnapshot();
   });
 });

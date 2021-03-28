@@ -1,5 +1,4 @@
 import { HexCoordinates } from './hex-coordinates';
-import { PlayerId } from './player';
 
 export type Tile = {
   id: TileId;
@@ -8,5 +7,6 @@ export type Tile = {
   moves: HexCoordinates[];
 };
 
+type PlayerId = number;
 export type TileId = number;
 export type TileCreature = string;

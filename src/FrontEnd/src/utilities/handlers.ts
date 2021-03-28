@@ -33,26 +33,36 @@ export const handleKeyboardNav = (e: Pick<KeyboardEvent, 'key' | 'target'>): boo
       case 'ArrowLeft':
         focusNext(e.target, -1);
         return true;
+      default:
+        return false;
     }
   }
   return false;
 };
 
 export const opponentSelectionHandler: OpponentSelectionHandler = (type, tile) => {
-  if (!tile) return;
-  if (type === 'select') {
-    dispatchHiveEvent({ type: 'tileSelect', tile });
-  } else if (type === 'deselect') {
-    dispatchHiveEvent({ type: 'tileDeselect', tile });
+  switch (type) {
+    case 'select':
+      dispatchHiveEvent({ type: 'tileSelect', tile });
+      break;
+    case 'deselect':
+      dispatchHiveEvent({ type: 'tileDeselect', tile });
+      break;
+    default:
+      break;
   }
 };
-
 export const opponentConnectedHandler: OpponentConnectedHandler = (type) => {
-  if (type === 'connect') {
-    dispatchHiveEvent({ type: 'opponentConnected' });
-    dispatchHiveEvent<AiAction>({ type: 'toggleAi', newState: false });
-  } else if (type === 'disconnect') {
-    dispatchHiveEvent({ type: 'opponentDisconnected' });
+  switch (type) {
+    case 'connect':
+      dispatchHiveEvent({ type: 'opponentConnected' });
+      dispatchHiveEvent<AiAction>({ type: 'toggleAi', newState: false });
+      break;
+    case 'disconnect':
+      dispatchHiveEvent({ type: 'opponentDisconnected' });
+      break;
+    default:
+      break;
   }
 };
 

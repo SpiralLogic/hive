@@ -1,4 +1,4 @@
-import { GameState } from '../../domain';
+import { Cell, GameState } from '../../domain';
 import { MoveEvent } from '../../services';
 
 export const cellMoveEvent: MoveEvent = {
@@ -18,7 +18,7 @@ export const createGameState = (cells: number): GameState => {
   };
   return {
     gameId: '33',
-    cells: new Array(cells).fill(cell),
+    cells: new Array(cells).fill(cell) as Cell[],
     players: [player, player2],
     gameStatus: 'MoveSuccess',
   };

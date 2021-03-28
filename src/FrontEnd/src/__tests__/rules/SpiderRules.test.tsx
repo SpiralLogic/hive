@@ -2,8 +2,8 @@ import { h } from 'preact';
 import { renderElement } from '../test-helpers';
 import SpiderRules from '../../components/rules/SpiderRules';
 
-describe('Spider Rule snapshot tests', () => {
-  test('snapshot', () => {
+describe('spider Rule snapshot tests', () => {
+  it('snapshot', () => {
     expect(renderElement(<SpiderRules />)).toMatchSnapshot();
   });
 });

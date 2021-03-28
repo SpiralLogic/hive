@@ -1,8 +1,8 @@
 import '../css/player.css';
 import { FunctionComponent, h, toChildArray } from 'preact';
-import { PlayerId } from '../domain';
 import { useEffect } from 'preact/hooks';
-import {useClassReducer} from "../utilities/class-reducer";
+import { PlayerId } from '../domain';
+import { useClassReducer } from '../utilities/class-reducer';
 
 type Props = {
   name: string;

@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Links snapshot tests snapshot 1`] = `
+exports[`links snapshot tests snapshot 1`] = `
 <div
   class="links"
 >

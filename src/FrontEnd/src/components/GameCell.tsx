@@ -1,11 +1,11 @@
 import { FunctionComponent, h } from 'preact';
+import { useEffect, useState } from 'preact/hooks';
 import { HexCoordinates, Tile as TileType } from '../domain';
 import { MoveEvent, TileEvent } from '../services';
-import { handleDragOver, handleKeyboardNav, isEnterOrSpace } from '../utilities/handlers';
-import { useEffect, useState } from 'preact/hooks';
-import Hexagon from './Hexagon';
 import { addHiveDispatchListener, dispatchHiveEvent } from '../utilities/dispatcher';
+import { handleDragOver, handleKeyboardNav, isEnterOrSpace } from '../utilities/handlers';
 import { useClassReducer } from '../utilities/class-reducer';
+import Hexagon from './Hexagon';
 const isValidMove = (validMoves: HexCoordinates[], coords: HexCoordinates) =>
   validMoves.some((dest) => dest.q == coords.q && dest.r == coords.r);
 
@@ -60,7 +60,8 @@ const GameCell: FunctionComponent<Props> = (props) => {
   };
 
   const handleKeydown = (e: KeyboardEvent) => {
-    if (!handleKeyboardNav(e) && isEnterOrSpace(e)) return handleClick(e);
+    if (handleKeyboardNav(e) || !isEnterOrSpace(e)) return;
+    handleClick(e);
   };
 
   const attributes = {

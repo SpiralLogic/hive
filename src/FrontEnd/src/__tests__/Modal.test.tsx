@@ -1,10 +1,10 @@
 import { fireEvent } from '@testing-library/preact';
 import { h } from 'preact';
-import { renderElement } from './test-helpers';
 import Modal from '../components/Modal';
+import { renderElement } from './test-helpers';
 
 describe('modal snapshot tests', () => {
-  test('click on modal background calls close', () => {
+  it('click on modal background calls close', () => {
     const close = jest.fn();
     const modal = renderElement(<Modal name="test" onClose={close} />);
     fireEvent.click(modal);
@@ -12,7 +12,7 @@ describe('modal snapshot tests', () => {
     expect(close).toHaveBeenCalledWith();
   });
 
-  test('snapshot', () => {
+  it('snapshot', () => {
     expect(renderElement(<Modal name="test" onClose={() => ({})} />)).toMatchSnapshot();
   });
 });

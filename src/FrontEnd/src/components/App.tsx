@@ -1,5 +1,6 @@
 import '../css/app.css';
 import { FunctionComponent, h } from 'preact';
+import { useLayoutEffect, useState } from 'preact/hooks';
 import { GameState } from '../domain';
 import { HexEngine, HexServerConnectionFactory } from '../domain/engine';
 import {
@@ -7,7 +8,6 @@ import {
   opponentConnectedHandler,
   opponentSelectionHandler,
 } from '../utilities/handlers';
-import { useLayoutEffect, useState } from 'preact/hooks';
 import GameArea from './GameArea';
 
 const App: FunctionComponent<{ engine: HexEngine; connectionFactory: HexServerConnectionFactory }> = (
@@ -19,19 +19,19 @@ const App: FunctionComponent<{ engine: HexEngine; connectionFactory: HexServerCo
 
   useLayoutEffect(() => {
     engine.initialGame
-      .then((gameState) => {
+      .then((initialGameState) => {
         window.history.replaceState(
-          { playerId: engine.playerId, gameId: gameState.gameId },
+          { playerId: engine.playerId, gameId: initialGameState.gameId },
           document.title,
-          `/game/${gameState.gameId}/${engine.playerId}${document.location.search}`
+          `/game/${initialGameState.gameId}/${engine.playerId}${document.location.search}`
         );
-        updateHandler(gameState);
+        updateHandler(initialGameState);
       })
       .catch((e) => setFetchStatus(e));
   }, []);
 
   useLayoutEffect(() => {
-    if (!gameState) return;
+    if (!gameState) return () => {};
     const serverConnection = connectionFactory({
       playerId: engine.playerId,
       gameId: gameState.gameId,
@@ -39,7 +39,7 @@ const App: FunctionComponent<{ engine: HexEngine; connectionFactory: HexServerCo
       opponentSelectionHandler,
       opponentConnectedHandler,
     });
-    serverConnection.connectGame().then();
+    serverConnection.connectGame().catch(() => {});
 
     const removeServerHandlers = attachServerHandlers(
       serverConnection.sendSelection,
@@ -49,9 +49,9 @@ const App: FunctionComponent<{ engine: HexEngine; connectionFactory: HexServerCo
       engine.playerId === 0
     );
 
-    return () => {
+    return (): void => {
       removeServerHandlers();
-      serverConnection.closeConnection().then();
+      serverConnection.closeConnection().catch(() => {});
     };
   }, [gameState?.gameId]);
 

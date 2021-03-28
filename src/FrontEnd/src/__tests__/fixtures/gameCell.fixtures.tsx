@@ -40,11 +40,12 @@ export const createEmitter = () => {
   return moveEvents;
 };
 
-export const emitHiveEvent = (type: 'tileSelected' | 'tileDropped' | 'tileDeselected') =>
+export const emitHiveEvent = (type: 'tileSelected' | 'tileDropped' | 'tileDeselected'): void => {
   act(() => {
     const emitter = useHiveDispatcher();
     emitter.dispatch({
       type,
       tile: movingTile,
     });
-  });
+  }).catch(() => {});
+};

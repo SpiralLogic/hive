@@ -1,10 +1,12 @@
 import '../css/gameArea.css';
-import { GameState, PlayerId } from '../domain';
 import { FunctionComponent, h } from 'preact';
+import { useState } from 'preact/hooks';
+import { GameState, PlayerId } from '../domain';
 import { HextilleBuilder, HiveEvent } from '../services';
 import { addHiveDispatchListener } from '../utilities/dispatcher';
+import { cellKey, removeOtherPlayerMoves } from '../utilities/hextille';
 import { handleDragOver } from '../utilities/handlers';
-import { useState } from 'preact/hooks';
+import { shareGame } from '../utilities/share';
 import GameCell from './GameCell';
 import GameOver from './GameOver';
 import GameTile from './GameTile';
@@ -15,8 +17,6 @@ import Players from './Players';
 import Row from './Row';
 import Rules from './Rules';
 import Share from './Share';
-import { cellKey, removeOtherPlayerMoves } from '../utilities/hextille';
-import { shareGame } from '../utilities/share';
 
 type Props = Omit<GameState, 'gameId'> & { playerId: PlayerId };
 

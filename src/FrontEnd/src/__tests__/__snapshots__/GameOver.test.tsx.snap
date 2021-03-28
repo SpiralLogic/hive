@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`GameOver snapshot tests lose snapshot 1`] = `
+exports[`gameOver snapshot tests lose snapshot 1`] = `
 <div
   class="modal"
 >
@@ -22,7 +22,7 @@ exports[`GameOver snapshot tests lose snapshot 1`] = `
 </div>
 `;
 
-exports[`GameOver snapshot tests win snapshot 1`] = `
+exports[`gameOver snapshot tests win snapshot 1`] = `
 <div
   class="modal"
 >

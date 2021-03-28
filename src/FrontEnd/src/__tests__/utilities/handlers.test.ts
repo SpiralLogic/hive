@@ -1,4 +1,4 @@
-import {  GameState } from '../../domain';
+import { GameState } from '../../domain';
 import { TileAction } from '../../services';
 import {
   attachServerHandlers,
@@ -7,8 +7,8 @@ import {
   handleKeyboardNav,
   opponentSelectionHandler,
 } from '../../utilities/handlers';
+import { useHiveDispatcher } from '../../utilities/dispatcher';
 import gameState from '../fixtures/gameState.json';
-import {useHiveDispatcher} from "../../utilities/dispatcher";
 
 describe(`handler tests`, () => {
   const selectedTile = {
@@ -21,16 +21,16 @@ describe(`handler tests`, () => {
     playerId: 1,
   };
   describe(`handle drag tests`, () => {
-    test('should prevent default on dragover', () => {
+    it('should prevent default on dragover', () => {
       const preventDefault = jest.fn();
       handleDragOver({ preventDefault });
-      expect(preventDefault).toBeCalled();
+      expect(preventDefault).toHaveBeenCalledWith();
     });
 
-    test('should prevent default ondrop', () => {
+    it('should prevent default ondrop', () => {
       const preventDefault = jest.fn();
       handleDrop({ preventDefault });
-      expect(preventDefault).toBeCalled();
+      expect(preventDefault).toHaveBeenCalledWith();
     });
   });
 
@@ -45,38 +45,38 @@ describe(`handler tests`, () => {
       [div1, div2, div3, div4] = Array.from(elements);
     });
 
-    test('should move to next element on keydown', () => {
+    it('should move to next element on keydown', () => {
       expect(handleKeyboardNav({ key: 'ArrowDown', target: div1 })).toBe(true);
       expect(div2).toHaveFocus();
       expect(div4).not.toHaveFocus();
     });
 
-    test('should move to next element on key right', () => {
+    it('should move to next element on key right', () => {
       expect(handleKeyboardNav({ key: 'ArrowRight', target: div1 })).toBe(true);
       expect(div2).toHaveFocus();
       expect(div4).not.toHaveFocus();
     });
 
-    test('should move to next element on key up', () => {
+    it('should move to next element on key up', () => {
       expect(handleKeyboardNav({ key: 'ArrowUp', target: div3 })).toBe(true);
       expect(div2).toHaveFocus();
       expect(div4).not.toHaveFocus();
     });
 
-    test('should move to last element on key up from first', () => {
+    it('should move to last element on key up from first', () => {
       jest.spyOn(div3, 'focus');
       expect(handleKeyboardNav({ key: 'ArrowUp', target: div1 })).toBe(true);
-      expect(div3.focus).toBeCalled();
+      expect(div3.focus).toHaveBeenCalledWith();
       expect(div4).not.toHaveFocus();
     });
 
-    test('should move to next element on key left', () => {
+    it('should move to next element on key left', () => {
       expect(handleKeyboardNav({ key: 'ArrowLeft', target: div3 })).toBe(true);
       expect(div2).toHaveFocus();
       expect(div4).not.toHaveFocus();
     });
 
-    test('should not move on other keys', () => {
+    it('should not move on other keys', () => {
       expect(handleKeyboardNav({ key: 'n', target: div1 })).toBe(false);
       expect(div1).not.toHaveFocus();
       expect(div2).not.toHaveFocus();
@@ -84,7 +84,7 @@ describe(`handler tests`, () => {
       expect(div4).not.toHaveFocus();
     });
 
-    test('should not move no target', () => {
+    it('should not move no target', () => {
       expect(handleKeyboardNav({ key: 'n', target: null })).toBe(false);
       expect(div1).not.toHaveFocus();
       expect(div2).not.toHaveFocus();
@@ -93,27 +93,27 @@ describe(`handler tests`, () => {
   });
 
   describe(`server connection events`, () => {
-    test(`opponent selection selects tile`, () => {
+    it(`opponent selection selects tile`, () => {
       const tile = { id: 1, playerId: 1, creature: 'swan', moves: [] };
       const dispatcher = useHiveDispatcher();
       const selectHandler = jest.fn();
       dispatcher.add<TileAction>('tileSelect', selectHandler);
 
       opponentSelectionHandler('select', tile);
-      expect(selectHandler).toBeCalledWith({ type: 'tileSelect', tile });
+      expect(selectHandler).toHaveBeenCalledWith({ type: 'tileSelect', tile });
     });
 
-    test(`opponent deselection selects tile`, () => {
+    it(`opponent deselection selects tile`, () => {
       const tile = { id: 1, playerId: 1, creature: 'swan', moves: [] };
       const dispatcher = useHiveDispatcher();
       const selectHandler = jest.fn();
       dispatcher.add<TileAction>('tileDeselect', selectHandler);
 
       opponentSelectionHandler('deselect', tile);
-      expect(selectHandler).toBeCalledWith({ type: 'tileDeselect', tile });
+      expect(selectHandler).toHaveBeenCalledWith({ type: 'tileDeselect', tile });
     });
 
-    test(`opponent deselection doesnt fire for missing tiles`, () => {
+    it(`opponent deselection doesnt fire for missing tiles`, () => {
       const dispatcher = useHiveDispatcher();
       const selectHandler = jest.fn();
       const deselectHandler = jest.fn();
@@ -122,11 +122,11 @@ describe(`handler tests`, () => {
 
       opponentSelectionHandler('select', null!);
       opponentSelectionHandler('deselect', null!);
-      expect(selectHandler).not.toBeCalled();
-      expect(deselectHandler).not.toBeCalled();
+      expect(selectHandler).not.toHaveBeenCalledWith();
+      expect(deselectHandler).not.toHaveBeenCalledWith();
     });
 
-    test(`server handlers are attached`, () => {
+    it(`server handlers are attached`, () => {
       const dispatcher = useHiveDispatcher();
       jest.spyOn(dispatcher, 'remove');
       const sendSelection = jest.fn();
@@ -145,13 +145,13 @@ describe(`handler tests`, () => {
       });
 
       dispatcher.dispatch({ type: 'tileSelected', tile: selectedTile });
-      expect(sendSelection).toBeCalled();
+      expect(sendSelection).toHaveBeenLastCalledWith('select', selectedTile);
 
       dispatcher.dispatch({ type: 'tileDeselected', tile: selectedTile });
-      expect(sendSelection).toBeCalled();
+      expect(sendSelection).toHaveBeenLastCalledWith('deselect', selectedTile);
 
       removeHandlers();
-      expect(dispatcher.remove).toBeCalledTimes(4);
+      expect(dispatcher.remove).toHaveBeenCalledTimes(4);
     });
   });
 });

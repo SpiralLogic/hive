@@ -1,10 +1,10 @@
-import { createGameState } from './fixtures/gameArea.fixtures';
 import { h } from 'preact';
-import { mockClipboard, mockExecCommand, mockShare, noShare } from './test-helpers';
 import { render, screen } from '@testing-library/preact';
-import { simulateEvent } from './test-helpers';
-import GameArea from '../components/GameArea';
 import userEvent from '@testing-library/user-event';
+import GameArea from '../components/GameArea';
+import { mockClipboard, mockExecCommand, mockShare, noShare, simulateEvent } from './test-helpers';
+
+import { createGameState } from './fixtures/gameArea.fixtures';
 
 describe('gameArea Tests', () => {
   it('default drag over is prevented to allow drop', async () => {
@@ -76,7 +76,7 @@ describe('gameArea Tests', () => {
     );
     userEvent.click(screen.getByTitle(/Share/));
     expect(document.execCommand).toHaveBeenCalledWith('copy');
-    expect(screen.queryAllByRole('textbox')).toHaveLength(0);
+    expect(screen.queryByRole('textbox')).not.toBeInTheDocument();
     restore1();
     restore();
   });
@@ -88,7 +88,7 @@ describe('gameArea Tests', () => {
       <GameArea gameStatus="MoveSuccess" players={gameState.players} cells={gameState.cells} playerId={1} />
     );
     userEvent.click(screen.getByTitle(/Share/));
-    expect(await screen.queryAllByRole('dialog')).toHaveLength(0);
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
     restore();
   });
 });

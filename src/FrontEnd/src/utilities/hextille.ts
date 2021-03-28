@@ -1,7 +1,7 @@
 import { Cell, GameState, HexCoordinates, Player, PlayerId, Tile } from '../domain';
 
 const getAllTiles = (...parents: Array<Array<Player | Cell>>): Array<Tile> =>
-  parents.flatMap((p) => p.flatMap((p) => p.tiles));
+  parents.flatMap((g) => g.flatMap((p) => p.tiles));
 
 const getAllPlayerTiles = (playerId: PlayerId, ...parents: Array<Array<Player | Cell>>) =>
   getAllTiles(...parents).filter((t) => t.playerId !== playerId);

@@ -5,10 +5,15 @@ const classReducer = (
   action: { type: 'add' | 'remove'; classes: string[] }
 ): string => {
   const classList = new Set(initialClasses.split(' '));
-  if (action.type === `add`) {
-    action.classes.forEach((c) => classList.add(c));
-  } else if (action.type === 'remove') {
-    action.classes.forEach((c) => classList.delete(c));
+  switch (action.type) {
+    case `add`:
+      action.classes.forEach((c) => classList.add(c));
+      break;
+    case 'remove':
+      action.classes.forEach((c) => classList.delete(c));
+      break;
+    default:
+      break;
   }
   classList.delete('');
   return Array.from(classList).join(' ');

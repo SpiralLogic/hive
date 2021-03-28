@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Hextille Tests matches current snapshot 1`] = `
+exports[`hextille Tests matches current snapshot 1`] = `
 <div
   class="left"
   role="grid"

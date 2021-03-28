@@ -1,9 +1,9 @@
 import { h } from 'preact';
-import { renderElement } from './test-helpers';
 import Links from '../components/Links';
+import { renderElement } from './test-helpers';
 
-describe('Links snapshot tests', () => {
-  test('snapshot', () => {
+describe('links snapshot tests', () => {
+  it('snapshot', () => {
     expect(
       renderElement(<Links playerId={0} onShowShare={() => ({})} onShowRules={() => ({})} />)
     ).toMatchSnapshot();

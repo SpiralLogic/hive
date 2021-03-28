@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Rule cell snapshot tests snapshot 1`] = `
+exports[`rule cell snapshot tests snapshot 1`] = `
 Object {
   "__": null,
   "__b": 0,

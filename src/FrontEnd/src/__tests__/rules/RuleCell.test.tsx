@@ -1,8 +1,8 @@
 import { h } from 'preact';
 import RuleCell from '../../components/rules/RuleCell';
 
-describe('Rule cell snapshot tests', () => {
-  test('snapshot', () => {
+describe('rule cell snapshot tests', () => {
+  it('snapshot', () => {
     expect(<RuleCell />).toMatchSnapshot();
   });
 });

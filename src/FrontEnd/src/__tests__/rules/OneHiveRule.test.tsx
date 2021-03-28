@@ -1,9 +1,9 @@
 import { h } from 'preact';
-import OneHiveRule from '../../components/rules/OneHiveRule';
 import { renderElement } from '../test-helpers';
+import OneHiveRule from '../../components/rules/OneHiveRule';
 
-describe('One Hive Rule snapshot tests', () => {
-  test('snapshot', () => {
+describe('one Hive Rule snapshot tests', () => {
+  it('snapshot', () => {
     expect(renderElement(<OneHiveRule />)).toMatchSnapshot();
   });
 });

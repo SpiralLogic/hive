@@ -12,9 +12,9 @@ const fallbackCopyTextToClipboard = (text: string) => {
   textArea.select();
   try {
     document.execCommand('copy');
-    if (currentFocus && currentFocus.focus) currentFocus.focus();
+    currentFocus.focus();
     return true;
-  } catch (e) {
+  } catch {
     return false;
   } finally {
     document.body.removeChild(textArea);
@@ -35,11 +35,11 @@ export const shareGame = () => {
     url,
   };
   try {
-    navigator.share(opponentGame).then();
+    navigator.share(opponentGame).catch(() => {});
     return false;
   } catch {
     try {
-      navigator.clipboard.writeText(opponentGame.url).then();
+      navigator.clipboard.writeText(opponentGame.url).catch(() => {});
       return true;
     } catch {
       return fallbackCopyTextToClipboard(opponentGame.url);

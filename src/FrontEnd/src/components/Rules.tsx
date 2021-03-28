@@ -23,7 +23,7 @@ const ruleList = [
 ];
 const changeRule = (currentRuleIndex: number, { type }: { type: 'next' | 'prev' }): number => {
   if (type === 'next') return ++currentRuleIndex % ruleList.length;
-  if (type === 'prev' && currentRuleIndex > 0) return --currentRuleIndex % ruleList.length;
+  if (currentRuleIndex > 0) return --currentRuleIndex % ruleList.length;
   return ruleList.length - 1;
 };
 type Props = { setShowRules: (value: boolean) => void };

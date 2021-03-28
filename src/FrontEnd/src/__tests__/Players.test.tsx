@@ -1,8 +1,8 @@
 import { h } from 'preact';
-import { renderElement } from './test-helpers';
 import Players from '../components/Players';
+import { renderElement } from './test-helpers';
 
-describe('PlayerList Tests', () => {
+describe('playerList Tests', () => {
   const renderPlayerList = () => {
     const ant = { id: 1, playerId: 1, creature: 'ant', moves: [{ q: 1, r: 1 }] };
     const fly = { id: 2, playerId: 0, creature: 'fly', moves: [] };
@@ -16,17 +16,17 @@ describe('PlayerList Tests', () => {
     return renderElement(<Players players={players} />);
   };
 
-  test('to have class', () => {
+  it('to have class', () => {
     const playerList = renderPlayerList();
     expect(playerList).toHaveClass('players');
   });
 
-  test('players are rendered', () => {
+  it('players are rendered', () => {
     const playerList = renderPlayerList();
     expect(playerList.getElementsByClassName('player')).toHaveLength(2);
   });
 
-  test('snapshot', () => {
+  it('snapshot', () => {
     const playerList = renderPlayerList();
     expect(playerList).toMatchSnapshot();
   });

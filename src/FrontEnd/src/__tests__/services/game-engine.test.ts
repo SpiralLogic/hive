@@ -3,13 +3,9 @@ import gameState from '../fixtures/gameState.json';
 
 describe('game Engine Tests', () => {
   let engine: GameEngine;
-  global.fetch = jest.fn();
-  jest
-    .spyOn(global, 'fetch')
-    .mockImplementation()
-    .mockImplementation(
-      jest.fn().mockResolvedValue({ ok: true, json: jest.fn().mockResolvedValue(gameState) })
-    );
+  global.fetch = jest
+    .fn()
+    .mockImplementation(() => Promise.resolve({ ok: true, json: () => Promise.resolve(gameState) }));
 
   it('new game', async () => {
     engine = new GameEngine({ route: 'game', gameId: '33', playerId: '1' });

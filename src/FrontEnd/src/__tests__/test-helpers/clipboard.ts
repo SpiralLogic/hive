@@ -21,6 +21,7 @@ export const mockExecCommand = () => {
 };
 
 export const mockShare = () => {
+  // eslint-disable-next-line jest/unbound-method
   const share = navigator.share;
   Object.defineProperty(navigator, 'share', {
     value: jest.fn().mockResolvedValue(undefined),
@@ -31,6 +32,7 @@ export const mockShare = () => {
 };
 
 export const noShare = () => {
+  // eslint-disable-next-line jest/unbound-method
   const share = navigator.share;
   Object.defineProperty(navigator, 'share', { value: undefined });
   return (): void => {
