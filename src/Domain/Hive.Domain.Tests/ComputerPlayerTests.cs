@@ -96,7 +96,7 @@ namespace Hive.Domain.Tests
             initial += " ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡";
             initial += "⬡ ⬡ ⬡ A ⬡ ⬡ ⬡ ⬡ ";
             initial += " ⬡ ⬡ ⬡ b ⬡ ⬡ ⬡ ⬡";
-            initial += "⬡ ⬡ Q b b q B ⬡ ";
+            initial += "⬡ g Q b b q B ⬡ ";
             initial += " ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡";
             initial += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
 
@@ -107,7 +107,7 @@ namespace Hive.Domain.Tests
             expected += " ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡";
             expected += "⬡ ⬡ ⬡ A ⬡ ⬡ ⬡ ⬡ ";
             expected += " ⬡ ⬡ ⬡ b ⬡ ⬡ ⬡ ⬡";
-            expected += "⬡ ⬡ q b b ✔ ★ ⬡ ";
+            expected += "⬡ g Q b b ✔ ★ ⬡ ";
             expected += " ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡";
             expected += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
 
@@ -126,7 +126,7 @@ namespace Hive.Domain.Tests
             initial += " ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡";
             initial += "⬡ ⬡ ⬡ A ⬡ ⬡ ⬡ ⬡ ";
             initial += " ⬡ ⬡ ⬡ s ⬡ ⬡ ⬡ ⬡";
-            initial += "⬡ ⬡ Q s s s B ⬡ ";
+            initial += "⬡ g Q s s s B ⬡ ";
             initial += " ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡";
             initial += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
 
@@ -142,7 +142,7 @@ namespace Hive.Domain.Tests
             expected += " ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡";
             expected += "⬡ ⬡ ⬡ ★ ⬡ ⬡ ⬡ ⬡ ";
             expected += " ⬡ ⬡ ⬡ s ⬡ ✔ ✔ ⬡";
-            expected += "⬡ ⬡ Q s s s B ✔ ";
+            expected += "⬡ g Q s s s B ✔ ";
             expected += " ⬡ ⬡ ⬡ ⬡ ⬡ ✔ ✔ ⬡";
             expected += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
 

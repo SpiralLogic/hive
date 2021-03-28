@@ -32,19 +32,21 @@ namespace Hive.Domain
                 var maximizeQueenInitialNeighbours = CountQueenNeighbours(maximize);
                 var minimizeQueenInitialNeighbours = CountQueenNeighbours(minimize);
                 var moveHasQueenNeighbour = MoveHasQueenNeighbour(move);
+                var isAntPlacement = move.Tile.Creature.Name == Creatures.Ant.Name &&
+                                     _board.Players[move.Tile.PlayerId].Tiles.Any(t => t.Id == move.Tile.Id);
                 MakeMove(move);
                 var minimizeQueenNeighbours = CountQueenNeighbours(minimize);
                 var maximizeQueenNeighbours = CountQueenNeighbours(maximize);
                 var movesNeighbours = _board.Cells.FindCell(move.Coords)?.SelectNeighbors(_board.Cells).WhereOccupied().Count() ?? 0;
-                var isAntPlacement = move.Tile.Creature.Name == Creatures.Ant.Name &&
-                                     _board.Players[move.Tile.PlayerId].Tiles.Any(t => t.Id == move.Tile.Id);
+
                 var beetleMoveOnTop = move.Tile.Creature.Name == Creatures.Beetle.Name &&
                                       _board.Cells.WherePlayerOccupies(minimize).FindCell(move.Coords).HasQueen();
                 var changeInQueen = 3 * (minimizeQueenNeighbours - minimizeQueenInitialNeighbours + maximizeQueenInitialNeighbours -
                                          maximizeQueenNeighbours);
-                score = Score(changeInQueen, score, moveHasQueenNeighbour, movesNeighbours, isAntPlacement, minimizeQueenNeighbours,
+                score = Score(changeInQueen, moveHasQueenNeighbour, movesNeighbours, isAntPlacement, minimizeQueenNeighbours,
                     beetleMoveOnTop, beetleMoveOffTop);
                 RevertMove();
+                if (score >= 100) return (move, score);
                 if (score <= bestScore) continue;
                 bestScore = score;
                 best = move;
@@ -55,7 +57,6 @@ namespace Hive.Domain
 
         private static int Score(
             int changeInQueen,
-            int score,
             bool moveHasQueenNeighbour,
             int movesNeighbours,
             bool isAntPlacement,
@@ -64,14 +65,14 @@ namespace Hive.Domain
             bool beetleMoveOffTop
         )
         {
-
-            if (changeInQueen != 0) score = changeInQueen;
+            var score = 0;
+            if (changeInQueen != 0) score = 2 * changeInQueen;
             if (moveHasQueenNeighbour && score == 0) score -= 2;
-            if (movesNeighbours == 1 && score == 0) score -= 1;
+            if (score == 0) score += movesNeighbours;
             if (isAntPlacement) score += 1;
-            if (minimizeQueenNeighbours == 6) score = 100;
-            if (beetleMoveOnTop) score = 100;
-            if (beetleMoveOffTop) score = -200;
+            if (minimizeQueenNeighbours == 6) return 100;
+            if (beetleMoveOnTop) return 100;
+            if (beetleMoveOffTop) return -100;
             return score;
         }
 
@@ -104,9 +105,9 @@ namespace Hive.Domain
                 var tile = currentCell.TopTile();
                 var moves = tile.Creature.GetAvailableMoves(currentCell, _board.Cells);
                 tile.Moves.UnionWith(moves);
-                if (_board.Move(new Move(currentCell.TopTile(), coords)) == GameStatus.MoveInvalid) Console.WriteLine(coords);
+                if (_board.Move(new Move(currentCell.TopTile(), coords)) == GameStatus.MoveInvalid) 
+                    Console.WriteLine(coords);
 
-                ;
                 _board.UpdateMoves(player);
             }
         }
