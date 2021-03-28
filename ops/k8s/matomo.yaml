@@ -1,0 +1,303 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: matomo.conf
+data:
+  default.conf: |
+    upstream php-handler {
+      server 127.0.0.1:9000;
+    }
+
+    server {
+      listen 8080;
+
+      add_header Referrer-Policy origin; # make sure outgoing links don't show the URL to the Matomo instance
+      root /var/www/html; # replace with path to your matomo instance
+      index index.php;
+      try_files $uri $uri/ =404;
+
+      ## only allow accessing the following php files
+      location ~ ^/(index|matomo|piwik|js/index|plugins/HeatmapSessionRecording/configs).php {
+        # regex to split $uri to $fastcgi_script_name and $fastcgi_path
+        fastcgi_split_path_info ^(.+\.php)(/.+)$;
+
+        # Check that the PHP script exists before passing it
+        try_files $fastcgi_script_name =404;
+
+        include fastcgi_params;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        fastcgi_param PATH_INFO $fastcgi_path_info;
+        fastcgi_param HTTP_PROXY ""; # prohibit httpoxy: https://httpoxy.org/
+        fastcgi_pass php-handler;
+      }
+
+      ## deny access to all other .php files
+      location ~* ^.+\.php$ {
+        deny all;
+        return 403;
+      }
+
+      ## disable all access to the following directories
+      location ~ /(config|tmp|core|lang) {
+        deny all;
+        return 403; # replace with 404 to not show these directories exist
+      }
+      location ~ /\.ht {
+        deny all;
+        return 403;
+      }
+
+      location ~ js/container_.*_preview\.js$ {
+        expires off;
+        add_header Cache-Control 'private, no-cache, no-store';
+      }
+
+      location ~ \.(gif|ico|jpg|png|svg|js|css|htm|html|mp3|mp4|wav|ogg|avi|ttf|eot|woff|woff2|json)$ {
+        allow all;
+        ## Cache images,CSS,JS and webfonts for an hour
+        ## Increasing the duration may improve the load-time, but may cause old files to show after an Matomo upgrade
+        expires 1h;
+        add_header Pragma public;
+        add_header Cache-Control "public";
+      }
+
+      location ~ /(libs|vendor|plugins|misc/user) {
+        deny all;
+        return 403;
+      }
+
+      ## properly display textfiles in root directory
+      location ~/(.*\.md|LEGALNOTICE|LICENSE) {
+        default_type text/plain;
+      }
+    }
+
+    # vim: filetype=nginx
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    io.kompose.service: matomo
+  name: matomo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: matomo
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        io.kompose.service: matomo
+    spec:
+      containers:
+        - image: mariadb
+          name: matomo-db
+          args:
+            - --max-allowed-packet=64MB
+          env:
+            - name: MATOMO_DATABASE_ADAPTER
+              valueFrom:
+                configMapKeyRef:
+                  key: MATOMO_DATABASE_ADAPTER
+                  name: matomo-db-env
+            - name: MATOMO_DATABASE_DBNAME
+              valueFrom:
+                configMapKeyRef:
+                  key: MATOMO_DATABASE_DBNAME
+                  name: matomo-db-env
+            - name: MATOMO_DATABASE_PASSWORD
+              valueFrom:
+                configMapKeyRef:
+                  key: MATOMO_DATABASE_PASSWORD
+                  name: matomo-db-env
+            - name: MATOMO_DATABASE_TABLES_PREFIX
+              valueFrom:
+                configMapKeyRef:
+                  key: MATOMO_DATABASE_TABLES_PREFIX
+                  name: matomo-db-env
+            - name: MATOMO_DATABASE_USERNAME
+              valueFrom:
+                configMapKeyRef:
+                  key: MATOMO_DATABASE_USERNAME
+                  name: matomo-db-env
+            - name: MYSQL_DATABASE
+              valueFrom:
+                configMapKeyRef:
+                  key: MYSQL_DATABASE
+                  name: matomo-db-env
+            - name: MYSQL_PASSWORD
+              valueFrom:
+                configMapKeyRef:
+                  key: MYSQL_PASSWORD
+                  name: matomo-db-env
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                configMapKeyRef:
+                  key: MYSQL_PASSWORD
+                  name: matomo-db-env
+            - name: MYSQL_USER
+              valueFrom:
+                configMapKeyRef:
+                  key: MYSQL_USER
+                  name: matomo-db-env
+          volumeMounts:
+            - mountPath: /var/lib/mysql
+              name: matomo-db
+        - image: matomo:fpm-alpine
+          name: matomo-app
+          env:
+            - name: MATOMO_DATABASE_ADAPTER
+              valueFrom:
+                configMapKeyRef:
+                  key: MATOMO_DATABASE_ADAPTER
+                  name: matomo-db-env
+            - name: MATOMO_DATABASE_DBNAME
+              valueFrom:
+                configMapKeyRef:
+                  key: MATOMO_DATABASE_DBNAME
+                  name: matomo-db-env
+            - name: MATOMO_DATABASE_HOST
+              value: 127.0.0.1
+            - name: MATOMO_DATABASE_PASSWORD
+              valueFrom:
+                configMapKeyRef:
+                  key: MATOMO_DATABASE_PASSWORD
+                  name: matomo-db-env
+            - name: MATOMO_DATABASE_TABLES_PREFIX
+              valueFrom:
+                configMapKeyRef:
+                  key: MATOMO_DATABASE_TABLES_PREFIX
+                  name: matomo-db-env
+            - name: MATOMO_DATABASE_USERNAME
+              valueFrom:
+                configMapKeyRef:
+                  key: MATOMO_DATABASE_USERNAME
+                  name: matomo-db-env
+            - name: MYSQL_DATABASE
+              valueFrom:
+                configMapKeyRef:
+                  key: MYSQL_DATABASE
+                  name: matomo-db-env
+            - name: MYSQL_PASSWORD
+              valueFrom:
+                configMapKeyRef:
+                  key: MYSQL_PASSWORD
+                  name: matomo-db-env
+            - name: MYSQL_USER
+              valueFrom:
+                configMapKeyRef:
+                  key: MYSQL_USER
+                  name: matomo-db-env
+          ports:
+            - containerPort: 9000
+          volumeMounts:
+            - mountPath: /var/www/html
+              name: matomo
+              readOnly: false
+        - image: nginx:alpine
+          name: matomo
+          ports:
+            - containerPort: 8080
+          volumeMounts:
+            - mountPath: /var/www/html
+              name: matomo
+              readOnly: false
+            - mountPath: /etc/nginx/conf.d/
+              name: matomo-conf
+              readOnly: false
+      restartPolicy: Always
+      volumes:
+        - name: matomo
+          persistentVolumeClaim:
+            claimName: matomo
+        - name: matomo-conf
+          configMap:
+            name: matomo.conf
+            defaultMode: 0755
+        - name: matomo-db
+          persistentVolumeClaim:
+            claimName: matomo-db
+---
+apiVersion: v1
+data:
+  MATOMO_DATABASE_ADAPTER: mysql
+  MATOMO_DATABASE_DBNAME: matomo
+  MATOMO_DATABASE_PASSWORD: ""
+  MATOMO_DATABASE_TABLES_PREFIX: matomo_
+  MATOMO_DATABASE_USERNAME: matomo
+  MYSQL_DATABASE: matomo
+  MYSQL_PASSWORD: ""
+  MYSQL_USER: matomo
+kind: ConfigMap
+metadata:
+  labels:
+    io.kompose.service: app-matomo-db-env
+  name: matomo-db-env
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  labels:
+    io.kompose.service: matomo-db
+  name: matomo-db
+spec:
+  accessModes:
+    - ReadWriteOnce  
+  resources:
+    requests:
+      storage: 100Mi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  labels:
+    io.kompose.service: matomo
+  name: matomo
+spec:
+  accessModes:
+    - ReadWriteMany  
+  resources:
+    requests:
+      storage: 100Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    io.kompose.service: matomo-web
+  name: matomo-service
+spec:
+  type: NodePort
+  ports:
+    - name: matomo
+      port: 80
+      targetPort: 8080
+  selector:
+    io.kompose.service: matomo
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    cert-manager.io/issuer: hive-issuer
+  name: matomo-ingress
+spec:
+  rules:
+    - host: a.hive.sorijen.net.au
+      http:
+        paths:
+          - backend:
+              service:
+                name: matomo-service
+                port:
+                  number: 80
+            path: /
+            pathType: ImplementationSpecific
+  tls:
+    - hosts:
+        - a.hive.sorijen.net.au
+      secretName: matomo-cert-prod-tls
