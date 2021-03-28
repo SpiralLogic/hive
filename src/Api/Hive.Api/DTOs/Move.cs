@@ -2,7 +2,5 @@
 
 namespace Hive.DTOs
 {
-    public record Move(int TileId, Coords Coords, bool UseAi = false)
-    {
-    }
+    public record Move(int TileId, Coords Coords, bool UseAi = false);
 }

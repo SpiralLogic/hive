@@ -119,7 +119,7 @@ namespace Hive.Domain
             return _board.Players[playerId]
                 .Tiles.Concat(cells.WherePlayerControls(_board.Players.FindPlayerById(playerId)).Select(c => c.TopTile()))
                 .SelectMany(t => t.Moves.Select(m => new Move(t, m)))
-                .OrderBy(item => rnd.Next())
+                .OrderBy(_ => rnd.Next())
                 .ToHashSet();
         }
 
@@ -132,8 +132,6 @@ namespace Hive.Domain
                 .Count() ?? 0;
         }
 
-        private record MoveMade(int TileId, int PlayerId, Coords? Coords)
-        {
-        }
+        private record MoveMade(int TileId, int PlayerId, Coords? Coords);
     }
 }

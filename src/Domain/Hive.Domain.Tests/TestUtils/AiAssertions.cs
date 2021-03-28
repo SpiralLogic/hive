@@ -19,7 +19,7 @@ namespace Hive.Domain.Tests.TestUtils
         public AndConstraint<AiAssertions> MatchHive(InitialHiveBuilder initialBuilder, ExpectedAiBuilder expected)
         {
             var expectedMoves = expected.ExpectedMoves();
-            var expectedTiles = initialBuilder.AllCells.Where(c => expected.OriginCells.Contains(c)).Select(c => (Coords:c.Coords,Tile:c.TopTile())).ToHashSet();
+            var expectedTiles = initialBuilder.AllCells.Where(c => expected.OriginCells.Contains(c)).Select(c => (c.Coords,Tile:c.TopTile())).ToHashSet();
 
             Execute.Assertion.Given(() => Subject())
                 .ForCondition(result => expectedTiles.Any(t => t.Tile.Id == result.Tile.Id) && expectedMoves.Contains(result.Coords))

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Hive.Domain.Entities;
-using Hive.Domain.Extensions;
 
 namespace Hive.Domain.Tests.TestUtils
 {
@@ -53,7 +52,7 @@ namespace Hive.Domain.Tests.TestUtils
             }
             var coloredRows = ToColoredString(ToString()).Split("\n");
             var comparison = actualRows.Select((row, i) =>
-                $"{ToColoredString(row):coloredRows[0].Length+4} | {coloredRows[i]:coloredRows[0].Length+4}");
+                $"{ToColoredString(row)} | {coloredRows[i]}");
             return
                 $"Creature:{move.Tile.Creature.Name} - {move.Tile.Id} to coords: {move.Coords.Q}-{move.Coords.R}\n\u001b[37m{string.Join("\n", comparison)}\u001b[0m";
         }
