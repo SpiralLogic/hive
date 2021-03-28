@@ -24,7 +24,7 @@ namespace Hive.Domain.Entities
         public ISet<Coords> GetAvailableMoves(Cell originCell, ISet<Cell> cells)
         {
             return Movements.Aggregate(cells.SelectCoords(),
-                    (moves, rule) => moves.Intersect(rule.GetMoves(originCell, cells)))
+                    (moves, rule) => moves.Intersect(rule.GetMoves(originCell, new HashSet<Cell>(cells))))
                 .ToHashSet();
         }
     }

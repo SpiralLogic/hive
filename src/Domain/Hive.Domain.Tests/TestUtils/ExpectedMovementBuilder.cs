@@ -43,7 +43,7 @@ namespace Hive.Domain.Tests.TestUtils
 
             foreach (var coords in unexpected) UpdateCoords(Unexpected.ToString(), coords, actualRows);
 
-            var coloredRows = ToColoredString().Split("\n");
+            var coloredRows = ToColoredString(ToString()).Split("\n");
 
             return
                 $"\u001b[37m{string.Join("\n", actualRows.Select((row, i) => row + " | " + coloredRows[i]))}\u001b[0m";

@@ -15,7 +15,7 @@ namespace Hive.Domain.Tests.MovementTests
             initial += "⬡ ⬢ ★ ⬢ ⬡";
             initial += " ⬡ ⬢ ⬡ ⬢ ";
             initial += "⬡ ⬢ ⬡ ⬢ ⬡";
-            initial += " ⬡ ⬢ ⬡ ⬢";
+            initial += " ⬡ ⬢ ⬡ ⬢ ";
 
             var expected = new ExpectedMovementBuilder();
 
@@ -23,7 +23,7 @@ namespace Hive.Domain.Tests.MovementTests
             expected += "⬡ ⬢ ★ ⬢ ⬡";
             expected += " ⬡ ⬢ ⬡ ⬢ ";
             expected += "⬡ ⬢ ⬡ ⬢ ⬡";
-            expected += " ⬡ ⬢ ✔ ⬢";
+            expected += " ⬡ ⬢ ✔ ⬢ ";
 
             var move = new OnlyThreeSpaces();
 

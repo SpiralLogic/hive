@@ -14,34 +14,37 @@ namespace Hive.Domain.Tests.TestUtils
         internal static readonly HiveCharacter Enemy = new("Enemy", '⏣', ConsoleColor.Magenta);
 
         internal readonly HashSet<Cell> AllCells = new();
-
+        internal readonly HashSet<Cell> OriginCells = new();
         protected readonly ISet<HiveCharacter> AllSymbols = new[] {Empty, Origin, Friend, Enemy}.ToHashSet();
         protected readonly List<string> RowStrings = new();
 
         private int _currentR;
+        protected int TileIdSequence;
+        private int _rowLength;
 
         internal HiveBuilder()
         {
             WithCreatureSymbols();
         }
 
-        internal Cell OriginCell { get; private set; } = new(new Coords(0, 0));
+        internal Cell OriginCell => OriginCells.First();
 
         protected static T AddRow<T>(T builder, string rowString) where T : HiveBuilder
         {
-            var rowSplit = rowString.Trim().Replace(Separator, "").ToCharArray();
+            if (builder._rowLength == 0) builder._rowLength = rowString.Length;
+            if (builder._rowLength != rowString.Length) throw new InvalidOperationException("Row lengths are inconsistent");
             var q = builder.GetQOffset(rowString);
+
+            var rowSplit = rowString.Replace(Separator, "").ToCharArray();
 
             foreach (var token in rowSplit)
             {
+                var cell = new Cell(new Coords(q++, builder._currentR));
                 if (token == Origin.Symbol)
                 {
-                    builder.OriginCell = builder.OriginCell with {Coords = new Coords(q++, builder._currentR)};
-                    builder.OriginCell.AddTile(new Tile(1, 1, Origin.Creature));
-                    continue;
+                    builder.OriginCells.Add(cell);
                 }
 
-                var cell = new Cell(new Coords(q++, builder._currentR));
                 if (token != Empty.Symbol) builder.ModifyCell(cell, token);
                 builder.AllCells.Add(cell);
             }
@@ -54,7 +57,7 @@ namespace Hive.Domain.Tests.TestUtils
 
         private int GetQOffset(string rowString)
         {
-            return rowString.Trim().Length == rowString.Length ? 0 : (_currentR + 1) % 2;
+            return rowString.TrimStart().Length == _rowLength ? 0 : (_currentR + 1) % 2;
         }
 
         private void WithCreatureSymbols()
@@ -62,8 +65,11 @@ namespace Hive.Domain.Tests.TestUtils
             foreach (Creature? creature in typeof(Creatures).GetFields().Select(f => f.GetValue(null)))
             {
                 if (creature == null) return;
-                AllSymbols.Add(new HiveCreature(creature, true));
-                AllSymbols.Add(new HiveCreature(creature, false));
+                var p0Symbol = creature.Name.ToUpperInvariant().First();
+                var p1Symbol = creature.Name.ToLowerInvariant().First();
+                
+                AllSymbols.Add(new HiveCharacter(creature, p0Symbol, Friend.Color));
+                AllSymbols.Add(new HiveCharacter(creature, p1Symbol, Enemy.Color));
             }
         }
 
@@ -80,9 +86,9 @@ namespace Hive.Domain.Tests.TestUtils
             return rowString.StartsWith(Separator) && r % 2 != 0 ? 1 : 0;
         }
 
-        internal string ToColoredString()
+        internal string ToColoredString(string rows)
         {
-            return AllSymbols.Aggregate(ToString(), (str, row) => str.Replace(row.Symbol.ToString(), row.ToString()));
+            return AllSymbols.Aggregate(rows, (str, c) => str.Replace(c.Symbol.ToString(), c.ToString()));
         }
 
         protected abstract void ModifyCell(Cell cell, char symbol);

@@ -69,7 +69,6 @@ describe('gameArea Tests', () => {
 
   it('click copies opponent link to clipboard with exec command', () => {
     const restore1 = noShare();
-
     const restore = mockExecCommand();
     const gameState = createGameState(1);
     render(
@@ -77,7 +76,19 @@ describe('gameArea Tests', () => {
     );
     userEvent.click(screen.getByTitle(/Share/));
     expect(document.execCommand).toHaveBeenCalledWith('copy');
+    expect(screen.queryAllByRole('textbox')).toHaveLength(0);
     restore1();
+    restore();
+  });
+
+  it(`can't copy link`, async () => {
+    const restore = noShare();
+    const gameState = createGameState(1);
+    render(
+      <GameArea gameStatus="MoveSuccess" players={gameState.players} cells={gameState.cells} playerId={1} />
+    );
+    userEvent.click(screen.getByTitle(/Share/));
+    expect(await screen.queryAllByRole('dialog')).toHaveLength(0);
     restore();
   });
 });

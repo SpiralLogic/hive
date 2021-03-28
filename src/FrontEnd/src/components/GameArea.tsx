@@ -1,7 +1,8 @@
 import '../css/gameArea.css';
 import { GameState, PlayerId } from '../domain';
 import { FunctionComponent, h } from 'preact';
-import { HextilleBuilder } from '../services';
+import { HextilleBuilder, HiveEvent } from '../services';
+import { addHiveDispatchListener } from '../utilities/dispatcher';
 import { handleDragOver } from '../utilities/handlers';
 import { useState } from 'preact/hooks';
 import GameCell from './GameCell';
@@ -22,6 +23,8 @@ type Props = Omit<GameState, 'gameId'> & { playerId: PlayerId };
 const GameArea: FunctionComponent<Props> = ({ players, cells, playerId, gameStatus }) => {
   const [showRules, setShowRules] = useState<boolean>(false);
   const [showShare, setShowShare] = useState<boolean>(false);
+  const [playerConnected, setPlayerConnected] = useState<'connected' | 'disconnected' | null>(null);
+
   const gameOver = ['Player1Win', 'Player0Win', 'AiWin', 'GameOver'].includes(gameStatus);
   const winner =
     (gameStatus === 'Player0Win' && playerId === 0) || (gameStatus === 'Player1Win' && playerId === 1);
@@ -29,9 +32,18 @@ const GameArea: FunctionComponent<Props> = ({ players, cells, playerId, gameStat
   const shareComponent = () => {
     setShowShare(shareGame());
   };
+
   const attributes = { ondragover: handleDragOver, className: 'hive' };
   const hextilleBuilder = new HextilleBuilder(cells);
   const rows = hextilleBuilder.createRows();
+
+  addHiveDispatchListener<HiveEvent>('opponentConnected', () => {
+    setPlayerConnected('connected');
+  });
+
+  addHiveDispatchListener<HiveEvent>('opponentDisconnected', () => {
+    setPlayerConnected('disconnected');
+  });
 
   removeOtherPlayerMoves(playerId, { players, cells });
 
@@ -58,9 +70,13 @@ const GameArea: FunctionComponent<Props> = ({ players, cells, playerId, gameStat
           ))}
         </Hextille>
       </main>
+      {playerConnected ? (
+        <PlayerConnected connected={playerConnected} close={() => setPlayerConnected(null)} />
+      ) : (
+        ''
+      )}
       {showRules ? <Rules setShowRules={setShowRules} /> : ''}
       {showShare ? <Share setShowShare={setShowShare} /> : ''}
-      <PlayerConnected />
       {gameOver ? <GameOver win={winner} /> : ''}
     </div>
   );

@@ -12,19 +12,22 @@ namespace Hive.Domain.Tests.TestUtils
 
         protected override void ModifyCell(Cell cell, char cellString)
         {
-            if (cellString == Friend.Symbol)
+            if (cellString == Origin.Symbol)
             {
-                cell.AddTile(new Tile(1, 1, Friend.Creature));
+                cell.AddTile(new Tile(TileIdSequence++, 0, Origin.Creature));
+            } else if (cellString == Friend.Symbol)
+            {
+                cell.AddTile(new Tile(TileIdSequence++, 0, Friend.Creature));
             }
             else if (cellString == Enemy.Symbol)
             {
-                cell.AddTile(new Tile(1, 2, Enemy.Creature));
+                cell.AddTile(new Tile(TileIdSequence++, 1, Enemy.Creature));
             }
             else
             {
-                var symbol = AllSymbols.Single(s => s.Symbol == cellString);
-                var playerId = symbol.Symbol.ToString().ToUpper() == symbol.Symbol.ToString() ? 1 : 0;
-                cell.AddTile(new Tile(AllCells.Count, playerId, symbol.Creature));
+                var (creature, symbol, _) = AllSymbols.Single(s => s.Symbol == cellString);
+                var playerId = symbol.ToString().ToUpper() == symbol.ToString() ? 0 : 1;
+                cell.AddTile(new Tile(TileIdSequence++, playerId, creature));
             }
         }
     }

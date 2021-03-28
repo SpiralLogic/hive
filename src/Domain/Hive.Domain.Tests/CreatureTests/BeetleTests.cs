@@ -12,7 +12,7 @@ namespace Hive.Domain.Tests.CreatureTests
             var initial = new InitialHiveBuilder();
 
             initial += "⬡ ⬡ ⬡ ⬡ ⬡";
-            initial += " ⬡ ⬢ ⬡ ⬡ ";
+            initial += " ⬡ Q ⬡ ⬡ ";
             initial += "⬡ ⬡ ★ ⬡ ⬡";
             initial += " ⬡ ⬡ ⬢ ⬡ ";
             initial += "⏣ ⬡ ⬡ ⬡ ⬡";
@@ -20,7 +20,7 @@ namespace Hive.Domain.Tests.CreatureTests
             var expected = new ExpectedMovementBuilder();
 
             expected += "⬡ ⬡ ⬡ ⬡ ⬡";
-            expected += " ⬡ ⬢ ⬡ ⬡ ";
+            expected += " ⬡ Q ⬡ ⬡ ";
             expected += "⬡ ⬡ ★ ⬡ ⬡";
             expected += " ⬡ ⬡ ⬢ ⬡ ";
             expected += "⬡ ⬡ ⬡ ⬡ ⬡";
@@ -35,7 +35,7 @@ namespace Hive.Domain.Tests.CreatureTests
         {
             var initial = new InitialHiveBuilder();
 
-            initial += "⬡ ⬢ ⬢ ⬢ ⬡";
+            initial += "⬡ Q ⬢ ⬢ ⬡";
             initial += " ⬢ ⬡ ⬡ ⬢ ";
             initial += "⬢ ⬡ ★ ⬡ ⬢";
             initial += " ⬢ ⬢ ⬡ ⬢ ";
@@ -43,7 +43,7 @@ namespace Hive.Domain.Tests.CreatureTests
 
             var expected = new ExpectedMovementBuilder();
 
-            expected += "⬡ ⬢ ⬢ ⬢ ⬡";
+            expected += "⬡ Q ⬢ ⬢ ⬡";
             expected += " ⬢ ✔ ✔ ⬢ ";
             expected += "⬢ ✔ ★ ✔ ⬢";
             expected += " ⬢ ✔ ✔ ⬢ ";
@@ -61,7 +61,7 @@ namespace Hive.Domain.Tests.CreatureTests
 
             initial += "⬡ ⬡ ⬡ ⬡ ⬡";
             initial += " ⬡ ⬡ ⬡ ⬡ ";
-            initial += "⬡ ⬢ ★ ⬡ ⬡";
+            initial += "⬡ Q ★ ⬡ ⬡";
             initial += " ⬡ ⬢ ⬢ ⬡ ";
             initial += "⬡ ⬡ ⬡ ⬡ ⬡";
 

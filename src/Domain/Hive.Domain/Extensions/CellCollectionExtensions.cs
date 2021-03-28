@@ -4,11 +4,11 @@ using Hive.Domain.Entities;
 
 namespace Hive.Domain.Extensions
 {
-    internal static class CellCollectionExtensions
+    public static class CellCollectionExtensions
     {
-        internal static Cell FindCell(this IEnumerable<Cell> cells, Coords coords)
+        internal static Cell? FindCell(this IEnumerable<Cell> cells, Coords coords)
         {
-            return cells.Single(c => c.Coords.Equals(coords));
+            return cells.SingleOrDefault(c => c.Coords.Equals(coords));
         }
 
         internal static Cell? FindCell(this IEnumerable<Cell> cells, Tile tile)
@@ -36,7 +36,7 @@ namespace Hive.Domain.Extensions
             return cells.SelectNeighbors(originCell).WhereEmpty();
         }
 
-        internal static IEnumerable<Cell> SelectNeighbors(this IEnumerable<Cell> cells, Cell originCell)
+        public static IEnumerable<Cell> SelectNeighbors(this IEnumerable<Cell> cells, Cell originCell)
         {
             return cells.Intersect(originCell.Coords.GetNeighbors().ToCells());
         }

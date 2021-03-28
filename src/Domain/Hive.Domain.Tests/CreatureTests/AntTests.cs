@@ -12,7 +12,7 @@ namespace Hive.Domain.Tests.CreatureTests
             var initial = new InitialHiveBuilder();
 
             initial += "⬡ ⬡ ⬡ ⬡ ⬡";
-            initial += " ⬡ ⬢ ⬡ ⬡ ";
+            initial += " ⬡ Q ⬡ ⬡ ";
             initial += "⬡ ⬡ ★ ⬡ ⬡";
             initial += " ⬡ ⬡ ⬢ ⬡ ";
             initial += "⬡ ⬡ ⬡ ⬡ ⬡";
@@ -20,9 +20,9 @@ namespace Hive.Domain.Tests.CreatureTests
             var expected = new ExpectedMovementBuilder();
 
             expected += "⬡ ⬡ ⬡ ⬡ ⬡";
-            expected += " ⬡ ⬡ ⬡ ⬡ ";
+            expected += " ⬡ Q ⬡ ⬡ ";
             expected += "⬡ ⬡ ★ ⬡ ⬡";
-            expected += " ⬡ ⬡ ⬡ ⬡ ";
+            expected += " ⬡ ⬡ ⬢ ⬡ ";
             expected += "⬡ ⬡ ⬡ ⬡ ⬡";
 
             Creatures.Ant.Should().HaveMoves(initial, expected);
@@ -33,20 +33,20 @@ namespace Hive.Domain.Tests.CreatureTests
         {
             var initial = new InitialHiveBuilder();
 
-            initial += "⬢ ⬡ ⬢ ⬢ ⬢";
+            initial += "⬢ ⬡ ⬢ ⬢ ⬢ ";
             initial += " ⬢ ⬡ ⬡ ⬢ ⬡";
-            initial += "⬢ ⬡ ★ ⬢ ⬢";
+            initial += "⬢ ⬡ ★ Q ⬢ ";
             initial += " ⬢ ⬡ ⬡ ⬡ ⬢";
-            initial += "⬡ ⬢ ⬢ ⬡ ⬢";
+            initial += "⬡ ⬢ ⬢ ⬡ ⬢ ";
             initial += " ⬡ ⬢ ⬢ ⬢ ⬢";
 
             var expected = new ExpectedMovementBuilder();
 
-            expected += "⬢ ⬡ ⬢ ⬢ ⬢";
+            expected += "⬢ ⬡ ⬢ ⬢ ⬢ ";
             expected += " ⬢ ✔ ✔ ⬢ ⬡";
-            expected += "⬢ ✔ ★ ⬢ ⬢";
+            expected += "⬢ ✔ ★ Q ⬢ ";
             expected += " ⬢ ✔ ✔ ✔ ⬢";
-            expected += "⬡ ⬢ ⬢ ✔ ⬢";
+            expected += "⬡ ⬢ ⬢ ✔ ⬢ ";
             expected += " ⬡ ⬢ ⬢ ⬢ ⬢";
 
             Creatures.Ant.Should().HaveMoves(initial, expected);
@@ -60,7 +60,7 @@ namespace Hive.Domain.Tests.CreatureTests
             initial += "⬡ ⬡ ⬡ ⬡ ⬡";
             initial += " ⬡ ⬡ ⬡ ⬡ ";
             initial += "⬡ ⬢ ★ ⬡ ⬡";
-            initial += " ⬡ ⬢ ⬢ ⬡ ";
+            initial += " ⬡ Q ⬢ ⬡ ";
             initial += "⬡ ⬡ ⬡ ⬡ ⬡";
 
             var expected = new ExpectedMovementBuilder();
@@ -68,7 +68,7 @@ namespace Hive.Domain.Tests.CreatureTests
             expected += "⬡ ⬡ ⬡ ⬡ ⬡";
             expected += " ✔ ✔ ⬡ ⬡ ";
             expected += "✔ ⬢ ★ ✔ ⬡";
-            expected += " ✔ ⬢ ⬢ ✔ ";
+            expected += " ✔ Q ⬢ ✔ ";
             expected += "⬡ ✔ ✔ ✔ ⬡";
 
             Creatures.Ant.Should().HaveMoves(initial, expected);

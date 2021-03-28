@@ -1,4 +1,5 @@
-﻿using Hive.Domain.Entities;
+﻿using System.Linq;
+using Hive.Domain.Entities;
 using Hive.Domain.Movements;
 using Hive.Domain.Tests.TestUtils;
 using Xunit;
@@ -164,16 +165,20 @@ namespace Hive.Domain.Tests.MovementTests
         {
             var initial = new InitialHiveBuilder();
 
-            initial += " ⬡ ⬡ ";
-            initial += "⬡ ★ ⬡";
-            initial += " ⬡ ⬡ ";
+            initial += " ⬡ ⬡ ⬡ ⬡ ⬡ ";
+            initial += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡";
+            initial += " ⬡ ⬡ ★ ⬡ ⬡ ";
+            initial += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡";
+            initial += " ⬡ ⬡ ⬡ ⬡ ⬡ ";
 
-            initial.OriginCell.AddTile(new Tile(0, 0, Creatures.Beetle));
+            initial.OriginCells.First().AddTile(new Tile(0, 0, Creatures.Beetle));
             var expected = new ExpectedMovementBuilder();
 
-            expected += " ✔ ✔ ";
-            expected += "✔ ★ ✔";
-            expected += " ✔ ✔ ";
+            expected += " ✔ ✔ ✔ ✔ ✔ ";
+            expected += "✔ ✔ ✔ ✔ ✔ ✔";
+            expected += " ✔ ✔ ★ ✔ ✔ ";
+            expected += "✔ ✔ ✔ ✔ ✔ ✔";
+            expected += " ✔ ✔ ✔ ✔ ✔ ";
 
             new WontSplitHive().Should().HaveMoves(initial, expected);
         }

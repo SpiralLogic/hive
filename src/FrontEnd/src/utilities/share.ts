@@ -15,12 +15,12 @@ const fallbackCopyTextToClipboard = (text: string) => {
     if (currentFocus && currentFocus.focus) currentFocus.focus();
     return true;
   } catch (e) {
-    //  if (process.env.NODE_ENV !== 'production') console.error(e);
+    return false;
   } finally {
     document.body.removeChild(textArea);
   }
-  return false;
 };
+
 export const getShareUrl = () => {
   const parts = window.location.href.split('/');
   parts.push(parts.pop() === '1' ? '0' : '1');

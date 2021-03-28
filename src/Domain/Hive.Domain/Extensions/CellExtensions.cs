@@ -31,9 +31,9 @@ namespace Hive.Domain.Extensions
             return fromCells.SelectNeighbors(cell);
         }
 
-        internal static bool HasQueen(this Cell cell)
+        internal static bool HasQueen(this Cell? cell)
         {
-            return cell.Tiles.Any(t => t.IsQueen());
+            return cell?.Tiles.Any(t => t.IsQueen()) ?? false;
         }
     }
 }

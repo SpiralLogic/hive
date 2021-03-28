@@ -17,7 +17,7 @@ export const mockExecCommand = () => {
     writable: true,
   });
 
-  return () => null;
+  return (): void => Object.defineProperty(document, 'execCommand', { value: undefined });
 };
 
 export const mockShare = () => {
