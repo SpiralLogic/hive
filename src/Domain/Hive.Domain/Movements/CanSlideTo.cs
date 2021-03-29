@@ -9,22 +9,22 @@ namespace Hive.Domain.Movements
     {
         public ISet<Coords> GetMoves(Cell originCell, ISet<Cell> allCells)
         {
-            var moves = new HashSet<Cell>();
-            GetSlidableNeighbors(originCell, moves, allCells);
-            return moves.ToCoords();
+            var availableCells = new HashSet<Cell>();
+            GetSlidableNeighbors(originCell, availableCells, allCells);
+            return availableCells.ToCoords();
         }
 
-        private static void GetSlidableNeighbors(Cell move, ISet<Cell> moves, ISet<Cell> allCells)
+        private static void GetSlidableNeighbors(Cell currentCell, ISet<Cell> availableCells, ISet<Cell> allCells)
         {
-            var neighbors = move.SelectNeighbors(allCells).ToHashSet();
+            var neighbors = currentCell.SelectNeighbors(allCells).ToHashSet();
 
             var unvisitedAdjacentSlidable = neighbors.WhereEmpty()
                 .Where(end => end.SelectNeighbors(allCells).Intersect(neighbors).WhereOccupied().Count() != 2)
-                .Except(moves)
+                .Except(availableCells)
                 .ToHashSet();
 
-            moves.UnionWith(unvisitedAdjacentSlidable);
-            foreach (var cell in unvisitedAdjacentSlidable) GetSlidableNeighbors(cell, moves, allCells);
+            availableCells.UnionWith(unvisitedAdjacentSlidable);
+            foreach (var cell in unvisitedAdjacentSlidable) GetSlidableNeighbors(cell, availableCells, allCells);
         }
     }
 }

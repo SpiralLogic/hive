@@ -104,7 +104,7 @@ namespace Hive.Domain
                 var player = _board.Players.FindPlayerById(playerId);
                 var tile = currentCell.TopTile();
                 var moves = tile.Creature.GetAvailableMoves(currentCell, _board.Cells);
-                tile.Moves.UnionWith(moves);
+                tile.Moves.AddMany(moves);
                 if (_board.Move(new Move(currentCell.TopTile(), coords)) == GameStatus.MoveInvalid) 
                     Console.WriteLine(coords);
 

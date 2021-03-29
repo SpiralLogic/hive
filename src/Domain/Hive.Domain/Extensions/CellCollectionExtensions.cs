@@ -36,6 +36,11 @@ namespace Hive.Domain.Extensions
             return cells.SelectNeighbors(originCell).WhereEmpty();
         }
 
+        internal static IEnumerable<Cell> SelectOccupiedNeighbors(this IEnumerable<Cell> cells, Cell originCell)
+        {
+            return cells.SelectNeighbors(originCell).WhereOccupied();
+        }
+
         public static IEnumerable<Cell> SelectNeighbors(this IEnumerable<Cell> cells, Cell originCell)
         {
             return cells.Intersect(originCell.Coords.GetNeighbors().ToCells());
