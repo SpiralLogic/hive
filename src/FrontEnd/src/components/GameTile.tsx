@@ -11,12 +11,14 @@ import Tile from './Tile';
 const tileSelector = `[tabindex].tile`;
 const cellSelector = `[tabindex][role="cell"]`;
 const playerSelector = `[tabindex].name`;
+type Props = TileType & { stacked: boolean };
 
-const GameTile: FunctionComponent<TileType> = (tile: TileType) => {
+const GameTile: FunctionComponent<Props> = (props) => {
+  const { stacked, ...tile } = props;
   const { id, moves, creature, playerId } = tile;
   const [focus, setFocus] = useState(tileSelector);
   const [classes, setClassList] = useClassReducer(`player${playerId} hex`);
-
+  if (stacked) setClassList({ type: 'add', classes: ['stacked'] });
   const deselect = () => {
     if (!classes.includes('selected')) return;
     setClassList({ type: 'remove', classes: ['selected'] });

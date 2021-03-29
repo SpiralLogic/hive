@@ -22,6 +22,10 @@
   transform: rotate(-3deg);
 }
 
+.tile.stacked:hover:active {
+  animation: stacked 3s ;
+}
+
 .tile.selected:before,
 [draggable='true']:not(.selected):hover:before,
 [draggable='true']:not(.selected):focus:before {
@@ -53,5 +57,15 @@
   }
   50% {
     transform: rotate(1deg);
+  }
+}
+@keyframes stacked {
+  20% {
+    opacity: 10%;
+    transition-timing-function:ease-in ;
+  }
+  100% {
+    opacity: 100%;
+    transition-timing-function: ease-out;
   }
 }

@@ -80,7 +80,7 @@ namespace Hive.Domain
         {
             var availableCells = player.Tiles.Count == HiveFactory.StartingTiles.Length
                 ? _hive.Cells.WhereEmpty()
-                : _hive.Cells.WhereEmpty().Where(n => _hive.Cells.SelectOccupiedNeighbors(n).All(c=>c.PlayerOccupies(player)));
+                : _hive.Cells.WhereEmpty().Where(n => _hive.Cells.SelectOccupiedNeighbors(n).All(c=>c.PlayerControls(player)));
 
             var availableMoves = availableCells.ToCoords();
 

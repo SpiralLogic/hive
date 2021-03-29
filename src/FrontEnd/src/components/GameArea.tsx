@@ -61,8 +61,12 @@ const GameArea: FunctionComponent<Props> = ({ players, cells, playerId, gameStat
             <Row key={row.id} {...row}>
               {row.cells.map((cell) => (
                 <GameCell key={cellKey(cell.coords)} coords={cell.coords} hidden={!!cell.hidden}>
-                  {cell.tiles.slice(0, 1).map((tile) => (
-                    <GameTile key={tile.id} {...tile} />
+                  {cell.tiles.reverse().map((tile, i) => (
+                    <GameTile
+                      key={tile.id}
+                      {...tile}
+                      stacked={i === cell.tiles.length - 1 && cell.tiles.length > 1}
+                    />
                   ))}
                 </GameCell>
               ))}
