@@ -3,6 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Hive.Controllers;
+using Hive.Domain;
 using Hive.Domain.Entities;
 using Hive.DTOs;
 using Hive.Hubs;
@@ -23,7 +24,7 @@ namespace Hive.Api.Tests.Controllers
 
         public MoveControllerTests()
         {
-            var game = new Domain.Hive(new[] {"player1", "player2"});
+            var game = HiveFactory.CreateHive(new[] {"player1", "player2"});
             game.Move(new Move(game.Players[0].Tiles.First(), new Coords(1, 0)));
             game.Move(new Move(game.Players[1].Tiles.First(), new Coords(2, 0)));
             var gameState = new GameState(game.Players, game.Cells, TestHelpers.ExistingGameId, GameStatus.NewGame);

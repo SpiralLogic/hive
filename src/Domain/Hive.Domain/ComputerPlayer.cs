@@ -97,7 +97,7 @@ namespace Hive.Domain
                 var player = _board.Players.FindPlayerById(playerId);
                 var tile = currentCell.RemoveTopTile();
                 player.Tiles.Add(tile);
-                _board.UpdateMoves(player);
+                _board.RefreshMoves(player);
             }
             else
             {
@@ -108,7 +108,7 @@ namespace Hive.Domain
                 if (_board.Move(new Move(currentCell.TopTile(), coords)) == GameStatus.MoveInvalid) 
                     Console.WriteLine(coords);
 
-                _board.UpdateMoves(player);
+                _board.RefreshMoves(player);
             }
         }
 

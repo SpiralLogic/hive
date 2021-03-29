@@ -12,7 +12,7 @@ namespace Hive.Domain.Tests
         [Fact]
         public void DoesCreateWithPlayerNames()
         {
-            var hive = new Hive(new[] {"player1", "player2"});
+            var hive = HiveFactory.CreateHive(new[] {"player1", "player2"});
 
             hive.Players.Should().ContainSingle(p => p.Name == "player1");
             hive.Players.Should().ContainSingle(p => p.Name == "player2");
@@ -28,7 +28,7 @@ namespace Hive.Domain.Tests
         [InlineData(0, 1)]
         public void IsCreatedWithStartingCells(int q, int r)
         {
-            var hive = new Hive(new[] {"player1"});
+            var hive = HiveFactory.CreateHive(new[] {"player1"});
 
             var cell = new Cell(new Coords(q, r));
 
@@ -55,7 +55,7 @@ namespace Hive.Domain.Tests
         [InlineData(0, 1)]
         public void EvenHeightHasCorrectNeighbours(int q, int r)
         {
-            var hive = new Hive(new[] {"player1", "player2"});
+            var hive = HiveFactory.CreateHive(new[] {"player1", "player2"});
             var p1Queen = hive.Players.First().Tiles.First(t => t.Creature == Creatures.Queen);
             var p2Queen = hive.Players.Skip(1).First().Tiles.First(t => t.Creature == Creatures.Queen);
 
@@ -70,7 +70,7 @@ namespace Hive.Domain.Tests
         [Fact]
         public void CanMoveFromPlayerTiles()
         {
-            var hive = new Hive(new[] {"player1", "player2"});
+            var hive = HiveFactory.CreateHive(new[] {"player1", "player2"});
             var player = hive.Players[0];
             var playerTile = player.Tiles.First();
 
@@ -82,7 +82,7 @@ namespace Hive.Domain.Tests
         /*[Fact]
         public void CanMoveFromAnotherCell()
         {
-            var hive = new Hive(new[] {"player1", "player2"});
+            var hive = HiveFactory.CreateHive(new[] {"player1", "player2"});
             var player1 = hive.Players[0];
             var player2 = hive.Players[1];
             var player1Tile = player1.Tiles.First();
@@ -105,7 +105,7 @@ namespace Hive.Domain.Tests
         [Fact]
         public void AnyPlayerCanStart()
         {
-            var hive = new Hive(new[] {"player1", "player2"});
+            var hive = HiveFactory.CreateHive(new[] {"player1", "player2"});
             var firstPlayer = hive.Players.First();
             var secondPlayer = hive.Players.Skip(1).First();
 
@@ -123,7 +123,7 @@ namespace Hive.Domain.Tests
         [Fact]
         public void AlternatesPlayers()
         {
-            var hive = new Hive(new[] {"player1", "player2"});
+            var hive = HiveFactory.CreateHive(new[] {"player1", "player2"});
             var firstPlayer = hive.Players.First();
             var firstPlayerTile = firstPlayer.Tiles.First();
 
@@ -148,7 +148,7 @@ namespace Hive.Domain.Tests
         [Fact]
         public void CanCreateFromPlayersAndCells()
         {
-            var hive = new Hive(new[] {"player1", "player2"});
+            var hive = HiveFactory.CreateHive(new[] {"player1", "player2"});
             var players = hive.Players;
             var cells = hive.Cells;
 
@@ -161,7 +161,7 @@ namespace Hive.Domain.Tests
         [Fact]
         public void InvalidMovesHaveNoEffect()
         {
-            var hive = new Hive(new[] {"player1", "player2"});
+            var hive = HiveFactory.CreateHive(new[] {"player1", "player2"});
             hive.Move(new Move(new Tile(1, 1, Creatures.Grasshopper), new Coords(34, 34))).Should()
                 .Be(GameStatus.MoveInvalid);
         }
@@ -169,28 +169,28 @@ namespace Hive.Domain.Tests
         [Fact]
         public void QueenMustMoveOnFourth()
         {
-            var hive = new Hive(new[] {"player1", "player2"});
+            var hive = HiveFactory.CreateHive(new[] {"player1", "player2"});
             var player1 = hive.Players[0];
             var player2 = hive.Players[1];
-            var player1Tiles = player1.Tiles.Skip(1).Take(3);
-            var player2Tiles = player2.Tiles.Skip(1).Take(3);
-            foreach (var z in player1Tiles.Zip(player2Tiles))
+            var player1Tiles = player1.Tiles.Where(t=>t.Creature.Name != Creatures.Queen.Name).Take(3);
+            var player2Tiles = player2.Tiles.Where(t=>t.Creature.Name != Creatures.Queen.Name).Take(3);
+            foreach (var (first, second) in player1Tiles.Zip(player2Tiles))
             {
-                hive.Move(new Move(z.First, z.First.Moves.First()));
-                hive.Move(new Move(z.Second, z.Second.Moves.First()));
+                hive.Move(new Move(first, first.Moves.First()));
+                hive.Move(new Move(second, second.Moves.First()));
             }
 
             hive.Players.SelectMany(p => p.Tiles)
                 .Union(hive.Cells.SelectMany(c => c.Tiles))
                 .Where(t => t.Moves.Any())
-                .Select(t => t.Creature)
-                .Should()!.BeEquivalentTo(Creatures.Queen);
+                .Should()
+                .OnlyContain(t => t.Creature == Creatures.Queen);
         }
 
         [Fact]
         public void GameOver()
         {
-            var hive = new Hive(new[] {"player1", "player2"});
+            var hive = HiveFactory.CreateHive(new[] {"player1", "player2"});
             var players = hive.Players;
             var cells = hive.Cells;
 
@@ -213,7 +213,7 @@ namespace Hive.Domain.Tests
         [Fact]
         public void TurnIsSkippedIfTheyHaveNoAvailableMoves()
         {
-            var hive = new Hive(new[] {"player1", "player2"});
+            var hive = HiveFactory.CreateHive(new[] {"player1", "player2"});
             var player1 = hive.Players[0];
             var player2 = hive.Players[1] with {Tiles = new HashSet<Tile>(), Name = "test player", Id = 1};
 

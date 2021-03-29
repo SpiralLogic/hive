@@ -13,7 +13,7 @@ namespace Hive.Domain.Entities
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
-            return Name == other.Name;
+            return Name.SequenceEqual(other.Name);
         }
 
         public override int GetHashCode()
@@ -23,8 +23,10 @@ namespace Hive.Domain.Entities
 
         public ISet<Coords> GetAvailableMoves(Cell originCell, ISet<Cell> cells)
         {
-            return Movements.Aggregate(cells.SelectCoords(),
-                    (moves, rule) => moves.Intersect(rule.GetMoves(originCell, new HashSet<Cell>(cells))))
+            return Movements.Aggregate(
+                    cells.SelectCoords(),
+                    (moves, rule) => moves.Intersect(rule.GetMoves(originCell, new HashSet<Cell>(cells)))
+                )
                 .ToHashSet();
         }
     }

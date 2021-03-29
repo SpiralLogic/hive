@@ -32,7 +32,7 @@ namespace Hive.Domain.Tests
             expected += " ⬡ ✔ ✔ ⬡ ⬡ ⬡ ⬡ ⬡";
             expected += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
 
-            var hive = new Hive(new[] {new Player(0, "P1"), new Player(1, "P1")}, initial.AllCells, 0);
+            var hive =  HiveFactory.CreateHive (new[] {new Player(0, "P1"), new Player(1, "P1")}, initial.AllCells, 0);
 
             new ComputerPlayer(hive).Should().MatchHive(initial, expected);
         }
@@ -58,7 +58,7 @@ namespace Hive.Domain.Tests
             expected += " ⬡ ✔ ✔ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡";
             expected += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
 
-            var hive = new Hive(new[] {new Player(0, "P1"), new Player(1, "P1")}, initial.AllCells, 0);
+            var hive =HiveFactory.CreateHive(new[] {new Player(0, "P1"), new Player(1, "P1")}, initial.AllCells, 0);
 
             new ComputerPlayer(hive).Should().MatchHive(initial, expected);
         }
@@ -81,7 +81,7 @@ namespace Hive.Domain.Tests
             expected += " ⬡ ⬡ ⬡ ⬡ q s s ⬡ ⬡";
             expected += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
 
-            var hive = new Hive(new[] {new Player(0, "P1"), new Player(1, "P1")}, initial.AllCells, 0);
+            var hive = HiveFactory.CreateHive(new[] {new Player(0, "P1"), new Player(1, "P1")}, initial.AllCells, 0);
 
             new ComputerPlayer(hive).Should().MatchHive(initial, expected);
         }
@@ -111,7 +111,7 @@ namespace Hive.Domain.Tests
             expected += " ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡";
             expected += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
 
-            var hive = new Hive(new[] {new Player(0, "P1"), new Player(1, "P1")}, initial.AllCells, 0);
+            var hive = HiveFactory.CreateHive(new[] {new Player(0, "P1"), new Player(1, "P1")}, initial.AllCells, 0);
 
             new ComputerPlayer(hive).Should().MatchHive(initial, expected);
         }
@@ -146,7 +146,7 @@ namespace Hive.Domain.Tests
             expected += " ⬡ ⬡ ⬡ ⬡ ⬡ ✔ ✔ ⬡";
             expected += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
 
-            var hive = new Hive(new[] {new Player(0, "P1"), new Player(1, "P1")}, initial.AllCells, 0);
+            var hive = HiveFactory.CreateHive(new[] {new Player(0, "P1"), new Player(1, "P1")}, initial.AllCells, 0);
 
             new ComputerPlayer(hive).Should().MatchHive(initial, expected);
         }

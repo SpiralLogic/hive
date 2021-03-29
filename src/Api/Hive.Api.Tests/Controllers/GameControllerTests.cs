@@ -1,6 +1,7 @@
 using System.Threading.Tasks;
 using FluentAssertions;
 using Hive.Controllers;
+using Hive.Domain;
 using Hive.Domain.Entities;
 using Hive.DTOs;
 using Microsoft.AspNetCore.Mvc;
@@ -18,7 +19,7 @@ namespace Hive.Api.Tests.Controllers
 
         public GameControllerTests()
         {
-            var game = new Domain.Hive(new[] {"player1", "player2"});
+            var game =HiveFactory.CreateHive(new[] {"player1", "player2"});
             var gameState = new GameState(game.Players, game.Cells, ExistingGameId, GameStatus.MoveSuccess);
 
             var jsonOptions = TestHelpers.CreateJsonOptions();
