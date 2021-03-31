@@ -70,16 +70,18 @@ namespace Hive.Domain.Tests
 
             initial += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
             initial += " ⬡ ⬡ ⬡ B ⬡ ⬡ ⬡ ⬡ ⬡";
-            initial += "⬡ ⬡ ⬡ s s b Q ⬡ ⬡ ";
-            initial += " ⬡ ⬡ ⬡ ⬡ q s s ⬡ ⬡";
-            initial += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
+            initial += "⬡ ⬡ ⬡ s s s Q ⬡ ⬡ ";
+            initial += " ⬡ ⬡ ⬡ ⬡ ⬡ s s ⬡ ⬡";
+            initial += "⬡ ⬡ ⬡ ⬡ ⬡ q ⬡ ⬡ ⬡ ";
+            initial += " ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡";
 
             var expected = new ExpectedAiBuilder();
             expected += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
-            expected += " ⬡ ⬡ ⬡ b ⬡ ✔ ⬡ ⬡ ⬡";
-            expected += "⬡ ⬡ ⬡ s s b ★ ✔ ⬡ ";
-            expected += " ⬡ ⬡ ⬡ ⬡ q s s ⬡ ⬡";
-            expected += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
+            expected += " ⬡ ⬡ ⬡ B ⬡ ✔ ⬡ ⬡ ⬡";
+            expected += "⬡ ⬡ ⬡ s s s ★ ✔ ⬡ ";
+            expected += " ⬡ ⬡ ⬡ ⬡ ⬡ s s ⬡ ⬡";
+            expected += "⬡ ⬡ ⬡ ⬡ ⬡ q ⬡ ⬡ ⬡ ";
+            expected += " ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡";
 
             var hive = HiveFactory.CreateHive(new[] {new Player(0, "P1"), new Player(1, "P1")}, initial.AllCells, 0);
 

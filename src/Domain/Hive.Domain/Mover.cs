@@ -25,16 +25,18 @@ namespace Hive.Domain
             if (IsGameOver()) return DetermineWinner(nextPlayer);
 
             UpdateMoves(nextPlayer);
-            if (useAi)
-            {
-                var aiMove = new ComputerPlayer(_hive).GetMove(nextPlayer.Id, move.Tile.PlayerId);
-                return Move(aiMove);
-            }
 
             if (CountMovesAvailable() != 0) return GameStatus.MoveSuccess;
 
             UpdateMoves(SkipTurn(nextPlayer));
             return GameStatus.MoveSuccessNextPlayerSkipped;
+        }
+
+        internal GameStatus AiMove(int playerId)
+        {
+            var aiMove = new ComputerPlayer(_hive).GetMove(playerId, _hive.Players.First(p => p.Id != playerId).Id);
+            return Move(aiMove);
+
         }
 
         private static GameStatus DetermineWinner(Player nextPlayer) =>
@@ -50,10 +52,15 @@ namespace Hive.Domain
 
         internal void UpdateMoves(Player nextPlayer)
         {
-            _hive.Cells.ExceptWith(_hive.Cells.WhereEmpty());
-            _hive.Cells.UnionWith(_hive.Cells.CreateAllEmptyNeighbours());
+            ClearAllMoves();
+            if (_hive.Players.All(p => p.Tiles.Count != HiveFactory.StartingTiles.Length))
+            {
+                _hive.Cells.ExceptWith(_hive.Cells.WhereEmpty());
+                _hive.Cells.UnionWith(_hive.Cells.CreateAllEmptyNeighbours());
 
-            UpdatedPlacedTileMoves(nextPlayer);
+                UpdatedPlacedTileMoves(nextPlayer);
+            }
+
             UpdatePlayerTileMoves(nextPlayer);
         }
 
@@ -71,7 +78,8 @@ namespace Hive.Domain
 
         private bool IsGameOver()
         {
-            var loser = _hive.Cells.WhereOccupied().Where(c => c.HasQueen())
+            var loser = _hive.Cells.WhereOccupied()
+                .Where(c => c.HasQueen())
                 .FirstOrDefault(q => q.SelectNeighbors(_hive.Cells).All(n => !n.IsEmpty()));
             return loser != null;
         }
@@ -80,7 +88,7 @@ namespace Hive.Domain
         {
             var availableCells = player.Tiles.Count == HiveFactory.StartingTiles.Length
                 ? _hive.Cells.WhereEmpty()
-                : _hive.Cells.WhereEmpty().Where(n => _hive.Cells.SelectOccupiedNeighbors(n).All(c=>c.PlayerControls(player)));
+                : _hive.Cells.WhereEmpty().Where(n => _hive.Cells.SelectOccupiedNeighbors(n).All(c => c.PlayerControls(player)));
 
             var availableMoves = availableCells.ToCoords();
 
@@ -121,6 +129,8 @@ namespace Hive.Domain
 
         private bool IsValidMove(Move move)
         {
+
+            if (move == null) return false;
             var (tile, coords) = move;
             return GetAllTiles().SingleOrDefault(t => t == tile)?.Moves.Contains(coords) ?? false;
         }

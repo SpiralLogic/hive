@@ -32,14 +32,20 @@ export default class GameEngine implements HexEngine {
   };
 
   move = async (gameId: GameId, move: Move, useAi: boolean): Promise<GameState> => {
-    const body = { ...move, useAi };
-
     const response = await fetch(`/api/move/${gameId}`, {
       method: 'POST',
       headers: this.requestHeaders,
-      body: JSON.stringify(body),
+      body: JSON.stringify(move),
     });
-
+    if (useAi) {
+      return (
+        await fetch(`/api/ai-move/${gameId}/1`, {
+          method: 'POST',
+          headers: this.requestHeaders,
+          body: JSON.stringify(move),
+        })
+      ).json();
+    }
     return response.json();
   };
 
