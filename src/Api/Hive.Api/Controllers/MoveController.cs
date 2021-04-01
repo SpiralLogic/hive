@@ -52,6 +52,7 @@ namespace Hive.Controllers
 
             var newGameState = new GameState(game.Players, game.Cells, id, gameStatus);
             await _hubContext.Clients.Group(id).SendAsync("ReceiveGameState", newGameState);
+            
             var json = JsonSerializer.Serialize(newGameState, _jsonSerializerOptions);
             await _distributedCache.SetStringAsync(id, json);
   

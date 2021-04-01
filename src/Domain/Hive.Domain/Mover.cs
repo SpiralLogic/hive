@@ -14,7 +14,7 @@ namespace Hive.Domain
             _hive = hive;
         }
 
-        internal GameStatus Move(Move move, bool useAi = false)
+        internal GameStatus Move(Move move)
         {
             if (!IsValidMove(move)) return GameStatus.MoveInvalid;
 
@@ -53,7 +53,7 @@ namespace Hive.Domain
         internal void UpdateMoves(Player nextPlayer)
         {
             ClearAllMoves();
-            if (_hive.Players.All(p => p.Tiles.Count != HiveFactory.StartingTiles.Length))
+            if (_hive.Players.Any(p => p.Tiles.Count != HiveFactory.StartingTiles.Length))
             {
                 _hive.Cells.ExceptWith(_hive.Cells.WhereEmpty());
                 _hive.Cells.UnionWith(_hive.Cells.CreateAllEmptyNeighbours());
