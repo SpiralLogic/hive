@@ -37,18 +37,15 @@ export default class GameEngine implements HexEngine {
       headers: this.requestHeaders,
       body: JSON.stringify(move),
     });
-    if (useAi) {
-      return (
-        await fetch(`/api/ai-move/${gameId}/1`, {
-          method: 'POST',
-          headers: this.requestHeaders,
-          body: JSON.stringify(move),
-        })
-      ).json();
-    }
-    return response.json();
+    if (!useAi) return response.json();
+    return (
+      await fetch(`/api/ai-move/${gameId}/1`, {
+        method: 'POST',
+        headers: this.requestHeaders,
+        body: JSON.stringify(move),
+      })
+    ).json();
   };
-
   private requestHeaders = {
     Accept: 'application/json',
     'Content-Type': 'application/json',
