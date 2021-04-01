@@ -13,8 +13,11 @@
   pointer-events: none;
 }
 
-.tile:not([draggable="true"]) {
+.player .tile:not([draggable="true"]), .cell .tile:not([draggable="true"]):first-child {
   opacity: 30%;
+}
+.tile:not([draggable="true"]) {
+  opacity: 100%;
 }
 
 .tile.selected {
@@ -22,7 +25,7 @@
   transform: rotate(-3deg);
 }
 
-.tile.stacked:hover:active {
+.tile[draggable="true"].stacked:hover:active {
   animation: stacked 3s ;
 }
 
