@@ -41,10 +41,18 @@ namespace Hive.Domain
 
                 var beetleMoveOnTop = move.Tile.Creature.Name == Creatures.Beetle.Name &&
                                       _board.Cells.WherePlayerOccupies(minimize).FindCell(move.Coords).HasQueen();
-                var changeInQueen = 3 * (minimizeQueenNeighbours - minimizeQueenInitialNeighbours + maximizeQueenInitialNeighbours -
-                                         maximizeQueenNeighbours);
-                score = Score(changeInQueen, moveHasQueenNeighbour, movesNeighbours, isAntPlacement, minimizeQueenNeighbours,
-                    beetleMoveOnTop, beetleMoveOffTop);
+                var changeInQueen =
+                    3 *
+                    (minimizeQueenNeighbours - minimizeQueenInitialNeighbours + maximizeQueenInitialNeighbours - maximizeQueenNeighbours);
+                score = Score(
+                    changeInQueen,
+                    moveHasQueenNeighbour,
+                    movesNeighbours,
+                    isAntPlacement,
+                    minimizeQueenNeighbours,
+                    beetleMoveOnTop,
+                    beetleMoveOffTop
+                );
                 RevertMove();
                 if (score >= 100) return (move, score);
                 if (score <= bestScore) continue;
@@ -81,17 +89,36 @@ namespace Hive.Domain
             return _board.Cells.FindCell(move.Coords)?.SelectNeighbors(_board.Cells).Any(c => c.HasQueen()) ?? false;
         }
 
-        private void MakeMove(Move move)
+        private bool MakeMove(Move move)
         {
             var originalCoords = _board.Cells.FindCell(move.Tile)?.Coords;
-            _previousMoves.Push(new MoveMade(move.Tile.Id, move.Tile.PlayerId, originalCoords));
-            if (_board.Move(move) == GameStatus.MoveInvalid) Console.WriteLine(move);
+            var mv = new MoveMade(move.Tile.Id, move.Tile.PlayerId, originalCoords);
+            _board.RefreshMoves(_board.Players[move.Tile.PlayerId]);
+            if (_board.Move(move) == GameStatus.MoveInvalid)
+            {
+                Console.WriteLine(move);
+                return false;
+            }
+
+            _previousMoves.Push(mv);
+
+            return true;
         }
 
         private void RevertMove()
         {
+
             var (tileId, playerId, coords) = _previousMoves.Pop();
-            var currentCell = _board.Cells.WhereOccupied().First(c => c.TopTile().Id == tileId);
+            Cell currentCell;
+            try
+            {
+                currentCell = _board.Cells.WhereOccupied().First(c => c.TopTile().Id == tileId);
+            }
+            catch
+            {
+                return;
+            }
+
             if (coords == null)
             {
                 var player = _board.Players.FindPlayerById(playerId);
@@ -105,11 +132,12 @@ namespace Hive.Domain
                 var tile = currentCell.TopTile();
                 var moves = tile.Creature.GetAvailableMoves(currentCell, _board.Cells);
                 tile.Moves.AddMany(moves);
-                if (_board.Move(new Move(currentCell.TopTile(), coords)) == GameStatus.MoveInvalid) 
+                if (_board.Move(new Move(currentCell.TopTile(), coords)) == GameStatus.MoveInvalid)
                     Console.WriteLine(coords);
 
                 _board.RefreshMoves(player);
             }
+
         }
 
         private IEnumerable<Move> GetMoves(int playerId)
@@ -125,11 +153,14 @@ namespace Hive.Domain
 
         private int CountQueenNeighbours(int playerId)
         {
-            return _board.Cells.WherePlayerOccupies(playerId)
-                .FirstOrDefault(c => c.HasQueen() && c.Tiles.First(t => t.IsQueen()).PlayerId == playerId)
-                ?.SelectNeighbors(_board.Cells)
-                .WhereOccupied()
-                .Count() ?? 0;
+            var qc = _board.Cells.WherePlayerOccupies(playerId)
+                .FirstOrDefault(c => c.HasQueen() && c.Tiles.First(t => t.IsQueen()).PlayerId == playerId);
+            if (qc == null) return 0;
+            var count = qc.SelectNeighbors(_board.Cells).WhereOccupied().Count();
+            var tile = qc.TopTile();
+
+            if (tile.Creature.Name == Creatures.Beetle.Name) count += 3;
+            return count;
         }
 
         private record MoveMade(int TileId, int PlayerId, Coords? Coords);
