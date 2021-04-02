@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Hive.Domain.Entities;
 using Hive.Domain.Extensions;
 
@@ -32,9 +34,9 @@ namespace Hive.Domain
             return GameStatus.MoveSuccessNextPlayerSkipped;
         }
 
-        internal GameStatus AiMove(int playerId)
+        internal async Task<GameStatus> AiMove(int playerId, Func<GameStatus, Task> broadcast)
         {
-            var aiMove = new ComputerPlayer(_hive).GetMove(playerId, _hive.Players.First(p => p.Id != playerId).Id);
+            var aiMove =await (new ComputerPlayer(_hive,broadcast).GetMove(1));
             return Move(aiMove);
 
         }

@@ -46,7 +46,7 @@ const GameArea: FunctionComponent<Props> = ({ players, cells, playerId, gameStat
   });
 
   removeOtherPlayerMoves(playerId, { players, cells });
-
+  if (gameStatus != 'MoveSuccess') console.log(players, cells, playerId);
   return (
     <div {...attributes} title={'Hive Game Area'}>
       <Players players={players} />

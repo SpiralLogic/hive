@@ -73,13 +73,20 @@ namespace Hive.Controllers
             if (new[] {GameStatus.GameOver, GameStatus.AiWin, GameStatus.Player0Win, GameStatus.Player1Win}.Contains(gameStatus))
                 return BadRequest();
             var game = new Domain.Hive(players.ToList(), cells.ToHashSet());
-            gameStatus = game.AiMove(playerId);
+            gameStatus = await game.AiMove(playerId, (status) => BroadCast(id, game, status));
             var newGameState = new GameState(game.Players, game.Cells, id, gameStatus);
-            await _hubContext.Clients.Group(id).SendAsync("ReceiveGameState", newGameState);
+            await BroadCast(id, game, gameStatus);
             var json = JsonSerializer.Serialize(newGameState, _jsonSerializerOptions);
             await _distributedCache.SetStringAsync(id, json);
 
             return Accepted($"/game/{id}", newGameState);
+        }
+
+        private async Task BroadCast(string id, Domain.Hive game, GameStatus gameStatus)
+        {
+
+            var newGameState = new GameState(game.Players, game.Cells, id, gameStatus);
+            await _hubContext.Clients.Group(id).SendAsync("ReceiveGameState", newGameState);
         }
     }
 }
