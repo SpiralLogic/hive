@@ -62,9 +62,9 @@ namespace Hive.Domain
                 }
 
                 var score = Evaluate(nextMove) * depth;
-                if ((depth==2 && CountQueenNeighbours().Any(c => c.Value > 0)) ||
+                if ((depth == 2 && CountQueenNeighbours().Any(c => c.Value > 0)) ||
                     (stopWatch.Elapsed.Seconds < 10 && CountQueenNeighbours().Any(c => c.Value > 0)) ||
-                    (stopWatch.Elapsed.Seconds < 10 && bestScore <= 0))
+                    (stopWatch.Elapsed.Seconds < 5 && bestScore <= 0))
                 {
                     score += -(await Run(nextMove, depth - 1, stopWatch)).score;
                 }
