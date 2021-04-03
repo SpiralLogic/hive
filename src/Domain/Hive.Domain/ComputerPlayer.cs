@@ -62,7 +62,7 @@ namespace Hive.Domain
                 }
 
                 var score = Evaluate(nextMove) * depth;
-                if ((depth == 2 && CountQueenNeighbours().Any(c => c.Value > 0)) ||
+                if ((stopWatch.Elapsed.Seconds < 20 && depth == 2 && CountQueenNeighbours().Where(c => c.Key != nextMove.Tile.PlayerId).Any(c => c.Value > 0)) ||
                     (stopWatch.Elapsed.Seconds < 10 && CountQueenNeighbours().Any(c => c.Value > 0)) ||
                     (stopWatch.Elapsed.Seconds < 5 && bestScore <= 0))
                 {
@@ -188,10 +188,11 @@ namespace Hive.Domain
 
         private IEnumerable<Move> GetMoves()
         {
+            var rnd = new Random();
             var cells = _board.Cells;
             var unplacedTiles = _board.Players.SelectMany(p => p.Tiles.GroupBy(t => t.Creature).Select(g => g.First()))
                 .OrderBy(t => t.Creature.Name);
-            var placedTiles = cells.WhereOccupied().Select(c => c.TopTile()).OrderBy(t => t.Creature.Name).ToHashSet();
+            var placedTiles = cells.WhereOccupied().Select(c => c.TopTile()).OrderBy(t => rnd.Next()).ToHashSet();
             var tiles = placedTiles.Count > 3 ? placedTiles.Concat(unplacedTiles) : unplacedTiles.Concat(placedTiles);
             return tiles.SelectMany(t => t.Moves.Select(m => new Move(t, m)));
         }
