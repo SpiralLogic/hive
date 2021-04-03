@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Hive.Domain.Entities;
@@ -73,20 +74,18 @@ namespace Hive.Controllers
             if (new[] {GameStatus.GameOver, GameStatus.AiWin, GameStatus.Player0Win, GameStatus.Player1Win}.Contains(gameStatus))
                 return BadRequest();
             var game = new Domain.Hive(players.ToList(), cells.ToHashSet());
-            gameStatus =  game.AiMove();
+            gameStatus = await game.AiMove(async (type, tile) => await BroadCast(id, type, tile));
             var newGameState = new GameState(game.Players, game.Cells, id, gameStatus);
-            await BroadCast(id, game, gameStatus);
+            await _hubContext.Clients.Group(id).SendAsync("ReceiveGameState", newGameState);
             var json = JsonSerializer.Serialize(newGameState, _jsonSerializerOptions);
             await _distributedCache.SetStringAsync(id, json);
 
             return Accepted($"/game/{id}", newGameState);
         }
 
-        private async Task BroadCast(string id, Domain.Hive game, GameStatus gameStatus)
+        private Task BroadCast(string id, string type, Tile tile)
         {
-
-            var newGameState = new GameState(game.Players, game.Cells, id, gameStatus);
-            await _hubContext.Clients.Group(id).SendAsync("ReceiveGameState", newGameState);
+            return _hubContext.Clients.Group(id).SendAsync("OpponentSelection", type, tile);
         }
     }
 }

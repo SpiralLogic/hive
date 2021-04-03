@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Hive.Domain.Entities;
 
 namespace Hive.Domain
@@ -22,9 +23,9 @@ namespace Hive.Domain
         public GameStatus Move(Move move)=> 
             _mover.Move(move);
 
-        public GameStatus AiMove()
+        public Task<GameStatus> AiMove(Func<string, Tile, Task> broadcastThought)
         {
-            return _mover.AiMove();
+            return _mover.AiMove(broadcastThought);
         }
 
         public void RefreshMoves(Player player) =>

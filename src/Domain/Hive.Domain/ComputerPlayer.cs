@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading.Tasks;
 using Hive.Domain.Entities;
 using Hive.Domain.Extensions;
 
@@ -13,45 +14,58 @@ namespace Hive.Domain
 
         private readonly Stack<MoveMade> _previousMoves = new();
         private readonly (Move? best, int score)[] _depth = new (Move? best, int score)[4];
+        private readonly Func<string, Tile, Task>? _broadcastThought;
 
-        public ComputerPlayer(Hive board)
+        public ComputerPlayer(Hive board, Func<string, Tile, Task>? broadcastThought = null)
         {
+            _broadcastThought = broadcastThought;
             _board = board;
         }
 
-        public Move GetMove()
+        public async Task<Move> GetMove()
         {
             var stopWatch = new Stopwatch();
             stopWatch.Start();
-            var r = Run(null, 2, stopWatch);
+            var r = await Run(null, 2, stopWatch);
             foreach (var dTuple in _depth)
             {
                 Console.WriteLine(dTuple);
             }
+
             return r.best ?? throw new ApplicationException("Could not determine next move");
         }
 
-        private  (Move? best, int score) Run(Move? move, int depth, Stopwatch stopWatch)
+        private async Task<(Move? best, int score)> Run(Move? move, int depth, Stopwatch stopWatch)
         {
             if (depth == 0) return (move, 0);
             var bestScore = -100;
             var moves = GetMoves().ToArray();
             var best = moves.FirstOrDefault();
-            if (!_board.Cells.WhereOccupied().Any()) return (moves.First(m=>m.Tile.Creature!=Creatures.Ant&&m.Tile.Creature!=Creatures.Queen), -100);
+            if (!_board.Cells.WhereOccupied().Any())
+                return (moves.First(m => m.Tile.Creature != Creatures.Ant && m.Tile.Creature != Creatures.Queen), -100);
+            Tile? lastBroadcast = null;
             foreach (var nextMove in moves)
             {
-                if (! MakeMove(nextMove)) continue;
-                var score = Evaluate(nextMove) * depth;
-                if ((score > bestScore || CountQueenNeighbours().Any(c=>c.Value>0)) && stopWatch.Elapsed.Seconds < 3 && _previousMoves.Peek().Coords == null )
+                if (depth == 2 && _broadcastThought != null)
                 {
-                    score += -( Run(nextMove, depth - 1, stopWatch)).score;
+                    if (lastBroadcast != null && lastBroadcast.Id != nextMove.Tile.Id) await _broadcastThought("deselect", lastBroadcast);
+                    await _broadcastThought("select", nextMove.Tile);
+                    lastBroadcast = nextMove.Tile;
+                }
+                if (!MakeMove(nextMove)) continue;
+                var score = Evaluate(nextMove) * depth;
+                if ((score > bestScore || CountQueenNeighbours().Any(c => c.Value > 0)) &&
+                    stopWatch.Elapsed.Seconds < 10 &&
+                    _previousMoves.Peek().Coords == null)
+                {
+                    score += -(await Run(nextMove, depth - 1, stopWatch)).score;
                 }
                 else
                 {
                     score /= depth;
                 }
 
-                 RevertMove();
+                RevertMove();
                 if (score >= bestScore)
                 {
                     bestScore = score;
@@ -61,7 +75,6 @@ namespace Hive.Domain
             }
 
             _depth[depth] = (best, bestScore);
-
             return (best, bestScore);
 
         }
@@ -80,14 +93,14 @@ namespace Hive.Domain
                                      (moveToLocation?.Tiles.Any(t => t.IsQueen() && t.PlayerId != max) ?? false);
             if (beetleOnQueenAfter) return 50;
             if (beetleOnQueenBefore) return -50;
-            var  score = 0;
+            var score = 0;
             var movesNeighbours = moveToLocation!.SelectNeighbors(_board.Cells).WhereOccupied().Count();
             foreach (var (playerId, count) in CountQueenNeighbours())
             {
                 var isMax = playerId == max ? -1 : 1;
                 if (count == 6) return isMax * 100;
                 score += isMax * 10 * count;
-                if (count > 0 && movesNeighbours > 1 && max==1) score -= movesNeighbours;
+                if (count > 0 && movesNeighbours > 1 && max == 1) score -= movesNeighbours;
             }
 
             if (MoveHasQueenNeighbour(moveFromLocation)) score -= movesNeighbours;
@@ -102,7 +115,7 @@ namespace Hive.Domain
             return cell?.SelectNeighbors(_board.Cells).Any(c => c.HasQueen()) ?? false;
         }
 
-        private  bool MakeMove(Move move)
+        private bool MakeMove(Move move)
         {
             var originalCoords = _board.Cells.FindCell(move.Tile)?.Coords;
             var mv = new MoveMade(move.Tile.Id, move.Tile.PlayerId, originalCoords);
@@ -124,7 +137,7 @@ namespace Hive.Domain
             return true;
         }
 
-        private  void RevertMove()
+        private void RevertMove()
         {
             var (tileId, playerId, coords) = _previousMoves.Pop();
             //   if (coords != null) Thread.Sleep(1000);
@@ -178,7 +191,7 @@ namespace Hive.Domain
             return _board.Players.ToDictionary(
                 p => p.Id,
                 p => _board.Cells.WherePlayerOccupies(p.Id)
-                         .FirstOrDefault(c => c.HasQueen() && c.Tiles.First(t=>t.IsQueen()).PlayerId==p.Id)
+                         .FirstOrDefault(c => c.HasQueen() && c.Tiles.First(t => t.IsQueen()).PlayerId == p.Id)
                          ?.SelectNeighbors(_board.Cells)
                          .WhereOccupied()
                          .Count() ??
