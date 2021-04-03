@@ -1,7 +1,5 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Hive.Domain.Entities;
 using Hive.Domain.Extensions;
 
@@ -34,20 +32,22 @@ namespace Hive.Domain
             return GameStatus.MoveSuccessNextPlayerSkipped;
         }
 
-        internal async Task<GameStatus> AiMove(int playerId, Func<GameStatus, Task> broadcast)
+        internal GameStatus AiMove()
         {
-            var aiMove =await (new ComputerPlayer(_hive,broadcast).GetMove(playerId!=0 ?-1:1));
+            if (CountMovesAvailable() == 0) return GameStatus.Draw;
+            var aiMove = new ComputerPlayer(_hive).GetMove();
             return Move(aiMove);
-
         }
 
-        private  GameStatus DetermineWinner() =>
-            _hive.Cells.First(c=>c.HasQueen() && c.SelectNeighbors(_hive.Cells).WhereOccupied().Count()==6).Tiles.First(t=>t.IsQueen()).PlayerId switch
-            {
-                1 => GameStatus.Player0Win,
-                0 => GameStatus.Player1Win,
-                _ => GameStatus.GameOver
-            };
+        private GameStatus DetermineWinner() =>
+            _hive.Cells.First(c => c.HasQueen() && c.SelectNeighbors(_hive.Cells).WhereOccupied().Count() == 6)
+                    .Tiles.First(t => t.IsQueen())
+                    .PlayerId switch
+                {
+                    1 => GameStatus.Player0Win,
+                    0 => GameStatus.Player1Win,
+                    _ => GameStatus.GameOver
+                };
 
         private Player SkipTurn(Player nextPlayer) =>
             _hive.Players.First(p => p.Id != nextPlayer.Id);
