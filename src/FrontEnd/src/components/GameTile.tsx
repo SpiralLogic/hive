@@ -19,25 +19,26 @@ const GameTile: FunctionComponent<Props> = (props) => {
   const [focus, setFocus] = useState(tileSelector);
   const [classes, setClassList] = useClassReducer(`player${playerId} hex`);
   if (stacked) setClassList({ type: 'add', classes: ['stacked'] });
-  const deselect = () => {
+
+  const deselect = (fromEvent: boolean = false) => {
     if (!classes.includes('selected')) return;
     setClassList({ type: 'remove', classes: ['selected'] });
-    dispatchHiveEvent({ type: 'tileDeselected', tile: tile });
+    dispatchHiveEvent({ type: 'tileDeselected', tile: tile, fromEvent });
   };
 
-  const select = () => {
+  const select = (fromEvent: boolean = false) => {
     if (classes.includes('selected')) return;
     dispatchHiveEvent({ type: 'tileClear' });
     setClassList({ type: 'add', classes: ['selected'] });
-    dispatchHiveEvent({ type: 'tileSelected', tile: tile });
+    dispatchHiveEvent({ type: 'tileSelected', tile: tile, fromEvent });
   };
 
   addHiveDispatchListener<TileAction>('tileSelect', (event: TileAction) => {
-    if (event.tile.id === id) select();
+    if (event.tile.id === id) select(true);
   });
 
   addHiveDispatchListener<TileAction>('tileDeselect', (event: TileAction) => {
-    if (event.tile.id === id) deselect();
+    if (event.tile.id === id) deselect(true);
   });
 
   addHiveDispatchListener('tileClear', () => {

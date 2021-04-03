@@ -11,10 +11,10 @@ namespace Hive.Domain
     public class ComputerPlayer
     {
         private readonly Hive _board;
+        private readonly Func<string, Tile, Task>? _broadcastThought;
+        private readonly (Move? best, int score)[] _depth = new (Move? best, int score)[4];
 
         private readonly Stack<MoveMade> _previousMoves = new();
-        private readonly (Move? best, int score)[] _depth = new (Move? best, int score)[4];
-        private readonly Func<string, Tile, Task>? _broadcastThought;
 
         public ComputerPlayer(Hive board, Func<string, Tile, Task>? broadcastThought = null)
         {
@@ -27,10 +27,7 @@ namespace Hive.Domain
             var stopWatch = new Stopwatch();
             stopWatch.Start();
             var r = await Run(null, 2, stopWatch);
-            foreach (var dTuple in _depth)
-            {
-                Console.WriteLine(dTuple);
-            }
+            foreach (var dTuple in _depth) Console.WriteLine(dTuple);
 
             return r.best ?? throw new ApplicationException("Could not determine next move");
         }
@@ -46,17 +43,27 @@ namespace Hive.Domain
             Tile? lastBroadcast = null;
             foreach (var nextMove in moves)
             {
+
+                if (!MakeMove(nextMove)) continue;
                 if (depth == 2 && _broadcastThought != null)
                 {
-                    if (lastBroadcast != null && lastBroadcast.Id != nextMove.Tile.Id) await _broadcastThought("deselect", lastBroadcast);
-                    await _broadcastThought("select", nextMove.Tile);
+                    if (lastBroadcast != null && lastBroadcast.Id != nextMove.Tile.Id)
+                    {
+                        await _broadcastThought("deselect", lastBroadcast);
+                        await _broadcastThought("select", nextMove.Tile);
+                    }
+                    else if (lastBroadcast == null)
+                    {
+                        await _broadcastThought("select", nextMove.Tile);
+
+                    }
+
                     lastBroadcast = nextMove.Tile;
                 }
-                if (!MakeMove(nextMove)) continue;
+
                 var score = Evaluate(nextMove) * depth;
-                if ((score > bestScore || CountQueenNeighbours().Any(c => c.Value > 0)) &&
-                    stopWatch.Elapsed.Seconds < 10 &&
-                    _previousMoves.Peek().Coords == null)
+                if (CountQueenNeighbours().Any(c => c.Value > 0) ||
+                    (stopWatch.Elapsed.Seconds < 10 && bestScore <= 0))
                 {
                     score += -(await Run(nextMove, depth - 1, stopWatch)).score;
                 }
@@ -72,6 +79,11 @@ namespace Hive.Domain
                     best = nextMove;
                 }
 
+            }
+
+            if (depth == 2 && _broadcastThought != null && lastBroadcast != null)
+            {
+                await _broadcastThought("deselect", lastBroadcast);
             }
 
             _depth[depth] = (best, bestScore);
@@ -167,10 +179,7 @@ namespace Hive.Domain
                 var moves = tile.Creature.GetAvailableMoves(currentCell, _board.Cells);
                 tile.Moves.AddMany(moves);
                 var status = _board.Move(new Move(currentCell.TopTile(), coords));
-                if (status == GameStatus.MoveInvalid)
-                {
-                    Console.WriteLine("ERROR" + coords);
-                }
+                if (status == GameStatus.MoveInvalid) Console.WriteLine("ERROR" + coords);
 
                 _board.RefreshMoves(player);
             }

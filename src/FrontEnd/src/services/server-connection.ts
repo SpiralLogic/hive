@@ -46,7 +46,7 @@ class ServerConnection {
   sendSelection: OpponentSelectionHandler = (type: 'select' | 'deselect', tile: Tile) => {
     if (this.connection.state === HubConnectionState.Connected)
       this.connection
-        .invoke('SendSelection', type, tile)
+        .send('SendSelection', type, tile)
         .catch((err: Error) => console.error(err.message.toString()));
   };
 

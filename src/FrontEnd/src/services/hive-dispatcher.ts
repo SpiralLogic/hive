@@ -17,6 +17,7 @@ export type AiAction = { type: 'toggleAi'; newState: boolean };
 export type TileEvent = {
   type: 'tileDropped' | 'click' | 'tileSelected' | 'tileDeselected';
   tile: Tile;
+  fromEvent?: boolean;
 };
 export type TileAction = {
   type: 'tileSelect' | 'tileDeselect';
