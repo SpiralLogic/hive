@@ -9,6 +9,7 @@ namespace Hive.Domain.Entities
         Player1Win,
         MoveSuccessNextPlayerSkipped,
         MoveInvalid,
-        GameOver
+        GameOver,
+        Draw
     }
 }

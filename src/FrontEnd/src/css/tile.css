@@ -1,50 +1,58 @@
 .tile {
-  height: var(--tile-size);
   width: var(--tile-size);
+  height: var(--tile-size);
 }
 
 .tile .creature {
-  fill: var(--creature);
   pointer-events: none;
+  fill: var(--creature);
 }
 
 [role='cell'].can-drop .tile:not(.selected) {
-  opacity: 100%; 
   pointer-events: none;
+  opacity: 100%;
 }
 
-.tile:not([draggable="true"]) {
+.tile:not([draggable='true']) {
   opacity: 30%;
 }
 
-.tile.selected {
-  animation: selected 0.2s infinite;
-  transform: rotate(-3deg);
+.tile.stacked:not([draggable='true']):not(:hover):not(:active) ~ .tile {
+  opacity: 0;
 }
 
-.tile.stacked:hover:active {
-  animation: stacked 3s ;
+.tile[draggable='true'] {
+  opacity: 100%;
+}
+
+.tile.selected {
+  transform: rotate(-3deg);
+  animation: selected 0.2s infinite;
+}
+
+[role='cell'] .tile.stacked:hover {
+  animation: stacked 3s;
 }
 
 .tile.selected:before,
 [draggable='true']:not(.selected):hover:before,
 [draggable='true']:not(.selected):focus:before {
-  box-shadow: 0 calc(var(--tile-size) / -4) calc(var(--tile-size) / 3) .5vh var(--shadow), 0 calc(var(--tile-size) / 4) calc(var(--tile-size) / 3) .5vh var(--shadow), 0 0 calc(var(--tile-size) / 3) .5vw var(--shadow);
-  content: ' ';
-  display: block;
-  height: 50%;
-  left: 0;
-  margin: 25% 5%;
-  outline: none;
   position: absolute;
   top: 0;
-  transition: box-shadow 0.2s ease-in;
+  left: 0;
+  display: block;
   width: 90%;
+  height: 50%;
+  margin: 25% 5%;
+  content: ' ';
+  transition: box-shadow 0.2s ease-in;
+  outline: none;
+  box-shadow: 0 calc(var(--tile-size) / -4) calc(var(--tile-size) / 3) .5vh var(--shadow), 0 calc(var(--tile-size) / 4) calc(var(--tile-size) / 3) .5vh var(--shadow), 0 0 calc(var(--tile-size) / 3) .5vw var(--shadow);
 }
 
 .beforeDrag:before {
-  box-shadow: none !important;
   display: none !important;
+  box-shadow: none !important;
 }
 
 [role='cell'] .tile {
@@ -59,13 +67,20 @@
     transform: rotate(1deg);
   }
 }
+
 @keyframes stacked {
   20% {
     opacity: 10%;
-    transition-timing-function:ease-in ;
+    transition-timing-function: ease-in;
   }
   100% {
     opacity: 100%;
     transition-timing-function: ease-out;
+  }
+}
+
+@media only screen and (max-width: 720px) {
+  [role='cell'] .tile.stacked:hover:active {
+    animation: stacked 3s;
   }
 }

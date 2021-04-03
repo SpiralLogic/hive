@@ -19,8 +19,7 @@ namespace Hive.Controllers
         private readonly IHubContext<GameHub> _hubContext;
         private readonly JsonSerializerOptions _jsonSerializerOptions;
 
-        public MoveController(IHubContext<GameHub> hubContext, IOptions<JsonOptions> jsonOptions,
-            IDistributedCache distributedCache)
+        public MoveController(IHubContext<GameHub> hubContext, IOptions<JsonOptions> jsonOptions, IDistributedCache distributedCache)
         {
             _hubContext = hubContext;
             _distributedCache = distributedCache;
@@ -39,26 +38,26 @@ namespace Hive.Controllers
             var gameSession = await _distributedCache.GetStringAsync(id);
             if (string.IsNullOrEmpty(gameSession)) return NotFound();
 
-            var (players, cells, _, _) = JsonSerializer.Deserialize<GameState>(gameSession, _jsonSerializerOptions)!;
-
+            var (players, cells, _, gameStatus) = JsonSerializer.Deserialize<GameState>(gameSession, _jsonSerializerOptions)!;
+            if (new[] {GameStatus.GameOver, GameStatus.AiWin, GameStatus.Player0Win, GameStatus.Player1Win}.Contains(gameStatus))
+                return BadRequest();
             var game = new Domain.Hive(players.ToList(), cells.ToHashSet());
-            var tile = players.SelectMany(p => p.Tiles).Concat(cells.SelectMany(c => c.Tiles))
-                .FirstOrDefault(t => t.Id == move.TileId);
+            var tile = players.SelectMany(p => p.Tiles).Concat(cells.SelectMany(c => c.Tiles)).FirstOrDefault(t => t.Id == move.TileId);
             if (tile == null) return Forbid();
 
-            var gameStatus = game.Move(new Domain.Entities.Move(tile, move.Coords));
+            gameStatus = game.Move(new Domain.Entities.Move(tile, move.Coords));
 
             if (gameStatus == GameStatus.MoveInvalid) return Forbid();
 
             var newGameState = new GameState(game.Players, game.Cells, id, gameStatus);
             await _hubContext.Clients.Group(id).SendAsync("ReceiveGameState", newGameState);
-            
+
             var json = JsonSerializer.Serialize(newGameState, _jsonSerializerOptions);
             await _distributedCache.SetStringAsync(id, json);
-  
+
             return Accepted($"/game/{id}", newGameState);
-        }     
-        
+        }
+
         [HttpPost]
         [Route("/api/ai-move/{id}/{playerId}")]
         [Produces("application/json")]
@@ -70,16 +69,24 @@ namespace Hive.Controllers
             var gameSession = await _distributedCache.GetStringAsync(id);
             if (string.IsNullOrEmpty(gameSession)) return NotFound();
 
-            var (players, cells, _, _) = JsonSerializer.Deserialize<GameState>(gameSession, _jsonSerializerOptions)!;
-
+            var (players, cells, _, gameStatus) = JsonSerializer.Deserialize<GameState>(gameSession, _jsonSerializerOptions)!;
+            if (new[] {GameStatus.GameOver, GameStatus.AiWin, GameStatus.Player0Win, GameStatus.Player1Win}.Contains(gameStatus))
+                return BadRequest();
             var game = new Domain.Hive(players.ToList(), cells.ToHashSet());
-            var gameStatus = game.AiMove(playerId);
+            gameStatus =  game.AiMove();
             var newGameState = new GameState(game.Players, game.Cells, id, gameStatus);
-            await _hubContext.Clients.Group(id).SendAsync("ReceiveGameState", newGameState);
+            await BroadCast(id, game, gameStatus);
             var json = JsonSerializer.Serialize(newGameState, _jsonSerializerOptions);
             await _distributedCache.SetStringAsync(id, json);
-  
+
             return Accepted($"/game/{id}", newGameState);
+        }
+
+        private async Task BroadCast(string id, Domain.Hive game, GameStatus gameStatus)
+        {
+
+            var newGameState = new GameState(game.Players, game.Cells, id, gameStatus);
+            await _hubContext.Clients.Group(id).SendAsync("ReceiveGameState", newGameState);
         }
     }
 }

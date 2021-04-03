@@ -22,7 +22,7 @@ namespace Hive.Domain
             ClearAllMoves();
 
             var nextPlayer = GetNextPlayer(move.Tile);
-            if (IsGameOver()) return DetermineWinner(nextPlayer);
+            if (IsGameOver()) return DetermineWinner();
 
             UpdateMoves(nextPlayer);
 
@@ -32,20 +32,22 @@ namespace Hive.Domain
             return GameStatus.MoveSuccessNextPlayerSkipped;
         }
 
-        internal GameStatus AiMove(int playerId)
+        internal GameStatus AiMove()
         {
-            var aiMove = new ComputerPlayer(_hive).GetMove(playerId, _hive.Players.First(p => p.Id != playerId).Id);
+            if (CountMovesAvailable() == 0) return GameStatus.Draw;
+            var aiMove = new ComputerPlayer(_hive).GetMove();
             return Move(aiMove);
-
         }
 
-        private static GameStatus DetermineWinner(Player nextPlayer) =>
-            nextPlayer.Id switch
-            {
-                1 => GameStatus.Player0Win,
-                0 => GameStatus.Player1Win,
-                _ => GameStatus.GameOver
-            };
+        private GameStatus DetermineWinner() =>
+            _hive.Cells.First(c => c.HasQueen() && c.SelectNeighbors(_hive.Cells).WhereOccupied().Count() == 6)
+                    .Tiles.First(t => t.IsQueen())
+                    .PlayerId switch
+                {
+                    1 => GameStatus.Player0Win,
+                    0 => GameStatus.Player1Win,
+                    _ => GameStatus.GameOver
+                };
 
         private Player SkipTurn(Player nextPlayer) =>
             _hive.Players.First(p => p.Id != nextPlayer.Id);
