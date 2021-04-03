@@ -1,4 +1,6 @@
+using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using Hive.Domain.Entities;
 using Hive.Domain.Tests.TestUtils;
@@ -72,7 +74,7 @@ namespace Hive.Domain.Tests
             var initial = new InitialHiveBuilder();
 
             initial += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
-            initial += " ⬡ ⬡ ⬡ B ⬡ ⬡ ⬡ ⬡ ⬡";
+            initial += " ⬡ ⬡ ⬡ S ⬡ ⬡ ⬡ ⬡ ⬡";
             initial += "⬡ ⬡ ⬡ s s s Q ⬡ ⬡ ";
             initial += " ⬡ ⬡ ⬡ ⬡ ⬡ s s ⬡ ⬡";
             initial += "⬡ ⬡ ⬡ ⬡ ⬡ q ⬡ ⬡ ⬡ ";
@@ -80,7 +82,7 @@ namespace Hive.Domain.Tests
 
             var expected = new ExpectedAiBuilder();
             expected += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
-            expected += " ⬡ ⬡ ⬡ B ⬡ ✔ ⬡ ⬡ ⬡";
+            expected += " ⬡ ⬡ ⬡ S ⬡ ✔ ⬡ ⬡ ⬡";
             expected += "⬡ ⬡ ⬡ s s s ★ ✔ ⬡ ";
             expected += " ⬡ ⬡ ⬡ ⬡ ⬡ s s ⬡ ⬡";
             expected += "⬡ ⬡ ⬡ ⬡ ⬡ q ⬡ ⬡ ⬡ ";
@@ -158,7 +160,39 @@ namespace Hive.Domain.Tests
             var player = new ComputerPlayer(hive, null);
             (await player.GetMove(1)).Should().BeetleOnQueen(initial, expected);
         }
-      
+
+        [Fact]
+        public async Task MovesToQueenWithPlayerTiles()
+        {
+            var initial = new InitialHiveBuilder();
+
+            initial += " ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡";
+            initial += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
+            initial += " ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡";
+            initial += "⬡ ⬡ ⬡ A g ⬡ ⬡ ⬡ ";
+            initial += " ⬡ ⬡ ⬡ s ⬡ ⬡ ⬡ ⬡";
+            initial += "⬡ ⬡ q s s Q G ⬡ ";
+            initial += " ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡";
+            initial += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
+
+            var expected = new ExpectedAiBuilder();
+
+            expected += " ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡";
+            expected += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
+            expected += " ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡";
+            expected += "⬡ ⬡ ⬡ A g ⬡ ⬡ ⬡ ";
+            expected += " ⬡ ⬡ ⬡ s ⬡ ⬡ ⬡ ⬡";
+            expected += "⬡ ✔ q s s Q ★ ⬡ ";
+            expected += " ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡";
+            expected += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
+
+            var player1 = new Player(0, "P1") with {Tiles = new HashSet<Tile> {new Tile(50, 0, Creatures.Grasshopper)}};
+            var player2 = new Player(1, "P2") with {Tiles = new HashSet<Tile> {new Tile(51, 1, Creatures.Grasshopper)}};
+            var hive = HiveFactory.CreateHive(new[] {player1,player2}, initial.AllCells, 0);
+            var player = new ComputerPlayer(hive, null);
+            (await player.GetMove(1)).Should().MatchHive(initial, expected);
+        }
+
         [Fact]
         public async Task BeetleStaysOnTopOfQueenPlayer2()
         {

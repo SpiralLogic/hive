@@ -24,7 +24,7 @@ namespace Hive.Domain
             ClearAllMoves();
 
             var nextPlayer = GetNextPlayer(move.Tile);
-            if (IsGameOver()) return DetermineWinner(nextPlayer);
+            if (IsGameOver()) return DetermineWinner();
 
             UpdateMoves(nextPlayer);
 
@@ -36,13 +36,13 @@ namespace Hive.Domain
 
         internal async Task<GameStatus> AiMove(int playerId, Func<GameStatus, Task> broadcast)
         {
-            var aiMove =await (new ComputerPlayer(_hive,broadcast).GetMove(1));
+            var aiMove =await (new ComputerPlayer(_hive,broadcast).GetMove(playerId!=0 ?-1:1));
             return Move(aiMove);
 
         }
 
-        private static GameStatus DetermineWinner(Player nextPlayer) =>
-            nextPlayer.Id switch
+        private  GameStatus DetermineWinner() =>
+            _hive.Cells.First(c=>c.HasQueen() && c.SelectNeighbors(_hive.Cells).WhereOccupied().Count()==6).Tiles.First(t=>t.IsQueen()).PlayerId switch
             {
                 1 => GameStatus.Player0Win,
                 0 => GameStatus.Player1Win,
