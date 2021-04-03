@@ -60,7 +60,7 @@ namespace Hive.Domain
                 }
 
                 var score = Evaluate(nextMove) * depth;
-                if ((stopWatch.Elapsed.Seconds < 20 &&
+                if (score<100 || (stopWatch.Elapsed.Seconds < 20 &&
                      depth == 2 &&
                      CountQueenNeighbours().Where(c => c.Key != nextMove.Tile.PlayerId).Any(c => c.Value > 0)) ||
                     (stopWatch.Elapsed.Seconds < 10 && CountQueenNeighbours().Any(c => c.Value > 0)) ||
