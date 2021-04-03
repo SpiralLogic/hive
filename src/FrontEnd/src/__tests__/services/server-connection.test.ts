@@ -19,6 +19,7 @@ describe('game Server Connection Tests', () => {
       onreconnected: jest.fn(),
       onclose: jest.fn(),
       invoke: jest.fn().mockResolvedValue(true),
+      send: jest.fn().mockResolvedValue(true),
       state: state,
     };
   };
@@ -94,7 +95,7 @@ describe('game Server Connection Tests', () => {
   it(`sendSelection invokes on server`, async () => {
     const serverConnection = setupServer();
     serverConnection.sendSelection('select', { id: 1, playerId: 1, creature: 'duck', moves: [] });
-    expect(hubConnection.invoke).toHaveBeenCalledWith('SendSelection', 'select', {
+    expect(hubConnection.send).toHaveBeenCalledWith('SendSelection', 'select', {
       creature: 'duck',
       id: 1,
       moves: [],
@@ -106,7 +107,7 @@ describe('game Server Connection Tests', () => {
     const serverConnection = setupServer();
     hubConnection = createHubConnection(HubConnectionState.Disconnected);
     serverConnection.sendSelection('select', { id: 1, playerId: 1, creature: 'duck', moves: [] });
-    expect(hubConnection.invoke).not.toHaveBeenCalledWith();
+    expect(hubConnection.send).not.toHaveBeenCalledWith();
   });
 
   it(`connection has connected state`, async () => {
