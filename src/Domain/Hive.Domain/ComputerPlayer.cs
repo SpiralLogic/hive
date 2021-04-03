@@ -27,8 +27,6 @@ namespace Hive.Domain
             var stopWatch = new Stopwatch();
             stopWatch.Start();
             var r = await Run(null, 2, stopWatch);
-            foreach (var dTuple in _depth) Console.WriteLine(dTuple);
-
             return r.best ?? throw new ApplicationException("Could not determine next move");
         }
 
@@ -115,7 +113,7 @@ namespace Hive.Domain
                 var isMax = playerId == max ? -1 : 1;
                 if (count == 6) return isMax * 100;
                 score += isMax * 10 * count;
-                if (count > 0 && movesNeighbours > 1 && max == 1) score -= movesNeighbours;
+                if (count > 0 && movesNeighbours > 1 && max == playerId) score -= movesNeighbours;
             }
 
             if (MoveHasQueenNeighbour(moveFromLocation)) score -= movesNeighbours;
@@ -145,7 +143,6 @@ namespace Hive.Domain
             var status = _board.Move(move);
             if (status == GameStatus.MoveInvalid)
             {
-                Console.WriteLine("ERROR" + move);
                 return false;
             }
 
@@ -165,7 +162,6 @@ namespace Hive.Domain
             }
             catch
             {
-                Console.WriteLine("ERROR" + coords);
                 return;
             }
 
@@ -182,8 +178,7 @@ namespace Hive.Domain
                 var tile = currentCell.TopTile();
                 var moves = tile.Creature.GetAvailableMoves(currentCell, _board.Cells);
                 tile.Moves.AddMany(moves);
-                var status = _board.Move(new Move(currentCell.TopTile(), coords));
-                if (status == GameStatus.MoveInvalid) Console.WriteLine("ERROR" + coords);
+                _board.Move(new Move(currentCell.TopTile(), coords));
 
                 _board.RefreshMoves(player);
             }
@@ -192,12 +187,12 @@ namespace Hive.Domain
         private IEnumerable<Move> GetMoves()
         {
             var rnd = new Random();
-            var cells = _board.Cells;
+            var cells = _board.Cells.ToHashSet();
             var unplacedTiles = _board.Players.SelectMany(p => p.Tiles.GroupBy(t => t.Creature).Select(g => g.First()))
-                .OrderBy(t => t.Creature.Name);
-            var placedTiles = cells.WhereOccupied().Select(c => c.TopTile()).OrderBy(t => rnd.Next()).ToHashSet();
-            var tiles = placedTiles.Count > 3 ? placedTiles.Concat(unplacedTiles) : unplacedTiles.Concat(placedTiles);
-            return tiles.SelectMany(t => t.Moves.Select(m => new Move(t, m)));
+                .OrderBy(t => t.Creature.Name).SelectMany(t => t.Moves.Select(m => new Move(t, m)).OrderBy(t => rnd.Next())).ToList();
+            var placedTiles = cells.WhereOccupied().OrderBy(c=>c.SelectNeighbors(_board.Cells).Any(c=>c.HasQueen())).Select(c => c.TopTile()).SelectMany(t => t.Moves.Select(m => new Move(t, m)).OrderBy(t => rnd.Next())).ToList();
+            var tiles = placedTiles.Count > 3?unplacedTiles.Concat(placedTiles):placedTiles.Concat(unplacedTiles);
+            return tiles;
         }
 
         private Dictionary<int, int> CountQueenNeighbours()
