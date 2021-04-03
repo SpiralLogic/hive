@@ -62,7 +62,9 @@ namespace Hive.Domain
                 }
 
                 var score = Evaluate(nextMove) * depth;
-                if ((stopWatch.Elapsed.Seconds < 20 && depth == 2 && CountQueenNeighbours().Where(c => c.Key != nextMove.Tile.PlayerId).Any(c => c.Value > 0)) ||
+                if ((stopWatch.Elapsed.Seconds < 20 &&
+                     depth == 2 &&
+                     CountQueenNeighbours().Where(c => c.Key != nextMove.Tile.PlayerId).Any(c => c.Value > 0)) ||
                     (stopWatch.Elapsed.Seconds < 10 && CountQueenNeighbours().Any(c => c.Value > 0)) ||
                     (stopWatch.Elapsed.Seconds < 5 && bestScore <= 0))
                 {
@@ -118,7 +120,8 @@ namespace Hive.Domain
 
             if (MoveHasQueenNeighbour(moveFromLocation)) score -= movesNeighbours;
             score += MoveHasQueenNeighbour(moveToLocation) && score > 0 ? 0 : movesNeighbours;
-            if (isAntPlacement) score += _board.Cells.WherePlayerOccupies(move.Tile.PlayerId).Count() > 3 ? 2 : -1;
+            if (isAntPlacement)
+                score += _board.Cells.WherePlayerOccupies(move.Tile.PlayerId).Count() > 3 ? 2 * movesNeighbours : -movesNeighbours;
 
             return score;
         }
