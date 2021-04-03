@@ -11,7 +11,7 @@ import Tile from './Tile';
 const tileSelector = `[tabindex].tile`;
 const cellSelector = `[tabindex][role="cell"]`;
 const playerSelector = `[tabindex].name`;
-type Props = TileType & { stacked: boolean };
+type Props = TileType & { stacked?: boolean };
 
 const GameTile: FunctionComponent<Props> = (props) => {
   const { stacked, ...tile } = props;
@@ -103,5 +103,5 @@ const GameTile: FunctionComponent<Props> = (props) => {
       };
   return <Tile {...attributes} {...handlers} />;
 };
-GameTile.displayName = 'Tile';
+GameTile.displayName = 'GameTile';
 export default GameTile;
