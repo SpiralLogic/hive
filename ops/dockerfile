@@ -3,7 +3,7 @@ FROM node:latest as node-build
 WORKDIR /source
 RUN npm i -g pnpm 
 COPY ./src/FrontEnd .
-RUN pnpm install
+RUN pnpm install -P 
 RUN pnpm run build
 
 FROM mcr.microsoft.com/dotnet/sdk:5.0 AS dotnet-build
