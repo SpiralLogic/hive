@@ -28,6 +28,9 @@ internal static Cell FindCell(this IEnumerable<Cell> cells, Coords coords)
         internal static Cell FindCell(this IEnumerable<Cell> cells, int tileId)
         {
             return cells.WhereOccupied().First(c => c.Tiles.Any(t => t.Id == tileId));
+        }        internal static Cell? FindCellOrDefault(this IEnumerable<Cell> cells, int tileId)
+        {
+            return cells.WhereOccupied().FirstOrDefault(c => c.Tiles.Any(t => t.Id == tileId));
         }
 
         internal static ISet<Cell> CreateAllEmptyNeighbours(this IEnumerable<Cell> cells)

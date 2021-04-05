@@ -50,6 +50,7 @@ namespace Hive.Domain.Ai
             if (depth == 0) return (move, 0);
 
             var bestScore = -HeuristicValues.ScoreMax;
+            var worstScore = HeuristicValues.ScoreMax;
             var moves = GetMoves().ToArray();
             var best = moves.FirstOrDefault();
 
@@ -66,11 +67,17 @@ namespace Hive.Domain.Ai
                 var score = Evaluate(values, nextMove);
 
                 if (score >= bestScore && score < HeuristicValues.ScoreMax && _stopWatch.ElapsedMilliseconds<3000)
-                    score += -(await Run(nextMove, depth - 1)).score / HeuristicValues.MaxDepth;
+                {
+                    worstScore = -(await Run(nextMove, depth - 1)).score;
+                    score += worstScore;
+                }
+                else
+                {
+                    score += worstScore;
+                }
 
                 RevertMove();
                 if (score >= bestScore) (best, bestScore) = SetBest(nextMove, score);
-
             }
 
             if (depth == HeuristicValues.MaxDepth) await BroadcastDeselect();
@@ -137,7 +144,7 @@ namespace Hive.Domain.Ai
         private void RevertMove()
         {
             var (tileId, playerId, coords) = _previousMoves.Pop();
-            Cell currentCell = _board.Cells.FindCell(tileId);
+            var currentCell = _board.Cells.FindCellOrDefault(tileId);
             if (currentCell == null) return;
 
             var player = _board.Players.FindPlayerById(playerId);
