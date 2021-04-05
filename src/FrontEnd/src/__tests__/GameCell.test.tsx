@@ -10,7 +10,7 @@ import {
   createCellWithTile,
   createCellWithTileAndDrop,
   createCellWithTileNoDrop,
-  createEmitter,
+  createDispatcher,
   emitHiveEvent,
   moveTileSpy,
 } from './fixtures/gameCell.fixtures';
@@ -61,7 +61,7 @@ describe('cell Tests', () => {
     });
 
     it('move calls moves tile when cell is valid and active', () => {
-      const moveEvents = createEmitter();
+      const moveEvents = createDispatcher();
       const cellWithTile = renderElement(<GameCell {...createCellWithTileAndDrop()} />);
       const emptyCell = renderElement(<GameCell {...createCellCanDrop()} />);
       emitHiveEvent('tileSelected');
@@ -137,7 +137,7 @@ describe('cell Tests', () => {
     });
 
     it(`cell click with active tile makes a move`, () => {
-      const moveEvents = createEmitter();
+      const moveEvents = createDispatcher();
       const emptyCell = renderElement(<GameCell {...createCellCanDrop()} />);
       emitHiveEvent('tileSelected');
       fireEvent.click(emptyCell);
@@ -171,7 +171,7 @@ describe('cell Tests', () => {
     });
 
     it(`enter fires emit event on keydown enter`, () => {
-      const moveEvents = createEmitter();
+      const moveEvents = createDispatcher();
       const emptyCell = renderElement(<GameCell {...createCellCanDrop()} />);
       emitHiveEvent('tileSelected');
       fireEvent.keyDown(emptyCell, { key: 'Enter' });
@@ -180,7 +180,7 @@ describe('cell Tests', () => {
     });
 
     it(`space fires emit event on keydown enter`, () => {
-      const moveEvents = createEmitter();
+      const moveEvents = createDispatcher();
       const emptyCell = renderElement(<GameCell {...createCellCanDrop()} />);
       emitHiveEvent('tileSelected');
       fireEvent.keyDown(emptyCell, { key: ' ' });

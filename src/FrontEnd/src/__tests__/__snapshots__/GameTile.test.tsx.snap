@@ -41,3 +41,43 @@ exports[`tile Tests tile Snapshot no moves matches current snapshot 1`] = `
   </svg>
 </div>
 `;
+
+exports[`tile Tests tile Snapshot no moves matches current snapshot 2`] = `
+<div
+  class="player0 hex stacked tile fly"
+  title="fly"
+>
+  <svg
+    viewBox="0 0 100 100"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <use
+      href="#hex"
+    />
+    <use
+      class="creature"
+      href="#fly"
+    />
+  </svg>
+</div>
+`;
+
+exports[`tile Tests tile Snapshot when stacked matched snapshot 1`] = `
+<div
+  class="player0 hex stacked tile fly"
+  title="fly"
+>
+  <svg
+    viewBox="0 0 100 100"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <use
+      href="#hex"
+    />
+    <use
+      class="creature"
+      href="#fly"
+    />
+  </svg>
+</div>
+`;

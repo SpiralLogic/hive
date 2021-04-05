@@ -1,10 +1,11 @@
 import { GameState } from '../../domain';
-import { TileAction } from '../../services';
+import { AiAction, HiveEvent, TileAction } from '../../services';
 import {
   attachServerHandlers,
   handleDragOver,
   handleDrop,
   handleKeyboardNav,
+  opponentConnectedHandler,
   opponentSelectionHandler,
 } from '../../utilities/handlers';
 import { useHiveDispatcher } from '../../utilities/dispatcher';
@@ -122,8 +123,42 @@ describe(`handler tests`, () => {
 
       opponentSelectionHandler('select', null!);
       opponentSelectionHandler('deselect', null!);
+      opponentSelectionHandler(null!, null!);
       expect(selectHandler).not.toHaveBeenCalledWith();
       expect(deselectHandler).not.toHaveBeenCalledWith();
+    });
+
+    it(`opponent connected handler`, () => {
+      const dispatcher = useHiveDispatcher();
+      const connectedHandler = jest.fn();
+      const toggleAiHandler = jest.fn();
+      dispatcher.add<HiveEvent>('opponentConnected', connectedHandler);
+      dispatcher.add<AiAction>('toggleAi', toggleAiHandler);
+
+      opponentConnectedHandler('connect');
+      expect(connectedHandler).toHaveBeenCalledWith({ type: 'opponentConnected' });
+      expect(toggleAiHandler).toHaveBeenCalledWith({ type: 'toggleAi', newState: false });
+    });
+
+    it(`opponent disconnected handler`, () => {
+      const dispatcher = useHiveDispatcher();
+      const disconnectedHandler = jest.fn();
+      dispatcher.add<HiveEvent>('opponentDisconnected', disconnectedHandler);
+
+      opponentConnectedHandler('disconnect');
+      expect(disconnectedHandler).toHaveBeenCalledWith({ type: 'opponentDisconnected' });
+    });
+
+    it(`opponent connect handler default`, () => {
+      const dispatcher = useHiveDispatcher();
+      const disconnectedHandler = jest.fn();
+      const connectedHandler = jest.fn();
+      dispatcher.add<HiveEvent>('opponentDisconnected', disconnectedHandler);
+      dispatcher.add<HiveEvent>('opponentConnected', connectedHandler);
+
+      opponentConnectedHandler(null!);
+      expect(disconnectedHandler).not.toHaveBeenCalled();
+      expect(connectedHandler).not.toHaveBeenCalled();
     });
 
     it(`server handlers are attached`, () => {

@@ -5,6 +5,7 @@ describe('game Engine Tests', () => {
   let engine: GameEngine;
   global.fetch = jest
     .fn()
+    .mockImplementation(() => Promise.resolve({ ok: true, json: () => Promise.resolve(gameState) }))
     .mockImplementation(() => Promise.resolve({ ok: true, json: () => Promise.resolve(gameState) }));
 
   it('new game', async () => {
@@ -31,6 +32,7 @@ describe('game Engine Tests', () => {
   });
 
   it('move tile', async () => {
+    engine = new GameEngine();
     const response = await engine.move(
       '1',
       {
@@ -42,5 +44,32 @@ describe('game Engine Tests', () => {
     expect(response).not.toBeFalsy();
     expect(response.cells).toHaveLength(2);
     expect(response.players).toHaveLength(2);
+  });
+
+  it('ai move made for player 1', async () => {
+    window.history.pushState({ playerId: 0 }, 'game');
+    engine = new GameEngine();
+    jest.clearAllMocks();
+    await engine.move(
+      '1',
+      {
+        tileId: 1,
+        coords: { q: 0, r: 0 },
+      },
+      true
+    );
+    expect(global.fetch).toHaveBeenLastCalledWith(expect.stringMatching(/.+1$/), expect.any(Object));
+  });
+
+  it('ai move made for player 0', async () => {
+    window.history.pushState({ playerId: 1 }, 'game');
+    engine = new GameEngine();
+    jest.clearAllMocks();
+    const move = {
+      tileId: 1,
+      coords: { q: 0, r: 0 },
+    };
+    await engine.move('1', move, true);
+    expect(global.fetch).toHaveBeenLastCalledWith(expect.stringMatching(/.+0$/), expect.any(Object));
   });
 });

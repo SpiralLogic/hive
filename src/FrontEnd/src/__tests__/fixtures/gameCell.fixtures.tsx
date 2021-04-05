@@ -32,18 +32,18 @@ export const movingTile = {
 };
 export const moveTileSpy = jest.fn();
 
-export const createEmitter = () => {
+export const createDispatcher = () => {
   const moveEvents: MoveEvent[] = [];
   const moveListener = (e: MoveEvent) => moveEvents.push(e);
-  const emitter = useHiveDispatcher();
-  emitter.add<MoveEvent>('move', moveListener);
+  const dispatcher = useHiveDispatcher();
+  dispatcher.add<MoveEvent>('move', moveListener);
   return moveEvents;
 };
 
 export const emitHiveEvent = (type: 'tileSelected' | 'tileDropped' | 'tileDeselected'): void => {
   act(() => {
-    const emitter = useHiveDispatcher();
-    emitter.dispatch({
+    const dispatcher = useHiveDispatcher();
+    dispatcher.dispatch({
       type,
       tile: movingTile,
     });

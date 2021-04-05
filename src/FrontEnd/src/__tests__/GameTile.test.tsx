@@ -22,12 +22,12 @@ describe('tile Tests', () => {
     return renderElement(<GameTile {...tileNoMove} />);
   };
 
-  const createEmitter = (): [TileEvent[], () => void] => {
+  const createDispatcher = (): [TileEvent[], () => void] => {
     const tileEvents: TileEvent[] = [];
     const listener = (e: TileEvent) => tileEvents.push(e);
 
-    const emitter = useHiveDispatcher();
-    const cleanup = emitter.add<TileEvent>('tileSelected', listener);
+    const dispatcher = useHiveDispatcher();
+    const cleanup = dispatcher.add<TileEvent>('tileSelected', listener);
     return [tileEvents, cleanup];
   };
 
@@ -40,7 +40,7 @@ describe('tile Tests', () => {
 
   describe('tile events', () => {
     it('click emits tile start event', () => {
-      const [tileEvents, cleanup] = createEmitter();
+      const [tileEvents, cleanup] = createDispatcher();
       fireEvent.click(createTileCanMove());
       const expectedEvent: TileEvent = {
         type: 'tileSelected',
@@ -51,7 +51,7 @@ describe('tile Tests', () => {
     });
 
     it('enter emits tile start event', () => {
-      const [tileEvents, cleanup] = createEmitter();
+      const [tileEvents, cleanup] = createDispatcher();
       fireEvent.keyDown(createTileCanMove(), { key: 'Enter' });
       const expectedEvent: TileEvent = {
         type: 'tileSelected',
@@ -78,14 +78,13 @@ describe('tile Tests', () => {
 
     it('arrow keys use handler', () => {
       const tile = createTileCanMove();
-      jest.spyOn(tile, 'focus');
       fireEvent.keyDown(tile, { key: 'ArrowDown' });
 
-      expect(tile.focus).toHaveBeenCalledWith();
+      expect(tile).toHaveFocus();
     });
 
     it('space emits tile start event', () => {
-      const [tileEvents, cleanup] = createEmitter();
+      const [tileEvents, cleanup] = createDispatcher();
       fireEvent.keyDown(createTileCanMove(), { key: ' ' });
       const expectedEvent: TileEvent = {
         type: 'tileSelected',
@@ -96,7 +95,6 @@ describe('tile Tests', () => {
     });
 
     it('click deselects previous selected tile', () => {
-      jest.spyOn(useHiveDispatcher(), 'dispatch');
       const tile = createTileCanMove();
       fireEvent.click(tile);
 
@@ -132,7 +130,7 @@ describe('tile Tests', () => {
     });
 
     it('on drag emits start event', () => {
-      const [tileEvents, cleanup] = createEmitter();
+      const [tileEvents, cleanup] = createDispatcher();
       fireEvent.dragStart(createTileCanMove());
       const expectedEvent: TileEvent = {
         type: 'tileSelected',
@@ -231,6 +229,10 @@ describe('tile Tests', () => {
 
     it('no moves matches current snapshot', () => {
       expect(createTileNoMove()).toMatchSnapshot();
+    });
+
+    it('when stacked matched snapshot', () => {
+      expect(renderElement(<GameTile {...tileNoMove} stacked={true} />)).toMatchSnapshot();
     });
   });
 });

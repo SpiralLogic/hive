@@ -12,5 +12,10 @@ export const createGameState = (cells: number) => {
     name: 'Player 2',
     tiles: [{ id: 1, playerId: 1, creature: 'ant', moves: [{ q: 0, r: 0 }] }],
   };
-  return { gameId: '33', cells: new Array(cells).fill(emptyCell), players: [player, player2] };
+  const row = new Array(cells).fill(emptyCell);
+  row.push({
+    coords: { q: 1, r: 1 },
+    tiles: [{ id: 3, playerId: 1, creature: 'ant', moves: [{ q: 0, r: 0 }] }],
+  });
+  return { gameId: '33', cells: row, players: [player, player2] };
 };

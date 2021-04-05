@@ -16,11 +16,6 @@ namespace Hive.Domain.Extensions
             return cell.Tiles.First().PlayerId == playerId;
         }
 
-        internal static bool PlayerOccupies(this Cell cell, Player player)
-        {
-            return cell.PlayerOccupies(player.Id);
-        }
-
         internal static bool PlayerOccupies(this Cell cell, int playerId)
         {
             return cell.Tiles.Any(t => t.PlayerId == playerId);

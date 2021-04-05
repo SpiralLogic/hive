@@ -10,7 +10,8 @@ namespace Hive.Domain.Extensions
         {
             return cells.FirstOrDefault(c => c.Coords.Equals(coords));
         }
-internal static Cell FindCell(this IEnumerable<Cell> cells, Coords coords)
+
+        internal static Cell FindCell(this IEnumerable<Cell> cells, Coords coords)
         {
             return cells.First(c => c.Coords.Equals(coords));
         }
@@ -20,15 +21,7 @@ internal static Cell FindCell(this IEnumerable<Cell> cells, Coords coords)
             return cells.WhereOccupied().FirstOrDefault(c => c.Tiles.Any(t => t.Id == tile.Id));
         }
 
-        internal static Cell FindCell(this IEnumerable<Cell> cells, Tile tile)
-        {
-            return cells.WhereOccupied().First(c => c.Tiles.Any(t => t.Id == tile.Id));
-        }
-
-        internal static Cell FindCell(this IEnumerable<Cell> cells, int tileId)
-        {
-            return cells.WhereOccupied().First(c => c.Tiles.Any(t => t.Id == tileId));
-        }        internal static Cell? FindCellOrDefault(this IEnumerable<Cell> cells, int tileId)
+        internal static Cell? FindCellOrDefault(this IEnumerable<Cell> cells, int tileId)
         {
             return cells.WhereOccupied().FirstOrDefault(c => c.Tiles.Any(t => t.Id == tileId));
         }
@@ -43,15 +36,6 @@ internal static Cell FindCell(this IEnumerable<Cell> cells, Coords coords)
                 .ToHashSet();
         }
 
-        internal static IEnumerable<Cell> RemoveCell(this IEnumerable<Cell> cells, Cell cell)
-        {
-            return cells.Except(new[] {cell});
-        }
-
-        internal static IEnumerable<Cell> SelectEmptyNeighbors(this IEnumerable<Cell> cells, Cell originCell)
-        {
-            return cells.SelectNeighbors(originCell).WhereEmpty();
-        }
 
         internal static IEnumerable<Cell> SelectOccupiedNeighbors(this IEnumerable<Cell> cells, Cell originCell)
         {
@@ -71,11 +55,6 @@ internal static Cell FindCell(this IEnumerable<Cell> cells, Coords coords)
         internal static IEnumerable<Cell> WhereOccupied(this IEnumerable<Cell> cells)
         {
             return cells.Where(c => !c.IsEmpty());
-        }
-
-        internal static IEnumerable<Cell> WherePlayerOccupies(this IEnumerable<Cell> cells, Player player)
-        {
-            return cells.WhereOccupied().Where(c => c.PlayerOccupies(player));
         }
 
         internal static IEnumerable<Cell> WherePlayerOccupies(this IEnumerable<Cell> cells, int playerId)

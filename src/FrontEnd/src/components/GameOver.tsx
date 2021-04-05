@@ -1,9 +1,7 @@
 import '../css/share.css';
 import { FunctionComponent, h } from 'preact';
 import Modal from './Modal';
-const newGame = () => {
-  window.location.assign(`/${location.search}`);
-};
+const newGame = () => window.location.assign(`/`);
 const GameOver: FunctionComponent<{ win: boolean }> = ({ win }) => (
   <Modal name="game over" onClose={newGame}>
     <p>Game Over! {win ? 'You Win!' : ' You Lose!'}</p>

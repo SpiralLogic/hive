@@ -18,11 +18,18 @@ namespace Hive.Domain.Ai.Heuristics
         private readonly Lazy<int> _currentQueenNeighbours;
         private readonly Lazy<int> _opponentQueenNeighbours;
         internal const int ScoreMax = 100;
+        internal readonly int WorstScore;
+        internal readonly Move Move;
+        internal readonly int BestScore;
 
-        public HeuristicValues(Hive hive, Stack<MoveMade> previousMoves, Move move, int depth, GameStatus gameStatus, int bestScore)
+        public HeuristicValues(Hive hive, Stack<MoveMade> previousMoves, Move move, int depth, GameStatus gameStatus,
+            int bestScore, int worstScore)
         {
             _hive = hive;
             Depth = depth;
+            BestScore = bestScore;
+            Move = move;
+            WorstScore = worstScore;
             GameStatus = gameStatus;
             if (previousMoves.TryPeek(out var moveFromCoords) && moveFromCoords.Coords != null)
             {
@@ -38,6 +45,7 @@ namespace Hive.Domain.Ai.Heuristics
                 () => _hive.Players.Where(p => p.Id != move.Tile.PlayerId).Select(p => CountPlayerQueenNeighbours(p.Id)).Sum()
             );
         }
+
 
         private static bool QueenSearch;
 
