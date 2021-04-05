@@ -3,7 +3,6 @@ using Hive.Converters;
 using Hive.Hubs;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http.Connections;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -71,11 +70,7 @@ namespace Hive
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-                endpoints.MapHub<GameHub>("/gamehub/{id}/{playerId}",
-                    options =>
-                    {
-                        options.Transports = HttpTransportType.WebSockets;
-                    });
+                endpoints.MapHub<GameHub>("/gamehub/{id}/{playerId}");
             });
         }
     }
