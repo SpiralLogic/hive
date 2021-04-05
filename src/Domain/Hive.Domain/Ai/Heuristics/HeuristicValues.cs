@@ -9,11 +9,9 @@ namespace Hive.Domain.Ai.Heuristics
     internal class HeuristicValues
     {
         private readonly Hive _hive;
-        internal const int MaxDepth = 4;
-        internal readonly Move Move;
+        internal const int MaxDepth = 3;
         internal readonly int Depth;
         internal readonly GameStatus GameStatus;
-        internal readonly int BestScore;
         internal readonly Cell[] MoveNeighbours;
         internal readonly Cell? MoveFromLocation;
         internal readonly Cell MoveToLocation;
@@ -24,10 +22,8 @@ namespace Hive.Domain.Ai.Heuristics
         public HeuristicValues(Hive hive, Stack<MoveMade> previousMoves, Move move, int depth, GameStatus gameStatus, int bestScore)
         {
             _hive = hive;
-            Move = move;
             Depth = depth;
             GameStatus = gameStatus;
-            BestScore = bestScore;
             if (previousMoves.TryPeek(out var moveFromCoords) && moveFromCoords.Coords != null)
             {
                 MoveFromLocation = _hive.Cells.FindCell(moveFromCoords.Coords);
@@ -43,7 +39,7 @@ namespace Hive.Domain.Ai.Heuristics
             );
         }
 
-        internal static bool QueenSearch;
+        private static bool QueenSearch;
 
         internal int CurrentQueenNeighbours => _currentQueenNeighbours.Value;
         internal int OpponentQueenNeighbours => _opponentQueenNeighbours.Value;

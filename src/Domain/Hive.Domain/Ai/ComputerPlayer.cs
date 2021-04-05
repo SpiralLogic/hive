@@ -16,8 +16,8 @@ namespace Hive.Domain.Ai
         private readonly (Move? best, int score)[] _depth = new (Move? best, int score)[HeuristicValues.MaxDepth];
         private readonly ICollection<IHeuristic> _heuristics;
         private readonly Stack<MoveMade> _previousMoves = new();
-        private readonly ICollection<ISearchCondition> _searchConditions;
         private Tile? _lastBroadcast;
+        private Stopwatch _stopWatch = new();
 
         public ComputerPlayer(Hive board, Func<string, Tile, Task>? broadcastThought = null)
         {
@@ -34,18 +34,12 @@ namespace Hive.Domain.Ai
                 new QueenScoring()
             };
 
-            _searchConditions = new List<ISearchCondition>
-            {
-                new LowScore(),
-                new QueenSequence(),
-                new TopLevel(),
-            };
         }
 
         public async Task<Move> GetMove()
         {
-            var stopWatch = new Stopwatch();
-            stopWatch.Start();
+            _stopWatch = new Stopwatch();
+            _stopWatch.Start();
             var r = await Run(null, HeuristicValues.MaxDepth);
 
             return r.best ?? throw new ApplicationException("Could not determine next move");
@@ -66,12 +60,12 @@ namespace Hive.Domain.Ai
                 var status = MakeMove(nextMove);
                 if (status == GameStatus.MoveInvalid) continue;
 
-                await BroadcastMove(depth, nextMove);
+                if (depth == HeuristicValues.MaxDepth) await BroadcastMove( nextMove);
 
                 var values = new HeuristicValues(_board, _previousMoves, nextMove, depth, status, bestScore);
                 var score = Evaluate(values, nextMove);
 
-                if (_searchConditions.Any(s => s.ShouldSearch(values)))
+                if (score >= bestScore && score < HeuristicValues.ScoreMax && _stopWatch.ElapsedMilliseconds<3000)
                     score += -(await Run(nextMove, depth - 1)).score / HeuristicValues.MaxDepth;
 
                 RevertMove();
@@ -93,18 +87,21 @@ namespace Hive.Domain.Ai
                 await _broadcastThought("deselect", _lastBroadcast);
         }
 
-        private async Task BroadcastMove(int depth, Move nextMove)
+        private async Task BroadcastMove( Move nextMove)
         {
 
-            if (depth == HeuristicValues.MaxDepth && _broadcastThought != null)
+            if ( _broadcastThought != null)
             {
                 var (tile, _) = nextMove;
                 if (_lastBroadcast != null && _lastBroadcast.Id != tile.Id)
                     await _broadcastThought("deselect", _lastBroadcast);
 
-                if (_lastBroadcast == null || _lastBroadcast.Id != tile.Id) await _broadcastThought("select", tile);
+                if (_lastBroadcast == null || _lastBroadcast.Id != tile.Id)
+                {
+                    await _broadcastThought("select", tile);
 
-                _lastBroadcast = tile;
+                    _lastBroadcast = tile;
+                }
             }
         }
 
@@ -117,7 +114,7 @@ namespace Hive.Domain.Ai
         }
 
         private int Evaluate(HeuristicValues values, Move move) =>
-            _heuristics.Sum(h => h.Get(values, move));
+            _heuristics.Sum(h => h.Get(values, move)) * values.Depth;
 
         private GameStatus MakeMove(Move move)
         {
@@ -172,7 +169,6 @@ namespace Hive.Domain.Ai
 
             var tile = currentCell.RemoveTopTile();
             player.Tiles.Add(tile);
-            _board.RefreshMoves(player);
         }
 
         private IEnumerable<Move> GetMoves()
@@ -188,7 +184,7 @@ namespace Hive.Domain.Ai
                 .Select(c => c.TopTile())
                 .SelectMany(t => t.Moves.Select(m => new Move(t, m)).OrderBy(_ => rnd.Next()))
                 .ToList();
-            return placedTiles.Count > 3 ? unplacedTiles.Concat(placedTiles) : placedTiles.Concat(unplacedTiles);
+            return placedTiles.Count > 3 ?  placedTiles.Concat(unplacedTiles) : unplacedTiles.Concat(placedTiles) ;
         }
     }
 
