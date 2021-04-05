@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Hive.Domain.Ai;
 using Hive.Domain.Entities;
 
 namespace Hive.Domain
@@ -26,9 +27,11 @@ namespace Hive.Domain
         internal void PerformMove(Move move) =>
             _mover.PerformMove(move);
 
-        public Task<GameStatus> AiMove(Func<string, Tile, Task> broadcastThought)
+        public async Task<GameStatus> AiMove(Func<string, Tile, Task> broadcastThought)
         {
-            return _mover.AiMove(broadcastThought);
+            var aiMove = await new ComputerPlayer(this,broadcastThought).GetMove();
+
+            return Move(aiMove);
         }
 
         public void RefreshMoves(Player player) =>

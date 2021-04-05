@@ -35,24 +35,13 @@ namespace Hive.Domain
             return GameStatus.MoveSuccessNextPlayerSkipped;
         }
 
-        internal async Task<GameStatus> AiMove(Func<string, Tile, Task> broadcastThought)
-        {
-            var aiMove = await new ComputerPlayer(_hive,broadcastThought).GetMove();
-            return Move(aiMove);
-        }
-
         private GameStatus DetermineWinner()
         {
-            
-            var surroundedQueens = _hive.Cells.Where(c => c.HasQueen() && c.SelectNeighbors(_hive.Cells).WhereOccupied().Count() == 6).ToArray();
-                if (surroundedQueens.Length==2) return GameStatus.Draw;
-                    return surroundedQueens.First().Tiles.First(t => t.IsQueen())
-                    .PlayerId switch
-                {
-                    1 => GameStatus.Player0Win,
-                    0 => GameStatus.Player1Win,
-                    _ => GameStatus.GameOver
-                };
+
+            var surroundedQueens = _hive.Cells.Where(c => c.HasQueen() && c.SelectNeighbors(_hive.Cells).WhereOccupied().Count() == 6)
+                .ToArray();
+            if (surroundedQueens.Length == 2) return GameStatus.Draw;
+            return surroundedQueens.First().Tiles.First(t => t.IsQueen()).PlayerId == 0 ? GameStatus.Player1Win : GameStatus.Player0Win;
         }
 
         private Player SkipTurn(Player nextPlayer) =>
