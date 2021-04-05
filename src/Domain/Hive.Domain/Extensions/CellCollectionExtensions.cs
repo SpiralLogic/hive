@@ -6,14 +6,28 @@ namespace Hive.Domain.Extensions
 {
     public static class CellCollectionExtensions
     {
-        internal static Cell? FindCell(this IEnumerable<Cell> cells, Coords coords)
+        internal static Cell? FindCellOrDefault(this IEnumerable<Cell> cells, Coords coords)
         {
-            return cells.SingleOrDefault(c => c.Coords.Equals(coords));
+            return cells.FirstOrDefault(c => c.Coords.Equals(coords));
+        }
+internal static Cell FindCell(this IEnumerable<Cell> cells, Coords coords)
+        {
+            return cells.First(c => c.Coords.Equals(coords));
         }
 
-        internal static Cell? FindCell(this IEnumerable<Cell> cells, Tile tile)
+        internal static Cell? FindCellOrDefault(this IEnumerable<Cell> cells, Tile tile)
         {
-            return cells.SingleOrDefault(c => c.Tiles.Any(t => t.Id == tile.Id));
+            return cells.WhereOccupied().FirstOrDefault(c => c.Tiles.Any(t => t.Id == tile.Id));
+        }
+
+        internal static Cell FindCell(this IEnumerable<Cell> cells, Tile tile)
+        {
+            return cells.WhereOccupied().First(c => c.Tiles.Any(t => t.Id == tile.Id));
+        }
+
+        internal static Cell FindCell(this IEnumerable<Cell> cells, int tileId)
+        {
+            return cells.WhereOccupied().First(c => c.Tiles.Any(t => t.Id == tileId));
         }
 
         internal static ISet<Cell> CreateAllEmptyNeighbours(this IEnumerable<Cell> cells)

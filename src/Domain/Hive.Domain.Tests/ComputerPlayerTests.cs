@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Hive.Domain.Ai;
 using Hive.Domain.Entities;
 using Hive.Domain.Tests.TestUtils;
 using Xunit;
@@ -226,6 +227,39 @@ namespace Hive.Domain.Tests
 
             var player = new ComputerPlayer(hive);
             (await  player.GetMove()).Should().BeetleOnQueen(initial, expected);
+        }   
+        
+        [Fact]
+        public async Task Player0Wins()
+        {
+            var initial = new InitialHiveBuilder();
+
+            initial += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
+            initial += " ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡";
+            initial += "⬡ ⬡ ⬡ ⬡ a a a ⬡ ⬡ ⬡ ";
+            initial += " ⬡ ⬡ s ⬡ S Q ⬡ ⬡ ⬡ ⬡";
+            initial += "⬡ ⬡ s q S S S b ⬡ ⬡ ";
+            initial += " ⬡ ⬡ s s G G ⬡ ⬡ ⬡ ⬡";
+            initial += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
+            initial += " ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡";
+
+
+            var expected = new ExpectedAiBuilder();
+
+
+            expected += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
+            expected += " ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡";
+            expected += "⬡ ⬡ ⬡ ⬡ a a a ⬡ ⬡ ⬡ ";
+            expected += " ⬡ ⬡ s ✔ S Q ⬡ ⬡ ⬡ ⬡";
+            expected += "⬡ ⬡ s q S S S b ⬡ ⬡ ";
+            expected += " ⬡ ⬡ s s ★ G ⬡ ⬡ ⬡ ⬡";
+            expected += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
+            expected += " ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡";
+
+            var hive = HiveFactory.CreateHive(new[] {new Player(0, "P1"), new Player(1, "P1")}, initial.AllCells, 0);
+
+            var player = new ComputerPlayer(hive);
+            (await  player.GetMove()).Should().MatchHive(initial, expected);
         }
     }
 }

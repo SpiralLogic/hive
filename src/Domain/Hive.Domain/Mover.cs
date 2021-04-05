@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Hive.Domain.Ai;
 using Hive.Domain.Entities;
 using Hive.Domain.Extensions;
 
@@ -18,10 +19,10 @@ namespace Hive.Domain
 
         internal GameStatus Move(Move move)
         {
+            if (IsGameOver()) return DetermineWinner();
             if (!IsValidMove(move)) return GameStatus.MoveInvalid;
 
             PerformMove(move);
-            ClearAllMoves();
 
             var nextPlayer = GetNextPlayer(move.Tile);
             if (IsGameOver()) return DetermineWinner();
@@ -36,20 +37,23 @@ namespace Hive.Domain
 
         internal async Task<GameStatus> AiMove(Func<string, Tile, Task> broadcastThought)
         {
-            if (CountMovesAvailable() == 0) return GameStatus.Draw;
             var aiMove = await new ComputerPlayer(_hive,broadcastThought).GetMove();
             return Move(aiMove);
         }
 
-        private GameStatus DetermineWinner() =>
-            _hive.Cells.First(c => c.HasQueen() && c.SelectNeighbors(_hive.Cells).WhereOccupied().Count() == 6)
-                    .Tiles.First(t => t.IsQueen())
+        private GameStatus DetermineWinner()
+        {
+            
+            var surroundedQueens = _hive.Cells.Where(c => c.HasQueen() && c.SelectNeighbors(_hive.Cells).WhereOccupied().Count() == 6).ToArray();
+                if (surroundedQueens.Length==2) return GameStatus.Draw;
+                    return surroundedQueens.First().Tiles.First(t => t.IsQueen())
                     .PlayerId switch
                 {
                     1 => GameStatus.Player0Win,
                     0 => GameStatus.Player1Win,
                     _ => GameStatus.GameOver
                 };
+        }
 
         private Player SkipTurn(Player nextPlayer) =>
             _hive.Players.First(p => p.Id != nextPlayer.Id);
@@ -68,7 +72,7 @@ namespace Hive.Domain
             UpdatePlayerTileMoves(nextPlayer);
         }
 
-        private void PerformMove(Move move)
+        internal void PerformMove(Move move)
         {
             RemoveTile(move.Tile);
             var (tile, coords) = move;
@@ -142,7 +146,7 @@ namespace Hive.Domain
         private void RemoveTile(Tile tile)
         {
             _hive.Players.FindPlayerById(tile.PlayerId).RemoveTile(tile);
-            _hive.Cells.FindCell(tile)?.RemoveTopTile();
+            _hive.Cells.FindCellOrDefault(tile)?.RemoveTopTile();
         }
     }
 }

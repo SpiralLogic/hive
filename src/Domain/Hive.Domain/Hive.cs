@@ -20,8 +20,11 @@ namespace Hive.Domain
         public ISet<Cell> Cells { get; }
         public IList<Player> Players { get; }
 
-        public GameStatus Move(Move move)=> 
+        public GameStatus Move(Move move) =>
             _mover.Move(move);
+
+        internal void PerformMove(Move move) =>
+            _mover.PerformMove(move);
 
         public Task<GameStatus> AiMove(Func<string, Tile, Task> broadcastThought)
         {

@@ -36,13 +36,14 @@ namespace Hive.Domain
         }
 
         private static IList<Player> CreatePlayers(IEnumerable<string> playerNames) =>
-            playerNames.Select((name, id) => new Player(id, name) {Tiles = CreateTiles(id)}).ToList();
+            playerNames.Select((name, id) => new Player(id, name) {Tiles = CreateTiles(id, id==0)}).ToList();
 
-        private static ISet<Tile> CreateTiles(int playerId)
+        private static ISet<Tile> CreateTiles(int playerId, bool withMoves = false)
         {
-            var startingMoves =  CreateCells().ToCoords();
+            var startingMoves = CreateCells().ToCoords();
             return StartingTiles.Select((creature, i) => (creature, id: playerId * StartingTiles.Length + i))
-                .Select(t => new Tile(t.id, playerId, t.creature) with {Moves = startingMoves.ToHashSet()})
+                .Select(t => new Tile(t.id, playerId, t.creature))
+                .Select(t => withMoves ? t with {Moves = startingMoves.ToHashSet()} : t)
                 .ToHashSet();
         }
 

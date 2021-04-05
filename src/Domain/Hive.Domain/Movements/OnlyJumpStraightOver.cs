@@ -27,7 +27,7 @@ namespace Hive.Domain.Movements
 
         private static Cell GetFirstEmpty(ISet<Cell> allCells, Func<Coords, Coords> nextFunc, Coords current)
         {
-            if (allCells.FindCell(current) == null) return new Cell(current);
+            if (allCells.FindCellOrDefault(current) == null) return new Cell(current);
             return allCells.FirstOrDefault(c => c.Coords == current && c.IsEmpty()) ??
                    GetFirstEmpty(allCells, nextFunc, nextFunc(current));
         }

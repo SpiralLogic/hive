@@ -103,7 +103,7 @@ namespace Hive.Domain.Tests
         }*/
 
         [Fact]
-        public void AnyPlayerCanStart()
+        public void OnlyPlayer0CanStart()
         {
             var hive = HiveFactory.CreateHive(new[] {"player1", "player2"});
             var firstPlayer = hive.Players.First();
@@ -117,7 +117,7 @@ namespace Hive.Domain.Tests
                 .Any(t => t.PlayerId == secondPlayer.Id);
 
             firstPlayerCanMoveFirst.Should().BeTrue();
-            secondPlayerCanMoveFirst.Should().BeTrue();
+            secondPlayerCanMoveFirst.Should().BeFalse();
         }
 
         [Fact]
@@ -206,7 +206,7 @@ namespace Hive.Domain.Tests
 
             var queen = players.First(p => p.Id == 1).Tiles.First(t => t.Creature == Creatures.Queen);
 
-            var hive2 = new Hive(players, cells);
+            var hive2 = HiveFactory.CreateHive(players,cells,1);
             hive2.Move(new Move(queen, new Coords(0, 0))).Should().Be(GameStatus.Player0Win);
         }
 
