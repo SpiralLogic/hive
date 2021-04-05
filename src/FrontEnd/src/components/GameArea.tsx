@@ -52,7 +52,7 @@ const GameArea: FunctionComponent<Props> = ({ players, cells, playerId, gameStat
       <Players players={players} />
       <main>
         <Links
-          onShowRules={() => setShowRules(true)}
+          onShowRules={setShowRules}
           onShowShare={() => shareComponent()}
           playerId={playerId}
         />

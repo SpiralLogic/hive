@@ -9,7 +9,7 @@ import { handle } from '../utilities/handlers';
 import SVG from './SVG';
 
 type Props = {
-  onShowRules: () => void;
+  onShowRules: (value: boolean) => void;
   onShowShare: () => void;
   playerId: PlayerId;
 };
@@ -38,7 +38,7 @@ const Links: FunctionComponent<Props> = (props) => {
           <use href="#new" />
         </SVG>
       </a>
-      <a href="#" name="Show rules" onClick={handle(props.onShowRules)} title="Rules">
+      <a href="#" name="Show rules" onClick={()=>props.onShowRules(true)} title="Rules">
         ?
       </a>
       <a

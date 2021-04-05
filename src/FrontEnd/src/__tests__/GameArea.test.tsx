@@ -10,7 +10,7 @@ describe('gameArea Tests', () => {
   it('default drag over is prevented to allow drop', async () => {
     const gameState = createGameState(1);
     render(
-      <GameArea gameStatus="MoveSuccess" players={gameState.players} cells={gameState.cells} playerId={2} />
+      <GameArea gameStatus='MoveSuccess' players={gameState.players} cells={gameState.cells} playerId={2} />
     );
     const preventDefault = simulateEvent(screen.getByTitle('Hive Game Area'), 'dragover');
 
@@ -21,7 +21,7 @@ describe('gameArea Tests', () => {
     const gameState = createGameState(1);
     global.window.history.replaceState({}, global.document.title, `/game/33/0`);
     render(
-      <GameArea gameStatus="MoveSuccess" players={gameState.players} cells={gameState.cells} playerId={1} />
+      <GameArea gameStatus='MoveSuccess' players={gameState.players} cells={gameState.cells} playerId={1} />
     );
 
     expect(screen.getByTitle('Player 1').querySelectorAll('[draggable]')).toHaveLength(0);
@@ -30,12 +30,12 @@ describe('gameArea Tests', () => {
 
   it('show rules is rendered', async () => {
     const gameState = createGameState(1);
-    render(
-      <GameArea gameStatus="MoveSuccess" players={gameState.players} cells={gameState.cells} playerId={1} />
+   const gameArea= render(
+      <GameArea gameStatus='MoveSuccess' players={gameState.players} cells={gameState.cells} playerId={1} />
     );
-
+   
     userEvent.click(screen.getByTitle(/Rules/));
-
+    gameArea.rerender(<GameArea gameStatus='MoveSuccess' players={gameState.players} cells={gameState.cells} playerId={1} />);
     expect(screen.getByRole('dialog')).toBeInTheDocument();
   });
 
@@ -45,7 +45,7 @@ describe('gameArea Tests', () => {
     const gameState = createGameState(1);
     global.window.history.replaceState({}, global.document.title, `/game/33/0`);
     render(
-      <GameArea gameStatus="MoveSuccess" players={gameState.players} cells={gameState.cells} playerId={1} />
+      <GameArea gameStatus='MoveSuccess' players={gameState.players} cells={gameState.cells} playerId={1} />
     );
     userEvent.click(screen.getByTitle(/Share/));
     expect(navigator.share).toHaveBeenCalledWith(expect.objectContaining({ url }));
@@ -59,7 +59,7 @@ describe('gameArea Tests', () => {
     const url = `http://localhost/game/33/1`;
     const gameState = createGameState(1);
     render(
-      <GameArea gameStatus="MoveSuccess" players={gameState.players} cells={gameState.cells} playerId={1} />
+      <GameArea gameStatus='MoveSuccess' players={gameState.players} cells={gameState.cells} playerId={1} />
     );
     userEvent.click(screen.getByTitle(/Share/));
     expect(navigator.clipboard.writeText).toHaveBeenCalledWith(url);
@@ -72,7 +72,7 @@ describe('gameArea Tests', () => {
     const restore = mockExecCommand();
     const gameState = createGameState(1);
     render(
-      <GameArea gameStatus="MoveSuccess" players={gameState.players} cells={gameState.cells} playerId={1} />
+      <GameArea gameStatus='MoveSuccess' players={gameState.players} cells={gameState.cells} playerId={1} />
     );
     userEvent.click(screen.getByTitle(/Share/));
     expect(document.execCommand).toHaveBeenCalledWith('copy');
@@ -85,7 +85,7 @@ describe('gameArea Tests', () => {
     const restore = noShare();
     const gameState = createGameState(1);
     render(
-      <GameArea gameStatus="MoveSuccess" players={gameState.players} cells={gameState.cells} playerId={1} />
+      <GameArea gameStatus='MoveSuccess' players={gameState.players} cells={gameState.cells} playerId={1} />
     );
     userEvent.click(screen.getByTitle(/Share/));
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
