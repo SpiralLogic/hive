@@ -12,11 +12,7 @@ namespace Hive.Domain.Ai.Heuristics
             {
                 return 2* HeuristicValues.ScoreMax;
             }
-            if (values.GameStatus == GameStatus.Player0Win && move.Tile.PlayerId == 1 ||
-                values.GameStatus == GameStatus.Player1Win && move.Tile.PlayerId == 0)
-            {
-                return -2* HeuristicValues.ScoreMax;
-            }
+
             if (values.GameStatus == GameStatus.Draw)
             {
                 return  -2* HeuristicValues.ScoreMax;
