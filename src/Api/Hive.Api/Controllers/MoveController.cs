@@ -38,13 +38,13 @@ namespace Hive.Controllers
             var gameSession = await _distributedCache.GetStringAsync(id);
             if (string.IsNullOrEmpty(gameSession)) return NotFound();
 
-            var (players, cells, _, gameStatus) = JsonSerializer.Deserialize<GameState>(gameSession, _jsonSerializerOptions)!;
+            var (players, cells, _, _) = JsonSerializer.Deserialize<GameState>(gameSession, _jsonSerializerOptions)!;
 
             var game = new Domain.Hive(players.ToList(), cells.ToHashSet());
             var tile = players.SelectMany(p => p.Tiles).Concat(cells.SelectMany(c => c.Tiles)).FirstOrDefault(t => t.Id == move.TileId);
             if (tile == null) return Forbid();
 
-            gameStatus = game.Move(new Domain.Entities.Move(tile, move.Coords));
+          var gameStatus = game.Move(new Domain.Entities.Move(tile, move.Coords));
 
             if (gameStatus == GameStatus.MoveInvalid) return Forbid();
 

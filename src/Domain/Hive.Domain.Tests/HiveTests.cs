@@ -105,7 +105,7 @@ namespace Hive.Domain.Tests
         public async Task CanAiMove()
         {
             var hive = HiveFactory.CreateHive(new[] {"player1", "player2"});
-            (string s, Tile? t) called = (default, null);
+            (string? s, Tile? t) called = (default, null);
 
             Task Broadcast(string s, Tile t)
             {

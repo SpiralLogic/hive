@@ -168,8 +168,6 @@ namespace Hive.Api.Tests.Controllers
         [Fact]
         public async Task PostAiMove_GameNotInCache_ReturnsNotFound()
         {
-            DTOs.Move move = new(1, new Coords(0, 0));
-
             (await _controller.Post(TestHelpers.MissingGameId, 1)).Should().BeOfType<NotFoundResult>();
         }
     }
