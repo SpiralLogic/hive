@@ -48,49 +48,72 @@ namespace Hive.Domain.Ai
         {
             if (depth == 0) return (move, 0);
 
-            var bestScore = -HeuristicValues.ScoreMax;
-            var worstScore = HeuristicValues.ScoreMax;
-            var moves = GetMoves().ToArray();
-            var best = moves.FirstOrDefault();
+            var toExplore = FindMovesToExplore();
 
-            _lastBroadcast = null;
-            foreach (var nextMove in moves)
+            foreach (var (tile, values) in toExplore)
             {
-                var status = MakeMove(nextMove);
-                if (status == GameStatus.MoveInvalid) continue;
-                var values = new HeuristicValues(_board, _previousMoves, nextMove, depth, status, bestScore,
-                    worstScore);
-
-                var (score, newWorstScore) = await GetScore(values);
-                worstScore = newWorstScore;
-                RevertMove();
-
-                if (score >= bestScore) (best, bestScore) = SetBest(nextMove, score);
+                var newList = values.OrderByDescending(t => t.score).Take(3).ToList();
+                toExplore[tile] = newList;
             }
 
-            if (depth == HeuristicValues.MaxDepth) await BroadcastDeselect();
+            var (best, bestScore) = await Explore(depth, toExplore);
+
+            if (depth == HeuristicValues.MaxDepth)
+            {
+                await BroadcastDeselect();
+                _lastBroadcast = null;
+            }
 
             _depth[depth - 1] = SetBest(best, bestScore);
             return SetBest(best, bestScore);
         }
 
-        private async Task<(int score, int worstscore)> GetScore(HeuristicValues values)
+        private async Task<(Move? best, int bestScore)> Explore(int depth,
+            Dictionary<Tile, List<(int score, HeuristicValues values)>> toExplore)
         {
-            if (values.Depth == HeuristicValues.MaxDepth) await BroadcastMove(values.Move);
-            var worstScore = values.WorstScore;
-            var score = Evaluate(values);
-            if (score >= values.BestScore && score < HeuristicValues.ScoreMax &&
-                _stopWatch.ElapsedMilliseconds < 3000)
+            var best = toExplore.First().Value.First().values.Move;
+            var bestScore = -HeuristicValues.MaxDepth;
+            foreach (var (nextScore, values) in toExplore.SelectMany(kvp => kvp.Value))
             {
-                worstScore = Math.Min(values.WorstScore, -(await Run(values.Move, values.Depth - 1)).score);
-                score += worstScore;
-            }
-            else
-            {
-                score += values.WorstScore;
+                var status = MakeMove(values.Move);
+                if (status == GameStatus.MoveInvalid) continue;
+                if (depth == HeuristicValues.MaxDepth) await BroadcastMove(values.Move);
+                var score1 = nextScore * depth;
+                if (score1 >= bestScore && score1 < HeuristicValues.ScoreMax)
+                {
+                    score1 -= (await Run(values.Move, depth - 1)).score;
+                }
+
+                var score = score1;
+                RevertMove();
+
+                if (score >= bestScore) (best, bestScore) = SetBest(values.Move, score);
             }
 
-            return (score, worstScore);
+            return (best, bestScore);
+        }
+
+        private Dictionary<Tile, List<(int score, HeuristicValues values)>> FindMovesToExplore()
+        {
+            var moves = GetMoves().ToArray();
+            var toExplore = new Dictionary<Tile, List<(int score, HeuristicValues values)>>();
+            foreach (var nextMove in moves)
+            {
+                var status = MakeMove(nextMove);
+                if (status == GameStatus.MoveInvalid) continue;
+                if (!toExplore.ContainsKey(nextMove.Tile))
+                {
+                    toExplore.Add(nextMove.Tile, new List<(int, HeuristicValues)>());
+                }
+
+                var tileMoves = toExplore[nextMove.Tile]!;
+                var values = new HeuristicValues(_board, _previousMoves, nextMove, status);
+                var score = _heuristics.Sum(h => h.Get(values, values.Move));
+                RevertMove();
+                tileMoves.Add((score, values));
+            }
+
+            return toExplore;
         }
 
         private async Task BroadcastDeselect()
@@ -110,7 +133,6 @@ namespace Hive.Domain.Ai
                 if (_lastBroadcast == null || _lastBroadcast.Id != tile.Id)
                 {
                     await _broadcastThought("select", tile);
-
                     _lastBroadcast = tile;
                 }
             }
@@ -122,9 +144,6 @@ namespace Hive.Domain.Ai
             var best = nextMove;
             return (best, bestScore);
         }
-
-        private int Evaluate(HeuristicValues values) =>
-            _heuristics.Sum(h => h.Get(values, values.Move)) * values.Depth;
 
         private GameStatus MakeMove(Move move)
         {

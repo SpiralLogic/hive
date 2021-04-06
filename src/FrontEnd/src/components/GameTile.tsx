@@ -42,7 +42,7 @@ const GameTile: FunctionComponent<Props> = (props) => {
   });
 
   addHiveDispatchListener('tileClear', () => {
-    deselect();
+    deselect(true);
     setFocus('');
   });
 

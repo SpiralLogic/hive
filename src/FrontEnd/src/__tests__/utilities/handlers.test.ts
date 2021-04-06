@@ -1,5 +1,5 @@
 import { GameState } from '../../domain';
-import { AiAction, HiveEvent, TileAction } from '../../services';
+import { Action, AiAction, HiveEvent, TileAction, TileEvent } from '../../services';
 import {
   attachServerHandlers,
   handleDragOver,
@@ -21,6 +21,7 @@ describe(`handler tests`, () => {
     creature: '',
     playerId: 1,
   };
+
   describe(`handle drag tests`, () => {
     it('should prevent default on dragover', () => {
       const preventDefault = jest.fn();
@@ -108,10 +109,10 @@ describe(`handler tests`, () => {
       const tile = { id: 1, playerId: 1, creature: 'swan', moves: [] };
       const dispatcher = useHiveDispatcher();
       const selectHandler = jest.fn();
-      dispatcher.add<TileAction>('tileDeselect', selectHandler);
+      dispatcher.add<Action>('tileClear', selectHandler);
 
       opponentSelectionHandler('deselect', tile);
-      expect(selectHandler).toHaveBeenCalledWith({ type: 'tileDeselect', tile });
+      expect(selectHandler).toHaveBeenCalledWith({ type: 'tileClear' });
     });
 
     it(`opponent deselection doesnt fire for missing tiles`, () => {
