@@ -11,8 +11,7 @@ namespace Hive.Domain.Ai.Heuristics
 
             if (move.Tile.IsCreature(Creatures.Beetle) &&
                 values.MoveToLocation.Tiles.Any(t => t.IsQueen() && t.PlayerId != move.Tile.PlayerId)) return 50;
-            if (move.Tile.IsCreature(Creatures.Beetle) &&
-                values.MoveToLocation.Tiles.Any(t => t.IsQueen() && t.PlayerId == move.Tile.PlayerId)) return -50;
+
             return 0;
         }
     }

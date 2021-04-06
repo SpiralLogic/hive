@@ -40,6 +40,10 @@ namespace Hive.Domain.Ai
             _stopWatch = new Stopwatch();
             _stopWatch.Start();
             var r = await Run(null, HeuristicValues.MaxDepth);
+            foreach (var valueTuple in _depth)
+            {
+                Console.WriteLine(valueTuple);
+            }
 
             return r.best ?? throw new ApplicationException("Could not determine next move");
         }
@@ -50,26 +54,28 @@ namespace Hive.Domain.Ai
 
             var toExplore = FindMovesToExplore();
 
-            foreach (var (tile, values) in toExplore)
-            {
-                var newList = values.OrderByDescending(t => t.score).Take(3).ToList();
-                toExplore[tile] = newList;
-            }
+            ReduceToBestMoves(toExplore, depth);
 
             var (best, bestScore) = await Explore(depth, toExplore);
 
-            if (depth == HeuristicValues.MaxDepth)
-            {
-                await BroadcastDeselect();
-                _lastBroadcast = null;
-            }
-
-            _depth[depth - 1] = SetBest(best, bestScore);
-            return SetBest(best, bestScore);
+            _depth[depth - 1] = (best, bestScore);
+            return _depth[depth - 1];
         }
 
-        private async Task<(Move? best, int bestScore)> Explore(int depth,
-            Dictionary<Tile, List<(int score, HeuristicValues values)>> toExplore)
+        private static void ReduceToBestMoves(IDictionary<Tile, List<(int score, HeuristicValues values)>> toExplore, int depth)
+        {
+
+            foreach (var (tile, values) in toExplore)
+            {
+                var newList = values.OrderByDescending(t => t.score).Take(depth).ToList();
+                toExplore[tile] = newList;
+            }
+        }
+
+        private async Task<(Move? best, int bestScore)> Explore(
+            int depth,
+            Dictionary<Tile, List<(int score, HeuristicValues values)>> toExplore
+        )
         {
             var best = toExplore.First().Value.First().values.Move;
             var bestScore = -HeuristicValues.MaxDepth;
@@ -78,16 +84,20 @@ namespace Hive.Domain.Ai
                 var status = MakeMove(values.Move);
                 if (status == GameStatus.MoveInvalid) continue;
                 if (depth == HeuristicValues.MaxDepth) await BroadcastMove(values.Move);
-                var score1 = nextScore * depth;
-                if (score1 >= bestScore && score1 < HeuristicValues.ScoreMax)
+                var score = nextScore / (HeuristicValues.MaxDepth - depth + 1);
+                if (score >= bestScore && score < HeuristicValues.ScoreMax && _stopWatch.ElapsedMilliseconds < 10000)
                 {
-                    score1 -= (await Run(values.Move, depth - 1)).score;
+                    score -= (await Run(values.Move, depth - 1)).score;
                 }
 
-                var score = score1;
                 RevertMove();
 
-                if (score >= bestScore) (best, bestScore) = SetBest(values.Move, score);
+                if (score >= bestScore)
+                {
+                    (best, bestScore) = (values.Move, score);
+                }
+
+                if (depth == HeuristicValues.MaxDepth) await BroadcastDeselect();
             }
 
             return (best, bestScore);
@@ -120,6 +130,7 @@ namespace Hive.Domain.Ai
         {
             if (_broadcastThought != null && _lastBroadcast != null)
                 await _broadcastThought("deselect", _lastBroadcast);
+            _lastBroadcast = null;
         }
 
         private async Task BroadcastMove(Move nextMove)
@@ -128,7 +139,7 @@ namespace Hive.Domain.Ai
             {
                 var (tile, _) = nextMove;
                 if (_lastBroadcast != null && _lastBroadcast.Id != tile.Id)
-                    await _broadcastThought("deselect", _lastBroadcast);
+                    await BroadcastDeselect();
 
                 if (_lastBroadcast == null || _lastBroadcast.Id != tile.Id)
                 {
@@ -136,13 +147,6 @@ namespace Hive.Domain.Ai
                     _lastBroadcast = tile;
                 }
             }
-        }
-
-        private static (Move? best, int bestScore) SetBest(Move? nextMove, int score)
-        {
-            var bestScore = score;
-            var best = nextMove;
-            return (best, bestScore);
         }
 
         private GameStatus MakeMove(Move move)
