@@ -31,7 +31,7 @@ namespace Hive.Domain.Tests
         {
             var coords1 = new Coords(1, 1);
             var coords2 = new Coords(1, 2);
-            var coords3 = coords2 with {R = 1};
+            var coords3 = new Coords(1, 1);
 
             coords1.Should().IsSameOrEqualTo(coords3);
         }
@@ -40,7 +40,7 @@ namespace Hive.Domain.Tests
         public void CoordsAreNotEqualWith()
         {
             var coords1 = new Coords(1, 1);
-            var coords2 = coords1 with {R = 2};
+            var coords2 = new Coords(1,2);
 
             coords1.Should().NotBe(coords2);
         }

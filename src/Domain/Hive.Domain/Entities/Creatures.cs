@@ -10,9 +10,10 @@ namespace Hive.Domain.Entities
             {
                 new IsAdjacent(),
                 new IsEmpty(),
-                new CanSlideTo(),
                 new WontSplitHive(),
-                new HasAnyNeighbour()
+                new HasAnyNeighbour(),
+                new CanSlideTo()
+
             }
         };
 
@@ -43,10 +44,11 @@ namespace Hive.Domain.Entities
             Movements = new IMovement[]
             {
                 new OnlyThreeSpaces(),
-                new CanSlideTo(),
                 new HiveHasQueen(),
                 new WontSplitHive(),
-                new HasAnyNeighbour()
+                new HasAnyNeighbour(), 
+                new CanSlideTo()
+
             }
         };
 
@@ -54,10 +56,11 @@ namespace Hive.Domain.Entities
         {
             Movements = new IMovement[]
             {
-                new CanSlideTo(),
                 new HiveHasQueen(),
                 new WontSplitHive(),
-                new HasAnyNeighbour()
+                new HasAnyNeighbour(), 
+                new CanSlideTo()
+
             }
         };
     }

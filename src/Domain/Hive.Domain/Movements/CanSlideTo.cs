@@ -16,15 +16,14 @@ namespace Hive.Domain.Movements
 
         private static void GetSlidableNeighbors(Cell currentCell, ISet<Cell> availableCells, ISet<Cell> allCells)
         {
-            var neighbors = currentCell.SelectNeighbors(allCells).ToHashSet();
-
-            var unvisitedAdjacentSlidable = neighbors.WhereEmpty()
-                .Where(end => end.SelectNeighbors(allCells).Intersect(neighbors).WhereOccupied().Count() != 2)
-                .Except(availableCells)
-                .ToHashSet();
-
-            availableCells.UnionWith(unvisitedAdjacentSlidable);
-            foreach (var cell in unvisitedAdjacentSlidable) GetSlidableNeighbors(cell, availableCells, allCells);
+            var neighbors = currentCell.SelectNeighbors(allCells).ToArray();
+            foreach (var n in neighbors)
+            {
+                if (!n.IsEmpty() || n.SelectNeighbors(neighbors).WhereOccupied().Count() == 2) continue;
+                if (availableCells.Contains(n)) continue;
+                availableCells.Add(n);
+                GetSlidableNeighbors(n, availableCells, allCells);
+            }
         }
     }
 }

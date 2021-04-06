@@ -81,17 +81,14 @@ namespace Hive.Domain.Ai
                 if (status == GameStatus.MoveInvalid) continue;
                 if (depth == HeuristicValues.MaxDepth) await BroadcastMove(values.Move);
                 var score = nextScore / (HeuristicValues.MaxDepth - depth + 1);
-                if (score >= bestScore && score < HeuristicValues.ScoreMax )
+                if (score >= bestScore && score < HeuristicValues.ScoreMax)
                 {
                     score -= (await Run(values.Move, depth - 1)).score;
                 }
 
                 RevertMove();
 
-                if (score >= bestScore)
-                {
-                    (best, bestScore) = (values.Move, score);
-                }
+                if (score >= bestScore) (best, bestScore) = (values.Move, score);
 
                 if (depth == HeuristicValues.MaxDepth) await BroadcastDeselect();
             }
@@ -107,10 +104,7 @@ namespace Hive.Domain.Ai
             {
                 var status = MakeMove(nextMove);
                 if (status == GameStatus.MoveInvalid) continue;
-                if (!toExplore.ContainsKey(nextMove.Tile))
-                {
-                    toExplore.Add(nextMove.Tile, new List<(int, HeuristicValues)>());
-                }
+                if (!toExplore.ContainsKey(nextMove.Tile)) toExplore.Add(nextMove.Tile, new List<(int, HeuristicValues)>());
 
                 var tileMoves = toExplore[nextMove.Tile]!;
                 var values = new HeuristicValues(_board, _previousMoves, nextMove, status);
@@ -171,14 +165,8 @@ namespace Hive.Domain.Ai
 
             var player = _board.Players.FindPlayerById(playerId);
 
-            if (coords == null)
-            {
-                revertMoveOnBoard(currentCell, player);
-            }
-            else
-            {
-                RevertMoveFromPlayerTiles(currentCell, coords);
-            }
+            if (coords == null) revertMoveOnBoard(currentCell, player);
+            else RevertMoveFromPlayerTiles(currentCell, coords);
 
             _board.RefreshMoves(player);
         }
@@ -210,7 +198,7 @@ namespace Hive.Domain.Ai
                 .Select(c => c.TopTile())
                 .SelectMany(t => t.Moves.Select(m => new Move(t, m)).OrderBy(_ => rnd.Next())).Reverse()
                 .ToList();
-            return placedTiles.Count > 3 ? placedTiles.Concat(unplacedTiles) : unplacedTiles.Concat(placedTiles);
+            return placedTiles.Concat(unplacedTiles) ;
         }
     }
 }
