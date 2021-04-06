@@ -40,17 +40,13 @@ namespace Hive.Domain.Ai
             _stopWatch = new Stopwatch();
             _stopWatch.Start();
             var r = await Run(null, HeuristicValues.MaxDepth);
-            foreach (var valueTuple in _depth)
-            {
-                Console.WriteLine(valueTuple);
-            }
 
             return r.best ?? throw new ApplicationException("Could not determine next move");
         }
 
         private async Task<(Move? best, int score)> Run(Move? move, int depth)
         {
-            if (depth == 0 || _stopWatch.ElapsedMilliseconds > 10000) return (move, 0);
+            if (depth == 0 || _stopWatch.ElapsedMilliseconds > 7000) return (move, 0);
 
             var toExplore = FindMovesToExplore();
 
