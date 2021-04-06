@@ -50,7 +50,7 @@ namespace Hive.Domain.Ai
 
         private async Task<(Move? best, int score)> Run(Move? move, int depth)
         {
-            if (depth == 0) return (move, 0);
+            if (depth == 0 || _stopWatch.ElapsedMilliseconds > 10000) return (move, 0);
 
             var toExplore = FindMovesToExplore();
 
@@ -85,7 +85,7 @@ namespace Hive.Domain.Ai
                 if (status == GameStatus.MoveInvalid) continue;
                 if (depth == HeuristicValues.MaxDepth) await BroadcastMove(values.Move);
                 var score = nextScore / (HeuristicValues.MaxDepth - depth + 1);
-                if (score >= bestScore && score < HeuristicValues.ScoreMax && _stopWatch.ElapsedMilliseconds < 10000)
+                if (score >= bestScore && score < HeuristicValues.ScoreMax )
                 {
                     score -= (await Run(values.Move, depth - 1)).score;
                 }
