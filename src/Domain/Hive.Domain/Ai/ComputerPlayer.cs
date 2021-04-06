@@ -212,7 +212,7 @@ namespace Hive.Domain.Ai
             var placedTiles = cells.WhereOccupied()
                 .OrderBy(c => c.SelectNeighbors(_board.Cells).Any(n => n.HasQueen()))
                 .Select(c => c.TopTile())
-                .SelectMany(t => t.Moves.Select(m => new Move(t, m)).OrderBy(_ => rnd.Next()))
+                .SelectMany(t => t.Moves.Select(m => new Move(t, m)).OrderBy(_ => rnd.Next())).Reverse()
                 .ToList();
             return placedTiles.Count > 3 ? placedTiles.Concat(unplacedTiles) : unplacedTiles.Concat(placedTiles);
         }
