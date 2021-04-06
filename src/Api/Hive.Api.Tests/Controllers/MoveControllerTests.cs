@@ -34,13 +34,108 @@ namespace Hive.Api.Tests.Controllers
             memoryCache.Set(TestHelpers.ExistingGameId, TestHelpers.GetSerializedBytes(gameState, jsonOptions));
 
             _hubMock = new Mock<IHubContext<GameHub>>();
-            _hubMock.Setup(m =>
-                    m.Clients
-                        .Group(It.IsAny<string>())
-                        .SendCoreAsync(It.IsAny<string>(), It.IsAny<object[]>(), It.IsAny<CancellationToken>()))
+            _hubMock.Setup(
+                    m => m.Clients.Group(It.IsAny<string>())
+                        .SendCoreAsync(It.IsAny<string>(), It.IsAny<object[]>(), It.IsAny<CancellationToken>())
+                )
                 .Returns(() => Task.CompletedTask);
 
             _controller = new MoveController(_hubMock.Object, Options.Create(jsonOptions), memoryCache);
+        }
+
+        [Fact]
+        public async Task Post_GameInCache_ReturnsAccepted()
+        {
+            DTOs.Move move = new(1, new Coords(0, 0));
+
+            var actionResult = await _controller.Post(TestHelpers.ExistingGameId, move);
+            var result = actionResult.Should().BeOfType<AcceptedResult>().Subject;
+            result.Location.Should().Be($"/game/{TestHelpers.ExistingGameId}");
+            result.Value.Should().BeAssignableTo<GameState>();
+        }
+
+        [Fact]
+        public async Task PostAiMove_GameInCache_ReturnsAccepted()
+        {
+
+            var actionResult = await _controller.Post(TestHelpers.ExistingGameId, 1);
+            var result = actionResult.Should().BeOfType<AcceptedResult>().Subject;
+            result.Location.Should().Be($"/game/{TestHelpers.ExistingGameId}");
+            result.Value.Should().BeAssignableTo<GameState>();
+        }
+
+        [Fact]
+        public async Task Post_GameInCache_PerformsMove()
+        {
+            DTOs.Move move = new(1, new Coords(0, 0));
+
+            var result = (await _controller.Post(TestHelpers.ExistingGameId, move)).Should().BeOfType<AcceptedResult>().Subject;
+            var newGameState = result.Value.Should().BeAssignableTo<GameState>().Subject;
+
+            newGameState.Cells.Single(c => c.Coords == move.Coords).Tiles.Should().Contain(t => t.Id == move.TileId);
+        }
+
+        [Fact]
+        public async Task PostAiMove_GameInCache_PerformsMove()
+        {
+
+            var result = (await _controller.Post(TestHelpers.ExistingGameId, 1)).Should().BeOfType<AcceptedResult>().Subject;
+            result.Value.Should().BeAssignableTo<GameState>();
+        }
+
+        [Fact]
+        public async Task Post_GameInCache_SendsNewGameState()
+        {
+            DTOs.Move move = new(3, new Coords(0, 0));
+
+            var result = (await _controller.Post(TestHelpers.ExistingGameId, move)).Should().BeOfType<AcceptedResult>().Subject;
+            var newGameState = result.Value.Should().BeAssignableTo<GameState>().Subject;
+
+            _hubMock.Verify(m => m.Clients.Group(TestHelpers.ExistingGameId), Times.Once);
+            _hubMock.Verify(
+                m => m.Clients.Group(TestHelpers.ExistingGameId)
+                    .SendCoreAsync(
+                        "ReceiveGameState",
+                        It.Is<object[]>(a => a.OfType<GameState>().Single() == newGameState),
+                        It.IsAny<CancellationToken>()
+                    ),
+                Times.Once
+            );
+        }
+
+        [Fact]
+        public async Task PostAiMove_GameInCache_SendsNewGameState()
+        {
+
+            var result = (await _controller.Post(TestHelpers.ExistingGameId, 1)).Should().BeOfType<AcceptedResult>().Subject;
+            var newGameState = result.Value.Should().BeAssignableTo<GameState>().Subject;
+
+            _hubMock.Verify(m => m.Clients.Group(TestHelpers.ExistingGameId), Times.AtLeastOnce);
+            _hubMock.Verify(
+                m => m.Clients.Group(TestHelpers.ExistingGameId)
+                    .SendCoreAsync(
+                        "ReceiveGameState",
+                        It.Is<object[]>(a => a.OfType<GameState>().Single() == newGameState),
+                        It.IsAny<CancellationToken>()
+                    ),
+                Times.Once
+            );
+        }
+
+        [Fact]
+        public async Task Post_GameInCache_InvalidMoveForbidden()
+        {
+            DTOs.Move move = new(4, new Coords(4, 4));
+
+            (await _controller.Post(TestHelpers.ExistingGameId, move)).Should().BeOfType<ForbidResult>();
+        }
+
+        [Fact]
+        public async Task Post_GameInCache_InvalidTileForbidden()
+        {
+            DTOs.Move move = new(40, new Coords(4, 4));
+
+            (await _controller.Post(TestHelpers.ExistingGameId, move)).Should().BeOfType<ForbidResult>();
         }
 
         [Fact]
@@ -48,6 +143,12 @@ namespace Hive.Api.Tests.Controllers
         {
             DTOs.Move move = new(1, new Coords(0, 0));
             (await _controller.Post(null!, move)).Should().BeOfType<BadRequestResult>();
+        }
+
+        [Fact]
+        public async Task PostAiMove_IdMissing_ReturnsBadRequest()
+        {
+            (await _controller.Post(null!, 1)).Should().BeOfType<BadRequestResult>();
         }
 
         [Fact]
@@ -65,51 +166,11 @@ namespace Hive.Api.Tests.Controllers
         }
 
         [Fact]
-        public async Task Post_GameInCache_ReturnsAccepted()
+        public async Task PostAiMove_GameNotInCache_ReturnsNotFound()
         {
             DTOs.Move move = new(1, new Coords(0, 0));
 
-            var actionResult = await _controller.Post(TestHelpers.ExistingGameId, move);
-            var result = actionResult.Should().BeOfType<AcceptedResult>().Subject;
-            result.Location.Should().Be($"/game/{TestHelpers.ExistingGameId}");
-            result.Value.Should().BeAssignableTo<GameState>();
-        }
-
-        [Fact]
-        public async Task Post_GameInCache_PerformsMove()
-        {
-            DTOs.Move move = new(1, new Coords(0, 0));
-
-            var result = (await _controller.Post(TestHelpers.ExistingGameId, move)).Should().BeOfType<AcceptedResult>()
-                .Subject;
-            var newGameState = result.Value.Should().BeAssignableTo<GameState>().Subject;
-
-            newGameState.Cells.Single(c => c.Coords == move.Coords).Tiles.Should().Contain(t => t.Id == move.TileId);
-        }
-
-        [Fact]
-        public async Task Post_GameInCache_SendsNewGameState()
-        {
-            DTOs.Move move = new(3, new Coords(0, 0));
-
-            var result = (await _controller.Post(TestHelpers.ExistingGameId, move)).Should().BeOfType<AcceptedResult>()
-                .Subject;
-            var newGameState = result.Value.Should().BeAssignableTo<GameState>().Subject;
-
-            _hubMock.Verify(m => m.Clients.Group(TestHelpers.ExistingGameId), Times.Once);
-            _hubMock.Verify(
-                m => m.Clients.Group(TestHelpers.ExistingGameId)
-                    .SendCoreAsync("ReceiveGameState",
-                        It.Is<object[]>(a => a.OfType<GameState>().Single() == newGameState),
-                        It.IsAny<CancellationToken>()), Times.Once);
-        }
-
-        [Fact]
-        public async Task Post_GameInCache_InvalidMoveForbidden()
-        {
-            DTOs.Move move = new(4, new Coords(4, 4));
-
-            (await _controller.Post(TestHelpers.ExistingGameId, move)).Should().BeOfType<ForbidResult>();
+            (await _controller.Post(TestHelpers.MissingGameId, 1)).Should().BeOfType<NotFoundResult>();
         }
     }
 }

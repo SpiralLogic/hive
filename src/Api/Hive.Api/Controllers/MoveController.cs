@@ -39,8 +39,7 @@ namespace Hive.Controllers
             if (string.IsNullOrEmpty(gameSession)) return NotFound();
 
             var (players, cells, _, gameStatus) = JsonSerializer.Deserialize<GameState>(gameSession, _jsonSerializerOptions)!;
-            if (new[] {GameStatus.GameOver, GameStatus.AiWin, GameStatus.Player0Win, GameStatus.Player1Win}.Contains(gameStatus))
-                return BadRequest();
+
             var game = new Domain.Hive(players.ToList(), cells.ToHashSet());
             var tile = players.SelectMany(p => p.Tiles).Concat(cells.SelectMany(c => c.Tiles)).FirstOrDefault(t => t.Id == move.TileId);
             if (tile == null) return Forbid();
@@ -70,8 +69,7 @@ namespace Hive.Controllers
             if (string.IsNullOrEmpty(gameSession)) return NotFound();
 
             var (players, cells, _, gameStatus) = JsonSerializer.Deserialize<GameState>(gameSession, _jsonSerializerOptions)!;
-            if (new[] {GameStatus.GameOver, GameStatus.AiWin, GameStatus.Player0Win, GameStatus.Player1Win}.Contains(gameStatus))
-                return BadRequest();
+
             var game = new Domain.Hive(players.ToList(), cells.ToHashSet());
             gameStatus = await game.AiMove(async (type, tile) => await BroadCast(id, type, tile));
             var newGameState = new GameState(game.Players, game.Cells, id, gameStatus);
