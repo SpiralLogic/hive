@@ -7,7 +7,7 @@ namespace Hive.Domain.Ai.Heuristics
 {
     internal class HeuristicValues
     {
-        internal const int MaxSearchTime = 10000;
+        internal const int MaxSearchTime = 7000;
         internal const int MaxDepth = 3;
         internal const int ScoreMax = 100;
         private readonly Hive _hive;
