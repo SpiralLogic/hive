@@ -58,7 +58,7 @@ namespace Hive.Api.Tests.Controllers
         public async Task PostAiMove_GameInCache_ReturnsAccepted()
         {
 
-            var actionResult = await _controller.Post(TestHelpers.ExistingGameId, 1);
+            var actionResult = await _controller.AiMove(TestHelpers.ExistingGameId, 1);
             var result = actionResult.Should().BeOfType<AcceptedResult>().Subject;
             result.Location.Should().Be($"/game/{TestHelpers.ExistingGameId}");
             result.Value.Should().BeAssignableTo<GameState>();
@@ -79,7 +79,7 @@ namespace Hive.Api.Tests.Controllers
         public async Task PostAiMove_GameInCache_PerformsMove()
         {
 
-            var result = (await _controller.Post(TestHelpers.ExistingGameId, 1)).Should().BeOfType<AcceptedResult>().Subject;
+            var result = (await _controller.AiMove(TestHelpers.ExistingGameId, 1)).Should().BeOfType<AcceptedResult>().Subject;
             result.Value.Should().BeAssignableTo<GameState>();
         }
 
@@ -107,7 +107,7 @@ namespace Hive.Api.Tests.Controllers
         public async Task PostAiMove_GameInCache_SendsNewGameState()
         {
 
-            var result = (await _controller.Post(TestHelpers.ExistingGameId, 1)).Should().BeOfType<AcceptedResult>().Subject;
+            var result = (await _controller.AiMove(TestHelpers.ExistingGameId, 1)).Should().BeOfType<AcceptedResult>().Subject;
             var newGameState = result.Value.Should().BeAssignableTo<GameState>().Subject;
 
             _hubMock.Verify(m => m.Clients.Group(TestHelpers.ExistingGameId), Times.AtLeastOnce);
@@ -148,7 +148,7 @@ namespace Hive.Api.Tests.Controllers
         [Fact]
         public async Task PostAiMove_IdMissing_ReturnsBadRequest()
         {
-            (await _controller.Post(null!, 1)).Should().BeOfType<BadRequestResult>();
+            (await _controller.AiMove(null!, 1)).Should().BeOfType<BadRequestResult>();
         }
 
         [Fact]
@@ -168,7 +168,7 @@ namespace Hive.Api.Tests.Controllers
         [Fact]
         public async Task PostAiMove_GameNotInCache_ReturnsNotFound()
         {
-            (await _controller.Post(TestHelpers.MissingGameId, 1)).Should().BeOfType<NotFoundResult>();
+            (await _controller.AiMove(TestHelpers.MissingGameId, 1)).Should().BeOfType<NotFoundResult>();
         }
     }
 }

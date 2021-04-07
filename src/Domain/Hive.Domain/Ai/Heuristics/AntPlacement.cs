@@ -14,14 +14,16 @@ namespace Hive.Domain.Ai.Heuristics
         {
             _hive = hive;
             _previousMoves = previousMoves;
-
         }
 
         public int Get(HeuristicValues values, Move move)
         {
-            var (tile, _) = move;
-            if (tile.Creature != Creatures.Ant || _previousMoves.Peek().Coords != null) return 0;
-            return _hive.Cells.WherePlayerOccupies(tile.PlayerId).Count() > 3 ? 2 * values.MoveNeighbours.Length : -values.MoveNeighbours.Length;
+            if (_previousMoves.Peek().Coords != null) return 0;
+            var ((_, playerId, creature), _) = move;
+            var placed = _hive.Cells.WherePlayerOccupies(playerId).Count();
+            if (creature == Creatures.Ant && placed > 3) return 2 * values.MoveNeighbours.Length;
+            if (creature == Creatures.Beetle && placed > HiveFactory.StartingTiles.Length - 2) return -2;
+            return 0;
         }
     }
 }

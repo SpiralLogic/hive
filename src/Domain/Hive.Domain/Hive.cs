@@ -27,11 +27,11 @@ namespace Hive.Domain
         internal void PerformMove(Move move) =>
             _mover.PerformMove(move);
 
-        public async Task<GameStatus> AiMove(Func<string, Tile, Task> broadcastThought)
+        public async Task<(GameStatus status, Move move)> AiMove(Func<string, Tile, Task> broadcastThought)
         {
             var aiMove = await new ComputerPlayer(this,broadcastThought).GetMove();
 
-            return Move(aiMove);
+            return (Move(aiMove), aiMove);
         }
 
         public void RefreshMoves(Player player) =>

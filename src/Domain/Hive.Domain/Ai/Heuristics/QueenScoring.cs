@@ -12,9 +12,7 @@ namespace Hive.Domain.Ai.Heuristics
             var currentPlayer = values.CurrentQueenNeighbours;
             var opponentPlayer = values.OpponentQueenNeighbours;
 
-            var score =20 * (opponentPlayer - currentPlayer);
-            if (values.MoveFromNeighbours.Any(c => c.Tiles.Any(t => t.IsQueen() && t.PlayerId != move.Tile.PlayerId)))
-                return score-10;
+            var score =15 * (opponentPlayer - currentPlayer);
             return score;
         }
     }

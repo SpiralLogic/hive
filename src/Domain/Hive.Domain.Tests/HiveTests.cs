@@ -113,7 +113,7 @@ namespace Hive.Domain.Tests
                 return Task.CompletedTask;
             }
 
-            var status = await hive.AiMove(Broadcast);
+            var (status,_) = await hive.AiMove(Broadcast);
 
             status.Should().Be(GameStatus.MoveSuccess);
             called.s.Should().Be("deselect");

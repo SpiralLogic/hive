@@ -18,6 +18,8 @@ namespace Hive.Domain.Ai
         private readonly Stack<MoveMade> _previousMoves = new();
         private Tile? _lastBroadcast;
         private Stopwatch _stopWatch = new();
+        private Move[] _lastMove = new Move[2];
+        private Random _rnd = new Random();
 
         public ComputerPlayer(Hive board, Func<string, Tile, Task>? broadcastThought = null)
         {
@@ -50,11 +52,11 @@ namespace Hive.Domain.Ai
 
         private async Task<(Move? best, int score)> Run(Move? move, int depth)
         {
-            if (depth == 0 || _stopWatch.ElapsedMilliseconds > 7000) return (move, 0);
+            if (depth == 0 || _stopWatch.ElapsedMilliseconds > 10000) return (move, 0);
 
-            var toExplore = FindMovesToExplore();
+            var moves = FindMovesToExplore();
 
-            ReduceToBestMoves(toExplore, depth);
+            var toExplore = ReduceToBestMoves(moves, depth);
 
             var (best, bestScore) = await Explore(depth, toExplore);
 
@@ -62,33 +64,38 @@ namespace Hive.Domain.Ai
             return _depth[depth - 1];
         }
 
-        private static void ReduceToBestMoves(IDictionary<Tile, List<(int score, HeuristicValues values)>> toExplore, int depth)
+        private static (int score, HeuristicValues values)[] ReduceToBestMoves(
+            IDictionary<Tile, List<(int score, HeuristicValues values)>> toExplore,
+            int depth
+        )
         {
-
             foreach (var (tile, values) in toExplore)
             {
                 var newList = values.OrderByDescending(t => t.score).Take(depth).ToList();
                 toExplore[tile] = newList;
             }
+
+            var moves = toExplore.SelectMany(kvp => kvp.Value).ToArray();
+            var max = moves.Max(m => m.score);
+            return moves.OrderByDescending(t => t.score).Where(s => s.score > 0 || max <= 0).Take(2 * toExplore.Count).ToArray();
         }
 
         private async Task<(Move? best, int bestScore)> Explore(
             int depth,
-            Dictionary<Tile, List<(int score, HeuristicValues values)>> toExplore
+            (int score, HeuristicValues values)[] toExplore
         )
         {
-            var best = toExplore.First().Value.First().values.Move;
+            var best = toExplore.First().values.Move;
             var bestScore = -HeuristicValues.ScoreMax;
             var worst = HeuristicValues.ScoreMax;
-            var rnd = new Random();
 
-            foreach (var (nextScore, values) in toExplore.SelectMany(kvp => kvp.Value).OrderBy(_ => rnd.Next()))
+            foreach (var (nextScore, values) in toExplore)
             {
                 var status = MakeMove(values.Move);
                 if (status == GameStatus.MoveInvalid) continue;
                 if (depth == HeuristicValues.MaxDepth) await BroadcastMove(values.Move);
                 var score = nextScore;
-                if ( nextScore < HeuristicValues.ScoreMax)
+                if (nextScore < HeuristicValues.ScoreMax)
                 {
                     var s = -(await Run(values.Move, depth - 1)).score / (HeuristicValues.MaxDepth - depth + 1);
                     worst = Math.Min(s, worst);
@@ -101,7 +108,7 @@ namespace Hive.Domain.Ai
 
                 RevertMove();
 
-                if (score >= bestScore) (best, bestScore) = (values.Move, score);
+                if (score >= bestScore) { (best, bestScore) = (values.Move, score); }
 
             }
 
@@ -192,7 +199,7 @@ namespace Hive.Domain.Ai
             _board.PerformMove(new Move(currentCell.TopTile(), coords));
         }
 
-        private void revertMoveOnBoard(Cell currentCell, Player player)
+        private static void revertMoveOnBoard(Cell currentCell, Player player)
         {
             var tile = currentCell.RemoveTopTile();
             player.Tiles.Add(tile);
@@ -200,16 +207,15 @@ namespace Hive.Domain.Ai
 
         private IEnumerable<Move> GetMoves()
         {
-            var rnd = new Random();
             var cells = _board.Cells.ToHashSet();
             var unplacedTiles = _board.Players.SelectMany(p => p.Tiles.GroupBy(t => t.Creature).Select(g => g.First()))
                 .OrderBy(t => t.Creature.Name)
-                .SelectMany(t => t.Moves.Select(m => new Move(t, m)).OrderBy(_ => rnd.Next()))
+                .SelectMany(t => t.Moves.Select(m => new Move(t, m)).OrderBy(_ => _rnd.Next()))
                 .ToList();
             var placedTiles = cells.WhereOccupied()
-                .OrderBy(c => c.SelectNeighbors(_board.Cells).Any(n => n.HasQueen()))
+                .OrderBy(c => c.QueenNeighbours(_board.Cells).Any())
                 .Select(c => c.TopTile())
-                .SelectMany(t => t.Moves.Select(m => new Move(t, m)).OrderBy(_ => rnd.Next()))
+                .SelectMany(t => t.Moves.Select(m => new Move(t, m)).OrderBy(_ => _rnd.Next()))
                 .Reverse()
                 .ToList();
             return placedTiles.Concat(unplacedTiles);

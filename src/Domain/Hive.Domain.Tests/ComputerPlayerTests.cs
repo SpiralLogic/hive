@@ -229,17 +229,14 @@ namespace Hive.Domain.Tests
             (await  player.GetMove()).Should().BeetleOnQueen(initial, expected);
         }
 
-        [Fact] public async Task PeicesMoveTowardQueenUnderBeetle()
+        [Fact] public async Task PiecesMoveTowardQueenUnderBeetle()
         {
             var initial = new InitialHiveBuilder();
 
-            initial += " ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡";
             initial += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
-            initial += " ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡";
-            initial += "⬡ ⬡ ⬡ A ⬡ ⬡ ⬡ ⬡ ";
-            initial += " ⬡ ⬡ ⬡ s a a ⬡ ⬡";
-            initial += "⬡ s S s s B ⬡ ⬡ ";
-            initial += " ⬡ ⬡ Q ⬡ ⬡ G ⬡ ⬡";
+            initial += " ⬡ ⬡ ⬡ A g g ⬡ ⬡";
+            initial += "⬡ ⬡ Q s s B ⬡ ⬡ ";
+            initial += " ⬡ ⬡ ⬡ ⬡ ⬡ G ⬡ ⬡";
             initial += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
 
             var beetleCell = initial.AllCells.First(c => c.Tiles.Any(t => t.Creature.Name == Creatures.Beetle.Name));
@@ -249,13 +246,10 @@ namespace Hive.Domain.Tests
 
             var expected = new ExpectedAiBuilder();
 
-            expected += " ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡";
             expected += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
-            expected += " ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡";
-            expected += "⬡ ⬡ ⬡ ★ ⬡ ⬡ ⬡ ⬡ ";
-            expected += " ⬡ ⬡ ⬡ s a a ⬡ ⬡";
-            expected += "⬡ s S s s B ✔ ⬡ ";
-            expected += " ⬡ ⬡ Q ⬡ ✔ G ⬡ ⬡";
+            expected += " ⬡ ⬡ ⬡ ★ g g ⬡ ⬡";
+            expected += "⬡ g Q s s B ✔ ⬡ ";
+            expected += " ⬡ ⬡ ⬡ ⬡ ✔ G ⬡ ⬡";
             expected += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
 
             var hive = HiveFactory.CreateHive(new[] {new Player(0, "P1"), new Player(1, "P1")}, initial.AllCells, 0);
@@ -268,26 +262,22 @@ namespace Hive.Domain.Tests
         {
             var initial = new InitialHiveBuilder();
 
-            initial += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
             initial += " ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡";
-            initial += "⬡ ⬡ ⬡ ⬡ a a a ⬡ ⬡ ⬡ ";
-            initial += " ⬡ ⬡ s ⬡ S Q ⬡ ⬡ ⬡ ⬡";
-            initial += "⬡ ⬡ s q S S S b ⬡ ⬡ ";
-            initial += " ⬡ ⬡ s s G G ⬡ ⬡ ⬡ ⬡";
-            initial += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
+            initial += "⬡ ⬡ ⬡ ⬡ b b g ⬡ ⬡ ⬡ ";
+            initial += " ⬡ ⬡ g ⬡ S Q ⬡ ⬡ ⬡ ⬡";
+            initial += "⬡ ⬡ g q S S S b ⬡ ⬡ ";
+            initial += " ⬡ ⬡ g g G G ⬡ ⬡ ⬡ ⬡";
             initial += " ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡";
 
 
             var expected = new ExpectedAiBuilder();
 
 
-            expected += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
             expected += " ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡";
-            expected += "⬡ ⬡ ⬡ ⬡ a a a ⬡ ⬡ ⬡ ";
-            expected += " ⬡ ⬡ s ✔ S Q ⬡ ⬡ ⬡ ⬡";
-            expected += "⬡ ⬡ s q S S S b ⬡ ⬡ ";
-            expected += " ⬡ ⬡ s s ★ G ⬡ ⬡ ⬡ ⬡";
-            expected += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
+            expected += "⬡ ⬡ ⬡ ⬡ b b g ⬡ ⬡ ⬡ ";
+            expected += " ⬡ ⬡ g ✔ S Q ⬡ ⬡ ⬡ ⬡";
+            expected += "⬡ ⬡ g q S S S b ⬡ ⬡ ";
+            expected += " ⬡ ⬡ g g ★ G ⬡ ⬡ ⬡ ⬡";
             expected += " ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡";
 
             var hive = HiveFactory.CreateHive(new[] {new Player(0, "P1"), new Player(1, "P1")}, initial.AllCells, 0);

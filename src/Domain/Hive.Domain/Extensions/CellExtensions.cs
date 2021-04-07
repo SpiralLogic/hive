@@ -26,9 +26,16 @@ namespace Hive.Domain.Extensions
             return fromCells.SelectNeighbors(cell);
         }
 
-        internal static bool HasQueen(this Cell? cell)
+        internal static bool HasQueen(this Cell? cell, int? playerId = null)
         {
-            return cell?.Tiles.Any(t => t.IsQueen()) ?? false;
+            var queen = cell?.Tiles.FirstOrDefault(t => t.IsQueen());
+
+            return playerId.HasValue && queen != null ? queen.PlayerId == playerId.Value : queen != null;
+        }
+
+        internal static IEnumerable<Cell> QueenNeighbours(this Cell cell, IEnumerable<Cell> cells, int? playerId = null)
+        {
+            return  cells.SelectOccupiedNeighbors(cell).Where(c => c.HasQueen(playerId));
         }
     }
 }
