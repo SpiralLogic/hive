@@ -259,7 +259,6 @@ namespace Hive.Domain.Tests
             expected += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
 
             var hive = HiveFactory.CreateHive(new[] {new Player(0, "P1"), new Player(1, "P1")}, initial.AllCells, 0);
-
             var player = new ComputerPlayer(hive);
             (await  player.GetMove()).Should().MatchHive(initial, expected);
         }   

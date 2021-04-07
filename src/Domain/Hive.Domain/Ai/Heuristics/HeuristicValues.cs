@@ -13,7 +13,8 @@ namespace Hive.Domain.Ai.Heuristics
         internal readonly GameStatus GameStatus;
         internal readonly Move Move;
         internal readonly Cell? MoveFromLocation;
-        internal readonly Cell[] MoveNeighbours;
+        internal readonly List<Cell> MoveFromNeighbours = new();
+        internal readonly Cell[] MoveNeighbours ;
         internal readonly Cell MoveToLocation;
 
         public HeuristicValues(Hive hive, Stack<MoveMade> previousMoves, Move move, GameStatus gameStatus)
@@ -22,7 +23,10 @@ namespace Hive.Domain.Ai.Heuristics
             Move = move;
             GameStatus = gameStatus;
             if (previousMoves.TryPeek(out var moveFromCoords) && moveFromCoords.Coords != null)
+            {
                 MoveFromLocation = _hive.Cells.FindCell(moveFromCoords.Coords);
+                MoveFromNeighbours = MoveFromLocation.SelectNeighbors(_hive.Cells).WhereOccupied().ToList();
+            }
 
             MoveToLocation = _hive.Cells.FindCell(move.Coords);
             MoveNeighbours = MoveToLocation.SelectNeighbors(_hive.Cells).WhereOccupied().ToArray();
@@ -31,6 +35,7 @@ namespace Hive.Domain.Ai.Heuristics
                 _hive.Players.Where(p => p.Id != move.Tile.PlayerId).Select(p => CountPlayerQueenNeighbours(p.Id)).Sum();
 
         }
+
 
         internal int CurrentQueenNeighbours { get; }
 
