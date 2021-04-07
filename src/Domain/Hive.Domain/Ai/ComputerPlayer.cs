@@ -132,7 +132,7 @@ namespace Hive.Domain.Ai
 
             if (_lastBroadcast == null)
             {
-                await _broadcastThought("select", tile);
+                await _broadcastThought("select", tile).ConfigureAwait(false);
                 _lastBroadcast = tile;
             }
         }
@@ -140,7 +140,7 @@ namespace Hive.Domain.Ai
         private async ValueTask BroadcastDeselect()
         {
             if (_broadcastThought != null && _lastBroadcast != null)
-                await _broadcastThought("deselect", _lastBroadcast);
+                await _broadcastThought("deselect", _lastBroadcast).ConfigureAwait(false);
             _lastBroadcast = null;
         }
 

@@ -15,7 +15,7 @@ namespace Hive.Domain.Ai.Heuristics
 
             if (values.GameStatus == GameStatus.Draw)
             {
-                return -10;
+                return HeuristicValues.ScoreMax;
             }
 
             return 0;
