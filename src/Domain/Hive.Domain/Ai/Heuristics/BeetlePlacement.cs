@@ -20,7 +20,7 @@ namespace Hive.Domain.Ai.Heuristics
             var ((_, _, creature), _) = move;
             if (creature != Creatures.Beetle) return 0;
             if (_previousMoves.Peek().Coords == null && values.TilesPlaced < 2) return 1;
-            return -1;
+            return -2;
         }
     }
 }

@@ -70,11 +70,11 @@ namespace Hive.Controllers
             if (string.IsNullOrEmpty(gameSessionJson)) return NotFound();
             var (players, cells, _, _) = JsonSerializer.Deserialize<GameState>(gameSessionJson, _jsonSerializerOptions)!;
             var previousMoves = string.IsNullOrEmpty(previousMovesJson)
-                ? new Domain.Entities.Move?[2]
+                ? new Domain.Entities.Move?[4]
                 : JsonSerializer.Deserialize<Domain.Entities.Move[]>(previousMovesJson, _jsonSerializerOptions) ??
-                  new Domain.Entities.Move?[2];
+                  new Domain.Entities.Move?[4];
 
-            var previousMove = previousMoves[playerId];
+            var previousMove = previousMoves[playerId+2];
             if (previousMove != null)
                 players.First(p => p.Id == playerId)
                     .Tiles.FirstOrDefault(t => t.Id == previousMove.Tile.Id)
@@ -83,6 +83,7 @@ namespace Hive.Controllers
             var game = new Domain.Hive(players.ToList(), cells.ToHashSet());
 
             var (status, move) = await game.AiMove(async (type, tile) => await BroadCast(id, type, tile));
+            previousMoves[playerId+2] = previousMoves[playerId];
             previousMoves[playerId] = move;
 
             var newGameState = new GameState(game.Players, game.Cells, id, status);

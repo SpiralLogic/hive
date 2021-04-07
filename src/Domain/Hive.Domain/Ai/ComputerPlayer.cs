@@ -64,20 +64,20 @@ namespace Hive.Domain.Ai
             return _depth[depth - 1];
         }
 
-        private static (int score, HeuristicValues values)[] ReduceToBestMoves(
+        private  (int score, HeuristicValues values)[] ReduceToBestMoves(
             IDictionary<Tile, List<(int score, HeuristicValues values)>> toExplore,
             int depth
         )
         {
             foreach (var (tile, values) in toExplore)
             {
-                var newList = values.OrderByDescending(t => t.score).Take(depth).ToList();
+                var newList = values.OrderByDescending(t => t.score).Take(2).ToList();
                 toExplore[tile] = newList;
             }
 
             var moves = toExplore.SelectMany(kvp => kvp.Value).ToArray();
             var max = moves.Max(m => m.score);
-            return moves.OrderByDescending(t => t.score).Where(s => s.score > 0 || max <= 0).Take(2 * toExplore.Count).ToArray();
+            return moves.OrderByDescending(t => t.score).Where(s => s.score > 0 || max <= 0).Take(2 * toExplore.Count).OrderBy(_=>_rnd.Next()).ToArray();
         }
 
         private async Task<(Move? best, int bestScore)> Explore(
@@ -185,7 +185,7 @@ namespace Hive.Domain.Ai
 
             var player = _board.Players.FindPlayerById(playerId);
 
-            if (coords == null) revertMoveOnBoard(currentCell, player);
+            if (coords == null) RevertMoveOnBoard(currentCell, player);
             else RevertMoveFromPlayerTiles(currentCell, coords);
 
             _board.RefreshMoves(player);
@@ -199,7 +199,7 @@ namespace Hive.Domain.Ai
             _board.PerformMove(new Move(currentCell.TopTile(), coords));
         }
 
-        private static void revertMoveOnBoard(Cell currentCell, Player player)
+        private static void RevertMoveOnBoard(Cell currentCell, Player player)
         {
             var tile = currentCell.RemoveTopTile();
             player.Tiles.Add(tile);
