@@ -10,7 +10,7 @@ namespace Hive.Domain.Ai.Heuristics
         {
 
             if (move.Tile.IsCreature(Creatures.Beetle) &&
-                values.MoveToLocation.Tiles.Any(t => t.IsQueen() && t.PlayerId != move.Tile.PlayerId)) return 50;
+                values.MoveToLocation.Tiles.Any(t => t.IsQueen() && t.PlayerId != move.Tile.PlayerId)) return 30;
 
             return 0;
         }
