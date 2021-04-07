@@ -1,4 +1,6 @@
+using System.Linq;
 using Hive.Domain.Entities;
+using Hive.Domain.Extensions;
 
 namespace Hive.Domain.Ai.Heuristics
 {
@@ -10,7 +12,10 @@ namespace Hive.Domain.Ai.Heuristics
             var currentPlayer = values.CurrentQueenNeighbours;
             var opponentPlayer = values.OpponentQueenNeighbours;
 
-            return 10 * (opponentPlayer - currentPlayer);
+            var score =20 * (opponentPlayer - currentPlayer);
+            if (values.MoveFromNeighbours.Any(c => c.Tiles.Any(t => t.IsQueen() && t.PlayerId != move.Tile.PlayerId)))
+                return score-10;
+            return score;
         }
     }
 }

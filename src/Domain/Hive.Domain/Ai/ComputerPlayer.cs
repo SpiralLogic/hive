@@ -67,7 +67,7 @@ namespace Hive.Domain.Ai
 
             foreach (var (tile, values) in toExplore)
             {
-                var newList = values.OrderByDescending(t => t.score).Take(depth).ToList();
+                var newList = values.Where(t=>t.score==values.Max(t=>t.score)).ToList();
                 toExplore[tile] = newList;
             }
         }
@@ -79,15 +79,24 @@ namespace Hive.Domain.Ai
         {
             var best = toExplore.First().Value.First().values.Move;
             var bestScore = -HeuristicValues.ScoreMax;
-            foreach (var (nextScore, values) in toExplore.SelectMany(kvp => kvp.Value))
+            var worst = HeuristicValues.ScoreMax;
+            var rnd = new Random();
+
+            foreach (var (nextScore, values) in toExplore.SelectMany(kvp => kvp.Value).OrderBy(_ => rnd.Next()))
             {
                 var status = MakeMove(values.Move);
                 if (status == GameStatus.MoveInvalid) continue;
                 if (depth == HeuristicValues.MaxDepth) await BroadcastMove(values.Move);
                 var score = nextScore;
-                if (nextScore >= bestScore && nextScore < HeuristicValues.ScoreMax)
+                if ( nextScore < HeuristicValues.ScoreMax)
                 {
-                    score -= (await Run(values.Move, depth - 1)).score/ (HeuristicValues.MaxDepth == depth?1 :2);
+                    var s = -(await Run(values.Move, depth - 1)).score / (HeuristicValues.MaxDepth - depth + 1);
+                    worst = Math.Min(s, worst);
+                    score += s;
+                }
+                else
+                {
+                    score += worst;
                 }
 
                 RevertMove();
@@ -95,6 +104,7 @@ namespace Hive.Domain.Ai
                 if (score >= bestScore) (best, bestScore) = (values.Move, score);
 
             }
+
             if (depth == HeuristicValues.MaxDepth) await BroadcastDeselect();
 
             return (best, bestScore);
@@ -194,14 +204,15 @@ namespace Hive.Domain.Ai
             var cells = _board.Cells.ToHashSet();
             var unplacedTiles = _board.Players.SelectMany(p => p.Tiles.GroupBy(t => t.Creature).Select(g => g.First()))
                 .OrderBy(t => t.Creature.Name)
-                .SelectMany(t => t.Moves.Select(m => new Move(t, m)).OrderBy(_ => rnd.Next())).OrderBy(_=>rnd.Next())
+                .SelectMany(t => t.Moves.Select(m => new Move(t, m)).OrderBy(_ => rnd.Next()))
                 .ToList();
             var placedTiles = cells.WhereOccupied()
                 .OrderBy(c => c.SelectNeighbors(_board.Cells).Any(n => n.HasQueen()))
                 .Select(c => c.TopTile())
-                .SelectMany(t => t.Moves.Select(m => new Move(t, m)).OrderBy(_ => rnd.Next())).Reverse()
+                .SelectMany(t => t.Moves.Select(m => new Move(t, m)).OrderBy(_ => rnd.Next()))
+                .Reverse()
                 .ToList();
-            return unplacedTiles.Concat(placedTiles) ;
+            return placedTiles.Concat(unplacedTiles);
         }
     }
 }
