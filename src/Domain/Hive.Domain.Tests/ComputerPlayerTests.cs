@@ -254,7 +254,7 @@ namespace Hive.Domain.Tests
             expected += " ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡";
             expected += "⬡ ⬡ ⬡ ★ ⬡ ⬡ ⬡ ⬡ ";
             expected += " ⬡ ⬡ ⬡ s A A ⬡ ⬡";
-            expected += "⬡ G Q s s B ✔ ⬡ ";
+            expected += "⬡ S Q s s B ✔ ⬡ ";
             expected += " ⬡ ⬡ ⬡ ⬡ ✔ G A ⬡";
             expected += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
 
