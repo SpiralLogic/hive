@@ -73,7 +73,7 @@ namespace Hive.Controllers
                 ? new Domain.Entities.Move?[8]
                 : JsonSerializer.Deserialize<Domain.Entities.Move[]>(previousMovesJson, _jsonSerializerOptions) ??
                   new Domain.Entities.Move?[8];
-
+            if (previousMoves.Length == 4) previousMoves = new Domain.Entities.Move?[8]; 
             var previousMove = previousMoves[playerId+4];
             if (previousMove != null)
             {
