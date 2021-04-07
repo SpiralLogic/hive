@@ -40,6 +40,10 @@ namespace Hive.Domain.Ai
             _stopWatch = new Stopwatch();
             _stopWatch.Start();
             var r = await Run(null, HeuristicValues.MaxDepth);
+            foreach (var valueTuple in _depth)
+            {
+                Console.WriteLine(valueTuple);
+            }
 
             return r.best ?? throw new ApplicationException("Could not determine next move");
         }
@@ -74,24 +78,24 @@ namespace Hive.Domain.Ai
         )
         {
             var best = toExplore.First().Value.First().values.Move;
-            var bestScore = -HeuristicValues.MaxDepth;
+            var bestScore = -HeuristicValues.ScoreMax;
             foreach (var (nextScore, values) in toExplore.SelectMany(kvp => kvp.Value))
             {
                 var status = MakeMove(values.Move);
                 if (status == GameStatus.MoveInvalid) continue;
                 if (depth == HeuristicValues.MaxDepth) await BroadcastMove(values.Move);
-                var score = nextScore / (HeuristicValues.MaxDepth - depth + 1);
-                if (score >= bestScore && score < HeuristicValues.ScoreMax)
+                var score = nextScore;
+                if (nextScore >= bestScore && nextScore < HeuristicValues.ScoreMax)
                 {
-                    score -= (await Run(values.Move, depth - 1)).score;
+                    score -= (await Run(values.Move, depth - 1)).score/ (HeuristicValues.MaxDepth - depth + 1);
                 }
 
                 RevertMove();
 
                 if (score >= bestScore) (best, bestScore) = (values.Move, score);
 
-                if (depth == HeuristicValues.MaxDepth) await BroadcastDeselect();
             }
+            if (depth == HeuristicValues.MaxDepth) await BroadcastDeselect();
 
             return (best, bestScore);
         }
@@ -143,7 +147,6 @@ namespace Hive.Domain.Ai
         {
             var originalCoords = _board.Cells.FindCellOrDefault(move.Tile)?.Coords;
             var mv = new MoveMade(move.Tile.Id, move.Tile.PlayerId, originalCoords);
-            _board.RefreshMoves(_board.Players[move.Tile.PlayerId]);
             if (_board.Cells.FindCellOrDefault(move.Coords) == null)
             {
                 _board.Cells.Add(new Cell(move.Coords));
@@ -198,7 +201,7 @@ namespace Hive.Domain.Ai
                 .Select(c => c.TopTile())
                 .SelectMany(t => t.Moves.Select(m => new Move(t, m)).OrderBy(_ => rnd.Next())).Reverse()
                 .ToList();
-            return placedTiles.Concat(unplacedTiles) ;
+            return unplacedTiles.Concat(placedTiles) ;
         }
     }
 }

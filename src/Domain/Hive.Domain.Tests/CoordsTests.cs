@@ -30,7 +30,6 @@ namespace Hive.Domain.Tests
         public void CoordsAreEqualWith()
         {
             var coords1 = new Coords(1, 1);
-            var coords2 = new Coords(1, 2);
             var coords3 = new Coords(1, 1);
 
             coords1.Should().IsSameOrEqualTo(coords3);
