@@ -23,11 +23,13 @@ namespace Hive.Domain.Entities
 
         public ISet<Coords> GetAvailableMoves(Cell originCell, ISet<Cell> cells)
         {
-            return Movements.Aggregate(
-                    cells.SelectCoords(),
-                    (moves, rule) => moves.Intersect(rule.GetMoves(originCell, new HashSet<Cell>(cells)))
-                )
-                .ToHashSet();
+            var moves = cells.ToCoords();
+            foreach (var move in Movements)
+            {
+                moves.IntersectWith(move.GetMoves(originCell, cells));
+            }
+
+            return moves;
         }
     }
 }

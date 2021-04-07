@@ -6,9 +6,9 @@ namespace Hive.Domain.Movements
 {
     public class IsEmpty : IMovement
     {
-        public ISet<Coords> GetMoves(Cell currentCell, ISet<Cell> cells)
+        public ISet<Coords> GetMoves(Cell currentCell, ISet<Cell> allCells)
         {
-            return cells.WhereEmpty().ToCoords();
+            return allCells.WhereEmpty().ToCoords();
         }
     }
 }

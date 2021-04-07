@@ -81,7 +81,7 @@ namespace Hive.Domain.Tests.MovementTests
 
             expected += " ⬡ ⬡ ⬡ ⬢ ⬢ ⬢ ⬢ ⬡ ⬡ ";
             expected += "⬡ ⬡ ⬡ ⬢ ⬡ ⬡ ⬡ ⬢ ⬡ ⬡";
-            expected += " ⬡ ⬡ ⬡ ⬢ ✔ ✔ ⬢ ⬡ ⬡ ";
+            expected += " ⬡ ⬡ ⬡ ⬢ ⬡ ✔ ⬢ ⬡ ⬡ ";
             expected += "⬡ ⬡ ⬢ ✔ ⬡ ⬡ ⬡ ⬢ ⬡ ⬡";
             expected += " ⬡ ⬢ ⬡ ⬡ ★ ⬢ ⬢ ⬢ ⬡ ";
             expected += "⬡ ⬡ ⬢ ⬢ ⬢ ⬡ ⬡ ✔ ⬡ ⬡";

@@ -9,20 +9,21 @@ namespace Hive.Domain.Movements
     {
         public ISet<Coords> GetMoves(Cell currentCell, ISet<Cell> allCells)
         {
-            allCells.Remove(currentCell);
+            var allCells2 = allCells.ToHashSet();
+             allCells2.Remove(currentCell) ;
             if (currentCell.Tiles.Count > 1)
-                return allCells.ToCoords();
+                return allCells2.ToCoords();
 
-            var allOccupied = allCells.WhereOccupied().ToHashSet();
+            var allOccupied = allCells2.WhereOccupied().ToHashSet();
             if (allOccupied.Count == 0)
-                return allCells.ToCoords();
+                return allCells2.ToCoords();
 
             if (allOccupied.Count == 1)
-                return allOccupied.Union(allOccupied.First().SelectNeighbors(allCells)).ToCoords();
+                return allOccupied.Union(allOccupied.First().SelectNeighbors(allCells2)).ToCoords();
 
             CheckIsInHive(allOccupied, allOccupied.First());
 
-            return allOccupied.Any() ? new HashSet<Coords>() : allCells.ToCoords();
+            return allOccupied.Any() ? new HashSet<Coords>() : allCells2.ToCoords();
         }
 
         private static void CheckIsInHive(ISet<Cell> remaining, Cell toCheck)

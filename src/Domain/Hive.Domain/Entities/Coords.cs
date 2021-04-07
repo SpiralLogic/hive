@@ -15,6 +15,8 @@ namespace Hive.Domain.Entities
             {Direction.Left, new Coords(Q - 1, R)}
         });
 
+        private readonly int _hashCode= HashCode.Combine(Q, R);
+
         public bool Equals(Coords? other)
         {
             if (ReferenceEquals(null, other)) return false;
@@ -23,7 +25,7 @@ namespace Hive.Domain.Entities
         }
 
         public override int GetHashCode() =>
-            HashCode.Combine(Q, R);
+            _hashCode;
 
         internal Dictionary<Direction, Coords> GetNeighbors() =>
             _neighbours.Value;

@@ -9,8 +9,9 @@ namespace Hive.Domain.Movements
     {
         public ISet<Coords> GetMoves(Cell currentCell, ISet<Cell> allCells)
         {
-            if (currentCell.Tiles.Count<=1) allCells.Remove(currentCell);
-            return allCells.WhereOccupied().SelectMany(c => c.SelectNeighbors(allCells)).ToCoords();
+            var allCells2 = allCells.ToHashSet();
+            if (currentCell.Tiles.Count<=1) allCells2.Remove(currentCell);
+            return allCells2.WhereOccupied().SelectMany(c => c.SelectNeighbors(allCells2)).ToCoords();
         }
     }
 }
