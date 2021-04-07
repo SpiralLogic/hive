@@ -18,8 +18,7 @@ namespace Hive.Domain.Ai
         private readonly Stack<MoveMade> _previousMoves = new();
         private Tile? _lastBroadcast;
         private Stopwatch _stopWatch = new();
-        private Move[] _lastMove = new Move[2];
-        private Random _rnd = new Random();
+        private readonly Random _rnd = new();
 
         public ComputerPlayer(Hive board, Func<string, Tile, Task>? broadcastThought = null)
         {
@@ -29,7 +28,8 @@ namespace Hive.Domain.Ai
             {
                 new GameOver(),
                 new NoQueenOrAntFirst(_board),
-                new AntPlacement(_board, _previousMoves),
+                new AntPlacement( _previousMoves),
+                new BeetlePlacement( _previousMoves),
                 new BeetleMoveOff(),
                 new BeetleMoveOn(),
                 new MoveSpread(),
@@ -89,7 +89,7 @@ namespace Hive.Domain.Ai
             var bestScore = -HeuristicValues.ScoreMax;
             var worst = HeuristicValues.ScoreMax;
 
-            foreach (var (nextScore, values) in toExplore)
+            foreach (var (nextScore, values) in toExplore.OrderBy(_=>_rnd.Next()))
             {
                 var status = MakeMove(values.Move);
                 if (status == GameStatus.MoveInvalid) continue;
