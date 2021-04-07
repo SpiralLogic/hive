@@ -67,7 +67,7 @@ namespace Hive.Domain.Ai
 
             foreach (var (tile, values) in toExplore)
             {
-                var newList = values.Where(t=>t.score==values.Max(t=>t.score)).ToList();
+                var newList = values.OrderByDescending(t => t.score).Take(depth).ToList();
                 toExplore[tile] = newList;
             }
         }
