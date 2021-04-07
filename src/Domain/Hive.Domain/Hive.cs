@@ -27,7 +27,7 @@ namespace Hive.Domain
         internal void PerformMove(Move move) =>
             _mover.PerformMove(move);
 
-        public async Task<(GameStatus status, Move move)> AiMove(Func<string, Tile, Task> broadcastThought)
+        public async ValueTask<(GameStatus status, Move move)> AiMove(Func<string, Tile, ValueTask> broadcastThought)
         {
             var aiMove = await new ComputerPlayer(this,broadcastThought).GetMove();
 

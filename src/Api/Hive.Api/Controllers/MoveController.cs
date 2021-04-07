@@ -30,7 +30,7 @@ namespace Hive.Controllers
         [Route("/api/move/{id}")]
         [Produces("application/json")]
         [ProducesErrorResponseType(typeof(BadRequestResult))]
-        public async Task<IActionResult> Post(string id, [FromBody] Move move)
+        public async ValueTask<IActionResult> Post(string id, [FromBody] Move move)
         {
             if (move == null) return BadRequest();
             if (string.IsNullOrEmpty(id)) return BadRequest();
@@ -61,7 +61,7 @@ namespace Hive.Controllers
         [Route("/api/ai-move/{id}/{playerId:int}")]
         [Produces("application/json")]
         [ProducesErrorResponseType(typeof(BadRequestResult))]
-        public async Task<IActionResult> AiMove(string id, int playerId)
+        public async ValueTask<IActionResult> AiMove(string id, int playerId)
         {
             if (string.IsNullOrEmpty(id)) return BadRequest();
 

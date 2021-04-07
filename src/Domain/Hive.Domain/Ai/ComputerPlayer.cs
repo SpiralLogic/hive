@@ -12,7 +12,7 @@ namespace Hive.Domain.Ai
     public class ComputerPlayer
     {
         private readonly Hive _hive;
-        private readonly Func<string, Tile, Task>? _broadcastThought;
+        private readonly Func<string, Tile, ValueTask>? _broadcastThought;
         private readonly ScoredMove[] _depth = new ScoredMove[HeuristicValues.MaxDepth];
         private readonly ICollection<IHeuristic> _heuristics;
         private readonly Stack<InProgressMove> _previousMoves = new();
@@ -20,7 +20,7 @@ namespace Hive.Domain.Ai
         private readonly Stopwatch _stopWatch = new();
         private readonly Random _rnd = new();
 
-        public ComputerPlayer(Hive hive, Func<string, Tile, Task>? broadcastThought = null)
+        public ComputerPlayer(Hive hive, Func<string, Tile, ValueTask>? broadcastThought = null)
         {
             _broadcastThought = broadcastThought;
             _hive = hive;
@@ -37,19 +37,15 @@ namespace Hive.Domain.Ai
             };
         }
 
-        public async Task<Move> GetMove()
+        public async ValueTask<Move> GetMove()
         {
             _stopWatch.Start();
             var r = await Run(null, HeuristicValues.MaxDepth);
-            foreach (var valueTuple in _depth)
-            {
-                Console.WriteLine(valueTuple);
-            }
 
             return r.Move ?? throw new ApplicationException("Could not determine next move");
         }
 
-        private async Task<ScoredMove> Run(Move? move, int depth)
+        private async ValueTask<ScoredMove> Run(Move? move, int depth)
         {
 
             if (depth == 0 || _stopWatch.ElapsedMilliseconds > HeuristicValues.MaxSearchTime) return new ScoredMove(move, 0);
@@ -87,7 +83,7 @@ namespace Hive.Domain.Ai
             var moves = new List<ExploreNode>();
             foreach (var (_, values) in toExplore)
             {
-                moves.AddRange(values.OrderByDescending(t => t.Score).Take(2).ToList());
+                moves.AddRange(values.OrderByDescending(t => t.Score).Take(3).ToList());
             }
 
             var max = moves.Max(m => m.Score);
@@ -99,7 +95,7 @@ namespace Hive.Domain.Ai
                 .ToArray();
         }
 
-        private async Task<ScoredMove> Explore(int depth, IList<ExploreNode> toExplore)
+        private async ValueTask<ScoredMove> Explore(int depth, IList<ExploreNode> toExplore)
         {
             var best = toExplore.First().Values.Move;
             var bestScore = -HeuristicValues.ScoreMax;
@@ -129,7 +125,7 @@ namespace Hive.Domain.Ai
             return new ScoredMove(best, bestScore);
         }
 
-        private async Task BroadcastSelect(Tile tile)
+        private async ValueTask BroadcastSelect(Tile tile)
         {
             if (_broadcastThought == null || _lastBroadcast?.Id == tile.Id) return;
             if (_lastBroadcast != null) await BroadcastDeselect();
@@ -141,7 +137,7 @@ namespace Hive.Domain.Ai
             }
         }
 
-        private async Task BroadcastDeselect()
+        private async ValueTask BroadcastDeselect()
         {
             if (_broadcastThought != null && _lastBroadcast != null)
                 await _broadcastThought("deselect", _lastBroadcast);
