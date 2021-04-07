@@ -107,11 +107,8 @@ namespace Hive.Domain.Tests
             var hive = HiveFactory.CreateHive(new[] {"player1", "player2"});
             (string? s, Tile? t) called = (default, null);
 
-            Task Broadcast(string s, Tile t)
-            {
-                called = (s, t);
-                return Task.CompletedTask;
-            }
+            static ValueTask Broadcast(string s, Tile t) =>
+                ValueTask.CompletedTask;
 
             var (status,_) = await hive.AiMove(Broadcast);
 
