@@ -105,16 +105,21 @@ namespace Hive.Domain.Tests
         public async Task CanAiMove()
         {
             var hive = HiveFactory.CreateHive(new[] {"player1", "player2"});
-            (string? s, Tile? t) called = (default, null);
+            string command = string.Empty;
+            Tile? tile = null;
 
-            static ValueTask Broadcast(string s, Tile t) =>
-                ValueTask.CompletedTask;
+            ValueTask Broadcast(string s, Tile t)
+            {
+                command = s;
+                tile = t;
+                return ValueTask.CompletedTask;
+            }
 
-            var (status,_) = await hive.AiMove(Broadcast);
+            var (status, _) = await hive.AiMove(Broadcast);
 
             status.Should().Be(GameStatus.MoveSuccess);
-            called.s.Should().Be("deselect");
-            called.t.Should().BeAssignableTo<Tile>().And.NotBeNull();
+            command.Should().Be("deselect");
+            tile.Should().BeAssignableTo<Tile>().And.NotBeNull();
         }
 
         [Fact]
@@ -242,11 +247,12 @@ namespace Hive.Domain.Tests
             cells.Add(new Cell(new Coords(0, 0)));
 
             var queen = players.First(p => p.Id == 0).Tiles.First(t => t.Creature == Creatures.Queen);
-          
+
             var hive2 = HiveFactory.CreateHive(players, cells, 0);
             hive2.Move(new Move(queen, new Coords(0, 0))).Should().Be(GameStatus.Player1Win);
         }
-     [Fact]
+
+        [Fact]
         public void Draw()
         {
             var hive = HiveFactory.CreateHive(new[] {"player1", "player2"});
@@ -264,7 +270,7 @@ namespace Hive.Domain.Tests
             cells.Add(new Cell(new Coords(0, 0)));
 
             var queen = players.First(p => p.Id == 0).Tiles.First(t => t.Creature == Creatures.Queen);
-          
+
             var hive2 = HiveFactory.CreateHive(players, cells, 0);
             hive2.Move(new Move(queen, new Coords(0, 0))).Should().Be(GameStatus.Player1Win);
         }
