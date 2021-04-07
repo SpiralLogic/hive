@@ -194,7 +194,7 @@ namespace Hive.Domain.Ai
             var cells = _board.Cells.ToHashSet();
             var unplacedTiles = _board.Players.SelectMany(p => p.Tiles.GroupBy(t => t.Creature).Select(g => g.First()))
                 .OrderBy(t => t.Creature.Name)
-                .SelectMany(t => t.Moves.Select(m => new Move(t, m)).OrderBy(_ => rnd.Next()))
+                .SelectMany(t => t.Moves.Select(m => new Move(t, m)).OrderBy(_ => rnd.Next())).Reverse()
                 .ToList();
             var placedTiles = cells.WhereOccupied()
                 .OrderBy(c => c.SelectNeighbors(_board.Cells).Any(n => n.HasQueen()))
