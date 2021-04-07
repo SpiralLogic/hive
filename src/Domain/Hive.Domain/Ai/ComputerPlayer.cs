@@ -87,7 +87,7 @@ namespace Hive.Domain.Ai
                 var score = nextScore;
                 if (nextScore >= bestScore && nextScore < HeuristicValues.ScoreMax)
                 {
-                    score -= (await Run(values.Move, depth - 1)).score/ (HeuristicValues.MaxDepth - depth + 1);
+                    score -= (await Run(values.Move, depth - 1)).score/ (HeuristicValues.MaxDepth == depth?1 :2);
                 }
 
                 RevertMove();
@@ -194,7 +194,7 @@ namespace Hive.Domain.Ai
             var cells = _board.Cells.ToHashSet();
             var unplacedTiles = _board.Players.SelectMany(p => p.Tiles.GroupBy(t => t.Creature).Select(g => g.First()))
                 .OrderBy(t => t.Creature.Name)
-                .SelectMany(t => t.Moves.Select(m => new Move(t, m)).OrderBy(_ => rnd.Next())).Reverse()
+                .SelectMany(t => t.Moves.Select(m => new Move(t, m)).OrderBy(_ => rnd.Next())).OrderBy(_=>rnd.Next())
                 .ToList();
             var placedTiles = cells.WhereOccupied()
                 .OrderBy(c => c.SelectNeighbors(_board.Cells).Any(n => n.HasQueen()))
