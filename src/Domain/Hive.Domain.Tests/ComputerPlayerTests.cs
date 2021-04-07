@@ -227,6 +227,41 @@ namespace Hive.Domain.Tests
 
             var player = new ComputerPlayer(hive);
             (await  player.GetMove()).Should().BeetleOnQueen(initial, expected);
+        }
+
+        [Fact] public async Task PeicesMoveTowardQueenUnderBeetle()
+        {
+            var initial = new InitialHiveBuilder();
+
+            initial += " ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡";
+            initial += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
+            initial += " ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡";
+            initial += "⬡ ⬡ ⬡ A ⬡ ⬡ ⬡ ⬡ ";
+            initial += " ⬡ ⬡ ⬡ s A A ⬡ ⬡";
+            initial += "⬡ G Q s s B ⬡ ⬡ ";
+            initial += " ⬡ ⬡ ⬡ ⬡ ⬡ G A ⬡";
+            initial += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
+
+            var beetleCell = initial.AllCells.First(c => c.Tiles.Any(t => t.Creature.Name == Creatures.Beetle.Name));
+            var beetle = beetleCell.RemoveTopTile();
+            beetleCell.AddTile(new Tile(11, 1, Creatures.Queen));
+            beetleCell.AddTile(beetle);
+
+            var expected = new ExpectedAiBuilder();
+
+            expected += " ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡";
+            expected += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
+            expected += " ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡";
+            expected += "⬡ ⬡ ⬡ ★ ⬡ ⬡ ⬡ ⬡ ";
+            expected += " ⬡ ⬡ ⬡ s A A ⬡ ⬡";
+            expected += "⬡ G Q s s B ✔ ⬡ ";
+            expected += " ⬡ ⬡ ⬡ ⬡ ✔ G A ⬡";
+            expected += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
+
+            var hive = HiveFactory.CreateHive(new[] {new Player(0, "P1"), new Player(1, "P1")}, initial.AllCells, 0);
+
+            var player = new ComputerPlayer(hive);
+            (await  player.GetMove()).Should().MatchHive(initial, expected);
         }   
         
         [Fact]
