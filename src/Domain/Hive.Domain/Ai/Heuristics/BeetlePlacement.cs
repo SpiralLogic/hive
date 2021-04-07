@@ -7,9 +7,9 @@ namespace Hive.Domain.Ai.Heuristics
 {
     internal class BeetlePlacement : IHeuristic
     {
-        private readonly Stack<MoveMade> _previousMoves;
+        private readonly Stack<InProgressMove> _previousMoves;
 
-        internal BeetlePlacement(Stack<MoveMade> previousMoves)
+        internal BeetlePlacement(Stack<InProgressMove> previousMoves)
         {
             _previousMoves = previousMoves;
         }

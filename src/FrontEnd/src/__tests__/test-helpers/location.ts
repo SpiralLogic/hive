@@ -1,7 +1,7 @@
 type WindowLocation = typeof window.location;
 
 const oldLocation: WindowLocation = window.location;
-export const mockLocation = (location: Partial<WindowLocation>): WindowLocation => {
+export const mockLocation = (location: Partial<WindowLocation>) => {
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-expect-error
   delete window.location;
@@ -10,7 +10,5 @@ export const mockLocation = (location: Partial<WindowLocation>): WindowLocation 
     ...location,
   };
 
-  return window.location;
+  return (): WindowLocation => (window.location = oldLocation);
 };
-
-export const restoreLocation = (): WindowLocation => (window.location = oldLocation);

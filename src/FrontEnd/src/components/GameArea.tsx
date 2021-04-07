@@ -25,10 +25,7 @@ const GameArea: FunctionComponent<Props> = ({ players, cells, playerId, gameStat
   const [showShare, setShowShare] = useState<boolean>(false);
   const [playerConnected, setPlayerConnected] = useState<'connected' | 'disconnected' | null>(null);
 
-  const gameOver = ['Player1Win', 'Player0Win', 'AiWin', 'GameOver'].includes(gameStatus);
-  const winner =
-    (gameStatus === 'Player0Win' && playerId === 0) || (gameStatus === 'Player1Win' && playerId === 1);
-
+  
   const shareComponent = () => {
     setShowShare(shareGame());
   };
@@ -76,7 +73,7 @@ const GameArea: FunctionComponent<Props> = ({ players, cells, playerId, gameStat
       )}
       {showRules ? <Rules setShowRules={setShowRules} /> : ''}
       {showShare ? <Share setShowShare={setShowShare} /> : ''}
-      {gameOver ? <GameOver win={winner} /> : ''}
+      <GameOver playerId={playerId} gameStatus={gameStatus} />
     </div>
   );
 };

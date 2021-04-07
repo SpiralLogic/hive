@@ -7,6 +7,7 @@ namespace Hive.Domain.Ai.Heuristics
 {
     internal class HeuristicValues
     {
+        internal const int MaxSearchTime = 10000;
         internal const int MaxDepth = 3;
         internal const int ScoreMax = 100;
         private readonly Hive _hive;
@@ -19,7 +20,7 @@ namespace Hive.Domain.Ai.Heuristics
         internal readonly int OpponentId;
         internal readonly int TilesPlaced;
 
-        public HeuristicValues(Hive hive, Stack<MoveMade> previousMoves, Move move, GameStatus gameStatus)
+        public HeuristicValues(Hive hive, Stack<InProgressMove> previousMoves, Move move, GameStatus gameStatus)
         {
             _hive = hive;
             Move = move;

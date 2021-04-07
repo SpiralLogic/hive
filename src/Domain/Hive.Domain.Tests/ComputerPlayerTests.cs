@@ -38,7 +38,7 @@ namespace Hive.Domain.Tests
             var hive = HiveFactory.CreateHive(new[] {new Player(0, "P1"), new Player(1, "P1")}, initial.AllCells, 0);
 
             var player = new ComputerPlayer(hive);
-            (await  player.GetMove()).Should().MatchHive(initial, expected);
+            (await player.GetMove()).Should().MatchHive(initial, expected);
         }
 
         [Fact]
@@ -65,7 +65,7 @@ namespace Hive.Domain.Tests
             var hive = HiveFactory.CreateHive(new[] {new Player(0, "P1"), new Player(1, "P1")}, initial.AllCells, 0);
 
             var player = new ComputerPlayer(hive);
-            (await  player.GetMove()).Should().MatchHive(initial, expected);
+            (await player.GetMove()).Should().MatchHive(initial, expected);
         }
 
         [Fact]
@@ -91,7 +91,7 @@ namespace Hive.Domain.Tests
             var hive = HiveFactory.CreateHive(new[] {new Player(0, "P1"), new Player(1, "P1")}, initial.AllCells, 0);
 
             var player = new ComputerPlayer(hive);
-            (await  player.GetMove()).Should().MatchHive(initial, expected);
+            (await player.GetMove()).Should().MatchHive(initial, expected);
         }
 
         [Fact]
@@ -122,7 +122,7 @@ namespace Hive.Domain.Tests
             var hive = HiveFactory.CreateHive(new[] {new Player(0, "P1"), new Player(1, "P1")}, initial.AllCells, 0);
 
             var player = new ComputerPlayer(hive);
-            (await  player.GetMove()).Should().MatchHive(initial, expected);
+            (await player.GetMove()).Should().MatchHive(initial, expected);
         }
 
         [Fact]
@@ -158,7 +158,7 @@ namespace Hive.Domain.Tests
             var hive = HiveFactory.CreateHive(new[] {new Player(0, "P1"), new Player(1, "P1")}, initial.AllCells, 0);
 
             var player = new ComputerPlayer(hive);
-            (await  player.GetMove()).Should().BeetleOnQueen(initial, expected);
+            (await player.GetMove()).Should().BeetleOnQueen(initial, expected);
         }
 
         [Fact]
@@ -190,7 +190,7 @@ namespace Hive.Domain.Tests
             var player2 = new Player(1, "P2") with {Tiles = new HashSet<Tile> {new(51, 1, Creatures.Grasshopper)}};
             var hive = HiveFactory.CreateHive(new[] {player1, player2}, initial.AllCells, 0);
             var player = new ComputerPlayer(hive);
-            (await  player.GetMove()).Should().MatchHive(initial, expected);
+            (await player.GetMove()).Should().MatchHive(initial, expected);
         }
 
         [Fact]
@@ -226,10 +226,11 @@ namespace Hive.Domain.Tests
             var hive = HiveFactory.CreateHive(new[] {new Player(0, "P1"), new Player(1, "P1")}, initial.AllCells, 1);
 
             var player = new ComputerPlayer(hive);
-            (await  player.GetMove()).Should().BeetleOnQueen(initial, expected);
+            (await player.GetMove()).Should().BeetleOnQueen(initial, expected);
         }
 
-        [Fact] public async Task PiecesMoveTowardQueenUnderBeetle()
+        [Fact]
+        public async Task PiecesMoveTowardQueenUnderBeetle()
         {
             var initial = new InitialHiveBuilder();
 
@@ -254,9 +255,9 @@ namespace Hive.Domain.Tests
 
             var hive = HiveFactory.CreateHive(new[] {new Player(0, "P1"), new Player(1, "P1")}, initial.AllCells, 0);
             var player = new ComputerPlayer(hive);
-            (await  player.GetMove()).Should().MatchHive(initial, expected);
-        }   
-        
+            (await player.GetMove()).Should().MatchHive(initial, expected);
+        }
+
         [Fact]
         public async Task Player0Wins()
         {
@@ -269,9 +270,7 @@ namespace Hive.Domain.Tests
             initial += " ⬡ ⬡ g g G G ⬡ ⬡ ⬡ ⬡";
             initial += " ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡";
 
-
             var expected = new ExpectedAiBuilder();
-
 
             expected += " ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡";
             expected += "⬡ ⬡ ⬡ ⬡ b b g ⬡ ⬡ ⬡ ";
@@ -283,7 +282,7 @@ namespace Hive.Domain.Tests
             var hive = HiveFactory.CreateHive(new[] {new Player(0, "P1"), new Player(1, "P1")}, initial.AllCells, 0);
 
             var player = new ComputerPlayer(hive);
-            (await  player.GetMove()).Should().MatchHive(initial, expected);
+            (await player.GetMove()).Should().MatchHive(initial, expected);
         }
     }
 }

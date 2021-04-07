@@ -5,9 +5,9 @@ namespace Hive.Domain.Ai.Heuristics
 {
     internal class AntPlacement : IHeuristic
     {
-        private readonly Stack<MoveMade> _previousMoves;
+        private readonly Stack<InProgressMove> _previousMoves;
 
-        internal AntPlacement(Stack<MoveMade> previousMoves)
+        internal AntPlacement(Stack<InProgressMove> previousMoves)
         {
             _previousMoves = previousMoves;
         }

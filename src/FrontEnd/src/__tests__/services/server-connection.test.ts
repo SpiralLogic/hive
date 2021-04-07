@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-assignment */
 import { HubConnection, HubConnectionState } from '@microsoft/signalr';
-import { mockLocation, restoreLocation } from '../test-helpers';
+import { mockLocation  } from '../test-helpers';
 import { serverConnectionFactory } from '../../services';
 import gameState from '../fixtures/gameState.json';
 
@@ -118,7 +118,7 @@ describe('game Server Connection Tests', () => {
   });
 
   it(`debugging connection handlers are called`, async () => {
-    const location = mockLocation({ reload: jest.fn() });
+    const restore = mockLocation({ reload: jest.fn() });
     jest.spyOn(global.console, 'info').mockImplementation();
     jest.spyOn(global.console, 'warn').mockImplementation();
     jest.spyOn(global.console, 'error').mockImplementation();
@@ -140,9 +140,9 @@ describe('game Server Connection Tests', () => {
     const onReconnectedHandler = hubConnection.onreconnected.mock.calls[0][0] as (error?: string) => void;
     onReconnectedHandler('test error');
 
-    expect(location.reload).toHaveBeenCalledWith();
+    expect(window.location.reload).toHaveBeenCalledWith();
     expect(global.console.info).toHaveBeenCalledWith(expect.any(String));
 
-    restoreLocation();
+    restore();
   });
 });
