@@ -50,7 +50,7 @@ namespace Hive.Domain.Ai
 
         private async Task<(Move? best, int score)> Run(Move? move, int depth)
         {
-            if (depth == 0 || _stopWatch.ElapsedMilliseconds > 7000) return (move, 0);
+            if (depth == 0 || _stopWatch.ElapsedMilliseconds > 30000) return (move, 0);
 
             var toExplore = FindMovesToExplore();
 
@@ -79,25 +79,24 @@ namespace Hive.Domain.Ai
         {
             var best = toExplore.First().Value.First().values.Move;
             var bestScore = -HeuristicValues.ScoreMax;
-            var worst = HeuristicValues.ScoreMax;
-            var rnd = new Random();
+            //var worst = HeuristicValues.ScoreMax;
 
-            foreach (var (nextScore, values) in toExplore.SelectMany(kvp => kvp.Value).OrderBy(_ => rnd.Next()))
+            foreach (var (nextScore, values) in toExplore.SelectMany(kvp => kvp.Value).OrderByDescending(kvp=>kvp.score))
             {
                 var status = MakeMove(values.Move);
                 if (status == GameStatus.MoveInvalid) continue;
                 if (depth == HeuristicValues.MaxDepth) await BroadcastMove(values.Move);
                 var score = nextScore;
-                if ( nextScore < HeuristicValues.ScoreMax)
+                if ( nextScore < 3*HeuristicValues.ScoreMax)
                 {
-                    var s = -(await Run(values.Move, depth - 1)).score / (HeuristicValues.MaxDepth - depth + 1);
-                    worst = Math.Min(s, worst);
+                    var s = (await Run(values.Move, depth - 1)).score / (HeuristicValues.MaxDepth - depth + 1);
+                   // worst = Math.Min(s, worst);
                     score += s;
                 }
-                else
+                /*else
                 {
                     score += worst;
-                }
+                }*/
 
                 RevertMove();
 
@@ -162,8 +161,9 @@ namespace Hive.Domain.Ai
                 _board.Cells.Add(new Cell(move.Coords));
                 move.Tile.Moves.Add(move.Coords);
             }
-
-            var status = _board.Move(move);
+            var status = _board.PerformMove(move);
+            _board.RefreshMoves(_board.Players.FindPlayerById(move.Tile.PlayerId));
+          //  var status = _board.Move(move);
             if (status == GameStatus.MoveInvalid) return status;
 
             _previousMoves.Push(mv);

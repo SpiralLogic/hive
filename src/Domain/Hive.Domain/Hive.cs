@@ -24,8 +24,8 @@ namespace Hive.Domain
         public GameStatus Move(Move move) =>
             _mover.Move(move);
 
-        internal void PerformMove(Move move) =>
-            _mover.PerformMove(move);
+        internal GameStatus PerformMove(Move move) =>
+             _mover.PerformMove(move);
 
         public async Task<GameStatus> AiMove(Func<string, Tile, Task> broadcastThought)
         {

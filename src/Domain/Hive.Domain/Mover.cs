@@ -58,11 +58,13 @@ namespace Hive.Domain
             UpdatePlayerTileMoves(nextPlayer);
         }
 
-        internal void PerformMove(Move move)
+        internal GameStatus PerformMove(Move move)
         {
             RemoveTile(move.Tile);
             var (tile, coords) = move;
             _hive.Cells.First(c => c.Coords == coords).AddTile(tile);
+
+            return GameStatus.MoveSuccess;
         }
 
         private Player GetNextPlayer(Tile movedTile)
