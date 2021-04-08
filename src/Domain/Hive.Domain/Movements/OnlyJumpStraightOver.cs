@@ -12,14 +12,14 @@ namespace Hive.Domain.Movements
         {
             var cells = new HashSet<Cell>
             {
-                GetFirstEmpty(allCells, c => c.GetNeighbors()[Direction.TopLeft], currentCell.Coords),
-                GetFirstEmpty(allCells, c => c.GetNeighbors()[Direction.TopRight], currentCell.Coords),
+                GetFirstEmpty(allCells, c => c.Neighbours()[(int)Direction.TopLeft], currentCell.Coords),
+                GetFirstEmpty(allCells, c => c.Neighbours()[(int)Direction.TopRight], currentCell.Coords),
 
-                GetFirstEmpty(allCells, c => c.GetNeighbors()[Direction.Left], currentCell.Coords),
+                GetFirstEmpty(allCells, c => c.Neighbours()[(int)Direction.Left], currentCell.Coords),
 
-                GetFirstEmpty(allCells, c =>c.GetNeighbors()[Direction.Right], currentCell.Coords),
-                GetFirstEmpty(allCells, c => c.GetNeighbors()[Direction.BottomLeft], currentCell.Coords),
-                GetFirstEmpty(allCells, c => c.GetNeighbors()[Direction.BottomRight], currentCell.Coords)
+                GetFirstEmpty(allCells, c =>c.Neighbours()[(int)Direction.Right], currentCell.Coords),
+                GetFirstEmpty(allCells, c => c.Neighbours()[(int)Direction.BottomLeft], currentCell.Coords),
+                GetFirstEmpty(allCells, c => c.Neighbours()[(int)Direction.BottomRight], currentCell.Coords)
             };
 
             return cells.Except(currentCell.SelectNeighbors(allCells)).ToCoords();

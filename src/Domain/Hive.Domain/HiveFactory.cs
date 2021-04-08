@@ -48,6 +48,6 @@ namespace Hive.Domain
         }
 
         private static ISet<Cell> CreateCells() =>
-            InitialCoords.GetNeighbors().Values.Prepend(InitialCoords).ToCells();
+            InitialCoords.Neighbours().Prepend(InitialCoords).ToCells();
     }
 }

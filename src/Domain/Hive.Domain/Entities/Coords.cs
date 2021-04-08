@@ -1,21 +1,28 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Hive.Domain.Entities
 {
     public sealed record Coords(int Q, int R)
     {
-        private readonly Lazy<Dictionary<Direction, Coords>> _neighbours = new(() => new Dictionary<Direction, Coords>
-        {
-            {Direction.TopLeft, R % 2 == 0 ? new Coords(Q - 1, R - 1) : new Coords(Q, R - 1)},
-            {Direction.BottomLeft, R % 2 == 0 ? new Coords(Q - 1, R + 1) : new Coords(Q, R + 1)},
-            {Direction.TopRight, R % 2 == 0 ? new Coords(Q, R - 1) : new Coords(Q + 1, R - 1)},
-            {Direction.BottomRight, R % 2 == 0 ? new Coords(Q, R + 1) : new Coords(Q + 1, R + 1)},
-            {Direction.Right, new Coords(Q + 1, R)},
-            {Direction.Left, new Coords(Q - 1, R)}
-        });
 
-        private readonly int _hashCode= HashCode.Combine(Q, R);
+        private readonly Lazy<Coords[]> _neighbours = new(
+            () =>
+            {
+                var n = new Coords[6];
+                n[(int) Direction.TopLeft] = R % 2 == 0 ? new Coords(Q - 1, R - 1) : new Coords(Q, R - 1);
+                n[(int) Direction.BottomLeft] = R % 2 == 0 ? new Coords(Q - 1, R + 1) : new Coords(Q, R + 1);
+                n[(int) Direction.TopRight] = R % 2 == 0 ? new Coords(Q, R - 1) : new Coords(Q + 1, R - 1);
+                n[(int) Direction.BottomRight] = R % 2 == 0 ? new Coords(Q, R + 1) : new Coords(Q + 1, R + 1);
+                n[(int) Direction.Right] = new Coords(Q + 1, R);
+                n[(int) Direction.Left] = new Coords(Q - 1, R);
+                return n;
+            }
+        );
+        internal Coords[] Neighbours() => _neighbours.Value;
+
+        private readonly int _hashCode = ShiftAndWrap(Q.GetHashCode(), 2) ^ R.GetHashCode();
 
         public bool Equals(Coords? other)
         {
@@ -24,10 +31,17 @@ namespace Hive.Domain.Entities
             return Q == other.Q && R == other.R;
         }
 
-        public override int GetHashCode() =>
-            _hashCode;
+        public override int GetHashCode() => _hashCode;
 
-        internal Dictionary<Direction, Coords> GetNeighbors() =>
-            _neighbours.Value;
+        private static int ShiftAndWrap(int value, int positions)
+        {
+            positions &= 0x1F;
+            // Save the existing bit pattern, but interpret it as an unsigned integer.
+            var number = BitConverter.ToUInt32(BitConverter.GetBytes(value), 0);
+            // Preserve the bits to be discarded.
+            var wrapped = number >> (32 - positions);
+            // Shift and wrap the discarded bits.
+            return BitConverter.ToInt32(BitConverter.GetBytes((number << positions) | wrapped), 0);
+        }
     }
 }

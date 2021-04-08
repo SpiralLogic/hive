@@ -8,7 +8,7 @@ namespace Hive.Domain.Movements
     {
         public ISet<Coords> GetMoves(Cell originCell, ISet<Cell> allCells)
         {
-            return originCell.Coords.GetNeighbors().Values.ToHashSet();
+            return originCell.Coords.Neighbours().ToHashSet();
         }
     }
 }

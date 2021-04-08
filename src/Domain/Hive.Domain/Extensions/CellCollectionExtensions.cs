@@ -30,7 +30,7 @@ namespace Hive.Domain.Extensions
         {
             var enumerable = cells as Cell[] ?? cells.ToArray();
             return enumerable.SelectCoords()
-                .SelectMany(coords => coords.GetNeighbors().Values)
+                .SelectMany(coords => coords.Neighbours())
                 .SelectCells()
                 .Except(enumerable.WhereOccupied())
                 .ToHashSet();
@@ -44,7 +44,7 @@ namespace Hive.Domain.Extensions
 
         public static IEnumerable<Cell> SelectNeighbors(this IEnumerable<Cell> cells, Cell originCell)
         {
-            return cells.Intersect(originCell.Coords.GetNeighbors().Values.ToCells());
+            return cells.Intersect(originCell.Coords.Neighbours().ToCells());
         }
 
         internal static IEnumerable<Cell> WhereEmpty(this IEnumerable<Cell> cells)

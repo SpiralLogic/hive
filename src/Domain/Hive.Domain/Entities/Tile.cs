@@ -14,9 +14,6 @@ namespace Hive.Domain.Entities
             return Id == other.Id && PlayerId == other.PlayerId && Creature.Equals(other.Creature);
         }
 
-        public override int GetHashCode()
-        {
-            return HashCode.Combine(Id, PlayerId, Creature);
-        }
+        public override int GetHashCode()=> Id;
     }
 }

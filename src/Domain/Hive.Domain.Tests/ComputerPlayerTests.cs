@@ -235,7 +235,7 @@ namespace Hive.Domain.Tests
             var initial = new InitialHiveBuilder();
 
             initial += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
-            initial += " ⬡ ⬡ ⬡ A g g ⬡ ⬡";
+            initial += " ⬡ ⬡ ⬡ A g ⬡ ⬡ ⬡";
             initial += "⬡ ⬡ Q s s B ⬡ ⬡ ";
             initial += " ⬡ ⬡ ⬡ ⬡ ⬡ G ⬡ ⬡";
             initial += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
@@ -248,8 +248,8 @@ namespace Hive.Domain.Tests
             var expected = new ExpectedAiBuilder();
 
             expected += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
-            expected += " ⬡ ⬡ ⬡ ★ g g ⬡ ⬡";
-            expected += "⬡ g Q s s B ✔ ⬡ ";
+            expected += " ⬡ ⬡ ⬡ ★ g ⬡ ⬡ ⬡";
+            expected += "⬡ ⬡ Q s s B ✔ ⬡ ";
             expected += " ⬡ ⬡ ⬡ ⬡ ✔ G ⬡ ⬡";
             expected += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
 
