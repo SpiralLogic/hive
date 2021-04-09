@@ -18,11 +18,8 @@ const GameCell: FunctionComponent<Props> = (props) => {
   useEffect(() => setClasses({ type: hidden ? 'add' : 'remove', classes: ['hide'] }), [hidden]);
 
   addHiveDispatchListener<TileEvent>('tileDeselected', (event) => {
-    if (!isValidMove(event.tile.moves, coords)) {
-      setClasses({ type: 'remove', classes: ['no-drop'] });
-    }
     setSelectedTile(null);
-    setClasses({ type: 'remove', classes: ['active', 'can-drop'] });
+    setClasses({ type: 'remove', classes: ['active', 'can-drop', 'no-drop'] });
   });
 
   addHiveDispatchListener<TileEvent>('tileSelected', (event) => {
