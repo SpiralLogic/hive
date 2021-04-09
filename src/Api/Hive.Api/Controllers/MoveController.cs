@@ -102,10 +102,12 @@ namespace Hive.Controllers
 
         private Domain.Entities.Move?[] PreventRepeatedMoves(int playerId, string previousMovesJson, IEnumerable<Player> players)
         {
-            var previousMoves = JsonSerializer.Deserialize<Domain.Entities.Move[]>(previousMovesJson, _jsonSerializerOptions) ??
-                                new Domain.Entities.Move?[8];
+            var fallback = new Domain.Entities.Move?[8];
 
-            if (previousMoves.Length == 4) previousMoves = new Domain.Entities.Move?[8];
+            if (string.IsNullOrEmpty(previousMovesJson)) return fallback;
+            var previousMoves = JsonSerializer.Deserialize<Domain.Entities.Move[]>(previousMovesJson, _jsonSerializerOptions) ?? fallback;
+
+            if (previousMoves.Length == 4) previousMoves = fallback;
             var previousMove = previousMoves[playerId + 4];
 
             if (previousMove == null) return previousMoves;
