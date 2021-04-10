@@ -1,6 +1,7 @@
 import { h } from 'preact';
 import Players from '../components/Players';
 import { renderElement } from './test-helpers';
+import GameTile from '../components/GameTile';
 
 describe('playerList Tests', () => {
   const renderPlayerList = () => {
@@ -13,7 +14,7 @@ describe('playerList Tests', () => {
     ];
 
     global.window.history.replaceState({}, global.document.title, `/game/33/1`);
-    return renderElement(<Players players={players} />);
+    return renderElement(<Players currentPlayer={0} players={players} />);
   };
 
   it('to have class', () => {

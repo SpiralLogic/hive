@@ -44,7 +44,7 @@ const GameArea: FunctionComponent<Props> = ({ players, cells, currentPlayer, gam
   removeOtherPlayerMoves(currentPlayer, { players, cells });
   return (
     <div {...attributes} title={'Hive Game Area'}>
-      <Players players={players} />
+      <Players currentPlayer={currentPlayer} players={players} />
       <main>
         <Links onShowRules={setShowRules} onShowShare={() => shareComponent()} playerId={currentPlayer} />
         <Hextille>
