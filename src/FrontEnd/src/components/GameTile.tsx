@@ -1,6 +1,6 @@
 import { FunctionComponent, h } from 'preact';
 import { useEffect, useState } from 'preact/hooks';
-import { Tile as TileType } from '../domain';
+import { PlayerId, Tile as TileType } from '../domain';
 
 import { TileAction } from '../services';
 import { addHiveDispatchListener, dispatchHiveEvent } from '../utilities/dispatcher';
@@ -10,11 +10,10 @@ import Tile from './Tile';
 
 const tileSelector = `[tabindex].tile`;
 const cellSelector = `[tabindex][role="cell"]`;
-const playerSelector = `[tabindex].name`;
-type Props = TileType & { stacked?: boolean };
+type Props = TileType & { stacked?: boolean; currentPlayer: PlayerId };
 
 const GameTile: FunctionComponent<Props> = (props) => {
-  const { stacked, ...tile } = props;
+  const { currentPlayer, stacked, ...tile } = props;
   const { id, moves, creature, playerId } = tile;
   const [focus, setFocus] = useState(tileSelector);
   const [classes, setClassList] = useClassReducer(`player${playerId} hex`);
@@ -23,14 +22,15 @@ const GameTile: FunctionComponent<Props> = (props) => {
   const deselect = (fromEvent: boolean = false) => {
     if (!classes.includes('selected')) return;
     setClassList({ type: 'remove', classes: ['selected'] });
-    dispatchHiveEvent({ type: 'tileDeselected', tile: tile, fromEvent });
+    dispatchHiveEvent({ type: 'tileDeselected', tile, fromEvent });
   };
 
   const select = (fromEvent: boolean = false) => {
     if (classes.includes('selected')) return;
     dispatchHiveEvent({ type: 'tileClear' });
     setClassList({ type: 'add', classes: ['selected'] });
-    dispatchHiveEvent({ type: 'tileSelected', tile: tile, fromEvent });
+    if (currentPlayer != tile.playerId) return;
+    dispatchHiveEvent({ type: 'tileSelected', tile, fromEvent });
   };
 
   addHiveDispatchListener<TileAction>('tileSelect', (event: TileAction) => {
@@ -55,7 +55,7 @@ const GameTile: FunctionComponent<Props> = (props) => {
 
   const handleDragEnd = () => {
     dispatchHiveEvent({ type: 'tileClear' });
-    dispatchHiveEvent({ type: 'tileDropped', tile: tile });
+    dispatchHiveEvent({ type: 'tileDropped', tile });
   };
 
   const handleClick = (event: MouseEvent) => {
@@ -77,8 +77,7 @@ const GameTile: FunctionComponent<Props> = (props) => {
 
   useEffect(() => {
     if (!focus) return;
-    const focusElement =
-      document.querySelector<HTMLElement>(focus) ?? document.querySelector<HTMLElement>(playerSelector);
+    const focusElement = document.querySelector<HTMLElement>(focus);
     focusElement?.focus();
     setFocus('');
   }, [focus]);
@@ -90,6 +89,7 @@ const GameTile: FunctionComponent<Props> = (props) => {
     tabindex: moves.length ? 0 : undefined,
     creature,
   };
+
   const handlers = moves.length
     ? {
         onclick: handleClick,

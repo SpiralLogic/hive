@@ -25,12 +25,15 @@ const gameOutcome = (gameStatus: GameStatus, playerId: PlayerId) => {
   }
 };
 
-const GameOver: FunctionComponent<{ gameStatus: GameStatus; playerId: PlayerId }> = ({ gameStatus, playerId }) => {
-  const outcome = gameOutcome(gameStatus, playerId);
+const GameOver: FunctionComponent<{ gameStatus: GameStatus; currentPlayer: PlayerId }> = ({
+  gameStatus,
+  currentPlayer,
+}) => {
+  const outcome = gameOutcome(gameStatus, currentPlayer);
   return outcome ? (
-    <Modal name='game over' onClose={newGame}>
+    <Modal name="game over" onClose={newGame}>
       <p>{outcome}</p>
-      <button autofocus title='New Game' onClick={newGame}>
+      <button autofocus title="New Game" onClick={newGame}>
         Close
       </button>
     </Modal>

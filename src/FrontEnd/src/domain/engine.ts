@@ -11,7 +11,7 @@ export type OpponentSelectionHandler = (type: PlayerSelectionEvent, tile: Tile) 
 export type OpponentConnectedHandler = (type: PlayerConnectionEvent) => void;
 export type EngineMove = (gameId: GameId, move: Move, useAi: boolean) => Promise<GameState>;
 export type HexEngine = {
-  playerId: PlayerId;
+  currentPlayer: PlayerId;
   initialGame: Promise<GameState>;
   getNewGame: () => Promise<GameState>;
   move: EngineMove;
@@ -19,7 +19,7 @@ export type HexEngine = {
 };
 
 export type ServerConnectionConfig = {
-  playerId: PlayerId;
+  currentPlayer: PlayerId;
   gameId: GameId;
   updateHandler: GameStateUpdateHandler;
   opponentSelectionHandler: OpponentSelectionHandler;

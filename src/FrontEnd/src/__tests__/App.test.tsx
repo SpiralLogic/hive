@@ -18,7 +18,7 @@ describe('app tests', () => {
     const gameAfterMove = createGameState(2);
     const engine: HexEngine = {
       initialGame: Promise.resolve(gameState),
-      playerId: 0,
+      currentPlayer: 0,
       move: jest.fn().mockResolvedValue(gameAfterMove),
       getNewGame: jest.fn().mockResolvedValue(gameState),
       getExistingGame: jest.fn().mockResolvedValue(gameState),

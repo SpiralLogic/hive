@@ -9,7 +9,8 @@ const Objective = () => (
     <Hextille class="rules">
       <Row>
         <RuleCell creature="ant" />
-        <RuleCell creature="grasshopper" /> <Hexagon hidden={true} />
+        <RuleCell creature="grasshopper" />
+        <Hexagon hidden={true} />
       </Row>
       <Row>
         <RuleCell creature="spider" />
@@ -18,7 +19,8 @@ const Objective = () => (
       </Row>
       <Row>
         <RuleCell creature="ant" />
-        <RuleCell creature="grasshopper" /> <Hexagon hidden={true} />
+        <RuleCell creature="grasshopper" />
+        <Hexagon hidden={true} />
       </Row>
     </Hextille>
     <caption>

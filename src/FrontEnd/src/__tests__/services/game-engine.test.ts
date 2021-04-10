@@ -9,7 +9,7 @@ describe('game Engine Tests', () => {
     .mockImplementation(() => Promise.resolve({ ok: true, json: () => Promise.resolve(gameState) }));
 
   it('new game', async () => {
-    engine = new GameEngine({ route: 'game', gameId: '33', playerId: '1' });
+    engine = new GameEngine({ route: 'game', gameId: '33', currentPlayer: '1' });
     const response = await engine.getNewGame();
     expect(response).not.toBeFalsy();
     expect(response.cells).toHaveLength(2);
@@ -47,7 +47,7 @@ describe('game Engine Tests', () => {
   });
 
   it('ai move made for player 1', async () => {
-    window.history.pushState({ playerId: 0 }, 'game');
+    window.history.pushState({ currentPlayer: 0 }, 'game');
     engine = new GameEngine();
     jest.clearAllMocks();
     await engine.move(
@@ -62,7 +62,7 @@ describe('game Engine Tests', () => {
   });
 
   it('ai move made for player 0', async () => {
-    window.history.pushState({ playerId: 1 }, 'game');
+    window.history.pushState({ currentPlayer: 1 }, 'game');
     engine = new GameEngine();
     jest.clearAllMocks();
     const move = {

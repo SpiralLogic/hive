@@ -15,11 +15,11 @@ describe('tile Tests', () => {
   const tileNoMove = { id: 2, playerId: 0, creature: 'fly', moves: [] };
 
   const createTileCanMove = () => {
-    return renderElement(<GameTile {...tileCanMove} />);
+    return renderElement(<GameTile currentPlayer={1} {...tileCanMove} />);
   };
 
   const createTileNoMove = () => {
-    return renderElement(<GameTile {...tileNoMove} />);
+    return renderElement(<GameTile currentPlayer={1} {...tileNoMove} />);
   };
 
   const createDispatcher = (): [TileEvent[], () => void] => {
@@ -56,6 +56,7 @@ describe('tile Tests', () => {
       const expectedEvent: TileEvent = {
         type: 'tileSelected',
         tile: tileCanMove,
+        fromEvent: false,
       };
       expect(tileEvents).toEqual(expect.arrayContaining([expect.objectContaining(expectedEvent)]));
       cleanup();
@@ -232,7 +233,7 @@ describe('tile Tests', () => {
     });
 
     it('when stacked matched snapshot', () => {
-      expect(renderElement(<GameTile {...tileNoMove} stacked={true} />)).toMatchSnapshot();
+      expect(renderElement(<GameTile currentPlayer={0} {...tileNoMove} stacked={true} />)).toMatchSnapshot();
     });
   });
 });

@@ -21,9 +21,9 @@ const App: FunctionComponent<{ engine: HexEngine; connectionFactory: HexServerCo
     engine.initialGame
       .then((initialGameState) => {
         window.history.replaceState(
-          { playerId: engine.playerId, gameId: initialGameState.gameId },
+          { currentPlayer: engine.currentPlayer, gameId: initialGameState.gameId },
           document.title,
-          `/game/${initialGameState.gameId}/${engine.playerId}${document.location.search}`
+          `/game/${initialGameState.gameId}/${engine.currentPlayer}${document.location.search}`
         );
         updateHandler(initialGameState);
       })
@@ -33,7 +33,7 @@ const App: FunctionComponent<{ engine: HexEngine; connectionFactory: HexServerCo
   useLayoutEffect(() => {
     if (!gameState) return () => {};
     const serverConnection = connectionFactory({
-      playerId: engine.playerId,
+      currentPlayer: engine.currentPlayer,
       gameId: gameState.gameId,
       updateHandler,
       opponentSelectionHandler,
@@ -46,7 +46,7 @@ const App: FunctionComponent<{ engine: HexEngine; connectionFactory: HexServerCo
       gameState,
       updateHandler,
       engine.move,
-      engine.playerId === 0
+      engine.currentPlayer === 0
     );
 
     return (): void => {
@@ -69,7 +69,7 @@ const App: FunctionComponent<{ engine: HexEngine; connectionFactory: HexServerCo
       players={gameState.players}
       cells={gameState.cells}
       gameStatus={gameState.gameStatus}
-      playerId={engine.playerId}
+      currentPlayer={engine.currentPlayer}
     />
   );
 };

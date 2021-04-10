@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-assignment */
 import { HubConnection, HubConnectionState } from '@microsoft/signalr';
-import { mockLocation  } from '../test-helpers';
+import { mockLocation } from '../test-helpers';
 import { serverConnectionFactory } from '../../services';
 import gameState from '../fixtures/gameState.json';
 
@@ -48,7 +48,7 @@ describe('game Server Connection Tests', () => {
     updateHandler.mockReset();
     opponentSelectionHandler.mockReset();
     return serverConnectionFactory({
-      playerId: 0,
+      currentPlayer: 0,
       gameId: '33',
       updateHandler,
       opponentSelectionHandler,

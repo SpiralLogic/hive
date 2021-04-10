@@ -8,22 +8,32 @@ import { mockLocation, renderElement } from './test-helpers';
 describe('gameOver snapshot tests', () => {
   test('close calls base url', () => {
     const restore = mockLocation({ assign: jest.fn() });
-    render(<GameOver playerId={0} gameStatus='Draw' />);
+    render(<GameOver currentPlayer={0} gameStatus="Draw" />);
 
     userEvent.click(screen.getByRole('button'));
     expect(window.location.assign).toBeCalledWith('/');
     restore();
   });
 
-  const outcomes: GameStatus[] = ['NewGame', 'MoveSuccess', 'AiWin', 'Player0Win', 'Player1Win', 'MoveSuccessNextPlayerSkipped', 'MoveInvalid', 'GameOver', 'Draw'];
+  const outcomes: GameStatus[] = [
+    'NewGame',
+    'MoveSuccess',
+    'AiWin',
+    'Player0Win',
+    'Player1Win',
+    'MoveSuccessNextPlayerSkipped',
+    'MoveInvalid',
+    'GameOver',
+    'Draw',
+  ];
 
-  outcomes.forEach(outcome => {
+  outcomes.forEach((outcome) => {
     it(`${outcome} snapshot player 0`, () => {
-      expect(renderElement(<GameOver playerId={0} gameStatus={outcome} />)).toMatchSnapshot();
+      expect(renderElement(<GameOver currentPlayer={0} gameStatus={outcome} />)).toMatchSnapshot();
     });
 
     it(`${outcome} snapshot player 1`, () => {
-      expect(renderElement(<GameOver playerId={1} gameStatus={outcome} />)).toMatchSnapshot();
+      expect(renderElement(<GameOver currentPlayer={1} gameStatus={outcome} />)).toMatchSnapshot();
     });
   });
 });

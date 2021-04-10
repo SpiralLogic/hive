@@ -18,14 +18,13 @@ import Row from './Row';
 import Rules from './Rules';
 import Share from './Share';
 
-type Props = Omit<GameState, 'gameId'> & { playerId: PlayerId };
+type Props = Omit<GameState, 'gameId'> & { currentPlayer: PlayerId };
 
-const GameArea: FunctionComponent<Props> = ({ players, cells, playerId, gameStatus }) => {
+const GameArea: FunctionComponent<Props> = ({ players, cells, currentPlayer, gameStatus }) => {
   const [showRules, setShowRules] = useState<boolean>(false);
   const [showShare, setShowShare] = useState<boolean>(false);
   const [playerConnected, setPlayerConnected] = useState<'connected' | 'disconnected' | null>(null);
 
-  
   const shareComponent = () => {
     setShowShare(shareGame());
   };
@@ -42,12 +41,12 @@ const GameArea: FunctionComponent<Props> = ({ players, cells, playerId, gameStat
     setPlayerConnected('disconnected');
   });
 
-  removeOtherPlayerMoves(playerId, { players, cells });
+  removeOtherPlayerMoves(currentPlayer, { players, cells });
   return (
     <div {...attributes} title={'Hive Game Area'}>
       <Players players={players} />
       <main>
-        <Links onShowRules={setShowRules} onShowShare={() => shareComponent()} playerId={playerId} />
+        <Links onShowRules={setShowRules} onShowShare={() => shareComponent()} playerId={currentPlayer} />
         <Hextille>
           {rows.map((row) => (
             <Row key={row.id} {...row}>
@@ -56,6 +55,7 @@ const GameArea: FunctionComponent<Props> = ({ players, cells, playerId, gameStat
                   {cell.tiles.reverse().map((tile, i) => (
                     <GameTile
                       key={tile.id}
+                      currentPlayer={currentPlayer}
                       {...tile}
                       stacked={i === cell.tiles.length - 1 && cell.tiles.length > 1}
                     />
@@ -73,7 +73,7 @@ const GameArea: FunctionComponent<Props> = ({ players, cells, playerId, gameStat
       )}
       {showRules ? <Rules setShowRules={setShowRules} /> : ''}
       {showShare ? <Share setShowShare={setShowShare} /> : ''}
-      <GameOver playerId={playerId} gameStatus={gameStatus} />
+      <GameOver currentPlayer={currentPlayer} gameStatus={gameStatus} />
     </div>
   );
 };

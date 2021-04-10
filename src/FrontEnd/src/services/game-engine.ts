@@ -2,14 +2,14 @@ import { GameId, GameState, Move, PlayerId } from '../domain';
 import { HexEngine } from '../domain/engine';
 
 export default class GameEngine implements HexEngine {
-  public playerId: PlayerId;
+  public currentPlayer: PlayerId;
   public initialGame: Promise<GameState>;
 
-  constructor(existingConfig?: { route: string; gameId: string; playerId: string }) {
-    this.playerId = Number(existingConfig?.playerId) || 0;
+  constructor(existingGame?: { route: string; gameId: string; currentPlayer: string }) {
+    this.currentPlayer = Number(existingGame?.currentPlayer) || 0;
     this.initialGame =
-      existingConfig && existingConfig.route === 'game'
-        ? this.getExistingGame(existingConfig.gameId)
+      existingGame && existingGame.route === 'game'
+        ? this.getExistingGame(existingGame.gameId)
         : this.getNewGame();
   }
 
@@ -35,7 +35,7 @@ export default class GameEngine implements HexEngine {
     const response = await this.postRequest(`/api/move/${gameId}`, move);
     if (!useAi) return response.json();
     return (
-      await this.postRequest(`/api/ai-move/${gameId}/${window.history.state.playerId == 0 ? 1 : 0}`)
+      await this.postRequest(`/api/ai-move/${gameId}/${window.history.state.currentPlayer == 0 ? 1 : 0}`)
     ).json();
   };
 
