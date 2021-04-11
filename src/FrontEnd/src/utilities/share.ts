@@ -1,3 +1,5 @@
+import { PlayerId } from '../domain';
+
 const fallbackCopyTextToClipboard = (text: string) => {
   const currentFocus = document.activeElement as HTMLElement;
   const textArea = document.createElement('textarea');
@@ -21,18 +23,18 @@ const fallbackCopyTextToClipboard = (text: string) => {
   }
 };
 
-export const getShareUrl = () => {
+export const getShareUrl = (currentPlayer: PlayerId) => {
   const parts = window.location.href.split('/');
-  parts.push(parts.pop() === '1' ? '0' : '1');
+  parts[parts.length - 1] = (currentPlayer === 1 ? '0' : '1');
   return parts.join('/');
 };
 
-export const shareGame = () => {
-  const url = getShareUrl();
+export const shareGame = (currentPlayer: PlayerId) => {
+  const url = getShareUrl(currentPlayer);
   const opponentGame = {
     title: 'Hive board game',
     text: 'Click this link to join me in a game of the Hive!',
-    url,
+    url
   };
   try {
     navigator.share(opponentGame).catch(() => {});

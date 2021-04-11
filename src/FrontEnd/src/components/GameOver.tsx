@@ -1,43 +1,17 @@
-import '../css/share.css';
 import { FunctionComponent, h } from 'preact';
-import { GameStatus, PlayerId } from '../domain';
-import Modal from './Modal';
+import '../css/share.css';
 
-const newGame = () => window.location.assign(`/`);
 
-const gameOutcome = (gameStatus: GameStatus, playerId: PlayerId) => {
-  switch (gameStatus) {
-    case 'AiWin':
-      return 'Game Over! Ai Wins';
-    case 'Player0Win':
-      return `Game Over! You ${playerId == 0 ? 'Win!' : 'Lose!'}`;
-    case 'Player1Win':
-      return `Game Over! You ${playerId == 1 ? 'Win!' : 'Lose!'}`;
-    case 'GameOver':
-      return `Game is over`;
-    case 'Draw':
-      return `Game Over! Draw`;
-    case 'NewGame':
-    case 'MoveSuccess':
-    case 'MoveSuccessNextPlayerSkipped':
-    case 'MoveInvalid':
-      return '';
-  }
-};
 
-const GameOver: FunctionComponent<{ gameStatus: GameStatus; currentPlayer: PlayerId }> = ({
-  gameStatus,
-  currentPlayer,
-}) => {
-  const outcome = gameOutcome(gameStatus, currentPlayer);
-  return outcome ? (
-    <Modal name="game over" onClose={newGame}>
+const GameOver: FunctionComponent<{ outcome: string;  }> = ({outcome}) => {
+  return (
+    <> 
       <p>{outcome}</p>
-      <button autofocus title="New Game" onClick={newGame}>
+      <button autofocus title='New Game' onClick={() => window.location.assign(`/`)}>
         Close
       </button>
-    </Modal>
-  ) : null;
+    </>
+  );
 };
 GameOver.displayName = 'GameOver';
 export default GameOver;

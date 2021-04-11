@@ -8,7 +8,7 @@ import { mockLocation, renderElement } from './test-helpers';
 describe('gameOver snapshot tests', () => {
   test('close calls base url', () => {
     const restore = mockLocation({ assign: jest.fn() });
-    render(<GameOver currentPlayer={0} gameStatus="Draw" />);
+    render(<GameOver  outcome="Draw" />);
 
     userEvent.click(screen.getByRole('button'));
     expect(window.location.assign).toBeCalledWith('/');
@@ -29,11 +29,11 @@ describe('gameOver snapshot tests', () => {
 
   outcomes.forEach((outcome) => {
     it(`${outcome} snapshot player 0`, () => {
-      expect(renderElement(<GameOver currentPlayer={0} gameStatus={outcome} />)).toMatchSnapshot();
+      expect(renderElement(<GameOver  outcome={outcome} />)).toMatchSnapshot();
     });
 
     it(`${outcome} snapshot player 1`, () => {
-      expect(renderElement(<GameOver currentPlayer={1} gameStatus={outcome} />)).toMatchSnapshot();
+      expect(renderElement(<GameOver  outcome={outcome} />)).toMatchSnapshot();
     });
   });
 });

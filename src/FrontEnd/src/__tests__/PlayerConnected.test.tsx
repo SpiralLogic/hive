@@ -5,13 +5,13 @@ import { renderElement } from './test-helpers';
 
 describe('player connected snapshot tests', () => {
   it('show whether the player connected or disconnected', () => {
-    const { rerender } = render(<PlayerConnected connected={'connected'} close={() => {}} />);
-    expect(screen.getByRole('dialog')).toHaveTextContent(/[^s]connected/);
+    const { rerender } = render(<PlayerConnected connected={'connected'} />);
+    expect(screen.getByText(/[^s]connected/)).toBeInTheDocument();
 
-    rerender(<PlayerConnected connected={'disconnected'} close={() => {}} />);
-    expect(screen.getByRole('dialog')).toHaveTextContent(/disconnected/);
+    rerender(<PlayerConnected connected={'disconnected'} />);
+    expect(screen.getByText(/disconnected/)).toBeInTheDocument();
   });
   it('snapshot', () => {
-    expect(renderElement(<PlayerConnected connected={'disconnected'} close={() => {}} />)).toMatchSnapshot();
+    expect(renderElement(<PlayerConnected connected={'disconnected'} />)).toMatchSnapshot();
   });
 });

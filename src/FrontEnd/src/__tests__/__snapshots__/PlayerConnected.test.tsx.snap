@@ -1,24 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`player connected snapshot tests snapshot 1`] = `
-<div
-  class="modal"
->
-  <div
-    class="player connected"
-    role="dialog"
-    title="player connected"
-  >
-    <p>
-      Player has 
-      disconnected
-      !
-    </p>
-    <button
-      title="New Game"
-    >
-      Close
-    </button>
-  </div>
-</div>
+<p>
+  Player has 
+  disconnected
+  !
+</p>
 `;

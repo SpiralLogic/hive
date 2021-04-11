@@ -91,9 +91,9 @@ describe('gameArea Tests', () => {
 
   it('if available share API is called', () => {
     const restore = mockShare();
-    const url = `http://localhost/game/33/1`;
+    const url = `http://localhost/game/33/0`;
     const gameState = createGameState(1);
-    global.window.history.replaceState({}, global.document.title, `/game/33/0`);
+    global.window.history.replaceState({}, global.document.title, `/game/33/1`);
     render(
       <GameArea
         gameStatus="MoveSuccess"
@@ -111,7 +111,7 @@ describe('gameArea Tests', () => {
     const restore1 = noShare();
     const restore2 = mockClipboard();
 
-    const url = `http://localhost/game/33/1`;
+    const url = `http://localhost/game/33/0`;
     const gameState = createGameState(1);
     render(
       <GameArea

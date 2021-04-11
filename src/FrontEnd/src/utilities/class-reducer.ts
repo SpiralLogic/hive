@@ -12,8 +12,6 @@ const classReducer = (
     case 'remove':
       action.classes.forEach((c) => classList.delete(c));
       break;
-    default:
-      break;
   }
   classList.delete('');
   return Array.from(classList).join(' ');

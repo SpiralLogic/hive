@@ -1,237 +1,109 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`gameOver snapshot tests AiWin snapshot player 0 1`] = `
-<div
-  class="modal"
->
-  <div
-    class="game over"
-    role="dialog"
-    title="game over"
-  >
-    <p>
-      Game Over! Ai Wins
-    </p>
-    <button
-      autofocus=""
-      title="New Game"
-    >
-      Close
-    </button>
-  </div>
-</div>
+<p>
+  AiWin
+</p>
 `;
 
 exports[`gameOver snapshot tests AiWin snapshot player 1 1`] = `
-<div
-  class="modal"
->
-  <div
-    class="game over"
-    role="dialog"
-    title="game over"
-  >
-    <p>
-      Game Over! Ai Wins
-    </p>
-    <button
-      autofocus=""
-      title="New Game"
-    >
-      Close
-    </button>
-  </div>
-</div>
+<p>
+  AiWin
+</p>
 `;
 
 exports[`gameOver snapshot tests Draw snapshot player 0 1`] = `
-<div
-  class="modal"
->
-  <div
-    class="game over"
-    role="dialog"
-    title="game over"
-  >
-    <p>
-      Game Over! Draw
-    </p>
-    <button
-      autofocus=""
-      title="New Game"
-    >
-      Close
-    </button>
-  </div>
-</div>
+<p>
+  Draw
+</p>
 `;
 
 exports[`gameOver snapshot tests Draw snapshot player 1 1`] = `
-<div
-  class="modal"
->
-  <div
-    class="game over"
-    role="dialog"
-    title="game over"
-  >
-    <p>
-      Game Over! Draw
-    </p>
-    <button
-      autofocus=""
-      title="New Game"
-    >
-      Close
-    </button>
-  </div>
-</div>
+<p>
+  Draw
+</p>
 `;
 
 exports[`gameOver snapshot tests GameOver snapshot player 0 1`] = `
-<div
-  class="modal"
->
-  <div
-    class="game over"
-    role="dialog"
-    title="game over"
-  >
-    <p>
-      Game is over
-    </p>
-    <button
-      autofocus=""
-      title="New Game"
-    >
-      Close
-    </button>
-  </div>
-</div>
+<p>
+  GameOver
+</p>
 `;
 
 exports[`gameOver snapshot tests GameOver snapshot player 1 1`] = `
-<div
-  class="modal"
->
-  <div
-    class="game over"
-    role="dialog"
-    title="game over"
-  >
-    <p>
-      Game is over
-    </p>
-    <button
-      autofocus=""
-      title="New Game"
-    >
-      Close
-    </button>
-  </div>
-</div>
+<p>
+  GameOver
+</p>
 `;
 
-exports[`gameOver snapshot tests MoveInvalid snapshot player 0 1`] = `null`;
+exports[`gameOver snapshot tests MoveInvalid snapshot player 0 1`] = `
+<p>
+  MoveInvalid
+</p>
+`;
 
-exports[`gameOver snapshot tests MoveInvalid snapshot player 1 1`] = `null`;
+exports[`gameOver snapshot tests MoveInvalid snapshot player 1 1`] = `
+<p>
+  MoveInvalid
+</p>
+`;
 
-exports[`gameOver snapshot tests MoveSuccess snapshot player 0 1`] = `null`;
+exports[`gameOver snapshot tests MoveSuccess snapshot player 0 1`] = `
+<p>
+  MoveSuccess
+</p>
+`;
 
-exports[`gameOver snapshot tests MoveSuccess snapshot player 1 1`] = `null`;
+exports[`gameOver snapshot tests MoveSuccess snapshot player 1 1`] = `
+<p>
+  MoveSuccess
+</p>
+`;
 
-exports[`gameOver snapshot tests MoveSuccessNextPlayerSkipped snapshot player 0 1`] = `null`;
+exports[`gameOver snapshot tests MoveSuccessNextPlayerSkipped snapshot player 0 1`] = `
+<p>
+  MoveSuccessNextPlayerSkipped
+</p>
+`;
 
-exports[`gameOver snapshot tests MoveSuccessNextPlayerSkipped snapshot player 1 1`] = `null`;
+exports[`gameOver snapshot tests MoveSuccessNextPlayerSkipped snapshot player 1 1`] = `
+<p>
+  MoveSuccessNextPlayerSkipped
+</p>
+`;
 
-exports[`gameOver snapshot tests NewGame snapshot player 0 1`] = `null`;
+exports[`gameOver snapshot tests NewGame snapshot player 0 1`] = `
+<p>
+  NewGame
+</p>
+`;
 
-exports[`gameOver snapshot tests NewGame snapshot player 1 1`] = `null`;
+exports[`gameOver snapshot tests NewGame snapshot player 1 1`] = `
+<p>
+  NewGame
+</p>
+`;
 
 exports[`gameOver snapshot tests Player0Win snapshot player 0 1`] = `
-<div
-  class="modal"
->
-  <div
-    class="game over"
-    role="dialog"
-    title="game over"
-  >
-    <p>
-      Game Over! You Win!
-    </p>
-    <button
-      autofocus=""
-      title="New Game"
-    >
-      Close
-    </button>
-  </div>
-</div>
+<p>
+  Player0Win
+</p>
 `;
 
 exports[`gameOver snapshot tests Player0Win snapshot player 1 1`] = `
-<div
-  class="modal"
->
-  <div
-    class="game over"
-    role="dialog"
-    title="game over"
-  >
-    <p>
-      Game Over! You Lose!
-    </p>
-    <button
-      autofocus=""
-      title="New Game"
-    >
-      Close
-    </button>
-  </div>
-</div>
+<p>
+  Player0Win
+</p>
 `;
 
 exports[`gameOver snapshot tests Player1Win snapshot player 0 1`] = `
-<div
-  class="modal"
->
-  <div
-    class="game over"
-    role="dialog"
-    title="game over"
-  >
-    <p>
-      Game Over! You Lose!
-    </p>
-    <button
-      autofocus=""
-      title="New Game"
-    >
-      Close
-    </button>
-  </div>
-</div>
+<p>
+  Player1Win
+</p>
 `;
 
 exports[`gameOver snapshot tests Player1Win snapshot player 1 1`] = `
-<div
-  class="modal"
->
-  <div
-    class="game over"
-    role="dialog"
-    title="game over"
-  >
-    <p>
-      Game Over! You Win!
-    </p>
-    <button
-      autofocus=""
-      title="New Game"
-    >
-      Close
-    </button>
-  </div>
-</div>
+<p>
+  Player1Win
+</p>
 `;

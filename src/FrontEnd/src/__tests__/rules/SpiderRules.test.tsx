@@ -4,6 +4,7 @@ import SpiderRules from '../../components/rules/SpiderRules';
 
 describe('spider Rule snapshot tests', () => {
   it('snapshot', () => {
-    expect(renderElement(<SpiderRules />)).toMatchSnapshot();
+    const Rule = SpiderRules.Rule;
+    expect(renderElement(<Rule />)).toMatchSnapshot();
   });
 });

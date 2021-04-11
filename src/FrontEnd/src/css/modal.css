@@ -1,39 +1,36 @@
 .modal {
-  backdrop-filter: blur(5px);
-  background-color: transparent;
-  height: 100vh;
-  left: 0;
   position: fixed;
   top: 0;
-  width: 100vw; 
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: transparent;
+  backdrop-filter: blur(5px);
 }
 
 .modal > div {
-  align-content: center;
-  display: inline-flex;
-  flex-direction: column;
-  height: max-content;
-  left: 50%;
+  font-size: 1rem;
   position: fixed;
   top: 20%;
-  transform: translateX(-50%);
-  transition-duration: .5s;
-  transition-property: height, width;
+  left: 50%;
+  display: flex;
+  align-content: center;
+  flex-direction: column;
   width: max-content;
   max-width: 98vw;
-  padding:1vmin; 
-  background-color: rgb(249 235 208);
+  height: max-content;
+  padding: 1vmin;
+  transition-duration: .5s;
+  transition-property: height, width;
+  transform: translateX(-50%);
   border-radius: 5px;
+  background-color: rgb(249 235 208);
 }
 
-.modal > div > button:last-child {
-  margin: 1rem;
-}
-
-.modal .menu {
-  display: flex;
-  justify-content: center;
-  padding: 1vmax;
+.modal button.close {
+  position: absolute;
+  right:10px;
+  top:10px;
 }
 
 .modal.hide {

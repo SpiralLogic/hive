@@ -95,9 +95,3 @@ export const attachServerHandlers = (
     removeAi();
   };
 };
-export const handle = (handler: () => void) => (e: MouseEvent) => {
-  e.preventDefault();
-  e.stopPropagation();
-  handler();
-  return false;
-};

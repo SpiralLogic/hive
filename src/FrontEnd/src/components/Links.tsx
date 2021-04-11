@@ -5,17 +5,22 @@ import { AiAction, HiveEvent } from '../services';
 import { PlayerId } from '../domain';
 import { addHiveDispatchListener, useHiveDispatcher } from '../utilities/dispatcher';
 import { getShareUrl } from '../utilities/share';
-import { handle } from '../utilities/handlers';
 import SVG from './SVG';
 
 type Props = {
   onShowRules: (value: boolean) => void;
   onShowShare: () => void;
-  playerId: PlayerId;
+  currentPlayer: PlayerId;
+};
+export const handle = (handler: () => void) => (e: MouseEvent) => {
+  e.preventDefault();
+  e.stopPropagation();
+  handler();
+  return false;
 };
 
 const Links: FunctionComponent<Props> = (props) => {
-  const [useAi, setUseAi] = useState(props.playerId === 0);
+  const [useAi, setUseAi] = useState(props.currentPlayer === 0);
 
   const clickHandler = () => {
     useHiveDispatcher().dispatch<AiAction>({ type: 'toggleAi', newState: !useAi });
@@ -28,7 +33,7 @@ const Links: FunctionComponent<Props> = (props) => {
 
   return (
     <div class="links">
-      <a href={getShareUrl()} name="Share game to opponent" title="Share" onClick={handle(props.onShowShare)}>
+      <a href={getShareUrl(props.currentPlayer)} name="Share game to opponent" title="Share" onClick={handle(props.onShowShare)}>
         <SVG>
           <use href="#share" />
         </SVG>

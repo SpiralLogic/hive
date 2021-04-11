@@ -6,13 +6,13 @@ import { renderElement } from './test-helpers';
 describe('modal snapshot tests', () => {
   it('click on modal background calls close', () => {
     const close = jest.fn();
-    const modal = renderElement(<Modal name="test" onClose={close} />);
+    const modal = renderElement(<Modal visible={true} name="test" onClose={close} />);
     fireEvent.click(modal);
 
     expect(close).toHaveBeenCalledWith();
   });
 
   it('snapshot', () => {
-    expect(renderElement(<Modal name="test" onClose={() => ({})} />)).toMatchSnapshot();
+    expect(renderElement(<Modal  visible={true} name="test" onClose={() => ({})} />)).toMatchSnapshot();
   });
 });

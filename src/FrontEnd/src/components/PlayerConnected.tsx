@@ -2,18 +2,18 @@ import '../css/share.css';
 import { FunctionComponent, h } from 'preact';
 import Modal from './Modal';
 
-type Props = { connected: 'connected' | 'disconnected'; close: VoidFunction };
+type Props = { connected: 'connected' | 'disconnected' | false; };
 const PlayerConnected: FunctionComponent<Props> = (props) => {
-  const { connected, close } = props;
+  const { connected } = props;
 
-  return (
-    <Modal name="player connected" onClose={close}>
+  return  (
+    <>
       <p>Player has {connected}!</p>
       <button title="New Game" onClick={close}>
         Close
       </button>
-    </Modal>
-  );
+    </>
+  )
 };
 PlayerConnected.displayName = 'PlayerConnected';
 export default PlayerConnected;

@@ -33,9 +33,7 @@ exports[`grasshopper Rule snapshot tests snapshot 1`] = `
           />
         </svg>
         <span>
-          <span>
-            ✓
-          </span>
+          ✓
         </span>
       </div>
     </div>
@@ -65,7 +63,6 @@ exports[`grasshopper Rule snapshot tests snapshot 1`] = `
             href="#beetle"
           />
         </svg>
-        
       </div>
     </div>
     <div
@@ -95,7 +92,6 @@ exports[`grasshopper Rule snapshot tests snapshot 1`] = `
             href="#grasshopper"
           />
         </svg>
-        
       </div>
       <svg
         class="arrow left correct"
@@ -165,7 +161,6 @@ exports[`grasshopper Rule snapshot tests snapshot 1`] = `
             href="#queen"
           />
         </svg>
-        
       </div>
     </div>
     <div
@@ -193,9 +188,7 @@ exports[`grasshopper Rule snapshot tests snapshot 1`] = `
           />
         </svg>
         <span>
-          <span>
-            ✓
-          </span>
+          ✓
         </span>
       </div>
     </div>
@@ -253,7 +246,6 @@ exports[`grasshopper Rule snapshot tests snapshot 1`] = `
             href="#grasshopper"
           />
         </svg>
-        
       </div>
     </div>
     <div
@@ -279,7 +271,6 @@ exports[`grasshopper Rule snapshot tests snapshot 1`] = `
             href="#hex"
           />
         </svg>
-        
       </div>
     </div>
     <div
@@ -308,7 +299,6 @@ exports[`grasshopper Rule snapshot tests snapshot 1`] = `
             href="#ant"
           />
         </svg>
-        
       </div>
     </div>
   </div>
@@ -353,7 +343,6 @@ exports[`grasshopper Rule snapshot tests snapshot 1`] = `
             href="#queen"
           />
         </svg>
-        
       </div>
     </div>
     <div
@@ -382,7 +371,6 @@ exports[`grasshopper Rule snapshot tests snapshot 1`] = `
             href="#spider"
           />
         </svg>
-        
       </div>
     </div>
     <div
@@ -411,7 +399,6 @@ exports[`grasshopper Rule snapshot tests snapshot 1`] = `
             href="#ant"
           />
         </svg>
-        
       </div>
     </div>
     <div
@@ -466,9 +453,7 @@ exports[`grasshopper Rule snapshot tests snapshot 1`] = `
           />
         </svg>
         <span>
-          <span>
-            ✓
-          </span>
+          ✓
         </span>
       </div>
     </div>
@@ -498,7 +483,6 @@ exports[`grasshopper Rule snapshot tests snapshot 1`] = `
             href="#beetle"
           />
         </svg>
-        
       </div>
     </div>
     <div
@@ -524,7 +508,6 @@ exports[`grasshopper Rule snapshot tests snapshot 1`] = `
             href="#hex"
           />
         </svg>
-        
       </div>
     </div>
     <div
@@ -551,9 +534,7 @@ exports[`grasshopper Rule snapshot tests snapshot 1`] = `
           />
         </svg>
         <span>
-          <span>
-            ✘
-          </span>
+          ✘
         </span>
       </div>
     </div>
@@ -599,7 +580,6 @@ exports[`grasshopper Rule snapshot tests snapshot 1`] = `
             href="#spider"
           />
         </svg>
-        
       </div>
     </div>
     <div
@@ -628,7 +608,6 @@ exports[`grasshopper Rule snapshot tests snapshot 1`] = `
             href="#spider"
           />
         </svg>
-        
       </div>
     </div>
   </div>

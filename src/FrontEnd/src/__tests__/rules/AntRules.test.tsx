@@ -4,6 +4,6 @@ import AntRules from '../../components/rules/AntRules';
 
 describe('ant Rule snapshot tests', () => {
   it('snapshot', () => {
-    expect(renderElement(<AntRules />)).toMatchSnapshot();
-  });
+    const Rule = AntRules.Rule;
+    expect(renderElement(<Rule />)).toMatchSnapshot();  });
 });

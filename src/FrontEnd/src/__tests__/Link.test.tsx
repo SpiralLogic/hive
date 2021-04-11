@@ -5,7 +5,7 @@ import { renderElement } from './test-helpers';
 describe('links snapshot tests', () => {
   it('snapshot', () => {
     expect(
-      renderElement(<Links playerId={0} onShowShare={() => ({})} onShowRules={() => ({})} />)
+      renderElement(<Links currentPlayer={0} onShowShare={() => ({})} onShowRules={() => ({})} />)
     ).toMatchSnapshot();
   });
 });

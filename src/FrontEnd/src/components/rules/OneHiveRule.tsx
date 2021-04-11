@@ -1,29 +1,27 @@
-import { Fragment, h } from 'preact';
+import { h } from 'preact';
 import Hextille from '../Hextille';
 import Row from '../Row';
 import RuleCell from './RuleCell';
 
-const OneHiveRule = () => (
-  <>
-    <Hextille class="rules">
+export default  {
+  title: 'One Hive Rule',
+  description: ['There must only be 1 hive','Even in transit a hive must not be split'],
+  Rule: ()=>(
+    <Hextille class='rules'>
       <Row>
-        <RuleCell creature="beetle" />
-        <RuleCell creature="beetle" />
+        <RuleCell creature='beetle' />
+        <RuleCell creature='beetle' />
       </Row>
       <Row>
-        <RuleCell creature="spider" />
+        <RuleCell creature='spider' />
         <RuleCell />
-        <RuleCell result="incorrect" />
+        <RuleCell result='incorrect' />
         <RuleCell />
       </Row>
       <Row>
-        <RuleCell creature="ant" />
-        <RuleCell creature="queen" incorrectArrows={['topRight']} />
-        <RuleCell creature="grasshopper" />
+        <RuleCell creature='ant' />
+        <RuleCell creature='queen' incorrectArrows={['topRight']} />
+        <RuleCell creature='grasshopper' />
       </Row>
-    </Hextille>
-    <caption>The hive must not separate into 2 hives even if only unlinked in transit</caption>
-  </>
-);
-OneHiveRule.displayName = 'OneHiveRule';
-export default OneHiveRule;
+    </Hextille>)
+};

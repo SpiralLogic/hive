@@ -3,7 +3,13 @@
   --tile-size: max(48px, 8vmin);
 }
 
+.rules > div {
+  display: flex;
+  flex-direction: column;
+}
+
 .rules [role='grid'] {
+  margin: 0 auto;
   max-width: 95vmax;
   padding: 1vmax;
 }
@@ -39,7 +45,7 @@
 }
 
 .rules [role='cell'] span {
-  font-size: 3vmin;
+  font-size: 1.5em;
   color: var(--result);
 }
 
@@ -108,11 +114,31 @@
   }
 }
 
-caption {
+.rules ul {
+  font-size: 1em;
   margin: 4vmin;
-  font-size: 2vmin;
+  list-style: none;
+  text-align: center;
+}
+.rules ul li:after,.rules  ul li:before{
+  content:" ⬢ ";
+  margin:0 1em;
+}
+
+.rules h3 {
+  font-size: 1.5em;
+  margin: 15rem;
+  text-align: center;
+  min-width:30vw
 }
 
 .rules .blank {
   --tile-size: var(--hex-size);
+}
+
+.rules .menu {
+  display: grid;
+  grid-auto-flow: column;
+  justify-content: center;
+  padding: 1vmax;
 }

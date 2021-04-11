@@ -44,9 +44,7 @@ exports[`beetle Rule snapshot tests snapshot 1`] = `
           />
         </svg>
         <span>
-          <span>
-            ✓
-          </span>
+          ✓
         </span>
       </div>
     </div>
@@ -73,7 +71,6 @@ exports[`beetle Rule snapshot tests snapshot 1`] = `
             href="#hex"
           />
         </svg>
-        
       </div>
     </div>
   </div>
@@ -108,9 +105,7 @@ exports[`beetle Rule snapshot tests snapshot 1`] = `
           />
         </svg>
         <span>
-          <span>
-            ✓
-          </span>
+          ✓
         </span>
       </div>
     </div>
@@ -141,7 +136,6 @@ exports[`beetle Rule snapshot tests snapshot 1`] = `
             href="#beetle"
           />
         </svg>
-        
       </div>
       <svg
         class="arrow topLeft correct"
@@ -207,7 +201,6 @@ exports[`beetle Rule snapshot tests snapshot 1`] = `
             href="#hex"
           />
         </svg>
-        
       </div>
     </div>
   </div>
@@ -254,9 +247,7 @@ exports[`beetle Rule snapshot tests snapshot 1`] = `
           />
         </svg>
         <span>
-          <span>
-            ✓
-          </span>
+          ✓
         </span>
       </div>
     </div>
@@ -284,9 +275,7 @@ exports[`beetle Rule snapshot tests snapshot 1`] = `
           />
         </svg>
         <span>
-          <span>
-            ✓
-          </span>
+          ✓
         </span>
       </div>
     </div>
@@ -332,7 +321,6 @@ exports[`beetle Rule snapshot tests snapshot 1`] = `
             href="#spider"
           />
         </svg>
-        
       </div>
     </div>
     <div
@@ -361,7 +349,6 @@ exports[`beetle Rule snapshot tests snapshot 1`] = `
             href="#grasshopper"
           />
         </svg>
-        
       </div>
     </div>
   </div>
