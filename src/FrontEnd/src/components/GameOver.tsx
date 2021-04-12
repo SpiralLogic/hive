@@ -1,13 +1,11 @@
 import { FunctionComponent, h } from 'preact';
 import '../css/share.css';
 
-
-
-const GameOver: FunctionComponent<{ outcome: string;  }> = ({outcome}) => {
+const GameOver: FunctionComponent<{ outcome: string }> = ({ outcome }) => {
   return (
-    <> 
+    <>
       <p>{outcome}</p>
-      <button autofocus title='New Game' onClick={() => window.location.assign(`/`)}>
+      <button autofocus title="New Game" onClick={() => window.location.assign(`/`)}>
         Close
       </button>
     </>

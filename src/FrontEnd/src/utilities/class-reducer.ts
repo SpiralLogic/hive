@@ -10,6 +10,7 @@ const classReducer = (
       action.classes.forEach((c) => classList.add(c));
       break;
     case 'remove':
+    default:
       action.classes.forEach((c) => classList.delete(c));
       break;
   }

@@ -9,6 +9,7 @@
     "clean:deep": "git clean -x -d -f $(git rev-parse --show-toplevel)/**",
     "tsc": "pnpx tsc --noEmit",
     "jest": "pnpx jest --coverage ",
+    "lint": "pnpx eslint ./src",
     "test": "npm-run-all -s tsc jest",
     "web-copy": "pnpx cpy ./src/index.html ./public/",
     "cache-bust": "pnpx cachebust -n",

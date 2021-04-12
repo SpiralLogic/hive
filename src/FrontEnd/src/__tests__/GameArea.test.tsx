@@ -2,11 +2,10 @@ import { h } from 'preact';
 import { render, screen } from '@testing-library/preact';
 import userEvent from '@testing-library/user-event';
 import GameArea from '../components/GameArea';
-import { mockClipboard, mockExecCommand, mockShare, noShare, simulateEvent } from './test-helpers';
-
-import { createGameState } from './fixtures/gameArea.fixtures';
 import { useHiveDispatcher } from '../utilities/dispatcher';
 import { HiveEvent } from '../services';
+import { mockClipboard, mockExecCommand, mockShare, noShare, simulateEvent } from './test-helpers';
+import { createGameState } from './fixtures/gameArea.fixtures';
 
 describe('gameArea Tests', () => {
   it('default drag over is prevented to allow drop', async () => {
@@ -182,7 +181,7 @@ describe('gameArea Tests', () => {
       />
     );
 
-    expect(screen.queryByRole('dialog')).toBeInTheDocument();
+    expect(screen.getByRole('dialog')).toBeInTheDocument();
   });
 
   it(`player disconnected`, async () => {
@@ -205,7 +204,7 @@ describe('gameArea Tests', () => {
       />
     );
 
-    expect(screen.queryByRole('dialog')).toBeInTheDocument();
+    expect(screen.getByRole('dialog')).toBeInTheDocument();
   });
 
   it(`player1 wins`, async () => {
@@ -218,7 +217,7 @@ describe('gameArea Tests', () => {
         currentPlayer={1}
       />
     );
-    expect(screen.queryByRole('dialog')).toBeInTheDocument();
+    expect(screen.getByRole('dialog')).toBeInTheDocument();
   });
 
   it(`player0 wins`, async () => {
@@ -231,6 +230,6 @@ describe('gameArea Tests', () => {
         currentPlayer={0}
       />
     );
-    expect(screen.queryByRole('dialog')).toBeInTheDocument();
+    expect(screen.getByRole('dialog')).toBeInTheDocument();
   });
 });

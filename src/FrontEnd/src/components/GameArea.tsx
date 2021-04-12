@@ -36,8 +36,10 @@ const gameOutcome = (gameStatus: GameStatus, playerId: PlayerId) => {
     case 'MoveSuccess':
     case 'MoveSuccessNextPlayerSkipped':
     case 'MoveInvalid':
-      return '';
+    default:
+      break;
   }
+  return '';
 };
 
 const GameArea: FunctionComponent<Props> = ({ players, cells, currentPlayer, gameStatus }) => {
@@ -66,7 +68,11 @@ const GameArea: FunctionComponent<Props> = ({ players, cells, currentPlayer, gam
     <div {...attributes} title={'Hive Game Area'}>
       <Players currentPlayer={currentPlayer} players={players} />
       <main>
-        <Links onShowRules={setShowRules} onShowShare={() => shareComponent()} currentPlayer={currentPlayer} />
+        <Links
+          onShowRules={setShowRules}
+          onShowShare={() => shareComponent()}
+          currentPlayer={currentPlayer}
+        />
         <Hextille>
           {rows.map((row) => (
             <Row key={row.id} {...row}>
@@ -86,16 +92,19 @@ const GameArea: FunctionComponent<Props> = ({ players, cells, currentPlayer, gam
           ))}
         </Hextille>
       </main>
-      <Modal visible={!!playerConnected} name='player connected' onClose={() => setPlayerConnected(false)}>
+      <Modal visible={!!playerConnected} name="player connected" onClose={() => setPlayerConnected(false)}>
         <PlayerConnected connected={playerConnected} />
       </Modal>
-      <Modal visible={showRules} name='rules' onClose={() => setShowRules(false)}>
+      <Modal visible={showRules} name="rules" onClose={() => setShowRules(false)}>
         <Rules />
       </Modal>
-      <Modal visible={showShare} name='share' onClose={() => setShowShare(false)}>
+      <Modal visible={showShare} name="share" onClose={() => setShowShare(false)}>
         <p>Opponent's link has been copied to clipboard!</p>
       </Modal>
-      <Modal visible={gameOutcome(gameStatus, currentPlayer) !== ''} name='game over' onClose={() => window.location.assign(`/`)}>
+      <Modal
+        visible={gameOutcome(gameStatus, currentPlayer) !== ''}
+        name="game over"
+        onClose={() => window.location.assign(`/`)}>
         <GameOver outcome={gameOutcome(gameStatus, currentPlayer)} />
       </Modal>
     </div>

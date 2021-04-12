@@ -1,6 +1,6 @@
 import { Move, Tile } from '../domain';
 
-export type HiveEventListener<T extends HiveIntent> = <HiveIntent extends T>(intent: HiveIntent) => void;
+export type HiveEventListener<T extends HiveIntent> = <U extends T>(intent: U) => void;
 export type HiveIntent = HiveEvent | HiveAction;
 export type HiveEvent =
   | MoveEvent

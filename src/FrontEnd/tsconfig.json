@@ -7,13 +7,13 @@
     "removeComments": true,
     "noEmitOnError": true,
     "pretty": true,
-    "target": "ESNext",
     "lib": [
       "dom",
       "dom.iterable",
       "esnext"
     ],
     "types": [
+      "preact",
       "jest",
       "node",
       "testing-library__jest-dom"
@@ -25,11 +25,12 @@
     "strict": true,
     "forceConsistentCasingInFileNames": true,
     "noFallthroughCasesInSwitch": true,
-    "module": "esnext",
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
+    "target": "esnext",
+    "module": "commonjs",
     "jsx": "react-jsx",
     "jsxImportSource": "preact",
   },
