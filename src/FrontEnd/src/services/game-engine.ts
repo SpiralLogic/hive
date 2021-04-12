@@ -1,12 +1,14 @@
 import { GameId, GameState, Move, PlayerId } from '../domain';
 import { HexEngine } from '../domain/engine';
-
 export default class GameEngine implements HexEngine {
   public currentPlayer: PlayerId;
   public initialGame: Promise<GameState>;
 
   constructor(existingGame?: { route: string; gameId: string; currentPlayer: string }) {
-    this.currentPlayer = Number(existingGame?.currentPlayer) || 0;
+    this.currentPlayer = Number(
+      existingGame?.currentPlayer ??
+        ((window.history.state as { currentPlayer: number }).currentPlayer === 0 ? 0 : 1)
+    );
     this.initialGame =
       existingGame && existingGame.route === 'game'
         ? this.getExistingGame(existingGame.gameId)
