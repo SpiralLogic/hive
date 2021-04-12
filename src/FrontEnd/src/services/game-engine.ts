@@ -7,7 +7,7 @@ export default class GameEngine implements HexEngine {
 
   constructor(existingGame?: { route: string; gameId: string; currentPlayer: string }) {
     this.currentPlayer = Number(
-      existingGame?.currentPlayer ?? (window.history.state as { currentPlayer?: number }).currentPlayer ?? 0
+      existingGame?.currentPlayer ?? (window.history.state as { currentPlayer?: number })?.currentPlayer ?? 0
     );
     this.initialGame =
       existingGame && existingGame.route === 'game'
