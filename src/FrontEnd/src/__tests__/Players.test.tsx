@@ -1,7 +1,7 @@
 import { h } from 'preact';
 import Players from '../components/Players';
-import { renderElement } from './test-helpers';
 import GameTile from '../components/GameTile';
+import { renderElement } from './test-helpers';
 
 describe('playerList Tests', () => {
   const renderPlayerList = () => {

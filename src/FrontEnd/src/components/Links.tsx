@@ -33,7 +33,11 @@ const Links: FunctionComponent<Props> = (props) => {
 
   return (
     <div class="links">
-      <a href={getShareUrl(props.currentPlayer)} name="Share game to opponent" title="Share" onClick={handle(props.onShowShare)}>
+      <a
+        href={getShareUrl(props.currentPlayer)}
+        name="Share game to opponent"
+        title="Share"
+        onClick={handle(props.onShowShare)}>
         <SVG>
           <use href="#share" />
         </SVG>
@@ -43,7 +47,7 @@ const Links: FunctionComponent<Props> = (props) => {
           <use href="#new" />
         </SVG>
       </a>
-      <a href="#" name="Show rules" onClick={()=>props.onShowRules(true)} title="Rules">
+      <a href="#" name="Show rules" onClick={() => props.onShowRules(true)} title="Rules">
         ?
       </a>
       <a

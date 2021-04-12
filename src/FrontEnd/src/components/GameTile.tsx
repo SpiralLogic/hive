@@ -87,21 +87,21 @@ const GameTile: FunctionComponent<Props> = (props) => {
     class: classes,
     draggable: moves.length ? true : undefined,
     tabindex: moves.length ? 0 : undefined,
-    creature
+    creature,
   };
 
   const handlers = moves.length
     ? {
-      onclick: handleClick,
-      ondragstart: handleDragStart,
-      ondragend: handleDragEnd,
-      onkeydown: handleKeyDown,
-      onmouseleave: handleMouseLeave,
-      ondrop: handleDrop
-    }
+        onclick: handleClick,
+        ondragstart: handleDragStart,
+        ondragend: handleDragEnd,
+        onkeydown: handleKeyDown,
+        onmouseleave: handleMouseLeave,
+        ondrop: handleDrop,
+      }
     : {
-      ondrop: handleDrop
-    };
+        ondrop: handleDrop,
+      };
   return <Tile {...attributes} {...handlers} />;
 };
 GameTile.displayName = 'GameTile';

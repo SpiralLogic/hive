@@ -5,7 +5,7 @@ export type GameState = {
   cells: Cell[];
   players: Player[];
   gameId: GameId;
-  gameStatus: GameStatus
+  gameStatus: GameStatus;
 };
 
 export type GameId = string;
@@ -17,4 +17,5 @@ export type GameStatus =
   | 'Player1Win'
   | 'MoveSuccessNextPlayerSkipped'
   | 'MoveInvalid'
-  | 'GameOver' | 'Draw';
+  | 'GameOver'
+  | 'Draw';

@@ -25,7 +25,7 @@ const fallbackCopyTextToClipboard = (text: string) => {
 
 export const getShareUrl = (currentPlayer: PlayerId) => {
   const parts = window.location.href.split('/');
-  parts[parts.length - 1] = (currentPlayer === 1 ? '0' : '1');
+  parts[parts.length - 1] = currentPlayer === 1 ? '0' : '1';
   return parts.join('/');
 };
 
@@ -34,7 +34,7 @@ export const shareGame = (currentPlayer: PlayerId) => {
   const opponentGame = {
     title: 'Hive board game',
     text: 'Click this link to join me in a game of the Hive!',
-    url
+    url,
   };
   try {
     navigator.share(opponentGame).catch(() => {});

@@ -13,6 +13,6 @@ describe('modal snapshot tests', () => {
   });
 
   it('snapshot', () => {
-    expect(renderElement(<Modal  visible={true} name="test" onClose={() => ({})} />)).toMatchSnapshot();
+    expect(renderElement(<Modal visible={true} name="test" onClose={() => ({})} />)).toMatchSnapshot();
   });
 });

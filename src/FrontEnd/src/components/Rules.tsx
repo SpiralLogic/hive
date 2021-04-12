@@ -18,7 +18,7 @@ const ruleList = [
   GrasshopperRules,
   AntRules,
   OneHiveRule,
-  FreedomToMove
+  FreedomToMove,
 ];
 const changeRule = (currentRuleIndex: number, { type }: { type: 'next' | 'prev' }): number => {
   if (type === 'next') return ++currentRuleIndex % ruleList.length;
@@ -31,16 +31,20 @@ const Rules = () => {
   const { Rule, title, description } = ruleList[currentRuleIndex];
   return (
     <div>
-      <div class='menu'>
-        <button title='Previous' onClick={() => changeCurrentRule({ type: 'prev' })}>
+      <div class="menu">
+        <button title="Previous" onClick={() => changeCurrentRule({ type: 'prev' })}>
           {`<`}
         </button>
         <h3>{title}</h3>
-        <button autofocus={true} title='Next' onClick={() => changeCurrentRule({ type: 'next' })}>
+        <button autofocus={true} title="Next" onClick={() => changeCurrentRule({ type: 'next' })}>
           {`>`}
         </button>
       </div>
-      <ul>{description.map(d => (<li>{d}</li>))}</ul>
+      <ul>
+        {description.map((d) => (
+          <li>{d}</li>
+        ))}
+      </ul>
       <Rule />
     </div>
   );

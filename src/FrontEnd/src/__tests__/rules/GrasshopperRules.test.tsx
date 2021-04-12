@@ -5,5 +5,6 @@ import GrasshopperRules from '../../components/rules/GrasshopperRules';
 describe('grasshopper Rule snapshot tests', () => {
   it('snapshot', () => {
     const Rule = GrasshopperRules.Rule;
-    expect(renderElement(<Rule />)).toMatchSnapshot();  });
+    expect(renderElement(<Rule />)).toMatchSnapshot();
+  });
 });
