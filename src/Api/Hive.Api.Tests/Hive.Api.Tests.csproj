@@ -11,7 +11,10 @@
     <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
       <DebugSymbols>false</DebugSymbols>
     </PropertyGroup>
-
+<ItemGroup>
+    <Content Include="..\..\FrontEnd\test\**" LinkBase="FrontEnd" CopyToOutputDirectory="Never" CopyToPublishDirectory="Never" />
+    <Content Include="..\..\FrontEnd\*" Exclude="..\..\FrontEnd\public\*,..\..\FrontEnd\src\*,..\..\FrontEnd\test\*" CopyToOutputDirectory="Never" CopyToPublishDirectory="Never" />
+</ItemGroup>
     <ItemGroup>
         <PackageReference Include="coverlet.msbuild" Version="3.0.3">
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

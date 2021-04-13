@@ -35,13 +35,13 @@ describe('gameArea Tests', () => {
       />
     );
 
-    expect(screen.getByTitle('Player 1').querySelectorAll('[draggable]')).toHaveLength(0);
-    expect(screen.getByTitle('Player 2').querySelectorAll('[draggable="true"]')).toHaveLength(1);
+    expect(screen.getByTitle(/player0/)).not.toHaveAttribute('draggable');
+    expect(screen.getByTitle(/player1/)).toHaveAttribute('draggable');
   });
 
   it('show rules is rendered', async () => {
     const gameState = createGameState(1);
-    const gameArea = render(
+    const { rerender } = render(
       <GameArea
         gameStatus="MoveSuccess"
         players={gameState.players}
@@ -51,7 +51,7 @@ describe('gameArea Tests', () => {
     );
 
     userEvent.click(screen.getByTitle(/Rules/));
-    gameArea.rerender(
+    rerender(
       <GameArea
         gameStatus="MoveSuccess"
         players={gameState.players}
@@ -63,25 +63,26 @@ describe('gameArea Tests', () => {
   });
 
   it('show share is rendered', async () => {
+    const clipboard = jest.fn();
     const gameState = createGameState(1);
-    const restore = mockClipboard();
+    const restore = mockClipboard(clipboard);
 
-    const gameArea = render(
+    const { rerender } = render(
       <GameArea
         gameStatus="MoveSuccess"
         players={gameState.players}
         cells={gameState.cells}
-        currentPlayer={1}
+        currentPlayer={0}
       />
     );
 
     userEvent.click(screen.getByTitle(/Share/));
-    gameArea.rerender(
+    rerender(
       <GameArea
         gameStatus="MoveSuccess"
         players={gameState.players}
         cells={gameState.cells}
-        currentPlayer={1}
+        currentPlayer={0}
       />
     );
     expect(screen.getByRole('dialog')).toBeInTheDocument();
@@ -89,7 +90,8 @@ describe('gameArea Tests', () => {
   });
 
   it('if available share API is called', () => {
-    const restore = mockShare();
+    const share = jest.fn();
+    const restore = mockShare(share);
     const url = `http://localhost/game/33/0`;
     const gameState = createGameState(1);
     global.window.history.replaceState({}, global.document.title, `/game/33/1`);
@@ -102,13 +104,14 @@ describe('gameArea Tests', () => {
       />
     );
     userEvent.click(screen.getByTitle(/Share/));
-    expect(navigator.share).toHaveBeenCalledWith(expect.objectContaining({ url }));
+    expect(share).toHaveBeenCalledWith(expect.objectContaining({ url }));
     restore();
   });
 
   it('click copies opponent link to clipboard with navigator', () => {
+    const writeText = jest.fn();
     const restore1 = noShare();
-    const restore2 = mockClipboard();
+    const restore2 = mockClipboard(writeText);
 
     const url = `http://localhost/game/33/0`;
     const gameState = createGameState(1);
@@ -121,14 +124,15 @@ describe('gameArea Tests', () => {
       />
     );
     userEvent.click(screen.getByTitle(/Share/));
-    expect(navigator.clipboard.writeText).toHaveBeenCalledWith(url);
+    expect(writeText).toHaveBeenCalledWith(url);
     restore1();
     restore2();
   });
 
   it('click copies opponent link to clipboard with exec command', () => {
+    const execCommand = jest.fn();
     const restore1 = noShare();
-    const restore = mockExecCommand();
+    const restore = mockExecCommand(execCommand);
     const gameState = createGameState(1);
     render(
       <GameArea
@@ -139,7 +143,7 @@ describe('gameArea Tests', () => {
       />
     );
     userEvent.click(screen.getByTitle(/Share/));
-    expect(document.execCommand).toHaveBeenCalledWith('copy');
+    expect(execCommand).toHaveBeenCalledWith('copy');
     expect(screen.queryByRole('textbox')).not.toBeInTheDocument();
     restore1();
     restore();
@@ -163,7 +167,7 @@ describe('gameArea Tests', () => {
 
   it(`player connected`, async () => {
     const gameState = createGameState(1);
-    const gameArea = render(
+    const { rerender } = render(
       <GameArea
         gameStatus="MoveSuccess"
         players={gameState.players}
@@ -172,7 +176,7 @@ describe('gameArea Tests', () => {
       />
     );
     useHiveDispatcher().dispatch<HiveEvent>({ type: 'opponentConnected' });
-    gameArea.rerender(
+    rerender(
       <GameArea
         gameStatus="MoveSuccess"
         players={gameState.players}
@@ -186,7 +190,7 @@ describe('gameArea Tests', () => {
 
   it(`player disconnected`, async () => {
     const gameState = createGameState(1);
-    const gameArea = render(
+    const { rerender } = render(
       <GameArea
         gameStatus="MoveSuccess"
         players={gameState.players}
@@ -195,7 +199,7 @@ describe('gameArea Tests', () => {
       />
     );
     useHiveDispatcher().dispatch<HiveEvent>({ type: 'opponentDisconnected' });
-    gameArea.rerender(
+    rerender(
       <GameArea
         gameStatus="MoveSuccess"
         players={gameState.players}

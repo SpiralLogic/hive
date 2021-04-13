@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-assignment */
+/* eslint-disable */
 import { HubConnection, HubConnectionState } from '@microsoft/signalr';
 import { mockLocation } from '../test-helpers';
 import { serverConnectionFactory } from '../../src/services';

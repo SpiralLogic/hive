@@ -1,10 +1,9 @@
 import { h } from 'preact';
+import { render, screen } from '@testing-library/preact';
 import Players from '../src/components/Players';
-import GameTile from '../src/components/GameTile';
-import { renderElement } from './test-helpers';
 
 describe('playerList Tests', () => {
-  const renderPlayerList = () => {
+  const playerList = () => {
     const ant = { id: 1, playerId: 1, creature: 'ant', moves: [{ q: 1, r: 1 }] };
     const fly = { id: 2, playerId: 0, creature: 'fly', moves: [] };
 
@@ -14,21 +13,15 @@ describe('playerList Tests', () => {
     ];
 
     global.window.history.replaceState({}, global.document.title, `/game/33/1`);
-    return renderElement(<Players currentPlayer={0} players={players} />);
+    return render(<Players currentPlayer={0} players={players} />).baseElement;
   };
 
-  it('to have class', () => {
-    const playerList = renderPlayerList();
-    expect(playerList).toHaveClass('players');
-  });
-
   it('players are rendered', () => {
-    const playerList = renderPlayerList();
-    expect(playerList.getElementsByClassName('player')).toHaveLength(2);
+    playerList();
+    expect(screen.getAllByTitle(/^Player [0-9]$/)).toHaveLength(2);
   });
 
   it('snapshot', () => {
-    const playerList = renderPlayerList();
-    expect(playerList).toMatchSnapshot();
+    expect(playerList()).toMatchSnapshot();
   });
 });

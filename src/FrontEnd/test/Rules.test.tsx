@@ -1,39 +1,39 @@
-import { h } from 'preact';
-import { render, RenderResult, screen } from '@testing-library/preact';
+import { ComponentChild, h } from 'preact';
+import { render, screen } from '@testing-library/preact';
 import userEvent from '@testing-library/user-event';
 import Rules from '../src/components/Rules';
 import { renderElement } from './test-helpers';
 
 describe('rules tests', () => {
-  const renderRules = (): [RenderResult, jest.Mock] => {
+  const renderRules = (): [(ui: ComponentChild) => void, jest.Mock] => {
     const close = jest.fn();
-    const rules = render(<Rules />);
-    return [rules, close];
+    const { rerender } = render(<Rules />);
+    return [rerender, close];
   };
 
   it('next button moves next', () => {
-    const [rules] = renderRules();
+    const [rerender] = renderRules();
     userEvent.click(screen.getByTitle('Next'));
-    rules.rerender(<Rules />);
+    rerender(<Rules />);
 
-    expect(document.querySelector('.selected.queen')).toBeInTheDocument();
+    expect(screen.getByRole('heading')).toHaveTextContent(/Queen/);
   });
 
   it('prev button goes back to end', () => {
-    const [rules] = renderRules();
+    const [rerender] = renderRules();
     userEvent.click(screen.getByTitle('Previous'));
-    rules.rerender(<Rules />);
-    expect(document.querySelector('.ant')).toBeInTheDocument();
+    rerender(<Rules />);
+    expect(screen.getByRole('heading')).toHaveTextContent(/Freedom To Move/);
   });
 
   it('prev button moves back', () => {
-    const [rules] = renderRules();
+    const [rerender] = renderRules();
     userEvent.click(screen.getByTitle('Next'));
     userEvent.click(screen.getByTitle('Next'));
     userEvent.click(screen.getByTitle('Previous'));
-    rules.rerender(<Rules />);
+    rerender(<Rules />);
 
-    expect(document.querySelector('.selected.queen')).toBeInTheDocument();
+    expect(screen.getByRole('heading')).toHaveTextContent(/Queen/);
   });
 
   it('snapshot', () => {

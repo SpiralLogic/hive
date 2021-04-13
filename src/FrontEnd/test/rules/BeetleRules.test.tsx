@@ -1,10 +1,10 @@
 import { h } from 'preact';
-import { renderElement } from '../test-helpers';
+import { render } from '@testing-library/preact';
 import BeetleRules from '../../src/components/rules/BeetleRules';
 
 describe('beetle Rule snapshot tests', () => {
   it('snapshot', () => {
     const Rule = BeetleRules.Rule;
-    expect(renderElement(<Rule />)).toMatchSnapshot();
+    expect(render(<Rule />).baseElement).toMatchSnapshot();
   });
 });

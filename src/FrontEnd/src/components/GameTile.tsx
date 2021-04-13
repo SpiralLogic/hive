@@ -83,7 +83,7 @@ const GameTile: FunctionComponent<Props> = (props) => {
   }, [focus]);
 
   const attributes = {
-    title: creature,
+    title: `Player-${playerId} ${creature}`,
     class: classes,
     draggable: moves.length ? true : undefined,
     tabindex: moves.length ? 0 : undefined,

@@ -1,4 +1,4 @@
 import { render } from '@testing-library/preact';
+import { ComponentChild, VNode } from 'preact';
 
-export const renderElement = (component: typeof render.arguments[0]): HTMLElement =>
-  render(component).container.firstElementChild as HTMLElement;
+export const renderElement = (component: ComponentChild): Element => render(component).baseElement;

@@ -7,11 +7,12 @@ import { mockLocation, renderElement } from './test-helpers';
 
 describe('gameOver snapshot tests', () => {
   test('close calls base url', () => {
-    const restore = mockLocation({ assign: jest.fn() });
+    const location = { assign: jest.fn() };
+    const restore = mockLocation(location);
     render(<GameOver outcome="Draw" />);
 
     userEvent.click(screen.getByRole('button'));
-    expect(window.location.assign).toBeCalledWith('/');
+    expect(location.assign).toBeCalledWith('/');
     restore();
   });
 

@@ -1,5 +1,6 @@
+import { screen } from '@testing-library/preact';
 import { GameState } from '../../src/domain';
-import { Action, AiAction, HiveEvent, TileAction, TileEvent } from '../../src/services';
+import { Action, AiAction, HiveEvent, TileAction } from '../../src/services';
 import {
   attachServerHandlers,
   handleDragOver,
@@ -42,8 +43,8 @@ describe(`handler tests`, () => {
     document.body.appendChild(container);
     beforeEach(() => {
       container.innerHTML =
-        "<div id='one' tabIndex='1'></div><div id='two' tabIndex='1'></div><div id='three' tabIndex='1'></div><div class='name'></div>";
-      const elements = container.getElementsByTagName('div');
+        "<div title='div one' tabIndex='1'></div><div title='div two' tabIndex='1'></div><div title='div three' tabIndex='1'></div><div title='div' class='name'></div>";
+      const elements = screen.getAllByTitle(/div/) as HTMLDivElement[];
       [div1, div2, div3, div4] = Array.from(elements);
     });
 
@@ -66,9 +67,8 @@ describe(`handler tests`, () => {
     });
 
     it('should move to last element on key up from first', () => {
-      jest.spyOn(div3, 'focus');
       expect(handleKeyboardNav({ key: 'ArrowUp', target: div1 })).toBe(true);
-      expect(div3.focus).toHaveBeenCalledWith();
+      expect(div3).toHaveFocus();
       expect(div4).not.toHaveFocus();
     });
 

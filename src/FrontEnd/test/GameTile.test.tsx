@@ -1,25 +1,28 @@
-import { act, fireEvent } from '@testing-library/preact';
+import { act, fireEvent, screen, render } from '@testing-library/preact';
+import userEvent from '@testing-library/user-event';
 import { h } from 'preact';
 import { HiveEvent, TileAction, TileEvent } from '../src/services';
 import { useHiveDispatcher } from '../src/utilities/dispatcher';
 import GameTile from '../src/components/GameTile';
-import { renderElement, simulateEvent } from './test-helpers';
+import { simulateEvent } from './test-helpers';
 
 describe('tile Tests', () => {
   const tileCanMove = {
     id: 1,
     playerId: 1,
-    creature: 'ant',
+    creature: 'tileCanMove',
     moves: [{ q: 1, r: 1 }],
   };
-  const tileNoMove = { id: 2, playerId: 0, creature: 'fly', moves: [] };
+  const tileNoMove = { id: 2, playerId: 0, creature: 'tileNoMove', moves: [] };
 
   const createTileCanMove = () => {
-    return renderElement(<GameTile currentPlayer={1} {...tileCanMove} />);
+    render(<GameTile currentPlayer={1} {...tileCanMove} />);
+    return screen.getByTitle(/tileCanMove/);
   };
 
   const createTileNoMove = () => {
-    return renderElement(<GameTile currentPlayer={1} {...tileNoMove} />);
+    render(<GameTile currentPlayer={1} {...tileNoMove} />);
+    return screen.getByTitle(/tileNoMove/);
   };
 
   const createDispatcher = (): [TileEvent[], () => void] => {
@@ -33,15 +36,18 @@ describe('tile Tests', () => {
 
   describe('tile render', () => {
     it('has creature', () => {
-      expect(createTileNoMove().querySelectorAll('.creature')).toHaveLength(1);
-      expect(createTileCanMove().querySelectorAll('.creature')).toHaveLength(1);
+      const tileCanMoveElement = createTileCanMove();
+      const tileNoMoveElement = createTileNoMove();
+      expect(tileCanMoveElement).toMatchSnapshot();
+      expect(tileNoMoveElement).toMatchSnapshot();
     });
   });
 
   describe('tile events', () => {
     it('click emits tile start event', () => {
       const [tileEvents, cleanup] = createDispatcher();
-      fireEvent.click(createTileCanMove());
+      const tileCanMoveElement = createTileCanMove();
+      userEvent.click(tileCanMoveElement);
       const expectedEvent: TileEvent = {
         type: 'tileSelected',
         tile: tileCanMove,
@@ -52,7 +58,8 @@ describe('tile Tests', () => {
 
     it('enter emits tile start event', () => {
       const [tileEvents, cleanup] = createDispatcher();
-      fireEvent.keyDown(createTileCanMove(), { key: 'Enter' });
+      const tileCanMoveElement = createTileCanMove();
+      userEvent.type(tileCanMoveElement, '{enter}');
       const expectedEvent: TileEvent = {
         type: 'tileSelected',
         tile: tileCanMove,
@@ -63,30 +70,38 @@ describe('tile Tests', () => {
     });
 
     it('enter selects tile', () => {
-      const tile = createTileCanMove();
-      fireEvent.keyDown(tile, { key: 'Enter' });
+      const tileCanMoveElement = createTileCanMove();
+      tileCanMoveElement.focus();
+      userEvent.keyboard('{enter}');
 
-      expect(tile).toHaveClass('selected');
+      expect(tileCanMoveElement).toHaveClass('selected');
     });
 
     it('second enter deselects tile', () => {
-      const tile = createTileCanMove();
-      fireEvent.keyDown(tile, { key: 'Enter' });
-      fireEvent.keyDown(tile, { key: 'Enter' });
+      const tileCanMoveElement = createTileCanMove();
 
-      expect(tile).not.toHaveClass('selected');
+      tileCanMoveElement.focus();
+      userEvent.keyboard('{enter}');
+      userEvent.keyboard('{enter}');
+
+      expect(tileCanMoveElement).not.toHaveClass('selected');
     });
 
     it('arrow keys use handler', () => {
-      const tile = createTileCanMove();
-      fireEvent.keyDown(tile, { key: 'ArrowDown' });
+      const tileCanMoveElement = createTileCanMove();
 
-      expect(tile).toHaveFocus();
+      tileCanMoveElement.focus();
+      userEvent.keyboard('{arrowdown}');
+
+      expect(tileCanMoveElement).toHaveFocus();
     });
 
     it('space emits tile start event', () => {
       const [tileEvents, cleanup] = createDispatcher();
-      fireEvent.keyDown(createTileCanMove(), { key: ' ' });
+      const tileCanMoveElement = createTileCanMove();
+
+      tileCanMoveElement.focus();
+      userEvent.type(tileCanMoveElement, ' ');
       const expectedEvent: TileEvent = {
         type: 'tileSelected',
         tile: tileCanMove,
@@ -96,19 +111,21 @@ describe('tile Tests', () => {
     });
 
     it('click deselects previous selected tile', () => {
-      const tile = createTileCanMove();
-      fireEvent.click(tile);
+      const tileCanMoveElement = createTileCanMove();
 
-      expect(tile).toHaveClass('selected');
+      userEvent.click(tileCanMoveElement);
+
+      expect(tileCanMoveElement).toHaveClass('selected');
     });
 
     it('clicking same tile doesnt fire a tile start event', () => {
       const mock = jest.spyOn(useHiveDispatcher(), 'dispatch');
-      const tile = createTileCanMove();
-      fireEvent.click(tile);
+      const tileCanMoveElement = createTileCanMove();
+
+      userEvent.click(tileCanMoveElement);
 
       mock.mockClear();
-      fireEvent.click(tile);
+      userEvent.click(tileCanMoveElement);
 
       expect(useHiveDispatcher().dispatch).not.toHaveBeenCalledWith(
         expect.objectContaining({ type: 'tileSelect' })
@@ -116,23 +133,26 @@ describe('tile Tests', () => {
     });
 
     it('mouseLeave activates blur', () => {
-      const tile = createTileCanMove();
-      tile.focus();
-      fireEvent.mouseLeave(tile);
-      expect(tile).not.toHaveFocus();
+      const tileCanMoveElement = createTileCanMove();
+      tileCanMoveElement.focus();
+      userEvent.unhover(tileCanMoveElement);
+      expect(tileCanMoveElement).not.toHaveFocus();
     });
 
     it('is draggable when there are available moves', () => {
-      expect(createTileCanMove()).toHaveAttribute('draggable', 'true');
+      const tileCanMoveElement = createTileCanMove();
+      expect(tileCanMoveElement).toHaveAttribute('draggable', 'true');
     });
 
     it('is *not* draggable when there are no moves available', () => {
-      expect(createTileNoMove()).not.toHaveAttribute('draggable', 'false');
+      const tileNoMoveElement = createTileNoMove();
+      expect(tileNoMoveElement).not.toHaveAttribute('draggable', 'false');
     });
 
     it('on drag emits start event', () => {
       const [tileEvents, cleanup] = createDispatcher();
-      fireEvent.dragStart(createTileCanMove());
+      const tileCanMoveElement = createTileCanMove();
+      fireEvent.dragStart(tileCanMoveElement);
       const expectedEvent: TileEvent = {
         type: 'tileSelected',
         tile: tileCanMove,
@@ -143,8 +163,9 @@ describe('tile Tests', () => {
 
     it('on dragEnd emits end event', () => {
       const dropEvents: TileEvent[] = [];
+      const tileCanMoveElement = createTileCanMove();
       useHiveDispatcher().add<TileEvent>('tileDropped', (e) => dropEvents.push(e));
-      fireEvent.dragEnd(createTileCanMove());
+      fireEvent.dragEnd(tileCanMoveElement);
       const expectedEvent: HiveEvent = {
         type: 'tileDropped',
         tile: tileCanMove,
@@ -154,11 +175,12 @@ describe('tile Tests', () => {
     });
 
     it(`tile can be selected via action`, () => {
-      const tile = createTileCanMove();
+      const tileCanMoveElement = createTileCanMove();
+
       act(() => {
         useHiveDispatcher().dispatch<TileAction>({ type: 'tileSelect', tile: tileCanMove });
       }).catch(() => {});
-      expect(tile).toHaveClass('selected');
+      expect(tileCanMoveElement).toHaveClass('selected');
     });
 
     it(`an already selected tile doesnt fire a selected event when selected`, () => {
@@ -191,24 +213,27 @@ describe('tile Tests', () => {
     });
 
     it(`tile can be deselected via action`, () => {
-      const tile = createTileCanMove();
+      const tileCanMoveElement = createTileCanMove();
+
       act(() => {
         useHiveDispatcher().dispatch<TileAction>({ type: 'tileSelect', tile: tileCanMove });
       }).catch(() => {});
       act(() => {
         useHiveDispatcher().dispatch<TileAction>({ type: 'tileDeselect', tile: tileCanMove });
       }).catch(() => {});
-      expect(tile).not.toHaveClass('selected');
+      expect(tileCanMoveElement).not.toHaveClass('selected');
     });
 
     it(`tile is only selected on matching select events`, () => {
-      const tile = createTileCanMove();
+      const tileNoMoveElement = createTileNoMove();
       useHiveDispatcher().dispatch<TileAction>({ type: 'tileSelect', tile: tileNoMove });
 
-      expect(tile).not.toHaveClass('selected');
+      expect(tileNoMoveElement).not.toHaveClass('selected');
     });
 
     it(`tile is only deselected on matching select events`, () => {
+      createTileCanMove();
+      createTileNoMove();
       const deselectEvents: TileEvent[] = [];
       useHiveDispatcher().add<TileEvent>('tileDeselected', (e) => deselectEvents.push(e));
       useHiveDispatcher().dispatch<TileAction>({ type: 'tileSelect', tile: tileCanMove });
@@ -218,22 +243,28 @@ describe('tile Tests', () => {
     });
 
     it('default on drop is prevented', () => {
-      expect(simulateEvent(createTileCanMove(), 'drop')).toHaveBeenCalledWith();
-      expect(simulateEvent(createTileNoMove(), 'drop')).toHaveBeenCalledWith();
+      const tileCanMoveElement = createTileCanMove();
+      const tileNoMoveElement = createTileNoMove();
+      expect(simulateEvent(tileCanMoveElement, 'drop')).toHaveBeenCalledWith();
+      expect(simulateEvent(tileNoMoveElement, 'drop')).toHaveBeenCalledWith();
     });
   });
 
   describe('tile Snapshot', () => {
     it('can move matches current snapshot', () => {
-      expect(createTileCanMove()).toMatchSnapshot();
+      const tileCanMoveElement = createTileCanMove();
+
+      expect(tileCanMoveElement).toMatchSnapshot();
     });
 
     it('no moves matches current snapshot', () => {
-      expect(createTileNoMove()).toMatchSnapshot();
+      const tileNoMoveElement = createTileNoMove();
+      expect(tileNoMoveElement).toMatchSnapshot();
     });
 
     it('when stacked matched snapshot', () => {
-      expect(renderElement(<GameTile currentPlayer={0} {...tileNoMove} stacked={true} />)).toMatchSnapshot();
+      render(<GameTile currentPlayer={0} {...tileNoMove} stacked={true} />);
+      expect(screen.getByTitle(/Player-0/)).toMatchSnapshot();
     });
   });
 });

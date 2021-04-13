@@ -1,8 +1,10 @@
-export const mockClipboard = () => {
+import MockedFunction = jest.MockedFunction;
+
+export const mockClipboard = (fn: MockedFunction<() => Promise<undefined>>) => {
   const clipboard = navigator.clipboard;
   Object.defineProperty(navigator, 'clipboard', {
     value: {
-      writeText: jest.fn().mockResolvedValue(undefined),
+      writeText: fn.mockResolvedValue(undefined),
     },
     configurable: true,
     writable: true,
@@ -10,9 +12,9 @@ export const mockClipboard = () => {
   return (): void => Object.defineProperty(navigator, 'clipboard', { value: clipboard });
 };
 
-export const mockExecCommand = () => {
+export const mockExecCommand = (fn: MockedFunction<() => void>) => {
   Object.defineProperty(document, 'execCommand', {
-    value: jest.fn(),
+    value: fn,
     configurable: true,
     writable: true,
   });
@@ -20,11 +22,11 @@ export const mockExecCommand = () => {
   return (): void => Object.defineProperty(document, 'execCommand', { value: undefined });
 };
 
-export const mockShare = () => {
-  // eslint-disable-next-line jest/unbound-method
+export const mockShare = (fn: MockedFunction<() => Promise<undefined>>) => {
+  // eslint-disable-next-line @typescript-eslint/unbound-method,jest/unbound-method
   const share = navigator.share;
   Object.defineProperty(navigator, 'share', {
-    value: jest.fn().mockResolvedValue(undefined),
+    value: fn.mockResolvedValue(undefined),
     configurable: true,
     writable: true,
   });
@@ -32,7 +34,7 @@ export const mockShare = () => {
 };
 
 export const noShare = () => {
-  // eslint-disable-next-line jest/unbound-method
+  // eslint-disable-next-line @typescript-eslint/unbound-method,jest/unbound-method
   const share = navigator.share;
   Object.defineProperty(navigator, 'share', { value: undefined });
   return (): void => {
