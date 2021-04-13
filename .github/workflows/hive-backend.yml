@@ -43,7 +43,7 @@ jobs:
       - name: Install update checker
         run: pnpm install -g npm-check-updates
       - name: Update
-        run: ncu -u 
+        run: pnpm -up -L 
       - name: Installs
         run: pnpm install
       - name: Lint
