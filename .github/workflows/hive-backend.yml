@@ -40,7 +40,17 @@ jobs:
           check-latest: true
       - name: Install pnpm
         run: npm install -g pnpm
+      - name: Install update checker
+        run: pnpm install -g npm-check-updates
+      - name: Update
+        run: ncu -u 
       - name: Installs
         run: pnpm install
+      - name: Lint
+        run: pnpm lint -- --fix
       - name: Test
-        run: pnpm test 
+        run: pnpm test
+      - uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: lint + upgrades
+        
