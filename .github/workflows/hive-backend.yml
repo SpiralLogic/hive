@@ -28,6 +28,9 @@ jobs:
         run: dotnet test ./Api/Hive.Api.Tests -c Test  /p:CollectCoverage=true /p:CoverletOutput=TestResults/ /p:CoverletOutputFormat=lcov /p:SkipAutoProps=true  /p:ExcludeByAttribute="ExcludeFromCodeCoverage" /p:Exclude="[Hive.Domain]*"
       - name: Test Domain
         run: dotnet test ./Domain/Hive.Domain.Tests  /p:CollectCoverage=true  /p:CoverletOutputFormat=lcov /p:SkipAutoProps=true  /p:ExcludeByAttribute="ExcludeFromCodeCoverage"
+      - uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: dotnet - lint + upgrades
   frontend:
     runs-on: ubuntu-20.04
     name: 'Front End Update - Lint - Build - Test'
@@ -54,5 +57,5 @@ jobs:
         run: pnpm test
       - uses: stefanzweifel/git-auto-commit-action@v4
         with:
-          commit_message: lint + upgrades
+          commit_message: node - lint + upgrades
         
