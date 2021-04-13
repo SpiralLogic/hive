@@ -1,71 +1,75 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`links snapshot tests snapshot 1`] = `
-<div
-  class="links"
->
-  <a
-    href="http://localhost/1"
-    name="Share game to opponent"
-    title="Share"
-  >
-    <svg
-      viewBox="0 0 100 100"
-      xmlns="http://www.w3.org/2000/svg"
+<body>
+  <div>
+    <div
+      class="links"
     >
-      <use
-        href="#share"
-      />
-    </svg>
-  </a>
-  <a
-    href="/"
-    name="New game!"
-    title="New Game"
-  >
-    <svg
-      viewBox="0 0 100 100"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <use
-        href="#new"
-      />
-    </svg>
-  </a>
-  <a
-    href="#"
-    name="Show rules"
-    title="Rules"
-  >
-    ?
-  </a>
-  <a
-    href="#"
-    name="Toggle Ai"
-    title="Toggle Ai"
-  >
-    <svg
-      viewBox="0 0 100 100"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <use
-        href="#ai"
-      />
-    </svg>
-  </a>
-  <a
-    class="github"
-    href="https://github.com/SpiralLogic/hive"
-    title="Source code"
-  >
-    <svg
-      viewBox="0 0 100 100"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <use
-        href="#github"
-      />
-    </svg>
-  </a>
-</div>
+      <a
+        href="http://localhost/1"
+        name="Share game to opponent"
+        title="Share"
+      >
+        <svg
+          viewBox="0 0 100 100"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <use
+            href="#share"
+          />
+        </svg>
+      </a>
+      <a
+        href="/"
+        name="New game!"
+        title="New Game"
+      >
+        <svg
+          viewBox="0 0 100 100"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <use
+            href="#new"
+          />
+        </svg>
+      </a>
+      <a
+        href="#"
+        name="Show rules"
+        title="Rules"
+      >
+        ?
+      </a>
+      <a
+        href="#"
+        name="Toggle Ai"
+        title="Toggle Ai"
+      >
+        <svg
+          viewBox="0 0 100 100"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <use
+            href="#ai"
+          />
+        </svg>
+      </a>
+      <a
+        class="github"
+        href="https://github.com/SpiralLogic/hive"
+        title="Source code"
+      >
+        <svg
+          viewBox="0 0 100 100"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <use
+            href="#github"
+          />
+        </svg>
+      </a>
+    </div>
+  </div>
+</body>
 `;

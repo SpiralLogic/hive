@@ -1,108 +1,112 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`playerList Tests snapshot 1`] = `
-<aside
-  class="players"
->
-  <div
-    class="player player1"
-    title="Player 1"
-  >
-    <div
-      class="name"
-    >
-      Player 1
-    </div>
-    <div
-      class="tiles"
+<body>
+  <div>
+    <aside
+      class="players"
     >
       <div
-        class="player1 hex tile ant"
-        draggable="true"
-        tabindex="0"
-        title="ant"
+        class="player player1"
+        title="Player 1"
       >
-        <svg
-          viewBox="0 0 100 100"
-          xmlns="http://www.w3.org/2000/svg"
+        <div
+          class="name"
         >
-          <use
-            href="#hex"
-          />
-          <use
-            class="creature"
-            href="#ant"
-          />
-        </svg>
+          Player 1
+        </div>
+        <div
+          class="tiles"
+        >
+          <div
+            class="player1 hex tile ant"
+            draggable="true"
+            tabindex="0"
+            title="Player-1 ant"
+          >
+            <svg
+              viewBox="0 0 100 100"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <use
+                href="#hex"
+              />
+              <use
+                class="creature"
+                href="#ant"
+              />
+            </svg>
+          </div>
+          <div
+            class="player0 hex tile fly"
+            title="Player-0 fly"
+          >
+            <svg
+              viewBox="0 0 100 100"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <use
+                href="#hex"
+              />
+              <use
+                class="creature"
+                href="#fly"
+              />
+            </svg>
+          </div>
+          <div
+            class="player0 hex tile fly"
+            title="Player-0 fly"
+          >
+            <svg
+              viewBox="0 0 100 100"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <use
+                href="#hex"
+              />
+              <use
+                class="creature"
+                href="#fly"
+              />
+            </svg>
+          </div>
+        </div>
       </div>
       <div
-        class="player0 hex tile fly"
-        title="fly"
+        class="player player2"
+        title="Player 2"
       >
-        <svg
-          viewBox="0 0 100 100"
-          xmlns="http://www.w3.org/2000/svg"
+        <div
+          class="name"
         >
-          <use
-            href="#hex"
-          />
-          <use
-            class="creature"
-            href="#fly"
-          />
-        </svg>
-      </div>
-      <div
-        class="player0 hex tile fly"
-        title="fly"
-      >
-        <svg
-          viewBox="0 0 100 100"
-          xmlns="http://www.w3.org/2000/svg"
+          Player 2
+        </div>
+        <div
+          class="tiles"
         >
-          <use
-            href="#hex"
-          />
-          <use
-            class="creature"
-            href="#fly"
-          />
-        </svg>
+          <div
+            class="player1 hex tile ant"
+            draggable="true"
+            tabindex="0"
+            title="Player-1 ant"
+          >
+            <svg
+              viewBox="0 0 100 100"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <use
+                href="#hex"
+              />
+              <use
+                class="creature"
+                href="#ant"
+              />
+            </svg>
+          </div>
+        </div>
       </div>
-    </div>
+    </aside>
   </div>
-  <div
-    class="player player2"
-    title="Player 2"
-  >
-    <div
-      class="name"
-    >
-      Player 2
-    </div>
-    <div
-      class="tiles"
-    >
-      <div
-        class="player1 hex tile ant"
-        draggable="true"
-        tabindex="0"
-        title="ant"
-      >
-        <svg
-          viewBox="0 0 100 100"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <use
-            href="#hex"
-          />
-          <use
-            class="creature"
-            href="#ant"
-          />
-        </svg>
-      </div>
-    </div>
-  </div>
-</aside>
+</body>
 `;

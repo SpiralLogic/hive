@@ -1,20 +1,25 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`modal snapshot tests snapshot 1`] = `
-<div
-  class="modal"
->
-  <div
-    class="test"
-    role="dialog"
-    title="test"
-  >
-    <button
-      class="close"
-      title="Close"
+<body>
+  <div>
+    <div
+      class="modal"
+      data-testid="modal"
     >
-      X
-    </button>
+      <div
+        class="test"
+        role="dialog"
+        title="test"
+      >
+        <button
+          class="close"
+          title="Close"
+        >
+          X
+        </button>
+      </div>
+    </div>
   </div>
-</div>
+</body>
 `;

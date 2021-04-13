@@ -1,109 +1,289 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`gameOver snapshot tests AiWin snapshot player 0 1`] = `
-<p>
-  AiWin
-</p>
+<body>
+  <div>
+    <p>
+      AiWin
+    </p>
+    <button
+      autofocus=""
+      title="New Game"
+    >
+      Close
+    </button>
+  </div>
+</body>
 `;
 
 exports[`gameOver snapshot tests AiWin snapshot player 1 1`] = `
-<p>
-  AiWin
-</p>
+<body>
+  <div>
+    <p>
+      AiWin
+    </p>
+    <button
+      autofocus=""
+      title="New Game"
+    >
+      Close
+    </button>
+  </div>
+</body>
 `;
 
 exports[`gameOver snapshot tests Draw snapshot player 0 1`] = `
-<p>
-  Draw
-</p>
+<body>
+  <div>
+    <p>
+      Draw
+    </p>
+    <button
+      autofocus=""
+      title="New Game"
+    >
+      Close
+    </button>
+  </div>
+</body>
 `;
 
 exports[`gameOver snapshot tests Draw snapshot player 1 1`] = `
-<p>
-  Draw
-</p>
+<body>
+  <div>
+    <p>
+      Draw
+    </p>
+    <button
+      autofocus=""
+      title="New Game"
+    >
+      Close
+    </button>
+  </div>
+</body>
 `;
 
 exports[`gameOver snapshot tests GameOver snapshot player 0 1`] = `
-<p>
-  GameOver
-</p>
+<body>
+  <div>
+    <p>
+      GameOver
+    </p>
+    <button
+      autofocus=""
+      title="New Game"
+    >
+      Close
+    </button>
+  </div>
+</body>
 `;
 
 exports[`gameOver snapshot tests GameOver snapshot player 1 1`] = `
-<p>
-  GameOver
-</p>
+<body>
+  <div>
+    <p>
+      GameOver
+    </p>
+    <button
+      autofocus=""
+      title="New Game"
+    >
+      Close
+    </button>
+  </div>
+</body>
 `;
 
 exports[`gameOver snapshot tests MoveInvalid snapshot player 0 1`] = `
-<p>
-  MoveInvalid
-</p>
+<body>
+  <div>
+    <p>
+      MoveInvalid
+    </p>
+    <button
+      autofocus=""
+      title="New Game"
+    >
+      Close
+    </button>
+  </div>
+</body>
 `;
 
 exports[`gameOver snapshot tests MoveInvalid snapshot player 1 1`] = `
-<p>
-  MoveInvalid
-</p>
+<body>
+  <div>
+    <p>
+      MoveInvalid
+    </p>
+    <button
+      autofocus=""
+      title="New Game"
+    >
+      Close
+    </button>
+  </div>
+</body>
 `;
 
 exports[`gameOver snapshot tests MoveSuccess snapshot player 0 1`] = `
-<p>
-  MoveSuccess
-</p>
+<body>
+  <div>
+    <p>
+      MoveSuccess
+    </p>
+    <button
+      autofocus=""
+      title="New Game"
+    >
+      Close
+    </button>
+  </div>
+</body>
 `;
 
 exports[`gameOver snapshot tests MoveSuccess snapshot player 1 1`] = `
-<p>
-  MoveSuccess
-</p>
+<body>
+  <div>
+    <p>
+      MoveSuccess
+    </p>
+    <button
+      autofocus=""
+      title="New Game"
+    >
+      Close
+    </button>
+  </div>
+</body>
 `;
 
 exports[`gameOver snapshot tests MoveSuccessNextPlayerSkipped snapshot player 0 1`] = `
-<p>
-  MoveSuccessNextPlayerSkipped
-</p>
+<body>
+  <div>
+    <p>
+      MoveSuccessNextPlayerSkipped
+    </p>
+    <button
+      autofocus=""
+      title="New Game"
+    >
+      Close
+    </button>
+  </div>
+</body>
 `;
 
 exports[`gameOver snapshot tests MoveSuccessNextPlayerSkipped snapshot player 1 1`] = `
-<p>
-  MoveSuccessNextPlayerSkipped
-</p>
+<body>
+  <div>
+    <p>
+      MoveSuccessNextPlayerSkipped
+    </p>
+    <button
+      autofocus=""
+      title="New Game"
+    >
+      Close
+    </button>
+  </div>
+</body>
 `;
 
 exports[`gameOver snapshot tests NewGame snapshot player 0 1`] = `
-<p>
-  NewGame
-</p>
+<body>
+  <div>
+    <p>
+      NewGame
+    </p>
+    <button
+      autofocus=""
+      title="New Game"
+    >
+      Close
+    </button>
+  </div>
+</body>
 `;
 
 exports[`gameOver snapshot tests NewGame snapshot player 1 1`] = `
-<p>
-  NewGame
-</p>
+<body>
+  <div>
+    <p>
+      NewGame
+    </p>
+    <button
+      autofocus=""
+      title="New Game"
+    >
+      Close
+    </button>
+  </div>
+</body>
 `;
 
 exports[`gameOver snapshot tests Player0Win snapshot player 0 1`] = `
-<p>
-  Player0Win
-</p>
+<body>
+  <div>
+    <p>
+      Player0Win
+    </p>
+    <button
+      autofocus=""
+      title="New Game"
+    >
+      Close
+    </button>
+  </div>
+</body>
 `;
 
 exports[`gameOver snapshot tests Player0Win snapshot player 1 1`] = `
-<p>
-  Player0Win
-</p>
+<body>
+  <div>
+    <p>
+      Player0Win
+    </p>
+    <button
+      autofocus=""
+      title="New Game"
+    >
+      Close
+    </button>
+  </div>
+</body>
 `;
 
 exports[`gameOver snapshot tests Player1Win snapshot player 0 1`] = `
-<p>
-  Player1Win
-</p>
+<body>
+  <div>
+    <p>
+      Player1Win
+    </p>
+    <button
+      autofocus=""
+      title="New Game"
+    >
+      Close
+    </button>
+  </div>
+</body>
 `;
 
 exports[`gameOver snapshot tests Player1Win snapshot player 1 1`] = `
-<p>
-  Player1Win
-</p>
+<body>
+  <div>
+    <p>
+      Player1Win
+    </p>
+    <button
+      autofocus=""
+      title="New Game"
+    >
+      Close
+    </button>
+  </div>
+</body>
 `;
