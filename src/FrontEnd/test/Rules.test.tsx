@@ -1,7 +1,7 @@
 import { h } from 'preact';
 import { render, RenderResult, screen } from '@testing-library/preact';
 import userEvent from '@testing-library/user-event';
-import Rules from '../components/Rules';
+import Rules from '../src/components/Rules';
 import { renderElement } from './test-helpers';
 
 describe('rules tests', () => {

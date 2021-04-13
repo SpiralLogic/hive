@@ -463,3 +463,4 @@ package-lock.json
 *.sln.DotSettings.user
 __coverage__
 build/
+/src/FrontEnd/pnpm-lock.yaml

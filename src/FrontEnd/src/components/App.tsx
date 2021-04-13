@@ -27,7 +27,7 @@ const App: FunctionComponent<{ engine: HexEngine; connectionFactory: HexServerCo
         );
         updateHandler(initialGameState);
       })
-      .catch((e) => setFetchStatus(e));
+      .catch((e: Error) => setFetchStatus(e.message));
   }, []);
 
   useLayoutEffect(() => {

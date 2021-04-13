@@ -9,7 +9,9 @@
     "clean:deep": "git clean -x -d -f $(git rev-parse --show-toplevel)/**",
     "tsc": "pnpx tsc --noEmit",
     "jest": "pnpx jest --coverage ",
-    "lint": "pnpx eslint ./src",
+    "lint:src": "pnpx eslint -c package.json src --fix",
+    "lint:test": "pnpx eslint -c package.json test --fix",
+    "lint": "npm-run-all -s lint:src lint:test",
     "test": "npm-run-all -s tsc jest",
     "web-copy": "pnpx cpy ./src/index.html ./public/",
     "cache-bust": "pnpx cachebust -n",
@@ -33,11 +35,11 @@
     "@types/jest": "^26.0.22",
     "@types/node": "^14.14.37",
     "@types/testing-library__jest-dom": "^5.9.5",
-    "@typescript-eslint/eslint-plugin": "^4.21.0",
-    "@typescript-eslint/parser": "^4.21.0",
+    "@typescript-eslint/eslint-plugin": "^4.22.0",
+    "@typescript-eslint/parser": "^4.22.0",
     "chalk": "^4.1.0",
     "eslint": "^7.24.0",
-    "eslint-config-kentcdodds": "^17.7.0",
+    "eslint-config-kentcdodds": "^18.0.0",
     "eslint-config-prettier": "^8.1.0",
     "eslint-plugin-jest": "^24.3.5",
     "eslint-plugin-jest-dom": "^3.8.0",
@@ -55,7 +57,7 @@
     "@microsoft/signalr": "^5.0.5",
     "@sparkbox/cachebust": "^0.3.0",
     "cpy-cli": "^3.1.1",
-    "esbuild": "0.11.9",
+    "esbuild": "0.11.10",
     "npm-run-all": "^4.1.5",
     "preact": "^10.5.13",
     "rimraf": "^3.0.2"
@@ -63,7 +65,7 @@
   "jest": {
     "preset": "ts-jest",
     "clearMocks": true,
-    "coverageDirectory": "./src/__tests__/__coverage__",
+    "coverageDirectory": "./test/__coverage__",
     "collectCoverage": true,
     "moduleDirectories": [
       "node_modules"
@@ -77,17 +79,18 @@
       "node"
     ],
     "moduleNameMapper": {
-      "\\.(css)$": "<rootDir>/src/styleMock.js"
+      "\\.(css)$": "<rootDir>/test/styleMock.js"
     },
     "roots": [
-      "./src/"
+      "./src/",
+      "./test/"
     ],
     "setupFilesAfterEnv": [
-      "./src/jest.setup.ts"
+      "./test/jest.setup.ts"
     ],
     "coveragePathIgnorePatterns": [
       "/node_modules/",
-      "/__tests__/"
+      "/test/"
     ],
     "testMatch": [
       "./**/*.{spec,test}.{js,jsx,ts,tsx}"
@@ -108,7 +111,6 @@
       "kentcdodds/best-practices",
       "kentcdodds/es6/possible-errors",
       "kentcdodds/import",
-      "kentcdodds/jest",
       "plugin:prettier/recommended"
     ],
     "globals": {
@@ -123,12 +125,7 @@
     "rules": {
       "@typescript-eslint/explicit-function-return-type": "off",
       "@typescript-eslint/no-unused-vars": "off",
-      "@typescript-eslint/no-var-requires": "off",
-      "jest/no-disabled-tests": "warn",
-      "jest/no-focused-tests": "error",
-      "jest/no-identical-title": "error",
-      "jest/prefer-to-have-length": "warn",
-      "jest/valid-expect": "error"
+      "@typescript-eslint/no-var-requires": "off"
     },
     "overrides": [
       {
@@ -164,7 +161,8 @@
       "/node_modules/*/**",
       "/*.config.js",
       "/src/public/*/**",
-      "**/coverage/**"
+      "**/coverage/**",
+      "/src/index.tsx"
     ]
   },
   "prettier": {

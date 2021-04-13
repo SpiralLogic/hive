@@ -1,6 +1,6 @@
 import { RenderResult, render, screen } from '@testing-library/preact';
 import { h } from 'preact';
-import Player from '../components/Player';
+import Player from '../src/components/Player';
 
 describe('player Tests', () => {
   const renderPlayer = (): [RenderResult, Element] => {

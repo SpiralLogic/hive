@@ -1,4 +1,4 @@
-import GameEngine from '../../services/game-engine';
+import GameEngine from '../../src/services/game-engine';
 import gameState from '../fixtures/gameState.json';
 
 describe('game Engine Tests', () => {

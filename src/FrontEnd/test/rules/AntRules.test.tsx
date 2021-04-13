@@ -1,10 +1,10 @@
 import { h } from 'preact';
 import { renderElement } from '../test-helpers';
-import OneHiveRule from '../../components/rules/OneHiveRule';
+import AntRules from '../../src/components/rules/AntRules';
 
-describe('one Hive Rule snapshot tests', () => {
+describe('ant Rule snapshot tests', () => {
   it('snapshot', () => {
-    const Rule = OneHiveRule.Rule;
+    const Rule = AntRules.Rule;
     expect(renderElement(<Rule />)).toMatchSnapshot();
   });
 });

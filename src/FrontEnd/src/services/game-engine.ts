@@ -6,9 +6,8 @@ export default class GameEngine implements HexEngine {
   public initialGame: Promise<GameState>;
 
   constructor(existingGame?: { route: string; gameId: string; currentPlayer: string }) {
-    this.currentPlayer = Number(
-      existingGame?.currentPlayer ?? (window.history.state as { currentPlayer?: number })?.currentPlayer ?? 0
-    );
+    const windowState = window.history.state as { currentPlayer: number } | null;
+    this.currentPlayer = Number(existingGame?.currentPlayer ?? windowState?.currentPlayer ?? 0);
     this.initialGame =
       existingGame && existingGame.route === 'game'
         ? this.getExistingGame(existingGame.gameId)

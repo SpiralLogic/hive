@@ -1,4 +1,4 @@
-import { MoveEvent } from '../../services';
+import { MoveEvent } from '../../src/services';
 
 export const cellMoveEvent: MoveEvent = {
   move: { coords: { q: 1, r: 1 }, tileId: 1 },

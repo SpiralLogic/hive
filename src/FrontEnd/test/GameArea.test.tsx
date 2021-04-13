@@ -1,9 +1,9 @@
 import { h } from 'preact';
 import { render, screen } from '@testing-library/preact';
 import userEvent from '@testing-library/user-event';
-import GameArea from '../components/GameArea';
-import { useHiveDispatcher } from '../utilities/dispatcher';
-import { HiveEvent } from '../services';
+import GameArea from '../src/components/GameArea';
+import { useHiveDispatcher } from '../src/utilities/dispatcher';
+import { HiveEvent } from '../src/services';
 import { mockClipboard, mockExecCommand, mockShare, noShare, simulateEvent } from './test-helpers';
 import { createGameState } from './fixtures/gameArea.fixtures';
 

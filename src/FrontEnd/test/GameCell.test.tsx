@@ -1,7 +1,7 @@
 import { fireEvent } from '@testing-library/preact';
 import { h } from 'preact';
-import { useHiveDispatcher } from '../utilities/dispatcher';
-import GameCell from '../components/GameCell';
+import { useHiveDispatcher } from '../src/utilities/dispatcher';
+import GameCell from '../src/components/GameCell';
 import { renderElement, simulateEvent } from './test-helpers';
 import {
   createCellCanDrop,

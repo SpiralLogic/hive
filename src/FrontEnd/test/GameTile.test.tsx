@@ -1,8 +1,8 @@
 import { act, fireEvent } from '@testing-library/preact';
 import { h } from 'preact';
-import { HiveEvent, TileAction, TileEvent } from '../services';
-import { useHiveDispatcher } from '../utilities/dispatcher';
-import GameTile from '../components/GameTile';
+import { HiveEvent, TileAction, TileEvent } from '../src/services';
+import { useHiveDispatcher } from '../src/utilities/dispatcher';
+import GameTile from '../src/components/GameTile';
 import { renderElement, simulateEvent } from './test-helpers';
 
 describe('tile Tests', () => {

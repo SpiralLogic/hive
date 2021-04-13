@@ -1,8 +1,8 @@
 import { RenderResult, render, screen } from '@testing-library/preact';
 import { h } from 'preact';
-import { HexEngine, HexServerConnectionFactory } from '../domain/engine';
-import { useHiveDispatcher } from '../utilities/dispatcher';
-import App from '../components/App';
+import { HexEngine, HexServerConnectionFactory } from '../src/domain/engine';
+import { useHiveDispatcher } from '../src/utilities/dispatcher';
+import App from '../src/components/App';
 import { cellMoveEvent, createGameState } from './fixtures/app.fixture';
 
 describe('app tests', () => {

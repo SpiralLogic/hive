@@ -28,7 +28,7 @@ jobs:
         working-directory: './src'
   frontend:
     runs-on: ubuntu-20.04
-    name: 'Front End Tests'
+    name: 'Front End Update - Lint - Build - Test'
     defaults:
       run:
         working-directory: './src/FrontEnd/'
@@ -47,7 +47,7 @@ jobs:
       - name: Installs
         run: pnpm install
       - name: Lint
-        run: pnpm lint -- --fix
+        run: pnpm run lint:src
       - name: Test
         run: pnpm test
       - uses: stefanzweifel/git-auto-commit-action@v4

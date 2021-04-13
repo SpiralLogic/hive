@@ -1,7 +1,7 @@
 import { h } from 'preact';
 import { screen } from '@testing-library/preact';
-import GameCell from '../components/GameCell';
-import Row from '../components/Row';
+import GameCell from '../src/components/GameCell';
+import Row from '../src/components/Row';
 import { renderElement } from './test-helpers';
 
 describe('row Tests', () => {

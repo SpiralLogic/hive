@@ -1,6 +1,6 @@
 import { h } from 'preact';
-import Players from '../components/Players';
-import GameTile from '../components/GameTile';
+import Players from '../src/components/Players';
+import GameTile from '../src/components/GameTile';
 import { renderElement } from './test-helpers';
 
 describe('playerList Tests', () => {

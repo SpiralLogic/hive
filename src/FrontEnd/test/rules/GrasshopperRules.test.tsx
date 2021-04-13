@@ -1,10 +1,10 @@
 import { h } from 'preact';
 import { renderElement } from '../test-helpers';
-import AntRules from '../../components/rules/AntRules';
+import GrasshopperRules from '../../src/components/rules/GrasshopperRules';
 
-describe('ant Rule snapshot tests', () => {
+describe('grasshopper Rule snapshot tests', () => {
   it('snapshot', () => {
-    const Rule = AntRules.Rule;
+    const Rule = GrasshopperRules.Rule;
     expect(renderElement(<Rule />)).toMatchSnapshot();
   });
 });

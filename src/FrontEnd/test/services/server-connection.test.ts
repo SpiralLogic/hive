@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-assignment */
 import { HubConnection, HubConnectionState } from '@microsoft/signalr';
 import { mockLocation } from '../test-helpers';
-import { serverConnectionFactory } from '../../services';
+import { serverConnectionFactory } from '../../src/services';
 import gameState from '../fixtures/gameState.json';
 
 jest.mock('@microsoft/signalr');

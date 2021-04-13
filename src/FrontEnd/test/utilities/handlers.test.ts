@@ -1,5 +1,5 @@
-import { GameState } from '../../domain';
-import { Action, AiAction, HiveEvent, TileAction, TileEvent } from '../../services';
+import { GameState } from '../../src/domain';
+import { Action, AiAction, HiveEvent, TileAction, TileEvent } from '../../src/services';
 import {
   attachServerHandlers,
   handleDragOver,
@@ -7,8 +7,8 @@ import {
   handleKeyboardNav,
   opponentConnectedHandler,
   opponentSelectionHandler,
-} from '../../utilities/handlers';
-import { useHiveDispatcher } from '../../utilities/dispatcher';
+} from '../../src/utilities/handlers';
+import { useHiveDispatcher } from '../../src/utilities/dispatcher';
 import gameState from '../fixtures/gameState.json';
 
 describe(`handler tests`, () => {

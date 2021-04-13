@@ -1,10 +1,10 @@
 import { h } from 'preact';
 import { renderElement } from '../test-helpers';
-import BeetleRules from '../../components/rules/BeetleRules';
+import OneHiveRule from '../../src/components/rules/OneHiveRule';
 
-describe('beetle Rule snapshot tests', () => {
+describe('one Hive Rule snapshot tests', () => {
   it('snapshot', () => {
-    const Rule = BeetleRules.Rule;
+    const Rule = OneHiveRule.Rule;
     expect(renderElement(<Rule />)).toMatchSnapshot();
   });
 });

@@ -1,5 +1,5 @@
-import { Cell, GameState } from '../../domain';
-import { MoveEvent } from '../../services';
+import { Cell, GameState } from '../../src/domain';
+import { MoveEvent } from '../../src/services';
 
 export const cellMoveEvent: MoveEvent = {
   move: { coords: { q: 1, r: 1 }, tileId: 1 },

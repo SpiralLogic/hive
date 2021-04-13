@@ -1,8 +1,8 @@
 import { act } from '@testing-library/preact';
 import { h } from 'preact';
-import GameTile from '../../components/GameTile';
-import { MoveEvent } from '../../services';
-import { useHiveDispatcher } from '../../utilities/dispatcher';
+import GameTile from '../../src/components/GameTile';
+import { MoveEvent } from '../../src/services';
+import { useHiveDispatcher } from '../../src/utilities/dispatcher';
 
 export const createCellWithNoTile = () => ({ coords: { q: 0, r: 0 }, tiles: [] });
 

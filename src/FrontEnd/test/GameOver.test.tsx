@@ -1,8 +1,8 @@
 import { render, screen } from '@testing-library/preact';
 import userEvent from '@testing-library/user-event';
 import { h } from 'preact';
-import GameOver from '../components/GameOver';
-import { GameStatus } from '../domain';
+import GameOver from '../src/components/GameOver';
+import { GameStatus } from '../src/domain';
 import { mockLocation, renderElement } from './test-helpers';
 
 describe('gameOver snapshot tests', () => {
