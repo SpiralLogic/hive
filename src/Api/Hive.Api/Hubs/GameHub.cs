@@ -10,7 +10,9 @@ namespace Hive.Hubs
     {
         public Task SendSelection(string type, Tile tile)
         {
-            Context.GetHttpContext().GetRouteData().Values.TryGetValue("id", out var gameId);
+            var httpContext = Context.GetHttpContext();
+            if (httpContext == null) return Task.CompletedTask;
+            httpContext.GetRouteData().Values.TryGetValue("id", out var gameId);
             if (gameId is string groupName)
                 return Clients.OthersInGroup(groupName).SendAsync("OpponentSelection", type, tile);
 
@@ -19,8 +21,10 @@ namespace Hive.Hubs
 
         public override async Task OnConnectedAsync()
         {
-            Context.GetHttpContext().GetRouteData().Values.TryGetValue("id", out var gameId);
-            Context.GetHttpContext().GetRouteData().Values.TryGetValue("playerId", out var playerId);
+            var httpContext = Context.GetHttpContext();
+            if (httpContext == null) return;
+            httpContext.GetRouteData().Values.TryGetValue("id", out var gameId);
+            httpContext.GetRouteData().Values.TryGetValue("playerId", out var playerId);
             if (gameId is string groupName)
             {
                 await Groups.AddToGroupAsync(Context.ConnectionId, groupName);
@@ -35,8 +39,10 @@ namespace Hive.Hubs
 
         public override async Task OnDisconnectedAsync(Exception? exception)
         {
-            Context.GetHttpContext().GetRouteData().Values.TryGetValue("id", out var gameId);
-            Context.GetHttpContext().GetRouteData().Values.TryGetValue("playerId", out var playerId);
+            var httpContext = Context.GetHttpContext();
+            if (httpContext == null) return;
+            httpContext.GetRouteData().Values.TryGetValue("id", out var gameId);
+            httpContext.GetRouteData().Values.TryGetValue("playerId", out var playerId);
             if (gameId is string groupName)
             {
                 await Groups.RemoveFromGroupAsync(Context.ConnectionId, groupName);
