@@ -40,7 +40,7 @@
     "chalk": "^4.1.0",
     "eslint": "^7.24.0",
     "eslint-config-kentcdodds": "^18.0.0",
-    "eslint-config-prettier": "^8.1.0",
+    "eslint-config-prettier": "^8.2.0",
     "eslint-plugin-jest": "^24.3.5",
     "eslint-plugin-jest-dom": "^3.8.0",
     "eslint-plugin-prettier": "^3.3.1",
