@@ -92,18 +92,18 @@ const GameArea: FunctionComponent<Props> = ({ players, cells, currentPlayer, gam
           ))}
         </Hextille>
       </main>
-      <Modal visible={!!playerConnected} name='player connected' onClose={() => setPlayerConnected(false)}>
+      <Modal visible={!!playerConnected} name="player connected" onClose={() => setPlayerConnected(false)}>
         <PlayerConnected connected={playerConnected} />
       </Modal>
-      <Modal visible={showRules} name='rules' onClose={() => setShowRules(false)}>
+      <Modal visible={showRules} name="rules" onClose={() => setShowRules(false)}>
         <Rules />
       </Modal>
-      <Modal visible={showShare} name='share' onClose={() => setShowShare(false)}>
+      <Modal visible={showShare} name="share" onClose={() => setShowShare(false)}>
         <p>Opponent's link has been copied to clipboard!</p>
       </Modal>
       <Modal
         visible={showGameOver}
-        name='game over'
+        name="game over"
         onClose={() => {
           window.location.assign(`/`);
           setShowGameOver(false);
