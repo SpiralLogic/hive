@@ -69,11 +69,11 @@ namespace Hive.Controllers
             var gameSessionJson = await _distributedCache.GetStringAsync(id);
             var previousMovesJson = await _distributedCache.GetStringAsync(id + "-moves");
             if (string.IsNullOrEmpty(gameSessionJson)) return NotFound();
-            var (players, cells, _, gameStatus) = JsonSerializer.Deserialize<GameState>(gameSessionJson, _jsonSerializerOptions)!;
-
+            var gameState = JsonSerializer.Deserialize<GameState>(gameSessionJson, _jsonSerializerOptions)!;
+            var (players, cells, _, gameStatus) = gameState;
             if (new[] {GameStatus.GameOver, GameStatus.AiWin, GameStatus.Player0Win, GameStatus.Player1Win, GameStatus.Draw}.Contains(
                 gameStatus
-            )) return Conflict(gameStatus);
+            )) return Conflict(gameState);
             var previousMoves = PreventRepeatedMoves(playerId, previousMovesJson, players);
 
             var game = new Domain.Hive(players.ToList(), cells.ToHashSet());
