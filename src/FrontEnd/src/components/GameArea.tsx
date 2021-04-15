@@ -46,7 +46,7 @@ const GameArea: FunctionComponent<Props> = ({ players, cells, currentPlayer, gam
   const [showRules, setShowRules] = useState<boolean>(false);
   const [showShare, setShowShare] = useState<boolean>(false);
   const [playerConnected, setPlayerConnected] = useState<'connected' | 'disconnected' | false>(false);
-
+  const [showGameOver, setShowGameOver] = useState<boolean>(gameOutcome(gameStatus, currentPlayer) !== '');
   const shareComponent = () => {
     setShowShare(shareGame(currentPlayer));
   };
@@ -92,19 +92,22 @@ const GameArea: FunctionComponent<Props> = ({ players, cells, currentPlayer, gam
           ))}
         </Hextille>
       </main>
-      <Modal visible={!!playerConnected} name="player connected" onClose={() => setPlayerConnected(false)}>
+      <Modal visible={!!playerConnected} name='player connected' onClose={() => setPlayerConnected(false)}>
         <PlayerConnected connected={playerConnected} />
       </Modal>
-      <Modal visible={showRules} name="rules" onClose={() => setShowRules(false)}>
+      <Modal visible={showRules} name='rules' onClose={() => setShowRules(false)}>
         <Rules />
       </Modal>
-      <Modal visible={showShare} name="share" onClose={() => setShowShare(false)}>
+      <Modal visible={showShare} name='share' onClose={() => setShowShare(false)}>
         <p>Opponent's link has been copied to clipboard!</p>
       </Modal>
       <Modal
-        visible={gameOutcome(gameStatus, currentPlayer) !== ''}
-        name="game over"
-        onClose={() => window.location.assign(`/`)}>
+        visible={showGameOver}
+        name='game over'
+        onClose={() => {
+          window.location.assign(`/`);
+          setShowGameOver(false);
+        }}>
         <GameOver outcome={gameOutcome(gameStatus, currentPlayer)} />
       </Modal>
     </div>
