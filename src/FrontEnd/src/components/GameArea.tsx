@@ -1,5 +1,5 @@
-import { FunctionComponent, h } from 'preact';
-import { useState } from 'preact/hooks';
+import { FunctionComponent, h, toChildArray } from 'preact';
+import { useEffect, useState } from 'preact/hooks';
 import '../css/gameArea.css';
 import { GameState, GameStatus, PlayerId } from '../domain';
 import { HextilleBuilder, HiveEvent } from '../services';
@@ -46,7 +46,7 @@ const GameArea: FunctionComponent<Props> = ({ players, cells, currentPlayer, gam
   const [showRules, setShowRules] = useState<boolean>(false);
   const [showShare, setShowShare] = useState<boolean>(false);
   const [playerConnected, setPlayerConnected] = useState<'connected' | 'disconnected' | false>(false);
-  const [showGameOver, setShowGameOver] = useState<boolean>(gameOutcome(gameStatus, currentPlayer) !== '');
+  const [showGameOver, setShowGameOver] = useState<boolean>(false);
   const shareComponent = () => {
     setShowShare(shareGame(currentPlayer));
   };
@@ -54,6 +54,9 @@ const GameArea: FunctionComponent<Props> = ({ players, cells, currentPlayer, gam
   const attributes = { ondragover: handleDragOver, className: 'hive' };
   const hextilleBuilder = new HextilleBuilder(cells);
   const rows = hextilleBuilder.createRows();
+  useEffect(() => {
+    setShowGameOver(gameOutcome(gameStatus, currentPlayer) !== '');
+  }, [gameStatus]);
 
   addHiveDispatchListener<HiveEvent>('opponentConnected', () => {
     setPlayerConnected('connected');

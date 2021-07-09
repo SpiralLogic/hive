@@ -27,8 +27,8 @@
   transition-duration: 0.1s;
 }
 
-[role='cell'].can-drop {
-  fill: rgba(175, 210, 117, 0.2);
+[role='cell'].can-drop { fill: #AFD275;
+
 }
 
 [role='cell'].can-drop.active,
@@ -37,8 +37,8 @@
   fill: #AFD275;
 }
 
-@media not (any-hover) {
-  [role='cell'].can-drop {
-    fill: #AFD275;
+@media (any-hover: hover) {
+  [role='cell'].can-drop { fill: rgba(175, 210, 117, 0.2);
+
   }
 }

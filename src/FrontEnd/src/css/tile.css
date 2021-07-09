@@ -27,7 +27,8 @@
 
 .tile.selected {
   transform: rotate(-3deg);
-  animation: selected 0.2s infinite;
+  animation: selected 0.2s infinite;  opacity: 100%;
+
 }
 
 [role='cell'] .tile.stacked:hover {
