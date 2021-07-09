@@ -79,6 +79,7 @@
       "json",
       "node"
     ],
+    "testEnvironment": "jsdom",
     "moduleNameMapper": {
       "\\.(css)$": "<rootDir>/test/styleMock.js"
     },
