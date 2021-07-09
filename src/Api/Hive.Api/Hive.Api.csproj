@@ -60,6 +60,6 @@
     <ItemGroup>
         <PackageReference Include="Microsoft.AspNetCore.SignalR.StackExchangeRedis" Version="6.0.0-preview.3.21201.13" />
         <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="6.0.0-preview.3.21201.13" />
-        <PackageReference Include="StackExchange.Redis" Version="2.2.4" />
+        <PackageReference Include="StackExchange.Redis" Version="2.2.62" />
     </ItemGroup>
 </Project>
