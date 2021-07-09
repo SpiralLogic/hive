@@ -28,39 +28,40 @@
     "*.{js,jsx,ts,tsx}": "eslint --fix"
   },
   "devDependencies": {
-    "@testing-library/dom": "^7.30.3",
-    "@testing-library/jest-dom": "^5.11.10",
+    "@testing-library/dom": "^7.31.0",
+    "@testing-library/jest-dom": "^5.12.0",
     "@testing-library/preact": "^2.0.1",
-    "@testing-library/user-event": "^13.1.3",
-    "@types/jest": "^26.0.22",
-    "@types/node": "^14.14.39",
+    "@testing-library/user-event": "^13.1.9",
+    "@types/jest": "^26.0.23",
+    "@types/node": "^15.6.1",
     "@types/testing-library__jest-dom": "^5.9.5",
-    "@typescript-eslint/eslint-plugin": "^4.22.0",
-    "@typescript-eslint/parser": "^4.22.0",
-    "chalk": "^4.1.0",
-    "eslint": "^7.24.0",
-    "eslint-config-kentcdodds": "^18.0.0",
-    "eslint-config-prettier": "^8.2.0",
-    "eslint-plugin-jest": "^24.3.5",
-    "eslint-plugin-jest-dom": "^3.8.0",
+    "@typescript-eslint/eslint-plugin": "^4.25.0",
+    "@typescript-eslint/parser": "^4.25.0",
+    "chalk": "^4.1.1",
+    "eslint": "^7.27.0",
+    "eslint-config-kentcdodds": "^18.2.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-jest": "^24.3.6",
+    "eslint-plugin-jest-dom": "^3.9.0",
     "eslint-plugin-prettier": "^3.4.0",
     "eslint-plugin-sort-imports-es6-autofix": "0.6.0",
     "fsevents": "^2.3.2",
-    "jest": "^26.6.3",
-    "prettier": "^2.2.1",
-    "ts-jest": "^26.5.4",
-    "ts-node": "^9.1.1",
+    "jest": "^27.0.1",
+    "prettier": "^2.3.0",
+    "ts-jest": "^27.0.1",
+    "ts-node": "^10.0.0",
     "tslib": "^2.2.0",
-    "typescript": "^4.2.4"
+    "typescript": "^4.3.2"
   },
   "dependencies": {
-    "@microsoft/signalr": "^5.0.5",
+    "@microsoft/signalr": "^5.0.6",
     "@sparkbox/cachebust": "^0.3.0",
     "cpy-cli": "^3.1.1",
-    "esbuild": "0.11.11",
+    "esbuild": "0.12.4",
     "npm-run-all": "^4.1.5",
     "preact": "^10.5.13",
-    "rimraf": "^3.0.2"
+    "rimraf": "^3.0.2",
+    "taiko": "^1.2.5"
   },
   "jest": {
     "preset": "ts-jest",
@@ -110,8 +111,9 @@
       "kentcdodds/possible-errors",
       "kentcdodds/best-practices",
       "kentcdodds/es6/possible-errors",
-      "kentcdodds/import",
+      "plugin:testing-library/react",
       "plugin:prettier/recommended"
+
     ],
     "globals": {
       "Atomics": "readonly",
@@ -119,7 +121,7 @@
     },
     "parser": "@typescript-eslint/parser",
     "parserOptions": {
-      "project": "./tsconfig.json"
+      "project": "tsconfig.json"
     },
     "plugins": [
       "@typescript-eslint",
@@ -172,7 +174,8 @@
     "singleQuote": true,
     "printWidth": 110,
     "proseWrap": "always",
-    "jsxBracketSameLine": true
+    "jsxBracketSameLine": true,
+    "endOfLine": "auto"
   },
   "cachebust": {
     "source": [

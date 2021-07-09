@@ -16,13 +16,8 @@ class ServerConnection {
   private readonly currentPlayer: PlayerId;
 
   constructor(config: ServerConnectionConfig) {
-    const {
-      currentPlayer,
-      gameId,
-      updateHandler,
-      opponentSelectionHandler,
-      opponentConnectedHandler,
-    } = config;
+    const { currentPlayer, gameId, updateHandler, opponentSelectionHandler, opponentConnectedHandler } =
+      config;
     this.currentPlayer = currentPlayer;
     this.gameId = gameId;
     this.opponentSelectionHandler = opponentSelectionHandler;

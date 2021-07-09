@@ -26,9 +26,7 @@ export type ServerConnectionConfig = {
   opponentConnectedHandler: OpponentConnectedHandler;
 };
 
-export type HexServerConnectionFactory = (
-  config: Required<ServerConnectionConfig>
-) => {
+export type HexServerConnectionFactory = (config: Required<ServerConnectionConfig>) => {
   connectGame: () => Promise<void>;
   getConnectionState: () => HubConnectionState;
   closeConnection: () => Promise<void>;

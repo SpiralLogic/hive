@@ -14,10 +14,10 @@ export class HextilleBuilder {
   }
 
   private determineWidth = (cells: Cell[]): [number, number] => {
-    const [min, max] = cells.reduce(([m1, m2], c) => [Math.min(m1, c.coords.q), Math.max(m2, c.coords.q)], [
-      0,
-      0,
-    ]);
+    const [min, max] = cells.reduce(
+      ([m1, m2], c) => [Math.min(m1, c.coords.q), Math.max(m2, c.coords.q)],
+      [0, 0]
+    );
     return [min, max - min + 1];
   };
 

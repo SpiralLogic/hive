@@ -1,4 +1,3 @@
-/* eslint-disable */
 import { HubConnection, HubConnectionState } from '@microsoft/signalr';
 import { mockLocation } from '../test-helpers';
 import { serverConnectionFactory } from '../../src/services';
