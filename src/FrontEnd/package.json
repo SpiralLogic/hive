@@ -112,7 +112,8 @@
       "kentcdodds/best-practices",
       "kentcdodds/es6/possible-errors",
       "plugin:testing-library/react",
-      "plugin:prettier/recommended"
+      "plugin:prettier/recommended",
+      "prettier"
 
     ],
     "globals": {
