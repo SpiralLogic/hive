@@ -1,4 +1,4 @@
-import { FunctionComponent, h, toChildArray } from 'preact';
+import { FunctionComponent, h } from 'preact';
 import { useEffect, useState } from 'preact/hooks';
 import '../css/gameArea.css';
 import { GameState, GameStatus, PlayerId } from '../domain';
@@ -67,15 +67,17 @@ const GameArea: FunctionComponent<Props> = ({ players, cells, currentPlayer, gam
   });
 
   removeOtherPlayerMoves(currentPlayer, { players, cells });
+
+  const gameOverModalCloseHandler = () => {
+    window.location.assign(`/`);
+    setShowGameOver(false);
+  };
+
   return (
     <div {...attributes} title={'Hive Game Area'}>
       <Players currentPlayer={currentPlayer} players={players} />
       <main>
-        <Links
-          onShowRules={setShowRules}
-          onShowShare={() => shareComponent()}
-          currentPlayer={currentPlayer}
-        />
+        <Links onShowRules={setShowRules} onShowShare={shareComponent} currentPlayer={currentPlayer} />
         <Hextille>
           {rows.map((row) => (
             <Row key={row.id} {...row}>
@@ -104,13 +106,7 @@ const GameArea: FunctionComponent<Props> = ({ players, cells, currentPlayer, gam
       <Modal visible={showShare} name="share" onClose={() => setShowShare(false)}>
         <p>Opponent's link has been copied to clipboard!</p>
       </Modal>
-      <Modal
-        visible={showGameOver}
-        name="game over"
-        onClose={() => {
-          window.location.assign(`/`);
-          setShowGameOver(false);
-        }}>
+      <Modal visible={showGameOver} name="game over" onClose={gameOverModalCloseHandler}>
         <GameOver outcome={gameOutcome(gameStatus, currentPlayer)} />
       </Modal>
     </div>

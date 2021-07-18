@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/preact';
+import { fireEvent, render, screen } from '@testing-library/preact';
 import { ComponentChild, h } from 'preact';
 import Player from '../src/components/Player';
 import GameTile from '../src/components/GameTile';
@@ -6,7 +6,7 @@ import { HexCoordinates } from '../src/domain';
 
 describe('player Tests', () => {
   const createPlayer = (): [(ui: ComponentChild) => void, Element] => {
-    const playerProps = { id: 1, name: 'Player 1', show: false, currentPlayer: 1, onHidden: jest.fn() };
+    const playerProps = { id: 1, name: 'Player 1' };
     global.window.history.replaceState({}, global.document.title, `/game/33/1`);
     const { rerender } = render(
       <Player {...playerProps}>
@@ -26,15 +26,19 @@ describe('player Tests', () => {
     expect(screen.getByTitle(/Player-1/)).toBeInTheDocument();
   });
 
-  it(`player is hidden when last tile is played`, () => {
+  it(`player is hidden when last tile is played`, async () => {
     jest.useFakeTimers();
     const [rerender] = createPlayer();
     expect(screen.getByTitle('Player 1')).not.toHaveClass('hide');
-    rerender(<Player onHidden={jest.fn()} id={1} name="P1" />);
 
-    jest.advanceTimersByTime(100);
-    rerender(<Player onHidden={jest.fn()} id={1} name="P1" />);
-    expect(screen.getByTitle('P1')).toHaveClass('hide');
+    rerender(<Player id={1} name="Player 1" />);
+    jest.runAllTimers();
+
+    expect(await screen.findByTitle('Player 1')).toHaveClass('hide');
+
+    fireEvent.animationEnd(screen.getByTitle('Player 1'));
+
+    expect(screen.queryByTitle('Player 1')).not.toBeInTheDocument();
   });
 
   it('snapshot', () => {

@@ -1,6 +1,6 @@
 import { fireEvent, render, screen } from '@testing-library/preact';
 import { h } from 'preact';
-import userEvent from '@testing-library/user-event';
+import userEvent, { specialChars } from '@testing-library/user-event';
 import { useHiveDispatcher } from '../src/utilities/dispatcher';
 import GameCell from '../src/components/GameCell';
 import { simulateEvent } from './test-helpers';
@@ -128,11 +128,11 @@ describe('cell Tests', () => {
       expect(useHiveDispatcher().dispatch).not.toHaveBeenCalledWith();
     });
 
-    it(`cell click with active tile makes a move`, () => {
+    it(`cell click with active tile makes a move`, async () => {
       const moveEvents = createDispatcher();
       render(<GameCell {...createCellCanDrop()} />);
       emitHiveEvent('tileSelected');
-      screen.getAllByRole('cell').forEach((c) => userEvent.click(c));
+      (await screen.findAllByRole('cell')).forEach((c) => userEvent.click(c));
 
       expect(moveEvents).toEqual(
         expect.arrayContaining([
@@ -152,37 +152,38 @@ describe('cell Tests', () => {
       expect(useHiveDispatcher().dispatch).not.toHaveBeenCalledWith();
     });
 
-    it(`cell click with invalid tile shouldn't move`, () => {
+    it(`cell click with invalid tile shouldn't move`, async () => {
       jest.spyOn(useHiveDispatcher(), 'dispatch');
       render(<GameCell {...createCellNoDrop()} />);
       emitHiveEvent('tileSelected');
-      screen.getAllByRole('cell').forEach((c) => userEvent.click(c));
+      (await screen.findAllByRole('cell')).forEach((c) => userEvent.click(c));
 
       expect(useHiveDispatcher().dispatch).not.toHaveBeenCalledWith();
     });
 
-    it(`enter fires emit event on keydown enter`, () => {
+    it(`enter fires emit event on keydown enter`, async () => {
       const moveEvents = createDispatcher();
       render(<GameCell {...createCellCanDrop()} />);
       emitHiveEvent('tileSelected');
-      screen.getAllByRole('cell').forEach((c) => userEvent.type(c, '{enter}'));
+      (await screen.findAllByRole('cell')).forEach((c) => userEvent.type(c, '{enter}'));
 
       expect(moveEvents).toEqual(expect.arrayContaining([expect.objectContaining({ type: 'move' })]));
     });
 
-    it(`space fires emit event on keydown enter`, () => {
+    it(`space fires emit event on keydown enter`, async () => {
       const moveEvents = createDispatcher();
       render(<GameCell {...createCellCanDrop()} />);
       emitHiveEvent('tileSelected');
-      screen.getAllByRole('cell').forEach((c) => userEvent.type(c, ' '));
+      (await screen.findAllByRole('cell')).forEach((c) => userEvent.type(c, ' '));
 
       expect(moveEvents).toEqual(expect.arrayContaining([expect.objectContaining({ type: 'move' })]));
     });
 
-    it(`other keys dont emits tile start event`, () => {
+    it(`other keys dont emit tile start event`, async () => {
       jest.spyOn(useHiveDispatcher(), 'dispatch');
       render(<GameCell {...createCellCanDrop()} />);
-      userEvent.tab();
+      emitHiveEvent('tileSelected');
+      userEvent.type(await screen.findByRole('cell'), 'j');
 
       expect(useHiveDispatcher().dispatch).not.toHaveBeenCalledWith();
     });

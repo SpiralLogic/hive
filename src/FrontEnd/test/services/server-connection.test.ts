@@ -1,13 +1,16 @@
-import { HubConnection, HubConnectionState } from '@microsoft/signalr';
-import { mockLocation } from '../test-helpers';
+/* eslint-disable @typescript-eslint/unbound-method,@typescript-eslint/no-unsafe-member-access */
+import signalR, { HubConnectionState } from '@microsoft/signalr';
 import { serverConnectionFactory } from '../../src/services';
 import gameState from '../fixtures/gameState.json';
+import { mockLocation } from '../test-helpers';
 
-jest.mock('@microsoft/signalr');
+jest.mock('@microsoft/signalr', () => ({
+  ...jest.requireActual('@microsoft/signalr'),
+  HubConnection: jest.fn(),
+  HubConnectionBuilder: jest.fn(),
+}));
 
 describe('game Server Connection Tests', () => {
-  const signalR = require('@microsoft/signalr');
-
   const createHubConnection = (state: HubConnectionState) => {
     return {
       start: jest.fn().mockResolvedValue(true),
@@ -36,13 +39,11 @@ describe('game Server Connection Tests', () => {
   const opponentConnectedHandler = jest.fn();
 
   const setupServer = (connection = HubConnectionState.Connected) => {
-    global.fetch = jest
-      .fn()
-      .mockImplementation(() => Promise.resolve({ ok: true, json: Promise.resolve(gameState) }));
+    global.fetch = jest.fn().mockResolvedValue({ ok: true, json: Promise.resolve(gameState) });
 
     hubConnection = createHubConnection(connection);
 
-    jest.spyOn(signalR, 'HubConnection').mockImplementation(() => hubConnection);
+    signalR.HubConnection = jest.fn().mockImplementation(() => hubConnection);
     signalR.HubConnectionBuilder = builder;
     updateHandler.mockReset();
     opponentSelectionHandler.mockReset();
@@ -86,7 +87,7 @@ describe('game Server Connection Tests', () => {
   });
 
   it(`connection state is disconnected initially`, async () => {
-    jest.spyOn(signalR, 'HubConnection').mockImplementation(() => hubConnection);
+    signalR.HubConnection = jest.fn().mockImplementation(() => hubConnection);
     const serverConnection = setupServer(HubConnectionState.Disconnected);
     expect(serverConnection.getConnectionState()).toBe(HubConnectionState.Disconnected);
   });

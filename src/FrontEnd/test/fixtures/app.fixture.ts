@@ -6,10 +6,14 @@ export const cellMoveEvent: MoveEvent = {
   type: 'move',
 };
 export const createGameState = (cells: number): GameState => {
-  const cell = {
-    coords: { q: 0, r: 0 },
-    tiles: [{ id: 2, playerId: 1, creature: 'ant', moves: [{ q: 0, r: 0 }] }],
+  const createCells = (number: number) => {
+    const cellArray = new Array(number).fill(null);
+    return cellArray.map((_, i) => ({
+      coords: { q: i, r: 0 },
+      tiles: [{ id: 2, playerId: 1, creature: 'ant', moves: [{ q: 0, r: 0 }] }],
+    }));
   };
+
   const player = { id: 0, name: 'Player 1', tiles: [] };
   const player2 = {
     id: 1,
@@ -18,7 +22,7 @@ export const createGameState = (cells: number): GameState => {
   };
   return {
     gameId: '33',
-    cells: new Array(cells).fill(cell) as Cell[],
+    cells: createCells(cells),
     players: [player, player2],
     gameStatus: 'MoveSuccess',
   };

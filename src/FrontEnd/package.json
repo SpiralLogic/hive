@@ -28,39 +28,38 @@
     "*.{js,jsx,ts,tsx}": "eslint --fix"
   },
   "devDependencies": {
-    "@testing-library/dom": "^7.31.0",
-    "@testing-library/jest-dom": "^5.12.0",
+    "@testing-library/dom": "^8.1.0",
+    "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/preact": "^2.0.1",
-    "@testing-library/user-event": "^13.1.9",
-    "@types/jest": "^26.0.23",
-    "@types/node": "^15.6.1",
-    "@types/testing-library__jest-dom": "^5.9.5",
-    "@typescript-eslint/eslint-plugin": "^4.25.0",
-    "@typescript-eslint/parser": "^4.25.0",
+    "@testing-library/user-event": "^13.2.0",
+    "@types/jest": "^26.0.24",
+    "@types/node": "^16.3.3",
+    "@types/testing-library__jest-dom": "^5.14.0",
+    "@typescript-eslint/eslint-plugin": "^4.28.3",
+    "@typescript-eslint/parser": "^4.28.3",
     "chalk": "^4.1.1",
-    "eslint": "^7.27.0",
-    "eslint-config-kentcdodds": "^18.2.0",
+    "eslint": "^7.31.0",
+    "eslint-config-kentcdodds": "^19.1.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-jest": "^24.3.6",
     "eslint-plugin-jest-dom": "^3.9.0",
     "eslint-plugin-prettier": "^3.4.0",
     "eslint-plugin-sort-imports-es6-autofix": "0.6.0",
     "fsevents": "^2.3.2",
-    "jest": "^27.0.1",
-    "prettier": "^2.3.0",
-    "ts-jest": "^27.0.1",
-    "ts-node": "^10.0.0",
-    "tslib": "^2.2.0",
-    "typescript": "^4.3.2",
-    "taiko": "^1.2.5"
+    "jest": "^27.0.6",
+    "prettier": "^2.3.2",
+    "ts-jest": "^27.0.3",
+    "ts-node": "^10.1.0",
+    "tslib": "^2.3.0",
+    "typescript": "^4.3.5"
   },
   "dependencies": {
-    "@microsoft/signalr": "^5.0.6",
+    "@microsoft/signalr": "^5.0.8",
     "@sparkbox/cachebust": "^0.3.0",
     "cpy-cli": "^3.1.1",
-    "esbuild": "0.12.4",
+    "esbuild": "0.12.15",
     "npm-run-all": "^4.1.5",
-    "preact": "^10.5.13",
+    "preact": "^10.5.14",
     "rimraf": "^3.0.2"
   },
   "jest": {
@@ -68,6 +67,10 @@
     "clearMocks": true,
     "coverageDirectory": "./test/__coverage__",
     "collectCoverage": true,
+    "coverageReporters": [
+      "lcov",
+      "text"
+    ],
     "moduleDirectories": [
       "node_modules"
     ],
@@ -115,7 +118,6 @@
       "plugin:testing-library/react",
       "plugin:prettier/recommended",
       "prettier"
-
     ],
     "globals": {
       "Atomics": "readonly",

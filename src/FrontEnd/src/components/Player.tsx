@@ -1,28 +1,32 @@
-import '../css/player.css';
 import { FunctionComponent, h, toChildArray } from 'preact';
-import { useEffect } from 'preact/hooks';
+import { useEffect, useState } from 'preact/hooks';
+import '../css/player.css';
 import { PlayerId } from '../domain';
 import { useClassReducer } from '../utilities/class-reducer';
 
 type Props = {
   name: string;
   id: PlayerId;
-  onHidden: (action: [boolean, number]) => void;
 };
 const Player: FunctionComponent<Props> = (props) => {
-  const { name, id, onHidden } = props;
+  const { name, id } = props;
   const [classes, setClassList] = useClassReducer(`player player${id}`);
-
+  const [hidden, setHidden] = useState(false);
+  const children = toChildArray(props.children).length;
   useEffect(() => {
-    if (!toChildArray(props.children).length) {
+    if (toChildArray(props.children).length === 0) {
       setTimeout(() => setClassList({ type: 'add', classes: ['hide'] }), 100);
     }
-  }, [toChildArray(props.children).length === 0]);
+  }, [toChildArray(props.children).length]);
 
-  const ontransitionend = () => onHidden([toChildArray(props.children).length === 0, id]);
+  const ontransitionend = () => {
+    setHidden(true);
+  };
 
-  return (
-    <div class={classes} title={name} onTransitionEnd={ontransitionend}>
+  return hidden ? null : (
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-expect-error
+    <div class={classes} title={name} onanimationend={ontransitionend} ontransitionend={ontransitionend}>
       <div class="name">{name}</div>
       <div class="tiles">{props.children}</div>
     </div>

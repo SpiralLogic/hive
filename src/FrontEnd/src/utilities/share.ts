@@ -12,15 +12,16 @@ const fallbackCopyTextToClipboard = (text: string) => {
   document.body.appendChild(textArea);
   textArea.focus();
   textArea.select();
+  let copied = false;
   try {
     document.execCommand('copy');
     currentFocus.focus();
-    return true;
+    copied = true;
   } catch {
-    return false;
-  } finally {
-    document.body.removeChild(textArea);
+    copied = false;
   }
+  document.body.removeChild(textArea);
+  return copied;
 };
 
 export const getShareUrl = (currentPlayer: PlayerId) => {

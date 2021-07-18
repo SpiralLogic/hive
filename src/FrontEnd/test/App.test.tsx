@@ -14,8 +14,8 @@ describe('app tests', () => {
   });
 
   const renderApp = (url: string): [(ui: ComponentChild) => void, HexEngine] => {
-    const gameState = createGameState(1);
-    const gameAfterMove = createGameState(2);
+    const gameState = createGameState(4);
+    const gameAfterMove = createGameState(5);
     const engine: HexEngine = {
       initialGame: Promise.resolve(gameState),
       currentPlayer: 0,
