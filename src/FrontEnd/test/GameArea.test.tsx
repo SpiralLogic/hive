@@ -76,7 +76,7 @@ describe('gameArea Tests', () => {
 
     userEvent.click(screen.getByTitle(/Rules/));
     userEvent.click(await screen.findByRole('button', { name: /close/i }));
-    expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+    expect(await screen.findByRole('dialog')).not.toBeInTheDocument();
   });
 
   it('share modal is rendered', async () => {
@@ -114,7 +114,7 @@ describe('gameArea Tests', () => {
     );
     userEvent.click(screen.getByTitle(/Share/));
     userEvent.click(await screen.findByRole('button', { name: /close/i }));
-    expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+    expect(await screen.findByRole('dialog')).not.toBeInTheDocument();
     restore();
   });
 
@@ -159,7 +159,7 @@ describe('gameArea Tests', () => {
     restore2();
   });
 
-  it('click copies opponent link to clipboard with exec command', () => {
+  it('click copies opponent link to clipboard with exec command', async () => {
     const execCommand = jest.fn();
     const restore1 = noShare();
     const restore = mockExecCommand(execCommand);
@@ -227,7 +227,7 @@ describe('gameArea Tests', () => {
   it(`player connected modal close`, async () => {
     const gameState = createGameState(1);
 
-    render(
+    const { rerender } = render(
       <GameArea
         gameStatus={'MoveSuccess'}
         players={gameState.players}
@@ -238,6 +238,14 @@ describe('gameArea Tests', () => {
     useHiveDispatcher().dispatch<HiveEvent>({ type: 'opponentDisconnected' });
 
     userEvent.click(await screen.findByRole('button', { name: /close/i }));
+    rerender(
+      <GameArea
+        gameStatus={'NewGame'}
+        players={gameState.players}
+        cells={gameState.cells}
+        currentPlayer={0}
+      />
+    );
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
   });
 
@@ -284,7 +292,7 @@ describe('gameArea Tests', () => {
     const restoreLocation = mockLocation({ assign: jest.fn() });
     const gameState = createGameState(1);
 
-    render(
+    const { rerender } = render(
       <GameArea
         gameStatus={'GameOver'}
         players={gameState.players}
@@ -293,6 +301,14 @@ describe('gameArea Tests', () => {
       />
     );
     userEvent.click(screen.getByRole('button', { name: /close/i }));
+    rerender(
+      <GameArea
+        gameStatus={'GameOver'}
+        players={gameState.players}
+        cells={gameState.cells}
+        currentPlayer={0}
+      />
+    );
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
     // eslint-disable-next-line @typescript-eslint/unbound-method
     expect(window.location.assign).toHaveBeenCalledWith('/');

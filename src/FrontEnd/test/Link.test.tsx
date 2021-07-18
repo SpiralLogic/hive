@@ -11,7 +11,7 @@ describe('links snapshot tests', () => {
     renderElement(<Links currentPlayer={0} onShowShare={() => ({})} onShowRules={() => ({})} />);
     userEvent.click(screen.getByTitle(/toggle ai/i));
     expect(useHiveDispatcher().dispatch).toHaveBeenCalledWith({ newState: false, type: 'toggleAi' });
-    expect(screen.getByTitle(/toggle ai/i)).toHaveClass('ai-off');
+    expect(await screen.findByTitle(/toggle ai/i)).toHaveClass('ai-off');
   });
 
   it('snapshot', () => {

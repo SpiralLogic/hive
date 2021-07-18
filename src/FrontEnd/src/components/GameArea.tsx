@@ -69,8 +69,8 @@ const GameArea: FunctionComponent<Props> = ({ players, cells, currentPlayer, gam
   removeOtherPlayerMoves(currentPlayer, { players, cells });
 
   const gameOverModalCloseHandler = () => {
-    window.location.assign(`/`);
     setShowGameOver(false);
+    window.location.assign(`/`);
   };
 
   return (

@@ -69,22 +69,23 @@ describe('tile Tests', () => {
       cleanup();
     });
 
-    it('enter selects tile', () => {
+    it('enter selects tile', async () => {
       const tileCanMoveElement = createTileCanMove();
       tileCanMoveElement.focus();
       userEvent.keyboard('{enter}');
 
-      expect(tileCanMoveElement).toHaveClass('selected');
+      expect(await screen.findByTitle(/tileCanMove/)).toHaveClass('selected');
     });
 
-    it('second enter deselects tile', () => {
+    it('second enter deselects tile', async () => {
       const tileCanMoveElement = createTileCanMove();
 
       tileCanMoveElement.focus();
       userEvent.keyboard('{enter}');
+      expect(await screen.findByTitle(/tilecanmove/i)).toHaveClass('selected');
       userEvent.keyboard('{enter}');
 
-      expect(tileCanMoveElement).not.toHaveClass('selected');
+      expect(await screen.findByTitle(/tilecanmove/i)).not.toHaveClass('selected');
     });
 
     it('arrow keys use handler', () => {
@@ -110,12 +111,21 @@ describe('tile Tests', () => {
       cleanup();
     });
 
-    it('click deselects previous selected tile', () => {
+    it('click selects previous selected tile', async () => {
+      const tileCanMoveElement = createTileCanMove();
+
+      userEvent.click(tileCanMoveElement);
+      expect(await screen.findByTitle(/tileCanMove/)).toHaveClass('selected');
+      userEvent.click(tileCanMoveElement);
+
+      expect(await screen.findByTitle(/tileCanMove/)).not.toHaveClass('selected');
+    });
+    it('click deselects previous selected tile', async () => {
       const tileCanMoveElement = createTileCanMove();
 
       userEvent.click(tileCanMoveElement);
 
-      expect(tileCanMoveElement).toHaveClass('selected');
+      expect(await screen.findByTitle(/tileCanMove/)).toHaveClass('selected');
     });
 
     it('clicking same tile doesnt fire a tile start event', () => {
@@ -212,15 +222,15 @@ describe('tile Tests', () => {
       expect(deselectEvents).toHaveLength(1);
     });
 
-    it(`tile can be deselected via action`, () => {
+    it(`tile can be deselected via action`, async () => {
       const tileCanMoveElement = createTileCanMove();
 
-      act(() => {
+      await act(() => {
         useHiveDispatcher().dispatch<TileAction>({ type: 'tileSelect', tile: tileCanMove });
-      }).catch(() => {});
-      act(() => {
+      });
+      await act(() => {
         useHiveDispatcher().dispatch<TileAction>({ type: 'tileDeselect', tile: tileCanMove });
-      }).catch(() => {});
+      });
       expect(tileCanMoveElement).not.toHaveClass('selected');
     });
 

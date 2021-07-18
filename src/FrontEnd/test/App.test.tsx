@@ -24,7 +24,7 @@ describe('app tests', () => {
       getExistingGame: jest.fn().mockResolvedValue(gameState),
     };
 
-    global.window.history.replaceState({}, global.document.title, url);
+    window.history.replaceState({}, global.document.title, url);
 
     const { rerender } = render(<App engine={engine} connectionFactory={connectionFactory} />);
 
