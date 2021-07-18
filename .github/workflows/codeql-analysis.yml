@@ -63,8 +63,6 @@ jobs:
       - name: dotnet restore
         working-directory: './src'
         run: dotnet restore
-      - name: Update Nuget Packages
-        run: ./ops/dotnet-update.sh
       - name: Test Api
         working-directory: './src'
         run: dotnet test ./Api/Hive.Api.Tests -c Test  /p:CollectCoverage=true /p:CoverletOutput=TestResults/ /p:CoverletOutputFormat=lcov /p:SkipAutoProps=true  /p:ExcludeByAttribute="ExcludeFromCodeCoverage" /p:Exclude="[Hive.Domain]*"
