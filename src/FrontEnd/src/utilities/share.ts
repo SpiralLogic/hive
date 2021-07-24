@@ -30,7 +30,7 @@ export const getShareUrl = (currentPlayer: PlayerId) => {
   return parts.join('/');
 };
 
-export const shareGame = (currentPlayer: PlayerId) => {
+export const shareGame = async (currentPlayer: PlayerId) => {
   const url = getShareUrl(currentPlayer);
   const opponentGame = {
     title: 'Hive board game',
@@ -38,11 +38,11 @@ export const shareGame = (currentPlayer: PlayerId) => {
     url,
   };
   try {
-    navigator.share(opponentGame);
+    await navigator.share(opponentGame);
     return false;
   } catch {
     try {
-      navigator.clipboard.writeText(opponentGame.url);
+      await navigator.clipboard.writeText(opponentGame.url);
       return true;
     } catch {
       return fallbackCopyTextToClipboard(opponentGame.url);

@@ -48,7 +48,7 @@ const GameArea: FunctionComponent<Props> = ({ players, cells, currentPlayer, gam
   const [playerConnected, setPlayerConnected] = useState<'connected' | 'disconnected' | false>(false);
   const [showGameOver, setShowGameOver] = useState<boolean>(false);
   const shareComponent = () => {
-    setShowShare(shareGame(currentPlayer));
+    shareGame(currentPlayer).then(setShowShare);
   };
 
   const attributes = { ondragover: handleDragOver, className: 'hive' };
