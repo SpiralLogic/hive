@@ -66,6 +66,7 @@ jobs:
         working-directory: './src'
         run: dotnet restore
       - name: Build
+        working-directory: './src'
         run: dotnet build
 
       # ℹ️ Command-line programs to run using the OS shell.
