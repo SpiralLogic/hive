@@ -79,5 +79,4 @@ jobs:
       #   make release
 
       - name: Perform CodeQL Analysis
-        working-directory: './src'
         uses: github/codeql-action/analyze@v1
