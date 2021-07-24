@@ -462,6 +462,7 @@ $RECYCLE.BIN/
 package-lock.json
 *.sln.DotSettings.user
 __coverage__
+__lint__
 build/
 /src/FrontEnd/pnpm-lock.yaml
 .sonarqube
