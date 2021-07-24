@@ -1,6 +1,5 @@
 import '../css/share.css';
-import { FunctionComponent, h, Fragment } from 'preact';
-import Modal from './Modal';
+import { FunctionComponent, Fragment } from 'preact';
 
 type Props = { connected: 'connected' | 'disconnected' | false };
 const PlayerConnected: FunctionComponent<Props> = (props) => {

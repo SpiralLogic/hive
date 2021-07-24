@@ -14,18 +14,12 @@ const createArrows = (arrows: Arrows | undefined, style: Result) =>
   });
 
 const getResultChar = (result?: Result, symbol?: string) => {
-  const char = symbol ? (
-    <span>{symbol}</span>
-  ) : result === 'correct' ? (
-    <span>&#10003;</span>
-  ) : (
-    <span>&#10008;</span>
-  );
+  if (symbol) return <span>{symbol}</span>;
   switch (result) {
     case 'correct':
-      return char;
+      return <span>&#10003;</span>;
     case 'incorrect':
-      return char;
+      return <span>&#10008;</span>;
     default:
       return null;
   }

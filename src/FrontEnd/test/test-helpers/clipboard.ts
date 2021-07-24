@@ -9,7 +9,9 @@ export const mockClipboard = (fn: MockedFunction<() => Promise<undefined>>) => {
     configurable: true,
     writable: true,
   });
-  return (): Navigator => Object.defineProperty(navigator, 'clipboard', { value: clipboard });
+  return () => {
+    Object.defineProperty(navigator, 'clipboard', { value: clipboard });
+  };
 };
 
 export const mockExecCommand = (fn: MockedFunction<() => void>) => {
@@ -19,7 +21,9 @@ export const mockExecCommand = (fn: MockedFunction<() => void>) => {
     writable: true,
   });
 
-  return (): Document => Object.defineProperty(document, 'execCommand', { value: undefined });
+  return () => {
+    Object.defineProperty(document, 'execCommand', { value: undefined });
+  };
 };
 
 export const mockShare = (fn: MockedFunction<() => Promise<undefined>>) => {
@@ -30,7 +34,9 @@ export const mockShare = (fn: MockedFunction<() => Promise<undefined>>) => {
     configurable: true,
     writable: true,
   });
-  return (): Navigator => Object.defineProperty(navigator, 'share', { value: share });
+  return () => {
+    Object.defineProperty(navigator, 'share', { value: share });
+  };
 };
 
 export const noShare = () => {

@@ -1,4 +1,4 @@
-import { FunctionComponent, h, toChildArray } from 'preact';
+import { FunctionComponent, toChildArray } from 'preact';
 import { useEffect, useState } from 'preact/hooks';
 import '../css/player.css';
 import { PlayerId } from '../domain';
@@ -14,10 +14,10 @@ const Player: FunctionComponent<Props> = (props) => {
   const [hidden, setHidden] = useState(false);
   const children = toChildArray(props.children).length;
   useEffect(() => {
-    if (toChildArray(props.children).length === 0) {
+    if (children === 0) {
       setTimeout(() => setClassList({ type: 'add', classes: ['hide'] }), 100);
     }
-  }, [toChildArray(props.children).length]);
+  }, [children]);
 
   const ontransitionend = () => {
     setHidden(true);

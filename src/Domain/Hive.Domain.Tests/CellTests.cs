@@ -97,7 +97,7 @@ namespace Hive.Domain.Tests
             var cell1 = new Cell(new Coords(1, 1));
             var cell2 = new Cell(new Coords(1, 1)).AddTile(new Tile(1, 2, Creatures.Queen));
 
-            cell1.Should().IsSameOrEqualTo(cell2);
+            cell1.Equals(cell2).Should().BeTrue();
             cell1.Coords.Equals(cell2.Coords).Should().BeTrue();
         }
 

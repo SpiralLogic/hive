@@ -1,5 +1,5 @@
 import '../css/tile.css';
-import { FunctionComponent, h } from 'preact';
+import { FunctionComponent } from 'preact';
 import Hexagon from './Hexagon';
 
 type Props = { selected?: boolean; creature?: string; class?: string; [rest: string]: unknown };

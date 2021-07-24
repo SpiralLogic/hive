@@ -38,11 +38,11 @@ export const shareGame = (currentPlayer: PlayerId) => {
     url,
   };
   try {
-    navigator.share(opponentGame).catch(() => {});
+    navigator.share(opponentGame);
     return false;
   } catch {
     try {
-      navigator.clipboard.writeText(opponentGame.url).catch(() => {});
+      navigator.clipboard.writeText(opponentGame.url);
       return true;
     } catch {
       return fallbackCopyTextToClipboard(opponentGame.url);

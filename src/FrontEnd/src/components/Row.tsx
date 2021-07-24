@@ -1,5 +1,5 @@
 import '../css/row.css';
-import { FunctionComponent, h } from 'preact';
+import { FunctionComponent } from 'preact';
 type Props = { class?: string; zIndex?: number; hidden?: boolean };
 
 const Row: FunctionComponent<Props> = (props) => {

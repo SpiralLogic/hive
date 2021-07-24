@@ -1,7 +1,7 @@
-import { FunctionComponent, h } from 'preact';
+import { FunctionComponent } from 'preact';
 import { useEffect, useState } from 'preact/hooks';
 import '../css/gameArea.css';
-import { GameState, GameStatus, PlayerId } from '../domain';
+import { Cell, GameState, GameStatus, PlayerId } from '../domain';
 import { HextilleBuilder, HiveEvent } from '../services';
 import { addHiveDispatchListener } from '../utilities/dispatcher';
 import { handleDragOver } from '../utilities/handlers';
@@ -72,6 +72,17 @@ const GameArea: FunctionComponent<Props> = ({ players, cells, currentPlayer, gam
     setShowGameOver(false);
     window.location.assign(`/`);
   };
+  const createTiles = (cell: Cell, currentCellPlayer: PlayerId) => {
+    cell.tiles.reverse();
+    return cell.tiles.map((tile, i) => (
+      <GameTile
+        key={tile.id}
+        currentPlayer={currentCellPlayer}
+        {...tile}
+        stacked={i === cell.tiles.length - 1 && cell.tiles.length > 1}
+      />
+    ));
+  };
 
   return (
     <div {...attributes} title={'Hive Game Area'}>
@@ -83,14 +94,7 @@ const GameArea: FunctionComponent<Props> = ({ players, cells, currentPlayer, gam
             <Row key={row.id} {...row}>
               {row.cells.map((cell) => (
                 <GameCell key={cellKey(cell.coords)} coords={cell.coords} hidden={!!cell.hidden}>
-                  {cell.tiles.reverse().map((tile, i) => (
-                    <GameTile
-                      key={tile.id}
-                      currentPlayer={currentPlayer}
-                      {...tile}
-                      stacked={i === cell.tiles.length - 1 && cell.tiles.length > 1}
-                    />
-                  ))}
+                  {createTiles(cell, currentPlayer)}
                 </GameCell>
               ))}
             </Row>

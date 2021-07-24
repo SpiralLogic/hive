@@ -1,4 +1,3 @@
-import { h } from 'preact';
 import Hexagon from '../Hexagon';
 import Hextille from '../Hextille';
 import Row from '../Row';

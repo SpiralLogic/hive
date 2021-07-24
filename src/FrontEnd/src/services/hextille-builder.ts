@@ -8,9 +8,10 @@ export class HextilleBuilder {
   private readonly width: number;
 
   constructor(hexagons: Cell[]) {
-    this.hexagons = hexagons.sort((c1, c2) => c1.coords.r - c2.coords.r || c1.coords.q - c2.coords.q);
-    [this.firstRow, this.height] = this.determineHeight(this.hexagons);
-    [this.firstColumn, this.width] = this.determineWidth(this.hexagons);
+    hexagons.sort((c1, c2) => c1.coords.r - c2.coords.r || c1.coords.q - c2.coords.q);
+    [this.firstRow, this.height] = this.determineHeight(hexagons);
+    [this.firstColumn, this.width] = this.determineWidth(hexagons);
+    this.hexagons = hexagons;
   }
 
   private determineWidth = (cells: Cell[]): [number, number] => {

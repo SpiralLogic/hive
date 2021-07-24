@@ -464,3 +464,5 @@ package-lock.json
 __coverage__
 build/
 /src/FrontEnd/pnpm-lock.yaml
+.sonarqube
+.scannerwork

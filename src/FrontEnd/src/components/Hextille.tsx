@@ -1,5 +1,5 @@
 import '../css/hextille.css';
-import { FunctionComponent, VNode, h, toChildArray } from 'preact';
+import { FunctionComponent, VNode, toChildArray } from 'preact';
 import { Row } from '../domain';
 
 const Hextille: FunctionComponent<{ class?: string }> = (props) => {

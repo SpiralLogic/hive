@@ -1,5 +1,5 @@
 import '../css/app.css';
-import { FunctionComponent, h } from 'preact';
+import { FunctionComponent } from 'preact';
 import { useLayoutEffect, useState } from 'preact/hooks';
 import { GameState } from '../domain';
 import { HexEngine, HexServerConnectionFactory } from '../domain/engine';
@@ -31,7 +31,10 @@ const App: FunctionComponent<{ engine: HexEngine; connectionFactory: HexServerCo
   }, []);
 
   useLayoutEffect(() => {
-    if (!gameState) return () => {};
+    if (!gameState)
+      return () => {
+        /* no clean up */
+      };
     const serverConnection = connectionFactory({
       currentPlayer: engine.currentPlayer,
       gameId: gameState.gameId,
@@ -39,7 +42,9 @@ const App: FunctionComponent<{ engine: HexEngine; connectionFactory: HexServerCo
       opponentSelectionHandler,
       opponentConnectedHandler,
     });
-    serverConnection.connectGame().catch(() => {});
+    serverConnection.connectGame().catch(() => {
+      /* needs to be handled */
+    });
 
     const removeServerHandlers = attachServerHandlers(
       serverConnection.sendSelection,
@@ -51,7 +56,9 @@ const App: FunctionComponent<{ engine: HexEngine; connectionFactory: HexServerCo
 
     return (): void => {
       removeServerHandlers();
-      serverConnection.closeConnection().catch(() => {});
+      serverConnection.closeConnection().catch(() => {
+        /* needs to be handled */
+      });
     };
   }, [gameState?.gameId]);
 
