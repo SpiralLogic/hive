@@ -42,7 +42,7 @@ const Links: FunctionComponent<Props> = (props) => {
           <use href="#share" />
         </SVG>
       </a>
-      <a href={`/${location.search}`} name="New game!" title="New Game">
+      <a href={`/`} name="New game!" title="New Game">
         <SVG>
           <use href="#new" />
         </SVG>
