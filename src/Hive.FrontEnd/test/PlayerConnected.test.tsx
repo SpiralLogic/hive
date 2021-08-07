@@ -1,4 +1,3 @@
-import { h } from 'preact';
 import { render, screen } from '@testing-library/preact';
 import PlayerConnected from '../src/components/PlayerConnected';
 import { renderElement } from './test-helpers';

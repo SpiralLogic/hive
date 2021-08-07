@@ -10,8 +10,10 @@
     "clean:deep": "git clean -x -d -f $(git rev-parse --show-toplevel)/**",
     "tsc": "pnpx tsc --noEmit",
     "jest": "pnpx jest --coverage ",
-    "lint:src": "pnpx eslint -c .eslintrc --fix -o test/__lint__/eslint.json -f json src",
-    "lint:test": "pnpx eslint -c .eslintrc --fix -o test/__lint__/eslint.test.json -f json test",
+    "lint:src:report": "pnpx eslint -c .eslintrc --fix -o reports/__lint__/eslint.json -f jsonn src",
+    "lint:test:report": "pnpx eslint -c .eslintrc --fix -o reports/__lint__/eslint.test.json -f json test",
+    "lint:src": "pnpx eslint -c .eslintrc --fix src",
+    "lint:test": "pnpx eslint -c .eslintrc --fix test",
     "lint": "npm-run-all -s lint:src lint:test",
     "test": "npm-run-all -s tsc jest lint",
     "web-copy": "pnpx cpy ./src/index.html ./public/",
@@ -49,6 +51,7 @@
     "eslint-plugin-prettier": "^3.4.0",
     "eslint-plugin-sort-imports-es6-autofix": "0.6.0",
     "eslint-plugin-testing-library": "^4.10.1",
+    "eslint-plugin-unicorn": "^35.0.0",
     "fsevents": "^2.3.2",
     "jest": "^27.0.6",
     "prettier": "^2.3.2",
@@ -69,7 +72,7 @@
   "jest": {
     "preset": "ts-jest",
     "clearMocks": true,
-    "coverageDirectory": "./test/__coverage__",
+    "coverageDirectory": "./reports/__coverage__",
     "collectCoverage": true,
     "coverageReporters": [
       "lcov",
@@ -88,7 +91,7 @@
     ],
     "testEnvironment": "jsdom",
     "moduleNameMapper": {
-      "\\.(css)$": "<rootDir>/test/styleMock.js"
+      "\\.(css)$": "<rootDir>/test/style-mock.js"
     },
     "roots": [
       "./src/",

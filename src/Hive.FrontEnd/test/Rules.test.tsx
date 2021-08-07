@@ -1,4 +1,4 @@
-import { ComponentChild, h } from 'preact';
+import { ComponentChild } from 'preact';
 import { render, screen } from '@testing-library/preact';
 import userEvent from '@testing-library/user-event';
 import Rules from '../src/components/Rules';

@@ -1,10 +1,10 @@
 import MockedFunction = jest.MockedFunction;
 
-export const mockClipboard = (fn: MockedFunction<() => Promise<undefined>>) => {
+export const mockClipboard = (function_: MockedFunction<() => Promise<undefined>>) => {
   const clipboard = navigator.clipboard;
   Object.defineProperty(navigator, 'clipboard', {
     value: {
-      writeText: fn.mockResolvedValue(undefined),
+      writeText: function_.mockResolvedValue(),
     },
     configurable: true,
     writable: true,
@@ -14,9 +14,9 @@ export const mockClipboard = (fn: MockedFunction<() => Promise<undefined>>) => {
   };
 };
 
-export const mockExecCommand = (fn: MockedFunction<() => void>) => {
+export const mockExecCommand = (function_: MockedFunction<() => void>) => {
   Object.defineProperty(document, 'execCommand', {
-    value: fn,
+    value: function_,
     configurable: true,
     writable: true,
   });
@@ -26,11 +26,11 @@ export const mockExecCommand = (fn: MockedFunction<() => void>) => {
   };
 };
 
-export const mockShare = (fn: MockedFunction<() => Promise<undefined>>) => {
+export const mockShare = (function_: MockedFunction<() => Promise<undefined>>) => {
   // eslint-disable-next-line @typescript-eslint/unbound-method,jest/unbound-method
   const share = navigator.share;
   Object.defineProperty(navigator, 'share', {
-    value: fn.mockResolvedValue(undefined),
+    value: function_.mockResolvedValue(),
     configurable: true,
     writable: true,
   });

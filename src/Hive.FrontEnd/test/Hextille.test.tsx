@@ -1,4 +1,3 @@
-import { h } from 'preact';
 import GameCell from '../src/components/GameCell';
 import Hextille from '../src/components/Hextille';
 import Row from '../src/components/Row';

@@ -1,5 +1,4 @@
 import { render, screen } from '@testing-library/preact';
-import { h } from 'preact';
 import Players from '../src/components/Players';
 
 const ant = { id: 1, playerId: 1, creature: 'ant', moves: [{ q: 1, r: 1 }] };
@@ -14,8 +13,8 @@ const defaultProps = {
 };
 describe('PlayerList Tests', () => {
   it('players are rendered', () => {
-    const { rerender } = render(<Players {...defaultProps} />);
-    expect(screen.getAllByTitle(/^Player [0-9]$/)).toHaveLength(2);
+    render(<Players {...defaultProps} />);
+    expect(screen.getAllByTitle(/^Player \d$/)).toHaveLength(2);
   });
 
   it('snapshot', () => {

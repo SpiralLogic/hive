@@ -13,9 +13,9 @@ import {
 import GameArea from './GameArea';
 
 const App: FunctionComponent<{ engine: HexEngine; connectionFactory: HexServerConnectionFactory }> = (
-  props
+  properties
 ) => {
-  const { engine, connectionFactory } = props;
+  const { engine, connectionFactory } = properties;
   const [gameState, updateHandler] = useState<GameState | undefined>();
   const [fetchStatus, setFetchStatus] = useState('loading !');
 

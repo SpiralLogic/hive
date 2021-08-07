@@ -2,15 +2,15 @@ import '../css/modal.css';
 
 import { FunctionComponent } from 'preact';
 
-type Props = { visible: boolean; name: string; onClose: () => void };
-const Modal: FunctionComponent<Props> = (props) => {
-  const { visible, onClose, children } = props;
+type Properties = { visible: boolean; name: string; onClose: () => void };
+const Modal: FunctionComponent<Properties> = (properties) => {
+  const { visible, onClose, children } = properties;
   return visible ? (
     <div
       data-testid={'modal'}
       class="modal"
-      onClick={(e) => (e.target as HTMLDivElement).classList.contains('modal') && onClose()}>
-      <div role="dialog" title={props.name} class={props.name}>
+      onClick={(error) => (error.target as HTMLDivElement).classList.contains('modal') && onClose()}>
+      <div role="dialog" title={properties.name} class={properties.name}>
         <button class="close" title="Close" onClick={onClose}>
           X
         </button>

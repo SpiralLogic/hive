@@ -4,9 +4,9 @@ import { FunctionComponent, JSX } from 'preact';
 
 import SVG from './SVG';
 
-type Props = { hidden?: boolean; svgs?: JSX.Element[] } & Partial<JSX.HTMLAttributes>;
-const Hexagon: FunctionComponent<Props> = (props) => {
-  const { hidden, children, svgs, ...attributes } = props;
+type Properties = { hidden?: boolean; svgs?: JSX.Element[] } & Partial<JSX.HTMLAttributes>;
+const Hexagon: FunctionComponent<Properties> = (properties) => {
+  const { hidden, children, svgs, ...attributes } = properties;
   if (hidden) attributes.role = 'none';
   return (
     <div {...attributes}>

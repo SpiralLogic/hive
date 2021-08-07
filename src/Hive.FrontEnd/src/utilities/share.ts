@@ -9,7 +9,7 @@ const fallbackCopyTextToClipboard = (text: string) => {
   textArea.style.left = '0';
   textArea.style.position = 'fixed';
 
-  document.body.appendChild(textArea);
+  document.body.append(textArea);
   textArea.focus();
   textArea.select();
   let copied = false;
@@ -20,7 +20,7 @@ const fallbackCopyTextToClipboard = (text: string) => {
   } catch {
     copied = false;
   }
-  document.body.removeChild(textArea);
+  textArea.remove();
   return copied;
 };
 

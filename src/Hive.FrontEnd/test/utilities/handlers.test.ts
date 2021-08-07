@@ -11,6 +11,7 @@ import {
 } from '../../src/utilities/handlers';
 import { useHiveDispatcher } from '../../src/utilities/dispatcher';
 import gameState from '../fixtures/gameState.json';
+const moveTile = () => Promise.resolve(gameState as GameState);
 
 describe(`handler tests`, () => {
   const selectedTile = {
@@ -40,12 +41,12 @@ describe(`handler tests`, () => {
   describe(`handleKeyboardNav tests`, () => {
     let div1: HTMLDivElement, div2: HTMLDivElement, div3: HTMLDivElement, div4: HTMLDivElement;
     const container = document.createElement('span', {});
-    document.body.appendChild(container);
+    document.body.append(container);
     beforeEach(() => {
       container.innerHTML =
         "<div title='div one' tabIndex='1'></div><div title='div two' tabIndex='1'></div><div title='div three' tabIndex='1'></div><div title='div' class='name'></div>";
       const elements = screen.getAllByTitle(/div/) as HTMLDivElement[];
-      [div1, div2, div3, div4] = Array.from(elements);
+      [div1, div2, div3, div4] = [...elements];
     });
 
     it('should move to next element on keydown', () => {
@@ -122,9 +123,9 @@ describe(`handler tests`, () => {
       dispatcher.add<TileAction>('tileDeselect', selectHandler);
       dispatcher.add<TileAction>('tileSelect', selectHandler);
 
-      opponentSelectionHandler('select', null!);
-      opponentSelectionHandler('deselect', null!);
-      opponentSelectionHandler(null!, null!);
+      opponentSelectionHandler('select', undefined!);
+      opponentSelectionHandler('deselect', undefined!);
+      opponentSelectionHandler(undefined!, undefined!);
       expect(selectHandler).not.toHaveBeenCalledWith();
       expect(deselectHandler).not.toHaveBeenCalledWith();
     });
@@ -166,7 +167,6 @@ describe(`handler tests`, () => {
       const dispatcher = useHiveDispatcher();
       jest.spyOn(dispatcher, 'remove');
       const sendSelection = jest.fn();
-      const moveTile = () => Promise.resolve(gameState as GameState);
 
       const removeHandlers = attachServerHandlers(
         sendSelection,

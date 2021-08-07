@@ -7,11 +7,11 @@ import { handleDragOver, handleKeyboardNav, isEnterOrSpace } from '../utilities/
 import { useClassReducer } from '../utilities/class-reducer';
 import Hexagon from './Hexagon';
 const isValidMove = (validMoves: HexCoordinates[], coords: HexCoordinates) =>
-  validMoves.some((dest) => dest.q == coords.q && dest.r == coords.r);
+  validMoves.some((destination) => destination.q == coords.q && destination.r == coords.r);
 
-type Props = { coords: HexCoordinates; hidden?: boolean };
-const GameCell: FunctionComponent<Props> = (props) => {
-  const { coords, children, hidden } = props;
+type Properties = { coords: HexCoordinates; hidden?: boolean };
+const GameCell: FunctionComponent<Properties> = (properties) => {
+  const { coords, children, hidden } = properties;
   const [classes, setClasses] = useClassReducer('hide');
   const [selectedTile, setSelectedTile] = useState<TileType | null>(null);
 
@@ -56,9 +56,9 @@ const GameCell: FunctionComponent<Props> = (props) => {
     dispatchHiveEvent({ type: 'move', move: { coords, tileId: selectedTile.id } });
   };
 
-  const handleKeydown = (e: KeyboardEvent) => {
-    if (handleKeyboardNav(e) || !isEnterOrSpace(e)) return;
-    handleClick(e);
+  const handleKeydown = (event: KeyboardEvent) => {
+    if (handleKeyboardNav(event) || !isEnterOrSpace(event)) return;
+    handleClick(event);
   };
 
   const attributes = {

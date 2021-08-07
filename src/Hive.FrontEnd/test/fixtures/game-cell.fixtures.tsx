@@ -1,5 +1,4 @@
 import { act } from '@testing-library/preact';
-import { h } from 'preact';
 import GameTile from '../../src/components/GameTile';
 import { MoveEvent } from '../../src/services';
 import { useHiveDispatcher } from '../../src/utilities/dispatcher';
@@ -34,7 +33,7 @@ export const moveTileSpy = jest.fn();
 
 export const createDispatcher = () => {
   const moveEvents: MoveEvent[] = [];
-  const moveListener = (e: MoveEvent) => moveEvents.push(e);
+  const moveListener = (event: MoveEvent) => moveEvents.push(event);
   const dispatcher = useHiveDispatcher();
   dispatcher.add<MoveEvent>('move', moveListener);
   return moveEvents;

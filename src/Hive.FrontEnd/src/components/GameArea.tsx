@@ -20,7 +20,7 @@ import Players from './Players';
 import Row from './Row';
 import Rules from './Rules';
 
-type Props = Omit<GameState, 'gameId'> & { currentPlayer: PlayerId };
+type Properties = Omit<GameState, 'gameId'> & { currentPlayer: PlayerId };
 
 const gameOutcome = (gameStatus: GameStatus, playerId: PlayerId) => {
   switch (gameStatus) {
@@ -48,8 +48,18 @@ const gameOutcome = (gameStatus: GameStatus, playerId: PlayerId) => {
   }
   return '';
 };
-
-const GameArea: FunctionComponent<Props> = ({ players, cells, currentPlayer, gameStatus }) => {
+const createTiles = (cell: Cell, currentCellPlayer: PlayerId) => {
+  cell.tiles.reverse();
+  return cell.tiles.map((tile, index) => (
+    <GameTile
+      key={tile.id}
+      currentPlayer={currentCellPlayer}
+      {...tile}
+      stacked={index === cell.tiles.length - 1 && cell.tiles.length > 1}
+    />
+  ));
+};
+const GameArea: FunctionComponent<Properties> = ({ players, cells, currentPlayer, gameStatus }) => {
   const [showRules, setShowRules] = useState<boolean>(false);
   const [showShare, setShowShare] = useState<boolean>(false);
   const [playerConnected, setPlayerConnected] = useState<'connected' | 'disconnected' | false>(false);
@@ -82,17 +92,6 @@ const GameArea: FunctionComponent<Props> = ({ players, cells, currentPlayer, gam
   const gameOverModalCloseHandler = () => {
     setShowGameOver(false);
     window.location.assign(`/`);
-  };
-  const createTiles = (cell: Cell, currentCellPlayer: PlayerId) => {
-    cell.tiles.reverse();
-    return cell.tiles.map((tile, i) => (
-      <GameTile
-        key={tile.id}
-        currentPlayer={currentCellPlayer}
-        {...tile}
-        stacked={i === cell.tiles.length - 1 && cell.tiles.length > 1}
-      />
-    ));
   };
 
   return (

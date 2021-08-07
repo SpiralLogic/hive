@@ -37,21 +37,21 @@ const RuleCell: FunctionComponent<{
   correctArrows?: Arrows;
   incorrectArrows?: Arrows;
   style?: JSXInternal.CSSProperties;
-}> = (props) => {
-  const { correctArrows, incorrectArrows, symbol, zIndex, result, ...rest } = props;
-  if (props.selected) {
-    props.zIndex = 4;
+}> = (properties) => {
+  const { correctArrows, incorrectArrows, symbol, zIndex, result, ...rest } = properties;
+  if (properties.selected) {
+    properties.zIndex = 4;
   }
 
   const classes = [];
   if (result) classes.push(result);
-  if (!props.creature && !result) classes.push('blank');
+  if (!properties.creature && !result) classes.push('blank');
 
   return (
     <Hexagon
       role="cell"
       class={classes.length > 0 ? classes.join(' ') : undefined}
-      style={props.zIndex ? { zIndex: props.zIndex } : undefined}>
+      style={zIndex ? { zIndex: zIndex } : undefined}>
       <Tile {...rest}>{getResultChar(result, symbol)}</Tile>
       {createArrows(correctArrows, 'correct')}
       {createArrows(incorrectArrows, 'incorrect')}

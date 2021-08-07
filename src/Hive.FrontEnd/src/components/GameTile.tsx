@@ -10,10 +10,12 @@ import Tile from './Tile';
 
 const tileSelector = `[tabindex].tile`;
 const cellSelector = `[tabindex][role="cell"]`;
-type Props = TileType & { stacked?: boolean; currentPlayer: PlayerId };
+type Properties = TileType & { stacked?: boolean; currentPlayer: PlayerId };
 
-const GameTile: FunctionComponent<Props> = (props) => {
-  const { currentPlayer, stacked, ...tile } = props;
+const handleMouseLeave = (event: { currentTarget: HTMLElement }) => event.currentTarget.blur();
+
+const GameTile: FunctionComponent<Properties> = (properties) => {
+  const { currentPlayer, stacked, ...tile } = properties;
   const { id, moves, creature, playerId } = tile;
   const [focus, setFocus] = useState(tileSelector);
   const [classes, setClassList] = useClassReducer(`player${playerId} hex`);
@@ -29,7 +31,7 @@ const GameTile: FunctionComponent<Props> = (props) => {
     if (classes.includes('selected')) return;
     dispatchHiveEvent({ type: 'tileClear' });
     setClassList({ type: 'add', classes: ['selected'] });
-    if (currentPlayer != tile.playerId) return;
+    if (currentPlayer != playerId) return;
     dispatchHiveEvent({ type: 'tileSelected', tile, fromEvent });
   };
 
@@ -63,9 +65,9 @@ const GameTile: FunctionComponent<Props> = (props) => {
     return classes.includes('selected') ? deselect() : select();
   };
 
-  const handleKeyDown = (e: KeyboardEvent) => {
-    if (handleKeyboardNav(e) || !isEnterOrSpace(e)) return;
-    e.stopPropagation();
+  const handleKeyDown = (event: KeyboardEvent) => {
+    if (handleKeyboardNav(event) || !isEnterOrSpace(event)) return;
+    event.stopPropagation();
     if (!classes.includes('selected')) {
       select();
       setFocus(cellSelector);
@@ -73,8 +75,6 @@ const GameTile: FunctionComponent<Props> = (props) => {
       deselect();
     }
   };
-  const handleMouseLeave = (event: { currentTarget: HTMLElement }) => event.currentTarget.blur();
-
   useEffect(() => {
     if (!focus) return;
     const focusElement = document.querySelector<HTMLElement>(focus);

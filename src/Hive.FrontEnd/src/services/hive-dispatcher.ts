@@ -33,7 +33,10 @@ export class HiveDispatcher {
   };
 
   dispatch = <T extends HiveIntent>(intent: T): void => {
-    this.listeners.get(intent.type)?.forEach((l): void => l(intent));
+    const listeners = this.listeners.get(intent.type) ?? [];
+    for (const l of listeners) {
+      l(intent);
+    }
   };
 
   remove = <T extends HiveIntent>(type: T['type'], listener: HiveEventListener<T>): void => {

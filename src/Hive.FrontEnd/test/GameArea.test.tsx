@@ -1,11 +1,11 @@
 import { render, screen } from '@testing-library/preact';
 import userEvent from '@testing-library/user-event';
-import { h } from 'preact';
+
 import GameArea from '../src/components/GameArea';
 import { GameStatus } from '../src/domain';
 import { HiveEvent } from '../src/services';
 import { useHiveDispatcher } from '../src/utilities/dispatcher';
-import { createGameState } from './fixtures/gameArea.fixtures';
+import { createGameState } from './fixtures/game-area.fixtures';
 import {
   mockClipboard,
   mockExecCommand,
@@ -249,19 +249,21 @@ describe('gameArea Tests', () => {
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
   });
 
-  const gameStatusTheories: Array<[GameStatus, boolean]> = [
+  const gameStatusShownDialogs: Array<[GameStatus, boolean]> = [
     ['AiWin', true],
     ['Player0Win', true],
     ['Player1Win', true],
     ['GameOver', true],
     ['Draw', true],
+  ];
+  const gameStatusNotShownDialogs: Array<[GameStatus, boolean]> = [
     ['NewGame', false],
     ['MoveSuccess', false],
     ['MoveSuccessNextPlayerSkipped', false],
     ['MoveInvalid', false],
   ];
 
-  it.each(gameStatusTheories)(`Game status %s shows dialog for player 1`, async (gameStatus, dialogShown) => {
+  it.each(gameStatusShownDialogs)(`Game status %s shows dialog for player 1`, async (gameStatus) => {
     const gameState = createGameState(1);
     render(
       <GameArea
@@ -271,23 +273,53 @@ describe('gameArea Tests', () => {
         currentPlayer={0}
       />
     );
-    if (dialogShown) expect(screen.getByRole('dialog')).toBeInTheDocument();
-    else expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+    expect(screen.getByRole('dialog')).toBeInTheDocument();
   });
+  it.each(gameStatusNotShownDialogs)(
+    `Game status %s doesn't show dialog for player 1`,
+    async (gameStatus) => {
+      const gameState = createGameState(1);
+      render(
+        <GameArea
+          gameStatus={gameStatus}
+          players={gameState.players}
+          cells={gameState.cells}
+          currentPlayer={0}
+        />
+      );
+      expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+    }
+  );
 
-  it.each(gameStatusTheories)(`Game status %s shows dialog for player 2`, async (gameStatus, dialogShown) => {
+  it.each(gameStatusShownDialogs)(`Game status %s shows dialog for player 2`, async (gameStatus) => {
     const gameState = createGameState(1);
     render(
       <GameArea
         gameStatus={gameStatus}
         players={gameState.players}
         cells={gameState.cells}
-        currentPlayer={1}
+        currentPlayer={0}
       />
     );
-    if (dialogShown) expect(screen.getByRole('dialog')).toBeInTheDocument();
-    else expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+    expect(screen.getByRole('dialog')).toBeInTheDocument();
   });
+
+  it.each(gameStatusNotShownDialogs)(
+    `Game status %s doesn't show dialog for player 2`,
+    async (gameStatus) => {
+      const gameState = createGameState(1);
+      render(
+        <GameArea
+          gameStatus={gameStatus}
+          players={gameState.players}
+          cells={gameState.cells}
+          currentPlayer={0}
+        />
+      );
+      expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+    }
+  );
+
   it(`Game over modal close`, async () => {
     const restoreLocation = mockLocation({ assign: jest.fn() });
     const gameState = createGameState(1);

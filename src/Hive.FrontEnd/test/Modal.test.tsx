@@ -1,6 +1,5 @@
 import { render, screen } from '@testing-library/preact';
 import userEvent from '@testing-library/user-event';
-import { h } from 'preact';
 import Modal from '../src/components/Modal';
 import { renderElement } from './test-helpers';
 

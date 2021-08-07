@@ -9,20 +9,20 @@ import { addHiveDispatchListener, useHiveDispatcher } from '../utilities/dispatc
 import { getShareUrl } from '../utilities/share';
 import SVG from './SVG';
 
-type Props = {
+type Properties = {
   onShowRules: (value: boolean) => void;
   onShowShare: () => void;
   currentPlayer: PlayerId;
 };
-export const handle = (handler: () => void) => (e: MouseEvent) => {
-  e.preventDefault();
-  e.stopPropagation();
+export const handle = (handler: () => void) => (event: MouseEvent) => {
+  event.preventDefault();
+  event.stopPropagation();
   handler();
   return false;
 };
 
-const Links: FunctionComponent<Props> = (props) => {
-  const [useAi, setUseAi] = useState(props.currentPlayer === 0);
+const Links: FunctionComponent<Properties> = (properties) => {
+  const [useAi, setUseAi] = useState(properties.currentPlayer === 0);
 
   const clickHandler = () => {
     useHiveDispatcher().dispatch<AiAction>({ type: 'toggleAi', newState: !useAi });
@@ -36,10 +36,10 @@ const Links: FunctionComponent<Props> = (props) => {
   return (
     <div class="links">
       <a
-        href={getShareUrl(props.currentPlayer)}
+        href={getShareUrl(properties.currentPlayer)}
         name="Share game to opponent"
         title="Share"
-        onClick={handle(props.onShowShare)}>
+        onClick={handle(properties.onShowShare)}>
         <SVG>
           <use href="#share" />
         </SVG>
@@ -49,7 +49,7 @@ const Links: FunctionComponent<Props> = (props) => {
           <use href="#new" />
         </SVG>
       </a>
-      <a href="#" name="Show rules" onClick={() => props.onShowRules(true)} title="Rules">
+      <a href="#" name="Show rules" onClick={() => properties.onShowRules(true)} title="Rules">
         ?
       </a>
       <a

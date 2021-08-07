@@ -6,8 +6,8 @@ import { PlayerId, Players as PlayersType } from '../domain';
 import GameTile from './GameTile';
 import Player from './Player';
 
-const Players: FunctionComponent<{ players: PlayersType; currentPlayer: PlayerId }> = (props) => {
-  const { currentPlayer, players } = props;
+const Players: FunctionComponent<{ players: PlayersType; currentPlayer: PlayerId }> = (properties) => {
+  const { currentPlayer, players } = properties;
   return (
     <aside className="players">
       {players.map((player) => (

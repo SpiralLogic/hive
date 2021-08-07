@@ -4,7 +4,8 @@
     "react-hooks",
     "preact",
     "testing-library",
-    "jest-dom"
+    "jest-dom",
+    "unicorn"
   ],
   "env": {
     "browser": true,
@@ -19,8 +20,12 @@
     "plugin:prettier/recommended",
     "plugin:testing-library/react",
     "plugin:testing-library/dom",
-    "prettier"
+    "prettier",
+    "plugin:unicorn/recommended"
   ],
+  "rules": {
+    "unicorn/no-null": "off"
+  },
   "globals": {
     "Atomics": "readonly",
     "SharedArrayBuffer": "readonly"
@@ -29,15 +34,14 @@
   "parserOptions": {
     "project": "./tsconfig.json"
   },
-  "rules": {
-  },
   "overrides": [
     {
       "files": [
-        "*.ts",
+        "*.jsx",
         "*.tsx"
       ],
       "rules": {
+        "unicorn/filename-case": "off"
       }
     }
   ],
@@ -64,7 +68,7 @@
     "/node_modules/*/**",
     "/*.config.js",
     "/src/public/*/**",
-    "**/coverage/**",
+    "**/__coverage__/**",
     "/src/index.tsx"
   ]
 }

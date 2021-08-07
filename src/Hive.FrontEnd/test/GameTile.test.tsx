@@ -1,10 +1,18 @@
 import { act, fireEvent, screen, render } from '@testing-library/preact';
 import userEvent from '@testing-library/user-event';
-import { h } from 'preact';
 import { HiveEvent, TileAction, TileEvent } from '../src/services';
 import { useHiveDispatcher } from '../src/utilities/dispatcher';
 import GameTile from '../src/components/GameTile';
 import { simulateEvent } from './test-helpers';
+
+const createDispatcher = (): [TileEvent[], () => void] => {
+  const tileEvents: TileEvent[] = [];
+  const listener = (event: TileEvent) => tileEvents.push(event);
+
+  const dispatcher = useHiveDispatcher();
+  const cleanup = dispatcher.add<TileEvent>('tileSelected', listener);
+  return [tileEvents, cleanup];
+};
 
 describe('tile Tests', () => {
   const tileCanMove = {
@@ -23,15 +31,6 @@ describe('tile Tests', () => {
   const createTileNoMove = () => {
     render(<GameTile currentPlayer={1} {...tileNoMove} />);
     return screen.getByTitle(/tileNoMove/);
-  };
-
-  const createDispatcher = (): [TileEvent[], () => void] => {
-    const tileEvents: TileEvent[] = [];
-    const listener = (e: TileEvent) => tileEvents.push(e);
-
-    const dispatcher = useHiveDispatcher();
-    const cleanup = dispatcher.add<TileEvent>('tileSelected', listener);
-    return [tileEvents, cleanup];
   };
 
   describe('tile render', () => {
@@ -174,7 +173,7 @@ describe('tile Tests', () => {
     it('on dragEnd emits end event', () => {
       const dropEvents: TileEvent[] = [];
       const tileCanMoveElement = createTileCanMove();
-      useHiveDispatcher().add<TileEvent>('tileDropped', (e) => dropEvents.push(e));
+      useHiveDispatcher().add<TileEvent>('tileDropped', (event) => dropEvents.push(event));
       fireEvent.dragEnd(tileCanMoveElement);
       const expectedEvent: HiveEvent = {
         type: 'tileDropped',
@@ -195,7 +194,7 @@ describe('tile Tests', () => {
 
     it(`an already selected tile doesnt fire a selected event when selected`, () => {
       const selectEvents: TileEvent[] = [];
-      useHiveDispatcher().add<TileEvent>('tileSelected', (e) => selectEvents.push(e));
+      useHiveDispatcher().add<TileEvent>('tileSelected', (event) => selectEvents.push(event));
       createTileCanMove();
       act(() => {
         useHiveDispatcher().dispatch<TileAction>({ type: 'tileSelect', tile: tileCanMove });
@@ -208,7 +207,7 @@ describe('tile Tests', () => {
 
     it(`an already deselected tile doesnt fire a deselected event when deselected`, () => {
       const deselectEvents: TileEvent[] = [];
-      useHiveDispatcher().add<TileEvent>('tileDeselected', (e) => deselectEvents.push(e));
+      useHiveDispatcher().add<TileEvent>('tileDeselected', (event) => deselectEvents.push(event));
       createTileCanMove();
       act(() => {
         useHiveDispatcher().dispatch<TileAction>({ type: 'tileSelect', tile: tileCanMove });
@@ -245,7 +244,7 @@ describe('tile Tests', () => {
       createTileCanMove();
       createTileNoMove();
       const deselectEvents: TileEvent[] = [];
-      useHiveDispatcher().add<TileEvent>('tileDeselected', (e) => deselectEvents.push(e));
+      useHiveDispatcher().add<TileEvent>('tileDeselected', (event) => deselectEvents.push(event));
       useHiveDispatcher().dispatch<TileAction>({ type: 'tileSelect', tile: tileCanMove });
       useHiveDispatcher().dispatch<TileAction>({ type: 'tileDeselect', tile: tileNoMove });
 

@@ -3,13 +3,13 @@ import { EngineMove, OpponentConnectedHandler, OpponentSelectionHandler } from '
 import { AiAction, MoveEvent, TileEvent } from '../services';
 import { dispatchHiveEvent, useHiveDispatcher } from './dispatcher';
 
-export function handleDragOver(ev: { preventDefault: () => void }): boolean {
-  ev.preventDefault();
+export function handleDragOver(event_: { preventDefault: () => void }): boolean {
+  event_.preventDefault();
   return false;
 }
 
-export function handleDrop(ev: { preventDefault: () => void }): boolean {
-  ev.preventDefault();
+export function handleDrop(event_: { preventDefault: () => void }): boolean {
+  event_.preventDefault();
   return false;
 }
 
@@ -22,17 +22,17 @@ const focusNext = (target: HTMLElement, direction: -1 | 1) => {
   (allTabbable[(index + direction) % allTabbable.length] as HTMLElement).focus();
 };
 
-export const handleKeyboardNav = (e: Pick<KeyboardEvent, 'key' | 'target'>): boolean => {
-  if (e.target instanceof HTMLElement) {
-    switch (e.key) {
+export const handleKeyboardNav = (error: Pick<KeyboardEvent, 'key' | 'target'>): boolean => {
+  if (error.target instanceof HTMLElement) {
+    switch (error.key) {
       case 'ArrowDown':
       case 'ArrowRight':
-        focusNext(e.target, 1);
+        focusNext(error.target, 1);
         return true;
 
       case 'ArrowUp':
       case 'ArrowLeft':
-        focusNext(e.target, -1);
+        focusNext(error.target, -1);
         return true;
 
       default:

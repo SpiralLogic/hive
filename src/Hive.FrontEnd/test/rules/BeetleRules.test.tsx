@@ -1,4 +1,3 @@
-import { h } from 'preact';
 import { render } from '@testing-library/preact';
 import BeetleRules from '../../src/components/rules/BeetleRules';
 

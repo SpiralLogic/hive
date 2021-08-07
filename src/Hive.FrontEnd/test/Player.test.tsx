@@ -1,16 +1,22 @@
 import { fireEvent, render, screen } from '@testing-library/preact';
-import { ComponentChild, h } from 'preact';
+import { ComponentChild } from 'preact';
 import Player from '../src/components/Player';
 import GameTile from '../src/components/GameTile';
 import { HexCoordinates } from '../src/domain';
 
 describe('player Tests', () => {
   const createPlayer = (): [(ui: ComponentChild) => void, Element] => {
-    const playerProps = { id: 1, name: 'Player 1' };
+    const playerProperties = { id: 1, name: 'Player 1' };
     global.window.history.replaceState({}, global.document.title, `/game/33/1`);
     const { rerender } = render(
-      <Player {...playerProps}>
-        <GameTile id={1} currentPlayer={1} playerId={1} creature={'thing'} moves={Array<HexCoordinates>()} />
+      <Player {...playerProperties}>
+        <GameTile
+          id={1}
+          currentPlayer={1}
+          playerId={1}
+          creature={'thing'}
+          moves={new Array<HexCoordinates>()}
+        />
       </Player>
     );
     return [rerender, screen.getByTitle(/Player 1/)];

@@ -2,9 +2,9 @@ import '../css/share.css';
 
 import { Fragment, FunctionComponent } from 'preact';
 
-type Props = { connected: 'connected' | 'disconnected' | false };
-const PlayerConnected: FunctionComponent<Props> = (props) => {
-  const { connected } = props;
+type Properties = { connected: 'connected' | 'disconnected' | false };
+const PlayerConnected: FunctionComponent<Properties> = (properties) => {
+  const { connected } = properties;
 
   return (
     <Fragment>

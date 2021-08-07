@@ -6,15 +6,15 @@ import { useEffect, useState } from 'preact/hooks';
 import { PlayerId } from '../domain';
 import { useClassReducer } from '../utilities/class-reducer';
 
-type Props = {
+type Properties = {
   name: string;
   id: PlayerId;
 };
-const Player: FunctionComponent<Props> = (props) => {
-  const { name, id } = props;
+const Player: FunctionComponent<Properties> = (properties) => {
+  const { name, id } = properties;
   const [classes, setClassList] = useClassReducer(`player player${id}`);
   const [hidden, setHidden] = useState(false);
-  const children = toChildArray(props.children).length;
+  const children = toChildArray(properties.children).length;
   useEffect(() => {
     if (children === 0) {
       setTimeout(() => setClassList({ type: 'add', classes: ['hide'] }), 100);
@@ -30,7 +30,7 @@ const Player: FunctionComponent<Props> = (props) => {
     // @ts-expect-error
     <div class={classes} title={name} onanimationend={ontransitionend} ontransitionend={ontransitionend}>
       <div class="name">{name}</div>
-      <div class="tiles">{props.children}</div>
+      <div class="tiles">{properties.children}</div>
     </div>
   );
 };

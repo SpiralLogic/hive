@@ -4,12 +4,12 @@ import { FunctionComponent } from 'preact';
 
 import Hexagon from './Hexagon';
 
-type Props = { selected?: boolean; creature?: string; class?: string; [rest: string]: unknown };
+type Properties = { selected?: boolean; creature?: string; class?: string; [rest: string]: unknown };
 
-const Tile: FunctionComponent<Props> = (props) => {
-  const { selected, creature, ...rest } = props;
+const Tile: FunctionComponent<Properties> = (properties) => {
+  const { selected, creature, ...rest } = properties;
 
-  const classes = props.class ? [props.class, 'tile'] : ['tile'];
+  const classes = properties.class ? [properties.class, 'tile'] : ['tile'];
   if (creature) classes.push(creature.toLowerCase());
   if (selected) classes.push('selected');
   rest.class = classes.join(' ');

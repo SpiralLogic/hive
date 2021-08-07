@@ -2,13 +2,13 @@ import '../css/row.css';
 
 import { FunctionComponent } from 'preact';
 
-type Props = { class?: string; zIndex?: number; hidden?: boolean };
+type Properties = { class?: string; zIndex?: number; hidden?: boolean };
 
-const Row: FunctionComponent<Props> = (props) => {
-  const { hidden, zIndex } = props;
+const Row: FunctionComponent<Properties> = (properties) => {
+  const { hidden, zIndex, children } = properties;
   return (
-    <div class={props.class} role={hidden ? 'none' : 'row'} style={zIndex ? { zIndex } : undefined}>
-      {props.children}
+    <div class={properties.class} role={hidden ? 'none' : 'row'} style={zIndex ? { zIndex } : undefined}>
+      {children}
     </div>
   );
 };

@@ -1,6 +1,5 @@
 import { render, screen } from '@testing-library/preact';
 import userEvent from '@testing-library/user-event';
-import { h } from 'preact';
 import GameOver from '../src/components/GameOver';
 import { GameStatus } from '../src/domain';
 import { mockLocation, renderElement } from './test-helpers';
@@ -28,7 +27,7 @@ describe('gameOver snapshot tests', () => {
     'Draw',
   ];
 
-  outcomes.forEach((outcome) => {
+  for (const outcome of outcomes) {
     it(`${outcome} snapshot player 0`, () => {
       expect(renderElement(<GameOver outcome={outcome} />)).toMatchSnapshot();
     });
@@ -36,5 +35,5 @@ describe('gameOver snapshot tests', () => {
     it(`${outcome} snapshot player 1`, () => {
       expect(renderElement(<GameOver outcome={outcome} />)).toMatchSnapshot();
     });
-  });
+  }
 });

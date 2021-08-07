@@ -1,6 +1,5 @@
 import { fireEvent, render, screen } from '@testing-library/preact';
-import { h } from 'preact';
-import userEvent, { specialChars } from '@testing-library/user-event';
+import userEvent from '@testing-library/user-event';
 import { useHiveDispatcher } from '../src/utilities/dispatcher';
 import GameCell from '../src/components/GameCell';
 import { simulateEvent } from './test-helpers';
@@ -14,7 +13,7 @@ import {
   createDispatcher,
   emitHiveEvent,
   moveTileSpy,
-} from './fixtures/gameCell.fixtures';
+} from './fixtures/game-cell.fixtures';
 
 describe('cell Tests', () => {
   it(`top tile is rendered when tiles isn't empty`, () => {
@@ -34,7 +33,7 @@ describe('cell Tests', () => {
       render(<GameCell {...createCellCanDrop()} />);
       emitHiveEvent('tileSelected');
 
-      screen.getAllByRole('cell').forEach((c) => expect(c).toHaveClass('can-drop'));
+      for (const c of screen.getAllByRole('cell')) expect(c).toHaveClass('can-drop');
     });
 
     it('available cell is active on tile drag enter', () => {
@@ -42,17 +41,17 @@ describe('cell Tests', () => {
       render(<GameCell {...createCellCanDrop()} />);
       emitHiveEvent('tileSelected');
 
-      screen.getAllByRole('cell').forEach((c) => fireEvent.dragEnter(c));
-      screen.getAllByRole('cell').forEach((c) => expect(c).toHaveClass('active'));
+      for (const c of screen.getAllByRole('cell')) fireEvent.dragEnter(c);
+      for (const c of screen.getAllByRole('cell')) expect(c).toHaveClass('active');
     });
 
     it('available cell is no longer active on tile drag leave', () => {
       render(<GameCell {...createCellWithTileAndDrop()} />);
       render(<GameCell {...createCellCanDrop()} />);
       emitHiveEvent('tileSelected');
-      screen.getAllByRole('cell').forEach((c) => fireEvent.dragEnter(c));
-      screen.getAllByRole('cell').forEach((c) => fireEvent.dragLeave(c));
-      screen.getAllByRole('cell').forEach((c) => expect(c).not.toHaveClass('active'));
+      for (const c of screen.getAllByRole('cell')) fireEvent.dragEnter(c);
+      for (const c of screen.getAllByRole('cell')) fireEvent.dragLeave(c);
+      for (const c of screen.getAllByRole('cell')) expect(c).not.toHaveClass('active');
     });
 
     it('move calls moves tile when cell is valid and active', () => {
@@ -60,7 +59,7 @@ describe('cell Tests', () => {
       render(<GameCell {...createCellWithTileAndDrop()} />);
       render(<GameCell {...createCellCanDrop()} />);
       emitHiveEvent('tileSelected');
-      screen.getAllByRole('cell').forEach((c) => fireEvent.dragEnter(c));
+      for (const c of screen.getAllByRole('cell')) fireEvent.dragEnter(c);
       emitHiveEvent('tileDropped');
 
       expect(moveEvents).toEqual(
@@ -90,7 +89,7 @@ describe('cell Tests', () => {
     it(`invalid cells don't call move tile on drop`, () => {
       render(<GameCell {...createCellWithTileNoDrop()} />);
       render(<GameCell {...createCellNoDrop()} />);
-      screen.getAllByRole('cell').forEach((c) => fireEvent.dragEnter(c));
+      for (const c of screen.getAllByRole('cell')) fireEvent.dragEnter(c);
       expect(moveTileSpy).not.toHaveBeenCalledWith();
     });
 
@@ -101,9 +100,9 @@ describe('cell Tests', () => {
       render(<GameCell {...createCellNoDrop()} />);
       emitHiveEvent('tileSelected');
 
-      screen.getAllByRole('cell').forEach((c) => fireEvent.dragEnter(c));
-      screen.getAllByRole('cell').forEach((c) => fireEvent.dragLeave(c));
-      screen.getAllByRole('cell').forEach((c) => expect(c).not.toHaveClass('active'));
+      for (const c of screen.getAllByRole('cell')) fireEvent.dragEnter(c);
+      for (const c of screen.getAllByRole('cell')) fireEvent.dragLeave(c);
+      for (const c of screen.getAllByRole('cell')) expect(c).not.toHaveClass('active');
     });
 
     it('active and can-drop classes are removed on drop', () => {
@@ -112,18 +111,18 @@ describe('cell Tests', () => {
       render(<GameCell {...createCellWithTileNoDrop()} />);
       render(<GameCell {...createCellNoDrop()} />);
       emitHiveEvent('tileSelected');
-      screen.getAllByRole('cell').forEach((c) => fireEvent.dragEnter(c));
+      for (const c of screen.getAllByRole('cell')) fireEvent.dragEnter(c);
       emitHiveEvent('tileDropped');
       emitHiveEvent('tileDeselected');
 
-      screen.getAllByRole('cell').forEach((c) => expect(c).not.toHaveClass('active'));
-      screen.getAllByRole('cell').forEach((c) => expect(c).not.toHaveClass('can-drop'));
+      for (const c of screen.getAllByRole('cell')) expect(c).not.toHaveClass('active');
+      for (const c of screen.getAllByRole('cell')) expect(c).not.toHaveClass('can-drop');
     });
 
     it(`occupied cell with no active tile doesn't stop event propagation'`, () => {
       jest.spyOn(useHiveDispatcher(), 'dispatch');
       render(<GameCell {...createCellWithTileAndDrop()} />);
-      screen.getAllByRole('cell').forEach((c) => userEvent.click(c));
+      for (const c of screen.getAllByRole('cell')) userEvent.click(c);
 
       expect(useHiveDispatcher().dispatch).not.toHaveBeenCalledWith();
     });
@@ -132,7 +131,7 @@ describe('cell Tests', () => {
       const moveEvents = createDispatcher();
       render(<GameCell {...createCellCanDrop()} />);
       emitHiveEvent('tileSelected');
-      (await screen.findAllByRole('cell')).forEach((c) => userEvent.click(c));
+      for (const c of await screen.findAllByRole('cell')) userEvent.click(c);
 
       expect(moveEvents).toEqual(
         expect.arrayContaining([
@@ -147,7 +146,7 @@ describe('cell Tests', () => {
     it(`cell click with no active tile shouldn't move`, () => {
       jest.spyOn(useHiveDispatcher(), 'dispatch');
       render(<GameCell {...createCellNoDrop()} />);
-      screen.getAllByRole('cell').forEach((c) => userEvent.click(c));
+      for (const c of screen.getAllByRole('cell')) userEvent.click(c);
 
       expect(useHiveDispatcher().dispatch).not.toHaveBeenCalledWith();
     });
@@ -156,7 +155,7 @@ describe('cell Tests', () => {
       jest.spyOn(useHiveDispatcher(), 'dispatch');
       render(<GameCell {...createCellNoDrop()} />);
       emitHiveEvent('tileSelected');
-      (await screen.findAllByRole('cell')).forEach((c) => userEvent.click(c));
+      for (const c of await screen.findAllByRole('cell')) userEvent.click(c);
 
       expect(useHiveDispatcher().dispatch).not.toHaveBeenCalledWith();
     });
@@ -165,7 +164,7 @@ describe('cell Tests', () => {
       const moveEvents = createDispatcher();
       render(<GameCell {...createCellCanDrop()} />);
       emitHiveEvent('tileSelected');
-      (await screen.findAllByRole('cell')).forEach((c) => userEvent.type(c, '{enter}'));
+      for (const c of await screen.findAllByRole('cell')) userEvent.type(c, '{enter}');
 
       expect(moveEvents).toEqual(expect.arrayContaining([expect.objectContaining({ type: 'move' })]));
     });
@@ -174,7 +173,7 @@ describe('cell Tests', () => {
       const moveEvents = createDispatcher();
       render(<GameCell {...createCellCanDrop()} />);
       emitHiveEvent('tileSelected');
-      (await screen.findAllByRole('cell')).forEach((c) => userEvent.type(c, ' '));
+      for (const c of await screen.findAllByRole('cell')) userEvent.type(c, ' ');
 
       expect(moveEvents).toEqual(expect.arrayContaining([expect.objectContaining({ type: 'move' })]));
     });

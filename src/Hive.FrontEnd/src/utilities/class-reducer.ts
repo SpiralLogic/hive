@@ -7,12 +7,12 @@ const classReducer = (
   const classList = new Set(initialClasses.split(' '));
   switch (action.type) {
     case `add`:
-      action.classes.forEach((c) => classList.add(c));
+      for (const c of action.classes) classList.add(c);
       break;
 
     case 'remove':
     default:
-      action.classes.forEach((c) => classList.delete(c));
+      for (const c of action.classes) classList.delete(c);
       break;
   }
   classList.delete('');

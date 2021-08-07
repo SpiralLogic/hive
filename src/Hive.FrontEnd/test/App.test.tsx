@@ -1,18 +1,16 @@
 import { render, screen } from '@testing-library/preact';
-import { ComponentChild, h } from 'preact';
+import { ComponentChild } from 'preact';
 import { HexEngine, HexServerConnectionFactory } from '../src/domain/engine';
 import { useHiveDispatcher } from '../src/utilities/dispatcher';
 import App from '../src/components/App';
 import { cellMoveEvent, createGameState } from './fixtures/app.fixture';
-
+const connectionFactory: HexServerConnectionFactory = () => ({
+  connectGame: () => Promise.resolve(),
+  getConnectionState: jest.fn(),
+  closeConnection: () => Promise.resolve(),
+  sendSelection: () => Promise.resolve(),
+});
 describe('app tests', () => {
-  const connectionFactory: HexServerConnectionFactory = () => ({
-    connectGame: jest.fn().mockResolvedValue(undefined),
-    getConnectionState: jest.fn(),
-    closeConnection: jest.fn().mockResolvedValue(undefined),
-    sendSelection: jest.fn().mockResolvedValue(undefined),
-  });
-
   const renderApp = (url: string): [(ui: ComponentChild) => void, HexEngine] => {
     const gameState = createGameState(4);
     const gameAfterMove = createGameState(5);

@@ -1,4 +1,3 @@
-import { h } from 'preact';
 import { render } from '@testing-library/preact';
 
 import AntRules from '../../src/components/rules/AntRules';

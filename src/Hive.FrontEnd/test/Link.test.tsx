@@ -1,6 +1,5 @@
 import { screen } from '@testing-library/preact';
 import userEvent from '@testing-library/user-event';
-import { h } from 'preact';
 import Links from '../src/components/Links';
 import { useHiveDispatcher } from '../src/utilities/dispatcher';
 import { renderElement } from './test-helpers';
