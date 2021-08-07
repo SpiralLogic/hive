@@ -22,7 +22,7 @@ dotnet run -p ./src/Api/Hive.Api
 ### To Test
 ```
 dotnet test -c Test ./src
-pnpm  --prefix ./src/FrontEnd test
+pnpm  --prefix ./src/Hive.FrontEnd test
 ```
 
 ### Run in docker

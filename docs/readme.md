@@ -2,7 +2,7 @@
 [hardware.md](hardware.md)
 
 # how it works
-The frontend posts to either `/new` or `/move`
+The Hive.FrontEnd posts to either `/new` or `/move`
 
 both will return the full state of the game for render
 

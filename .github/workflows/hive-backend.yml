@@ -2,13 +2,11 @@ name: 'Hive Tests'
 on:
   push:
     paths:
-      - 'src/Api/**'
-      - 'src/Domain/**'
-      - 'src/FrontEnd/**'
+      - 'src/**'
       - '.github/**'
 jobs:
-  backend:
-    runs-on: ubuntu-20.04	
+  BackEnd:
+    runs-on: ubuntu-20.04
     name: 'Back End Update - Build - Tests'
     defaults:
       run:
@@ -25,18 +23,18 @@ jobs:
       - name: Update Nuget Packages
         run: ../ops/dotnet-update.sh
       - name: Test Api
-        run: dotnet test ./Api/Hive.Api.Tests -c Test  /p:CollectCoverage=true /p:CoverletOutput=TestResults/ /p:CoverletOutputFormat=lcov /p:SkipAutoProps=true  /p:ExcludeByAttribute="ExcludeFromCodeCoverage" /p:Exclude="[Hive.Domain]*"
+        run: dotnet test ./Hive.Api.Tests -c Test  /p:CollectCoverage=true /p:CoverletOutput=TestResults/ /p:CoverletOutputFormat=lcov /p:SkipAutoProps=true  /p:ExcludeByAttribute="ExcludeFromCodeCoverage" /p:Exclude="[Hive.Domain]*"
       - name: Test Domain
-        run: dotnet test ./Domain/Hive.Domain.Tests  /p:CollectCoverage=true  /p:CoverletOutputFormat=lcov /p:SkipAutoProps=true  /p:ExcludeByAttribute="ExcludeFromCodeCoverage"
+        run: dotnet test ./Hive.Domain.Tests  /p:CollectCoverage=true  /p:CoverletOutputFormat=lcov /p:SkipAutoProps=true  /p:ExcludeByAttribute="ExcludeFromCodeCoverage"
       - uses: stefanzweifel/git-auto-commit-action@v4
         with:
           commit_message: dotnet - lint + upgrades
-  frontend:
+  FrontEnd:
     runs-on: ubuntu-20.04
     name: 'Front End Update - Lint - Build - Test'
     defaults:
       run:
-        working-directory: './src/FrontEnd/'
+        working-directory: './src/Hive.FrontEnd/'
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
@@ -48,7 +46,7 @@ jobs:
       - name: Install update checker
         run: pnpm install -g npm-check-updates
       - name: Update
-        run: pnpm up -L 
+        run: pnpm up -L
       - name: Installs
         run: pnpm install
       - name: Lint
@@ -58,4 +56,4 @@ jobs:
       - uses: stefanzweifel/git-auto-commit-action@v4
         with:
           commit_message: node - lint + upgrades
-        
+

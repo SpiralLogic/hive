@@ -1,0 +1,70 @@
+{
+  "plugins": [
+    "@typescript-eslint",
+    "react-hooks",
+    "preact",
+    "testing-library",
+    "jest-dom"
+  ],
+  "env": {
+    "browser": true,
+    "es6": true
+  },
+  "extends": [
+    "kentcdodds/possible-errors",
+    "kentcdodds/best-practices",
+    "kentcdodds/es6/possible-errors",
+    "plugin:jest/recommended",
+    "plugin:jest-dom/recommended",
+    "plugin:prettier/recommended",
+    "plugin:testing-library/react",
+    "plugin:testing-library/dom",
+    "prettier"
+  ],
+  "globals": {
+    "Atomics": "readonly",
+    "SharedArrayBuffer": "readonly"
+  },
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "project": "./tsconfig.json"
+  },
+  "rules": {
+  },
+  "overrides": [
+    {
+      "files": [
+        "*.ts",
+        "*.tsx"
+      ],
+      "rules": {
+      }
+    }
+  ],
+  "settings": {
+    "react": {
+      "pragma": "h"
+    },
+    "propWrapperFunctions": [
+      "forbidExtraProps",
+      {
+        "property": "freeze",
+        "object": "Object"
+      }
+    ],
+    "linkComponents": [
+      "Hyperlink",
+      {
+        "name": "Link",
+        "linkAttribute": "to"
+      }
+    ]
+  },
+  "ignorePatterns": [
+    "/node_modules/*/**",
+    "/*.config.js",
+    "/src/public/*/**",
+    "**/coverage/**",
+    "/src/index.tsx"
+  ]
+}
