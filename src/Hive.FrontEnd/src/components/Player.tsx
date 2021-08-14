@@ -1,6 +1,6 @@
 import '../css/player.css';
 
-import { FunctionComponent, toChildArray } from 'preact';
+import {FunctionComponent, h, toChildArray } from 'preact';
 import { useEffect, useState } from 'preact/hooks';
 
 import { PlayerId } from '../domain';

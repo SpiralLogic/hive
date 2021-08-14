@@ -1,6 +1,6 @@
 import '../css/gameArea.css';
 
-import { FunctionComponent } from 'preact';
+import {FunctionComponent, h } from 'preact';
 import { useEffect, useState } from 'preact/hooks';
 
 import { Cell, GameState, GameStatus, PlayerId } from '../domain';

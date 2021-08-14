@@ -1,6 +1,6 @@
 import '../css/modal.css';
 
-import { FunctionComponent } from 'preact';
+import {FunctionComponent, h } from 'preact';
 
 type Properties = { visible: boolean; name: string; onClose: () => void };
 const Modal: FunctionComponent<Properties> = (properties) => {

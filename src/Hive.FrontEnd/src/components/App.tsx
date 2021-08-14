@@ -1,6 +1,6 @@
 import '../css/app.css';
 
-import { FunctionComponent } from 'preact';
+import {FunctionComponent, h } from 'preact';
 import { useLayoutEffect, useState } from 'preact/hooks';
 
 import { GameState } from '../domain';

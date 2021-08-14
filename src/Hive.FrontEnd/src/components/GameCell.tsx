@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'preact';
+import {FunctionComponent, h } from 'preact';
 import { useEffect, useState } from 'preact/hooks';
 import { HexCoordinates, Tile as TileType } from '../domain';
 import { TileEvent } from '../services';

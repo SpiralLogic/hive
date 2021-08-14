@@ -1,6 +1,6 @@
 import '../css/share.css';
 
-import { Fragment, FunctionComponent } from 'preact';
+import { Fragment, FunctionComponent, h } from 'preact';
 
 const GameOver: FunctionComponent<{ outcome: string }> = ({ outcome }) => (
   <Fragment>

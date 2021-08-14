@@ -24,7 +24,7 @@ namespace Hive
                 {
                     if (context.HostingEnvironment.IsDevelopment())
                     {
-                        var webRoot = context.HostingEnvironment.ContentRootPath + "/../../Hive.FrontEnd/public";
+                        var webRoot = context.HostingEnvironment.ContentRootPath + "/../Hive.FrontEnd/public";
                         context.HostingEnvironment.WebRootFileProvider = new PhysicalFileProvider(webRoot);
                     }
                 })

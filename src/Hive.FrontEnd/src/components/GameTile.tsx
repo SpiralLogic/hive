@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'preact';
+import {FunctionComponent, h } from 'preact';
 import { useEffect, useState } from 'preact/hooks';
 
 import { PlayerId, Tile as TileType } from '../domain';
