@@ -37,7 +37,15 @@
     "./**/*.{spec,test}.{js,jsx,ts,tsx}"
   ],
   "transform": {
-    "^.+\\.tsx?$": "ts-jest"
+    "^.+\\.tsx?$": [
+      "esbuild-jest",
+      {
+        "sourcemap": true,
+        "loaders": {
+          ".spec.ts": "tsx"
+        }
+      }
+    ]
   },
   "coverageProvider": "v8",
   "verbose": true
