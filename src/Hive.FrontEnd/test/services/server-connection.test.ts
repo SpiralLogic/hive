@@ -22,7 +22,7 @@ describe('game Server Connection Tests', () => {
       onclose: jest.fn(),
       invoke: jest.fn().mockResolvedValue(true),
       send: jest.fn().mockResolvedValue(true),
-      state: state,
+      state,
     };
   };
 

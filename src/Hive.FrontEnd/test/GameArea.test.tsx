@@ -4,7 +4,7 @@ import userEvent from '@testing-library/user-event';
 import GameArea from '../src/components/GameArea';
 import { GameStatus } from '../src/domain';
 import { HiveEvent } from '../src/services';
-import { useHiveDispatcher } from '../src/utilities/dispatcher';
+import { getHiveDispatcher } from '../src/utilities/dispatcher';
 import { createGameState } from './fixtures/game-area.fixtures';
 import {
   mockClipboard,
@@ -205,7 +205,7 @@ describe('gameArea Tests', () => {
         currentPlayer={1}
       />
     );
-    useHiveDispatcher().dispatch<HiveEvent>({ type: 'opponentConnected' });
+    getHiveDispatcher().dispatch<HiveEvent>({ type: 'opponentConnected' });
     expect(await screen.findByRole('dialog')).toBeInTheDocument();
   });
 
@@ -219,7 +219,7 @@ describe('gameArea Tests', () => {
         currentPlayer={1}
       />
     );
-    useHiveDispatcher().dispatch<HiveEvent>({ type: 'opponentDisconnected' });
+    getHiveDispatcher().dispatch<HiveEvent>({ type: 'opponentDisconnected' });
 
     expect(await screen.findByRole('dialog')).toBeInTheDocument();
   });
@@ -235,7 +235,7 @@ describe('gameArea Tests', () => {
         currentPlayer={0}
       />
     );
-    useHiveDispatcher().dispatch<HiveEvent>({ type: 'opponentDisconnected' });
+    getHiveDispatcher().dispatch<HiveEvent>({ type: 'opponentDisconnected' });
 
     userEvent.click(await screen.findByRole('button', { name: /close/i }));
     rerender(

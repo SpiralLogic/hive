@@ -1,7 +1,7 @@
 import { act } from '@testing-library/preact';
 import GameTile from '../../src/components/GameTile';
 import { MoveEvent } from '../../src/services';
-import { useHiveDispatcher } from '../../src/utilities/dispatcher';
+import { getHiveDispatcher } from '../../src/utilities/dispatcher';
 
 export const createCellWithNoTile = () => ({ coords: { q: 0, r: 0 }, tiles: [] });
 
@@ -34,14 +34,14 @@ export const moveTileSpy = jest.fn();
 export const createDispatcher = () => {
   const moveEvents: MoveEvent[] = [];
   const moveListener = (event: MoveEvent) => moveEvents.push(event);
-  const dispatcher = useHiveDispatcher();
+  const dispatcher = getHiveDispatcher();
   dispatcher.add<MoveEvent>('move', moveListener);
   return moveEvents;
 };
 
 export const emitHiveEvent = (type: 'tileSelected' | 'tileDropped' | 'tileDeselected'): void => {
   act(() => {
-    const dispatcher = useHiveDispatcher();
+    const dispatcher = getHiveDispatcher();
     dispatcher.dispatch({
       type,
       tile: movingTile,

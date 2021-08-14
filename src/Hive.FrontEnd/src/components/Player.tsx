@@ -19,7 +19,7 @@ const Player: FunctionComponent<Properties> = (properties) => {
     if (children === 0) {
       setTimeout(() => setClassList({ type: 'add', classes: ['hide'] }), 100);
     }
-  }, [children,setClassList]);
+  }, [children, setClassList]);
 
   const ontransitionend = () => {
     setHidden(true);

@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/preact';
 import { ComponentChild } from 'preact';
 import { HexEngine, HexServerConnectionFactory } from '../src/domain/engine';
-import { useHiveDispatcher } from '../src/utilities/dispatcher';
+import { getHiveDispatcher } from '../src/utilities/dispatcher';
 import App from '../src/components/App';
 import { cellMoveEvent, createGameState } from './fixtures/app.fixture';
 const connectionFactory: HexServerConnectionFactory = () => ({
@@ -45,7 +45,7 @@ describe('app tests', () => {
     const [rerender, engine] = renderApp(`/game/33/1`);
     await engine.getNewGame();
     rerender(<App engine={engine} connectionFactory={connectionFactory} />);
-    useHiveDispatcher().dispatch(cellMoveEvent);
+    getHiveDispatcher().dispatch(cellMoveEvent);
 
     expect(engine.move).toHaveBeenCalledTimes(1);
   });

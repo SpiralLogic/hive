@@ -1,7 +1,7 @@
 import { act, fireEvent, screen, render } from '@testing-library/preact';
 import userEvent from '@testing-library/user-event';
 import { HiveEvent, TileAction, TileEvent } from '../src/services';
-import { useHiveDispatcher } from '../src/utilities/dispatcher';
+import { getHiveDispatcher } from '../src/utilities/dispatcher';
 import GameTile from '../src/components/GameTile';
 import { simulateEvent } from './test-helpers';
 
@@ -9,7 +9,7 @@ const createDispatcher = (): [TileEvent[], () => void] => {
   const tileEvents: TileEvent[] = [];
   const listener = (event: TileEvent) => tileEvents.push(event);
 
-  const dispatcher = useHiveDispatcher();
+  const dispatcher = getHiveDispatcher();
   const cleanup = dispatcher.add<TileEvent>('tileSelected', listener);
   return [tileEvents, cleanup];
 };
@@ -128,7 +128,7 @@ describe('tile Tests', () => {
     });
 
     it('clicking same tile doesnt fire a tile start event', () => {
-      const mock = jest.spyOn(useHiveDispatcher(), 'dispatch');
+      const mock = jest.spyOn(getHiveDispatcher(), 'dispatch');
       const tileCanMoveElement = createTileCanMove();
 
       userEvent.click(tileCanMoveElement);
@@ -136,7 +136,7 @@ describe('tile Tests', () => {
       mock.mockClear();
       userEvent.click(tileCanMoveElement);
 
-      expect(useHiveDispatcher().dispatch).not.toHaveBeenCalledWith(
+      expect(getHiveDispatcher().dispatch).not.toHaveBeenCalledWith(
         expect.objectContaining({ type: 'tileSelect' })
       );
     });
@@ -173,7 +173,7 @@ describe('tile Tests', () => {
     it('on dragEnd emits end event', () => {
       const dropEvents: TileEvent[] = [];
       const tileCanMoveElement = createTileCanMove();
-      useHiveDispatcher().add<TileEvent>('tileDropped', (event) => dropEvents.push(event));
+      getHiveDispatcher().add<TileEvent>('tileDropped', (event) => dropEvents.push(event));
       fireEvent.dragEnd(tileCanMoveElement);
       const expectedEvent: HiveEvent = {
         type: 'tileDropped',
@@ -187,36 +187,36 @@ describe('tile Tests', () => {
       const tileCanMoveElement = createTileCanMove();
 
       act(() => {
-        useHiveDispatcher().dispatch<TileAction>({ type: 'tileSelect', tile: tileCanMove });
+        getHiveDispatcher().dispatch<TileAction>({ type: 'tileSelect', tile: tileCanMove });
       }).catch(() => {});
       expect(tileCanMoveElement).toHaveClass('selected');
     });
 
     it(`an already selected tile doesnt fire a selected event when selected`, () => {
       const selectEvents: TileEvent[] = [];
-      useHiveDispatcher().add<TileEvent>('tileSelected', (event) => selectEvents.push(event));
+      getHiveDispatcher().add<TileEvent>('tileSelected', (event) => selectEvents.push(event));
       createTileCanMove();
       act(() => {
-        useHiveDispatcher().dispatch<TileAction>({ type: 'tileSelect', tile: tileCanMove });
+        getHiveDispatcher().dispatch<TileAction>({ type: 'tileSelect', tile: tileCanMove });
       }).catch(() => {});
       act(() => {
-        useHiveDispatcher().dispatch<TileAction>({ type: 'tileSelect', tile: tileCanMove });
+        getHiveDispatcher().dispatch<TileAction>({ type: 'tileSelect', tile: tileCanMove });
       }).catch(() => {});
       expect(selectEvents).toHaveLength(1);
     });
 
     it(`an already deselected tile doesnt fire a deselected event when deselected`, () => {
       const deselectEvents: TileEvent[] = [];
-      useHiveDispatcher().add<TileEvent>('tileDeselected', (event) => deselectEvents.push(event));
+      getHiveDispatcher().add<TileEvent>('tileDeselected', (event) => deselectEvents.push(event));
       createTileCanMove();
       act(() => {
-        useHiveDispatcher().dispatch<TileAction>({ type: 'tileSelect', tile: tileCanMove });
+        getHiveDispatcher().dispatch<TileAction>({ type: 'tileSelect', tile: tileCanMove });
       }).catch(() => {});
       act(() => {
-        useHiveDispatcher().dispatch<TileAction>({ type: 'tileDeselect', tile: tileCanMove });
+        getHiveDispatcher().dispatch<TileAction>({ type: 'tileDeselect', tile: tileCanMove });
       }).catch(() => {});
       act(() => {
-        useHiveDispatcher().dispatch<TileAction>({ type: 'tileDeselect', tile: tileCanMove });
+        getHiveDispatcher().dispatch<TileAction>({ type: 'tileDeselect', tile: tileCanMove });
       }).catch(() => {});
       expect(deselectEvents).toHaveLength(1);
     });
@@ -225,17 +225,17 @@ describe('tile Tests', () => {
       const tileCanMoveElement = createTileCanMove();
 
       await act(() => {
-        useHiveDispatcher().dispatch<TileAction>({ type: 'tileSelect', tile: tileCanMove });
+        getHiveDispatcher().dispatch<TileAction>({ type: 'tileSelect', tile: tileCanMove });
       });
       await act(() => {
-        useHiveDispatcher().dispatch<TileAction>({ type: 'tileDeselect', tile: tileCanMove });
+        getHiveDispatcher().dispatch<TileAction>({ type: 'tileDeselect', tile: tileCanMove });
       });
       expect(tileCanMoveElement).not.toHaveClass('selected');
     });
 
     it(`tile is only selected on matching select events`, () => {
       const tileNoMoveElement = createTileNoMove();
-      useHiveDispatcher().dispatch<TileAction>({ type: 'tileSelect', tile: tileNoMove });
+      getHiveDispatcher().dispatch<TileAction>({ type: 'tileSelect', tile: tileNoMove });
 
       expect(tileNoMoveElement).not.toHaveClass('selected');
     });
@@ -244,9 +244,9 @@ describe('tile Tests', () => {
       createTileCanMove();
       createTileNoMove();
       const deselectEvents: TileEvent[] = [];
-      useHiveDispatcher().add<TileEvent>('tileDeselected', (event) => deselectEvents.push(event));
-      useHiveDispatcher().dispatch<TileAction>({ type: 'tileSelect', tile: tileCanMove });
-      useHiveDispatcher().dispatch<TileAction>({ type: 'tileDeselect', tile: tileNoMove });
+      getHiveDispatcher().add<TileEvent>('tileDeselected', (event) => deselectEvents.push(event));
+      getHiveDispatcher().dispatch<TileAction>({ type: 'tileSelect', tile: tileCanMove });
+      getHiveDispatcher().dispatch<TileAction>({ type: 'tileDeselect', tile: tileNoMove });
 
       expect(deselectEvents).toHaveLength(0);
     });

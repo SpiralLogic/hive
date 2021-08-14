@@ -1,6 +1,6 @@
 import { fireEvent, render, screen } from '@testing-library/preact';
 import userEvent from '@testing-library/user-event';
-import { useHiveDispatcher } from '../src/utilities/dispatcher';
+import { getHiveDispatcher } from '../src/utilities/dispatcher';
 import GameCell from '../src/components/GameCell';
 import { simulateEvent } from './test-helpers';
 import {
@@ -77,13 +77,13 @@ describe('cell Tests', () => {
     });
 
     it(`drop doesn't call move tile when cell doesn't allow drop`, () => {
-      jest.spyOn(useHiveDispatcher(), 'dispatch');
+      jest.spyOn(getHiveDispatcher(), 'dispatch');
       render(<GameCell {...createCellWithTile()} />);
       render(<GameCell {...createCellNoDrop()} />);
       emitHiveEvent('tileSelected');
       emitHiveEvent('tileDropped');
 
-      expect(useHiveDispatcher().dispatch).not.toHaveBeenCalledWith({ type: 'move' });
+      expect(getHiveDispatcher().dispatch).not.toHaveBeenCalledWith({ type: 'move' });
     });
 
     it(`invalid cells don't call move tile on drop`, () => {
@@ -120,11 +120,11 @@ describe('cell Tests', () => {
     });
 
     it(`occupied cell with no active tile doesn't stop event propagation'`, () => {
-      jest.spyOn(useHiveDispatcher(), 'dispatch');
+      jest.spyOn(getHiveDispatcher(), 'dispatch');
       render(<GameCell {...createCellWithTileAndDrop()} />);
       for (const c of screen.getAllByRole('cell')) userEvent.click(c);
 
-      expect(useHiveDispatcher().dispatch).not.toHaveBeenCalledWith();
+      expect(getHiveDispatcher().dispatch).not.toHaveBeenCalledWith();
     });
 
     it(`cell click with active tile makes a move`, async () => {
@@ -144,20 +144,20 @@ describe('cell Tests', () => {
     });
 
     it(`cell click with no active tile shouldn't move`, () => {
-      jest.spyOn(useHiveDispatcher(), 'dispatch');
+      jest.spyOn(getHiveDispatcher(), 'dispatch');
       render(<GameCell {...createCellNoDrop()} />);
       for (const c of screen.getAllByRole('cell')) userEvent.click(c);
 
-      expect(useHiveDispatcher().dispatch).not.toHaveBeenCalledWith();
+      expect(getHiveDispatcher().dispatch).not.toHaveBeenCalledWith();
     });
 
     it(`cell click with invalid tile shouldn't move`, async () => {
-      jest.spyOn(useHiveDispatcher(), 'dispatch');
+      jest.spyOn(getHiveDispatcher(), 'dispatch');
       render(<GameCell {...createCellNoDrop()} />);
       emitHiveEvent('tileSelected');
       for (const c of await screen.findAllByRole('cell')) userEvent.click(c);
 
-      expect(useHiveDispatcher().dispatch).not.toHaveBeenCalledWith();
+      expect(getHiveDispatcher().dispatch).not.toHaveBeenCalledWith();
     });
 
     it(`enter fires emit event on keydown enter`, async () => {
@@ -179,12 +179,12 @@ describe('cell Tests', () => {
     });
 
     it(`other keys dont emit tile start event`, async () => {
-      jest.spyOn(useHiveDispatcher(), 'dispatch');
+      jest.spyOn(getHiveDispatcher(), 'dispatch');
       render(<GameCell {...createCellCanDrop()} />);
       emitHiveEvent('tileSelected');
       userEvent.type(await screen.findByRole('cell'), 'j');
 
-      expect(useHiveDispatcher().dispatch).not.toHaveBeenCalledWith();
+      expect(getHiveDispatcher().dispatch).not.toHaveBeenCalledWith();
     });
 
     it('cell with tile matches current snapshot', () => {

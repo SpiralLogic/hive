@@ -7,7 +7,7 @@ import { GameState } from '../domain';
 import { HexEngine, HexServerConnectionFactory } from '../domain/engine';
 import { addServerHandlers, opponentConnectedHandler, opponentSelectionHandler } from '../utilities/handlers';
 import GameArea from './GameArea';
-import { useHiveDispatcher } from '../utilities/dispatcher';
+import { getHiveDispatcher } from '../utilities/dispatcher';
 
 const App: FunctionComponent<{ engine: HexEngine; connectionFactory: HexServerConnectionFactory }> = (
   properties
@@ -15,7 +15,7 @@ const App: FunctionComponent<{ engine: HexEngine; connectionFactory: HexServerCo
   const { engine, connectionFactory } = properties;
   const [gameState, updateHandler] = useState<GameState | undefined>();
   const [fetchStatus, setFetchStatus] = useState('loading !');
-  const hiveDispatcher = useHiveDispatcher();
+  const hiveDispatcher = getHiveDispatcher();
 
   useLayoutEffect(() => {
     engine.initialGame
@@ -28,7 +28,7 @@ const App: FunctionComponent<{ engine: HexEngine; connectionFactory: HexServerCo
         updateHandler(initialGameState);
       })
       .catch((error: Error) => setFetchStatus(error.message));
-  }, [engine.currentPlayer, engine.initialGame,hiveDispatcher]);
+  }, [engine.currentPlayer, engine.initialGame, hiveDispatcher]);
 
   useLayoutEffect(() => {
     if (!gameState)

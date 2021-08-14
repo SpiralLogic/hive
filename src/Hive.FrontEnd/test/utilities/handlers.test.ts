@@ -9,7 +9,7 @@ import {
   opponentConnectedHandler,
   opponentSelectionHandler,
 } from '../../src/utilities/handlers';
-import { useHiveDispatcher } from '../../src/utilities/dispatcher';
+import { getHiveDispatcher } from '../../src/utilities/dispatcher';
 import gameState from '../fixtures/gameState.json';
 const moveTile = () => Promise.resolve(gameState as GameState);
 
@@ -98,7 +98,7 @@ describe(`handler tests`, () => {
   describe(`server connection events`, () => {
     it(`opponent selection selects tile`, () => {
       const tile = { id: 1, playerId: 1, creature: 'swan', moves: [] };
-      const dispatcher = useHiveDispatcher();
+      const dispatcher = getHiveDispatcher();
       const selectHandler = jest.fn();
       dispatcher.add<TileAction>('tileSelect', selectHandler);
 
@@ -108,7 +108,7 @@ describe(`handler tests`, () => {
 
     it(`opponent deselection selects tile`, () => {
       const tile = { id: 1, playerId: 1, creature: 'swan', moves: [] };
-      const dispatcher = useHiveDispatcher();
+      const dispatcher = getHiveDispatcher();
       const selectHandler = jest.fn();
       dispatcher.add<Action>('tileClear', selectHandler);
 
@@ -117,7 +117,7 @@ describe(`handler tests`, () => {
     });
 
     it(`opponent deselection doesnt fire for missing tiles`, () => {
-      const dispatcher = useHiveDispatcher();
+      const dispatcher = getHiveDispatcher();
       const selectHandler = jest.fn();
       const deselectHandler = jest.fn();
       dispatcher.add<TileAction>('tileDeselect', selectHandler);
@@ -131,7 +131,7 @@ describe(`handler tests`, () => {
     });
 
     it(`opponent connected handler`, () => {
-      const dispatcher = useHiveDispatcher();
+      const dispatcher = getHiveDispatcher();
       const connectedHandler = jest.fn();
       const toggleAiHandler = jest.fn();
       dispatcher.add<HiveEvent>('opponentConnected', connectedHandler);
@@ -143,7 +143,7 @@ describe(`handler tests`, () => {
     });
 
     it(`opponent disconnected handler`, () => {
-      const dispatcher = useHiveDispatcher();
+      const dispatcher = getHiveDispatcher();
       const disconnectedHandler = jest.fn();
       dispatcher.add<HiveEvent>('opponentDisconnected', disconnectedHandler);
 
@@ -152,7 +152,7 @@ describe(`handler tests`, () => {
     });
 
     it(`opponent connect handler default`, () => {
-      const dispatcher = useHiveDispatcher();
+      const dispatcher = getHiveDispatcher();
       const disconnectedHandler = jest.fn();
       const connectedHandler = jest.fn();
       dispatcher.add<HiveEvent>('opponentDisconnected', disconnectedHandler);
@@ -164,7 +164,7 @@ describe(`handler tests`, () => {
     });
 
     it(`server handlers are attached`, () => {
-      const dispatcher = useHiveDispatcher();
+      const dispatcher = getHiveDispatcher();
       jest.spyOn(dispatcher, 'remove');
       const sendSelection = jest.fn();
 

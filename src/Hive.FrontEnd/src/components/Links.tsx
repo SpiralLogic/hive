@@ -5,7 +5,7 @@ import { useState } from 'preact/hooks';
 
 import { PlayerId } from '../domain';
 import { AiAction, HiveEvent } from '../services';
-import { useHiveDispatcher, useHiveDispatchListener } from '../utilities/dispatcher';
+import { getHiveDispatcher, useHiveDispatchListener } from '../utilities/dispatcher';
 import { getShareUrl } from '../utilities/share';
 import SVG from './SVG';
 
@@ -23,7 +23,7 @@ export const handle = (handler: () => void) => (event: MouseEvent) => {
 
 const Links: FunctionComponent<Properties> = (properties) => {
   const [useAi, setUseAi] = useState(properties.currentPlayer === 0);
-  const hiveDispatcher = useHiveDispatcher();
+  const hiveDispatcher = getHiveDispatcher();
   const clickHandler = () => {
     hiveDispatcher.dispatch<AiAction>({ type: 'toggleAi', newState: !useAi });
     setUseAi(!useAi);
