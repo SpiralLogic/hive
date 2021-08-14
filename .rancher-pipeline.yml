@@ -14,14 +14,12 @@ stages:
         cd ./src
         dotnet test ./Hive.Api.Tests -c Test /p:CollectCoverage=true /p:CoverletOutputFormat=json /p:CoverletOutputFormat=opencover /p:SkipAutoProps=true  /p:Exclude=[Hive.Domain]*
         dotnet test ./Hive.Domain.Tests /p:CollectCoverage=true  /p:CoverletOutputFormat=json /p:CoverletOutputFormat=opencover /p:SkipAutoProps=true
-- name: publish-image
-  steps:
   - publishImageConfig:
       dockerfilePath: ./ops/dockerfile
       buildContext: .
       tag: hive:${CICD_EXECUTION_SEQUENCE}
       pushRemote: true
-      registry: docker-registry
+      registry: registry.lab.sorijen.net.au
 - name: deploy
   steps:
   - applyYamlConfig:
