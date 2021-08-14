@@ -4,7 +4,7 @@ export const mockClipboard = (function_: MockedFunction<() => Promise<void>>) =>
   const clipboard = navigator.clipboard;
   Object.defineProperty(navigator, 'clipboard', {
     value: {
-      writeText: function_.mockResolvedValue(undefined),
+      writeText: function_.mockResolvedValue(),
     },
     configurable: true,
     writable: true,
@@ -30,7 +30,7 @@ export const mockShare = (function_: MockedFunction<() => Promise<void>>) => {
   // eslint-disable-next-line @typescript-eslint/unbound-method,jest/unbound-method
   const share = navigator.share;
   Object.defineProperty(navigator, 'share', {
-    value: function_.mockResolvedValue(undefined),
+    value: function_.mockResolvedValue(),
     configurable: true,
     writable: true,
   });

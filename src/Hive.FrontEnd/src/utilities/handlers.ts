@@ -1,7 +1,7 @@
 import { GameState, Tile } from '../domain';
 import { EngineMove, OpponentConnectedHandler, OpponentSelectionHandler } from '../domain/engine';
-import { AiAction,  MoveEvent, TileEvent } from '../services';
-import {dispatchHiveEvent, getHiveDispatcher} from './dispatcher';
+import { AiAction, MoveEvent, TileEvent } from '../services';
+import { dispatchHiveEvent, getHiveDispatcher } from './dispatcher';
 
 export function handleDragOver(event_: { preventDefault: () => void }): boolean {
   event_.preventDefault();
@@ -77,7 +77,7 @@ export const addServerHandlers = (
   gameState: GameState,
   updateGameState: (value: GameState) => void,
   move: EngineMove,
-  useAi = false,
+  useAi = false
 ) => {
   const selectionChangeHandler = (event: TileEvent) =>
     !event.fromEvent && sendSelection('select', event.tile);

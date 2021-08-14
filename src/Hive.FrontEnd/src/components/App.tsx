@@ -51,7 +51,7 @@ const App: FunctionComponent<{ engine: HexEngine; connectionFactory: HexServerCo
       gameState,
       updateHandler,
       engine.move,
-      engine.currentPlayer === 0,
+      engine.currentPlayer === 0
     );
 
     return (): void => {
