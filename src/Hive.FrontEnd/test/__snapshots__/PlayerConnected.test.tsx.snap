@@ -1,0 +1,18 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`player connected snapshot tests snapshot 1`] = `
+<body>
+  <div>
+    <p>
+      Player has 
+      disconnected
+      !
+    </p>
+    <button
+      title="New Game"
+    >
+      Close
+    </button>
+  </div>
+</body>
+`;

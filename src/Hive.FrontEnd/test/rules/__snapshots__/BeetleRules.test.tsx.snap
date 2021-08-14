@@ -113,7 +113,6 @@ exports[`beetle Rule snapshot tests snapshot 1`] = `
         </div>
         <div
           role="cell"
-          style="z-index: 4;"
         >
           <svg
             viewBox="0 0 100 100"
