@@ -11,8 +11,8 @@ describe('hextille Tests', () => {
           <Row>
             <GameCell coords={{ q: 0, r: 0 }} />
           </Row>
-        </Hextille>
-      )
+        </Hextille>,
+      ),
     ).toMatchSnapshot();
   });
 });

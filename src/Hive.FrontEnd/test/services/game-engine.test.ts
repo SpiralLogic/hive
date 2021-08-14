@@ -39,7 +39,7 @@ describe('game Engine Tests', () => {
         tileId: 1,
         coords: { q: 0, r: 0 },
       },
-      false
+      false,
     );
     expect(response).not.toBeFalsy();
     expect(response.cells).toHaveLength(2);
@@ -56,7 +56,7 @@ describe('game Engine Tests', () => {
         tileId: 1,
         coords: { q: 0, r: 0 },
       },
-      true
+      true,
     );
     expect(global.fetch).toHaveBeenLastCalledWith(expect.stringMatching(/.+1$/), expect.any(Object));
   });

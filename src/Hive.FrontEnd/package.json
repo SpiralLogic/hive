@@ -9,7 +9,7 @@
         "esbuild:watch": "pnpx esbuild --loader:.svg=text --jsx-factory=h --jsx-fragment=Fragment   --define:process.env.NODE_ENV=\\\"development\\\" ./src/index.tsx --bundle  --sourcemap --watch --outfile=./public/js/hive.js",
         "clean:deep": "git clean -x -d -f $(git rev-parse --show-toplevel)/**",
         "tsc": "pnpx tsc --noEmit",
-        "jest": "pnpx jest --coverage ",
+        "jest": "pnpx jest -c jest.config.json --coverage ",
         "lint:src:report": "pnpx eslint -c .eslintrc --fix -o reports/__lint__/eslint.json -f jsonn src",
         "lint:test:report": "pnpx eslint -c .eslintrc --fix -o reports/__lint__/eslint.test.json -f json test",
         "lint:src": "pnpx eslint -c .eslintrc --fix src",
@@ -69,58 +69,6 @@
         "npm-run-all": "^4.1.5",
         "preact": "^10.5.14",
         "rimraf": "^3.0.2"
-    },
-    "jest": {
-        "preset": "ts-jest",
-        "clearMocks": true,
-        "coverageDirectory": "./reports/__coverage__",
-        "collectCoverage": true,
-        "coverageReporters": [
-            "lcov",
-            "text"
-        ],
-        "moduleDirectories": [
-            "node_modules"
-        ],
-        "moduleFileExtensions": [
-            "ts",
-            "tsx",
-            "js",
-            "jsx",
-            "json",
-            "node"
-        ],
-        "testEnvironment": "jsdom",
-        "moduleNameMapper": {
-            "\\.(css)$": "<rootDir>/test/style-mock.js"
-        },
-        "roots": [
-            "./src/",
-            "./test/"
-        ],
-        "setupFilesAfterEnv": [
-            "./test/jest.setup.ts"
-        ],
-        "coveragePathIgnorePatterns": [
-            "/node_modules/",
-            "/test/"
-        ],
-        "testMatch": [
-            "./**/*.{spec,test}.{js,jsx,ts,tsx}"
-        ],
-        "transform": {
-            "^.+\\.tsx?$": "ts-jest"
-        },
-        "coverageProvider": "v8",
-        "verbose": true
-    },
-    "eslintConfig": {},
-    "prettier": {
-        "singleQuote": true,
-        "printWidth": 110,
-        "proseWrap": "always",
-        "jsxBracketSameLine": true,
-        "endOfLine": "auto"
     },
     "cachebust": {
         "source": [

@@ -173,7 +173,7 @@ describe(`handler tests`, () => {
         { gameId: '1', cells: [], players: [], gameStatus: 'MoveSuccess' },
         jest.fn(),
         moveTile,
-        false
+        false,
       );
 
       dispatcher.dispatch({
