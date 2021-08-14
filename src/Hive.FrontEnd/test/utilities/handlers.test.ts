@@ -10,7 +10,7 @@ import {
   opponentSelectionHandler,
 } from '../../src/utilities/handlers';
 import { getHiveDispatcher } from '../../src/utilities/dispatcher';
-import gameState from '../fixtures/gameState.json';
+import gameState from '../fixtures/game-state.json';
 const moveTile = () => Promise.resolve(gameState as GameState);
 
 describe(`handler tests`, () => {
@@ -172,7 +172,8 @@ describe(`handler tests`, () => {
         sendSelection,
         { gameId: '1', cells: [], players: [], gameStatus: 'MoveSuccess' },
         jest.fn(),
-        moveTile
+        moveTile,
+          false,
       );
 
       dispatcher.dispatch({

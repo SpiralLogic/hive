@@ -80,7 +80,7 @@ describe('gameArea Tests', () => {
   });
 
   it('share modal is rendered', async () => {
-    const clipboard = jest.fn();
+    const clipboard =  jest.fn(()=>Promise.resolve(undefined));
     const gameState = createGameState(1);
     const restore = mockClipboard(clipboard);
 
@@ -100,7 +100,7 @@ describe('gameArea Tests', () => {
   });
 
   it(`share modal close`, async () => {
-    const clipboard = jest.fn();
+    const clipboard = jest.fn(()=>Promise.resolve(undefined));
     const gameState = createGameState(1);
     const restore = mockClipboard(clipboard);
 
@@ -119,7 +119,7 @@ describe('gameArea Tests', () => {
   });
 
   it('if available share API is called', () => {
-    const share = jest.fn();
+    const share = jest.fn(()=>Promise.resolve(undefined));
     const restore = mockShare(share);
     const url = `http://localhost/game/33/0`;
     const gameState = createGameState(1);
@@ -139,7 +139,7 @@ describe('gameArea Tests', () => {
   });
 
   it('click copies opponent link to clipboard with navigator', () => {
-    const writeText = jest.fn();
+    const writeText =  jest.fn(()=>Promise.resolve(undefined));
     const restore1 = noShare();
     const restore2 = mockClipboard(writeText);
 

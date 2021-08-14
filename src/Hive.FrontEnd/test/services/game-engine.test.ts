@@ -1,5 +1,5 @@
 import GameEngine from '../../src/services/game-engine';
-import gameState from '../fixtures/gameState.json';
+import gameState from '../fixtures/game-state.json';
 
 describe('game Engine Tests', () => {
   let engine: GameEngine;

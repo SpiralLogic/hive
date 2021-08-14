@@ -52,7 +52,6 @@ const App: FunctionComponent<{ engine: HexEngine; connectionFactory: HexServerCo
       updateHandler,
       engine.move,
       engine.currentPlayer === 0,
-      hiveDispatcher
     );
 
     return (): void => {
