@@ -1,5 +1,5 @@
 ﻿{
-
+  "preset": "ts-jest",
   "clearMocks": true,
   "coverageDirectory": "./reports/__coverage__",
   "collectCoverage": true,
@@ -37,15 +37,7 @@
     "./**/*.{spec,test}.{js,jsx,ts,tsx}"
   ],
   "transform": {
-    "^.+\\.tsx?$": [
-      "esbuild-jest",
-      {
-        "sourcemap": true,
-        "loaders": {
-          ".spec.ts": "tsx"
-        }
-      }
-    ]
+    "^.+\\.tsx?$": "ts-jest"
   },
   "coverageProvider": "v8",
   "verbose": true
