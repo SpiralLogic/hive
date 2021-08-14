@@ -21,7 +21,7 @@ stages:
       buildContext: .
       tag: hive:${CICD_EXECUTION_SEQUENCE}
       pushRemote: true
-      registry: https://10.1.2.3:31351/
+      registry: https://10.1.2.5:34590
 - name: deploy
   steps:
   - applyYamlConfig:
