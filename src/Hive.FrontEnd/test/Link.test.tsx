@@ -15,7 +15,7 @@ describe('links snapshot tests', () => {
 
   it('snapshot', () => {
     expect(
-      renderElement(<Links currentPlayer={0} onShowShare={() => ({})} onShowRules={() => ({})} />),
+      renderElement(<Links currentPlayer={0} onShowShare={() => ({})} onShowRules={() => ({})} />)
     ).toMatchSnapshot();
   });
 });

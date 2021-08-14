@@ -72,7 +72,7 @@ describe('cell Tests', () => {
             type: 'move',
             move: { tileId: 2, coords: { q: 2, r: 2 } },
           },
-        ]),
+        ])
       );
     });
 
@@ -139,7 +139,7 @@ describe('cell Tests', () => {
             type: 'move',
             move: { tileId: 2, coords: { q: 0, r: 0 } },
           },
-        ]),
+        ])
       );
     });
 

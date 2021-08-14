@@ -10,7 +10,7 @@ describe('row Tests', () => {
         <GameCell coords={{ q: 1, r: 1 }} />
         <GameCell coords={{ q: 2, r: 1 }} />
         <GameCell coords={{ q: 0, r: 1 }} hidden={true} />
-      </Row>,
+      </Row>
     );
 
   it('renders multiple cells', () => {

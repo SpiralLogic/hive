@@ -17,7 +17,7 @@ describe('player Tests', () => {
           creature={'thing'}
           moves={new Array<HexCoordinates>()}
         />
-      </Player>,
+      </Player>
     );
     return [rerender, screen.getByTitle(/Player 1/)];
   };

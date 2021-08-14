@@ -24,7 +24,7 @@ describe('gameArea Tests', () => {
         players={gameState.players}
         cells={gameState.cells}
         currentPlayer={2}
-      />,
+      />
     );
     const preventDefault = simulateEvent(screen.getByTitle('Hive Game Area'), 'dragover');
 
@@ -40,7 +40,7 @@ describe('gameArea Tests', () => {
         players={gameState.players}
         cells={gameState.cells}
         currentPlayer={1}
-      />,
+      />
     );
 
     expect(screen.getByTitle(/player0/)).not.toHaveAttribute('draggable');
@@ -55,7 +55,7 @@ describe('gameArea Tests', () => {
         players={gameState.players}
         cells={gameState.cells}
         currentPlayer={1}
-      />,
+      />
     );
 
     userEvent.click(screen.getByTitle(/Rules/));
@@ -71,7 +71,7 @@ describe('gameArea Tests', () => {
         players={gameState.players}
         cells={gameState.cells}
         currentPlayer={1}
-      />,
+      />
     );
 
     userEvent.click(screen.getByTitle(/Rules/));
@@ -90,7 +90,7 @@ describe('gameArea Tests', () => {
         players={gameState.players}
         cells={gameState.cells}
         currentPlayer={0}
-      />,
+      />
     );
 
     userEvent.click(screen.getByTitle(/Share/));
@@ -110,7 +110,7 @@ describe('gameArea Tests', () => {
         players={gameState.players}
         cells={gameState.cells}
         currentPlayer={0}
-      />,
+      />
     );
     userEvent.click(screen.getByTitle(/Share/));
     userEvent.click(await screen.findByRole('button', { name: /close/i }));
@@ -130,7 +130,7 @@ describe('gameArea Tests', () => {
         players={gameState.players}
         cells={gameState.cells}
         currentPlayer={1}
-      />,
+      />
     );
 
     userEvent.click(screen.getByTitle(/Share/));
@@ -151,7 +151,7 @@ describe('gameArea Tests', () => {
         players={gameState.players}
         cells={gameState.cells}
         currentPlayer={1}
-      />,
+      />
     );
     userEvent.click(screen.getByTitle(/Share/));
     expect(writeText).toHaveBeenCalledWith(url);
@@ -170,7 +170,7 @@ describe('gameArea Tests', () => {
         players={gameState.players}
         cells={gameState.cells}
         currentPlayer={1}
-      />,
+      />
     );
     userEvent.click(screen.getByTitle(/Share/));
     expect(execCommand).toHaveBeenCalledWith('copy');
@@ -188,7 +188,7 @@ describe('gameArea Tests', () => {
         players={gameState.players}
         cells={gameState.cells}
         currentPlayer={1}
-      />,
+      />
     );
     userEvent.click(screen.getByTitle(/Share/));
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
@@ -203,7 +203,7 @@ describe('gameArea Tests', () => {
         players={gameState.players}
         cells={gameState.cells}
         currentPlayer={1}
-      />,
+      />
     );
     getHiveDispatcher().dispatch<HiveEvent>({ type: 'opponentConnected' });
     expect(await screen.findByRole('dialog')).toBeInTheDocument();
@@ -217,7 +217,7 @@ describe('gameArea Tests', () => {
         players={gameState.players}
         cells={gameState.cells}
         currentPlayer={1}
-      />,
+      />
     );
     getHiveDispatcher().dispatch<HiveEvent>({ type: 'opponentDisconnected' });
 
@@ -233,7 +233,7 @@ describe('gameArea Tests', () => {
         players={gameState.players}
         cells={gameState.cells}
         currentPlayer={0}
-      />,
+      />
     );
     getHiveDispatcher().dispatch<HiveEvent>({ type: 'opponentDisconnected' });
 
@@ -244,7 +244,7 @@ describe('gameArea Tests', () => {
         players={gameState.players}
         cells={gameState.cells}
         currentPlayer={0}
-      />,
+      />
     );
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
   });
@@ -271,7 +271,7 @@ describe('gameArea Tests', () => {
         players={gameState.players}
         cells={gameState.cells}
         currentPlayer={0}
-      />,
+      />
     );
     expect(screen.getByRole('dialog')).toBeInTheDocument();
   });
@@ -285,10 +285,10 @@ describe('gameArea Tests', () => {
           players={gameState.players}
           cells={gameState.cells}
           currentPlayer={0}
-        />,
+        />
       );
       expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
-    },
+    }
   );
 
   it.each(gameStatusShownDialogs)(`Game status %s shows dialog for player 2`, async (gameStatus) => {
@@ -299,7 +299,7 @@ describe('gameArea Tests', () => {
         players={gameState.players}
         cells={gameState.cells}
         currentPlayer={0}
-      />,
+      />
     );
     expect(screen.getByRole('dialog')).toBeInTheDocument();
   });
@@ -314,10 +314,10 @@ describe('gameArea Tests', () => {
           players={gameState.players}
           cells={gameState.cells}
           currentPlayer={0}
-        />,
+        />
       );
       expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
-    },
+    }
   );
 
   it(`Game over modal close`, async () => {
@@ -330,7 +330,7 @@ describe('gameArea Tests', () => {
         players={gameState.players}
         cells={gameState.cells}
         currentPlayer={0}
-      />,
+      />
     );
     userEvent.click(screen.getByRole('button', { name: /close/i }));
     rerender(
@@ -339,7 +339,7 @@ describe('gameArea Tests', () => {
         players={gameState.players}
         cells={gameState.cells}
         currentPlayer={0}
-      />,
+      />
     );
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
     // eslint-disable-next-line @typescript-eslint/unbound-method

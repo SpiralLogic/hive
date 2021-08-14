@@ -137,7 +137,7 @@ describe('tile Tests', () => {
       userEvent.click(tileCanMoveElement);
 
       expect(getHiveDispatcher().dispatch).not.toHaveBeenCalledWith(
-        expect.objectContaining({ type: 'tileSelect' }),
+        expect.objectContaining({ type: 'tileSelect' })
       );
     });
 
