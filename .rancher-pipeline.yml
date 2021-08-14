@@ -20,7 +20,8 @@ stages:
       dockerfilePath: ./ops/dockerfile
       buildContext: .
       tag: hive:${CICD_EXECUTION_SEQUENCE}
-      registry: https://10.1.2.5:34590
+      pushRemote: true
+      registry: docker-registry
 - name: deploy
   steps:
   - applyYamlConfig:
