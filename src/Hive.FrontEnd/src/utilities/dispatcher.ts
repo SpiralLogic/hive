@@ -5,12 +5,12 @@ const hiveDispatcher = new HiveDispatcher();
 
 export const useHiveDispatcher = (): HiveDispatcher => hiveDispatcher;
 
-export const addHiveDispatchListener = <T extends HiveIntent>(
+export const useHiveDispatchListener = <T extends HiveIntent>(
   type: T['type'],
   listener: HiveEventListener<T>
 ): void => {
+  const dispatcher = useHiveDispatcher();
   useEffect(() => {
-    const dispatcher = useHiveDispatcher();
     return dispatcher.add<T>(type, listener);
   });
 };

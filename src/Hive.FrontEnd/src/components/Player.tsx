@@ -1,6 +1,6 @@
 import '../css/player.css';
 
-import {FunctionComponent, h, toChildArray } from 'preact';
+import { FunctionComponent, h, toChildArray } from 'preact';
 import { useEffect, useState } from 'preact/hooks';
 
 import { PlayerId } from '../domain';
@@ -19,7 +19,7 @@ const Player: FunctionComponent<Properties> = (properties) => {
     if (children === 0) {
       setTimeout(() => setClassList({ type: 'add', classes: ['hide'] }), 100);
     }
-  }, [children]);
+  }, [children,setClassList]);
 
   const ontransitionend = () => {
     setHidden(true);

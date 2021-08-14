@@ -1,8 +1,8 @@
-import {FunctionComponent, h } from 'preact';
+import { FunctionComponent, h } from 'preact';
 import { useEffect, useState } from 'preact/hooks';
 import { HexCoordinates, Tile as TileType } from '../domain';
 import { TileEvent } from '../services';
-import { addHiveDispatchListener, dispatchHiveEvent } from '../utilities/dispatcher';
+import { useHiveDispatchListener, dispatchHiveEvent } from '../utilities/dispatcher';
 import { handleDragOver, handleKeyboardNav, isEnterOrSpace } from '../utilities/handlers';
 import { useClassReducer } from '../utilities/class-reducer';
 import Hexagon from './Hexagon';
@@ -15,14 +15,14 @@ const GameCell: FunctionComponent<Properties> = (properties) => {
   const [classes, setClasses] = useClassReducer('hide');
   const [selectedTile, setSelectedTile] = useState<TileType | null>(null);
 
-  useEffect(() => setClasses({ type: hidden ? 'add' : 'remove', classes: ['hide'] }), [hidden]);
+  useEffect(() => setClasses({ type: hidden ? 'add' : 'remove', classes: ['hide'] }), [hidden, setClasses]);
 
-  addHiveDispatchListener<TileEvent>('tileDeselected', () => {
+  useHiveDispatchListener<TileEvent>('tileDeselected', () => {
     setSelectedTile(null);
     setClasses({ type: 'remove', classes: ['active', 'can-drop', 'no-drop'] });
   });
 
-  addHiveDispatchListener<TileEvent>('tileSelected', (intent) => {
+  useHiveDispatchListener<TileEvent>('tileSelected', (intent) => {
     if (!isValidMove(intent.tile.moves, coords)) {
       setClasses({ type: 'add', classes: ['no-drop'] });
     } else {
@@ -31,7 +31,7 @@ const GameCell: FunctionComponent<Properties> = (properties) => {
     }
   });
 
-  addHiveDispatchListener<TileEvent>('tileDropped', () => {
+  useHiveDispatchListener<TileEvent>('tileDropped', () => {
     if (classes.includes('active') && selectedTile && isValidMove(selectedTile.moves, coords)) {
       dispatchHiveEvent({
         type: 'move',

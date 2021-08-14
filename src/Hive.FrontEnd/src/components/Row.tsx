@@ -1,6 +1,6 @@
 import '../css/row.css';
 
-import {FunctionComponent, h } from 'preact';
+import { FunctionComponent, h } from 'preact';
 
 type Properties = { class?: string; zIndex?: number; hidden?: boolean };
 

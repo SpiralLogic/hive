@@ -2,7 +2,7 @@ import { screen } from '@testing-library/preact';
 import { GameState } from '../../src/domain';
 import { Action, AiAction, HiveEvent, TileAction } from '../../src/services';
 import {
-  attachServerHandlers,
+  addServerHandlers,
   handleDragOver,
   handleDrop,
   handleKeyboardNav,
@@ -168,7 +168,7 @@ describe(`handler tests`, () => {
       jest.spyOn(dispatcher, 'remove');
       const sendSelection = jest.fn();
 
-      const removeHandlers = attachServerHandlers(
+      const removeHandlers = addServerHandlers(
         sendSelection,
         { gameId: '1', cells: [], players: [], gameStatus: 'MoveSuccess' },
         jest.fn(),

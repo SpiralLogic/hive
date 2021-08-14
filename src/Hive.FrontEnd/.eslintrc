@@ -21,10 +21,13 @@
     "plugin:testing-library/react",
     "plugin:testing-library/dom",
     "prettier",
-    "plugin:unicorn/recommended"
+    "plugin:unicorn/recommended",
+    "preact"
   ],
   "rules": {
-    "unicorn/no-null": "off"
+    "unicorn/no-null": "off",
+    "no-unused-vars": "off",
+    "@typescript-eslint/no-unused-vars": ["error"]
   },
   "globals": {
     "Atomics": "readonly",

@@ -1,11 +1,11 @@
 import '../css/gameArea.css';
 
-import {FunctionComponent, h } from 'preact';
+import { FunctionComponent, h } from 'preact';
 import { useEffect, useState } from 'preact/hooks';
 
 import { Cell, GameState, GameStatus, PlayerId } from '../domain';
 import { HextilleBuilder, HiveEvent } from '../services';
-import { addHiveDispatchListener } from '../utilities/dispatcher';
+import { useHiveDispatchListener } from '../utilities/dispatcher';
 import { handleDragOver } from '../utilities/handlers';
 import { cellKey, removeOtherPlayerMoves } from '../utilities/hextille';
 import { shareGame } from '../utilities/share';
@@ -77,13 +77,13 @@ const GameArea: FunctionComponent<Properties> = ({ players, cells, currentPlayer
   const rows = hextilleBuilder.createRows();
   useEffect(() => {
     setShowGameOver(gameOutcome(gameStatus, currentPlayer) !== '');
-  }, [gameStatus]);
+  }, [gameStatus, currentPlayer]);
 
-  addHiveDispatchListener<HiveEvent>('opponentConnected', () => {
+  useHiveDispatchListener<HiveEvent>('opponentConnected', () => {
     setPlayerConnected('connected');
   });
 
-  addHiveDispatchListener<HiveEvent>('opponentDisconnected', () => {
+  useHiveDispatchListener<HiveEvent>('opponentDisconnected', () => {
     setPlayerConnected('disconnected');
   });
 

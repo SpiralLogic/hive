@@ -1,6 +1,6 @@
 import '../css/tile.css';
 
-import {FunctionComponent, h } from 'preact';
+import { FunctionComponent, h } from 'preact';
 
 import Hexagon from './Hexagon';
 
@@ -14,7 +14,9 @@ const Tile: FunctionComponent<Properties> = (properties) => {
   if (selected) classes.push('selected');
   rest.class = classes.join(' ');
 
-  const svgs = creature ? [<use className={`creature`} href={`#${creature.toLowerCase()}`} />] : undefined;
+  const svgs = creature
+    ? [<use key={rest.id} className={`creature`} href={`#${creature.toLowerCase()}`} />]
+    : undefined;
 
   return <Hexagon svgs={svgs} {...rest} />;
 };

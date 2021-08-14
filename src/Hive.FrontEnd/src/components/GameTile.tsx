@@ -1,10 +1,10 @@
-import {FunctionComponent, h } from 'preact';
+import { FunctionComponent, h } from 'preact';
 import { useEffect, useState } from 'preact/hooks';
 
 import { PlayerId, Tile as TileType } from '../domain';
 import { TileAction } from '../services';
 import { useClassReducer } from '../utilities/class-reducer';
-import { addHiveDispatchListener, dispatchHiveEvent } from '../utilities/dispatcher';
+import { useHiveDispatchListener, dispatchHiveEvent } from '../utilities/dispatcher';
 import { handleDrop, handleKeyboardNav, isEnterOrSpace } from '../utilities/handlers';
 import Tile from './Tile';
 
@@ -35,15 +35,15 @@ const GameTile: FunctionComponent<Properties> = (properties) => {
     dispatchHiveEvent({ type: 'tileSelected', tile, fromEvent });
   };
 
-  addHiveDispatchListener<TileAction>('tileSelect', (event: TileAction) => {
+  useHiveDispatchListener<TileAction>('tileSelect', (event: TileAction) => {
     if (event.tile.id === id) select(true);
   });
 
-  addHiveDispatchListener<TileAction>('tileDeselect', (event: TileAction) => {
+  useHiveDispatchListener<TileAction>('tileDeselect', (event: TileAction) => {
     if (event.tile.id === id) deselect(true);
   });
 
-  addHiveDispatchListener('tileClear', () => {
+  useHiveDispatchListener('tileClear', () => {
     deselect(true);
     setFocus('');
   });

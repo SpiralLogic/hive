@@ -43,7 +43,7 @@ const Rules = () => {
       </div>
       <ul>
         {description.map((d) => (
-          <li>{d}</li>
+          <li key={d}>{d}</li>
         ))}
       </ul>
       <Rule />

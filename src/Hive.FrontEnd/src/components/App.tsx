@@ -1,16 +1,13 @@
 import '../css/app.css';
 
-import {FunctionComponent, h } from 'preact';
+import { FunctionComponent, h } from 'preact';
 import { useLayoutEffect, useState } from 'preact/hooks';
 
 import { GameState } from '../domain';
 import { HexEngine, HexServerConnectionFactory } from '../domain/engine';
-import {
-  attachServerHandlers,
-  opponentConnectedHandler,
-  opponentSelectionHandler,
-} from '../utilities/handlers';
+import { addServerHandlers, opponentConnectedHandler, opponentSelectionHandler } from '../utilities/handlers';
 import GameArea from './GameArea';
+import { useHiveDispatcher } from '../utilities/dispatcher';
 
 const App: FunctionComponent<{ engine: HexEngine; connectionFactory: HexServerConnectionFactory }> = (
   properties
@@ -18,6 +15,7 @@ const App: FunctionComponent<{ engine: HexEngine; connectionFactory: HexServerCo
   const { engine, connectionFactory } = properties;
   const [gameState, updateHandler] = useState<GameState | undefined>();
   const [fetchStatus, setFetchStatus] = useState('loading !');
+  const hiveDispatcher = useHiveDispatcher();
 
   useLayoutEffect(() => {
     engine.initialGame
@@ -30,7 +28,7 @@ const App: FunctionComponent<{ engine: HexEngine; connectionFactory: HexServerCo
         updateHandler(initialGameState);
       })
       .catch((error: Error) => setFetchStatus(error.message));
-  }, []);
+  }, [engine.currentPlayer, engine.initialGame,hiveDispatcher]);
 
   useLayoutEffect(() => {
     if (!gameState)
@@ -48,12 +46,13 @@ const App: FunctionComponent<{ engine: HexEngine; connectionFactory: HexServerCo
       /* needs to be handled */
     });
 
-    const removeServerHandlers = attachServerHandlers(
+    const removeServerHandlers = addServerHandlers(
       serverConnection.sendSelection,
       gameState,
       updateHandler,
       engine.move,
-      engine.currentPlayer === 0
+      engine.currentPlayer === 0,
+      hiveDispatcher
     );
 
     return (): void => {
@@ -62,7 +61,7 @@ const App: FunctionComponent<{ engine: HexEngine; connectionFactory: HexServerCo
         /* needs to be handled */
       });
     };
-  }, [gameState?.gameId]);
+  }, [gameState?.gameId, connectionFactory, engine.currentPlayer, engine.move, gameState]);
 
   if (gameState === undefined)
     return (

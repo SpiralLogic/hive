@@ -1,11 +1,11 @@
 import '../css/links.css';
 
-import {FunctionComponent, h } from 'preact';
+import { FunctionComponent, h } from 'preact';
 import { useState } from 'preact/hooks';
 
 import { PlayerId } from '../domain';
 import { AiAction, HiveEvent } from '../services';
-import { addHiveDispatchListener, useHiveDispatcher } from '../utilities/dispatcher';
+import { useHiveDispatcher, useHiveDispatchListener } from '../utilities/dispatcher';
 import { getShareUrl } from '../utilities/share';
 import SVG from './SVG';
 
@@ -23,13 +23,13 @@ export const handle = (handler: () => void) => (event: MouseEvent) => {
 
 const Links: FunctionComponent<Properties> = (properties) => {
   const [useAi, setUseAi] = useState(properties.currentPlayer === 0);
-
+  const hiveDispatcher = useHiveDispatcher();
   const clickHandler = () => {
-    useHiveDispatcher().dispatch<AiAction>({ type: 'toggleAi', newState: !useAi });
+    hiveDispatcher.dispatch<AiAction>({ type: 'toggleAi', newState: !useAi });
     setUseAi(!useAi);
   };
 
-  addHiveDispatchListener<HiveEvent>('opponentConnected', () => {
+  useHiveDispatchListener<HiveEvent>('opponentConnected', () => {
     setUseAi(false);
   });
 

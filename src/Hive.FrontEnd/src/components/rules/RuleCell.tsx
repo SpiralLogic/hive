@@ -1,4 +1,4 @@
-import {FunctionComponent, h } from 'preact';
+import { FunctionComponent, h } from 'preact';
 import { JSXInternal } from 'preact/src/jsx';
 
 import Arrow, { Direction } from '../Arrow';
@@ -11,7 +11,7 @@ type Arrows = ([Direction, number | undefined] | Direction)[];
 const createArrows = (arrows: Arrows | undefined, style: Result) =>
   arrows?.map((a) => {
     const [direction, length] = Array.isArray(a) ? a : [a];
-    return <Arrow result={style} direction={direction} length={length} />;
+    return <Arrow key={direction} result={style} direction={direction} length={length} />;
   });
 
 const getResultChar = (result?: Result, symbol?: string) => {
@@ -51,7 +51,7 @@ const RuleCell: FunctionComponent<{
     <Hexagon
       role="cell"
       class={classes.length > 0 ? classes.join(' ') : undefined}
-      style={zIndex ? { zIndex: zIndex } : undefined}>
+      style={zIndex ? { zIndex } : undefined}>
       <Tile {...rest}>{getResultChar(result, symbol)}</Tile>
       {createArrows(correctArrows, 'correct')}
       {createArrows(incorrectArrows, 'incorrect')}
