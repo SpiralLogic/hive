@@ -1,5 +1,5 @@
 ﻿{
-  "preset": "ts-jest",
+
   "clearMocks": true,
   "coverageDirectory": "./reports/__coverage__",
   "collectCoverage": true,
