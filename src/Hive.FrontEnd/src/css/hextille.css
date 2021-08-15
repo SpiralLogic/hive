@@ -31,6 +31,9 @@
   position: relative;
   transition: fill 0.1s ease-in;
 }
+[role='cell'] > *, .tile > * {
+  position: absolute;
+}
 
 @media only screen and (max-width: 720px) {
   [role='grid'] {
