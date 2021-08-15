@@ -19,7 +19,7 @@ stages:
       buildContext: .
       tag: hive:${CICD_EXECUTION_SEQUENCE}
       pushRemote: true
-      registry: https://registry.lab.sorijen.net.au
+      registry: registry.lab.sorijen.net.au
 - name: deploy
   steps:
   - applyYamlConfig:
