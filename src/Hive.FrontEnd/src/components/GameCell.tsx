@@ -62,7 +62,7 @@ const GameCell: FunctionComponent<Properties> = (properties) => {
   };
 
   const attributes = {
-    class: classes || undefined,
+    class: classes || '',
     tabindex: selectedTile && isValidMove(selectedTile.moves, coords) ? 0 : undefined,
     role: hidden ? 'none' : 'cell',
   };
