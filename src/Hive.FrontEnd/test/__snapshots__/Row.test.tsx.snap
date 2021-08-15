@@ -18,6 +18,7 @@ exports[`row Tests snapshot 1`] = `
     </svg>
   </div>
   <div
+    class=""
     role="cell"
   >
     <svg
@@ -30,6 +31,7 @@ exports[`row Tests snapshot 1`] = `
     </svg>
   </div>
   <div
+    class=""
     role="cell"
   >
     <svg

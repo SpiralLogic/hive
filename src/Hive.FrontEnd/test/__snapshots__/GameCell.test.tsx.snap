@@ -2,6 +2,7 @@
 
 exports[`cell Tests drag and drop cell with no tile matches current snapshot 1`] = `
 <div
+  class=""
   role="cell"
 >
   <svg
@@ -17,6 +18,7 @@ exports[`cell Tests drag and drop cell with no tile matches current snapshot 1`]
 
 exports[`cell Tests drag and drop cell with tile matches current snapshot 1`] = `
 <div
+  class=""
   role="cell"
 >
   <svg
