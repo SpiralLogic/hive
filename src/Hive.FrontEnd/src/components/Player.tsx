@@ -22,7 +22,7 @@ const Player: FunctionComponent<Properties> = (properties) => {
   }, [children, setClassList]);
 
   const ontransitionend = () => {
-    setHidden(true);
+    setHidden(toChildArray(properties.children).length === 0);
   };
 
   return hidden ? null : (
