@@ -28,7 +28,7 @@
 }
 
 .links svg {
-  width: 40px;
+  width: 4rem;
 }
 
 .links .ai-off {
@@ -37,16 +37,16 @@
 
 @media only screen and (max-width: 720px) {
   .links {
-    gap: 10px;
+    gap: 2rem;
     grid-auto-flow: column;
   }
 
   .links svg {
-    width: 20px;
+    width: 2rem;
   }
 
   .links a {
-    font-size: 2em;
+    font-size: 2rem;
   }
 }
 
