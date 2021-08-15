@@ -20,8 +20,8 @@ jobs:
           dotnet-version: '6.0.100-preview.3.21202.5'
       - name: dotnet restore
         run: dotnet restore
-      - name: Update Nuget Packages
-        run: ../ops/dotnet-update.sh
+#      - name: Update Nuget Packages
+#        run: ../ops/dotnet-update.sh
       - name: Test Api
         run: dotnet test ./Hive.Api.Tests -c Test  /p:CollectCoverage=true /p:CoverletOutput=TestResults/ /p:CoverletOutputFormat=lcov /p:SkipAutoProps=true  /p:ExcludeByAttribute="ExcludeFromCodeCoverage" /p:Exclude="[Hive.Domain]*"
       - name: Test Domain
