@@ -168,13 +168,7 @@ describe(`handler tests`, () => {
       jest.spyOn(dispatcher, 'remove');
       const sendSelection = jest.fn();
 
-      const removeHandlers = addServerHandlers(
-        sendSelection,
-        { gameId: '1', cells: [], players: [], gameStatus: 'MoveSuccess' },
-        jest.fn(),
-        moveTile,
-        false
-      );
+      const removeHandlers = addServerHandlers(sendSelection, '1', jest.fn(), moveTile, false);
 
       dispatcher.dispatch({
         type: 'move',

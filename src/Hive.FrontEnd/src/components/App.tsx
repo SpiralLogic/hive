@@ -31,7 +31,7 @@ const App: FunctionComponent<{ engine: HexEngine; connectionFactory: HexServerCo
   }, [engine.currentPlayer, engine.initialGame, hiveDispatcher]);
 
   useLayoutEffect(() => {
-    if (!gameState)
+    if (!gameState?.gameId)
       return () => {
         /* no clean up */
       };
@@ -48,7 +48,7 @@ const App: FunctionComponent<{ engine: HexEngine; connectionFactory: HexServerCo
 
     const removeServerHandlers = addServerHandlers(
       serverConnection.sendSelection,
-      gameState,
+      gameState.gameId,
       updateHandler,
       engine.move,
       engine.currentPlayer === 0
@@ -60,7 +60,7 @@ const App: FunctionComponent<{ engine: HexEngine; connectionFactory: HexServerCo
         /* needs to be handled */
       });
     };
-  }, [gameState?.gameId, connectionFactory, engine.currentPlayer, engine.move, gameState]);
+  }, [gameState?.gameId, connectionFactory, engine.currentPlayer, engine.move]);
 
   if (gameState === undefined)
     return (

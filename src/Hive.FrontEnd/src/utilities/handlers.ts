@@ -1,4 +1,4 @@
-import { GameState, Tile } from '../domain';
+import { GameId, GameState, Tile } from '../domain';
 import { EngineMove, OpponentConnectedHandler, OpponentSelectionHandler } from '../domain/engine';
 import { AiAction, MoveEvent, TileEvent } from '../services';
 import { dispatchHiveEvent, getHiveDispatcher } from './dispatcher';
@@ -74,7 +74,7 @@ export const opponentConnectedHandler: OpponentConnectedHandler = (type) => {
 
 export const addServerHandlers = (
   sendSelection: (type: 'select' | 'deselect', tile: Tile) => void,
-  gameState: GameState,
+  gameId: GameId,
   updateGameState: (value: GameState) => void,
   move: EngineMove,
   useAi = false
@@ -84,7 +84,7 @@ export const addServerHandlers = (
   const deselectionChangeHandler = (event: TileEvent) =>
     !event.fromEvent && sendSelection('deselect', event.tile);
   const moveHandler = async (event: MoveEvent) => {
-    const state = await move(gameState.gameId, event.move, useAi);
+    const state = await move(gameId, event.move, useAi);
     return updateGameState(state);
   };
   const hiveDispatcher = getHiveDispatcher();
