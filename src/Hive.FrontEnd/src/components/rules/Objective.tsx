@@ -2,8 +2,9 @@ import Hexagon from '../Hexagon';
 import Hextille from '../Hextille';
 import Row from '../Row';
 import RuleCell from './RuleCell';
+import { Rule } from './rule';
 
-export default {
+const Objective: Rule = {
   title: 'Objective',
   description: [
     'The first player to have a surrounded queen loses',
@@ -28,3 +29,5 @@ export default {
     </Hextille>
   ),
 };
+Objective.Rule.displayName = 'Objective';
+export default Objective;

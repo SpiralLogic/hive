@@ -2,8 +2,9 @@ import Hexagon from '../Hexagon';
 import Hextille from '../Hextille';
 import Row from '../Row';
 import RuleCell from './RuleCell';
+import { Rule } from './rule';
 
-export default {
+const AntRule: Rule = {
   title: 'Ant',
   description: ['Moves any number of cells'],
   Rule: () => (
@@ -43,3 +44,5 @@ export default {
     </Hextille>
   ),
 };
+AntRule.Rule.displayName = 'AntRule';
+export default AntRule;

@@ -1,8 +1,9 @@
 import Hextille from '../Hextille';
 import Row from '../Row';
 import RuleCell from './RuleCell';
+import { Rule } from './rule';
 
-export default {
+const OneHiveRule: Rule = {
   title: 'One Hive Rule',
   description: ['There must only be 1 hive', 'Even in transit a hive must not be split'],
   Rule: () => (
@@ -25,3 +26,6 @@ export default {
     </Hextille>
   ),
 };
+
+OneHiveRule.Rule.displayName = 'OneHiveRule';
+export default OneHiveRule;

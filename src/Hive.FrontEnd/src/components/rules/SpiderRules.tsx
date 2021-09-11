@@ -2,8 +2,9 @@ import Hexagon from '../Hexagon';
 import Hextille from '../Hextille';
 import Row from '../Row';
 import RuleCell from './RuleCell';
+import { Rule } from './rule';
 
-export default {
+const SpiderRules: Rule = {
   title: 'Spider',
   description: ['Must move 3 cells', `Can't backtrack`],
   Rule: () => (
@@ -49,3 +50,5 @@ export default {
     </Hextille>
   ),
 };
+SpiderRules.Rule.displayName = 'SpiderRules';
+export default SpiderRules;

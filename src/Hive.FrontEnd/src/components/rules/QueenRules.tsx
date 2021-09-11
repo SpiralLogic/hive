@@ -2,8 +2,9 @@ import Hexagon from '../Hexagon';
 import Hextille from '../Hextille';
 import Row from '../Row';
 import RuleCell from './RuleCell';
+import { Rule } from './rule';
 
-export default {
+const QueenRule: Rule = {
   title: 'Queen',
   description: [
     'Can move one cell',
@@ -43,3 +44,6 @@ export default {
     </Hextille>
   ),
 };
+
+QueenRule.Rule.displayName = 'QueenRule';
+export default QueenRule;

@@ -2,8 +2,9 @@ import Hexagon from '../Hexagon';
 import Hextille from '../Hextille';
 import Row from '../Row';
 import RuleCell from './RuleCell';
+import { Rule } from './rule';
 
-export default {
+const GrasshopperRule: Rule = {
   title: 'Grasshopper',
   description: ['Can just straight over other creatures', 'Can not jump gaps'],
   Rule: () => (
@@ -53,3 +54,5 @@ export default {
     </Hextille>
   ),
 };
+GrasshopperRule.Rule.displayName = 'GrasshopperRule';
+export default GrasshopperRule;

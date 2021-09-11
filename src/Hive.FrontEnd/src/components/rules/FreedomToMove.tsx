@@ -1,8 +1,9 @@
 import Hextille from '../Hextille';
 import Row from '../Row';
 import RuleCell from './RuleCell';
+import { Rule } from './rule';
 
-export default {
+const FreedomToMoveRule: Rule = {
   title: 'Freedom To Move',
   description: [`Each move must be able to slide to it's next position`],
   Rule: () => (
@@ -23,3 +24,5 @@ export default {
     </Hextille>
   ),
 };
+FreedomToMoveRule.Rule.displayName = 'FreedomToMoveRule';
+export default FreedomToMoveRule;

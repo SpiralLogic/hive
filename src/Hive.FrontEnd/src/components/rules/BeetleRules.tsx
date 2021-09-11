@@ -2,8 +2,9 @@ import Hexagon from '../Hexagon';
 import Hextille from '../Hextille';
 import Row from '../Row';
 import RuleCell from './RuleCell';
+import { Rule } from './rule';
 
-export default {
+const BeetleRule: Rule = {
   title: 'Beetle',
   description: ['Moves only 1 cell', 'Can move on top of insects'],
   Rule: () => (
@@ -35,3 +36,5 @@ export default {
     </Hextille>
   ),
 };
+BeetleRule.Rule.displayName = 'BeetleRule';
+export default BeetleRule;
