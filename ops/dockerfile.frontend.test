@@ -1,0 +1,7 @@
+FROM node:latest
+
+WORKDIR /source
+COPY ./src/Hive.FrontEnd .
+
+RUN pnpm install
+RUN pnpm test
