@@ -47,7 +47,7 @@
         "eslint-config-preact": "^1.1.4",
         "eslint-config-prettier": "^8.3.0",
         "eslint-plugin-jest": "^24.4.0",
-        "eslint-plugin-jest-dom": "^3.9.0",
+        "eslint-plugin-jest-dom": "^3.9.1",
         "eslint-plugin-preact": "^0.1.0",
         "eslint-plugin-prettier": "^3.4.0",
         "eslint-plugin-sort-imports-es6-autofix": "0.6.0",
