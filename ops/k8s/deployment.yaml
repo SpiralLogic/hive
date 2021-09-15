@@ -15,8 +15,6 @@ spec:
       labels:
         app: hive
     spec:
-      imagePullSecrets:
-        - name: registry-lab
       containers:
         - name: hive
           image: ${CICD_IMAGE}:${CICD_EXECUTION_SEQUENCE}
