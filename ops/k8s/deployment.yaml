@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: hive
-          image: $CONTAINER_IMAGE
+          image: ${GO_REVISION}
           ports:
             - containerPort: 80
           env:
