@@ -1,7 +1,7 @@
 format_version: 10
 pipelines:
   Hive:
-    group: Hive
+    group: Hive-Pipeline
     label_template: ${COUNT}
     lock_behavior: none
     display_order: -1
@@ -101,7 +101,7 @@ pipelines:
           deploy:
             timeout: 0
             environment_variables:
-              HIVE_SERVER: https://10.1.2.3:6443
+              HIVE_SERVER: https://10.1.2.1:6443
             secure_variables:
               KUBE_TOKEN: AES:kZK1hn80PMCt5W4zkCvzDQ==:feUGNDH4qhvaoBx8nC3BCS+th1Ql3G3YFXsX4p4lZk+dDTohwnvNKmIWahqVcI3kuMQc1rSzTHC/HdwSlsp1YiyiuuwP8m33wqtP7PXaA7c=
             elastic_profile_id: '3'
@@ -123,7 +123,7 @@ pipelines:
                 - rancher/kubectl:v1.18.20
                 - apply
                 - --insecure-skip-tls-verify=true
-                - --server="https://10.1.2.3:6443"
+                - --server="https://10.1.2.1:6443"
                 - -n hive
                 - -f ./ops/k8s/deployment.yaml
                 command: bash
@@ -143,7 +143,7 @@ pipelines:
                     -w /source \
                     -d rancher/kubectl:v1.18.20 apply \
                     --insecure-skip-tls-verify=true \
-                    --server="https://10.1.2.3:6443" \
+                    --server="https://10.1.2.1:6443" \
                     -n hive \
                     -f ./ops/k8s/deployment.yaml
                   shtype: bash
