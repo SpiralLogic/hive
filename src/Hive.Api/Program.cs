@@ -22,7 +22,7 @@ namespace Hive
             return WebHost.CreateDefaultBuilder(args)
                 .ConfigureAppConfiguration((context, _) =>
                 {
-                    if (context.HostingEnvironment.IsDevelopment())
+                    if (!context.HostingEnvironment.IsProduction())
                     {
                         var webRoot = context.HostingEnvironment.ContentRootPath + "/../Hive.FrontEnd/public";
                         context.HostingEnvironment.WebRootFileProvider = new PhysicalFileProvider(webRoot);

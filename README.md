@@ -7,7 +7,7 @@ The game is created by [Gen42 Games](http://gen42.com/). Here is a link to the [
 
 ### Requires:
 - node latest
-- dotnet sdk 5 latest
+- dotnet sdk 6 latest
 - pnpm 
 
 ```
@@ -16,7 +16,8 @@ npm i -g pnpm
 
 ### To Run
 ```
-dotnet run -p ./src/Api/Hive.Api
+dotnet build ./src
+dotnet run --project ./src/Hive.Api
 ```
 
 ### To Test

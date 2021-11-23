@@ -13,7 +13,6 @@
       "esnext"
     ],
     "types": [
-      "preact",
       "jest",
       "node",
       "testing-library__jest-dom"
