@@ -22,7 +22,7 @@ pipelines:
         jobs:
           run-frontend-tests:
             timeout: 0
-            elastic_profile_id: '3'
+            elastic_profile_id: 'hive-agent'
             artifacts:
             - test:
                 source: reports/**/*
@@ -44,7 +44,7 @@ pipelines:
                 run_if: passed
           run-backend-tests:
             timeout: 0
-            elastic_profile_id: '3'
+            elastic_profile_id: 'hive-agent'
             artifacts:
             - test:
                 source: reports/**
@@ -75,7 +75,7 @@ pipelines:
         jobs:
           build:
             timeout: 0
-            elastic_profile_id: '3'
+            elastic_profile_id: 'hive-agent'
             tasks:
             - plugin:
                 configuration:
@@ -102,7 +102,7 @@ pipelines:
             timeout: 0
             environment_variables:
               HIVE_SERVER: https://10.1.2.1:6443
-            elastic_profile_id: '3'
+            elastic_profile_id: 'hive-agent'
             tasks:
             - exec:
                 arguments:
