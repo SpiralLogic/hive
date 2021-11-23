@@ -1,0 +1,150 @@
+format_version: 10
+pipelines:
+  Hive:
+    group: Hive
+    label_template: ${COUNT}
+    lock_behavior: none
+    display_order: -1
+    materials:
+      git-fddb0ac:
+        git: https://git.lab.sorijen.net.au/spirallogic/hive.git
+        shallow_clone: false
+        auto_update: true
+        branch: master
+    stages:
+    - test:
+        fetch_materials: true
+        keep_artifacts: false
+        clean_workspace: true
+        approval:
+          type: success
+          allow_only_on_success: true
+        jobs:
+          run-frontend-tests:
+            timeout: 0
+            elastic_profile_id: '3'
+            artifacts:
+            - test:
+                source: reports/**/*
+                destination: reports
+            tasks:
+            - plugin:
+                configuration:
+                  id: script-executor
+                  version: 0.3.0
+                options:
+                  script: |-
+                    docker login -u silly -p login tcp://registry.lab.sorijen.net.au:443
+                    docker build -t frontend-test-results:${GO_REVISION} -f ./ops/dockerfile.frontend.test .
+                    docker run   --name frontend-tests-${GO_REVISION} frontend-test-results:${GO_REVISION}
+                    docker cp frontend-tests-${GO_REVISION}:/source/reports ./reports
+                    docker kill  frontend-tests-${GO_REVISION}
+                    docker rm frontend-tests-${GO_REVISION}
+                  shtype: bash
+                run_if: passed
+          run-backend-tests:
+            timeout: 0
+            elastic_profile_id: '3'
+            artifacts:
+            - test:
+                source: reports/**
+                destination: testoutput
+            tasks:
+            - plugin:
+                configuration:
+                  id: script-executor
+                  version: 0.3.0
+                options:
+                  script: |-
+                    docker login -u silly -p login tcp://registry.lab.sorijen.net.au:443
+                    docker build -t backend-test-results:${GO_REVISION} -f ./ops/dockerfile.backend.test .
+                    docker run   --name backend-tests-${GO_REVISION} backend-test-results:${GO_REVISION}
+                    docker cp backend-tests-${GO_REVISION}:/source/Hive.Domain.Tests/coverage.opencover.xml ./reports/domain-coverage.opencover.xml
+                    docker cp backend-tests-${GO_REVISION}:/source/Hive.Api.Tests/coverage.opencover.xml ./reports/api-coverage.opencover.xml
+                    docker kill  backend-tests-${GO_REVISION}
+                    docker rm backend-tests-${GO_REVISION}
+                  shtype: bash
+                run_if: passed
+    - build:
+        fetch_materials: true
+        keep_artifacts: false
+        clean_workspace: false
+        approval:
+          type: success
+          allow_only_on_success: false
+        jobs:
+          build:
+            timeout: 0
+            elastic_profile_id: '3'
+            tasks:
+            - plugin:
+                configuration:
+                  id: script-executor
+                  version: 0.3.0
+                options:
+                  script: |-
+                    docker build -t registry.lab.sorijen.net.au/hive:${GO_REVISION} -f ./ops/dockerfile .
+                    docker login -u not -p needed registry.lab.sorijen.net.au
+                    docker push registry.lab.sorijen.net.au/hive:${GO_REVISION}
+                  shtype: bash
+                run_if: passed
+    - deploy:
+        fetch_materials: true
+        keep_artifacts: false
+        clean_workspace: false
+        approval:
+          type: success
+          allow_only_on_success: true
+        environment_variables:
+          CICD_IMAGE: hive
+        jobs:
+          deploy:
+            timeout: 0
+            environment_variables:
+              HIVE_SERVER: https://10.1.2.3:6443
+            secure_variables:
+              KUBE_TOKEN: AES:kZK1hn80PMCt5W4zkCvzDQ==:feUGNDH4qhvaoBx8nC3BCS+th1Ql3G3YFXsX4p4lZk+dDTohwnvNKmIWahqVcI3kuMQc1rSzTHC/HdwSlsp1YiyiuuwP8m33wqtP7PXaA7c=
+            elastic_profile_id: '3'
+            tasks:
+            - exec:
+                arguments:
+                - -c
+                - docker
+                - run
+                - -e
+                - CONTAINER_IMAGE=registry.lab.sorijen.net.au:443/hive:${GO_REVISION}
+                - -v
+                - /source
+                - -v
+                - /homego/kube_config/:/.kube/
+                - -w
+                - /source
+                - -d
+                - rancher/kubectl:v1.18.20
+                - apply
+                - --insecure-skip-tls-verify=true
+                - --server="https://10.1.2.3:6443"
+                - -n hive
+                - -f ./ops/k8s/deployment.yaml
+                command: bash
+                run_if: passed
+            - plugin:
+                configuration:
+                  id: script-executor
+                  version: 0.3.0
+                options:
+                  script: |-
+                    docker login -u not -p needed registry.lab.sorijen.net.au
+                    echo ${GO_REVISION}
+                    docker run \
+                    -e CONTAINER_IMAGE=registry.lab.sorijen.net.au:443/hive:${GO_REVISION} \
+                    -v /source \
+                    -v /homego/kube_config/:/.kube/ \
+                    -w /source \
+                    -d rancher/kubectl:v1.18.20 apply \
+                    --insecure-skip-tls-verify=true \
+                    --server="https://10.1.2.3:6443" \
+                    -n hive \
+                    -f ./ops/k8s/deployment.yaml
+                  shtype: bash
+                run_if: passed
