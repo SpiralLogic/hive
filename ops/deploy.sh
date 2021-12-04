@@ -1,8 +1,6 @@
 #!/bin/bash
 sed -i "s~#{image}~$ARTIFACT_IMAGE~g" ops/k8s/deployment.yaml
-wget https://github.com/mikefarah/yq/releases/download/v4.16.1/yq_linux_amd64 -O yq 
-chmod +x  ./yq
- ./yq eval -o=j   -i ./ops/k8s/deployment.yaml  
+
 if [ -z $KUBE_TOKEN ]; then
   echo "FATAL: Environment Variable KUBE_TOKEN must be specified."
   exit ${2:-1}
@@ -23,13 +21,13 @@ status_code=$(curl -sSk -H "Authorization: Bearer $KUBE_TOKEN" \
 if [ $status_code == 200 ]; then
   echo
   echo "Updating deployment"
-  curl --fail -H 'Content-Type: application/strategic-merge-patch+json' -sSk -H "Authorization: Bearer $KUBE_TOKEN" \
+  curl --fail -H 'Content-Type: application/strategic-merge-patch+yaml' -sSk -H "Authorization: Bearer $KUBE_TOKEN" \
     "https://$KUBERNETES_SERVICE_HOST:$KUBERNETES_PORT_443_TCP_PORT/apis/apps/v1/namespaces/$NAMESPACE/deployments/hive-deployment" \
     -X PATCH -d @ops/k8s/deployment.yaml
 else
  echo
  echo "Creating deployment"
- curl --fail -H 'Content-Type: application/json' -sSk -H "Authorization: Bearer $KUBE_TOKEN" \
+ curl --fail -H 'Content-Type: application/yaml' -sSk -H "Authorization: Bearer $KUBE_TOKEN" \
     "https://$KUBERNETES_SERVICE_HOST:$KUBERNETES_PORT_443_TCP_PORT/apis/apps/v1/namespaces/$NAMESPACE/deployments" \
     -X POST -d @ops/k8s/deployment.yaml
 fi
