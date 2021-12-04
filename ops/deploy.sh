@@ -1,6 +1,8 @@
 #!/bin/bash
 sed -i "s~#{image}~$ARTIFACT_IMAGE~g" ops/k8s/deployment.yaml
-
+wget https://github.com/mikefarah/yq/releases/download/v4.16.1/yq_linux_amd64 -O yq 
+chmod +x  ./yq
+ ./yq eval -o=j   -i ./ops/k8s/deployment.yaml  
 if [ -z $KUBE_TOKEN ]; then
   echo "FATAL: Environment Variable KUBE_TOKEN must be specified."
   exit ${2:-1}
