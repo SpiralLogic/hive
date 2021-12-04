@@ -1,4 +1,4 @@
-FROM registry.lab.sorijen.net.au/node:latest
+FROM node:latest
 
 WORKDIR /source
 COPY ./src/Hive.FrontEnd .
