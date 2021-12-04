@@ -1,4 +1,4 @@
-FROM node:latest
+FROM library/node:latest
 
 WORKDIR /source
 COPY ./src/Hive.FrontEnd .
