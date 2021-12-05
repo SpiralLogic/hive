@@ -18,6 +18,8 @@ spec:
       labels:
         app: hive
     spec:
+      imagePullSecrets:
+        - name: sor-registry
       containers:
         - name: hive
           image: {image}
