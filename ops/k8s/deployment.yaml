@@ -1,15 +1,18 @@
 apiVersion: apps/v1
-kind: Deployment
+kind: DaemonSet
 metadata:
   name: hive-deployment
   namespace: hive
   labels:
     app: hive
 spec:
-  replicas: 3
   selector:
     matchLabels:
       app: hive
+  updateStrategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
   template:
     metadata:
       labels:
