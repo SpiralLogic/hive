@@ -3,5 +3,5 @@ FROM mcr.microsoft.com/dotnet/sdk:6.0
 WORKDIR /source
 COPY ./src .
 
-RUN dotnet test ./Hive.Api.Tests -c Test /p:CollectCoverage=true /p:CoverletOutputFormat=json /p:CoverletOutputFormat=opencover /p:SkipAutoProps=true  /p:Exclude=[Hive.Domain]*
-RUN dotnet test ./Hive.Domain.Tests /p:CollectCoverage=true  /p:CoverletOutputFormat=json /p:CoverletOutputFormat=opencover /p:SkipAutoProps=true
+RUN dotnet test ./Hive.Api.Tests -c Test /p:CollectCoverage=true /p:CoverletOutputFormat=\"opencover,lcov,json\" /p:SkipAutoProps=true  /p:Exclude=[Hive.Domain]*
+RUN dotnet test ./Hive.Domain.Tests /p:CollectCoverage=true  /p:CoverletOutputFormat=\"opencover,lcov,json\" /p:SkipAutoProps=true
