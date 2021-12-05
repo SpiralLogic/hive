@@ -22,7 +22,7 @@ spec:
             - containerPort: 80
           env:
             - name: ASPNETCORE_ENVIRONMENT
-              value: production
+              value: Production
           livenessProbe:
             failureThreshold: 3
             httpGet:
