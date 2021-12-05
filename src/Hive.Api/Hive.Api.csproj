@@ -54,6 +54,9 @@
         </Exec>
         <Error Condition="'$(ErrorCode)' != '0'" Text="Failed to build with pnpm" />
     </Target>
+    <Target Name="EmptyDefault" AfterTargets="Build">
+        <MakeDir Directories="wwwroot" />
+    </Target>
     <ItemGroup>
         <ProjectReference Include="..\Hive.Domain\Hive.Domain.csproj" />
     </ItemGroup>
