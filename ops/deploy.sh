@@ -1,5 +1,5 @@
 #!/bin/bash
-sed -i "s~#{image}~$ARTIFACT_IMAGE~g" ops/k8s/deployment.yaml
+sed -i "s~#{image}~$ARTIFACT_IMAGE:$GO_PIPELINE_COUNTER~g" ops/k8s/deployment.yaml
 
 if [ -z $KUBE_TOKEN ]; then
   echo "FATAL: Environment Variable KUBE_TOKEN must be specified."
