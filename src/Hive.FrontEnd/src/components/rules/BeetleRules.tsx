@@ -23,7 +23,7 @@ const BeetleRule: Rule = {
         />
         <RuleCell />
       </Row>
-      <Row>
+      <Row zIndex={-1}>
         <Hexagon hidden={true} />
         <RuleCell result="correct" creature="ant" />
         <RuleCell result="correct" />

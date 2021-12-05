@@ -26,9 +26,7 @@ const Player: FunctionComponent<Properties> = (properties) => {
   };
 
   return hidden ? null : (
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-expect-error
-    <div class={classes} title={name} onanimationend={ontransitionend} ontransitionend={ontransitionend}>
+    <div class={classes} title={name} onAnimationEnd={ontransitionend} onTransitionEnd={ontransitionend}>
       <div class="name">{name}</div>
       <div class="tiles">{properties.children}</div>
     </div>

@@ -12,8 +12,9 @@ const fallbackCopyTextToClipboard = (text: string) => {
   document.body.append(textArea);
   textArea.focus();
   textArea.select();
-  let copied = false;
+  let copied: boolean;
   try {
+    // noinspection JSDeprecatedSymbols
     document.execCommand('copy');
     currentFocus.focus();
     copied = true;

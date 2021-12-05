@@ -24,7 +24,7 @@ const SpiderRules: Rule = {
           zIndex={3}
           correctArrows={['topLeft', 'bottomLeft', 'bottomRight']}
         />
-        <RuleCell creature="spider" />
+        <RuleCell creature="spider" zIndex={4} />
         <RuleCell result="correct" zIndex={2} symbol="2" correctArrows={['bottomRight']} />
       </Row>
       <Row>
