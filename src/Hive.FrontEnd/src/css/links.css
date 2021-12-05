@@ -1,13 +1,13 @@
 .links {
   position: absolute;
   right: 0;
+  top: 0;
   display: grid;
   padding: 10px;
   color: white;
-  grid-auto-flow: row;
+  grid-auto-flow: column;
   grid-template-columns: max-content;
   gap: 20px;
-  justify-items: center;
 }
 
 .links a {
@@ -22,7 +22,8 @@
   fill: hotpink;
 }
 
-.links a:visited, .links a:active {
+.links a:visited,
+.links a:active {
   text-decoration: none;
   color: white;
 }
@@ -32,13 +33,18 @@
 }
 
 .links .ai-off {
-  filter: opacity(.2);
+  filter: opacity(0.2);
 }
 
 @media only screen and (max-width: 720px) {
   .links {
     gap: 2rem;
     grid-auto-flow: column;
+    position: absolute;
+    justify-self: center;
+    bottom: 10px;
+    top: auto;
+    right: auto;
   }
 
   .links svg {
@@ -49,5 +55,3 @@
     font-size: 2rem;
   }
 }
-
-
