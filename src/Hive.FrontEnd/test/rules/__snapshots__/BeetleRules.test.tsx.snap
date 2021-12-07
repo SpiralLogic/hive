@@ -207,6 +207,7 @@ exports[`beetle Rule snapshot tests snapshot 1`] = `
       </div>
       <div
         role="row"
+        style="z-index: -1;"
       >
         <div
           role="none"
