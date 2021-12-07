@@ -34,10 +34,9 @@ namespace Hive
                 services.AddStackExchangeRedisCache(options =>
                 {
                     options.Configuration = _configuration["RedisHost"];
-                    options.ConfigurationOptions.AbortOnConnectFail = false;
                 });
                 
-                sigR.AddStackExchangeRedis(_configuration["RedisHost"], options => options.Configuration.AbortOnConnectFail = false);
+                sigR.AddStackExchangeRedis(_configuration["RedisHost"]);
             }
             else
             {
