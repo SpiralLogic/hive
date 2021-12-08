@@ -34,7 +34,6 @@ namespace Hive.Domain
 
         private GameStatus DetermineWinner()
         {
-
             var surroundedQueens = _hive.Cells.Where(c => c.HasQueen() && c.SelectNeighbors(_hive.Cells).WhereOccupied().Count() == 6)
                 .ToArray();
             if (surroundedQueens.Length == 2) return GameStatus.Draw;
@@ -123,8 +122,6 @@ namespace Hive.Domain
 
         private bool IsValidMove(Move move)
         {
-
-            if (move == null) return false;
             var (tile, coords) = move;
             return GetAllTiles().SingleOrDefault(t => t == tile)?.Moves.Contains(coords) ?? false;
         }

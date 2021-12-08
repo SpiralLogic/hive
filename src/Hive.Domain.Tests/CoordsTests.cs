@@ -1,6 +1,5 @@
 ﻿using System;
 using FluentAssertions;
-using FluentAssertions.Common;
 using Hive.Domain.Entities;
 using Xunit;
 
@@ -33,15 +32,6 @@ namespace Hive.Domain.Tests
             var coords3 = new Coords(1, 1);
 
             coords1.Should().BeEquivalentTo(coords3);
-        }
-
-        [Fact]
-        public void CoordsAreNotEqualWith()
-        {
-            var coords1 = new Coords(1, 1);
-            var coords2 = new Coords(1,2);
-
-            coords1.Should().NotBe(coords2);
         }
 
         [Fact]

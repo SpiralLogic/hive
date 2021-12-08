@@ -1,6 +1,4 @@
-using System.Linq;
 using Hive.Domain.Entities;
-using Hive.Domain.Extensions;
 
 namespace Hive.Domain.Ai.Heuristics
 {

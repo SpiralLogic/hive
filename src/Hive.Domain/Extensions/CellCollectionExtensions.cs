@@ -6,14 +6,15 @@ namespace Hive.Domain.Extensions
 {
     public static class CellCollectionExtensions
     {
-        internal static Cell? FindCellOrDefault(this IEnumerable<Cell> cells, Coords coords)
-        {
-            return cells.FirstOrDefault(c => c.Coords.Equals(coords));
-        }
 
         internal static Cell FindCell(this IEnumerable<Cell> cells, Coords coords)
         {
             return cells.First(c => c.Coords.Equals(coords));
+        }
+
+        internal static Cell? FindCellOrDefault(this IEnumerable<Cell> cells, Coords coords)
+        {
+            return cells.FirstOrDefault(c => c.Coords.Equals(coords));
         }
 
         internal static Cell? FindCellOrDefault(this IEnumerable<Cell> cells, Tile tile)

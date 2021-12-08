@@ -68,7 +68,7 @@ namespace Hive.Domain.Ai
                 if (status == GameStatus.MoveInvalid) continue;
                 if (!toExplore.ContainsKey(nextMove.Tile.Id)) toExplore.Add(nextMove.Tile.Id, new List<ExploreNode>());
 
-                var tileMoves = toExplore[nextMove.Tile.Id]!;
+                var tileMoves = toExplore[nextMove.Tile.Id];
                 var values = new HeuristicValues(_hive, _previousMoves, nextMove, status);
                 var score = _heuristics.Sum(h => h.Get(values, values.Move));
                 RevertMove();

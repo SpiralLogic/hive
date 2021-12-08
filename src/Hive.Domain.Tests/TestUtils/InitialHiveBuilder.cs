@@ -10,23 +10,23 @@ namespace Hive.Domain.Tests.TestUtils
             return AddRow(builder, newRow);
         }
 
-        protected override void ModifyCell(Cell cell, char cellString)
+        protected override void ModifyCell(Cell cell, char symbol)
         {
-            if (cellString == Origin.Symbol)
+            if (symbol == Origin.Symbol)
             {
                 cell.AddTile(new Tile(TileIdSequence++, 0, Origin.Creature));
-            } else if (cellString == Friend.Symbol)
+            } else if (symbol == Friend.Symbol)
             {
                 cell.AddTile(new Tile(TileIdSequence++, 0, Friend.Creature));
             }
-            else if (cellString == Enemy.Symbol)
+            else if (symbol == Enemy.Symbol)
             {
                 cell.AddTile(new Tile(TileIdSequence++, 1, Enemy.Creature));
             }
             else
             {
-                var (creature, symbol, _) = AllSymbols.Single(s => s.Symbol == cellString);
-                var playerId = symbol.ToString().ToUpper() == symbol.ToString() ? 0 : 1;
+                var (creature, cellString, _) = AllSymbols.Single(s => s.Symbol == symbol);
+                var playerId = cellString.ToString().ToUpper() == cellString.ToString() ? 0 : 1;
                 cell.AddTile(new Tile(TileIdSequence++, playerId, creature));
             }
         }

@@ -8,21 +8,21 @@ namespace Hive.Domain.Movements
 {
     public class OnlyJumpStraightOver : IMovement
     {
-        public ISet<Coords> GetMoves(Cell currentCell, ISet<Cell> allCells)
+        public ISet<Coords> GetMoves(Cell originCell, ISet<Cell> allCells)
         {
             var cells = new HashSet<Cell>
             {
-                GetFirstEmpty(allCells, c => c.Neighbours()[(int)Direction.TopLeft], currentCell.Coords),
-                GetFirstEmpty(allCells, c => c.Neighbours()[(int)Direction.TopRight], currentCell.Coords),
+                GetFirstEmpty(allCells, c => c.Neighbours()[(int)Direction.TopLeft], originCell.Coords),
+                GetFirstEmpty(allCells, c => c.Neighbours()[(int)Direction.TopRight], originCell.Coords),
 
-                GetFirstEmpty(allCells, c => c.Neighbours()[(int)Direction.Left], currentCell.Coords),
+                GetFirstEmpty(allCells, c => c.Neighbours()[(int)Direction.Left], originCell.Coords),
 
-                GetFirstEmpty(allCells, c =>c.Neighbours()[(int)Direction.Right], currentCell.Coords),
-                GetFirstEmpty(allCells, c => c.Neighbours()[(int)Direction.BottomLeft], currentCell.Coords),
-                GetFirstEmpty(allCells, c => c.Neighbours()[(int)Direction.BottomRight], currentCell.Coords)
+                GetFirstEmpty(allCells, c =>c.Neighbours()[(int)Direction.Right], originCell.Coords),
+                GetFirstEmpty(allCells, c => c.Neighbours()[(int)Direction.BottomLeft], originCell.Coords),
+                GetFirstEmpty(allCells, c => c.Neighbours()[(int)Direction.BottomRight], originCell.Coords)
             };
 
-            return cells.Except(currentCell.SelectNeighbors(allCells)).ToCoords();
+            return cells.Except(originCell.SelectNeighbors(allCells)).ToCoords();
         }
 
         private static Cell GetFirstEmpty(ISet<Cell> allCells, Func<Coords, Coords> nextFunc, Coords current)

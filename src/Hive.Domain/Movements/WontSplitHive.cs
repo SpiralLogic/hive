@@ -7,11 +7,11 @@ namespace Hive.Domain.Movements
 {
     public class WontSplitHive : IMovement
     {
-        public ISet<Coords> GetMoves(Cell currentCell, ISet<Cell> allCells)
+        public ISet<Coords> GetMoves(Cell originCell, ISet<Cell> allCells)
         {
             var allCells2 = allCells.ToHashSet();
-             allCells2.Remove(currentCell) ;
-            if (currentCell.Tiles.Count > 1)
+             allCells2.Remove(originCell) ;
+            if (originCell.Tiles.Count > 1)
                 return allCells2.ToCoords();
 
             var allOccupied = allCells2.WhereOccupied().ToHashSet();

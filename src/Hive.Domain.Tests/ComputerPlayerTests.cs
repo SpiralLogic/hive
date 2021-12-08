@@ -126,6 +126,37 @@ namespace Hive.Domain.Tests
         }
 
         [Fact]
+        public async Task MovesBeetleOnTopOfQueen2()
+        {
+            var initial = new InitialHiveBuilder();
+
+            initial += " ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡";
+            initial += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
+            initial += " ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡";
+            initial += "⬡ ⬡ ⬡ A ⬡ ⬡ ⬡ ⬡ ";
+            initial += " ⬡ ⬡ ⬡ b ⬡ ⬡ ⬡ ⬡";
+            initial += "⬡ g Q b b q B ⬡ ";
+            initial += " ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡";
+            initial += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
+
+            var expected = new ExpectedAiBuilder();
+
+            expected += " ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡";
+            expected += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
+            expected += " ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡";
+            expected += "⬡ ⬡ ⬡ A ⬡ ⬡ ⬡ ⬡ ";
+            expected += " ⬡ ⬡ ⬡ b ⬡ ⬡ ⬡ ⬡";
+            expected += "⬡ g Q b b ✔ ★ ⬡ ";
+            expected += " ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡";
+            expected += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
+
+            var hive = HiveFactory.CreateHive(new[] {new Player(0, "P1"), new Player(1, "P1")}, initial.AllCells, 0);
+
+            var player = new ComputerPlayer(hive);
+            (await player.GetMove()).Should().BeetleOnToQueen(initial, expected);
+        }
+
+        [Fact]
         public async Task BeetleStaysOnTopOfQueen()
         {
             var initial = new InitialHiveBuilder();

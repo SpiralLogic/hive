@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using FluentAssertions;
-using FluentAssertions.Common;
 using Hive.Domain.Entities;
 using Xunit;
 
@@ -61,15 +60,6 @@ namespace Hive.Domain.Tests
             var cell = new Cell(new Coords(1, 1)).AddTile(new Tile(1, 2, Creatures.Queen)).AddTile(topTile);
 
             cell.TopTile().Should().BeSameAs(topTile);
-        }
-
-        [Fact]
-        public void TopTile_DoesntRemoveTile()
-        {
-            var cell = new Cell(new Coords(1, 1)).AddTile(new Tile(1, 2, Creatures.Queen))
-                .AddTile(new Tile(1, 2, Creatures.Queen));
-
-            cell.Tiles.Should().HaveCount(2);
         }
 
         [Fact]

@@ -31,11 +31,11 @@ namespace Hive.Domain.Tests.TestUtils
             return ExpectedCells.Select(c => c.Coords).ToHashSet();
         }
 
-        protected override void ModifyCell(Cell cell, char cellString)
+        protected override void ModifyCell(Cell cell, char symbol)
         {
-            if (cellString == Expected.Symbol) cell.AddTile(new Tile(TileIdSequence++, 2, Expected.Creature));
-            if (cellString == Unexpected.Symbol) cell.AddTile(new Tile(TileIdSequence++, 2, Unexpected.Creature));
-            if (cellString == Origin.Symbol) cell.AddTile(new Tile(TileIdSequence++, 0, Origin.Creature));
+            if (symbol == Expected.Symbol) cell.AddTile(new Tile(TileIdSequence++, 2, Expected.Creature));
+            if (symbol == Unexpected.Symbol) cell.AddTile(new Tile(TileIdSequence++, 2, Unexpected.Creature));
+            if (symbol == Origin.Symbol) cell.AddTile(new Tile(TileIdSequence++, 0, Origin.Creature));
         }
 
         internal string GetMoveDiff(HashSet<(Coords Coords, Tile Tile)> origins, Move move)
@@ -45,14 +45,15 @@ namespace Hive.Domain.Tests.TestUtils
             foreach (var cell in OriginCells) UpdateCoords(AvailableOrigin.ToString(), cell.Coords, actualRows);
 
             UpdateCoords(IncorrectExpected.ToString(), move.Coords, actualRows);
-            var origin = origins.FirstOrDefault(o => o.Tile.Id == move.Tile.Id).Coords;
-            if (origin != null)
+
+            if (origins.Count> 0)
             {
-                UpdateCoords(Origin.ToString(),origin ,actualRows);
+                var origin = origins.FirstOrDefault(o => o.Tile.Id == move.Tile.Id).Coords;
+                UpdateCoords(Origin.ToString(), origin, actualRows);
             }
+
             var coloredRows = ToColoredString(ToString()).Split("\n");
-            var comparison = actualRows.Select((row, i) =>
-                $"{ToColoredString(row)} | {coloredRows[i]}");
+            var comparison = actualRows.Select((row, i) => $"{ToColoredString(row)} | {coloredRows[i]}");
             return
                 $"Creature:{move.Tile.Creature.Name} - {move.Tile.Id} to coords: {move.Coords.Q}-{move.Coords.R}\n\u001b[37m{string.Join("\n", comparison)}\u001b[0m";
         }

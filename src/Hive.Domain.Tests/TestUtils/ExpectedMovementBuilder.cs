@@ -29,10 +29,10 @@ namespace Hive.Domain.Tests.TestUtils
             return ExpectedCells.Select(c => c.Coords).ToHashSet();
         }
 
-        protected override void ModifyCell(Cell cell, char cellString)
+        protected override void ModifyCell(Cell cell, char symbol)
         {
-            if (cellString == Expected.Symbol) cell.AddTile(new Tile(1, 1, Expected.Creature));
-            if (cellString == Unexpected.Symbol) cell.AddTile(new Tile(1, 2, Unexpected.Creature));
+            if (symbol == Expected.Symbol) cell.AddTile(new Tile(1, 1, Expected.Creature));
+            if (symbol == Unexpected.Symbol) cell.AddTile(new Tile(1, 2, Unexpected.Creature));
         }
 
         internal string GetMovementDiff(IEnumerable<Coords> actual)

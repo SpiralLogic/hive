@@ -21,9 +21,9 @@ namespace Hive.Api.Tests.Controllers
             return jsonOptions;
         }
 
-        internal static byte[] GetSerializedBytes(GameState gameState, JsonOptions jsonOptions)
+        internal static byte[] GetSerializedBytes(object @object, JsonOptions jsonOptions)
         {
-            return Encoding.Default.GetBytes(JsonSerializer.Serialize(gameState, jsonOptions.JsonSerializerOptions));
+            return Encoding.Default.GetBytes(JsonSerializer.Serialize(@object, jsonOptions.JsonSerializerOptions));
         }
 
         internal static MemoryDistributedCache CreateTestMemoryCache()

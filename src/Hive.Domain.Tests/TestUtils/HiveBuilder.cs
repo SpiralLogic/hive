@@ -22,7 +22,7 @@ namespace Hive.Domain.Tests.TestUtils
         protected int TileIdSequence;
         private int _rowLength;
 
-        internal HiveBuilder()
+        protected HiveBuilder()
         {
             WithCreatureSymbols();
         }
@@ -67,7 +67,7 @@ namespace Hive.Domain.Tests.TestUtils
                 if (creature == null) return;
                 var p0Symbol = creature.Name.ToUpperInvariant().First();
                 var p1Symbol = creature.Name.ToLowerInvariant().First();
-                
+
                 AllSymbols.Add(new HiveCharacter(creature, p0Symbol, Friend.Color));
                 AllSymbols.Add(new HiveCharacter(creature, p1Symbol, Enemy.Color));
             }

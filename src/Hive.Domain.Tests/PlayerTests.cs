@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Linq;
 using FluentAssertions;
-using FluentAssertions.Common;
 using Hive.Domain.Entities;
 using Xunit;
 

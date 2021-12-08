@@ -33,7 +33,6 @@ namespace Hive.Controllers
         [ProducesErrorResponseType(typeof(BadRequestResult))]
         public async ValueTask<IActionResult> Post(string id, [FromBody] Move move)
         {
-            if (move == null) return BadRequest();
             if (string.IsNullOrEmpty(id)) return BadRequest();
 
             var gameSession = await _distributedCache.GetStringAsync(id);
@@ -42,10 +41,11 @@ namespace Hive.Controllers
             var (players, cells, _, _) = JsonSerializer.Deserialize<GameState>(gameSession, _jsonSerializerOptions)!;
 
             var game = new Domain.Hive(players.ToList(), cells.ToHashSet());
-            var tile = players.SelectMany(p => p.Tiles).Concat(cells.SelectMany(c => c.Tiles)).FirstOrDefault(t => t.Id == move.TileId);
+            var (tileId, coords) = move;
+            var tile = players.SelectMany(p => p.Tiles).Concat(cells.SelectMany(c => c.Tiles)).FirstOrDefault(t => t.Id == tileId);
             if (tile == null) return Forbid();
 
-            var gameStatus = game.Move(new Domain.Entities.Move(tile, move.Coords));
+            var gameStatus = game.Move(new Domain.Entities.Move(tile, coords));
 
             if (gameStatus == GameStatus.MoveInvalid) return Forbid();
 
@@ -71,9 +71,10 @@ namespace Hive.Controllers
             if (string.IsNullOrEmpty(gameSessionJson)) return NotFound();
             var gameState = JsonSerializer.Deserialize<GameState>(gameSessionJson, _jsonSerializerOptions)!;
             var (players, cells, _, gameStatus) = gameState;
-            if (new[] {GameStatus.GameOver, GameStatus.AiWin, GameStatus.Player0Win, GameStatus.Player1Win, GameStatus.Draw}.Contains(
-                gameStatus
-            )) return Conflict(gameState);
+            if (new[] { GameStatus.GameOver, GameStatus.AiWin, GameStatus.Player0Win, GameStatus.Player1Win, GameStatus.Draw }.Contains(
+                    gameStatus
+                )) return Conflict(gameState);
+
             var previousMoves = PreventRepeatedMoves(playerId, previousMovesJson, players);
 
             var game = new Domain.Hive(players.ToList(), cells.ToHashSet());
@@ -107,7 +108,6 @@ namespace Hive.Controllers
             if (string.IsNullOrEmpty(previousMovesJson)) return fallback;
             var previousMoves = JsonSerializer.Deserialize<Domain.Entities.Move[]>(previousMovesJson, _jsonSerializerOptions) ?? fallback;
 
-            if (previousMoves.Length == 4) previousMoves = fallback;
             var previousMove = previousMoves[playerId + 4];
 
             if (previousMove == null) return previousMoves;

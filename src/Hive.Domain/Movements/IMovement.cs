@@ -5,6 +5,6 @@ namespace Hive.Domain.Movements
 {
     public interface IMovement
     {
-        ISet<Coords> GetMoves(Cell currentCell, ISet<Cell> allCells);
+        ISet<Coords> GetMoves(Cell originCell, ISet<Cell> allCells);
     }
 }
