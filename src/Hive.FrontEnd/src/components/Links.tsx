@@ -1,6 +1,6 @@
 import '../css/links.css';
 
-import { FunctionComponent, h } from 'preact';
+import { FunctionComponent } from 'preact';
 import { useState } from 'preact/hooks';
 
 import { PlayerId } from '../domain';

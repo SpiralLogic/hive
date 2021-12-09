@@ -31,7 +31,7 @@ describe('gameArea Tests', () => {
     expect(preventDefault).toHaveBeenCalledWith();
   });
 
-  it(`removes moves for tiles which aren't the current player`, async () => {
+  it(`removes all moves for tiles which aren't the current player`, async () => {
     const gameState = createGameState(1);
     global.window.history.replaceState({}, global.document.title, `/game/33/0`);
     render(

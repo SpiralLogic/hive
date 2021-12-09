@@ -4,6 +4,7 @@ import { HexEngine, HexServerConnectionFactory } from '../src/domain/engine';
 import { getHiveDispatcher } from '../src/utilities/dispatcher';
 import App from '../src/components/App';
 import { cellMoveEvent, createGameState } from './fixtures/app.fixture';
+
 const connectionFactory: HexServerConnectionFactory = () => ({
   connectGame: () => Promise.resolve(),
   getConnectionState: jest.fn(),

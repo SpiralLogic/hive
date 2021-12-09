@@ -1,10 +1,5 @@
 import { Cell, GameState } from '../../src/domain';
-import { MoveEvent } from '../../src/services';
 
-export const cellMoveEvent: MoveEvent = {
-  move: { coords: { q: 1, r: 1 }, tileId: 1 },
-  type: 'move',
-};
 export const createGameState = (cells: number): GameState => {
   const emptyCell: Cell = { coords: { q: 0, r: 0 }, tiles: [] };
   const player0 = { id: 0, name: 'Player 0', tiles: [] };

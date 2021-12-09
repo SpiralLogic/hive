@@ -4,7 +4,7 @@ import Row from '../Row';
 import RuleCell from './RuleCell';
 import { Rule } from './rule';
 
-const GrasshopperRule: Rule = {
+const GrasshopperRules: Rule = {
   title: 'Grasshopper',
   description: ['Can just straight over other creatures', 'Can not jump gaps'],
   Rule: () => (
@@ -54,5 +54,5 @@ const GrasshopperRule: Rule = {
     </Hextille>
   ),
 };
-GrasshopperRule.Rule.displayName = 'GrasshopperRule';
-export default GrasshopperRule;
+GrasshopperRules.Rule.displayName = 'GrasshopperRules';
+export default GrasshopperRules;

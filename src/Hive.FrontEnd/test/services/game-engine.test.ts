@@ -46,7 +46,7 @@ describe('game Engine Tests', () => {
     expect(response.players).toHaveLength(2);
   });
 
-  it('ai move made for player 1', async () => {
+  it('AI move made for player 1', async () => {
     window.history.pushState({ currentPlayer: 0 }, 'game');
     engine = new GameEngine();
     jest.clearAllMocks();
@@ -61,7 +61,7 @@ describe('game Engine Tests', () => {
     expect(global.fetch).toHaveBeenLastCalledWith(expect.stringMatching(/.+1$/), expect.any(Object));
   });
 
-  it('ai move made for player 0', async () => {
+  it('AI move made for player 0', async () => {
     window.history.pushState({ currentPlayer: 1 }, 'game');
     engine = new GameEngine();
     jest.clearAllMocks();

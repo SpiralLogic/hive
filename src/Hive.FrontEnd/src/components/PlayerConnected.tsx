@@ -1,6 +1,6 @@
 import '../css/share.css';
 
-import { Fragment, FunctionComponent, h } from 'preact';
+import { Fragment, FunctionComponent } from 'preact';
 
 type Properties = { connected: 'connected' | 'disconnected' | false };
 const PlayerConnected: FunctionComponent<Properties> = (properties) => {

@@ -27,7 +27,9 @@
   "rules": {
     "unicorn/no-null": "off",
     "no-unused-vars": "off",
-    "@typescript-eslint/no-unused-vars": ["error"]
+    "@typescript-eslint/no-unused-vars": [
+      "error"
+    ]
   },
   "globals": {
     "Atomics": "readonly",
@@ -42,8 +44,8 @@
   "overrides": [
     {
       "files": [
-        "*.jsx",
-        "*.tsx"
+        "**/*.jsx",
+        "**/*.tsx"
       ],
       "rules": {
         "unicorn/filename-case": "off"
@@ -74,6 +76,9 @@
     "/*.config.js",
     "/src/public/*/**",
     "**/__coverage__/**",
-    "/src/index.tsx"
+    "/src/index.tsx",
+    "/src/index.html",
+    "/build.js",
+    "/inject.shim.js"
   ]
 }

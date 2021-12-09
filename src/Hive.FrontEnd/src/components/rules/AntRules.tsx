@@ -4,7 +4,7 @@ import Row from '../Row';
 import RuleCell from './RuleCell';
 import { Rule } from './rule';
 
-const AntRule: Rule = {
+const AntRules: Rule = {
   title: 'Ant',
   description: ['Moves any number of cells'],
   Rule: () => (
@@ -44,5 +44,5 @@ const AntRule: Rule = {
     </Hextille>
   ),
 };
-AntRule.Rule.displayName = 'AntRule';
-export default AntRule;
+AntRules.Rule.displayName = 'AntRules';
+export default AntRules;

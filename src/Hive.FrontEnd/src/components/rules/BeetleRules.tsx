@@ -4,7 +4,7 @@ import Row from '../Row';
 import RuleCell from './RuleCell';
 import { Rule } from './rule';
 
-const BeetleRule: Rule = {
+const BeetleRules: Rule = {
   title: 'Beetle',
   description: ['Moves only 1 cell', 'Can move on top of insects'],
   Rule: () => (
@@ -36,5 +36,5 @@ const BeetleRule: Rule = {
     </Hextille>
   ),
 };
-BeetleRule.Rule.displayName = 'BeetleRule';
-export default BeetleRule;
+BeetleRules.Rule.displayName = 'BeetleRules';
+export default BeetleRules;

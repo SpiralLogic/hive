@@ -4,7 +4,7 @@ import { useReducer } from 'preact/hooks';
 
 import AntRules from './rules/AntRules';
 import BeetleRules from './rules/BeetleRules';
-import FreedomToMove from './rules/FreedomToMove';
+import FreedomToMove from './rules/FreedomToMoveRule';
 import GrasshopperRules from './rules/GrasshopperRules';
 import Objective from './rules/Objective';
 import OneHiveRule from './rules/OneHiveRule';

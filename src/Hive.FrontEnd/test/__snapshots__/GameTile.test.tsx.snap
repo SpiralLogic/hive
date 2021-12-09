@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`tile Tests tile Snapshot can move matches current snapshot 1`] = `
+exports[`tile Tests tile Snapshot matches current snapshot for can move 1`] = `
 <div
   class="player1 hex tile tilecanmove"
   draggable="true"
@@ -22,7 +22,7 @@ exports[`tile Tests tile Snapshot can move matches current snapshot 1`] = `
 </div>
 `;
 
-exports[`tile Tests tile Snapshot no moves matches current snapshot 1`] = `
+exports[`tile Tests tile Snapshot matches current snapshot for no moves 1`] = `
 <div
   class="player0 hex tile tilenomove"
   title="Player-0 tileNoMove"
@@ -42,7 +42,7 @@ exports[`tile Tests tile Snapshot no moves matches current snapshot 1`] = `
 </div>
 `;
 
-exports[`tile Tests tile Snapshot when stacked matched snapshot 1`] = `
+exports[`tile Tests tile Snapshot matches current snapshot for when stacked 1`] = `
 <div
   class="player0 hex stacked tile tilenomove"
   title="Player-0 tileNoMove"

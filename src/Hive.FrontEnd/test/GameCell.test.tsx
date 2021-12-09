@@ -16,7 +16,7 @@ import {
 } from './fixtures/game-cell.fixtures';
 
 describe('cell Tests', () => {
-  it(`top tile is rendered when tiles isn't empty`, () => {
+  it(`top tile is rendered when tiles are all empty`, () => {
     render(<GameCell {...createCellWithTile()} />);
     expect(screen.getByTitle(/fly/)).toBeInTheDocument();
   });

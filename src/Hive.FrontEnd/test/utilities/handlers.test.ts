@@ -11,6 +11,7 @@ import {
 } from '../../src/utilities/handlers';
 import { getHiveDispatcher } from '../../src/utilities/dispatcher';
 import gameState from '../fixtures/game-state.json';
+
 const moveTile = () => Promise.resolve(gameState as GameState);
 
 describe(`handler tests`, () => {
@@ -87,7 +88,7 @@ describe(`handler tests`, () => {
       expect(div4).not.toHaveFocus();
     });
 
-    it('should not move no target', () => {
+    it('should not move target', () => {
       expect(handleKeyboardNav({ key: 'n', target: null })).toBe(false);
       expect(div1).not.toHaveFocus();
       expect(div2).not.toHaveFocus();

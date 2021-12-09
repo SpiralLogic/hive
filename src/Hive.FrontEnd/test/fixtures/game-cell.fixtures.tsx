@@ -46,5 +46,5 @@ export const emitHiveEvent = (type: 'tileSelected' | 'tileDropped' | 'tileDesele
       type,
       tile: movingTile,
     });
-  }).catch(() => {});
+  }).catch((error) => console.log(error));
 };

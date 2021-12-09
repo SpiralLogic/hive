@@ -1,6 +1,6 @@
 import '../css/players.css';
 
-import { FunctionComponent, h } from 'preact';
+import { FunctionComponent } from 'preact';
 
 import { PlayerId, Players as PlayersType } from '../domain';
 import GameTile from './GameTile';

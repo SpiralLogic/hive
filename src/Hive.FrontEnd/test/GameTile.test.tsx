@@ -192,7 +192,7 @@ describe('tile Tests', () => {
       expect(tileCanMoveElement).toHaveClass('selected');
     });
 
-    it(`an already selected tile doesnt fire a selected event when selected`, () => {
+    it(`an already selected tile doesn't fire a selected event when selected`, () => {
       const selectEvents: TileEvent[] = [];
       getHiveDispatcher().add<TileEvent>('tileSelected', (event) => selectEvents.push(event));
       createTileCanMove();
@@ -205,7 +205,7 @@ describe('tile Tests', () => {
       expect(selectEvents).toHaveLength(1);
     });
 
-    it(`an already deselected tile doesnt fire a deselected event when deselected`, () => {
+    it(`an already deselected tile doesn't fire a deselected event when deselected`, () => {
       const deselectEvents: TileEvent[] = [];
       getHiveDispatcher().add<TileEvent>('tileDeselected', (event) => deselectEvents.push(event));
       createTileCanMove();
@@ -260,18 +260,18 @@ describe('tile Tests', () => {
   });
 
   describe('tile Snapshot', () => {
-    it('can move matches current snapshot', () => {
+    it('matches current snapshot for can move', () => {
       const tileCanMoveElement = createTileCanMove();
 
       expect(tileCanMoveElement).toMatchSnapshot();
     });
 
-    it('no moves matches current snapshot', () => {
+    it('matches current snapshot for no moves', () => {
       const tileNoMoveElement = createTileNoMove();
       expect(tileNoMoveElement).toMatchSnapshot();
     });
 
-    it('when stacked matched snapshot', () => {
+    it('matches current snapshot for when stacked', () => {
       render(<GameTile currentPlayer={0} {...tileNoMove} stacked={true} />);
       expect(screen.getByTitle(/Player-0/)).toMatchSnapshot();
     });

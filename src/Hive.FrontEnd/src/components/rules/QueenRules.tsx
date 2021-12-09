@@ -4,7 +4,7 @@ import Row from '../Row';
 import RuleCell from './RuleCell';
 import { Rule } from './rule';
 
-const QueenRule: Rule = {
+const QueenRules: Rule = {
   title: 'Queen',
   description: [
     'Can move one cell',
@@ -45,5 +45,5 @@ const QueenRule: Rule = {
   ),
 };
 
-QueenRule.Rule.displayName = 'QueenRule';
-export default QueenRule;
+QueenRules.Rule.displayName = 'QueenRules';
+export default QueenRules;
