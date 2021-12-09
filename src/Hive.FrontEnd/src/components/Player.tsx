@@ -1,6 +1,6 @@
 import '../css/player.css';
 
-import { FunctionComponent, h, toChildArray } from 'preact';
+import { FunctionComponent, toChildArray } from 'preact';
 import { useEffect, useState } from 'preact/hooks';
 
 import { PlayerId } from '../domain';
@@ -25,8 +25,10 @@ const Player: FunctionComponent<Properties> = (properties) => {
     setHidden(toChildArray(properties.children).length === 0);
   };
 
+  const handlers = { ontransitionend, onanimationend: ontransitionend };
+
   return hidden ? null : (
-    <div class={classes} title={name} onAnimationEnd={ontransitionend} onTransitionEnd={ontransitionend}>
+    <div class={classes} title={name} {...handlers}>
       <div class="name">{name}</div>
       <div class="tiles">{properties.children}</div>
     </div>

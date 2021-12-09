@@ -42,9 +42,9 @@ describe('player Tests', () => {
 
     expect(await screen.findByTitle('Player 1')).toHaveClass('hide');
 
-    fireEvent.animationEnd(screen.getByTitle('Player 1'));
+    fireEvent.transitionEnd(screen.getByTitle('Player 1'));
 
-    // expect(screen.queryByTitle('Player 1')).not.toBeInTheDocument();
+    expect(screen.queryByTitle('Player 1')).not.toBeInTheDocument();
   });
 
   it('snapshot', () => {
