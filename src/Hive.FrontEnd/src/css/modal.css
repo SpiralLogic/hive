@@ -19,7 +19,7 @@
   width: max-content;
   max-width: 98vw;
   height: max-content;
-  padding: 1vmin;
+  padding: 2vmin;
   transition-duration: .5s;
   transition-property: height, width;
   transform: translateX(-50%);

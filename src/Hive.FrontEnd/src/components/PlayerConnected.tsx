@@ -9,9 +9,6 @@ const PlayerConnected: FunctionComponent<Properties> = (properties) => {
   return (
     <Fragment>
       <p>Player has {connected}!</p>
-      <button title="New Game" onClick={close}>
-        Close
-      </button>
     </Fragment>
   );
 };
