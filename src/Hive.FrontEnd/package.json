@@ -54,12 +54,12 @@
         "eslint-plugin-testing-library": "^5.0.1",
         "eslint-plugin-unicorn": "^39.0.0",
         "fsevents": "^2.3.2",
-        "jest": "^27.4.3",
+        "jest": "^27.4.4",
         "prettier": "^2.5.1",
         "ts-jest": "^27.1.1",
         "ts-node": "^10.4.0",
         "tslib": "^2.3.1",
-        "typescript": "^4.5.2"
+        "typescript": "^4.5.3"
     },
     "dependencies": {
         "@microsoft/signalr": "^6.0.0",
