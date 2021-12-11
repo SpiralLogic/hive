@@ -8,11 +8,6 @@ exports[`player connected snapshot tests snapshot 1`] = `
       disconnected
       !
     </p>
-    <button
-      title="New Game"
-    >
-      Close
-    </button>
   </div>
 </body>
 `;
