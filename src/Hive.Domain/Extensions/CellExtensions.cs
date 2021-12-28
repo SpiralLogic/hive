@@ -11,7 +11,7 @@ internal static class CellExtensions
         return cell.PlayerControls(player.Id);
     }
 
-    internal static bool PlayerControls(this Cell cell, int playerId)
+    private static bool PlayerControls(this Cell cell, int playerId)
     {
         return cell.Tiles.First().PlayerId == playerId;
     }
@@ -26,9 +26,9 @@ internal static class CellExtensions
         return fromCells.SelectNeighbors(cell);
     }
 
-    internal static bool HasQueen(this Cell? cell, int? playerId = null)
+    internal static bool HasQueen(this Cell cell, int? playerId = null)
     {
-        var queen = cell?.Tiles.FirstOrDefault(t => t.IsQueen());
+        var queen = cell.Tiles.FirstOrDefault(t => t.IsQueen());
 
         return playerId.HasValue && queen != null ? queen.PlayerId == playerId.Value : queen != null;
     }

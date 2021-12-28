@@ -28,7 +28,7 @@ public class ComputerPlayer
         {
             new GameOver(),
             new NoQueenOrAntFirst(_hive),
-            new AntPlacement(_previousMoves),
+            new AntPlacement(),
             new BeetlePlacement(_previousMoves),
             new BeetleMoveOff(),
             new BeetleMoveOn(),
@@ -52,6 +52,9 @@ public class ComputerPlayer
 
         var tilesToExplore = FindMovesToExplore();
         var toExplore = ReduceToBestMoves(tilesToExplore);
+
+        if (!toExplore.Any()) return new ScoredMove(null,0);
+
         var (best, bestScore) = await Explore(depth, toExplore);
 
         _depth[depth - 1] = new ScoredMove(best, bestScore);
