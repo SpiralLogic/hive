@@ -7,5 +7,5 @@ RUN dotnet test ./Hive.Api.Tests -c Test /p:CollectCoverage=true /p:CoverletOutp
 RUN dotnet test ./Hive.Domain.Tests /p:CollectCoverage=true  /p:CoverletOutputFormat=\"opencover,lcov,json\" /p:SkipAutoProps=true
 RUN dotnet tool install dotnet-reportgenerator-globaltool --tool-path tools
 
-RUN dotnet reportgenerator "-reports:./Hive.Api.Tests/coverage.opencover.xml" "-targetdir:api-coveragereport" -reporttypes:Html
-RUN dotnet reportgenerator "-reports:./Hive.Domain.Tests/coverage.opencover.xml" "-targetdir:domain-coveragereport" -reporttypes:Html
+RUN dotnet reportgenerator "-reports:./Hive.Api.Tests/coverage.opencover.xml" "-targetdir:api-coverage" -reporttypes:Html
+RUN dotnet reportgenerator "-reports:./Hive.Domain.Tests/coverage.opencover.xml" "-targetdir:domain-coverage" -reporttypes:Html
