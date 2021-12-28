@@ -7,7 +7,7 @@ export const createGameState = (cells: number): GameState => {
     id: 1,
     name: 'Player 2',
     tiles: [{ id: 1, playerId: 1, creature: 'creature1', moves: [{ q: 0, r: 0 }] }],
-  }; 
+  };
   const row = Array.from({ length: cells }).fill(emptyCell) as Array<Cell>;
   row.push({
     coords: { q: 1, r: 1 },
