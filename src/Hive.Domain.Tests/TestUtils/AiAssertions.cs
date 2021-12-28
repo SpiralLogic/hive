@@ -20,10 +20,10 @@ internal class AiAssertions : ReferenceTypeAssertions<Func<Move>, AiAssertions>
     public AndConstraint<AiAssertions> MatchHive(InitialHiveBuilder initialBuilder, ExpectedAiBuilder expected)
     {
         var expectedMoves = expected.ExpectedMoves();
-        HashSet<(Coords Coords, Tile Tile)> expectedTiles = initialBuilder.AllCells
-            .Where(c => expected.OriginCells.Contains(c))
+        var expectedTiles = initialBuilder.AllCells.Where(c => expected.OriginCells.Contains(c))
             .Select(c => (c.Coords, Tile: c.TopTile()))
             .ToHashSet();
+        expectedTiles.UnionWith(expected.PlayerTrayMoves);
 
         Execute.Assertion.Given(() => Subject())
             .ForCondition(result => expectedTiles.Any(t => t.Tile.Id == result.Tile.Id) && expectedMoves.Contains(result.Coords))

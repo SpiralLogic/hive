@@ -21,6 +21,8 @@ internal class ExpectedAiBuilder : HiveBuilder
     private IEnumerable<Cell> ExpectedCells =>
         AllCells.Where(c => !c.IsEmpty() && c.TopTile().Creature.Name == Expected.Creature.Name).ToHashSet();
 
+    public readonly ISet<(Coords,Tile)> PlayerTrayMoves = new HashSet<(Coords,Tile)>();
+
     public static ExpectedAiBuilder operator +(ExpectedAiBuilder builder, string newRow)
     {
         return AddRow(builder, newRow);
@@ -46,7 +48,7 @@ internal class ExpectedAiBuilder : HiveBuilder
 
         UpdateCoords(IncorrectExpected.ToString(), move.Coords, actualRows);
 
-        if (origins.Count> 0)
+        if (origins.Count > 0)
         {
             var origin = origins.FirstOrDefault(o => o.Tile.Id == move.Tile.Id).Coords;
             UpdateCoords(Origin.ToString(), origin, actualRows);

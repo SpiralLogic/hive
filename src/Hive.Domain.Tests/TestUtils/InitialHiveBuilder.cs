@@ -10,6 +10,12 @@ internal class InitialHiveBuilder : HiveBuilder
         return AddRow(builder, newRow);
     }
 
+    public void AddPlayerTrayOriginMove(Coords coords)
+    {
+        AllCells.Add(new Cell(coords));
+        OriginCells.Add(new Cell(coords));
+    }
+
     protected override void ModifyCell(Cell cell, char symbol)
     {
         if (symbol == Origin.Symbol)

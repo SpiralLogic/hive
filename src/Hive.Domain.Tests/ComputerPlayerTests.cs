@@ -242,6 +242,45 @@ public class ComputerPlayerTests
     }
 
     [Fact]
+    public async Task OpponentNoMoves()
+    {
+        var initial = new InitialHiveBuilder();
+
+        initial += " ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡";
+        initial += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
+        initial += " ⬡ ⬡ A q A ⬡ ⬡ ⬡";
+        initial += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
+        initial += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
+
+        var expected = new ExpectedAiBuilder();
+
+        expected += " ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡";
+        expected += "⬡ ⬡ ✔ ⬡ ⬡ ✔ ⬡ ⬡ ";
+        expected += " ⬡ ✔ A q A ✔ ⬡ ⬡";
+        expected += "⬡ ⬡ ✔ ⬡ ⬡ ✔ ⬡ ⬡ ";
+        expected += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
+
+        var tile = new Tile(50, 0, Creatures.Ant);
+
+
+        var player1 = new Player(0, "P1") with { Tiles = new HashSet<Tile> { tile } };
+        var hive = HiveFactory.CreateHive(new[] { player1, new Player(1, "P1") }, initial.AllCells, 0);
+
+        foreach (var tileMove in hive.Players.First().Tiles)
+        {
+            foreach (var coords in tileMove.Moves)
+            {
+                initial.AddPlayerTrayOriginMove(coords);
+                expected.PlayerTrayMoves.Add((coords,tileMove));
+            }
+        }
+
+        var player = new ComputerPlayer(hive);
+
+        (await player.GetMove()).Should().MatchHive(initial, expected);
+    }
+
+    [Fact]
     public async Task NoQueenOrAntFirst()
     {
         var hive = HiveFactory.CreateHive(new[] { "player1", " player2" });

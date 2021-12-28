@@ -195,6 +195,39 @@ public class MoveControllerTests
     }
 
     [Fact]
+    public async Task PostAiMove_PreventRepeatedMoves_NoPlayerTiles()
+    {
+        var game = HiveFactory.CreateHive(new[] {"player1", "player2"});
+        var moves = new Move[8];
+        for (var i = 0; i < 8; i++)
+        {
+            moves[i] = new Move(game.Players[(i + 1) % 2].Tiles.First(), new Coords(i, 0));
+            game.Move(moves[i]);
+        }
+
+        foreach (var tile in game.Players.SelectMany(p=>p.Tiles))
+        {
+            tile.Moves.Clear();
+        }
+
+        await _memoryCache.SetAsync(
+            TestHelpers.ExistingGameId,
+            TestHelpers.GetSerializedBytes(
+                new GameState(game.Players, game.Cells, TestHelpers.ExistingGameId, GameStatus.MoveSuccess),
+                TestHelpers.CreateJsonOptions()
+            )
+        );
+
+        await _memoryCache.SetAsync(
+            TestHelpers.ExistingGameId + "-moves",
+            TestHelpers.GetSerializedBytes(moves, TestHelpers.CreateJsonOptions())
+        );
+
+        var actionResult = await _controller.AiMove(TestHelpers.ExistingGameId, 1);
+        actionResult.Should().BeOfType<AcceptedResult>();
+    }
+
+    [Fact]
     public async Task PostAiMove_PreventRepeated_Fallback()
     {
         var game = HiveFactory.CreateHive(new[] {"player1", "player2"});
