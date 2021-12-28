@@ -34,7 +34,7 @@ docker run -d -p 80:80 hive
 
 ### Develop with live watch
 ```
-dotnet watch -v -p ./src/Api/Hive.Api run
+dotnet watch -v --project ./src/Api/Hive.Api run
 ```
 
 open browser [https://localhost:5001](https://localhost:5001)
@@ -59,6 +59,6 @@ open browser [https://localhost:5001](https://localhost:5001)
 - [x] self created kubernetes cluster automated (inc tls)
 - [x] no database instances
 - [x] be accessible, mobile friendly, responsive with 100 lighthouse score
-- [x] attempt ML for an AI player
+- [?] attempt ML for an AI player
 - [ ] ability to find other live players
 - [ ] see move history
