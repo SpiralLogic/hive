@@ -1,7 +1,7 @@
 import '../css/app.css';
 
 import { FunctionComponent } from 'preact';
-import { useLayoutEffect, useState } from 'preact/hooks';
+import {useEffect, useState} from 'preact/hooks';
 
 import { GameState } from '../domain';
 import { HexEngine, HexServerConnectionFactory } from '../domain/engine';
@@ -17,7 +17,7 @@ const App: FunctionComponent<{ engine: HexEngine; connectionFactory: HexServerCo
   const [fetchStatus, setFetchStatus] = useState('loading !');
   const hiveDispatcher = getHiveDispatcher();
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     engine.initialGame
       .then((initialGameState) => {
         window.history.replaceState(
@@ -30,7 +30,7 @@ const App: FunctionComponent<{ engine: HexEngine; connectionFactory: HexServerCo
       .catch((error: Error) => setFetchStatus(error.message));
   }, [engine.currentPlayer, engine.initialGame, hiveDispatcher]);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     if (!gameState?.gameId)
       return () => {
         /* no clean up */
