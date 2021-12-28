@@ -2,15 +2,14 @@
 using Hive.Domain.Entities;
 using Xunit;
 
-namespace Hive.Domain.Tests
+namespace Hive.Domain.Tests;
+
+public class CreaturesTests
 {
-    public class CreaturesTests
+    [Fact]
+    public void CanCreateQueen()
     {
-        [Fact]
-        public void CanCreateQueen()
-        {
-            var queen = Creatures.Queen;
-            queen.Name.Should().Be("Queen");
-        }
+        var queen = Creatures.Queen;
+        queen.Name.Should().Be("Queen");
     }
 }

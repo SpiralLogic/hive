@@ -8,74 +8,73 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Net.Http.Headers;
 
-namespace Hive
+namespace Hive;
+
+[ExcludeFromCodeCoverage]
+public class Startup
 {
+    private readonly IConfiguration _configuration;
+    private readonly IWebHostEnvironment _currentEnvironment;
+
     [ExcludeFromCodeCoverage]
-    public class Startup
+    public Startup(IWebHostEnvironment env, IConfiguration configuration)
     {
-        private readonly IConfiguration _configuration;
-        private readonly IWebHostEnvironment _currentEnvironment;
+        _currentEnvironment = env;
+        _configuration = configuration;
+    }
 
-        [ExcludeFromCodeCoverage]
-        public Startup(IWebHostEnvironment env, IConfiguration configuration)
+    [ExcludeFromCodeCoverage]
+    public void ConfigureServices(IServiceCollection services)
+    {
+        var sigR = services.AddSignalR()
+            .AddJsonProtocol(options => { options.PayloadSerializerOptions.Converters.AddAllJsonConverters(); });
+
+        if (_currentEnvironment.IsDevelopment())
         {
-            _currentEnvironment = env;
-            _configuration = configuration;
+            services.AddDistributedMemoryCache();
+        }
+        else
+        {
+            services.AddStackExchangeRedisCache(options =>
+            {
+                options.Configuration = _configuration["RedisHost"];
+            });
+
+            sigR.AddStackExchangeRedis(_configuration["RedisHost"]);
         }
 
-        [ExcludeFromCodeCoverage]
-        public void ConfigureServices(IServiceCollection services)
+        services.AddControllers()
+            .AddJsonOptions(options => { options.JsonSerializerOptions.Converters.AddAllJsonConverters(); });
+    }
+
+    // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+    [ExcludeFromCodeCoverage]
+    public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+    {
+        if (env.IsDevelopment())
         {
-            var sigR = services.AddSignalR()
-                .AddJsonProtocol(options => { options.PayloadSerializerOptions.Converters.AddAllJsonConverters(); });
-
-            if (_currentEnvironment.IsDevelopment())
-            {
-                services.AddDistributedMemoryCache();
-            }
-            else
-            {
-                services.AddStackExchangeRedisCache(options =>
-                {
-                    options.Configuration = _configuration["RedisHost"];
-                });
-
-                sigR.AddStackExchangeRedis(_configuration["RedisHost"]);
-            }
-
-            services.AddControllers()
-                .AddJsonOptions(options => { options.JsonSerializerOptions.Converters.AddAllJsonConverters(); });
+            app.UseDeveloperExceptionPage();
+            app.UseHttpsRedirection();
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        [ExcludeFromCodeCoverage]
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        app.UseDefaultFiles();
+        app.UseStaticFiles(new StaticFileOptions
         {
-            if (env.IsDevelopment())
+            OnPrepareResponse = ctx =>
             {
-                app.UseDeveloperExceptionPage();
-                app.UseHttpsRedirection();
-            }
-
-            app.UseDefaultFiles();
-            app.UseStaticFiles(new StaticFileOptions
-            {
-                OnPrepareResponse = ctx =>
+                if (ctx.File.Name != "index.html")
                 {
-                    if (ctx.File.Name != "index.html")
-                    {
-                        const int durationInSeconds = 31536000;
-                        ctx.Context.Response.Headers[HeaderNames.CacheControl] = "public,max-age=" + durationInSeconds;
-                    }
+                    const int durationInSeconds = 31536000;
+                    ctx.Context.Response.Headers[HeaderNames.CacheControl] = "public,max-age=" + durationInSeconds;
                 }
-            });
+            }
+        });
 
-            app.UseRouting();
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-                endpoints.MapHub<GameHub>("/gamehub/{id}/{playerId}");
-            });
-        }
+        app.UseRouting();
+        app.UseEndpoints(endpoints =>
+        {
+            endpoints.MapControllers();
+            endpoints.MapHub<GameHub>("/gamehub/{id}/{playerId}");
+        });
     }
 }

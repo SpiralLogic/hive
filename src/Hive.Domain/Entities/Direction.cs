@@ -1,12 +1,11 @@
-namespace Hive.Domain.Entities
+namespace Hive.Domain.Entities;
+
+internal enum Direction
 {
-    internal enum Direction
-    {
-        TopLeft,
-        TopRight,
-        Left,
-        Right,
-        BottomLeft,
-        BottomRight
-    }
+    TopLeft,
+    TopRight,
+    Left,
+    Right,
+    BottomLeft,
+    BottomRight
 }

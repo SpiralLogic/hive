@@ -1,9 +1,8 @@
 using Hive.Domain.Entities;
 
-namespace Hive.Domain.Ai.Heuristics
+namespace Hive.Domain.Ai.Heuristics;
+
+internal interface IHeuristic
 {
-    internal interface IHeuristic
-    {
-        int Get(HeuristicValues values,Move move);
-    }
+    int Get(HeuristicValues values,Move move);
 }

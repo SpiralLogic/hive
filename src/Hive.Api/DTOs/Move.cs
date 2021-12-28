@@ -1,6 +1,5 @@
 ﻿using Hive.Domain.Entities;
 
-namespace Hive.DTOs
-{
-    public record Move(int TileId, Coords Coords);
-}
+namespace Hive.DTOs;
+
+public record Move(int TileId, Coords Coords);

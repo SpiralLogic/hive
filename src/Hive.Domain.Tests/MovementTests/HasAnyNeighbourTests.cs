@@ -2,32 +2,31 @@
 using Hive.Domain.Tests.TestUtils;
 using Xunit;
 
-namespace Hive.Domain.Tests.MovementTests
+namespace Hive.Domain.Tests.MovementTests;
+
+public class HasAnyNeighbourTests
 {
-    public class HasAnyNeighbourTests
+    [Fact]
+    public void HasAtLeastOneNeighbour()
     {
-        [Fact]
-        public void HasAtLeastOneNeighbour()
-        {
-            var initial = new InitialHiveBuilder();
+        var initial = new InitialHiveBuilder();
 
-            initial += " ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
-            initial += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡";
-            initial += " ⬡ ⬡ ⬡ ⬢ ★ ⬢ ⬢ ⬡ ⬡ ";
-            initial += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡";
-            initial += " ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
+        initial += " ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
+        initial += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡";
+        initial += " ⬡ ⬡ ⬡ ⬢ ★ ⬢ ⬢ ⬡ ⬡ ";
+        initial += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡";
+        initial += " ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
 
-            var expected = new ExpectedMovementBuilder();
+        var expected = new ExpectedMovementBuilder();
 
-            expected += " ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
-            expected += "⬡ ⬡ ⬡ ✔ ✔ ✔ ✔ ✔ ⬡ ⬡";
-            expected += " ⬡ ⬡ ✔ ⬢ ★ ✔ ✔ ✔ ⬡ ";
-            expected += "⬡ ⬡ ⬡ ✔ ✔ ✔ ✔ ✔ ⬡ ⬡";
-            expected += " ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
+        expected += " ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
+        expected += "⬡ ⬡ ⬡ ✔ ✔ ✔ ✔ ✔ ⬡ ⬡";
+        expected += " ⬡ ⬡ ✔ ⬢ ★ ✔ ✔ ✔ ⬡ ";
+        expected += "⬡ ⬡ ⬡ ✔ ✔ ✔ ✔ ✔ ⬡ ⬡";
+        expected += " ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
 
-            var move = new HasAnyNeighbour();
+        var move = new HasAnyNeighbour();
 
-            move.Should().HaveMoves(initial, expected);
-        }
+        move.Should().HaveMoves(initial, expected);
     }
 }

@@ -1,67 +1,66 @@
 ﻿using Hive.Domain.Movements;
 
-namespace Hive.Domain.Entities
+namespace Hive.Domain.Entities;
+
+public static class Creatures
 {
-    public static class Creatures
+    public static readonly Creature Queen = new("Queen")
     {
-        public static readonly Creature Queen = new("Queen")
+        Movements = new IMovement[]
         {
-            Movements = new IMovement[]
-            {
-                new IsAdjacent(),
-                new IsEmpty(),
-                new WontSplitHive(),
-                new HasAnyNeighbour(),
-                new CanSlideTo()
+            new IsAdjacent(),
+            new IsEmpty(),
+            new WontSplitHive(),
+            new HasAnyNeighbour(),
+            new CanSlideTo()
 
-            }
-        };
+        }
+    };
 
-        public static readonly Creature Beetle = new("Beetle")
+    public static readonly Creature Beetle = new("Beetle")
+    {
+        Movements = new IMovement[]
         {
-            Movements = new IMovement[]
-            {
-                new HiveHasQueen(),
-                new IsAdjacent(),
-                new WontSplitHive(),
-                new HasAnyNeighbour()
-            }
-        };
+            new HiveHasQueen(),
+            new IsAdjacent(),
+            new WontSplitHive(),
+            new HasAnyNeighbour()
+        }
+    };
 
-        public static readonly Creature Grasshopper = new("Grasshopper")
+    public static readonly Creature Grasshopper = new("Grasshopper")
+    {
+        Movements = new IMovement[]
         {
-            Movements = new IMovement[]
-            {
-                new OnlyJumpStraightOver(),
-                new HiveHasQueen(),
-                new WontSplitHive(),
-                new HasAnyNeighbour()
-            }
-        };
+            new OnlyJumpStraightOver(),
+            new HiveHasQueen(),
+            new WontSplitHive(),
+            new HasAnyNeighbour()
+        }
+    };
 
-        public static readonly Creature Spider = new("Spider")
+    public static readonly Creature Spider = new("Spider")
+    {
+        Movements = new IMovement[]
         {
-            Movements = new IMovement[]
-            {
-                new OnlyThreeSpaces(),
-                new HiveHasQueen(),
-                new WontSplitHive(),
-                new HasAnyNeighbour(), 
-                new CanSlideTo()
+            new OnlyThreeSpaces(),
+            new HiveHasQueen(),
+            new WontSplitHive(),
+            new HasAnyNeighbour(), 
+            new CanSlideTo()
 
-            }
-        };
+        }
+    };
 
-        public static readonly Creature Ant = new("Ant")
+    public static readonly Creature Ant = new("Ant")
+    {
+        Movements = new IMovement[]
         {
-            Movements = new IMovement[]
-            {
-                new HiveHasQueen(),
-                new WontSplitHive(),
-                new HasAnyNeighbour(), 
-                new CanSlideTo()
+            new HiveHasQueen(),
+            new WontSplitHive(),
+            new HasAnyNeighbour(), 
+            new CanSlideTo()
 
-            }
-        };
-    }
+        }
+    };
 }

@@ -2,32 +2,31 @@
 using Hive.Domain.Tests.TestUtils;
 using Xunit;
 
-namespace Hive.Domain.Tests.CreatureTests
+namespace Hive.Domain.Tests.CreatureTests;
+
+public class QueenTests
 {
-    public class QueenTests
+    [Fact]
+    public void CanMoveToEmptyAdjacent()
     {
-        [Fact]
-        public void CanMoveToEmptyAdjacent()
-        {
-            var initial = new InitialHiveBuilder();
+        var initial = new InitialHiveBuilder();
 
-            initial += "⬡ ⬡ ⬢ ⬡ ⬡";
-            initial += " ⬡ ⬢ ⬢ ⬢ ";
-            initial += "⬡ ⬡ ★ ⬢ ⬢";
-            initial += " ⬡ ⬡ ⬢ ⬡ ";
-            initial += "⬢ ⬢ ⬢ ⬡ ⬡";
+        initial += "⬡ ⬡ ⬢ ⬡ ⬡";
+        initial += " ⬡ ⬢ ⬢ ⬢ ";
+        initial += "⬡ ⬡ ★ ⬢ ⬢";
+        initial += " ⬡ ⬡ ⬢ ⬡ ";
+        initial += "⬢ ⬢ ⬢ ⬡ ⬡";
 
-            var expected = new ExpectedMovementBuilder();
+        var expected = new ExpectedMovementBuilder();
 
-            expected += "⬡ ⬡ ⬢ ⬡ ⬡";
-            expected += " ⬡ ⬢ ⬢ ⬢ ";
-            expected += "⬡ ✔ ★ ⬢ ⬢";
-            expected += " ⬡ ✔ ⬢ ⬡ ";
-            expected += "⬢ ⬢ ⬢ ⬡ ⬡";
+        expected += "⬡ ⬡ ⬢ ⬡ ⬡";
+        expected += " ⬡ ⬢ ⬢ ⬢ ";
+        expected += "⬡ ✔ ★ ⬢ ⬢";
+        expected += " ⬡ ✔ ⬢ ⬡ ";
+        expected += "⬢ ⬢ ⬢ ⬡ ⬡";
 
-            var queen = Creatures.Queen;
+        var queen = Creatures.Queen;
 
-            queen.Should().HaveMoves(initial, expected);
-        }
+        queen.Should().HaveMoves(initial, expected);
     }
 }

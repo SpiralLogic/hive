@@ -2,52 +2,51 @@
 using Hive.Domain.Tests.TestUtils;
 using Xunit;
 
-namespace Hive.Domain.Tests.MovementTests
+namespace Hive.Domain.Tests.MovementTests;
+
+public class IsEmptyTests
 {
-    public class IsEmptyTests
+    [Fact]
+    public void AllowsAllEmptyCells_WithNoPlacedTiles()
     {
-        [Fact]
-        public void AllowsAllEmptyCells_WithNoPlacedTiles()
-        {
-            var initial = new InitialHiveBuilder();
+        var initial = new InitialHiveBuilder();
 
-            initial += " ⬡ ⬡ ";
-            initial += "⬡ ★ ⬡";
-            initial += " ⬡ ⬡ ";
+        initial += " ⬡ ⬡ ";
+        initial += "⬡ ★ ⬡";
+        initial += " ⬡ ⬡ ";
 
-            var expected = new ExpectedMovementBuilder();
+        var expected = new ExpectedMovementBuilder();
 
-            expected += " ✔ ✔ ";
-            expected += "✔ ★ ✔";
-            expected += " ✔ ✔ ";
+        expected += " ✔ ✔ ";
+        expected += "✔ ★ ✔";
+        expected += " ✔ ✔ ";
 
-            var move = new IsEmpty();
+        var move = new IsEmpty();
 
-            move.Should().HaveMoves(initial, expected);
-        }
+        move.Should().HaveMoves(initial, expected);
+    }
 
-        [Fact]
-        public void AllowsAllEmptyCells_WithPlacedTiles()
-        {
-            var initial = new InitialHiveBuilder();
+    [Fact]
+    public void AllowsAllEmptyCells_WithPlacedTiles()
+    {
+        var initial = new InitialHiveBuilder();
 
-            initial += "⬡ ⬡ ⬢ ⬡ ⬡";
-            initial += " ⬡ ⬢ ⬢ ⬢ ";
-            initial += "⬡ ⬡ ★ ⬢ ⬢";
-            initial += " ⬡ ⬢ ⬢ ⬡ ";
-            initial += "⬢ ⬡ ⬢ ⬡ ⬡";
+        initial += "⬡ ⬡ ⬢ ⬡ ⬡";
+        initial += " ⬡ ⬢ ⬢ ⬢ ";
+        initial += "⬡ ⬡ ★ ⬢ ⬢";
+        initial += " ⬡ ⬢ ⬢ ⬡ ";
+        initial += "⬢ ⬡ ⬢ ⬡ ⬡";
 
-            var expected = new ExpectedMovementBuilder();
+        var expected = new ExpectedMovementBuilder();
 
-            expected += "✔ ✔ ⬢ ✔ ✔";
-            expected += " ✔ ⬢ ⬢ ⬢ ";
-            expected += "✔ ✔ ★ ⬢ ⬢";
-            expected += " ✔ ⬢ ⬢ ✔ ";
-            expected += "⬢ ✔ ⬢ ✔ ✔";
+        expected += "✔ ✔ ⬢ ✔ ✔";
+        expected += " ✔ ⬢ ⬢ ⬢ ";
+        expected += "✔ ✔ ★ ⬢ ⬢";
+        expected += " ✔ ⬢ ⬢ ✔ ";
+        expected += "⬢ ✔ ⬢ ✔ ✔";
 
-            var move = new IsEmpty();
+        var move = new IsEmpty();
 
-            move.Should().HaveMoves(initial, expected);
-        }
+        move.Should().HaveMoves(initial, expected);
     }
 }

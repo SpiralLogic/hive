@@ -1,15 +1,14 @@
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
-namespace Hive.Converters
+namespace Hive.Converters;
+
+public static class Extensions
 {
-    public static class Extensions
+    public static void AddAllJsonConverters(this ICollection<JsonConverter> converterCollection)
     {
-        public static void AddAllJsonConverters(this ICollection<JsonConverter> converterCollection)
-        {
-            converterCollection.Add(new CreatureJsonConverter());
-            converterCollection.Add(new StackJsonConverter());
-            converterCollection.Add(new JsonStringEnumConverter());
-        }
+        converterCollection.Add(new CreatureJsonConverter());
+        converterCollection.Add(new StackJsonConverter());
+        converterCollection.Add(new JsonStringEnumConverter());
     }
 }

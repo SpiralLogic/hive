@@ -2,96 +2,95 @@
 using Hive.Domain.Tests.TestUtils;
 using Xunit;
 
-namespace Hive.Domain.Tests.MovementTests
+namespace Hive.Domain.Tests.MovementTests;
+
+public class ThreeSpacesTests
 {
-    public class ThreeSpacesTests
+    [Fact]
+    public void Moves3PlacesWithoutBacktracking()
     {
-        [Fact]
-        public void Moves3PlacesWithoutBacktracking()
-        {
-            var initial = new InitialHiveBuilder();
+        var initial = new InitialHiveBuilder();
 
-            initial += " ⬡ ⬢ ⬢ ⬡ ";
-            initial += "⬡ ⬢ ★ ⬢ ⬡";
-            initial += " ⬡ ⬢ ⬡ ⬢ ";
-            initial += "⬡ ⬢ ⬡ ⬢ ⬡";
-            initial += " ⬡ ⬢ ⬡ ⬢ ";
+        initial += " ⬡ ⬢ ⬢ ⬡ ";
+        initial += "⬡ ⬢ ★ ⬢ ⬡";
+        initial += " ⬡ ⬢ ⬡ ⬢ ";
+        initial += "⬡ ⬢ ⬡ ⬢ ⬡";
+        initial += " ⬡ ⬢ ⬡ ⬢ ";
 
-            var expected = new ExpectedMovementBuilder();
+        var expected = new ExpectedMovementBuilder();
 
-            expected += " ⬡ ⬢ ⬢ ⬡ ";
-            expected += "⬡ ⬢ ★ ⬢ ⬡";
-            expected += " ⬡ ⬢ ⬡ ⬢ ";
-            expected += "⬡ ⬢ ⬡ ⬢ ⬡";
-            expected += " ⬡ ⬢ ✔ ⬢ ";
+        expected += " ⬡ ⬢ ⬢ ⬡ ";
+        expected += "⬡ ⬢ ★ ⬢ ⬡";
+        expected += " ⬡ ⬢ ⬡ ⬢ ";
+        expected += "⬡ ⬢ ⬡ ⬢ ⬡";
+        expected += " ⬡ ⬢ ✔ ⬢ ";
 
-            var move = new OnlyThreeSpaces();
+        var move = new OnlyThreeSpaces();
 
-            move.Should().HaveMoves(initial, expected);
-        }
+        move.Should().HaveMoves(initial, expected);
+    }
 
-        [Fact]
-        public void Moves3Places()
-        {
-            var initial = new InitialHiveBuilder();
+    [Fact]
+    public void Moves3Places()
+    {
+        var initial = new InitialHiveBuilder();
 
-            initial += " ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
-            initial += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡";
-            initial += " ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
-            initial += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡";
-            initial += " ⬡ ⬡ ⬡ ⬡ ★ ⬡ ⬡ ⬡ ⬡ ";
-            initial += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡";
-            initial += " ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
-            initial += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡";
-            initial += " ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
+        initial += " ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
+        initial += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡";
+        initial += " ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
+        initial += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡";
+        initial += " ⬡ ⬡ ⬡ ⬡ ★ ⬡ ⬡ ⬡ ⬡ ";
+        initial += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡";
+        initial += " ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
+        initial += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡";
+        initial += " ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
 
-            var expected = new ExpectedMovementBuilder();
+        var expected = new ExpectedMovementBuilder();
 
-            expected += " ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
-            expected += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡";
-            expected += " ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
-            expected += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡";
-            expected += " ⬡ ⬡ ⬡ ⬡ ★ ⬡ ⬡ ⬡ ⬡ ";
-            expected += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡";
-            expected += " ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
-            expected += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡";
-            expected += " ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
+        expected += " ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
+        expected += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡";
+        expected += " ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
+        expected += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡";
+        expected += " ⬡ ⬡ ⬡ ⬡ ★ ⬡ ⬡ ⬡ ⬡ ";
+        expected += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡";
+        expected += " ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
+        expected += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡";
+        expected += " ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
 
-            var move = new OnlyThreeSpaces();
+        var move = new OnlyThreeSpaces();
 
-            move.Should().HaveMoves(initial, expected);
-        }
+        move.Should().HaveMoves(initial, expected);
+    }
 
-        [Fact]
-        public void Moves3EmptyPlaces()
-        {
-            var initial = new InitialHiveBuilder();
+    [Fact]
+    public void Moves3EmptyPlaces()
+    {
+        var initial = new InitialHiveBuilder();
 
-            initial += " ⬡ ⬡ ⬡ ⬢ ⬢ ⬢ ⬢ ⬡ ⬡ ";
-            initial += "⬡ ⬡ ⬡ ⬢ ⬡ ⬡ ⬡ ⬢ ⬡ ⬡";
-            initial += " ⬡ ⬡ ⬡ ⬢ ⬡ ⬡ ⬢ ⬡ ⬡ ";
-            initial += "⬡ ⬡ ⬢ ⬡ ⬡ ⬡ ⬡ ⬢ ⬡ ⬡";
-            initial += " ⬡ ⬢ ⬡ ⬡ ★ ⬢ ⬢ ⬢ ⬡ ";
-            initial += "⬡ ⬡ ⬢ ⬢ ⬢ ⬡ ⬡ ⬡ ⬡ ⬡";
-            initial += " ⬡ ⬡ ⬢ ⬢ ⬡ ⬡ ⬢ ⬡ ⬡ ";
-            initial += "⬡ ⬡ ⬡ ⬡ ⬢ ⬡ ⬡ ⬢ ⬡ ⬡";
-            initial += " ⬡ ⬡ ⬡ ⬡ ⬢ ⬢ ⬢ ⬡ ⬡ ";
+        initial += " ⬡ ⬡ ⬡ ⬢ ⬢ ⬢ ⬢ ⬡ ⬡ ";
+        initial += "⬡ ⬡ ⬡ ⬢ ⬡ ⬡ ⬡ ⬢ ⬡ ⬡";
+        initial += " ⬡ ⬡ ⬡ ⬢ ⬡ ⬡ ⬢ ⬡ ⬡ ";
+        initial += "⬡ ⬡ ⬢ ⬡ ⬡ ⬡ ⬡ ⬢ ⬡ ⬡";
+        initial += " ⬡ ⬢ ⬡ ⬡ ★ ⬢ ⬢ ⬢ ⬡ ";
+        initial += "⬡ ⬡ ⬢ ⬢ ⬢ ⬡ ⬡ ⬡ ⬡ ⬡";
+        initial += " ⬡ ⬡ ⬢ ⬢ ⬡ ⬡ ⬢ ⬡ ⬡ ";
+        initial += "⬡ ⬡ ⬡ ⬡ ⬢ ⬡ ⬡ ⬢ ⬡ ⬡";
+        initial += " ⬡ ⬡ ⬡ ⬡ ⬢ ⬢ ⬢ ⬡ ⬡ ";
 
-            var expected = new ExpectedMovementBuilder();
+        var expected = new ExpectedMovementBuilder();
 
-            expected += " ⬡ ⬡ ⬡ ⬢ ⬢ ⬢ ⬢ ⬡ ⬡ ";
-            expected += "⬡ ⬡ ⬡ ⬢ ⬡ ⬡ ⬡ ⬢ ⬡ ⬡";
-            expected += " ⬡ ⬡ ⬡ ⬢ ⬡ ✔ ⬢ ⬡ ⬡ ";
-            expected += "⬡ ⬡ ⬢ ✔ ⬡ ⬡ ⬡ ⬢ ⬡ ⬡";
-            expected += " ⬡ ⬢ ⬡ ⬡ ★ ⬢ ⬢ ⬢ ⬡ ";
-            expected += "⬡ ⬡ ⬢ ⬢ ⬢ ⬡ ⬡ ✔ ⬡ ⬡";
-            expected += " ⬡ ⬡ ⬡ ⬢ ⬡ ✔ ⬢ ⬡ ⬡ ";
-            expected += "⬡ ⬡ ⬡ ⬡ ⬢ ✔ ⬡ ⬢ ⬡ ⬡";
-            expected += " ⬡ ⬡ ⬡ ⬡ ⬢ ⬢ ⬢ ⬡ ⬡ ";
+        expected += " ⬡ ⬡ ⬡ ⬢ ⬢ ⬢ ⬢ ⬡ ⬡ ";
+        expected += "⬡ ⬡ ⬡ ⬢ ⬡ ⬡ ⬡ ⬢ ⬡ ⬡";
+        expected += " ⬡ ⬡ ⬡ ⬢ ⬡ ✔ ⬢ ⬡ ⬡ ";
+        expected += "⬡ ⬡ ⬢ ✔ ⬡ ⬡ ⬡ ⬢ ⬡ ⬡";
+        expected += " ⬡ ⬢ ⬡ ⬡ ★ ⬢ ⬢ ⬢ ⬡ ";
+        expected += "⬡ ⬡ ⬢ ⬢ ⬢ ⬡ ⬡ ✔ ⬡ ⬡";
+        expected += " ⬡ ⬡ ⬡ ⬢ ⬡ ✔ ⬢ ⬡ ⬡ ";
+        expected += "⬡ ⬡ ⬡ ⬡ ⬢ ✔ ⬡ ⬢ ⬡ ⬡";
+        expected += " ⬡ ⬡ ⬡ ⬡ ⬢ ⬢ ⬢ ⬡ ⬡ ";
 
-            var move = new OnlyThreeSpaces();
+        var move = new OnlyThreeSpaces();
 
-            move.Should().HaveMoves(initial, expected);
-        }
+        move.Should().HaveMoves(initial, expected);
     }
 }

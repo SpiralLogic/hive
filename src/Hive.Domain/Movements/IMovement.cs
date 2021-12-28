@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
 using Hive.Domain.Entities;
 
-namespace Hive.Domain.Movements
+namespace Hive.Domain.Movements;
+
+public interface IMovement
 {
-    public interface IMovement
-    {
-        ISet<Coords> GetMoves(Cell originCell, ISet<Cell> allCells);
-    }
+    ISet<Coords> GetMoves(Cell originCell, ISet<Cell> allCells);
 }

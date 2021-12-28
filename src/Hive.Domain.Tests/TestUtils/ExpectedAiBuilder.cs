@@ -3,59 +3,58 @@ using System.Collections.Generic;
 using System.Linq;
 using Hive.Domain.Entities;
 
-namespace Hive.Domain.Tests.TestUtils
+namespace Hive.Domain.Tests.TestUtils;
+
+internal class ExpectedAiBuilder : HiveBuilder
 {
-    internal class ExpectedAiBuilder : HiveBuilder
+    private static readonly HiveCharacter Expected = new("Expected", '✔', ConsoleColor.Green);
+    private static readonly HiveCharacter IncorrectExpected = new("IncorrectExpected", '✓', ConsoleColor.Red);
+    private static readonly HiveCharacter AvailableOrigin = new("AvailableOrigin", '☆', ConsoleColor.Green);
+    private static readonly HiveCharacter Unexpected = new("Unexpected", '⨯', ConsoleColor.Red);
+
+    internal ExpectedAiBuilder()
     {
-        private static readonly HiveCharacter Expected = new("Expected", '✔', ConsoleColor.Green);
-        private static readonly HiveCharacter IncorrectExpected = new("IncorrectExpected", '✓', ConsoleColor.Red);
-        private static readonly HiveCharacter AvailableOrigin = new("AvailableOrigin", '☆', ConsoleColor.Green);
-        private static readonly HiveCharacter Unexpected = new("Unexpected", '⨯', ConsoleColor.Red);
+        AllSymbols.Add(Expected);
+        AllSymbols.Add(Unexpected);
+    }
 
-        internal ExpectedAiBuilder()
+    private IEnumerable<Cell> ExpectedCells =>
+        AllCells.Where(c => !c.IsEmpty() && c.TopTile().Creature.Name == Expected.Creature.Name).ToHashSet();
+
+    public static ExpectedAiBuilder operator +(ExpectedAiBuilder builder, string newRow)
+    {
+        return AddRow(builder, newRow);
+    }
+
+    internal ISet<Coords> ExpectedMoves()
+    {
+        return ExpectedCells.Select(c => c.Coords).ToHashSet();
+    }
+
+    protected override void ModifyCell(Cell cell, char symbol)
+    {
+        if (symbol == Expected.Symbol) cell.AddTile(new Tile(TileIdSequence++, 2, Expected.Creature));
+        if (symbol == Unexpected.Symbol) cell.AddTile(new Tile(TileIdSequence++, 2, Unexpected.Creature));
+        if (symbol == Origin.Symbol) cell.AddTile(new Tile(TileIdSequence++, 0, Origin.Creature));
+    }
+
+    internal string GetMoveDiff(HashSet<(Coords Coords, Tile Tile)> origins, Move move)
+    {
+        var actualRows = new List<string>(RowStrings);
+        foreach (var cell in ExpectedCells) UpdateCoords(Unexpected.ToString(), cell.Coords, actualRows);
+        foreach (var cell in OriginCells) UpdateCoords(AvailableOrigin.ToString(), cell.Coords, actualRows);
+
+        UpdateCoords(IncorrectExpected.ToString(), move.Coords, actualRows);
+
+        if (origins.Count> 0)
         {
-            AllSymbols.Add(Expected);
-            AllSymbols.Add(Unexpected);
+            var origin = origins.FirstOrDefault(o => o.Tile.Id == move.Tile.Id).Coords;
+            UpdateCoords(Origin.ToString(), origin, actualRows);
         }
 
-        private IEnumerable<Cell> ExpectedCells =>
-            AllCells.Where(c => !c.IsEmpty() && c.TopTile().Creature.Name == Expected.Creature.Name).ToHashSet();
-
-        public static ExpectedAiBuilder operator +(ExpectedAiBuilder builder, string newRow)
-        {
-            return AddRow(builder, newRow);
-        }
-
-        internal ISet<Coords> ExpectedMoves()
-        {
-            return ExpectedCells.Select(c => c.Coords).ToHashSet();
-        }
-
-        protected override void ModifyCell(Cell cell, char symbol)
-        {
-            if (symbol == Expected.Symbol) cell.AddTile(new Tile(TileIdSequence++, 2, Expected.Creature));
-            if (symbol == Unexpected.Symbol) cell.AddTile(new Tile(TileIdSequence++, 2, Unexpected.Creature));
-            if (symbol == Origin.Symbol) cell.AddTile(new Tile(TileIdSequence++, 0, Origin.Creature));
-        }
-
-        internal string GetMoveDiff(HashSet<(Coords Coords, Tile Tile)> origins, Move move)
-        {
-            var actualRows = new List<string>(RowStrings);
-            foreach (var cell in ExpectedCells) UpdateCoords(Unexpected.ToString(), cell.Coords, actualRows);
-            foreach (var cell in OriginCells) UpdateCoords(AvailableOrigin.ToString(), cell.Coords, actualRows);
-
-            UpdateCoords(IncorrectExpected.ToString(), move.Coords, actualRows);
-
-            if (origins.Count> 0)
-            {
-                var origin = origins.FirstOrDefault(o => o.Tile.Id == move.Tile.Id).Coords;
-                UpdateCoords(Origin.ToString(), origin, actualRows);
-            }
-
-            var coloredRows = ToColoredString(ToString()).Split("\n");
-            var comparison = actualRows.Select((row, i) => $"{ToColoredString(row)} | {coloredRows[i]}");
-            return
-                $"Creature:{move.Tile.Creature.Name} - {move.Tile.Id} to coords: {move.Coords.Q}-{move.Coords.R}\n\u001b[37m{string.Join("\n", comparison)}\u001b[0m";
-        }
+        var coloredRows = ToColoredString(ToString()).Split("\n");
+        var comparison = actualRows.Select((row, i) => $"{ToColoredString(row)} | {coloredRows[i]}");
+        return
+            $"Creature:{move.Tile.Creature.Name} - {move.Tile.Id} to coords: {move.Coords.Q}-{move.Coords.R}\n\u001b[37m{string.Join("\n", comparison)}\u001b[0m";
     }
 }

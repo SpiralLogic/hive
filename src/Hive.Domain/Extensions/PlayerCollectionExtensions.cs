@@ -2,13 +2,12 @@
 using System.Linq;
 using Hive.Domain.Entities;
 
-namespace Hive.Domain.Extensions
+namespace Hive.Domain.Extensions;
+
+internal static class PlayerCollectionExtensions
 {
-    internal static class PlayerCollectionExtensions
+    internal static Player FindPlayerById(this IEnumerable<Player> players, int playerId)
     {
-        internal static Player FindPlayerById(this IEnumerable<Player> players, int playerId)
-        {
-            return players.Single(p => p.Id == playerId);
-        }
+        return players.Single(p => p.Id == playerId);
     }
 }

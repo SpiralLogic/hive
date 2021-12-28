@@ -3,35 +3,34 @@ using System.Linq;
 using Hive.Domain.Extensions;
 using Hive.Domain.Movements;
 
-namespace Hive.Domain.Entities
+namespace Hive.Domain.Entities;
+
+public sealed record Creature(string Name)
 {
-    public sealed record Creature(string Name)
+    internal IEnumerable<IMovement> Movements { get; init; } = new List<IMovement>();
+
+    public bool Equals(Creature? other)
     {
-        internal IEnumerable<IMovement> Movements { get; init; } = new List<IMovement>();
+        if (ReferenceEquals(null, other)) return false;
+        if (ReferenceEquals(this, other)) return true;
+        return Name.SequenceEqual(other.Name);
+    }
 
-        public bool Equals(Creature? other)
+    public override int GetHashCode()
+    {
+        return Name.GetHashCode();
+    }
+
+    public ISet<Coords> GetAvailableMoves(Cell originCell, ISet<Cell> cells)
+    {
+        var moves = cells.ToCoords();
+        foreach (var move in Movements)
         {
-            if (ReferenceEquals(null, other)) return false;
-            if (ReferenceEquals(this, other)) return true;
-            return Name.SequenceEqual(other.Name);
+            moves.IntersectWith(move.GetMoves(originCell, cells));
         }
 
-        public override int GetHashCode()
-        {
-            return Name.GetHashCode();
-        }
-
-        public ISet<Coords> GetAvailableMoves(Cell originCell, ISet<Cell> cells)
-        {
-            var moves = cells.ToCoords();
-            foreach (var move in Movements)
-            {
-                moves.IntersectWith(move.GetMoves(originCell, cells));
-            }
-
-            return moves;
-        }
+        return moves;
+    }
         
      
-    }
 }

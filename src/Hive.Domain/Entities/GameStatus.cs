@@ -1,15 +1,14 @@
-namespace Hive.Domain.Entities
+namespace Hive.Domain.Entities;
+
+public enum GameStatus
 {
-    public enum GameStatus
-    {
-        NewGame,
-        MoveSuccess,
-        AiWin,
-        Player0Win,
-        Player1Win,
-        MoveSuccessNextPlayerSkipped,
-        MoveInvalid,
-        GameOver,
-        Draw
-    }
+    NewGame,
+    MoveSuccess,
+    AiWin,
+    Player0Win,
+    Player1Win,
+    MoveSuccessNextPlayerSkipped,
+    MoveInvalid,
+    GameOver,
+    Draw
 }
