@@ -1,7 +1,7 @@
 import '../css/app.css';
 
 import { FunctionComponent } from 'preact';
-import {useEffect, useState} from 'preact/hooks';
+import { useEffect, useState } from 'preact/hooks';
 
 import { GameState } from '../domain';
 import { HexEngine, HexServerConnectionFactory } from '../domain/engine';
