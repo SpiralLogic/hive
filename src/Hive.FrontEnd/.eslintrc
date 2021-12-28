@@ -2,7 +2,6 @@
   "plugins": [
     "@typescript-eslint",
     "react-hooks",
-    "preact",
     "testing-library",
     "jest-dom",
     "unicorn"
