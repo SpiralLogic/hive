@@ -3,7 +3,7 @@ import userEvent from '@testing-library/user-event';
 
 import GameArea from '../src/components/GameArea';
 import { GameStatus } from '../src/domain';
-import { HiveEvent } from '../src/services';
+import { HiveEvent, TileAction } from '../src/services';
 import { getHiveDispatcher } from '../src/utilities/dispatcher';
 import { createGameState } from './fixtures/game-area.fixtures';
 import {
@@ -14,9 +14,10 @@ import {
   noShare,
   simulateEvent,
 } from './test-helpers';
+import { waitFor } from '@testing-library/dom';
 
 describe('gameArea Tests', () => {
-  it('default drag over is prevented to allow drop', async () => {
+  it('default drag over is prevented to allow drop', () => {
     const gameState = createGameState(1);
     render(
       <GameArea
@@ -61,8 +62,8 @@ describe('gameArea Tests', () => {
       />
     );
 
-    expect(screen.getByTitle(/player0/)).not.toHaveAttribute('draggable');
-    expect(screen.getByTitle(/player1/)).toHaveAttribute('draggable');
+    expect(screen.getByTitle(/creature0/)).not.toHaveAttribute('draggable');
+    expect(screen.getByTitle(/creature1/)).toHaveAttribute('draggable');
   });
 
   it('show rules is rendered', async () => {
@@ -177,7 +178,7 @@ describe('gameArea Tests', () => {
     restore2();
   });
 
-  it('click copies opponent link to clipboard with exec command', async () => {
+  it('click copies opponent link to clipboard with exec command', () => {
     const execCommand = jest.fn();
     const restore1 = noShare();
     const restore = mockExecCommand(execCommand);
@@ -197,7 +198,7 @@ describe('gameArea Tests', () => {
     restore();
   });
 
-  it(`can't copy link`, async () => {
+  it(`can't copy link`, () => {
     const restore = noShare();
     const gameState = createGameState(1);
     render(
@@ -267,12 +268,14 @@ describe('gameArea Tests', () => {
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
   });
 
-  const gameStatusShownDialogs: Array<[GameStatus, boolean]> = [
-    ['AiWin', true],
-    ['Player0Win', true],
-    ['Player1Win', true],
-    ['GameOver', true],
-    ['Draw', true],
+  const gameStatusShownDialogs: Array<[GameStatus, number, boolean]> = [
+    ['AiWin', 0, true],
+    ['Player0Win', 0, true],
+    ['Player0Win', 1, true],
+    ['Player1Win', 0, true],
+    ['Player1Win', 1, true],
+    ['GameOver', 0, true],
+    ['Draw', 0, true],
   ];
   const gameStatusNotShownDialogs: Array<[GameStatus, boolean]> = [
     ['NewGame', false],
@@ -281,7 +284,36 @@ describe('gameArea Tests', () => {
     ['MoveInvalid', false],
   ];
 
-  it.each(gameStatusShownDialogs)(`Game status %s shows dialog for player 1`, async (gameStatus) => {
+  it.each(gameStatusShownDialogs)(
+    `Game status %s shows dialog for player 1 with current player %i`,
+    (gameStatus, currentPlayer) => {
+      const gameState = createGameState(1);
+      render(
+        <GameArea
+          gameStatus={gameStatus}
+          players={gameState.players}
+          cells={gameState.cells}
+          currentPlayer={currentPlayer}
+        />
+      );
+      expect(screen.getByRole('dialog')).toBeInTheDocument();
+    }
+  );
+
+  it.each(gameStatusNotShownDialogs)(`Game status %s doesn't show dialog for player 1`, (gameStatus) => {
+    const gameState = createGameState(1);
+    render(
+      <GameArea
+        gameStatus={gameStatus}
+        players={gameState.players}
+        cells={gameState.cells}
+        currentPlayer={0}
+      />
+    );
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+  });
+
+  it.each(gameStatusShownDialogs)(`Game status %s shows dialog for player 2`, (gameStatus) => {
     const gameState = createGameState(1);
     render(
       <GameArea
@@ -293,23 +325,8 @@ describe('gameArea Tests', () => {
     );
     expect(screen.getByRole('dialog')).toBeInTheDocument();
   });
-  it.each(gameStatusNotShownDialogs)(
-    `Game status %s doesn't show dialog for player 1`,
-    async (gameStatus) => {
-      const gameState = createGameState(1);
-      render(
-        <GameArea
-          gameStatus={gameStatus}
-          players={gameState.players}
-          cells={gameState.cells}
-          currentPlayer={0}
-        />
-      );
-      expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
-    }
-  );
 
-  it.each(gameStatusShownDialogs)(`Game status %s shows dialog for player 2`, async (gameStatus) => {
+  it.each(gameStatusNotShownDialogs)(`Game status %s doesn't show dialog for player 2`, (gameStatus) => {
     const gameState = createGameState(1);
     render(
       <GameArea
@@ -319,30 +336,13 @@ describe('gameArea Tests', () => {
         currentPlayer={0}
       />
     );
-    expect(screen.getByRole('dialog')).toBeInTheDocument();
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
   });
-
-  it.each(gameStatusNotShownDialogs)(
-    `Game status %s doesn't show dialog for player 2`,
-    async (gameStatus) => {
-      const gameState = createGameState(1);
-      render(
-        <GameArea
-          gameStatus={gameStatus}
-          players={gameState.players}
-          cells={gameState.cells}
-          currentPlayer={0}
-        />
-      );
-      expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
-    }
-  );
 
   it(`Game over modal close`, async () => {
-    const restoreLocation = mockLocation({ assign: jest.fn() });
     const gameState = createGameState(1);
 
-    const { rerender } = render(
+    render(
       <GameArea
         gameStatus={'GameOver'}
         players={gameState.players}
@@ -351,7 +351,15 @@ describe('gameArea Tests', () => {
       />
     );
     userEvent.click(screen.getByRole('button', { name: /close/i }));
-    rerender(
+    expect(await screen.findByRole('dialog')).not.toBeInTheDocument();
+  });
+
+  it(`Game over modal new game`, () => {
+    const assign = jest.fn();
+    const restoreLocation = mockLocation({ assign });
+    const gameState = createGameState(1);
+
+    render(
       <GameArea
         gameStatus={'GameOver'}
         players={gameState.players}
@@ -359,9 +367,8 @@ describe('gameArea Tests', () => {
         currentPlayer={0}
       />
     );
-    expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
-    // eslint-disable-next-line @typescript-eslint/unbound-method
-    expect(window.location.assign).toHaveBeenCalledWith('/');
+    userEvent.click(screen.getByRole('button', { name: /new game/i }));
+    expect(assign).toHaveBeenCalledWith('/');
 
     restoreLocation();
   });

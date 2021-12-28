@@ -6,7 +6,7 @@ const GameOver: FunctionComponent<{ outcome: string }> = ({ outcome }) => (
   <Fragment>
     <p>{outcome}</p>
     <button autofocus title="New Game" onClick={() => window.location.assign(`/`)}>
-      Close
+      New Game
     </button>
   </Fragment>
 );

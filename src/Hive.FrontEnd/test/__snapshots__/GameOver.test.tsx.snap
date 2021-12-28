@@ -10,7 +10,7 @@ exports[`gameOver snapshot tests AiWin snapshot player 0 1`] = `
       autofocus=""
       title="New Game"
     >
-      Close
+      New Game
     </button>
   </div>
 </body>
@@ -26,7 +26,7 @@ exports[`gameOver snapshot tests AiWin snapshot player 1 1`] = `
       autofocus=""
       title="New Game"
     >
-      Close
+      New Game
     </button>
   </div>
 </body>
@@ -42,7 +42,7 @@ exports[`gameOver snapshot tests Draw snapshot player 0 1`] = `
       autofocus=""
       title="New Game"
     >
-      Close
+      New Game
     </button>
   </div>
 </body>
@@ -58,7 +58,7 @@ exports[`gameOver snapshot tests Draw snapshot player 1 1`] = `
       autofocus=""
       title="New Game"
     >
-      Close
+      New Game
     </button>
   </div>
 </body>
@@ -74,7 +74,7 @@ exports[`gameOver snapshot tests GameOver snapshot player 0 1`] = `
       autofocus=""
       title="New Game"
     >
-      Close
+      New Game
     </button>
   </div>
 </body>
@@ -90,7 +90,7 @@ exports[`gameOver snapshot tests GameOver snapshot player 1 1`] = `
       autofocus=""
       title="New Game"
     >
-      Close
+      New Game
     </button>
   </div>
 </body>
@@ -106,7 +106,7 @@ exports[`gameOver snapshot tests MoveInvalid snapshot player 0 1`] = `
       autofocus=""
       title="New Game"
     >
-      Close
+      New Game
     </button>
   </div>
 </body>
@@ -122,7 +122,7 @@ exports[`gameOver snapshot tests MoveInvalid snapshot player 1 1`] = `
       autofocus=""
       title="New Game"
     >
-      Close
+      New Game
     </button>
   </div>
 </body>
@@ -138,7 +138,7 @@ exports[`gameOver snapshot tests MoveSuccess snapshot player 0 1`] = `
       autofocus=""
       title="New Game"
     >
-      Close
+      New Game
     </button>
   </div>
 </body>
@@ -154,7 +154,7 @@ exports[`gameOver snapshot tests MoveSuccess snapshot player 1 1`] = `
       autofocus=""
       title="New Game"
     >
-      Close
+      New Game
     </button>
   </div>
 </body>
@@ -170,7 +170,7 @@ exports[`gameOver snapshot tests MoveSuccessNextPlayerSkipped snapshot player 0 
       autofocus=""
       title="New Game"
     >
-      Close
+      New Game
     </button>
   </div>
 </body>
@@ -186,7 +186,7 @@ exports[`gameOver snapshot tests MoveSuccessNextPlayerSkipped snapshot player 1 
       autofocus=""
       title="New Game"
     >
-      Close
+      New Game
     </button>
   </div>
 </body>
@@ -202,7 +202,7 @@ exports[`gameOver snapshot tests NewGame snapshot player 0 1`] = `
       autofocus=""
       title="New Game"
     >
-      Close
+      New Game
     </button>
   </div>
 </body>
@@ -218,7 +218,7 @@ exports[`gameOver snapshot tests NewGame snapshot player 1 1`] = `
       autofocus=""
       title="New Game"
     >
-      Close
+      New Game
     </button>
   </div>
 </body>
@@ -234,7 +234,7 @@ exports[`gameOver snapshot tests Player0Win snapshot player 0 1`] = `
       autofocus=""
       title="New Game"
     >
-      Close
+      New Game
     </button>
   </div>
 </body>
@@ -250,7 +250,7 @@ exports[`gameOver snapshot tests Player0Win snapshot player 1 1`] = `
       autofocus=""
       title="New Game"
     >
-      Close
+      New Game
     </button>
   </div>
 </body>
@@ -266,7 +266,7 @@ exports[`gameOver snapshot tests Player1Win snapshot player 0 1`] = `
       autofocus=""
       title="New Game"
     >
-      Close
+      New Game
     </button>
   </div>
 </body>
@@ -282,7 +282,7 @@ exports[`gameOver snapshot tests Player1Win snapshot player 1 1`] = `
       autofocus=""
       title="New Game"
     >
-      Close
+      New Game
     </button>
   </div>
 </body>

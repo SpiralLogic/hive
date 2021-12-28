@@ -5,9 +5,9 @@ import { useEffect, useState } from 'preact/hooks';
 
 import { Cell, GameState, GameStatus, PlayerId } from '../domain';
 import { HextilleBuilder, HiveEvent } from '../services';
-import { useHiveDispatchListener } from '../utilities/dispatcher';
+import { getHiveDispatcher, useHiveDispatchListener } from '../utilities/dispatcher';
 import { handleDragOver } from '../utilities/handlers';
-import { cellKey, removeOtherPlayerMoves } from '../utilities/hextille';
+import { cellKey, removeOtherPlayerMoves, resetOtherPlayerSelected } from '../utilities/hextille';
 import { shareGame } from '../utilities/share';
 import GameCell from './GameCell';
 import GameOver from './GameOver';
@@ -63,13 +63,12 @@ const GameArea: FunctionComponent<Properties> = ({ players, cells, currentPlayer
   const [showRules, setShowRules] = useState<boolean>(false);
   const [showShare, setShowShare] = useState<boolean>(false);
   const [playerConnected, setPlayerConnected] = useState<'connected' | 'disconnected' | false>(false);
-  const [showGameOver, setShowGameOver] = useState<boolean>(false);
-  const shareComponent = () => {
-    shareGame(currentPlayer)
-      .then(setShowShare)
-      .catch(() => {
-        /* needs handling */
-      });
+  const [showGameOver, setShowGameOver] = useState<boolean>(
+    () => gameOutcome(gameStatus, currentPlayer) !== ''
+  );
+  const shareComponent = async () => {
+    const result = await shareGame(currentPlayer);
+    setShowShare(result);
   };
 
   const attributes = { ondragover: handleDragOver, className: 'hive' };
@@ -88,11 +87,7 @@ const GameArea: FunctionComponent<Properties> = ({ players, cells, currentPlayer
   });
 
   removeOtherPlayerMoves(currentPlayer, { players, cells });
-
-  const gameOverModalCloseHandler = () => {
-    setShowGameOver(false);
-    window.location.assign(`/`);
-  };
+  resetOtherPlayerSelected(currentPlayer, { players, cells }, getHiveDispatcher());
 
   return (
     <div {...attributes} title={'Hive Game Area'}>
@@ -120,12 +115,16 @@ const GameArea: FunctionComponent<Properties> = ({ players, cells, currentPlayer
       <Modal visible={showShare} name="share" onClose={() => setShowShare(false)}>
         <p>Opponent's link has been copied to clipboard!</p>
       </Modal>
-      <Modal visible={showGameOver} name="game over" onClose={gameOverModalCloseHandler}>
+      <Modal
+        visible={showGameOver}
+        name="game over"
+        onClose={() => {
+          setShowGameOver(false);
+        }}>
         <GameOver outcome={gameOutcome(gameStatus, currentPlayer)} />
       </Modal>
     </div>
   );
 };
-
 GameArea.displayName = 'GameArea';
 export default GameArea;
