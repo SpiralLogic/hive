@@ -32,7 +32,7 @@ class ServerConnection {
     this.connection = this.createConnection();
   }
 
-  connectGame = (): Promise<void> => {
+  connectGame = (): void => {
     if (process.env.NODE_ENV !== 'production') {
       this.connection.onreconnecting((error) =>
         console.warn(`reconnecting to game ${this.gameId} .. ${error}`)
@@ -45,7 +45,7 @@ class ServerConnection {
         console.info(`reconnected to game ${this.gameId} .. ${error}`);
       });
     }
-    return this.connection.start();
+    void this.connection.start();
   };
 
   getConnectionState = (): HubConnectionState => this.connection.state;
@@ -57,9 +57,9 @@ class ServerConnection {
         .catch((error: Error) => console.error(error.message.toString()));
   };
 
-  closeConnection = (): Promise<void> => {
+  closeConnection = (): void => {
     this.connection.off('ReceiveGameState', this.updateHandler);
-    return this.connection.stop();
+    void this.connection.stop();
   };
 
   private createConnection = () => {

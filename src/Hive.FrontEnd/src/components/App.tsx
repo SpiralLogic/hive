@@ -42,10 +42,7 @@ const App: FunctionComponent<{ engine: HexEngine; connectionFactory: HexServerCo
       opponentSelectionHandler,
       opponentConnectedHandler,
     });
-    serverConnection.connectGame().catch(() => {
-      /* needs to be handled */
-    });
-
+    serverConnection.connectGame();
     const removeServerHandlers = addServerHandlers(
       serverConnection.sendSelection,
       gameState.gameId,
@@ -56,9 +53,7 @@ const App: FunctionComponent<{ engine: HexEngine; connectionFactory: HexServerCo
 
     return (): void => {
       removeServerHandlers();
-      serverConnection.closeConnection().catch(() => {
-        /* needs to be handled */
-      });
+      serverConnection.closeConnection();
     };
   }, [gameState?.gameId, connectionFactory, engine.currentPlayer, engine.move]);
 

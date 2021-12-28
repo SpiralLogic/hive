@@ -28,8 +28,8 @@ export type ServerConnectionConfig = {
 };
 
 export type HexServerConnectionFactory = (config: Required<ServerConnectionConfig>) => {
-  connectGame: () => Promise<void>;
+  connectGame: () => void;
   getConnectionState: () => HubConnectionState;
-  closeConnection: () => Promise<void>;
+  closeConnection: () => void;
   sendSelection: OpponentSelectionHandler;
 };

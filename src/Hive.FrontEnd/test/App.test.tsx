@@ -5,14 +5,18 @@ import { getHiveDispatcher } from '../src/utilities/dispatcher';
 import App from '../src/components/App';
 import { cellMoveEvent, createGameState } from './fixtures/app.fixture';
 
-const connectionFactory: HexServerConnectionFactory = () => ({
-  connectGame: () => Promise.resolve(),
+const defaultConnectionFactory: HexServerConnectionFactory = () => ({
+  connectGame: jest.fn(),
   getConnectionState: jest.fn(),
   closeConnection: () => Promise.resolve(),
   sendSelection: () => Promise.resolve(),
 });
+
 describe('app tests', () => {
-  const renderApp = (url: string): [(ui: ComponentChild) => void, HexEngine] => {
+  const renderApp = (
+    url: string,
+    connectionFactory?: HexServerConnectionFactory
+  ): [(ui: ComponentChild) => void, HexEngine] => {
     const gameState = createGameState(4);
     const gameAfterMove = createGameState(5);
     const engine: HexEngine = {
@@ -25,7 +29,9 @@ describe('app tests', () => {
 
     window.history.replaceState({}, global.document.title, url);
 
-    const { rerender } = render(<App engine={engine} connectionFactory={connectionFactory} />);
+    const { rerender } = render(
+      <App engine={engine} connectionFactory={connectionFactory ?? defaultConnectionFactory} />
+    );
 
     return [rerender, engine];
   };
@@ -38,14 +44,14 @@ describe('app tests', () => {
   it('shows game when loaded', async () => {
     const [rerender, engine] = renderApp('/');
     await engine.initialGame;
-    rerender(<App engine={engine} connectionFactory={connectionFactory} />);
+    rerender(<App engine={engine} connectionFactory={defaultConnectionFactory} />);
     expect(screen.getByTitle('Hive Game Area')).toBeInTheDocument();
   });
 
   it('moveTile is called on move events', async () => {
     const [rerender, engine] = renderApp(`/game/33/1`);
     await engine.getNewGame();
-    rerender(<App engine={engine} connectionFactory={connectionFactory} />);
+    rerender(<App engine={engine} connectionFactory={defaultConnectionFactory} />);
     getHiveDispatcher().dispatch(cellMoveEvent);
 
     expect(engine.move).toHaveBeenCalledTimes(1);
