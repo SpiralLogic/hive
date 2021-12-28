@@ -48,7 +48,7 @@
     </Target>
 
     <Target Name="DebugBuild" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug'">
-        <Exec WorkingDirectory="$(SpaRoot)" ConsoleToMSBuild="true" Command="pnpm run dotnet:watch">
+        <Exec WorkingDirectory="$(SpaRoot)" ConsoleToMSBuild="true" Command="pnpm run build:dev:watch">
             <Output TaskParameter="ConsoleOutput" ItemName="OutputOfExec" />
             <Output TaskParameter="ExitCode" PropertyName="ErrorCode" />
         </Exec>
