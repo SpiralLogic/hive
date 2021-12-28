@@ -1,57 +1,39 @@
 .links {
-  position: absolute;
-  right: 0;
-  top: 0;
-  display: grid;
-  padding: 10px;
-  color: white;
-  grid-auto-flow: column;
-  grid-template-columns: max-content;
-  gap: 20px;
+    position: absolute;
+    right: 0;
+    top: 0;
+    display: grid;
+    padding: 10px;
+    grid-auto-flow: column;
+    grid-template-columns: max-content;
+    gap: 20px;
 }
 
-.links a {
-  font-size: 50px;
-  text-decoration: none;
-  color: white;
-  fill: white;
-}
-
-.links :hover {
-  color: hotpink;
-  fill: hotpink;
-}
-
+.links a,
 .links a:visited,
 .links a:active {
-  text-decoration: none;
-  color: white;
+    fill: white;
 }
 
 .links svg {
-  width: 4rem;
+    width: 4rem;
 }
 
 .links .ai-off {
-  filter: opacity(0.2);
+    filter: opacity(0.2);
 }
 
 @media only screen and (max-width: 720px) {
-  .links {
-    gap: 2rem;
-    grid-auto-flow: column;
-    position: absolute;
-    justify-self: center;
-    bottom: 10px;
-    top: auto;
-    right: auto;
-  }
-
-  .links svg {
-    width: 2rem;
-  }
-
-  .links a {
-    font-size: 2rem;
-  }
+    .links {
+        gap: 2rem;
+        grid-auto-flow: column;
+        position: absolute;
+        justify-self: center;
+        bottom: 10px;
+        top: auto;
+        right: auto;
+    }
+    .links svg {
+        width: 2rem;
+    }
 }

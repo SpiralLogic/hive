@@ -50,7 +50,9 @@ const Links: FunctionComponent<Properties> = (properties) => {
         </SVG>
       </a>
       <a href="#" name="Show rules" onClick={() => properties.onShowRules(true)} title="Rules">
-        ?
+        <SVG>
+          <use href="#rules" />
+        </SVG>
       </a>
       <a
         href="#"
