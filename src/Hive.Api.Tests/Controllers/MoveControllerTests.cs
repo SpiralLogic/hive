@@ -221,6 +221,34 @@ public class MoveControllerTests
         actionResult.Should().BeOfType<AcceptedResult>();
     }
 
+    [Fact] public async Task PostAiMove_PreventRepeated_DeserializeFallback()
+    {
+        var game = HiveFactory.CreateHive(new[] {"player1", "player2"});
+        var moves = new Move[8];
+        for (var i = 0; i < 4; i++)
+        {
+            var playerId = (i + 1) % 2;
+            moves[playerId + i / 2] = new Move(game.Players[playerId].Tiles.First(), new Coords(i, 0));
+            game.Move(moves[playerId + i / 2]);
+        }
+
+        await _memoryCache.SetAsync(
+            TestHelpers.ExistingGameId,
+            TestHelpers.GetSerializedBytes(
+                new GameState(game.Players, game.Cells, TestHelpers.ExistingGameId, GameStatus.MoveSuccess),
+                TestHelpers.CreateJsonOptions()
+            )
+        );
+
+        await _memoryCache.SetAsync(
+            TestHelpers.ExistingGameId + "-moves",
+            TestHelpers.GetSerializedBytes(null, TestHelpers.CreateJsonOptions())
+        );
+
+        var actionResult = await _controller.AiMove(TestHelpers.ExistingGameId, 1);
+        actionResult.Should().BeOfType<AcceptedResult>();
+    }
+
     [Fact]
     public async Task PostAiMove_PreventRepeatedMoves_MissingFallback()
     {

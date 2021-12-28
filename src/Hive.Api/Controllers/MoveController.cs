@@ -97,7 +97,7 @@ public class MoveController : ControllerBase
         previousMoves[playerId + 4] = previousMoves[playerId + 2];
         previousMoves[playerId + 2] = previousMoves[playerId];
         previousMoves[playerId] = move;
-        string previousMovesJson = JsonSerializer.Serialize(previousMoves, _jsonSerializerOptions);
+        var previousMovesJson = JsonSerializer.Serialize(previousMoves, _jsonSerializerOptions);
         await _distributedCache.SetStringAsync(id + "-moves", previousMovesJson);
     }
 

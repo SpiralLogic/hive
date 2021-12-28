@@ -467,3 +467,6 @@ build/
 /src/Hive.FrontEnd/pnpm-lock.yaml
 .sonarqube
 .scannerwork
+/src/api-coverage/
+/src/domain-coverage/
+/src/.config/
