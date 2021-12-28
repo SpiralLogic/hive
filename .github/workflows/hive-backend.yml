@@ -17,7 +17,7 @@ jobs:
       - name: Setup dotnet
         uses: actions/setup-dotnet@v1.7.2
         with:
-          dotnet-version: '6.0.100-preview.3.21202.5'
+          dotnet-version: '6.0'
       - name: dotnet restore
         run: dotnet restore
       #      - name: Update Nuget Packages
