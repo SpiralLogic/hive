@@ -57,9 +57,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@main
       - name: Setup dotnet
-        uses: actions/setup-dotnet@v1.7.2
+        uses: actions/setup-dotnet@v1
         with:
-          dotnet-version: '6.0.100-preview.3.21202.5'
+          dotnet-version: '6.0.x'
+          include-prerelease: true
       - name: Install pnpm
         run: npm install -g pnpm
       - name: dotnet restore
