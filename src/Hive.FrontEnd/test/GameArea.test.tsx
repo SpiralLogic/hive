@@ -31,7 +31,25 @@ describe('gameArea Tests', () => {
     expect(preventDefault).toHaveBeenCalledWith();
   });
 
-  it(`removes all moves for tiles which aren't the current player`, async () => {
+  it(`resets all selected tiles which aren't the current player`, async () => {
+    const gameState = createGameState(1);
+    global.window.history.replaceState({}, global.document.title, `/game/33/0`);
+    render(
+      <GameArea
+        gameStatus="MoveSuccess"
+        players={gameState.players}
+        cells={gameState.cells}
+        currentPlayer={1}
+      />
+    );
+    await waitFor(() =>
+      getHiveDispatcher().dispatch<TileAction>({ type: 'tileSelect', tile: gameState.players[1].tiles[0] })
+    );
+
+    expect(screen.getByTitle(/creature1/)).toHaveClass('selected');
+  });
+
+  it(`removes all moves for tiles which aren't the current player`, () => {
     const gameState = createGameState(1);
     global.window.history.replaceState({}, global.document.title, `/game/33/0`);
     render(
