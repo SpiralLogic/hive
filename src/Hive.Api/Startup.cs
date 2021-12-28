@@ -29,18 +29,18 @@ namespace Hive
             var sigR = services.AddSignalR()
                 .AddJsonProtocol(options => { options.PayloadSerializerOptions.Converters.AddAllJsonConverters(); });
 
-            if (_currentEnvironment.IsProduction())
+            if (_currentEnvironment.IsDevelopment())
+            {
+                services.AddDistributedMemoryCache();
+            }
+            else
             {
                 services.AddStackExchangeRedisCache(options =>
                 {
                     options.Configuration = _configuration["RedisHost"];
                 });
-                
+
                 sigR.AddStackExchangeRedis(_configuration["RedisHost"]);
-            }
-            else
-            {
-                services.AddDistributedMemoryCache();
             }
 
             services.AddControllers()
