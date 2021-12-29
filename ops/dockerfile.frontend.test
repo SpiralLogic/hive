@@ -9,4 +9,4 @@ RUN pnpm lint:src:report
 RUN pnpm lint:test:report
 RUN pnpm test
 WORKDIR /source
-RUN cp /source/src/Hive.FrontEnd/reports .
+RUN cp -r /source/src/Hive.FrontEnd/reports .
