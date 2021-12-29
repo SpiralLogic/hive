@@ -1,9 +1,12 @@
 FROM library/node:latest
 
 WORKDIR /source
-COPY ./src/Hive.FrontEnd .
+COPY . .
+WORKDIR /source/src/Hive.FrontEnd
 RUN npm i -g pnpm
 RUN pnpm install
 RUN pnpm lint:src:report
 RUN pnpm lint:test:report
 RUN pnpm test
+WORKDIR /source
+RUN cp /source/src/Hive.FrontEnd/reports .
