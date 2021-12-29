@@ -5,4 +5,5 @@ COPY ./src/Hive.FrontEnd .
 RUN npm i -g pnpm
 RUN pnpm install
 RUN pnpm lint:src:report
+RUN pnpm lint:test:report
 RUN pnpm test

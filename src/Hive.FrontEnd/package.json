@@ -13,7 +13,7 @@
         "jest": "pnpx jest -c jest.config.json --coverage ",
         "lint": "npm-run-all -s lint:src lint:test",
         "lint:src": "pnpx eslint -c .eslintrc --fix src",
-        "lint:src:report": "pnpx eslint -c .eslintrc --fix -o reports/__lint__/eslint.json -f jsonn src",
+        "lint:src:report": "pnpx eslint -c .eslintrc --fix -o reports/__lint__/eslint.json -f json src",
         "lint:test": "pnpx eslint -c .eslintrc --fix test",
         "lint:test:report": "pnpx eslint -c .eslintrc --fix -o reports/__lint__/eslint.test.json -f json test",
         "build": "npm-run-all -s clean esbuild web-copy cache-bust",
