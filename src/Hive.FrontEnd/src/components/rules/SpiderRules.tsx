@@ -7,7 +7,7 @@ import { Rule } from './rule';
 const SpiderRules: Rule = {
   title: 'Spider',
   description: ['Must move 3 cells', `Can't backtrack`],
-  Rule: () => (
+  RuleComponent: () => (
     <Hextille class="rules">
       <Row>
         <RuleCell result="correct" />
@@ -50,5 +50,5 @@ const SpiderRules: Rule = {
     </Hextille>
   ),
 };
-SpiderRules.Rule.displayName = 'SpiderRules';
+SpiderRules.RuleComponent.displayName = 'SpiderRules';
 export default SpiderRules;

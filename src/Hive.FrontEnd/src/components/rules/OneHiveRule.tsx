@@ -6,7 +6,7 @@ import { Rule } from './rule';
 const OneHiveRule: Rule = {
   title: 'One Hive Rule',
   description: ['There must only be 1 hive', 'Even in transit a hive must not be split'],
-  Rule: () => (
+  RuleComponent: () => (
     <Hextille class="rules">
       <Row>
         <RuleCell creature="beetle" />
@@ -27,5 +27,5 @@ const OneHiveRule: Rule = {
   ),
 };
 
-OneHiveRule.Rule.displayName = 'OneHiveRule';
+OneHiveRule.RuleComponent.displayName = 'OneHiveRule';
 export default OneHiveRule;

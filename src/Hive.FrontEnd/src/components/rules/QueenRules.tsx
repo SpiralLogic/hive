@@ -11,7 +11,7 @@ const QueenRules: Rule = {
     'Must be in hive by 4th move',
     'No creatures in hive can move without queen',
   ],
-  Rule: () => (
+  RuleComponent: () => (
     <Hextille class="rules">
       <Row>
         <Hexagon hidden={true} />
@@ -45,5 +45,5 @@ const QueenRules: Rule = {
   ),
 };
 
-QueenRules.Rule.displayName = 'QueenRules';
+QueenRules.RuleComponent.displayName = 'QueenRules';
 export default QueenRules;

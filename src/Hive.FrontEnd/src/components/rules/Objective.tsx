@@ -11,7 +11,7 @@ const Objective: Rule = {
     'Queens must be in the hive to move creatures',
     'Placements into the hive must touch friendly pieces',
   ],
-  Rule: () => (
+  RuleComponent: () => (
     <Hextille class="rules">
       <Row>
         <RuleCell creature="ant" />
@@ -29,5 +29,5 @@ const Objective: Rule = {
     </Hextille>
   ),
 };
-Objective.Rule.displayName = 'Objective';
+Objective.RuleComponent.displayName = 'Objective';
 export default Objective;

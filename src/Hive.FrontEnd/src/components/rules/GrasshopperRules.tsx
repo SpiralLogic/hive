@@ -7,7 +7,7 @@ import { Rule } from './rule';
 const GrasshopperRules: Rule = {
   title: 'Grasshopper',
   description: ['Can just straight over other creatures', 'Can not jump gaps'],
-  Rule: () => (
+  RuleComponent: () => (
     <Hextille class="rules">
       <Row zIndex={1}>
         <RuleCell result="correct" />
@@ -54,5 +54,5 @@ const GrasshopperRules: Rule = {
     </Hextille>
   ),
 };
-GrasshopperRules.Rule.displayName = 'GrasshopperRules';
+GrasshopperRules.RuleComponent.displayName = 'GrasshopperRules';
 export default GrasshopperRules;

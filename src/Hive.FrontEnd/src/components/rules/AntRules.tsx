@@ -7,7 +7,7 @@ import { Rule } from './rule';
 const AntRules: Rule = {
   title: 'Ant',
   description: ['Moves any number of cells'],
-  Rule: () => (
+  RuleComponent: () => (
     <Hextille class="rules">
       <Row>
         <Hexagon hidden={true} />
@@ -44,5 +44,5 @@ const AntRules: Rule = {
     </Hextille>
   ),
 };
-AntRules.Rule.displayName = 'AntRules';
+AntRules.RuleComponent.displayName = 'AntRules';
 export default AntRules;

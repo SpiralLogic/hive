@@ -17,7 +17,7 @@ describe('<Players>', () => {
     expect(screen.getAllByTitle(/^Player \d$/)).toHaveLength(2);
   });
 
-  it('snapshot', () => {
+  it('renders', () => {
     global.window.history.replaceState({}, global.document.title, `/game/33/1`);
     const view = render(<Players {...defaultProps} />);
     expect(view.baseElement).toMatchSnapshot();

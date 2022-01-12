@@ -7,7 +7,7 @@ import { Rule } from './rule';
 const BeetleRules: Rule = {
   title: 'Beetle',
   description: ['Moves only 1 cell', 'Can move on top of insects'],
-  Rule: () => (
+  RuleComponent: () => (
     <Hextille class="rules">
       <Row>
         <Hexagon hidden={true} />
@@ -36,5 +36,5 @@ const BeetleRules: Rule = {
     </Hextille>
   ),
 };
-BeetleRules.Rule.displayName = 'BeetleRules';
+BeetleRules.RuleComponent.displayName = 'BeetleRules';
 export default BeetleRules;

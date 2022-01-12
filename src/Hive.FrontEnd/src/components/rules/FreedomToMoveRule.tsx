@@ -6,7 +6,7 @@ import { Rule } from './rule';
 const FreedomToMoveRule: Rule = {
   title: 'Freedom To Move',
   description: [`Each move must be able to slide to it's next position`],
-  Rule: () => (
+  RuleComponent: () => (
     <Hextille class="rules">
       <Row>
         <RuleCell creature="ant" />
@@ -24,5 +24,5 @@ const FreedomToMoveRule: Rule = {
     </Hextille>
   ),
 };
-FreedomToMoveRule.Rule.displayName = 'FreedomToMoveRule';
+FreedomToMoveRule.RuleComponent.displayName = 'FreedomToMoveRule';
 export default FreedomToMoveRule;

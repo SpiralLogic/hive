@@ -36,7 +36,7 @@ describe('<Rules>', () => {
     expect(screen.getByRole('heading')).toHaveTextContent(/Queen/);
   });
 
-  it('snapshot', () => {
+  it('renders', () => {
     expect(renderElement(<Rules />)).toMatchSnapshot();
   });
 });

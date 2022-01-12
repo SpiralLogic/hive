@@ -1,5 +1,86 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`<Links> renders 1`] = `
+<body>
+  <div>
+    <div
+      class="links"
+    >
+      <a
+        href="//game/123A/1"
+        name="Share game to opponent"
+        title="Share"
+      >
+        <svg
+          viewBox="0 0 100 100"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <use
+            href="#share"
+          />
+        </svg>
+      </a>
+      <a
+        href="/"
+        name="New game!"
+        title="New Game"
+      >
+        <svg
+          viewBox="0 0 100 100"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <use
+            href="#new"
+          />
+        </svg>
+      </a>
+      <a
+        href="#"
+        name="Show rules"
+        title="Rules"
+      >
+        <svg
+          viewBox="0 0 100 100"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <use
+            href="#rules"
+          />
+        </svg>
+      </a>
+      <a
+        href="#"
+        name="Toggle Ai"
+        title="Toggle Ai"
+      >
+        <svg
+          viewBox="0 0 100 100"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <use
+            href="#ai"
+          />
+        </svg>
+      </a>
+      <a
+        class="github"
+        href="https://github.com/SpiralLogic/hive"
+        title="Source code"
+      >
+        <svg
+          viewBox="0 0 100 100"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <use
+            href="#github"
+          />
+        </svg>
+      </a>
+    </div>
+  </div>
+</body>
+`;
+
 exports[`<Links> snapshot 1`] = `
 <body>
   <div>

@@ -29,7 +29,7 @@ const changeRule = (currentRuleIndex: number, { type }: { type: 'next' | 'prev' 
 
 const Rules = () => {
   const [currentRuleIndex, changeCurrentRule] = useReducer(changeRule, 0);
-  const { Rule, title, description } = ruleList[currentRuleIndex];
+  const { RuleComponent, title, description } = ruleList[currentRuleIndex];
   return (
     <div>
       <div class="menu">
@@ -46,7 +46,7 @@ const Rules = () => {
           <li key={d}>{d}</li>
         ))}
       </ul>
-      <Rule />
+      <RuleComponent />
     </div>
   );
 };

@@ -15,7 +15,7 @@ describe('<Links>', () => {
     expect(await screen.findByTitle(/toggle ai/i)).toHaveClass('ai-off');
   });
 
-  it('snapshot', () => {
+  it('renders', () => {
     expect(
       renderElement(
         <Links gameId={'123A'} currentPlayer={0} onShowShare={() => ({})} onShowRules={() => ({})} />

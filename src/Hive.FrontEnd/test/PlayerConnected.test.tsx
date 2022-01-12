@@ -10,7 +10,7 @@ describe('<PlayerConnected>', () => {
     rerender(<PlayerConnected connected={'disconnected'} />);
     expect(screen.getByText(/disconnected/)).toBeInTheDocument();
   });
-  it('snapshot', () => {
+  it('renders', () => {
     expect(renderElement(<PlayerConnected connected={'disconnected'} />)).toMatchSnapshot();
   });
 });

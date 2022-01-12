@@ -47,7 +47,7 @@ describe('<Player>', () => {
     expect(screen.queryByTitle('Player 1')).not.toBeInTheDocument();
   });
 
-  it('snapshot', () => {
+  it('renders', () => {
     const [, player] = createPlayer();
     expect(player).toMatchSnapshot();
   });

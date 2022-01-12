@@ -19,7 +19,7 @@ describe('<Row>', () => {
     expect(screen.getAllByRole('none')).toHaveLength(2);
   });
 
-  it('snapshot', () => {
+  it('renders', () => {
     row();
     expect(screen.getByRole('row')).toMatchSnapshot();
   });

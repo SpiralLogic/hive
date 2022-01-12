@@ -12,7 +12,7 @@ describe('<Modal>', () => {
     expect(close).toHaveBeenCalledWith();
   });
 
-  it('snapshot', () => {
+  it('renders', () => {
     expect(renderElement(<Modal visible={true} name="test" onClose={() => ({})} />)).toMatchSnapshot();
   });
 });
