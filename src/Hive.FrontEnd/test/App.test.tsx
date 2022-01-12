@@ -12,7 +12,7 @@ const defaultConnectionFactory: HexServerConnectionFactory = () => ({
   sendSelection: () => Promise.resolve(),
 });
 
-describe('app tests', () => {
+describe('<App>', () => {
   const renderApp = (
     url: string,
     connectionFactory?: HexServerConnectionFactory

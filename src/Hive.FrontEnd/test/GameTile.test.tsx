@@ -14,7 +14,7 @@ const createDispatcher = (): [TileEvent[], () => void] => {
   return [tileEvents, cleanup];
 };
 
-describe('tile Tests', () => {
+describe('<GameTile>', () => {
   const tileCanMove = {
     id: 1,
     playerId: 1,

@@ -4,7 +4,7 @@ import userEvent from '@testing-library/user-event';
 import Rules from '../src/components/Rules';
 import { renderElement } from './test-helpers';
 
-describe('rules tests', () => {
+describe('<Rules>', () => {
   const renderRules = (): [(ui: ComponentChild) => void, jest.Mock] => {
     const close = jest.fn();
     const { rerender } = render(<Rules />);

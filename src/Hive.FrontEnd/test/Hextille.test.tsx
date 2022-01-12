@@ -3,7 +3,7 @@ import Hextille from '../src/components/Hextille';
 import Row from '../src/components/Row';
 import { renderElement } from './test-helpers';
 
-describe('hextille Tests', () => {
+describe('<Hextille>', () => {
   it('matches current snapshot', () => {
     expect(
       renderElement(

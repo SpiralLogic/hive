@@ -4,7 +4,7 @@ import Player from '../src/components/Player';
 import GameTile from '../src/components/GameTile';
 import { HexCoordinates } from '../src/domain';
 
-describe('player Tests', () => {
+describe('<Player>', () => {
   const createPlayer = (): [(ui: ComponentChild) => void, Element] => {
     const playerProperties = { id: 1, name: 'Player 1' };
     global.window.history.replaceState({}, global.document.title, `/game/33/1`);

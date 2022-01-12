@@ -2,7 +2,7 @@ import { screen, render } from '@testing-library/preact';
 import GameCell from '../src/components/GameCell';
 import Row from '../src/components/Row';
 
-describe('row Tests', () => {
+describe('<Row>', () => {
   const row = () =>
     render(
       <Row>

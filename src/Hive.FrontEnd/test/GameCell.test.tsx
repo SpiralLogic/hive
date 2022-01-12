@@ -15,7 +15,7 @@ import {
   moveTileSpy,
 } from './fixtures/game-cell.fixtures';
 
-describe('cell Tests', () => {
+describe('<GameCell>', () => {
   it(`top tile is rendered when tiles are all empty`, () => {
     render(<GameCell {...createCellWithTile()} />);
     expect(screen.getByTitle(/fly/)).toBeInTheDocument();

@@ -16,8 +16,8 @@ import {
 } from './test-helpers';
 import { waitFor } from '@testing-library/dom';
 
-describe('gameArea Tests', () => {
-  it('default drag over is prevented to allow drop', () => {
+describe('<GameArea>', () => {
+  test('default drag over is prevented to allow drop', () => {
     const gameState = createGameState(1);
     render(
       <GameArea
@@ -69,7 +69,7 @@ describe('gameArea Tests', () => {
     expect(screen.getByTitle(/creature1/)).toHaveAttribute('draggable');
   });
 
-  it('show rules is rendered', async () => {
+  it('renders show rules', async () => {
     const gameState = createGameState(1);
     render(
       <GameArea
@@ -86,7 +86,7 @@ describe('gameArea Tests', () => {
     expect(await screen.findByRole('dialog')).toBeInTheDocument();
   });
 
-  it(`share rules close`, async () => {
+  it(`closes show rules`, async () => {
     const gameState = createGameState(1);
     render(
       <GameArea
@@ -103,7 +103,7 @@ describe('gameArea Tests', () => {
     expect(await screen.findByRole('dialog')).not.toBeInTheDocument();
   });
 
-  it('share modal is rendered', async () => {
+  it('renders share modal', async () => {
     const clipboard = jest.fn();
     const gameState = createGameState(1);
     const restore = mockClipboard(clipboard);
@@ -124,7 +124,7 @@ describe('gameArea Tests', () => {
     restore();
   });
 
-  it(`share modal close`, async () => {
+  it(`closes share modal`, async () => {
     const clipboard = jest.fn();
     const gameState = createGameState(1);
     const restore = mockClipboard(clipboard);
@@ -144,7 +144,7 @@ describe('gameArea Tests', () => {
     restore();
   });
 
-  it('if available share API is called', () => {
+  it('calls share API', () => {
     const share = jest.fn();
     const restore = mockShare(share);
     const gameState = createGameState(1);
@@ -164,7 +164,7 @@ describe('gameArea Tests', () => {
     restore();
   });
 
-  it('click copies opponent link to clipboard with navigator', () => {
+  it('copies opponent link to clipboard with navigator', () => {
     const writeText = jest.fn();
     const restore1 = noShare();
     const restore2 = mockClipboard(writeText);
@@ -185,7 +185,7 @@ describe('gameArea Tests', () => {
     restore2();
   });
 
-  it('click copies opponent link to clipboard with exec command', () => {
+  it('copies opponent link to clipboard with exec command', () => {
     const execCommand = jest.fn();
     const restore1 = noShare();
     const restore = mockExecCommand(execCommand);
@@ -206,7 +206,7 @@ describe('gameArea Tests', () => {
     restore();
   });
 
-  it(`can't copy link`, () => {
+  it(`closes modal when share link can't be copied`, () => {
     const restore = noShare();
     const gameState = createGameState(1);
     render(
@@ -223,7 +223,7 @@ describe('gameArea Tests', () => {
     restore();
   });
 
-  it(`player connected`, async () => {
+  it(`shows modal when player connects`, async () => {
     const gameState = createGameState(1);
     render(
       <GameArea
@@ -238,7 +238,7 @@ describe('gameArea Tests', () => {
     expect(await screen.findByRole('dialog')).toBeInTheDocument();
   });
 
-  it(`player disconnected`, async () => {
+  it(`shows modal when player disconnects`, async () => {
     const gameState = createGameState(1);
     render(
       <GameArea
@@ -254,7 +254,7 @@ describe('gameArea Tests', () => {
     expect(await screen.findByRole('dialog')).toBeInTheDocument();
   });
 
-  it(`player connected modal close`, async () => {
+  it(`closes player connected modal`, async () => {
     const gameState = createGameState(1);
 
     const { rerender } = render(
@@ -356,7 +356,7 @@ describe('gameArea Tests', () => {
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
   });
 
-  it(`Game over modal close`, async () => {
+  it(`closes game over modal`, async () => {
     const gameState = createGameState(1);
 
     render(
@@ -372,7 +372,7 @@ describe('gameArea Tests', () => {
     expect(await screen.findByRole('dialog')).not.toBeInTheDocument();
   });
 
-  it(`Game over modal new game`, () => {
+  it(`shows game over modal with new game`, () => {
     const assign = jest.fn();
     const restoreLocation = mockLocation({ assign });
     const gameState = createGameState(1);

@@ -11,7 +11,7 @@ const defaultProps = {
     { id: 2, name: 'Player 2', tiles: [ant] },
   ],
 };
-describe('PlayerList Tests', () => {
+describe('<PlayerList>', () => {
   it('players are rendered', () => {
     render(<Players {...defaultProps} />);
     expect(screen.getAllByTitle(/^Player \d$/)).toHaveLength(2);
