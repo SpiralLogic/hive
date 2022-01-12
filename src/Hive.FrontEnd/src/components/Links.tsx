@@ -3,7 +3,7 @@ import '../css/links.css';
 import { FunctionComponent } from 'preact';
 import { useState } from 'preact/hooks';
 
-import { PlayerId } from '../domain';
+import { GameId, PlayerId } from '../domain';
 import { AiAction, HiveEvent } from '../services';
 import { getHiveDispatcher, useHiveDispatchListener } from '../utilities/dispatcher';
 import { getShareUrl } from '../utilities/share';
@@ -12,6 +12,7 @@ import SVG from './SVG';
 type Properties = {
   onShowRules: (value: boolean) => void;
   onShowShare: () => void;
+  gameId: GameId;
   currentPlayer: PlayerId;
 };
 export const handle = (handler: () => void) => (event: MouseEvent) => {
@@ -21,8 +22,8 @@ export const handle = (handler: () => void) => (event: MouseEvent) => {
   return false;
 };
 
-const Links: FunctionComponent<Properties> = (properties) => {
-  const [useAi, setUseAi] = useState(properties.currentPlayer === 0);
+const Links: FunctionComponent<Properties> = ({ gameId, currentPlayer, onShowRules, onShowShare }) => {
+  const [useAi, setUseAi] = useState(currentPlayer === 0);
   const hiveDispatcher = getHiveDispatcher();
   const clickHandler = () => {
     hiveDispatcher.dispatch<AiAction>({ type: 'toggleAi', newState: !useAi });
@@ -36,10 +37,10 @@ const Links: FunctionComponent<Properties> = (properties) => {
   return (
     <div class="links">
       <a
-        href={getShareUrl(properties.currentPlayer)}
+        href={getShareUrl(gameId, currentPlayer)}
         name="Share game to opponent"
         title="Share"
-        onClick={handle(properties.onShowShare)}>
+        onClick={handle(onShowShare)}>
         <SVG>
           <use href="#share" />
         </SVG>
@@ -49,7 +50,7 @@ const Links: FunctionComponent<Properties> = (properties) => {
           <use href="#new" />
         </SVG>
       </a>
-      <a href="#" name="Show rules" onClick={() => properties.onShowRules(true)} title="Rules">
+      <a href="#" name="Show rules" onClick={() => onShowRules(true)} title="Rules">
         <SVG>
           <use href="#rules" />
         </SVG>

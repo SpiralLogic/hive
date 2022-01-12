@@ -7,7 +7,9 @@ import { renderElement } from './test-helpers';
 describe('links snapshot tests', () => {
   it(`links toggle Ai`, async () => {
     jest.spyOn(getHiveDispatcher(), 'dispatch');
-    renderElement(<Links currentPlayer={0} onShowShare={() => ({})} onShowRules={() => ({})} />);
+    renderElement(
+      <Links gameId={'123A'} currentPlayer={0} onShowShare={() => ({})} onShowRules={() => ({})} />
+    );
     userEvent.click(screen.getByTitle(/toggle ai/i));
     expect(getHiveDispatcher().dispatch).toHaveBeenCalledWith({ newState: false, type: 'toggleAi' });
     expect(await screen.findByTitle(/toggle ai/i)).toHaveClass('ai-off');
@@ -15,7 +17,9 @@ describe('links snapshot tests', () => {
 
   it('snapshot', () => {
     expect(
-      renderElement(<Links currentPlayer={0} onShowShare={() => ({})} onShowRules={() => ({})} />)
+      renderElement(
+        <Links gameId={'123A'} currentPlayer={0} onShowShare={() => ({})} onShowRules={() => ({})} />
+      )
     ).toMatchSnapshot();
   });
 });

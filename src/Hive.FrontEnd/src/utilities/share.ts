@@ -1,4 +1,4 @@
-import { PlayerId } from '../domain';
+import { GameId, PlayerId } from '../domain';
 
 const fallbackCopyTextToClipboard = (text: string) => {
   const currentFocus = document.activeElement as HTMLElement;
@@ -25,14 +25,11 @@ const fallbackCopyTextToClipboard = (text: string) => {
   return copied;
 };
 
-export const getShareUrl = (currentPlayer: PlayerId) => {
-  const parts = window.location.href.split('/');
-  parts[parts.length - 1] = currentPlayer === 1 ? '0' : '1';
-  return parts.join('/');
-};
+export const getShareUrl = (gameId: GameId, currentPlayer: PlayerId) =>
+  `//game/${gameId}/${currentPlayer === 1 ? '0' : '1'}`;
 
-export const shareGame = async (currentPlayer: PlayerId) => {
-  const url = getShareUrl(currentPlayer);
+export const shareGame = async (gameId: GameId, currentPlayer: PlayerId) => {
+  const url = getShareUrl(gameId, currentPlayer);
   const opponentGame = {
     title: 'Hive board game',
     text: 'Click this link to join me in a game of the Hive!',

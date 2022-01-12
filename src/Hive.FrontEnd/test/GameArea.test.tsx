@@ -21,6 +21,7 @@ describe('gameArea Tests', () => {
     const gameState = createGameState(1);
     render(
       <GameArea
+        gameId={'123A'}
         gameStatus="MoveSuccess"
         players={gameState.players}
         cells={gameState.cells}
@@ -37,6 +38,7 @@ describe('gameArea Tests', () => {
     global.window.history.replaceState({}, global.document.title, `/game/33/0`);
     render(
       <GameArea
+        gameId={'123A'}
         gameStatus="MoveSuccess"
         players={gameState.players}
         cells={gameState.cells}
@@ -55,6 +57,7 @@ describe('gameArea Tests', () => {
     global.window.history.replaceState({}, global.document.title, `/game/33/0`);
     render(
       <GameArea
+        gameId={'123A'}
         gameStatus="MoveSuccess"
         players={gameState.players}
         cells={gameState.cells}
@@ -70,6 +73,7 @@ describe('gameArea Tests', () => {
     const gameState = createGameState(1);
     render(
       <GameArea
+        gameId={'123A'}
         gameStatus="MoveSuccess"
         players={gameState.players}
         cells={gameState.cells}
@@ -86,6 +90,7 @@ describe('gameArea Tests', () => {
     const gameState = createGameState(1);
     render(
       <GameArea
+        gameId={'123A'}
         gameStatus="MoveSuccess"
         players={gameState.players}
         cells={gameState.cells}
@@ -105,6 +110,7 @@ describe('gameArea Tests', () => {
 
     render(
       <GameArea
+        gameId={'123A'}
         gameStatus="MoveSuccess"
         players={gameState.players}
         cells={gameState.cells}
@@ -125,6 +131,7 @@ describe('gameArea Tests', () => {
 
     render(
       <GameArea
+        gameId={'123A'}
         gameStatus={'MoveSuccess'}
         players={gameState.players}
         cells={gameState.cells}
@@ -140,11 +147,11 @@ describe('gameArea Tests', () => {
   it('if available share API is called', () => {
     const share = jest.fn();
     const restore = mockShare(share);
-    const url = `http://localhost/game/33/0`;
     const gameState = createGameState(1);
     global.window.history.replaceState({}, global.document.title, `/game/33/1`);
     render(
       <GameArea
+        gameId={'33'}
         gameStatus="MoveSuccess"
         players={gameState.players}
         cells={gameState.cells}
@@ -153,7 +160,7 @@ describe('gameArea Tests', () => {
     );
 
     userEvent.click(screen.getByTitle(/Share/));
-    expect(share).toHaveBeenCalledWith(expect.objectContaining({ url }));
+    expect(share).toHaveBeenCalledWith(expect.objectContaining({ url: `//game/33/0` }));
     restore();
   });
 
@@ -162,10 +169,10 @@ describe('gameArea Tests', () => {
     const restore1 = noShare();
     const restore2 = mockClipboard(writeText);
 
-    const url = `http://localhost/game/33/0`;
     const gameState = createGameState(1);
     render(
       <GameArea
+        gameId={'33'}
         gameStatus="MoveSuccess"
         players={gameState.players}
         cells={gameState.cells}
@@ -173,7 +180,7 @@ describe('gameArea Tests', () => {
       />
     );
     userEvent.click(screen.getByTitle(/Share/));
-    expect(writeText).toHaveBeenCalledWith(url);
+    expect(writeText).toHaveBeenCalledWith(`//game/33/0`);
     restore1();
     restore2();
   });
@@ -185,6 +192,7 @@ describe('gameArea Tests', () => {
     const gameState = createGameState(1);
     render(
       <GameArea
+        gameId={'33'}
         gameStatus="MoveSuccess"
         players={gameState.players}
         cells={gameState.cells}
@@ -203,6 +211,7 @@ describe('gameArea Tests', () => {
     const gameState = createGameState(1);
     render(
       <GameArea
+        gameId={'123A'}
         gameStatus="MoveSuccess"
         players={gameState.players}
         cells={gameState.cells}
@@ -218,6 +227,7 @@ describe('gameArea Tests', () => {
     const gameState = createGameState(1);
     render(
       <GameArea
+        gameId={'123A'}
         gameStatus="MoveSuccess"
         players={gameState.players}
         cells={gameState.cells}
@@ -232,6 +242,7 @@ describe('gameArea Tests', () => {
     const gameState = createGameState(1);
     render(
       <GameArea
+        gameId={'123A'}
         gameStatus="MoveSuccess"
         players={gameState.players}
         cells={gameState.cells}
@@ -248,6 +259,7 @@ describe('gameArea Tests', () => {
 
     const { rerender } = render(
       <GameArea
+        gameId={'123A'}
         gameStatus={'MoveSuccess'}
         players={gameState.players}
         cells={gameState.cells}
@@ -259,6 +271,7 @@ describe('gameArea Tests', () => {
     userEvent.click(await screen.findByRole('button', { name: /close/i }));
     rerender(
       <GameArea
+        gameId={'123A'}
         gameStatus={'NewGame'}
         players={gameState.players}
         cells={gameState.cells}
@@ -290,6 +303,7 @@ describe('gameArea Tests', () => {
       const gameState = createGameState(1);
       render(
         <GameArea
+          gameId={'123A'}
           gameStatus={gameStatus}
           players={gameState.players}
           cells={gameState.cells}
@@ -304,6 +318,7 @@ describe('gameArea Tests', () => {
     const gameState = createGameState(1);
     render(
       <GameArea
+        gameId={'123A'}
         gameStatus={gameStatus}
         players={gameState.players}
         cells={gameState.cells}
@@ -317,6 +332,7 @@ describe('gameArea Tests', () => {
     const gameState = createGameState(1);
     render(
       <GameArea
+        gameId={'123A'}
         gameStatus={gameStatus}
         players={gameState.players}
         cells={gameState.cells}
@@ -330,6 +346,7 @@ describe('gameArea Tests', () => {
     const gameState = createGameState(1);
     render(
       <GameArea
+        gameId={'123A'}
         gameStatus={gameStatus}
         players={gameState.players}
         cells={gameState.cells}
@@ -344,6 +361,7 @@ describe('gameArea Tests', () => {
 
     render(
       <GameArea
+        gameId={'123A'}
         gameStatus={'GameOver'}
         players={gameState.players}
         cells={gameState.cells}
@@ -361,6 +379,7 @@ describe('gameArea Tests', () => {
 
     render(
       <GameArea
+        gameId={'123A'}
         gameStatus={'GameOver'}
         players={gameState.players}
         cells={gameState.cells}

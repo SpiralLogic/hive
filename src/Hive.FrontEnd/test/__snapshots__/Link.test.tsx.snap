@@ -7,7 +7,7 @@ exports[`links snapshot tests snapshot 1`] = `
       class="links"
     >
       <a
-        href="http://localhost/1"
+        href="//game/123A/1"
         name="Share game to opponent"
         title="Share"
       >

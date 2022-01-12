@@ -20,7 +20,7 @@ import Players from './Players';
 import Row from './Row';
 import Rules from './Rules';
 
-type Properties = Omit<GameState, 'gameId'> & { currentPlayer: PlayerId };
+type Properties = GameState & { currentPlayer: PlayerId };
 
 const gameOutcome = (gameStatus: GameStatus, playerId: PlayerId) => {
   switch (gameStatus) {
@@ -59,7 +59,7 @@ const createTiles = (cell: Cell, currentCellPlayer: PlayerId) => {
     />
   ));
 };
-const GameArea: FunctionComponent<Properties> = ({ players, cells, currentPlayer, gameStatus }) => {
+const GameArea: FunctionComponent<Properties> = ({ players, cells, gameId, gameStatus, currentPlayer }) => {
   const [showRules, setShowRules] = useState<boolean>(false);
   const [showShare, setShowShare] = useState<boolean>(false);
   const [playerConnected, setPlayerConnected] = useState<'connected' | 'disconnected' | false>(false);
@@ -67,7 +67,7 @@ const GameArea: FunctionComponent<Properties> = ({ players, cells, currentPlayer
     () => gameOutcome(gameStatus, currentPlayer) !== ''
   );
   const shareComponent = async () => {
-    const result = await shareGame(currentPlayer);
+    const result = await shareGame(gameId, currentPlayer);
     setShowShare(result);
   };
 
@@ -93,7 +93,12 @@ const GameArea: FunctionComponent<Properties> = ({ players, cells, currentPlayer
     <div {...attributes} title={'Hive Game Area'}>
       <Players currentPlayer={currentPlayer} players={players} />
       <main>
-        <Links onShowRules={setShowRules} onShowShare={shareComponent} currentPlayer={currentPlayer} />
+        <Links
+          onShowRules={setShowRules}
+          onShowShare={shareComponent}
+          gameId={gameId}
+          currentPlayer={currentPlayer}
+        />
         <Hextille>
           {rows.map((row) => (
             <Row key={row.id} {...row}>

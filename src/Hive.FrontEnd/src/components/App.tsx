@@ -66,14 +66,7 @@ const App: FunctionComponent<{ engine: HexEngine; connectionFactory: HexServerCo
       </h1>
     );
 
-  return (
-    <GameArea
-      players={gameState.players}
-      cells={gameState.cells}
-      gameStatus={gameState.gameStatus}
-      currentPlayer={engine.currentPlayer}
-    />
-  );
+  return <GameArea {...gameState} currentPlayer={engine.currentPlayer} />;
 };
 
 App.displayName = 'App';
