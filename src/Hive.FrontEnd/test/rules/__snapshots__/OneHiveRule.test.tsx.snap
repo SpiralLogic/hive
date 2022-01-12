@@ -1,5 +1,285 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`<OneHiveRule> snapshot 1`] = `
+<body>
+  <div>
+    <div
+      class="left"
+      role="grid"
+    >
+      <div
+        role="row"
+      >
+        <div
+          role="cell"
+        >
+          <svg
+            viewBox="0 0 100 100"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <use
+              href="#hex"
+            />
+          </svg>
+          <div
+            class="tile beetle"
+          >
+            <svg
+              viewBox="0 0 100 100"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <use
+                href="#hex"
+              />
+              <use
+                class="creature"
+                href="#beetle"
+              />
+            </svg>
+          </div>
+        </div>
+        <div
+          role="cell"
+        >
+          <svg
+            viewBox="0 0 100 100"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <use
+              href="#hex"
+            />
+          </svg>
+          <div
+            class="tile beetle"
+          >
+            <svg
+              viewBox="0 0 100 100"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <use
+                href="#hex"
+              />
+              <use
+                class="creature"
+                href="#beetle"
+              />
+            </svg>
+          </div>
+        </div>
+      </div>
+      <div
+        role="row"
+      >
+        <div
+          role="cell"
+        >
+          <svg
+            viewBox="0 0 100 100"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <use
+              href="#hex"
+            />
+          </svg>
+          <div
+            class="tile spider"
+          >
+            <svg
+              viewBox="0 0 100 100"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <use
+                href="#hex"
+              />
+              <use
+                class="creature"
+                href="#spider"
+              />
+            </svg>
+          </div>
+        </div>
+        <div
+          class="blank"
+          role="cell"
+        >
+          <svg
+            viewBox="0 0 100 100"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <use
+              href="#hex"
+            />
+          </svg>
+          <div
+            class="tile"
+          >
+            <svg
+              viewBox="0 0 100 100"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <use
+                href="#hex"
+              />
+            </svg>
+          </div>
+        </div>
+        <div
+          class="incorrect"
+          role="cell"
+        >
+          <svg
+            viewBox="0 0 100 100"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <use
+              href="#hex"
+            />
+          </svg>
+          <div
+            class="tile"
+          >
+            <svg
+              viewBox="0 0 100 100"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <use
+                href="#hex"
+              />
+            </svg>
+            <span>
+              ✘
+            </span>
+          </div>
+        </div>
+        <div
+          class="blank"
+          role="cell"
+        >
+          <svg
+            viewBox="0 0 100 100"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <use
+              href="#hex"
+            />
+          </svg>
+          <div
+            class="tile"
+          >
+            <svg
+              viewBox="0 0 100 100"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <use
+                href="#hex"
+              />
+            </svg>
+          </div>
+        </div>
+      </div>
+      <div
+        role="row"
+      >
+        <div
+          role="cell"
+        >
+          <svg
+            viewBox="0 0 100 100"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <use
+              href="#hex"
+            />
+          </svg>
+          <div
+            class="tile ant"
+          >
+            <svg
+              viewBox="0 0 100 100"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <use
+                href="#hex"
+              />
+              <use
+                class="creature"
+                href="#ant"
+              />
+            </svg>
+          </div>
+        </div>
+        <div
+          role="cell"
+        >
+          <svg
+            viewBox="0 0 100 100"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <use
+              href="#hex"
+            />
+          </svg>
+          <div
+            class="tile queen"
+          >
+            <svg
+              viewBox="0 0 100 100"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <use
+                href="#hex"
+              />
+              <use
+                class="creature"
+                href="#queen"
+              />
+            </svg>
+          </div>
+          <svg
+            class="arrow topRight incorrect"
+            style="--span: 1;"
+            viewBox="0 0 100 100"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <use
+              href="#arrow"
+            />
+          </svg>
+        </div>
+        <div
+          role="cell"
+        >
+          <svg
+            viewBox="0 0 100 100"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <use
+              href="#hex"
+            />
+          </svg>
+          <div
+            class="tile grasshopper"
+          >
+            <svg
+              viewBox="0 0 100 100"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <use
+                href="#hex"
+              />
+              <use
+                class="creature"
+                href="#grasshopper"
+              />
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+`;
+
 exports[`one Hive Rule snapshot tests snapshot 1`] = `
 <body>
   <div>

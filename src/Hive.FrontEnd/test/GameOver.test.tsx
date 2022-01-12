@@ -4,7 +4,7 @@ import GameOver from '../src/components/GameOver';
 import { GameStatus } from '../src/domain';
 import { mockLocation, renderElement } from './test-helpers';
 
-describe('gameOver snapshot tests', () => {
+describe('<GameOver>', () => {
   test('close calls base url', () => {
     const location = { assign: jest.fn() };
     const restore = mockLocation(location);

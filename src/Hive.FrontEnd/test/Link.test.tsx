@@ -4,7 +4,7 @@ import Links from '../src/components/Links';
 import { getHiveDispatcher } from '../src/utilities/dispatcher';
 import { renderElement } from './test-helpers';
 
-describe('links snapshot tests', () => {
+describe('<Links>', () => {
   it(`links toggle Ai`, async () => {
     jest.spyOn(getHiveDispatcher(), 'dispatch');
     renderElement(

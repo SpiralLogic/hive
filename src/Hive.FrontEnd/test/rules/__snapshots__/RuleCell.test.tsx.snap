@@ -1,5 +1,37 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`<RuleCell> snapshot 1`] = `
+<body>
+  <div>
+    <div
+      class="blank"
+      role="cell"
+    >
+      <svg
+        viewBox="0 0 100 100"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <use
+          href="#hex"
+        />
+      </svg>
+      <div
+        class="tile"
+      >
+        <svg
+          viewBox="0 0 100 100"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <use
+            href="#hex"
+          />
+        </svg>
+      </div>
+    </div>
+  </div>
+</body>
+`;
+
 exports[`rule cell snapshot tests snapshot 1`] = `
 <body>
   <div>

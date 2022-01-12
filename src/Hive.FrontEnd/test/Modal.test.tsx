@@ -3,7 +3,7 @@ import userEvent from '@testing-library/user-event';
 import Modal from '../src/components/Modal';
 import { renderElement } from './test-helpers';
 
-describe('modal snapshot tests', () => {
+describe('<Modal>', () => {
   it('click on modal background calls close', () => {
     const close = jest.fn();
     render(<Modal visible={true} name="test" onClose={close} />);

@@ -1,5 +1,293 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`<GameOver> AiWin snapshot player 0 1`] = `
+<body>
+  <div>
+    <p>
+      AiWin
+    </p>
+    <button
+      autofocus=""
+      title="New Game"
+    >
+      New Game
+    </button>
+  </div>
+</body>
+`;
+
+exports[`<GameOver> AiWin snapshot player 1 1`] = `
+<body>
+  <div>
+    <p>
+      AiWin
+    </p>
+    <button
+      autofocus=""
+      title="New Game"
+    >
+      New Game
+    </button>
+  </div>
+</body>
+`;
+
+exports[`<GameOver> Draw snapshot player 0 1`] = `
+<body>
+  <div>
+    <p>
+      Draw
+    </p>
+    <button
+      autofocus=""
+      title="New Game"
+    >
+      New Game
+    </button>
+  </div>
+</body>
+`;
+
+exports[`<GameOver> Draw snapshot player 1 1`] = `
+<body>
+  <div>
+    <p>
+      Draw
+    </p>
+    <button
+      autofocus=""
+      title="New Game"
+    >
+      New Game
+    </button>
+  </div>
+</body>
+`;
+
+exports[`<GameOver> GameOver snapshot player 0 1`] = `
+<body>
+  <div>
+    <p>
+      GameOver
+    </p>
+    <button
+      autofocus=""
+      title="New Game"
+    >
+      New Game
+    </button>
+  </div>
+</body>
+`;
+
+exports[`<GameOver> GameOver snapshot player 1 1`] = `
+<body>
+  <div>
+    <p>
+      GameOver
+    </p>
+    <button
+      autofocus=""
+      title="New Game"
+    >
+      New Game
+    </button>
+  </div>
+</body>
+`;
+
+exports[`<GameOver> MoveInvalid snapshot player 0 1`] = `
+<body>
+  <div>
+    <p>
+      MoveInvalid
+    </p>
+    <button
+      autofocus=""
+      title="New Game"
+    >
+      New Game
+    </button>
+  </div>
+</body>
+`;
+
+exports[`<GameOver> MoveInvalid snapshot player 1 1`] = `
+<body>
+  <div>
+    <p>
+      MoveInvalid
+    </p>
+    <button
+      autofocus=""
+      title="New Game"
+    >
+      New Game
+    </button>
+  </div>
+</body>
+`;
+
+exports[`<GameOver> MoveSuccess snapshot player 0 1`] = `
+<body>
+  <div>
+    <p>
+      MoveSuccess
+    </p>
+    <button
+      autofocus=""
+      title="New Game"
+    >
+      New Game
+    </button>
+  </div>
+</body>
+`;
+
+exports[`<GameOver> MoveSuccess snapshot player 1 1`] = `
+<body>
+  <div>
+    <p>
+      MoveSuccess
+    </p>
+    <button
+      autofocus=""
+      title="New Game"
+    >
+      New Game
+    </button>
+  </div>
+</body>
+`;
+
+exports[`<GameOver> MoveSuccessNextPlayerSkipped snapshot player 0 1`] = `
+<body>
+  <div>
+    <p>
+      MoveSuccessNextPlayerSkipped
+    </p>
+    <button
+      autofocus=""
+      title="New Game"
+    >
+      New Game
+    </button>
+  </div>
+</body>
+`;
+
+exports[`<GameOver> MoveSuccessNextPlayerSkipped snapshot player 1 1`] = `
+<body>
+  <div>
+    <p>
+      MoveSuccessNextPlayerSkipped
+    </p>
+    <button
+      autofocus=""
+      title="New Game"
+    >
+      New Game
+    </button>
+  </div>
+</body>
+`;
+
+exports[`<GameOver> NewGame snapshot player 0 1`] = `
+<body>
+  <div>
+    <p>
+      NewGame
+    </p>
+    <button
+      autofocus=""
+      title="New Game"
+    >
+      New Game
+    </button>
+  </div>
+</body>
+`;
+
+exports[`<GameOver> NewGame snapshot player 1 1`] = `
+<body>
+  <div>
+    <p>
+      NewGame
+    </p>
+    <button
+      autofocus=""
+      title="New Game"
+    >
+      New Game
+    </button>
+  </div>
+</body>
+`;
+
+exports[`<GameOver> Player0Win snapshot player 0 1`] = `
+<body>
+  <div>
+    <p>
+      Player0Win
+    </p>
+    <button
+      autofocus=""
+      title="New Game"
+    >
+      New Game
+    </button>
+  </div>
+</body>
+`;
+
+exports[`<GameOver> Player0Win snapshot player 1 1`] = `
+<body>
+  <div>
+    <p>
+      Player0Win
+    </p>
+    <button
+      autofocus=""
+      title="New Game"
+    >
+      New Game
+    </button>
+  </div>
+</body>
+`;
+
+exports[`<GameOver> Player1Win snapshot player 0 1`] = `
+<body>
+  <div>
+    <p>
+      Player1Win
+    </p>
+    <button
+      autofocus=""
+      title="New Game"
+    >
+      New Game
+    </button>
+  </div>
+</body>
+`;
+
+exports[`<GameOver> Player1Win snapshot player 1 1`] = `
+<body>
+  <div>
+    <p>
+      Player1Win
+    </p>
+    <button
+      autofocus=""
+      title="New Game"
+    >
+      New Game
+    </button>
+  </div>
+</body>
+`;
+
 exports[`gameOver snapshot tests AiWin snapshot player 0 1`] = `
 <body>
   <div>
