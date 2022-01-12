@@ -1,0 +1,30 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Hextille> matches current snapshot 1`] = `
+<body>
+  <div>
+    <div
+      class="left"
+      role="grid"
+    >
+      <div
+        role="row"
+      >
+        <div
+          class=""
+          role="cell"
+        >
+          <svg
+            viewBox="0 0 100 100"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <use
+              href="#hex"
+            />
+          </svg>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+`;

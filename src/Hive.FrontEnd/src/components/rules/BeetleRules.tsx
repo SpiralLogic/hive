@@ -4,37 +4,33 @@ import Row from '../Row';
 import RuleCell from './RuleCell';
 import { Rule } from './rule';
 
-const BeetleRules: Rule = {
-  title: 'Beetle',
-  description: ['Moves only 1 cell', 'Can move on top of insects'],
-  RuleComponent: () => (
-    <Hextille class="rules">
-      <Row>
-        <Hexagon hidden={true} />
-        <RuleCell result="correct" />
-        <RuleCell />
-      </Row>
-      <Row>
-        <RuleCell result="correct" creature="spider" />
-        <RuleCell
-          creature="beetle"
-          selected
-          correctArrows={['topLeft', 'left', 'bottomLeft', 'bottomRight']}
-        />
-        <RuleCell />
-      </Row>
-      <Row zIndex={-1}>
-        <Hexagon hidden={true} />
-        <RuleCell result="correct" creature="ant" />
-        <RuleCell result="correct" />
-      </Row>
-      <Row>
-        <Hexagon hidden={true} />
-        <RuleCell creature="spider" />
-        <RuleCell creature="grasshopper" />
-      </Row>
-    </Hextille>
-  ),
-};
-BeetleRules.RuleComponent.displayName = 'BeetleRules';
+const BeetleRules: Rule = () => (
+  <Hextille class="rules">
+    <Row>
+      <Hexagon hidden={true} />
+      <RuleCell result="correct" />
+      <RuleCell />
+    </Row>
+    <Row>
+      <RuleCell result="correct" creature="spider" />
+      <RuleCell creature="beetle" selected correctArrows={['topLeft', 'left', 'bottomLeft', 'bottomRight']} />
+      <RuleCell />
+    </Row>
+    <Row zIndex={-1}>
+      <Hexagon hidden={true} />
+      <RuleCell result="correct" creature="ant" />
+      <RuleCell result="correct" />
+    </Row>
+    <Row>
+      <Hexagon hidden={true} />
+      <RuleCell creature="spider" />
+      <RuleCell creature="grasshopper" />
+    </Row>
+  </Hextille>
+);
+
+BeetleRules.title = 'Beetle';
+BeetleRules.description = ['Moves only 1 cell', 'Can move on top of insects'];
+BeetleRules.displayName = 'BeetleRules';
+
 export default BeetleRules;

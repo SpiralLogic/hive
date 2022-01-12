@@ -3,26 +3,26 @@ import Row from '../Row';
 import RuleCell from './RuleCell';
 import { Rule } from './rule';
 
-const FreedomToMoveRule: Rule = {
-  title: 'Freedom To Move',
-  description: [`Each move must be able to slide to it's next position`],
-  RuleComponent: () => (
-    <Hextille class="rules">
-      <Row>
-        <RuleCell creature="ant" />
-        <RuleCell creature="grasshopper" />
-      </Row>
-      <Row>
-        <RuleCell creature="spider" />
-        <RuleCell zIndex={4} creature="queen" incorrectArrows={['bottomRight']} />
-        <RuleCell creature={'beetle'} />
-      </Row>
-      <Row>
-        <RuleCell creature="ant" />
-        <RuleCell result="incorrect" />
-      </Row>
-    </Hextille>
-  ),
-};
-FreedomToMoveRule.RuleComponent.displayName = 'FreedomToMoveRule';
+const FreedomToMoveRule: Rule = () => (
+  <Hextille class="rules">
+    <Row>
+      <RuleCell creature="ant" />
+      <RuleCell creature="grasshopper" />
+    </Row>
+    <Row>
+      <RuleCell creature="spider" />
+      <RuleCell zIndex={4} creature="queen" incorrectArrows={['bottomRight']} />
+      <RuleCell creature={'beetle'} />
+    </Row>
+    <Row>
+      <RuleCell creature="ant" />
+      <RuleCell result="incorrect" />
+    </Row>
+  </Hextille>
+);
+
+FreedomToMoveRule.title = 'Freedom To Move';
+FreedomToMoveRule.description = [`Each move must be able to slide to it's next position`];
+FreedomToMoveRule.displayName = 'FreedomToMoveRule';
+
 export default FreedomToMoveRule;

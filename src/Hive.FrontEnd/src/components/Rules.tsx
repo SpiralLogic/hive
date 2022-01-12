@@ -29,20 +29,20 @@ const changeRule = (currentRuleIndex: number, { type }: { type: 'next' | 'prev' 
 
 const Rules = () => {
   const [currentRuleIndex, changeCurrentRule] = useReducer(changeRule, 0);
-  const { RuleComponent, title, description } = ruleList[currentRuleIndex];
+  const RuleComponent = ruleList[currentRuleIndex];
   return (
     <div>
       <div class="menu">
         <button title="Previous" onClick={() => changeCurrentRule({ type: 'prev' })}>
           {`<`}
         </button>
-        <h3>{title}</h3>
+        <h3>{RuleComponent.title}</h3>
         <button autofocus={true} title="Next" onClick={() => changeCurrentRule({ type: 'next' })}>
           {`>`}
         </button>
       </div>
       <ul>
-        {description.map((d) => (
+        {RuleComponent.description.map((d) => (
           <li key={d}>{d}</li>
         ))}
       </ul>
