@@ -231,7 +231,7 @@ describe('<GameCell>', () => {
     '{capslock}',
     ...Array.from({ length: 79 })
       .map((c, index) => String.fromCodePoint(index + 48))
-      .map((key) => key.replace('{', '{{').replace('[', '[[')),
+      .map((key) => key.replaceAll('{', '{{').replaceAll('[', '[[')),
   ])(`doesn't start drag event for key %s`, async (key) => {
     const moveEvents = createMoveListener();
 
