@@ -10,6 +10,8 @@ public class Hive
 {
     private readonly Mover _mover;
 
+    public ISet<Cell> Cells { get; }
+    public IList<Player> Players { get; }
     public Hive(IList<Player> players, ISet<Cell> cells)
     {
         _mover = new Mover(this);
@@ -17,14 +19,9 @@ public class Hive
         Players = players ?? throw new ArgumentNullException(nameof(players));
     }
 
-    public ISet<Cell> Cells { get; }
-    public IList<Player> Players { get; }
 
     public GameStatus Move(Move move) =>
         _mover.Move(move);
-
-    internal void PerformMove(Move move) =>
-        _mover.PerformMove(move);
 
     public async ValueTask<(GameStatus status, Move move)> AiMove(Func<string, Tile, ValueTask> broadcastThought)
     {
@@ -33,6 +30,10 @@ public class Hive
         return (Move(aiMove), aiMove);
     }
 
-    public void RefreshMoves(Player player) =>
+    internal void PerformMove(Move move) =>
+        _mover.PerformMove(move);
+
+
+    internal void RefreshMoves(Player player) =>
         _mover.UpdateMoves(player);
 }

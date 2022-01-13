@@ -111,8 +111,10 @@ public class MoveController : ControllerBase
         var previousMove = previousMoves[playerId + 4];
 
         if (previousMove == null) return previousMoves;
-        var playerTiles = players.First(p => p.Id == playerId).Tiles.FirstOrDefault(t => t.Id == previousMove.Tile.Id);
-        playerTiles?.Moves.Remove(previousMove.Coords);
+        foreach (var tile in players.First(p => p.Id == playerId).Tiles.Where(t => t.Id == previousMove.Tile.Id))
+        {
+            tile.Moves.Remove(previousMove.Coords);
+        }
 
         return previousMoves;
     }
