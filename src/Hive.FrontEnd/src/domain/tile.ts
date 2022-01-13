@@ -4,7 +4,7 @@ export type Tile = {
   id: TileId;
   playerId: PlayerId;
   creature: TileCreature;
-  moves: HexCoordinates[];
+  moves: Array<HexCoordinates>;
 };
 
 type PlayerId = number;

@@ -7,7 +7,7 @@ import { handleDragOver, handleKeyboardNav, isEnterOrSpace } from '../utilities/
 import { useClassReducer } from '../utilities/class-reducer';
 import Hexagon from './Hexagon';
 
-const isValidMove = (validMoves: HexCoordinates[], coords: HexCoordinates) =>
+const isValidMove = (validMoves: Array<HexCoordinates>, coords: HexCoordinates) =>
   validMoves.some((destination) => destination.q == coords.q && destination.r == coords.r);
 
 type Properties = { coords: HexCoordinates; hidden?: boolean };
@@ -24,11 +24,11 @@ const GameCell: FunctionComponent<Properties> = (properties) => {
   });
 
   useHiveDispatchListener<TileEvent>('tileSelected', (intent) => {
-    if (!isValidMove(intent.tile.moves, coords)) {
-      setClasses({ type: 'add', classes: ['no-drop'] });
-    } else {
+    if (isValidMove(intent.tile.moves, coords)) {
       setSelectedTile(intent.tile);
       setClasses({ type: 'add', classes: ['can-drop'] });
+    } else {
+      setClasses({ type: 'add', classes: ['no-drop'] });
     }
   });
 

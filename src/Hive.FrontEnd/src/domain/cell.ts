@@ -3,5 +3,5 @@ import { Tile } from './tile';
 
 export type Cell = {
   coords: HexCoordinates;
-  tiles: Tile[];
+  tiles: Array<Tile>;
 };

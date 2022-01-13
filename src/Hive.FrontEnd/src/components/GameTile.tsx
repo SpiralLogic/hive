@@ -68,11 +68,11 @@ const GameTile: FunctionComponent<Properties> = (properties) => {
   const handleKeyDown = (event: KeyboardEvent) => {
     if (handleKeyboardNav(event) || !isEnterOrSpace(event)) return;
     event.stopPropagation();
-    if (!classes.includes('selected')) {
+    if (classes.includes('selected')) {
+      deselect();
+    } else {
       select();
       setFocus(cellSelector);
-    } else {
-      deselect();
     }
   };
   useEffect(() => {

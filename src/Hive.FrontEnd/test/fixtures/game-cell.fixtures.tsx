@@ -33,7 +33,7 @@ export const createCellCanDrop = createCellWithNoTile;
 export const createCellWithTileNoDrop = createCellWithTile;
 
 export const createMoveListener = () => {
-  const moveEvents: MoveEvent[] = [];
+  const moveEvents: Array<MoveEvent> = [];
   const moveListener = (event: MoveEvent) => moveEvents.push(event);
   const dispatcher = getHiveDispatcher();
   dispatcher.add<MoveEvent>('move', moveListener);

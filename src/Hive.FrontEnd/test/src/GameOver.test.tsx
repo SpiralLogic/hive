@@ -15,7 +15,7 @@ describe('<GameOver>', () => {
     restore();
   });
 
-  const outcomes: GameStatus[] = [
+  const outcomes: Array<GameStatus> = [
     'NewGame',
     'MoveSuccess',
     'AiWin',

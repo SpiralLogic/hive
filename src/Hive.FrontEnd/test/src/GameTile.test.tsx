@@ -6,7 +6,7 @@ import GameTile from '../../src/components/GameTile';
 import { simulateEvent } from '../helpers';
 
 const createDispatcher = (): [TileEvent[], () => void] => {
-  const tileEvents: TileEvent[] = [];
+  const tileEvents: Array<TileEvent> = [];
   const listener = (event: TileEvent) => tileEvents.push(event);
 
   const dispatcher = getHiveDispatcher();
@@ -171,7 +171,7 @@ describe('<GameTile>', () => {
     });
 
     it('on dragEnd emits end event', () => {
-      const dropEvents: TileEvent[] = [];
+      const dropEvents: Array<TileEvent> = [];
       const tileCanMoveElement = createTileCanMove();
       getHiveDispatcher().add<TileEvent>('tileDropped', (event) => dropEvents.push(event));
       fireEvent.dragEnd(tileCanMoveElement);
@@ -193,7 +193,7 @@ describe('<GameTile>', () => {
     });
 
     it(`an already selected tile doesn't fire a selected event when selected`, () => {
-      const selectEvents: TileEvent[] = [];
+      const selectEvents: Array<TileEvent> = [];
       getHiveDispatcher().add<TileEvent>('tileSelected', (event) => selectEvents.push(event));
       createTileCanMove();
       act(() => {
@@ -206,7 +206,7 @@ describe('<GameTile>', () => {
     });
 
     it(`an already deselected tile doesn't fire a deselected event when deselected`, () => {
-      const deselectEvents: TileEvent[] = [];
+      const deselectEvents: Array<TileEvent> = [];
       getHiveDispatcher().add<TileEvent>('tileDeselected', (event) => deselectEvents.push(event));
       createTileCanMove();
       act(() => {
@@ -243,7 +243,7 @@ describe('<GameTile>', () => {
     it(`tile is only deselected on matching select events`, () => {
       createTileCanMove();
       createTileNoMove();
-      const deselectEvents: TileEvent[] = [];
+      const deselectEvents: Array<TileEvent> = [];
       getHiveDispatcher().add<TileEvent>('tileDeselected', (event) => deselectEvents.push(event));
       getHiveDispatcher().dispatch<TileAction>({ type: 'tileSelect', tile: tileCanMove });
       getHiveDispatcher().dispatch<TileAction>({ type: 'tileDeselect', tile: tileNoMove });

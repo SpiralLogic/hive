@@ -1,13 +1,13 @@
 import { render, screen } from '@testing-library/preact';
 import userEvent from '@testing-library/user-event';
 
+import { waitFor } from '@testing-library/dom';
 import GameArea from '../../src/components/GameArea';
 import { GameStatus } from '../../src/domain';
 import { HiveEvent, TileAction } from '../../src/services';
 import { getHiveDispatcher } from '../../src/utilities/dispatcher';
 import { createGameState } from '../fixtures/game-area.fixtures';
 import { mockClipboard, mockExecCommand, mockLocation, mockShare, noShare, simulateEvent } from '../helpers';
-import { waitFor } from '@testing-library/dom';
 
 describe('<GameArea>', () => {
   test('default drag over is prevented to allow drop', () => {

@@ -11,9 +11,7 @@
     "es6": true
   },
   "extends": [
-    "kentcdodds/possible-errors",
-    "kentcdodds/best-practices",
-    "kentcdodds/es6/possible-errors",
+    "kentcdodds",
     "plugin:jest/recommended",
     "plugin:jest-dom/recommended",
     "plugin:prettier/recommended",

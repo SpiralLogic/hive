@@ -1,5 +1,7 @@
 import { fireEvent, render, screen } from '@testing-library/preact';
 import userEvent from '@testing-library/user-event';
+import { waitFor } from '@testing-library/dom';
+import { ComponentProps } from 'preact';
 import { getHiveDispatcher } from '../../src/utilities/dispatcher';
 import GameCell from '../../src/components/GameCell';
 import { simulateEvent } from '../helpers';
@@ -14,8 +16,6 @@ import {
   createMoveListener,
   movingTile,
 } from '../fixtures/game-cell.fixtures';
-import { waitFor } from '@testing-library/dom';
-import { ComponentProps } from 'preact';
 
 const setUp = (...tileCreationFns: Array<() => ComponentProps<typeof GameCell>>) =>
   render(tileCreationFns.map((factory) => <GameCell key={factory} {...factory()} />));

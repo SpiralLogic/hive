@@ -2,7 +2,7 @@ import { useReducer } from 'preact/hooks';
 
 const classReducer = (
   initialClasses: string,
-  action: { type: 'add' | 'remove'; classes: string[] }
+  action: { type: 'add' | 'remove'; classes: Array<string> }
 ): string => {
   const classList = new Set(initialClasses.split(' '));
   switch (action.type) {
@@ -21,5 +21,5 @@ const classReducer = (
 
 export const useClassReducer = (
   initialClasses: string
-): [string, (action: { type: 'add' | 'remove'; classes: string[] }) => void] =>
+): [string, (action: { type: 'add' | 'remove'; classes: Array<string> }) => void] =>
   useReducer(classReducer, initialClasses);

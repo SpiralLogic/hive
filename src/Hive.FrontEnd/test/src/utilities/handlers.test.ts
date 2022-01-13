@@ -46,7 +46,7 @@ describe(`handler tests`, () => {
     beforeEach(() => {
       container.innerHTML =
         "<div title='div one' tabIndex='1'></div><div title='div two' tabIndex='1'></div><div title='div three' tabIndex='1'></div><div title='div' class='name'></div>";
-      const elements = screen.getAllByTitle(/div/) as HTMLDivElement[];
+      const elements = screen.getAllByTitle(/div/) as Array<HTMLDivElement>;
       [div1, div2, div3, div4] = [...elements];
     });
 
@@ -124,9 +124,9 @@ describe(`handler tests`, () => {
       dispatcher.add<TileAction>('tileDeselect', selectHandler);
       dispatcher.add<TileAction>('tileSelect', selectHandler);
 
-      opponentSelectionHandler('select', undefined!);
-      opponentSelectionHandler('deselect', undefined!);
-      opponentSelectionHandler(undefined!, undefined!);
+      opponentSelectionHandler('select', selectedTile);
+      opponentSelectionHandler('deselect', selectedTile);
+      opponentSelectionHandler('deselect', selectedTile);
       expect(selectHandler).not.toHaveBeenCalledWith();
       expect(deselectHandler).not.toHaveBeenCalledWith();
     });
@@ -150,18 +150,6 @@ describe(`handler tests`, () => {
 
       opponentConnectedHandler('disconnect');
       expect(disconnectedHandler).toHaveBeenCalledWith({ type: 'opponentDisconnected' });
-    });
-
-    it(`opponent connect handler default`, () => {
-      const dispatcher = getHiveDispatcher();
-      const disconnectedHandler = jest.fn();
-      const connectedHandler = jest.fn();
-      dispatcher.add<HiveEvent>('opponentDisconnected', disconnectedHandler);
-      dispatcher.add<HiveEvent>('opponentConnected', connectedHandler);
-
-      opponentConnectedHandler(null!);
-      expect(disconnectedHandler).not.toHaveBeenCalled();
-      expect(connectedHandler).not.toHaveBeenCalled();
     });
 
     it(`server handlers are attached`, () => {

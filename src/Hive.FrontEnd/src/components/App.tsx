@@ -6,8 +6,8 @@ import { useEffect, useState } from 'preact/hooks';
 import { GameState } from '../domain';
 import { HexEngine, HexServerConnectionFactory } from '../domain/engine';
 import { addServerHandlers, opponentConnectedHandler, opponentSelectionHandler } from '../utilities/handlers';
-import GameArea from './GameArea';
 import { getHiveDispatcher } from '../utilities/dispatcher';
+import GameArea from './GameArea';
 
 const App: FunctionComponent<{ engine: HexEngine; connectionFactory: HexServerConnectionFactory }> = (
   properties
