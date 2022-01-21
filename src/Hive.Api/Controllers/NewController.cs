@@ -30,7 +30,7 @@ public class NewController : Controller
         var gameId = new string(HttpContext.TraceIdentifier.Split(":")[0].ToCharArray().OrderBy(_ => Guid.NewGuid())
             .ToArray());
 
-        var newGame = HiveFactory.CreateHive(new[] {"P1", "P2"});
+        var newGame = HiveFactory.Create(new[] {"P1", "P2"});
         var gameState = new GameState(newGame.Players, newGame.Cells, gameId, GameStatus.NewGame);
         var json = JsonSerializer.Serialize(gameState, _jsonSerializerOptions);
         _distributedCache.SetString(gameId, json);

@@ -65,12 +65,16 @@ public class MoveController : ControllerBase
     public async ValueTask<IActionResult> AiMove(string id, int playerId)
     {
         if (string.IsNullOrEmpty(id)) return BadRequest();
+        var previousMovesCacheKey = $"{id}-moves-{playerId}";
 
         var gameSessionJson = await _distributedCache.GetStringAsync(id);
-        var previousMovesJson = await _distributedCache.GetStringAsync(id + "-moves");
+        var previousMovesJson = await _distributedCache.GetStringAsync(previousMovesCacheKey);
+
         if (string.IsNullOrEmpty(gameSessionJson)) return NotFound();
+
         var gameState = JsonSerializer.Deserialize<GameState>(gameSessionJson, _jsonSerializerOptions)!;
         var (players, cells, _, gameStatus) = gameState;
+
         if (new[] { GameStatus.GameOver, GameStatus.AiWin, GameStatus.Player0Win, GameStatus.Player1Win, GameStatus.Draw }.Contains(
                 gameStatus
             )) return Conflict(gameState);
@@ -81,7 +85,7 @@ public class MoveController : ControllerBase
 
         var (status, move) = await game.AiMove(async (type, tile) => await BroadCast(id, type, tile));
 
-        await StorePreviousMoves(id, move, previousMoves);
+        await StorePreviousMoves(previousMovesCacheKey, move, previousMoves);
 
         var newGameState = new GameState(game.Players, game.Cells, id, status);
         await _hubContext.Clients.Group(id).SendAsync("ReceiveGameState", newGameState);
@@ -91,26 +95,24 @@ public class MoveController : ControllerBase
         return Accepted($"/game/{id}", newGameState);
     }
 
-    private async Task StorePreviousMoves(string id, Domain.Entities.Move move, Domain.Entities.Move?[] previousMoves)
+    private Task StorePreviousMoves(string previousMovesCacheKey, Domain.Entities.Move move, Queue<Domain.Entities.Move> previousMoves)
     {
-        var playerId = move.Tile.PlayerId;
-        previousMoves[playerId + 4] = previousMoves[playerId + 2];
-        previousMoves[playerId + 2] = previousMoves[playerId];
-        previousMoves[playerId] = move;
+        previousMoves.Enqueue(move);
         var previousMovesJson = JsonSerializer.Serialize(previousMoves, _jsonSerializerOptions);
-        await _distributedCache.SetStringAsync(id + "-moves", previousMovesJson);
+
+        return _distributedCache.SetStringAsync(previousMovesCacheKey, previousMovesJson);
     }
 
-    private Domain.Entities.Move?[] PreventRepeatedMoves(int playerId, string previousMovesJson, IEnumerable<Player> players)
+    private Queue<Domain.Entities.Move> PreventRepeatedMoves(int playerId, string previousMovesJson, IEnumerable<Player> players)
     {
-        var fallback = new Domain.Entities.Move?[8];
+        var fallback = new Queue<Domain.Entities.Move>(3);
 
         if (string.IsNullOrEmpty(previousMovesJson)) return fallback;
-        var previousMoves = JsonSerializer.Deserialize<Domain.Entities.Move[]>(previousMovesJson, _jsonSerializerOptions) ?? fallback;
 
-        var previousMove = previousMoves[playerId + 4];
+        var previousMoves = JsonSerializer.Deserialize<Queue<Domain.Entities.Move>>(previousMovesJson, _jsonSerializerOptions) ?? fallback;
 
-        if (previousMove == null) return previousMoves;
+        if (!previousMoves.TryDequeue(out var previousMove)) return previousMoves;
+
         foreach (var tile in players.First(p => p.Id == playerId).Tiles.Where(t => t.Id == previousMove.Tile.Id))
         {
             tile.Moves.Remove(previousMove.Coords);
@@ -119,8 +121,6 @@ public class MoveController : ControllerBase
         return previousMoves;
     }
 
-    private Task BroadCast(string id, string type, Tile tile)
-    {
-        return _hubContext.Clients.Group(id).SendAsync("OpponentSelection", type, tile);
-    }
+    private Task BroadCast(string id, string type, Tile tile) =>
+        _hubContext.Clients.Group(id).SendAsync("OpponentSelection", type, tile);
 }

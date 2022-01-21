@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Text.Json;
 using FluentAssertions;
 using Hive.Domain.Entities;
 using Xunit;
@@ -19,8 +20,7 @@ public class CellTests
     [Fact]
     public void CanAddTile()
     {
-        var cell = new Cell(new Coords(1, 1)).AddTile(new Tile(1, 2, Creatures.Queen))
-            .AddTile(new Tile(1, 2, Creatures.Queen));
+        var cell = new Cell(new Coords(1, 1)).AddTile(new Tile(1, 2, Creatures.Queen)).AddTile(new Tile(1, 2, Creatures.Queen));
 
         cell.Tiles.Should().HaveCount(2);
     }
@@ -94,9 +94,8 @@ public class CellTests
     [Fact]
     public void CellSetsAreUniqueByCoordinate()
     {
-        var cells = new[] {new Cell(new Coords(1, 1))}.ToHashSet();
-        var cellsWithOverlap =
-            new[] {new Cell(new Coords(1, 1)).AddTile(new Tile(1, 2, Creatures.Queen))}.ToHashSet();
+        var cells = new[] { new Cell(new Coords(1, 1)) }.ToHashSet();
+        var cellsWithOverlap = new[] { new Cell(new Coords(1, 1)).AddTile(new Tile(1, 2, Creatures.Queen)) }.ToHashSet();
 
         cells.UnionWith(cellsWithOverlap);
         cells.Should().ContainSingle(c => c.Coords == new Coords(1, 1));
@@ -111,5 +110,14 @@ public class CellTests
 
         IEquatable<Cell> cell2 = new Cell(new Coords(1, 1));
         cell2.Equals(null).Should().BeFalse();
+    }
+
+    [Fact]
+    public void Serialization()
+    {
+        var cell = new Cell(new Coords(1, 1)).AddTile(new Tile(1, 2, Creatures.Queen));
+
+        var serialized = JsonSerializer.Serialize(cell);
+        JsonSerializer.Deserialize<Cell>(serialized).Should().BeAssignableTo<Cell>();
     }
 }

@@ -24,10 +24,10 @@ public static class HiveFactory
         Creatures.Ant
     );
 
-    public static Hive CreateHive(IEnumerable<string> playerNames) =>
+    public static Hive Create(IEnumerable<string> playerNames) =>
         new Hive(CreatePlayers(playerNames), CreateCells());
 
-    public static Hive CreateHive(IList<Player> players, ISet<Cell> cells, int playerId)
+    public static Hive CreateInProgress(IList<Player> players, ISet<Cell> cells, int playerId)
     {
         var hive = new Hive(players, cells);
         var currentPlayer = hive.Players.FindPlayerById(playerId);

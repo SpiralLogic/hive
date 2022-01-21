@@ -19,7 +19,7 @@ public class GameControllerTests
 
     public GameControllerTests()
     {
-        var game =HiveFactory.CreateHive(new[] {"player1", "player2"});
+        var game = HiveFactory.Create(new[] { "player1", "player2" });
         var gameState = new GameState(game.Players, game.Cells, ExistingGameId, GameStatus.MoveSuccess);
 
         var jsonOptions = TestHelpers.CreateJsonOptions();
@@ -32,8 +32,7 @@ public class GameControllerTests
     [Fact]
     public async Task Get_GameInCache_ReturnsIndexHtml()
     {
-        (await _controller.Get(ExistingGameId)).Should().BeAssignableTo<VirtualFileResult>().Which.FileName.Should()
-            .Be("/index.html");
+        (await _controller.Get(ExistingGameId)).Should().BeAssignableTo<VirtualFileResult>().Which.FileName.Should().Be("/index.html");
     }
 
     [Fact]
@@ -45,8 +44,7 @@ public class GameControllerTests
     [Fact]
     public async Task GetGame_GameInCache_ReturnsGame()
     {
-        var actionResult = (await _controller.GetGame(ExistingGameId)).Result.Should().BeOfType<OkObjectResult>()
-            .Subject;
+        var actionResult = (await _controller.GetGame(ExistingGameId)).Result.Should().BeOfType<OkObjectResult>().Subject;
         actionResult.Value.Should().BeAssignableTo<GameState>();
     }
 

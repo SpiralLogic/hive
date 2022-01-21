@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text.Json;
 using FluentAssertions;
 using Hive.Domain.Entities;
 using Xunit;
@@ -38,5 +39,4 @@ public class TileTests
         var tile2 = new Tile(1, 1, Creatures.Ant);
         tile1.GetHashCode().Should().Be(tile2.GetHashCode());
     }
-
 }

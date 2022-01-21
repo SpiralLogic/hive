@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -25,7 +26,7 @@ public class MoveControllerTests
 
     public MoveControllerTests()
     {
-        var game = HiveFactory.CreateHive(new[] {"player1", "player2"});
+        var game = HiveFactory.Create(new[] { "player1", "player2" });
         game.Move(new Move(game.Players[0].Tiles.First(), new Coords(1, 0)));
         game.Move(new Move(game.Players[1].Tiles.First(), new Coords(2, 0)));
 
@@ -169,12 +170,22 @@ public class MoveControllerTests
     [Fact]
     public async Task PostAiMove_PreventRepeatedMoves()
     {
-        var game = HiveFactory.CreateHive(new[] {"player1", "player2"});
-        var moves = new Move[8];
-        for (var i = 0; i < 8; i++)
+        var game = HiveFactory.Create(new[] { "player1", "player2" });
+        var moves = new Queue<Move>(3);
+
+        for (var i = 0; i < 3; i++)
         {
-            moves[i] = new Move(game.Players[(i + 1) % 2].Tiles.First(), new Coords(i, 0));
-            game.Move(moves[i]);
+            var player0Tile = game.Players.First().Tiles.First(t => t.Creature != Creatures.Queen && t.Moves.Any());
+            game.Move(new Move(player0Tile, player0Tile.Moves.First()));
+
+            var player1Tile = game.Players.Last().Tiles.First(t => t.Creature != Creatures.Queen && t.Moves.Any());
+            game.Move(new Move(player1Tile, player1Tile.Moves.First()));
+        }
+
+        for (var i = 0; i < 2; i++)
+        {
+            var tileToMove = game.Players[i].Tiles.First(t => t.Moves.Any());
+            game.Move(new Move(tileToMove, tileToMove.Moves.First()));
         }
 
         await _memoryCache.SetAsync(
@@ -186,7 +197,7 @@ public class MoveControllerTests
         );
 
         await _memoryCache.SetAsync(
-            TestHelpers.ExistingGameId + "-moves",
+            TestHelpers.ExistingGameId + "-moves-1",
             TestHelpers.GetSerializedBytes(moves, TestHelpers.CreateJsonOptions())
         );
 
@@ -195,17 +206,51 @@ public class MoveControllerTests
     }
 
     [Fact]
+    public async Task PostAiMove_PreventRepeatedMoves_RemovesPreventedMoveFromTileMove()
+    {
+        var game = HiveFactory.Create(new[] { "player1", "player2" });
+
+        var tileToMove = game.Players[0].Tiles.First(t => t.Moves.Any());
+        var moves = new Queue<Move>(
+            new[]
+            {
+                new Move(tileToMove, tileToMove.Moves.First()),
+            }
+        );
+
+        await _memoryCache.SetAsync(
+            TestHelpers.ExistingGameId,
+            TestHelpers.GetSerializedBytes(
+                new GameState(game.Players, game.Cells, TestHelpers.ExistingGameId, GameStatus.MoveSuccess),
+                TestHelpers.CreateJsonOptions()
+            )
+        );
+
+        await _memoryCache.SetAsync(
+            TestHelpers.ExistingGameId + "-moves-0",
+            TestHelpers.GetSerializedBytes(moves, TestHelpers.CreateJsonOptions())
+        );
+
+        var actionResult = await _controller.AiMove(TestHelpers.ExistingGameId, 0);
+        actionResult.Should().BeOfType<AcceptedResult>();
+    }
+
+    [Fact]
     public async Task PostAiMove_PreventRepeatedMoves_NoPlayerTiles()
     {
-        var game = HiveFactory.CreateHive(new[] {"player1", "player2"});
-        var moves = new Move[8];
-        for (var i = 0; i < 8; i++)
+        var game = HiveFactory.Create(new[] { "player1", "player2" });
+        var moves = new Queue<Move>(3);
+        for (var i = 0; i < 4; i++)
         {
-            moves[i] = new Move(game.Players[(i + 1) % 2].Tiles.First(), new Coords(i, 0));
-            game.Move(moves[i]);
+            for (var playerId = 0; playerId < 2; playerId++)
+            {
+
+                var player1Tile = game.Players.First(p => p.Id == playerId).Tiles.First(t => t.Moves.Any());
+                game.Move(new Move(player1Tile, player1Tile.Moves.First()));
+            }
         }
 
-        foreach (var tile in game.Players.SelectMany(p=>p.Tiles))
+        foreach (var tile in game.Players.SelectMany(p => p.Tiles))
         {
             tile.Moves.Clear();
         }
@@ -219,7 +264,7 @@ public class MoveControllerTests
         );
 
         await _memoryCache.SetAsync(
-            TestHelpers.ExistingGameId + "-moves",
+            TestHelpers.ExistingGameId + "-moves-1",
             TestHelpers.GetSerializedBytes(moves, TestHelpers.CreateJsonOptions())
         );
 
@@ -230,13 +275,16 @@ public class MoveControllerTests
     [Fact]
     public async Task PostAiMove_PreventRepeated_Fallback()
     {
-        var game = HiveFactory.CreateHive(new[] {"player1", "player2"});
-        var moves = new Move[8];
+        var game = HiveFactory.Create(new[] { "player1", "player2" });
+        var moves = new Queue<Move>(3);
         for (var i = 0; i < 4; i++)
         {
-            var playerId = (i + 1) % 2;
-            moves[playerId + i / 2] = new Move(game.Players[playerId].Tiles.First(), new Coords(i, 0));
-            game.Move(moves[playerId + i / 2]);
+            for (var playerId = 0; playerId < 2; playerId++)
+            {
+
+                var player1Tile = game.Players.First(p => p.Id == playerId).Tiles.First(t => t.Moves.Any());
+                game.Move(new Move(player1Tile, player1Tile.Moves.First()));
+            }
         }
 
         await _memoryCache.SetAsync(
@@ -247,22 +295,25 @@ public class MoveControllerTests
             )
         );
         await _memoryCache.SetAsync(
-            TestHelpers.ExistingGameId + "-moves",
+            TestHelpers.ExistingGameId + "-moves-1",
             TestHelpers.GetSerializedBytes(moves, TestHelpers.CreateJsonOptions())
         );
         var actionResult = await _controller.AiMove(TestHelpers.ExistingGameId, 1);
         actionResult.Should().BeOfType<AcceptedResult>();
     }
 
-    [Fact] public async Task PostAiMove_PreventRepeated_DeserializeFallback()
+    [Fact]
+    public async Task PostAiMove_PreventRepeated_DeserializeFallback()
     {
-        var game = HiveFactory.CreateHive(new[] {"player1", "player2"});
-        var moves = new Move[8];
+        var game = HiveFactory.Create(new[] { "player1", "player2" });
         for (var i = 0; i < 4; i++)
         {
-            var playerId = (i + 1) % 2;
-            moves[playerId + i / 2] = new Move(game.Players[playerId].Tiles.First(), new Coords(i, 0));
-            game.Move(moves[playerId + i / 2]);
+            for (var playerId = 0; playerId < 2; playerId++)
+            {
+
+                var player1Tile = game.Players.First(p => p.Id == playerId).Tiles.First(t => t.Moves.Any());
+                game.Move(new Move(player1Tile, player1Tile.Moves.First()));
+            }
         }
 
         await _memoryCache.SetAsync(
@@ -274,7 +325,7 @@ public class MoveControllerTests
         );
 
         await _memoryCache.SetAsync(
-            TestHelpers.ExistingGameId + "-moves",
+            TestHelpers.ExistingGameId + "-moves-1",
             TestHelpers.GetSerializedBytes(null, TestHelpers.CreateJsonOptions())
         );
 
@@ -285,12 +336,9 @@ public class MoveControllerTests
     [Fact]
     public async Task PostAiMove_PreventRepeatedMoves_MissingFallback()
     {
-        var game = HiveFactory.CreateHive(new[] {"player1", "player2"});
+        var game = HiveFactory.Create(new[] { "player1", "player2" });
         var gameState = new GameState(game.Players, game.Cells, TestHelpers.ExistingGameId, GameStatus.MoveSuccess);
-        await _memoryCache.SetAsync(
-            TestHelpers.ExistingGameId,
-            TestHelpers.GetSerializedBytes(gameState, TestHelpers.CreateJsonOptions())
-        );
+        await _memoryCache.SetAsync(TestHelpers.ExistingGameId, TestHelpers.GetSerializedBytes(gameState, TestHelpers.CreateJsonOptions()));
 
         var actionResult = await _controller.AiMove(TestHelpers.ExistingGameId, 1);
         actionResult.Should().BeOfType<AcceptedResult>();
@@ -299,12 +347,9 @@ public class MoveControllerTests
     [Fact]
     public async Task PostAiMove_PreventMove_AfterGameOver()
     {
-        var game = HiveFactory.CreateHive(new[] {"player1", "player2"});
+        var game = HiveFactory.Create(new[] { "player1", "player2" });
         var gameState = new GameState(game.Players, game.Cells, TestHelpers.ExistingGameId, GameStatus.GameOver);
-        await _memoryCache.SetAsync(
-            TestHelpers.ExistingGameId,
-            TestHelpers.GetSerializedBytes(gameState, TestHelpers.CreateJsonOptions())
-        );
+        await _memoryCache.SetAsync(TestHelpers.ExistingGameId, TestHelpers.GetSerializedBytes(gameState, TestHelpers.CreateJsonOptions()));
 
         var actionResult = await _controller.AiMove(TestHelpers.ExistingGameId, 1);
         actionResult.Should().BeOfType<ConflictObjectResult>();

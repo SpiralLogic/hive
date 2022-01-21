@@ -53,7 +53,7 @@ public class ComputerPlayer
         var tilesToExplore = FindMovesToExplore();
         var toExplore = ReduceToBestMoves(tilesToExplore);
 
-        if (!toExplore.Any()) return new ScoredMove(null,0);
+        if (!toExplore.Any()) return new ScoredMove(null, 0);
 
         var (best, bestScore) = await Explore(depth, toExplore);
 
@@ -130,20 +130,19 @@ public class ComputerPlayer
     private async ValueTask BroadcastSelect(Tile tile)
     {
         if (_broadcastThought == null || _lastBroadcast?.Id == tile.Id) return;
-        if (_lastBroadcast != null) await BroadcastDeselect();
+        await BroadcastDeselect();
+        await _broadcastThought("select", tile).ConfigureAwait(false);
 
-        if (_lastBroadcast == null)
-        {
-            await _broadcastThought("select", tile).ConfigureAwait(false);
-            _lastBroadcast = tile;
-        }
+        _lastBroadcast = tile;
     }
 
     private async ValueTask BroadcastDeselect()
     {
         if (_broadcastThought != null && _lastBroadcast != null)
+        {
             await _broadcastThought("deselect", _lastBroadcast).ConfigureAwait(false);
-        _lastBroadcast = null;
+            _lastBroadcast = null;
+        }
     }
 
     private GameStatus MakeMove(Move move)
