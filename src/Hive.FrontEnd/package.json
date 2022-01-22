@@ -21,10 +21,10 @@
     "cache-bust": "pnpx cachebust -n",
     "web-copy": "pnpx cpy ./src/index.html ./public/",
     "build:dev": "npm-run-all -s tsc esbuild:dev web-copy cache-bust",
-    "build:dev:watch": "npm-run-all -s web-copy esbuild:dev",
+    "build:dev:watch": "npm-run-all -s web-copy esbuild:watch",
     "esbuild:dev": "cross-env NODE_ENV=development node build.js",
     "watch": "npm-run-all -s clean web-copy esbuild:watch",
-    "esbuild:watch": "cross-env NODE_ENV=development WATCH=true node build.js"
+    "esbuild:watch": "cross-env NODE_ENV=development node buildWatch.js"
   },
   "lint-staged": {
     "*.{css,md,scss}": "prettier --write",
