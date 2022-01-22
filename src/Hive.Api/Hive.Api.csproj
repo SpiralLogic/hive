@@ -30,7 +30,7 @@
         <Content Include="$(SpaRoot)public\**" LinkBase="wwwroot" CopyToOutputDirectory="Never" CopyToPublishDirectory="Never"/>
         <Content Include="$(SpaRoot)src\**" Exclude="$(SpaRoot)test\__coverage__\**" LinkBase="Hive.FrontEnd" CopyToOutputDirectory="Never" CopyToPublishDirectory="Never"/>
         <Content Include="$(SpaRoot)*" Exclude="$(SpaRoot)public\*,$(SpaRoot)src\*,$(SpaRoot)test\*" CopyToOutputDirectory="Never" CopyToPublishDirectory="Never"/>
-        <Watch Include="$(SpaRoot)src\**;" Exclude="$(SpaRoot)node_modules\**\*;$(SpaRoot)public\**;$(DefaultExcludes)" />
+        <Watch Include="$(SpaRoot)src\**;" Exclude="$(DefaultExcludes)"/>
     </ItemGroup>
 
     <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
