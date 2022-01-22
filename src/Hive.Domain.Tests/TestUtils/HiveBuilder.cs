@@ -40,10 +40,7 @@ internal abstract class HiveBuilder
         foreach (var token in rowSplit)
         {
             var cell = new Cell(new Coords(q++, builder._currentR));
-            if (token == Origin.Symbol)
-            {
-                builder.OriginCells.Add(cell);
-            }
+            if (token == Origin.Symbol) builder.OriginCells.Add(cell);
 
             if (token != Empty.Symbol) builder.ModifyCell(cell, token);
             builder.AllCells.Add(cell);

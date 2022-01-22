@@ -24,13 +24,10 @@ public sealed record Creature(string Name)
     public ISet<Coords> GetAvailableMoves(Cell originCell, ISet<Cell> cells)
     {
         var moves = cells.ToCoords();
-        foreach (var move in Movements)
-        {
-            moves.IntersectWith(move.GetMoves(originCell, cells));
-        }
+        foreach (var move in Movements) moves.IntersectWith(move.GetMoves(originCell, cells));
 
         return moves;
     }
-        
-     
+
+
 }

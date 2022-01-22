@@ -83,10 +83,7 @@ public class ComputerPlayer
     private IList<ExploreNode> ReduceToBestMoves(IDictionary<int, List<ExploreNode>> toExplore)
     {
         var moves = new List<ExploreNode>();
-        foreach (var (_, values) in toExplore)
-        {
-            moves.AddRange(values.OrderByDescending(t => t.Score).Take(3).ToList());
-        }
+        foreach (var (_, values) in toExplore) moves.AddRange(values.OrderByDescending(t => t.Score).Take(3).ToList());
 
         var max = moves.Any() ? moves.Max(m => m.Score) : 0;
 
@@ -108,17 +105,11 @@ public class ComputerPlayer
             if (depth == HeuristicValues.MaxDepth) await BroadcastSelect(values.Move.Tile);
 
             var score = nextScore;
-            if (nextScore < HeuristicValues.ScoreMax)
-            {
-                score += -(await Run(values.Move, depth - 1)).Score / (HeuristicValues.MaxDepth - depth + 1);
-            }
+            if (nextScore < HeuristicValues.ScoreMax) score += -(await Run(values.Move, depth - 1)).Score / (HeuristicValues.MaxDepth - depth + 1);
 
             RevertMove();
 
-            if (score >= bestScore)
-            {
-                (best, bestScore) = (values.Move, score);
-            }
+            if (score >= bestScore) (best, bestScore) = (values.Move, score);
 
         }
 

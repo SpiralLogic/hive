@@ -46,7 +46,7 @@ public static class Creatures
             new OnlyThreeSpaces(),
             new HiveHasQueen(),
             new WontSplitHive(),
-            new HasAnyNeighbour(), 
+            new HasAnyNeighbour(),
             new CanSlideTo()
 
         }
@@ -58,7 +58,7 @@ public static class Creatures
         {
             new HiveHasQueen(),
             new WontSplitHive(),
-            new HasAnyNeighbour(), 
+            new HasAnyNeighbour(),
             new CanSlideTo()
 
         }

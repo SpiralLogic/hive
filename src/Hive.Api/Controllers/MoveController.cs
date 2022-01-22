@@ -75,7 +75,7 @@ public class MoveController : ControllerBase
         var gameState = JsonSerializer.Deserialize<GameState>(gameSessionJson, _jsonSerializerOptions)!;
         var (players, cells, _, gameStatus) = gameState;
 
-        if (new[] { GameStatus.GameOver, GameStatus.AiWin, GameStatus.Player0Win, GameStatus.Player1Win, GameStatus.Draw }.Contains(
+        if (new[] {GameStatus.GameOver, GameStatus.AiWin, GameStatus.Player0Win, GameStatus.Player1Win, GameStatus.Draw}.Contains(
                 gameStatus
             )) return Conflict(gameState);
 
@@ -113,14 +113,13 @@ public class MoveController : ControllerBase
 
         if (!previousMoves.TryDequeue(out var previousMove)) return previousMoves;
 
-        foreach (var tile in players.First(p => p.Id == playerId).Tiles.Where(t => t.Id == previousMove.Tile.Id))
-        {
-            tile.Moves.Remove(previousMove.Coords);
-        }
+        foreach (var tile in players.First(p => p.Id == playerId).Tiles.Where(t => t.Id == previousMove.Tile.Id)) tile.Moves.Remove(previousMove.Coords);
 
         return previousMoves;
     }
 
-    private Task BroadCast(string id, string type, Tile tile) =>
-        _hubContext.Clients.Group(id).SendAsync("OpponentSelection", type, tile);
+    private Task BroadCast(string id, string type, Tile tile)
+    {
+        return _hubContext.Clients.Group(id).SendAsync("OpponentSelection", type, tile);
+    }
 }

@@ -1,2 +1,3 @@
-import {h, Fragment} from "preact";
-export { h, Fragment};
+import { h, Fragment } from 'preact';
+
+export { h, Fragment };

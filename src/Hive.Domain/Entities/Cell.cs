@@ -35,6 +35,8 @@ public sealed record Cell(Coords Coords)
         return Tiles.Pop();
     }
 
-    public override int GetHashCode() =>
-        _hashCode;
+    public override int GetHashCode()
+    {
+        return _hashCode;
+    }
 }

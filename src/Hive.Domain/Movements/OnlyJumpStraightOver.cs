@@ -12,14 +12,14 @@ public class OnlyJumpStraightOver : IMovement
     {
         var cells = new HashSet<Cell>
         {
-            GetFirstEmpty(allCells, c => c.Neighbours()[(int)Direction.TopLeft], originCell.Coords),
-            GetFirstEmpty(allCells, c => c.Neighbours()[(int)Direction.TopRight], originCell.Coords),
+            GetFirstEmpty(allCells, c => c.Neighbours()[(int) Direction.TopLeft], originCell.Coords),
+            GetFirstEmpty(allCells, c => c.Neighbours()[(int) Direction.TopRight], originCell.Coords),
 
-            GetFirstEmpty(allCells, c => c.Neighbours()[(int)Direction.Left], originCell.Coords),
+            GetFirstEmpty(allCells, c => c.Neighbours()[(int) Direction.Left], originCell.Coords),
 
-            GetFirstEmpty(allCells, c =>c.Neighbours()[(int)Direction.Right], originCell.Coords),
-            GetFirstEmpty(allCells, c => c.Neighbours()[(int)Direction.BottomLeft], originCell.Coords),
-            GetFirstEmpty(allCells, c => c.Neighbours()[(int)Direction.BottomRight], originCell.Coords)
+            GetFirstEmpty(allCells, c => c.Neighbours()[(int) Direction.Right], originCell.Coords),
+            GetFirstEmpty(allCells, c => c.Neighbours()[(int) Direction.BottomLeft], originCell.Coords),
+            GetFirstEmpty(allCells, c => c.Neighbours()[(int) Direction.BottomRight], originCell.Coords)
         };
 
         return cells.Except(originCell.SelectNeighbors(allCells)).ToCoords();

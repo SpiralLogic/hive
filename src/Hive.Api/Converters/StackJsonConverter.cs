@@ -18,9 +18,9 @@ public class StackJsonConverter : JsonConverterFactory
     {
         Debug.Assert(typeToConvert.IsGenericType && typeToConvert.GetGenericTypeDefinition() == typeof(Stack<>));
 
-        Type elementType = typeToConvert.GetGenericArguments()[0];
+        var elementType = typeToConvert.GetGenericArguments()[0];
 
-        JsonConverter converter = (JsonConverter) Activator.CreateInstance(
+        var converter = (JsonConverter) Activator.CreateInstance(
             typeof(StackJsonConverter<>).MakeGenericType(elementType),
             BindingFlags.Instance | BindingFlags.Public, null, null, null)!;
 

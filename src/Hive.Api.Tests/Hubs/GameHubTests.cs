@@ -36,10 +36,10 @@ public class GameHubTests
         _groupManagerMock.Setup(m => m.RemoveFromGroupAsync(HubConnectionId, $"{HubGroupName}-{playerId}", It.IsAny<CancellationToken>()));
 
         _httpContextFeatureMock.SetupSequence(m => m.HttpContext.Features.Get<IRoutingFeature>())
-            .Returns(() => new RoutingFeature { RouteData = new RouteData { Values = { { "id", HubGroupName } } } })
-            .Returns(() => new RoutingFeature { RouteData = new RouteData { Values = { { "playerId", playerId } } } })
-            .Returns(() => new RoutingFeature { RouteData = new RouteData { Values = { { "id", null } } } })
-            .Returns(() => new RoutingFeature { RouteData = new RouteData { Values = { { "playerId", null } } } });
+            .Returns(() => new RoutingFeature {RouteData = new RouteData {Values = {{"id", HubGroupName}}}})
+            .Returns(() => new RoutingFeature {RouteData = new RouteData {Values = {{"playerId", playerId}}}})
+            .Returns(() => new RoutingFeature {RouteData = new RouteData {Values = {{"id", null}}}})
+            .Returns(() => new RoutingFeature {RouteData = new RouteData {Values = {{"playerId", null}}}});
 
         _featureCollectionMock.Setup(m => m.Get<IHttpContextFeature>()).Returns(_httpContextFeatureMock.Object);
 
@@ -85,7 +85,7 @@ public class GameHubTests
             await hub.OnConnectedAsync();
             _groupManagerMock.Verify(g => g.AddToGroupAsync(HubConnectionId, HubGroupName, It.IsAny<CancellationToken>()));
             _groupManagerMock.Verify(g => g.AddToGroupAsync(HubConnectionId, $"{HubGroupName}-{playerId}", It.IsAny<CancellationToken>()));
-            _clientProxyMock.Verify(c => c.SendCoreAsync("PlayerConnection", new object[] { "connect" }, It.IsAny<CancellationToken>()));
+            _clientProxyMock.Verify(c => c.SendCoreAsync("PlayerConnection", new object[] {"connect"}, It.IsAny<CancellationToken>()));
         }
 
         [Theory]
@@ -99,7 +99,7 @@ public class GameHubTests
             _groupManagerMock.Verify(
                 g => g.RemoveFromGroupAsync(HubConnectionId, $"{HubGroupName}-{playerId}", It.IsAny<CancellationToken>())
             );
-            _clientProxyMock.Verify(c => c.SendCoreAsync("PlayerConnection", new object[] { "disconnect" }, It.IsAny<CancellationToken>()));
+            _clientProxyMock.Verify(c => c.SendCoreAsync("PlayerConnection", new object[] {"disconnect"}, It.IsAny<CancellationToken>()));
         }
 
         [Theory]
@@ -122,7 +122,7 @@ public class GameHubTests
             await hub.SendSelection("select", selectedTile);
 
             _clientProxyMock.Verify(
-                c => c.SendCoreAsync("OpponentSelection", new object[] { "select", selectedTile }, It.IsAny<CancellationToken>())
+                c => c.SendCoreAsync("OpponentSelection", new object[] {"select", selectedTile}, It.IsAny<CancellationToken>())
             );
         }
 

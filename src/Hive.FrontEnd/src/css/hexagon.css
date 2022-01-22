@@ -1,63 +1,63 @@
 [role='cell'] > *, .tile > * {
-  position: absolute;
+    position: absolute;
 }
 
 [role='cell'] > svg {
-  pointer-events: none;
+    pointer-events: none;
 }
 
 [role='cell'] {
-  height: var(--hex-size);
-  width: var(--hex-size);
-  transition-duration: .4s;
-  transition-property: transform, margin;
-  transition-timing-function: ease-in;
+    height: var(--hex-size);
+    width: var(--hex-size);
+    transition-duration: .4s;
+    transition-property: transform, margin;
+    transition-timing-function: ease-in;
 }
 
 [role='cell'].hide, [role='none'] {
-  margin: 0 0;
-  transform: scale(0);
+    margin: 0 0;
+    transform: scale(0);
 }
 
 [role='cell'].no-drop.active,
 [role='cell'].no-drop:focus,
 [role='cell'].no-drop:hover {
-  --focus: transparent;
-  fill: #5D001E;
-  transition-duration: 0.1s;
+    --focus: transparent;
+    fill: #5D001E;
+    transition-duration: 0.1s;
 
 }
 
 [role='cell'].can-drop {
-  fill: #AFD275;
-  animation: pulse 3s infinite;
+    fill: #AFD275;
+    animation: pulse 3s infinite;
 }
 
 [role='cell'].can-drop.active,
 [role='cell'].can-drop:hover,
 [role='cell'].can-drop:focus {
-  fill: #AFD275;
-  animation: none;
+    fill: #AFD275;
+    animation: none;
 }
 
 
 @media (any-hover: hover) {
-  [role='cell'].can-drop {
-    opacity: 20%;
-  }
+    [role='cell'].can-drop {
+        opacity: 20%;
+    }
 }
 
 @keyframes pulse {
-  0% {
-    opacity: 20%;
-    transition-timing-function: ease-in;
-  }
-  10% {
-    opacity: 80%;
-    transition-timing-function: ease-in;
-  }
-  20% {
-    opacity: 20%;
-    transition-timing-function: ease-in;
-  }
+    0% {
+        opacity: 20%;
+        transition-timing-function: ease-in;
+    }
+    10% {
+        opacity: 80%;
+        transition-timing-function: ease-in;
+    }
+    20% {
+        opacity: 20%;
+        transition-timing-function: ease-in;
+    }
 }

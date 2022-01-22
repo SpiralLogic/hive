@@ -69,7 +69,7 @@ public class OnlyJumpStraightOverTests
 
         move.Should().HaveMoves(initial, expected);
     }
-        
+
     [Fact]
     public void CreatesCellIfTheBoardIsNotLargeEnough()
     {

@@ -10,7 +10,7 @@ internal class QueenScoring : IHeuristic
         var currentPlayer = values.CurrentQueenNeighbours;
         var opponentPlayer = values.OpponentQueenNeighbours;
 
-        var score =15 * (opponentPlayer - currentPlayer);
+        var score = 15 * (opponentPlayer - currentPlayer);
         return score;
     }
 }

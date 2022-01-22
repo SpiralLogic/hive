@@ -13,5 +13,8 @@ public sealed record Tile(int Id, int PlayerId, Creature Creature)
         return Id == other.Id && PlayerId == other.PlayerId && Creature.Equals(other.Creature);
     }
 
-    public override int GetHashCode()=> Id;
+    public override int GetHashCode()
+    {
+        return Id;
+    }
 }

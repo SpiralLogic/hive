@@ -16,7 +16,7 @@ public class CreatureJsonConverter : JsonConverter<Creature>
 
     public override Creature Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
-        string name = reader.GetString() ?? throw new JsonException(nameof(Creature));
+        var name = reader.GetString() ?? throw new JsonException(nameof(Creature));
 
         return _creaturesType.GetField(name)?.GetValue(null) as Creature ??
                throw new JsonException(typeToConvert.Name);

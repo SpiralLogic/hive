@@ -35,6 +35,6 @@ internal static class CellExtensions
 
     internal static IEnumerable<Cell> QueenNeighbours(this Cell cell, IEnumerable<Cell> cells, int? playerId = null)
     {
-        return  cells.SelectOccupiedNeighbors(cell).Where(c => c.HasQueen(playerId));
+        return cells.SelectOccupiedNeighbors(cell).Where(c => c.HasQueen(playerId));
     }
 }

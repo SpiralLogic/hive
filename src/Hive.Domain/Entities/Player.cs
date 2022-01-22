@@ -4,7 +4,7 @@ namespace Hive.Domain.Entities;
 
 public sealed record Player(int Id, string Name)
 {
-   
+
 
     public ISet<Tile> Tiles { get; init; } = new HashSet<Tile>();
 
@@ -19,5 +19,8 @@ public sealed record Player(int Id, string Name)
         return Id == other.Id;
     }
 
-    public override int GetHashCode() => Id;
+    public override int GetHashCode()
+    {
+        return Id;
+    }
 }

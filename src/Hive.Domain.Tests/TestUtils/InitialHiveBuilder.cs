@@ -21,7 +21,8 @@ internal class InitialHiveBuilder : HiveBuilder
         if (symbol == Origin.Symbol)
         {
             cell.AddTile(new Tile(TileIdSequence++, 0, Origin.Creature));
-        } else if (symbol == Friend.Symbol)
+        }
+        else if (symbol == Friend.Symbol)
         {
             cell.AddTile(new Tile(TileIdSequence++, 0, Friend.Creature));
         }

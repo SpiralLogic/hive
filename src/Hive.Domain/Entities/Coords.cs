@@ -18,7 +18,10 @@ public sealed record Coords(int Q, int R)
             return n;
         }
     );
-    internal Coords[] Neighbours() => _neighbours.Value;
+    internal Coords[] Neighbours()
+    {
+        return _neighbours.Value;
+    }
 
     private readonly int _hashCode = ShiftAndWrap(Q.GetHashCode(), 2) ^ R.GetHashCode();
 
@@ -29,7 +32,10 @@ public sealed record Coords(int Q, int R)
         return Q == other.Q && R == other.R;
     }
 
-    public override int GetHashCode() => _hashCode;
+    public override int GetHashCode()
+    {
+        return _hashCode;
+    }
 
     private static int ShiftAndWrap(int value, int positions)
     {

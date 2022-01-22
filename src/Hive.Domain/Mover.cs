@@ -5,7 +5,7 @@ using Hive.Domain.Extensions;
 
 namespace Hive.Domain;
 
-internal class Mover 
+internal class Mover
 {
     private readonly Hive _hive;
 
@@ -40,8 +40,10 @@ internal class Mover
         return surroundedQueens.First().Tiles.First(t => t.IsQueen()).PlayerId == 0 ? GameStatus.Player1Win : GameStatus.Player0Win;
     }
 
-    private Player SkipTurn(Player nextPlayer) =>
-        _hive.Players.First(p => p.Id != nextPlayer.Id);
+    private Player SkipTurn(Player nextPlayer)
+    {
+        return _hive.Players.First(p => p.Id != nextPlayer.Id);
+    }
 
     internal void UpdateMoves(Player nextPlayer)
     {

@@ -16,7 +16,7 @@ internal class NoQueenOrAntFirst : IHeuristic
     public int Get(HeuristicValues values, Move move)
     {
         var occupied = _hive.Cells.WherePlayerOccupies(move.Tile.PlayerId).Count();
-        if (occupied== 1 && (move.Tile.Creature == Creatures.Ant || move.Tile.Creature == Creatures.Queen))
+        if (occupied == 1 && (move.Tile.Creature == Creatures.Ant || move.Tile.Creature == Creatures.Queen))
             return -HeuristicValues.ScoreMax;
         return 0;
     }

@@ -78,6 +78,6 @@ internal static class AiTestExtensions
 {
     public static AiAssertions Should(this Move move)
     {
-        return new(() => move);
+        return new AiAssertions(() => move);
     }
 }

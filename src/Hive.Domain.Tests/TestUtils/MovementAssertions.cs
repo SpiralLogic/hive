@@ -36,13 +36,13 @@ internal static class MovementTestExtensions
 {
     public static MovementAssertions Should(this IMovement movement)
     {
-        return new(initialHiveBuilder =>
+        return new MovementAssertions(initialHiveBuilder =>
             movement.GetMoves(initialHiveBuilder.OriginCell, new HashSet<Cell>(initialHiveBuilder.AllCells)));
     }
 
     public static MovementAssertions Should(this Creature creature)
     {
-        return new(initialHiveBuilder =>
+        return new MovementAssertions(initialHiveBuilder =>
             creature.GetAvailableMoves(initialHiveBuilder.OriginCell, new HashSet<Cell>(initialHiveBuilder.AllCells)));
     }
 }

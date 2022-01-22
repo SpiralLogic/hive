@@ -20,7 +20,7 @@ internal record HiveCharacter(Creature Creature, char Symbol, ConsoleColor Color
             ConsoleColor.Magenta => 35,
             ConsoleColor.White => 37,
             ConsoleColor.Cyan => 36,
-            _=> 37,
+            _ => 37
         };
 
         return $"\u001b[{color}m{Symbol}\u001b[0m";

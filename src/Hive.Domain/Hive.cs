@@ -20,8 +20,10 @@ public class Hive
         Players = players ?? throw new ArgumentNullException(nameof(players));
     }
 
-    public GameStatus Move(Move move) =>
-        _mover.Move(move);
+    public GameStatus Move(Move move)
+    {
+        return _mover.Move(move);
+    }
 
     public async ValueTask<(GameStatus status, Move move)> AiMove(Func<string, Tile, ValueTask> broadcastThought)
     {
@@ -30,9 +32,13 @@ public class Hive
         return (Move(aiMove), aiMove);
     }
 
-    internal void PerformMove(Move move) =>
+    internal void PerformMove(Move move)
+    {
         _mover.PerformMove(move);
+    }
 
-    internal void RefreshMoves(Player player) =>
+    internal void RefreshMoves(Player player)
+    {
         _mover.UpdateMoves(player);
+    }
 }

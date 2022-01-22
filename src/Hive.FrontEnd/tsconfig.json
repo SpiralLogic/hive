@@ -31,7 +31,7 @@
     "target": "esnext",
     "module": "commonjs",
     "jsx": "react-jsx",
-    "jsxImportSource": "preact",
+    "jsxImportSource": "preact"
   },
   "include": [
     "./src/**/*",

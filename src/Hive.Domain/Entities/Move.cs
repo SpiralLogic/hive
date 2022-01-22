@@ -11,6 +11,8 @@ public sealed record Move(Tile Tile, Coords Coords)
         return Tile.Id.Equals(other.Tile.Id) && Coords.Equals(other.Coords);
     }
 
-    public override int GetHashCode() =>
-        HashCode.Combine(Tile.Id, Coords);
+    public override int GetHashCode()
+    {
+        return HashCode.Combine(Tile.Id, Coords);
+    }
 }

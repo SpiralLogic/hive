@@ -4,5 +4,5 @@ namespace Hive.Domain.Ai.Heuristics;
 
 internal interface IHeuristic
 {
-    int Get(HeuristicValues values,Move move);
+    int Get(HeuristicValues values, Move move);
 }

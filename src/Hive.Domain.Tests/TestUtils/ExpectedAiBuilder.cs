@@ -21,7 +21,7 @@ internal class ExpectedAiBuilder : HiveBuilder
     private IEnumerable<Cell> ExpectedCells =>
         AllCells.Where(c => !c.IsEmpty() && c.TopTile().Creature.Name == Expected.Creature.Name).ToHashSet();
 
-    public readonly ISet<(Coords,Tile)> PlayerTrayMoves = new HashSet<(Coords,Tile)>();
+    public readonly ISet<(Coords, Tile)> PlayerTrayMoves = new HashSet<(Coords, Tile)>();
 
     public static ExpectedAiBuilder operator +(ExpectedAiBuilder builder, string newRow)
     {

@@ -19,7 +19,7 @@ public class GameControllerTests
 
     public GameControllerTests()
     {
-        var game = HiveFactory.Create(new[] { "player1", "player2" });
+        var game = HiveFactory.Create(new[] {"player1", "player2"});
         var gameState = new GameState(game.Players, game.Cells, ExistingGameId, GameStatus.MoveSuccess);
 
         var jsonOptions = TestHelpers.CreateJsonOptions();

@@ -4,7 +4,7 @@
     --shadow: #FF00E5A3;
 }
 
-.rules>div {
+.rules > div {
     display: flex;
     flex-direction: column;
 }
@@ -29,7 +29,7 @@
     --result: red;
 }
 
-.rules [role='cell']>svg:first-child {
+.rules [role='cell'] > svg:first-child {
     fill: var(--result);
 }
 
@@ -43,7 +43,7 @@
     font-size: 1.5em;
 }
 
-.rules .tile.creature>span {
+.rules .tile.creature > span {
     background-color: black;
     clip-path: circle(40%);
     opacity: 75%;

@@ -24,8 +24,10 @@ public static class HiveFactory
         Creatures.Ant
     );
 
-    public static Hive Create(IEnumerable<string> playerNames) =>
-        new Hive(CreatePlayers(playerNames), CreateCells());
+    public static Hive Create(IEnumerable<string> playerNames)
+    {
+        return new(CreatePlayers(playerNames), CreateCells());
+    }
 
     public static Hive CreateInProgress(IList<Player> players, ISet<Cell> cells, int playerId)
     {
@@ -35,8 +37,10 @@ public static class HiveFactory
         return hive;
     }
 
-    private static IList<Player> CreatePlayers(IEnumerable<string> playerNames) =>
-        playerNames.Select((name, id) => new Player(id, name) {Tiles = CreateTiles(id, id==0)}).ToList();
+    private static IList<Player> CreatePlayers(IEnumerable<string> playerNames)
+    {
+        return playerNames.Select((name, id) => new Player(id, name) {Tiles = CreateTiles(id, id == 0)}).ToList();
+    }
 
     private static ISet<Tile> CreateTiles(int playerId, bool withMoves = false)
     {
@@ -47,6 +51,8 @@ public static class HiveFactory
             .ToHashSet();
     }
 
-    private static ISet<Cell> CreateCells() =>
-        InitialCoords.Neighbours().Prepend(InitialCoords).ToCells();
+    private static ISet<Cell> CreateCells()
+    {
+        return InitialCoords.Neighbours().Prepend(InitialCoords).ToCells();
+    }
 }
