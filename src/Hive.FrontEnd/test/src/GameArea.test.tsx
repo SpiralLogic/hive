@@ -153,7 +153,7 @@ describe('<GameArea>', () => {
     );
 
     userEvent.click(screen.getByTitle(/Share/));
-    expect(share).toHaveBeenCalledWith(expect.objectContaining({ url: `//game/33/0` }));
+    expect(share).toHaveBeenCalledWith(expect.objectContaining({ url: `http://localhost/game/33/0` }));
     restore();
   });
 
@@ -173,7 +173,7 @@ describe('<GameArea>', () => {
       />
     );
     userEvent.click(screen.getByTitle(/Share/));
-    expect(writeText).toHaveBeenCalledWith(`//game/33/0`);
+    expect(writeText).toHaveBeenCalledWith(`http://localhost/game/33/0`);
     restore1();
     restore2();
   });

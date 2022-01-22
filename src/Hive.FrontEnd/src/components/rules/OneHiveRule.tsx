@@ -17,7 +17,7 @@ const OneHiveRule: Rule = () => (
     </Row>
     <Row>
       <RuleCell creature="ant" />
-      <RuleCell creature="queen" incorrectArrows={['topRight']} />
+      <RuleCell selected creature="queen" incorrectArrows={['topRight']} />
       <RuleCell creature="grasshopper" />
     </Row>
   </Hextille>

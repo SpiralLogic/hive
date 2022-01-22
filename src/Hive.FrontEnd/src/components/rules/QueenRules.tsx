@@ -14,12 +14,7 @@ const QueenRules: Rule = () => (
     </Row>
     <Row>
       <RuleCell result="correct" />
-      <RuleCell
-        zIndex={1}
-        creature="queen"
-        selected
-        correctArrows={['topLeft', 'left', 'right', 'bottomRight']}
-      />
+      <RuleCell creature="queen" selected correctArrows={['topLeft', 'left', 'right', 'bottomRight']} />
       <RuleCell result="correct" />
       <RuleCell creature="spider" />
     </Row>

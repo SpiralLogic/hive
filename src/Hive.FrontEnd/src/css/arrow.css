@@ -2,7 +2,7 @@
     --span: 1;
     fill: var(--result);
     stroke-width: 1px;
-    transform: rotate(var(--arrow-deg)) translateY(calc(var(--hex-size) / -3)) scale(1, calc(var(--span) * .95));
+    transform: rotate(var(--arrow-deg)) translateY(calc(var(--hex-size) / -3.2)) scale(1, calc(var(--span) * .95));
     transform-origin: center center;
 }
 

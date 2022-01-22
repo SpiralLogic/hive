@@ -64,6 +64,7 @@ exports[`<AntRules> renders AntRules 1`] = `
         <div
           class="correct"
           role="cell"
+          style="z-index: 0;"
         >
           <svg
             viewBox="0 0 100 100"
@@ -623,7 +624,7 @@ exports[`<AntRules> renders AntRules 1`] = `
         </div>
         <div
           role="cell"
-          style="z-index: 2;"
+          style="z-index: 4;"
         >
           <svg
             viewBox="0 0 100 100"
@@ -828,6 +829,7 @@ exports[`<BeetleRules> renders BeetleRules 1`] = `
         </div>
         <div
           role="cell"
+          style="z-index: 4;"
         >
           <svg
             viewBox="0 0 100 100"
@@ -1185,7 +1187,7 @@ exports[`<FreedomToMoveRule> renders FreedomToMoveRule 1`] = `
             />
           </svg>
           <div
-            class="tile queen"
+            class="tile queen selected"
           >
             <svg
               viewBox="0 0 100 100"
@@ -1374,6 +1376,7 @@ exports[`<GrasshopperRules> renders GrasshopperRules 1`] = `
         </div>
         <div
           role="cell"
+          style="z-index: 4;"
         >
           <svg
             viewBox="0 0 100 100"
@@ -2382,6 +2385,7 @@ exports[`<OneHiveRule> renders OneHiveRule 1`] = `
         </div>
         <div
           role="cell"
+          style="z-index: 4;"
         >
           <svg
             viewBox="0 0 100 100"
@@ -2392,7 +2396,7 @@ exports[`<OneHiveRule> renders OneHiveRule 1`] = `
             />
           </svg>
           <div
-            class="tile queen"
+            class="tile queen selected"
           >
             <svg
               viewBox="0 0 100 100"
@@ -2592,7 +2596,7 @@ exports[`<QueenRules> renders QueenRules 1`] = `
         </div>
         <div
           role="cell"
-          style="z-index: 1;"
+          style="z-index: 4;"
         >
           <svg
             viewBox="0 0 100 100"
@@ -3201,6 +3205,146 @@ exports[`<SpiderRules> renders SpiderRules 1`] = `
         role="row"
       >
         <div
+          role="none"
+        >
+          <svg
+            viewBox="0 0 100 100"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <use
+              href="#hex"
+            />
+          </svg>
+        </div>
+        <div
+          role="cell"
+        >
+          <svg
+            viewBox="0 0 100 100"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <use
+              href="#hex"
+            />
+          </svg>
+          <div
+            class="tile grasshopper"
+          >
+            <svg
+              viewBox="0 0 100 100"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <use
+                href="#hex"
+              />
+              <use
+                class="creature"
+                href="#grasshopper"
+              />
+            </svg>
+          </div>
+        </div>
+        <div
+          role="cell"
+        >
+          <svg
+            viewBox="0 0 100 100"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <use
+              href="#hex"
+            />
+          </svg>
+          <div
+            class="tile grasshopper"
+          >
+            <svg
+              viewBox="0 0 100 100"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <use
+                href="#hex"
+              />
+              <use
+                class="creature"
+                href="#grasshopper"
+              />
+            </svg>
+          </div>
+        </div>
+        <div
+          role="cell"
+        >
+          <svg
+            viewBox="0 0 100 100"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <use
+              href="#hex"
+            />
+          </svg>
+          <div
+            class="tile ant"
+          >
+            <svg
+              viewBox="0 0 100 100"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <use
+                href="#hex"
+              />
+              <use
+                class="creature"
+                href="#ant"
+              />
+            </svg>
+          </div>
+        </div>
+      </div>
+      <div
+        role="row"
+      >
+        <div
+          role="none"
+        >
+          <svg
+            viewBox="0 0 100 100"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <use
+              href="#hex"
+            />
+          </svg>
+        </div>
+        <div
+          role="cell"
+        >
+          <svg
+            viewBox="0 0 100 100"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <use
+              href="#hex"
+            />
+          </svg>
+          <div
+            class="tile queen"
+          >
+            <svg
+              viewBox="0 0 100 100"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <use
+                href="#hex"
+              />
+              <use
+                class="creature"
+                href="#queen"
+              />
+            </svg>
+          </div>
+        </div>
+        <div
           class="correct"
           role="cell"
         >
@@ -3252,19 +3396,9 @@ exports[`<SpiderRules> renders SpiderRules 1`] = `
               />
             </svg>
             <span>
-              2
+              ✓
             </span>
           </div>
-          <svg
-            class="arrow left correct"
-            style="--span: 1;"
-            viewBox="0 0 100 100"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <use
-              href="#arrow"
-            />
-          </svg>
         </div>
         <div
           role="cell"
@@ -3278,7 +3412,7 @@ exports[`<SpiderRules> renders SpiderRules 1`] = `
             />
           </svg>
           <div
-            class="tile spider selected"
+            class="tile beetle"
           >
             <svg
               viewBox="0 0 100 100"
@@ -3289,35 +3423,48 @@ exports[`<SpiderRules> renders SpiderRules 1`] = `
               />
               <use
                 class="creature"
-                href="#spider"
+                href="#beetle"
               />
             </svg>
           </div>
+        </div>
+      </div>
+       
+      <div
+        role="row"
+      >
+        <div
+          role="cell"
+        >
           <svg
-            class="arrow right correct"
-            style="--span: 1;"
             viewBox="0 0 100 100"
             xmlns="http://www.w3.org/2000/svg"
           >
             <use
-              href="#arrow"
+              href="#hex"
             />
           </svg>
-          <svg
-            class="arrow bottomLeft correct"
-            style="--span: 1;"
-            viewBox="0 0 100 100"
-            xmlns="http://www.w3.org/2000/svg"
+          <div
+            class="tile ant"
           >
-            <use
-              href="#arrow"
-            />
-          </svg>
+            <svg
+              viewBox="0 0 100 100"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <use
+                href="#hex"
+              />
+              <use
+                class="creature"
+                href="#ant"
+              />
+            </svg>
+          </div>
         </div>
         <div
           class="correct"
           role="cell"
-          style="z-index: 3;"
+          style="z-index: 1;"
         >
           <svg
             viewBox="0 0 100 100"
@@ -3339,11 +3486,11 @@ exports[`<SpiderRules> renders SpiderRules 1`] = `
               />
             </svg>
             <span>
-              1
+              2
             </span>
           </div>
           <svg
-            class="arrow bottomRight correct"
+            class="arrow topRight correct"
             style="--span: 1;"
             viewBox="0 0 100 100"
             xmlns="http://www.w3.org/2000/svg"
@@ -3352,6 +3499,111 @@ exports[`<SpiderRules> renders SpiderRules 1`] = `
               href="#arrow"
             />
           </svg>
+        </div>
+        <div
+          class="correct"
+          role="cell"
+          style="z-index: 1;"
+        >
+          <svg
+            viewBox="0 0 100 100"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <use
+              href="#hex"
+            />
+          </svg>
+          <div
+            class="tile"
+          >
+            <svg
+              viewBox="0 0 100 100"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <use
+                href="#hex"
+              />
+            </svg>
+            <span>
+              2
+            </span>
+          </div>
+          <svg
+            class="arrow topLeft correct"
+            style="--span: 1;"
+            viewBox="0 0 100 100"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <use
+              href="#arrow"
+            />
+          </svg>
+          <svg
+            class="arrow topRight correct"
+            style="--span: 1;"
+            viewBox="0 0 100 100"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <use
+              href="#arrow"
+            />
+          </svg>
+        </div>
+        <div
+          role="cell"
+        >
+          <svg
+            viewBox="0 0 100 100"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <use
+              href="#hex"
+            />
+          </svg>
+          <div
+            class="tile queen"
+          >
+            <svg
+              viewBox="0 0 100 100"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <use
+                href="#hex"
+              />
+              <use
+                class="creature"
+                href="#queen"
+              />
+            </svg>
+          </div>
+        </div>
+        <div
+          class="correct"
+          role="cell"
+        >
+          <svg
+            viewBox="0 0 100 100"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <use
+              href="#hex"
+            />
+          </svg>
+          <div
+            class="tile"
+          >
+            <svg
+              viewBox="0 0 100 100"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <use
+                href="#hex"
+              />
+            </svg>
+            <span>
+              ✓
+            </span>
+          </div>
         </div>
       </div>
       <div
@@ -3446,7 +3698,7 @@ exports[`<SpiderRules> renders SpiderRules 1`] = `
             />
           </svg>
           <svg
-            class="arrow bottomRight correct"
+            class="arrow topRight correct"
             style="--span: 1;"
             viewBox="0 0 100 100"
             xmlns="http://www.w3.org/2000/svg"
@@ -3458,7 +3710,6 @@ exports[`<SpiderRules> renders SpiderRules 1`] = `
         </div>
         <div
           role="cell"
-          style="z-index: 4;"
         >
           <svg
             viewBox="0 0 100 100"
@@ -3514,7 +3765,7 @@ exports[`<SpiderRules> renders SpiderRules 1`] = `
             </span>
           </div>
           <svg
-            class="arrow bottomRight correct"
+            class="arrow topRight correct"
             style="--span: 1;"
             viewBox="0 0 100 100"
             xmlns="http://www.w3.org/2000/svg"
@@ -3525,10 +3776,12 @@ exports[`<SpiderRules> renders SpiderRules 1`] = `
           </svg>
         </div>
       </div>
+       
       <div
         role="row"
       >
         <div
+          class="correct"
           role="cell"
         >
           <svg
@@ -3540,7 +3793,7 @@ exports[`<SpiderRules> renders SpiderRules 1`] = `
             />
           </svg>
           <div
-            class="tile ant"
+            class="tile"
           >
             <svg
               viewBox="0 0 100 100"
@@ -3549,17 +3802,15 @@ exports[`<SpiderRules> renders SpiderRules 1`] = `
               <use
                 href="#hex"
               />
-              <use
-                class="creature"
-                href="#ant"
-              />
             </svg>
+            <span>
+              ✓
+            </span>
           </div>
         </div>
         <div
           class="correct"
           role="cell"
-          style="z-index: 1;"
         >
           <svg
             viewBox="0 0 100 100"
@@ -3585,7 +3836,56 @@ exports[`<SpiderRules> renders SpiderRules 1`] = `
             </span>
           </div>
           <svg
-            class="arrow bottomRight correct"
+            class="arrow left correct"
+            style="--span: 1;"
+            viewBox="0 0 100 100"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <use
+              href="#arrow"
+            />
+          </svg>
+        </div>
+        <div
+          role="cell"
+          style="z-index: 4;"
+        >
+          <svg
+            viewBox="0 0 100 100"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <use
+              href="#hex"
+            />
+          </svg>
+          <div
+            class="tile spider selected"
+          >
+            <svg
+              viewBox="0 0 100 100"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <use
+                href="#hex"
+              />
+              <use
+                class="creature"
+                href="#spider"
+              />
+            </svg>
+          </div>
+          <svg
+            class="arrow right correct"
+            style="--span: 1;"
+            viewBox="0 0 100 100"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <use
+              href="#arrow"
+            />
+          </svg>
+          <svg
+            class="arrow topLeft correct"
             style="--span: 1;"
             viewBox="0 0 100 100"
             xmlns="http://www.w3.org/2000/svg"
@@ -3598,7 +3898,7 @@ exports[`<SpiderRules> renders SpiderRules 1`] = `
         <div
           class="correct"
           role="cell"
-          style="z-index: 1;"
+          style="z-index: 3;"
         >
           <svg
             viewBox="0 0 100 100"
@@ -3620,11 +3920,11 @@ exports[`<SpiderRules> renders SpiderRules 1`] = `
               />
             </svg>
             <span>
-              2
+              1
             </span>
           </div>
           <svg
-            class="arrow bottomLeft correct"
+            class="arrow topRight correct"
             style="--span: 1;"
             viewBox="0 0 100 100"
             xmlns="http://www.w3.org/2000/svg"
@@ -3633,300 +3933,6 @@ exports[`<SpiderRules> renders SpiderRules 1`] = `
               href="#arrow"
             />
           </svg>
-          <svg
-            class="arrow bottomRight correct"
-            style="--span: 1;"
-            viewBox="0 0 100 100"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <use
-              href="#arrow"
-            />
-          </svg>
-        </div>
-        <div
-          role="cell"
-        >
-          <svg
-            viewBox="0 0 100 100"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <use
-              href="#hex"
-            />
-          </svg>
-          <div
-            class="tile queen"
-          >
-            <svg
-              viewBox="0 0 100 100"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <use
-                href="#hex"
-              />
-              <use
-                class="creature"
-                href="#queen"
-              />
-            </svg>
-          </div>
-        </div>
-        <div
-          class="correct"
-          role="cell"
-        >
-          <svg
-            viewBox="0 0 100 100"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <use
-              href="#hex"
-            />
-          </svg>
-          <div
-            class="tile"
-          >
-            <svg
-              viewBox="0 0 100 100"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <use
-                href="#hex"
-              />
-            </svg>
-            <span>
-              ✓
-            </span>
-          </div>
-        </div>
-      </div>
-      <div
-        role="row"
-      >
-        <div
-          role="none"
-        >
-          <svg
-            viewBox="0 0 100 100"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <use
-              href="#hex"
-            />
-          </svg>
-        </div>
-        <div
-          role="cell"
-        >
-          <svg
-            viewBox="0 0 100 100"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <use
-              href="#hex"
-            />
-          </svg>
-          <div
-            class="tile queen"
-          >
-            <svg
-              viewBox="0 0 100 100"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <use
-                href="#hex"
-              />
-              <use
-                class="creature"
-                href="#queen"
-              />
-            </svg>
-          </div>
-        </div>
-        <div
-          class="correct"
-          role="cell"
-        >
-          <svg
-            viewBox="0 0 100 100"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <use
-              href="#hex"
-            />
-          </svg>
-          <div
-            class="tile"
-          >
-            <svg
-              viewBox="0 0 100 100"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <use
-                href="#hex"
-              />
-            </svg>
-            <span>
-              ✓
-            </span>
-          </div>
-        </div>
-        <div
-          class="correct"
-          role="cell"
-        >
-          <svg
-            viewBox="0 0 100 100"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <use
-              href="#hex"
-            />
-          </svg>
-          <div
-            class="tile"
-          >
-            <svg
-              viewBox="0 0 100 100"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <use
-                href="#hex"
-              />
-            </svg>
-            <span>
-              ✓
-            </span>
-          </div>
-        </div>
-        <div
-          role="cell"
-        >
-          <svg
-            viewBox="0 0 100 100"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <use
-              href="#hex"
-            />
-          </svg>
-          <div
-            class="tile beetle"
-          >
-            <svg
-              viewBox="0 0 100 100"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <use
-                href="#hex"
-              />
-              <use
-                class="creature"
-                href="#beetle"
-              />
-            </svg>
-          </div>
-        </div>
-      </div>
-      <div
-        role="row"
-      >
-        <div
-          role="none"
-        >
-          <svg
-            viewBox="0 0 100 100"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <use
-              href="#hex"
-            />
-          </svg>
-        </div>
-        <div
-          role="cell"
-        >
-          <svg
-            viewBox="0 0 100 100"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <use
-              href="#hex"
-            />
-          </svg>
-          <div
-            class="tile grasshopper"
-          >
-            <svg
-              viewBox="0 0 100 100"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <use
-                href="#hex"
-              />
-              <use
-                class="creature"
-                href="#grasshopper"
-              />
-            </svg>
-          </div>
-        </div>
-        <div
-          role="cell"
-        >
-          <svg
-            viewBox="0 0 100 100"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <use
-              href="#hex"
-            />
-          </svg>
-          <div
-            class="tile grasshopper"
-          >
-            <svg
-              viewBox="0 0 100 100"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <use
-                href="#hex"
-              />
-              <use
-                class="creature"
-                href="#grasshopper"
-              />
-            </svg>
-          </div>
-        </div>
-        <div
-          role="cell"
-        >
-          <svg
-            viewBox="0 0 100 100"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <use
-              href="#hex"
-            />
-          </svg>
-          <div
-            class="tile ant"
-          >
-            <svg
-              viewBox="0 0 100 100"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <use
-                href="#hex"
-              />
-              <use
-                class="creature"
-                href="#ant"
-              />
-            </svg>
-          </div>
         </div>
       </div>
     </div>

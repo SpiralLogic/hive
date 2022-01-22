@@ -35,7 +35,7 @@ const AntRules: Rule = () => (
     <Row>
       <Hexagon hidden={true} />
       <RuleCell result="correct" correctArrows={['topLeft']} zIndex={1} />
-      <RuleCell selected creature="ant" correctArrows={['left', 'right']} zIndex={2} />
+      <RuleCell selected creature="ant" correctArrows={['left', 'right']} />
       <RuleCell result="correct" correctArrows={['topRight']} zIndex={1} />
     </Row>
   </Hextille>
