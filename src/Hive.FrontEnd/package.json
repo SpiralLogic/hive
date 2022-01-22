@@ -16,15 +16,13 @@
     "lint:src:report": "pnpx eslint -c .eslintrc --fix -o reports/__lint__/eslint.json -f json src",
     "lint:test": "pnpx eslint -c .eslintrc --fix test",
     "lint:test:report": "pnpx eslint -c .eslintrc --fix -o reports/__lint__/eslint.test.json -f json test",
-    "build": "npm-run-all -s clean esbuild web-copy cache-bust",
+    "build": "npm-run-all -s clean esbuild",
     "esbuild": "node build.js",
-    "cache-bust": "pnpx cachebust -n",
-    "web-copy": "pnpx cpy ./src/index.html ./public/",
-    "build:dev": "npm-run-all -s tsc esbuild:dev web-copy cache-bust",
-    "build:dev:watch": "npm-run-all -s web-copy esbuild:watch",
+    "build:dev": "npm-run-all -s tsc esbuild:dev",
+    "build:dev:watch": "npm-run-all -s esbuild:watch",
     "esbuild:dev": "cross-env NODE_ENV=development node build.js",
-    "watch": "npm-run-all -s clean web-copy esbuild:watch",
-    "esbuild:watch": "cross-env NODE_ENV=development node buildWatch.js"
+    "watch": "npm-run-all -s clean esbuild:watch",
+    "esbuild:watch": "cross-env NODE_ENV=development WATCH=true node build.js"
   },
   "lint-staged": {
     "*.{css,md,scss}": "prettier --write",
@@ -62,7 +60,6 @@
   },
   "dependencies": {
     "@microsoft/signalr": "^6.0.1",
-    "@sparkbox/cachebust": "^0.3.0",
     "cpy-cli": "^3.1.1",
     "cross-env": "^7.0.3",
     "esbuild": "0.14.12",
@@ -70,19 +67,11 @@
     "preact": "^10.6.4",
     "rimraf": "^3.0.2"
   },
-  "cachebust": {
-    "source": [
-      "./public/js/hive.js",
-      "./public/js/hive.css"
-    ],
-    "target": [
-      "./public/index.html"
-    ]
-  },
   "pnpm": {
     "overrides": {
       "ansi-regex@>2.1.1 <5.0.1": ">=5.0.1",
-      "glob-parent@<5.1.2": ">=5.1.2"
+      "glob-parent@<5.1.2": ">=5.1.2",
+      "node-fetch": ">=3.1.1"
     }
   }
 }
