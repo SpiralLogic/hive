@@ -42,21 +42,25 @@ docker run -d -p 80:80 hive
 ### Develop with live watch
 
 ```
-dotnet watch -v --project ./src/Api/Hive.Api run
+dotnet watch -v --project ./src/Hive.Api run
 ```
 
 open browser [https://localhost:5001](https://localhost:5001)
 
 ### Pipelines
 
+
+* GoCd pipelines hosted locally
+* Sonar Scanning hosted locally
 * github actions for CI
-* rancher config for CD (just automates all the above)
 * kubernetes deployment script for k8s
 
 ### goals
 
+- [x] 100% light house scores
+- [x] 100% test coverage (branch, stratement and line)
 - [x] To minimise non-dev dependencies.
-- [x] use latest .net5 to try new features
+- [x] use latest ~~.net5~~ .net6 to try new features
 - [x] investigate build and bundler options
     - esbuild wins (webpack, rollup, parcel, browserify)
 - [x] vanilla css3
