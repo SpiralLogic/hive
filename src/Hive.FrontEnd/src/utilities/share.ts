@@ -26,7 +26,7 @@ const fallbackCopyTextToClipboard = (text: string) => {
 };
 
 export const getShareUrl = (gameId: GameId, currentPlayer: PlayerId) =>
-  `//game/${gameId}/${currentPlayer === 1 ? '0' : '1'}`;
+  `${window.location.origin}/game/${gameId}/${currentPlayer === 1 ? '0' : '1'}`;
 
 export const shareGame = async (gameId: GameId, currentPlayer: PlayerId) => {
   const url = getShareUrl(gameId, currentPlayer);

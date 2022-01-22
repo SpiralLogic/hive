@@ -7,7 +7,7 @@ exports[`<Links> renders 1`] = `
       class="links"
     >
       <a
-        href="//game/123A/1"
+        href="http://localhost/game/123A/1"
         name="Share game to opponent"
         title="Share"
       >
