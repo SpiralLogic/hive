@@ -28,7 +28,7 @@ spec:
           effect: NoSchedule
       containers:
         - name: hive
-          image: { image }
+          image: {image}
           ports:
             - containerPort: 80
           env:
