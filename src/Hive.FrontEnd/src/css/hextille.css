@@ -28,8 +28,8 @@
   min-height: fit-content;
   outline: none;
   position: relative;
-  transition: fill 0.1s ease-in;
 }
+
 [role='cell'] > *, .tile > * {
   position: absolute;
 }
