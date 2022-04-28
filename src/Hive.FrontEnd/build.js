@@ -1,7 +1,7 @@
 const esbuild = require('esbuild');
 const fs = require('fs');
 
-createIndexHtmlFile = (metafile) => {
+const createIndexHtmlFile = (metafile) => {
   const outputFiles = Object.keys(metafile.outputs).map((file) => file.replace(/^public/, ''));
 
   const createOutputsHtml = (extension, replaceFn) =>
