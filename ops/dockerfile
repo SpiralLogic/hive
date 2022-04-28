@@ -1,4 +1,4 @@
-FROM library/node:latest as node-build
+FROM library/node:17 as node-build
 
 WORKDIR /source
 RUN npm i -g pnpm

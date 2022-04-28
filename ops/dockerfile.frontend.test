@@ -1,4 +1,4 @@
-FROM library/node:latest
+FROM library/node:17
 
 WORKDIR /source
 COPY . .
