@@ -44,10 +44,10 @@ jobs:
           check-latest: true
       - name: Install pnpm
         run: npm install -g pnpm
-      - name: Install update checker
-        run: pnpm install -g npm-check-updates
-      - name: Update
-        run: pnpm up
+#      - name: Install update checker
+#        run: pnpm install -g npm-check-updates
+#      - name: Update
+#        run: pnpm up
       - name: Installs
         run: pnpm install
       - name: Lint

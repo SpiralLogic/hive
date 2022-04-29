@@ -1,12 +1,12 @@
+import { render } from '@testing-library/preact';
 import GameCell from '../../src/components/GameCell';
 import Hextille from '../../src/components/Hextille';
 import Row from '../../src/components/Row';
-import { renderElement } from '../helpers';
 
 describe('<Hextille>', () => {
   it('matches current snapshot', () => {
     expect(
-      renderElement(
+      render(
         <Hextille>
           <Row>
             <GameCell coords={{ q: 0, r: 0 }} />

@@ -25,7 +25,7 @@ const Player: FunctionComponent<Properties> = (properties) => {
     setHidden(toChildArray(properties.children).length === 0);
   };
 
-  const handlers = { ontransitionend, onanimationend: ontransitionend };
+  const handlers = { onTransitionEnd: ontransitionend, onAnimationEnd: ontransitionend };
 
   return hidden ? null : (
     <div class={classes} title={name} {...handlers}>

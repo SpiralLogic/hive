@@ -1,6 +1,5 @@
 import { render, screen } from '@testing-library/preact';
 import PlayerConnected from '../../src/components/PlayerConnected';
-import { renderElement } from '../helpers';
 
 describe('<PlayerConnected>', () => {
   it('show whether the player connected or disconnected', () => {
@@ -11,6 +10,6 @@ describe('<PlayerConnected>', () => {
     expect(screen.getByText(/disconnected/)).toBeInTheDocument();
   });
   it('renders', () => {
-    expect(renderElement(<PlayerConnected connected={'disconnected'} />)).toMatchSnapshot();
+    expect(render(<PlayerConnected connected={'disconnected'} />)).toMatchSnapshot();
   });
 });

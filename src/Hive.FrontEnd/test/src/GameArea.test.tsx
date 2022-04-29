@@ -1,7 +1,6 @@
 import { render, screen } from '@testing-library/preact';
 import userEvent from '@testing-library/user-event';
 
-import { waitFor } from '@testing-library/dom';
 import GameArea from '../../src/components/GameArea';
 import { GameStatus } from '../../src/domain';
 import { HiveEvent, TileAction } from '../../src/services';
@@ -38,14 +37,11 @@ describe('<GameArea>', () => {
         currentPlayer={1}
       />
     );
-    await waitFor(() =>
-      getHiveDispatcher().dispatch<TileAction>({ type: 'tileSelect', tile: gameState.players[1].tiles[0] })
-    );
-
-    expect(screen.getByTitle(/creature1/)).toHaveClass('selected');
+    getHiveDispatcher().dispatch<TileAction>({ type: 'tileSelect', tile: gameState.players[1].tiles[0] });
+    expect(await screen.findByTitle(/creature1/)).toHaveClass('selected');
   });
 
-  it(`removes all moves for tiles which aren't the current player`, () => {
+  it(`removes all moves for tiles which aren't the current player`, async () => {
     const gameState = createGameState(1);
     global.window.history.replaceState({}, global.document.title, `/game/33/0`);
     render(
@@ -62,7 +58,7 @@ describe('<GameArea>', () => {
     expect(screen.getByTitle(/creature1/)).toHaveAttribute('draggable');
   });
 
-  it('renders show rules', async () => {
+  it('opens show rules', async () => {
     const gameState = createGameState(1);
     render(
       <GameArea
@@ -74,7 +70,7 @@ describe('<GameArea>', () => {
       />
     );
 
-    userEvent.click(screen.getByTitle(/Rules/));
+    await userEvent.click(screen.getByTitle(/Rules/));
 
     expect(await screen.findByRole('dialog')).toBeInTheDocument();
   });
@@ -91,12 +87,12 @@ describe('<GameArea>', () => {
       />
     );
 
-    userEvent.click(screen.getByTitle(/Rules/));
-    userEvent.click(await screen.findByRole('button', { name: /close/i }));
-    expect(await screen.findByRole('dialog')).not.toBeInTheDocument();
+    await userEvent.click(screen.getByRole('link', { name: /rules/i }));
+    await userEvent.click(screen.getByTitle(/close/i));
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
   });
 
-  it('renders share modal', async () => {
+  it('opens share modal', async () => {
     const clipboard = jest.fn();
     const gameState = createGameState(1);
     const restore = mockClipboard(clipboard);
@@ -111,7 +107,7 @@ describe('<GameArea>', () => {
       />
     );
 
-    userEvent.click(screen.getByTitle(/Share/));
+    await userEvent.click(screen.getByTitle(/Share/));
 
     expect(await screen.findByRole('dialog')).toBeInTheDocument();
     restore();
@@ -131,13 +127,13 @@ describe('<GameArea>', () => {
         currentPlayer={0}
       />
     );
-    userEvent.click(screen.getByTitle(/Share/));
-    userEvent.click(await screen.findByRole('button', { name: /close/i }));
-    expect(await screen.findByRole('dialog')).not.toBeInTheDocument();
+    await userEvent.click(screen.getByTitle(/Share/));
+    await userEvent.click(await screen.findByTitle(/close/i));
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
     restore();
   });
 
-  it('calls share API', () => {
+  it('calls share API', async () => {
     const share = jest.fn();
     const restore = mockShare(share);
     const gameState = createGameState(1);
@@ -152,12 +148,12 @@ describe('<GameArea>', () => {
       />
     );
 
-    userEvent.click(screen.getByTitle(/Share/));
+    await userEvent.click(screen.getByTitle(/Share/));
     expect(share).toHaveBeenCalledWith(expect.objectContaining({ url: `http://localhost/game/33/0` }));
     restore();
   });
 
-  it('copies opponent link to clipboard with navigator', () => {
+  it('copies opponent link to clipboard with navigator', async () => {
     const writeText = jest.fn();
     const restore1 = noShare();
     const restore2 = mockClipboard(writeText);
@@ -172,13 +168,13 @@ describe('<GameArea>', () => {
         currentPlayer={1}
       />
     );
-    userEvent.click(screen.getByTitle(/Share/));
+    await userEvent.click(screen.getByTitle(/Share/));
     expect(writeText).toHaveBeenCalledWith(`http://localhost/game/33/0`);
     restore1();
     restore2();
   });
 
-  it('copies opponent link to clipboard with exec command', () => {
+  it('copies opponent link to clipboard with exec command', async () => {
     const execCommand = jest.fn();
     const restore1 = noShare();
     const restore = mockExecCommand(execCommand);
@@ -192,14 +188,14 @@ describe('<GameArea>', () => {
         currentPlayer={1}
       />
     );
-    userEvent.click(screen.getByTitle(/Share/));
+    await userEvent.click(screen.getByTitle(/Share/));
     expect(execCommand).toHaveBeenCalledWith('copy');
     expect(screen.queryByRole('textbox')).not.toBeInTheDocument();
     restore1();
     restore();
   });
 
-  it(`closes modal when share link can't be copied`, () => {
+  it(`closes modal when share link can't be copied`, async () => {
     const restore = noShare();
     const gameState = createGameState(1);
     render(
@@ -211,12 +207,12 @@ describe('<GameArea>', () => {
         currentPlayer={1}
       />
     );
-    userEvent.click(screen.getByTitle(/Share/));
+    await userEvent.click(screen.getByTitle(/Share/));
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
     restore();
   });
 
-  it(`shows modal when player connects`, async () => {
+  it(`opens modal when player connects`, async () => {
     const gameState = createGameState(1);
     render(
       <GameArea
@@ -231,7 +227,7 @@ describe('<GameArea>', () => {
     expect(await screen.findByRole('dialog')).toBeInTheDocument();
   });
 
-  it(`shows modal when player disconnects`, async () => {
+  it(`opens modal when player disconnects`, async () => {
     const gameState = createGameState(1);
     render(
       <GameArea
@@ -250,7 +246,7 @@ describe('<GameArea>', () => {
   it(`closes player connected modal`, async () => {
     const gameState = createGameState(1);
 
-    const { rerender } = render(
+    render(
       <GameArea
         gameId={'123A'}
         gameStatus={'MoveSuccess'}
@@ -261,16 +257,24 @@ describe('<GameArea>', () => {
     );
     getHiveDispatcher().dispatch<HiveEvent>({ type: 'opponentDisconnected' });
 
-    userEvent.click(await screen.findByRole('button', { name: /close/i }));
-    rerender(
+    await userEvent.click(await screen.findByTitle(/close/i));
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+  });
+
+  it(`closes game over modal`, async () => {
+    const gameState = createGameState(1);
+
+    render(
       <GameArea
         gameId={'123A'}
-        gameStatus={'NewGame'}
+        gameStatus={'GameOver'}
         players={gameState.players}
         cells={gameState.cells}
         currentPlayer={0}
       />
     );
+    await userEvent.click(screen.getByTitle(/close/i));
+
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
   });
 
@@ -349,23 +353,7 @@ describe('<GameArea>', () => {
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
   });
 
-  it(`closes game over modal`, async () => {
-    const gameState = createGameState(1);
-
-    render(
-      <GameArea
-        gameId={'123A'}
-        gameStatus={'GameOver'}
-        players={gameState.players}
-        cells={gameState.cells}
-        currentPlayer={0}
-      />
-    );
-    userEvent.click(screen.getByRole('button', { name: /close/i }));
-    expect(await screen.findByRole('dialog')).not.toBeInTheDocument();
-  });
-
-  it(`shows game over modal with new game`, () => {
+  it(`shows game over modal with new game`, async () => {
     const assign = jest.fn();
     const restoreLocation = mockLocation({ assign });
     const gameState = createGameState(1);
@@ -379,7 +367,7 @@ describe('<GameArea>', () => {
         currentPlayer={0}
       />
     );
-    userEvent.click(screen.getByRole('button', { name: /new game/i }));
+    await userEvent.click(screen.getByRole('button', { name: /new game/i }));
     expect(assign).toHaveBeenCalledWith('/');
 
     restoreLocation();

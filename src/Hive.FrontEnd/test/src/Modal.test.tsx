@@ -1,18 +1,17 @@
 import { render, screen } from '@testing-library/preact';
 import userEvent from '@testing-library/user-event';
 import Modal from '../../src/components/Modal';
-import { renderElement } from '../helpers';
 
 describe('<Modal>', () => {
-  it('click on modal background calls close', () => {
+  it('click on modal background calls close', async () => {
     const close = jest.fn();
     render(<Modal visible={true} name="test" onClose={close} />);
-    userEvent.click(screen.getByTestId('modal'));
+    await userEvent.click(screen.getByTestId('modal'));
 
     expect(close).toHaveBeenCalledWith();
   });
 
   it('renders', () => {
-    expect(renderElement(<Modal visible={true} name="test" onClose={() => ({})} />)).toMatchSnapshot();
+    expect(render(<Modal visible={true} name="test" onClose={() => ({})} />)).toMatchSnapshot();
   });
 });
