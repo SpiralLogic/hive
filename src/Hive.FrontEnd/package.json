@@ -8,7 +8,7 @@
     "clean:deep": "git clean -x -d -f $(git rev-parse --show-toplevel)/**",
     "preinstall": "npx only-allow pnpm",
     "start": "dotnet watch -v -p ../Hive.Api run",
-    "test": "npm-run-all -s tsc jest lint",
+    "test": "jest",
     "tsc": "pnpx tsc --noEmit",
     "jest": "pnpx jest -c jest.config.json --coverage ",
     "lint": "npm-run-all -p lint:src lint:test",

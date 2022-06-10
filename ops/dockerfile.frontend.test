@@ -8,3 +8,4 @@ RUN pnpm install
 RUN pnpm lint:src
 RUN pnpm lint:test
 RUN pnpm test
+RUN pnpx tsc
