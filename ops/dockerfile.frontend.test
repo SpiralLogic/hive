@@ -5,6 +5,6 @@ COPY . .
 WORKDIR /source/src/Hive.FrontEnd
 RUN npm i --location=global pnpm
 RUN pnpm install
-RUN pnpm lint:src
-RUN pnpm lint:test
+RUN pnpm lint
+RUN pnpm lint:report
 RUN pnpm test
