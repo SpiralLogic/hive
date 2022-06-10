@@ -39,10 +39,6 @@ const gameOutcome = (gameStatus: GameStatus, playerId: PlayerId) => {
     case 'Draw':
       return `Game Over! Draw`;
 
-    case 'NewGame':
-    case 'MoveSuccess':
-    case 'MoveSuccessNextPlayerSkipped':
-    case 'MoveInvalid':
     default:
       break;
   }

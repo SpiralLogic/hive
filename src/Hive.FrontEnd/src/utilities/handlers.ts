@@ -48,7 +48,6 @@ export const opponentSelectionHandler: OpponentSelectionHandler = (type, tile) =
       dispatchHiveEvent({ type: 'tileSelect', tile });
       break;
 
-    case 'deselect':
     default:
       dispatchHiveEvent({ type: 'tileClear' });
       break;
@@ -60,7 +59,6 @@ export const opponentConnectedHandler: OpponentConnectedHandler = (type) => {
       dispatchHiveEvent({ type: 'opponentConnected' });
       dispatchHiveEvent<AiAction>({ type: 'toggleAi', newState: false });
       break;
-    case 'disconnect':
     default:
       dispatchHiveEvent({ type: 'opponentDisconnected' });
       break;
