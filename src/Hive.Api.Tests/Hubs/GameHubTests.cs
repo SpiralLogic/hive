@@ -9,7 +9,6 @@ using Microsoft.AspNetCore.Routing;
 using Microsoft.AspNetCore.SignalR;
 using Moq;
 using Xunit;
-using static System.Int32;
 
 namespace Hive.Api.Tests.Hubs;
 

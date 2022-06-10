@@ -9,7 +9,6 @@ const classReducer = (
     case `add`:
       for (const c of action.classes) classList.add(c);
       break;
-
     default:
       for (const c of action.classes) classList.delete(c);
       break;

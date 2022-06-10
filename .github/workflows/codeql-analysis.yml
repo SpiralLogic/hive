@@ -62,7 +62,7 @@ jobs:
           dotnet-version: '6.0.x'
           include-prerelease: true
       - name: Install pnpm
-        run: npm install -g pnpm
+        run: npm install --location=global pnpm
       - name: dotnet restore
         working-directory: './src'
         run: dotnet restore

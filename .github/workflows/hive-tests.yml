@@ -43,7 +43,7 @@ jobs:
           node-version: '17.x'
           check-latest: true
       - name: Install pnpm
-        run: npm install -g pnpm
+        run: npm install --location=global pnpm
 #      - name: Install update checker
 #        run: pnpm install -g npm-check-updates
 #      - name: Update

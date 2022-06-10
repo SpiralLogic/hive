@@ -470,3 +470,6 @@ build/
 /src/api-coverage/
 /src/domain-coverage/
 /src/.config/
+/.vscode/launch.json
+/.vscode/tasks.json
+/.config/

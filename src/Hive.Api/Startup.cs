@@ -26,7 +26,7 @@ public class Startup
     [ExcludeFromCodeCoverage]
     public void ConfigureServices(IServiceCollection services)
     {
-        var sigR = services.AddSignalR()
+        var signalR = services.AddSignalR()
             .AddJsonProtocol(options => { options.PayloadSerializerOptions.Converters.AddAllJsonConverters(); });
 
         if (_currentEnvironment.IsDevelopment())
@@ -40,7 +40,7 @@ public class Startup
                 options.Configuration = _configuration["RedisHost"];
             });
 
-            sigR.AddStackExchangeRedis(_configuration["RedisHost"]);
+            signalR.AddStackExchangeRedis(_configuration["RedisHost"]);
         }
 
         services.AddControllers()

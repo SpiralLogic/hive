@@ -15,7 +15,7 @@ the [original rules](https://www.gen42.com/download/rules/hive/Hive_English_Rule
 - pnpm
 
 ```
-npm i -g pnpm  
+npm i --location=global pnpm  
 ```
 
 ### To Run

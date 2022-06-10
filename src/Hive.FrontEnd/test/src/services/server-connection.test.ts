@@ -58,30 +58,30 @@ describe('game Server Connection Tests', () => {
   it(`connectGame connects to hub for game id`, async () => {
     global.window.history.replaceState({ gameId: 33 }, document.title, `/game/33/0`);
     const serverConnection = setupServer();
-    void serverConnection.connectGame();
+    await serverConnection.connectGame();
     serverConnection.getConnectionState();
     expect(signalRWithUrlMock).toHaveBeenCalledWith('http://localhost/gamehub/33/0');
   });
 
   it(`web socket connection state can be retrieved`, async () => {
     const serverConnection = setupServer();
-    void serverConnection.connectGame();
+    await serverConnection.connectGame();
     serverConnection.getConnectionState();
     expect(hubConnection.start).toHaveBeenCalledWith();
   });
 
   it(`web socket connection can be closed`, async () => {
     const serverConnection = setupServer();
-    void serverConnection.connectGame();
+    await serverConnection.connectGame();
     serverConnection.getConnectionState();
-    void serverConnection.closeConnection();
+    await serverConnection.closeConnection();
     expect(hubConnection.off).toHaveBeenCalledTimes(1);
     expect(hubConnection.stop).toHaveBeenCalledTimes(1);
   });
 
   it(`opponentSelection is updated`, async () => {
     const serverConnection = setupServer();
-    void serverConnection.connectGame();
+    await serverConnection.connectGame();
 
     expect(hubConnection.on).toHaveBeenLastCalledWith('PlayerConnection', opponentConnectedHandler);
   });
@@ -89,7 +89,7 @@ describe('game Server Connection Tests', () => {
   it(`connection state is disconnected initially`, async () => {
     signalR.HubConnection = jest.fn().mockImplementation(() => hubConnection);
     const serverConnection = setupServer(HubConnectionState.Disconnected);
-    expect(serverConnection.getConnectionState()).toBe(HubConnectionState.Disconnected);
+    expect(serverConnection.getConnectionState()).toStrictEqual(HubConnectionState.Disconnected);
   });
 
   it(`sendSelection invokes on server`, async () => {
@@ -116,7 +116,7 @@ describe('game Server Connection Tests', () => {
     jest.spyOn(global.console, 'warn').mockImplementation();
     jest.spyOn(global.console, 'error').mockImplementation();
     const serverConnection = setupServer();
-    void serverConnection.connectGame();
+    await serverConnection.connectGame();
 
     expect(hubConnection.onclose).toHaveBeenCalledWith(expect.anything());
     expect(hubConnection.onreconnected).toHaveBeenCalledWith(expect.anything());

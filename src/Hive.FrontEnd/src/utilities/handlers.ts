@@ -47,7 +47,6 @@ export const opponentSelectionHandler: OpponentSelectionHandler = (type, tile) =
     case 'select':
       dispatchHiveEvent({ type: 'tileSelect', tile });
       break;
-
     default:
       dispatchHiveEvent({ type: 'tileClear' });
       break;
