@@ -40,13 +40,13 @@ describe(`handler tests`, () => {
   });
 
   describe(`handleKeyboardNav tests`, () => {
-    let div1: HTMLDivElement, div2: HTMLDivElement, div3: HTMLDivElement, div4: HTMLDivElement;
+    let div1: HTMLElement, div2: HTMLElement, div3: HTMLElement, div4: HTMLElement;
     const container = document.createElement('span', {});
     document.body.append(container);
     beforeEach(() => {
       container.innerHTML =
         "<div title='div one' tabIndex='1'></div><div title='div two' tabIndex='1'></div><div title='div three' tabIndex='1'></div><div title='div' class='name'></div>";
-      const elements = screen.getAllByTitle(/div/) as Array<HTMLDivElement>;
+      const elements = screen.getAllByTitle(/div/);
       [div1, div2, div3, div4] = [...elements];
     });
 
