@@ -1,7 +1,7 @@
 FROM library/node:17 as node-build
 
 WORKDIR /source
-RUN npm i -g pnpm
+RUN npm i --location=global pnpm
 COPY ./src/Hive.FrontEnd .
 RUN pnpm install -P
 RUN pnpm run build
