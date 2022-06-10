@@ -51,7 +51,7 @@ jobs:
       - name: Installs
         run: pnpm install
       - name: Lint
-        run: pnpm run lint
+        run: pnpm run lint:fix
       - name: Test
         run: pnpm test
       - uses: stefanzweifel/git-auto-commit-action@v4
