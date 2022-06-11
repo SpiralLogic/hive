@@ -1,13 +1,26 @@
 FROM mcr.microsoft.com/dotnet/sdk:6.0
+WORKDIR /source
+SHELL [ "/bin/bash", "-l", "-c" ]
 
+ARG SONARQUBE_KEY
 ENV LANG en_US.UTF-8
 ENV JAVA_HOME /usr/lib/jvm/msopenjdk-17-amd64
 ENV PATH "${JAVA_HOME}/bin:${PATH}"
-
+ 
 COPY --from=mcr.microsoft.com/openjdk/jdk:17-ubuntu $JAVA_HOME $JAVA_HOME
-RUN rm /bin/sh && ln -s /bin/bash /bin/sh
+COPY . /source
 
 RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash \
     && . ~/.nvm/nvm.sh \
     && nvm install 17 \
     && nvm use 17
+
+RUN dotnet new tool-manifest || true
+RUN dotnet tool install dotnet-sonarscanner
+
+RUN rm /source/sonar-project.properties || true
+RUN dotnet sonarscanner begin /k:hive /s:/source/ops/SonarQube.Analysis.xml /d:sonar.login=$SONARQUBE_KEY
+
+RUN dotnet build -c test /source/src
+
+RUN dotnet sonarscanner end /d:sonar.login=$SONARQUBE_KEY
