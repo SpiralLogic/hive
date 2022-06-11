@@ -8,5 +8,4 @@ ENV PATH "${JAVA_HOME}/bin:${PATH}"
 COPY --from=mcr.microsoft.com/openjdk/jdk:17-ubuntu $JAVA_HOME $JAVA_HOME
 
 RUN curl -sL https://deb.nodesource.com/setup_17.x | bash - \ 
-	&& apt update \
-	&& apt install -y nodejs
+	&& apt-get install -y nodejs
