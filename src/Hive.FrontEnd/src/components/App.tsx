@@ -51,9 +51,9 @@ const App: FunctionComponent<{ engine: HexEngine; connectionFactory: HexServerCo
       engine.currentPlayer === 0
     );
 
-    return (): void => {
+    return () => {
       removeServerHandlers();
-      void serverConnection.closeConnection();
+      return serverConnection.closeConnection();
     };
   }, [gameState?.gameId, connectionFactory, engine.currentPlayer, engine.move]);
 

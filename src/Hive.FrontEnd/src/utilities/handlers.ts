@@ -43,24 +43,18 @@ export const handleKeyboardNav = (error: Pick<KeyboardEvent, 'key' | 'target'>):
 };
 
 export const opponentSelectionHandler: OpponentSelectionHandler = (type, tile) => {
-  switch (type) {
-    case 'select':
-      dispatchHiveEvent({ type: 'tileSelect', tile });
-      break;
-    default:
-      dispatchHiveEvent({ type: 'tileClear' });
-      break;
+  if (type === 'select') {
+    dispatchHiveEvent({ type: 'tileSelect', tile });
+  } else {
+    dispatchHiveEvent({ type: 'tileClear' });
   }
 };
 export const opponentConnectedHandler: OpponentConnectedHandler = (type) => {
-  switch (type) {
-    case 'connect':
-      dispatchHiveEvent({ type: 'opponentConnected' });
-      dispatchHiveEvent<AiAction>({ type: 'toggleAi', newState: false });
-      break;
-    default:
-      dispatchHiveEvent({ type: 'opponentDisconnected' });
-      break;
+  if (type === 'connect') {
+    dispatchHiveEvent({ type: 'opponentConnected' });
+    dispatchHiveEvent<AiAction>({ type: 'toggleAi', newState: false });
+  } else {
+    dispatchHiveEvent({ type: 'opponentDisconnected' });
   }
 };
 

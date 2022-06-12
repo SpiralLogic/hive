@@ -5,13 +5,10 @@ const classReducer = (
   action: { type: 'add' | 'remove'; classes: Array<string> }
 ): string => {
   const classList = new Set(initialClasses.split(' '));
-  switch (action.type) {
-    case `add`:
-      for (const c of action.classes) classList.add(c);
-      break;
-    default:
-      for (const c of action.classes) classList.delete(c);
-      break;
+  if (action.type === `add`) {
+    for (const c of action.classes) classList.add(c);
+  } else {
+    for (const c of action.classes) classList.delete(c);
   }
   classList.delete('');
   return [...classList].join(' ');
