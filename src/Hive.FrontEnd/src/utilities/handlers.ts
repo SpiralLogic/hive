@@ -1,5 +1,5 @@
-import { GameId, GameState, Tile } from '../domain';
-import { EngineMove, OpponentConnectedHandler, OpponentSelectionHandler } from '../domain/engine';
+import { GameState, Tile } from '../domain';
+import { AiMode, HexEngine, OpponentConnectedHandler, OpponentSelectionHandler } from '../domain/engine';
 import { AiAction, MoveEvent, TileEvent } from '../services';
 import { dispatchHiveEvent, getHiveDispatcher } from './dispatcher';
 
@@ -52,7 +52,7 @@ export const opponentSelectionHandler: OpponentSelectionHandler = (type, tile) =
 export const opponentConnectedHandler: OpponentConnectedHandler = (type) => {
   if (type === 'connect') {
     dispatchHiveEvent({ type: 'opponentConnected' });
-    dispatchHiveEvent<AiAction>({ type: 'toggleAi', newState: false });
+    dispatchHiveEvent<AiAction>({ type: 'toggleAi', newState: 'off' });
   } else {
     dispatchHiveEvent({ type: 'opponentDisconnected' });
   }
@@ -60,25 +60,28 @@ export const opponentConnectedHandler: OpponentConnectedHandler = (type) => {
 
 export const addServerHandlers = (
   sendSelection: (type: 'select' | 'deselect', tile: Tile) => void,
-  gameId: GameId,
   updateGameState: (value: GameState) => void,
-  move: EngineMove,
-  useAi = false
+  engine: HexEngine
 ) => {
   const selectionChangeHandler = (event: TileEvent) =>
     !event.fromEvent && sendSelection('select', event.tile);
   const deselectionChangeHandler = (event: TileEvent) =>
     !event.fromEvent && sendSelection('deselect', event.tile);
   const moveHandler = async (event: MoveEvent) => {
-    const state = await move(gameId, event.move, useAi);
+    const state = await engine.move(event.move);
     return updateGameState(state);
   };
+
+  const aiToggle = ({ newState }: { newState: AiMode }) => {
+    engine.aiMode = newState;
+  };
+
   const hiveDispatcher = getHiveDispatcher();
 
   hiveDispatcher.add<MoveEvent>('move', moveHandler);
   hiveDispatcher.add<TileEvent>('tileSelected', selectionChangeHandler);
   hiveDispatcher.add<TileEvent>('tileDeselected', deselectionChangeHandler);
-  const removeAi = hiveDispatcher.add<AiAction>('toggleAi', ({ newState }) => (useAi = newState));
+  const removeAi = hiveDispatcher.add<AiAction>('toggleAi', aiToggle);
   return () => {
     hiveDispatcher.remove<MoveEvent>('move', moveHandler);
     hiveDispatcher.remove<TileEvent>('tileSelected', selectionChangeHandler);

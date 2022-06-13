@@ -23,15 +23,16 @@ export const handle = (handler: () => void) => (event: MouseEvent) => {
 };
 
 const Links: FunctionComponent<Properties> = ({ gameId, currentPlayer, onShowRules, onShowShare }) => {
-  const [useAi, setUseAi] = useState(currentPlayer === 0);
+  const [useAi, setUseAi] = useState(currentPlayer === 0 ? 'on' : 'off');
   const hiveDispatcher = getHiveDispatcher();
   const clickHandler = () => {
-    hiveDispatcher.dispatch<AiAction>({ type: 'toggleAi', newState: !useAi });
-    setUseAi(!useAi);
+    const aiMode = useAi === 'on' ? 'off' : 'on';
+    hiveDispatcher.dispatch<AiAction>({ type: 'toggleAi', newState: aiMode });
+    setUseAi(aiMode);
   };
 
   useHiveDispatchListener<HiveEvent>('opponentConnected', () => {
-    setUseAi(false);
+    setUseAi('off');
   });
 
   return (
@@ -58,7 +59,7 @@ const Links: FunctionComponent<Properties> = ({ gameId, currentPlayer, onShowRul
       <a
         href="#"
         name="Toggle Ai"
-        class={useAi ? undefined : 'ai-off'}
+        class={useAi === 'on' ? undefined : 'ai-off'}
         onClick={handle(clickHandler)}
         title="Toggle Ai">
         <SVG>

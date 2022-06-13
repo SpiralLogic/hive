@@ -20,11 +20,10 @@ describe('<App>', () => {
     const gameState = createGameState(4);
     const gameAfterMove = createGameState(5);
     const engine: HexEngine = {
+      aiMode: 'on',
       initialGame: Promise.resolve(gameState),
       currentPlayer: 0,
       move: jest.fn().mockResolvedValue(gameAfterMove),
-      getNewGame: jest.fn().mockResolvedValue(gameState),
-      getExistingGame: jest.fn().mockResolvedValue(gameState),
     };
 
     window.history.replaceState({}, global.document.title, url);
@@ -50,7 +49,7 @@ describe('<App>', () => {
 
   it('moveTile is called on move events', async () => {
     const [rerender, engine] = renderApp(`/game/33/1`);
-    await engine.getNewGame();
+    await engine.initialGame;
     rerender(<App engine={engine} connectionFactory={defaultConnectionFactory} />);
     getHiveDispatcher().dispatch(cellMoveEvent);
 

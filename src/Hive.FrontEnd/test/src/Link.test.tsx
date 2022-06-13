@@ -4,12 +4,21 @@ import Links from '../../src/components/Links';
 import { getHiveDispatcher } from '../../src/utilities/dispatcher';
 
 describe('<Links>', () => {
-  it(`links toggle Ai`, async () => {
+  it(`links toggle Ai off`, async () => {
     jest.spyOn(getHiveDispatcher(), 'dispatch');
     render(<Links gameId={'123A'} currentPlayer={0} onShowShare={() => ({})} onShowRules={() => ({})} />);
     await userEvent.click(screen.getByTitle(/toggle ai/i));
-    expect(getHiveDispatcher().dispatch).toHaveBeenCalledWith({ newState: false, type: 'toggleAi' });
+    expect(getHiveDispatcher().dispatch).toHaveBeenLastCalledWith({ newState: 'off', type: 'toggleAi' });
     expect(await screen.findByTitle(/toggle ai/i)).toHaveClass('ai-off');
+  });
+
+  it(`links toggle Ai on`, async () => {
+    jest.spyOn(getHiveDispatcher(), 'dispatch');
+    render(<Links gameId={'123A'} currentPlayer={0} onShowShare={() => ({})} onShowRules={() => ({})} />);
+    await userEvent.click(screen.getByTitle(/toggle ai/i));
+    await userEvent.click(screen.getByTitle(/toggle ai/i));
+    expect(getHiveDispatcher().dispatch).toHaveBeenLastCalledWith({ newState: 'on', type: 'toggleAi' });
+    expect(await screen.findByTitle(/toggle ai/i)).not.toHaveClass('ai-off');
   });
 
   it('renders', () => {

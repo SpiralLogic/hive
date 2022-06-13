@@ -21,7 +21,7 @@ const App: FunctionComponent<{ engine: HexEngine; connectionFactory: HexServerCo
     engine.initialGame
       .then((initialGameState) => {
         window.history.replaceState(
-          { currentPlayer: engine.currentPlayer, gameId: initialGameState.gameId },
+          { gameId: initialGameState.gameId },
           document.title,
           `/game/${initialGameState.gameId}/${engine.currentPlayer}${document.location.search}`
         );
@@ -43,19 +43,13 @@ const App: FunctionComponent<{ engine: HexEngine; connectionFactory: HexServerCo
       opponentConnectedHandler,
     });
     void serverConnection.connectGame();
-    const removeServerHandlers = addServerHandlers(
-      serverConnection.sendSelection,
-      gameState.gameId,
-      updateHandler,
-      engine.move,
-      engine.currentPlayer === 0
-    );
+    const removeServerHandlers = addServerHandlers(serverConnection.sendSelection, updateHandler, engine);
 
     return () => {
       removeServerHandlers();
       return serverConnection.closeConnection();
     };
-  }, [gameState?.gameId, connectionFactory, engine.currentPlayer, engine.move]);
+  }, [gameState?.gameId, connectionFactory, engine]);
 
   if (gameState === undefined)
     return (

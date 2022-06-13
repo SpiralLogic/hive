@@ -1,5 +1,4 @@
 import { screen } from '@testing-library/preact';
-import { GameState } from '../../../src/domain';
 import { Action, AiAction, HiveEvent, TileAction } from '../../../src/services';
 import {
   addServerHandlers,
@@ -11,8 +10,7 @@ import {
 } from '../../../src/utilities/handlers';
 import { getHiveDispatcher } from '../../../src/utilities/dispatcher';
 import gameState from '../../fixtures/game-state.json';
-
-const moveTile = () => Promise.resolve(gameState as GameState);
+import GameEngine from '../../../src/services/game-engine';
 
 describe(`handler tests`, () => {
   const selectedTile = {
@@ -140,7 +138,7 @@ describe(`handler tests`, () => {
 
       opponentConnectedHandler('connect');
       expect(connectedHandler).toHaveBeenCalledWith({ type: 'opponentConnected' });
-      expect(toggleAiHandler).toHaveBeenCalledWith({ type: 'toggleAi', newState: false });
+      expect(toggleAiHandler).toHaveBeenCalledWith({ type: 'toggleAi', newState: 'off' });
     });
 
     it(`opponent disconnected handler`, () => {
@@ -153,11 +151,15 @@ describe(`handler tests`, () => {
     });
 
     it(`server handlers are attached`, () => {
+      global.fetch = jest
+        .fn()
+        .mockImplementation(() => Promise.resolve({ ok: true, json: () => Promise.resolve(gameState) }));
+      const engine = new GameEngine();
       const dispatcher = getHiveDispatcher();
       jest.spyOn(dispatcher, 'remove');
       const sendSelection = jest.fn();
 
-      const removeHandlers = addServerHandlers(sendSelection, '1', jest.fn(), moveTile, false);
+      const removeHandlers = addServerHandlers(sendSelection, jest.fn(), engine);
 
       dispatcher.dispatch({
         type: 'move',
@@ -169,6 +171,9 @@ describe(`handler tests`, () => {
 
       dispatcher.dispatch({ type: 'tileDeselected', tile: selectedTile });
       expect(sendSelection).toHaveBeenLastCalledWith('deselect', selectedTile);
+
+      dispatcher.dispatch({ type: 'toggleAi', newState: 'off' });
+      expect(engine.aiMode).toStrictEqual('off');
 
       removeHandlers();
       expect(dispatcher.remove).toHaveBeenCalledTimes(4);

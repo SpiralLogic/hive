@@ -10,13 +10,13 @@ export type PlayerConnectionEvent = 'connect' | 'disconnect';
 export type GameStateUpdateHandler = (gameState: GameState) => void;
 export type OpponentSelectionHandler = (type: PlayerSelectionEvent, tile: Tile) => void;
 export type OpponentConnectedHandler = (type: PlayerConnectionEvent) => void;
-export type EngineMove = (gameId: GameId, move: Move, useAi: boolean) => Promise<GameState>;
+export type EngineMove = (move: Move) => Promise<GameState>;
+export type AiMode = 'on' | 'off' | 'auto';
 export type HexEngine = {
   currentPlayer: PlayerId;
+  aiMode: AiMode;
   initialGame: Promise<GameState>;
-  getNewGame: () => Promise<GameState>;
   move: EngineMove;
-  getExistingGame: (gameId: GameId) => Promise<GameState>;
 };
 
 export type ServerConnectionConfig = {

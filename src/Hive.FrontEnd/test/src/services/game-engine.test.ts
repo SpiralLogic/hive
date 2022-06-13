@@ -1,24 +1,23 @@
 import GameEngine from '../../../src/services/game-engine';
 import gameState from '../../fixtures/game-state.json';
 
-describe('game Engine Tests', () => {
+describe('game engine Tests', () => {
   let engine: GameEngine;
   global.fetch = jest
     .fn()
-    .mockImplementation(() => Promise.resolve({ ok: true, json: () => Promise.resolve(gameState) }))
     .mockImplementation(() => Promise.resolve({ ok: true, json: () => Promise.resolve(gameState) }));
 
-  it('new game', async () => {
-    engine = new GameEngine({ route: 'game', gameId: '33', currentPlayer: '1' });
-    const response = await engine.getNewGame();
+  it('creates new game', async () => {
+    engine = new GameEngine();
+    const response = await engine.initialGame;
     expect(response).not.toBeFalsy();
     expect(response.cells).toHaveLength(2);
     expect(response.players).toHaveLength(2);
   });
 
-  it('existing game', async () => {
-    engine = new GameEngine();
-    const response = await engine.getExistingGame('33');
+  it('gets existing game', async () => {
+    engine = new GameEngine({ gameId: '33', currentPlayer: '1' });
+    const response = await engine.initialGame;
     expect(global.fetch).toHaveBeenCalledWith('/api/game/33', {
       headers: {
         Accept: 'application/json',
@@ -32,44 +31,33 @@ describe('game Engine Tests', () => {
   });
 
   it('move tile', async () => {
-    engine = new GameEngine();
-    const response = await engine.move(
-      '1',
-      {
-        tileId: 1,
-        coords: { q: 0, r: 0 },
-      },
-      false
-    );
+    engine = new GameEngine({ gameId: '33', currentPlayer: '1' });
+    const response = await engine.move({
+      tileId: 1,
+      coords: { q: 0, r: 0 },
+    });
     expect(response).not.toBeFalsy();
     expect(response.cells).toHaveLength(2);
     expect(response.players).toHaveLength(2);
   });
 
   it('AI move made for player 1', async () => {
-    window.history.pushState({ currentPlayer: 0 }, 'game');
-    engine = new GameEngine();
-    jest.clearAllMocks();
-    await engine.move(
-      '1',
-      {
-        tileId: 1,
-        coords: { q: 0, r: 0 },
-      },
-      true
-    );
-    expect(global.fetch).toHaveBeenLastCalledWith(expect.stringMatching(/.+1$/), expect.any(Object));
+    engine = new GameEngine({ gameId: '445', currentPlayer: '0' });
+    engine.aiMode = 'on';
+    await engine.move({
+      tileId: 1,
+      coords: { q: 0, r: 0 },
+    });
+    expect(global.fetch).toHaveBeenLastCalledWith('/api/ai-move/445/1', expect.any(Object));
   });
 
   it('AI move made for player 0', async () => {
-    window.history.pushState({ currentPlayer: 1 }, 'game');
-    engine = new GameEngine();
-    jest.clearAllMocks();
-    const move = {
+    engine = new GameEngine({ gameId: '445', currentPlayer: '1' });
+    engine.aiMode = 'on';
+    await engine.move({
       tileId: 1,
       coords: { q: 0, r: 0 },
-    };
-    await engine.move('1', move, true);
-    expect(global.fetch).toHaveBeenLastCalledWith(expect.stringMatching(/.+0$/), expect.any(Object));
+    });
+    expect(global.fetch).toHaveBeenLastCalledWith('/api/ai-move/445/0', expect.any(Object));
   });
 });

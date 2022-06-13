@@ -12,11 +12,11 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 document.body.insertAdjacentHTML('beforeend', creatures);
-const [, route, gameId, currentPlayer] = window.location.pathname.split('/');
+const [, , gameId, currentPlayer] = window.location.pathname.split('/');
 
 render(
   h(App, {
-    engine: new GameEngine({ route, gameId, currentPlayer }),
+    engine: new GameEngine({ gameId, currentPlayer }),
     connectionFactory: serverConnectionFactory,
   }),
   document.body

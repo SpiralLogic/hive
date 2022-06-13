@@ -1,4 +1,5 @@
 import { Move, Tile } from '../domain';
+import { AiMode } from '../domain/engine';
 
 export type HiveEventListener<T extends HiveIntent> = <U extends T>(intent: U) => void;
 export type HiveIntent = HiveEvent | HiveAction;
@@ -12,7 +13,7 @@ export type MoveEvent = { type: 'move'; move: Move };
 export type Action = {
   type: 'tileClear';
 };
-export type AiAction = { type: 'toggleAi'; newState: boolean };
+export type AiAction = { type: 'toggleAi'; newState: AiMode };
 
 export type TileEvent = {
   type: 'tileDropped' | 'click' | 'tileSelected' | 'tileDeselected';
