@@ -10,7 +10,11 @@ ENV PATH "${JAVA_HOME}/bin:${PATH}"
 COPY --from=mcr.microsoft.com/openjdk/jdk:17-ubuntu $JAVA_HOME $JAVA_HOME
 COPY . /source
 
-RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash \
+RUN curl --connect-timeout 5 \
+             --max-time 10 \
+             --retry 5 \
+             --retry-delay 0 \
+              -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash \
     && . ~/.nvm/nvm.sh \
     && nvm install 16 \
     && nvm use 16
