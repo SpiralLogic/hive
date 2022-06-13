@@ -15,9 +15,9 @@ const GrasshopperRules: Rule = () => (
         correctArrows={[
           ['left', 3],
           ['right', 3],
-          ['bottomLeft', 5],
+          ['bottom-left', 5],
         ]}
-        incorrectArrows={[['bottomRight', 5]]}
+        incorrectArrows={[['bottom-right', 5]]}
       />
       <RuleCell creature="queen" zIndex={-1} />
       <RuleCell result="correct" zIndex={-2} />

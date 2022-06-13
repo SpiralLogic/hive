@@ -135,7 +135,7 @@ exports[`<AntRules> renders AntRules 1`] = `
             </span>
           </div>
           <svg
-            class="arrow topRight correct"
+            class="arrow top-right correct"
             style="--span: 1;"
             viewBox="0 0 100 100"
             xmlns="http://www.w3.org/2000/svg"
@@ -202,7 +202,7 @@ exports[`<AntRules> renders AntRules 1`] = `
             </span>
           </div>
           <svg
-            class="arrow bottomLeft incorrect"
+            class="arrow bottom-left incorrect"
             style="--span: 1;"
             viewBox="0 0 100 100"
             xmlns="http://www.w3.org/2000/svg"
@@ -284,7 +284,7 @@ exports[`<AntRules> renders AntRules 1`] = `
             </span>
           </div>
           <svg
-            class="arrow topRight correct"
+            class="arrow top-right correct"
             style="--span: 1;"
             viewBox="0 0 100 100"
             xmlns="http://www.w3.org/2000/svg"
@@ -407,7 +407,7 @@ exports[`<AntRules> renders AntRules 1`] = `
             </span>
           </div>
           <svg
-            class="arrow topLeft correct"
+            class="arrow top-left correct"
             style="--span: 1;"
             viewBox="0 0 100 100"
             xmlns="http://www.w3.org/2000/svg"
@@ -462,7 +462,7 @@ exports[`<AntRules> renders AntRules 1`] = `
             </span>
           </div>
           <svg
-            class="arrow topLeft correct"
+            class="arrow top-left correct"
             style="--span: 1;"
             viewBox="0 0 100 100"
             xmlns="http://www.w3.org/2000/svg"
@@ -557,7 +557,7 @@ exports[`<AntRules> renders AntRules 1`] = `
             </span>
           </div>
           <svg
-            class="arrow topRight correct"
+            class="arrow top-right correct"
             style="--span: 1;"
             viewBox="0 0 100 100"
             xmlns="http://www.w3.org/2000/svg"
@@ -612,7 +612,7 @@ exports[`<AntRules> renders AntRules 1`] = `
             </span>
           </div>
           <svg
-            class="arrow topLeft correct"
+            class="arrow top-left correct"
             style="--span: 1;"
             viewBox="0 0 100 100"
             xmlns="http://www.w3.org/2000/svg"
@@ -700,7 +700,7 @@ exports[`<AntRules> renders AntRules 1`] = `
             </span>
           </div>
           <svg
-            class="arrow topRight correct"
+            class="arrow top-right correct"
             style="--span: 1;"
             viewBox="0 0 100 100"
             xmlns="http://www.w3.org/2000/svg"
@@ -856,7 +856,7 @@ exports[`<BeetleRules> renders BeetleRules 1`] = `
             </svg>
           </div>
           <svg
-            class="arrow topLeft correct"
+            class="arrow top-left correct"
             style="--span: 1;"
             viewBox="0 0 100 100"
             xmlns="http://www.w3.org/2000/svg"
@@ -876,7 +876,7 @@ exports[`<BeetleRules> renders BeetleRules 1`] = `
             />
           </svg>
           <svg
-            class="arrow bottomLeft correct"
+            class="arrow bottom-left correct"
             style="--span: 1;"
             viewBox="0 0 100 100"
             xmlns="http://www.w3.org/2000/svg"
@@ -886,7 +886,7 @@ exports[`<BeetleRules> renders BeetleRules 1`] = `
             />
           </svg>
           <svg
-            class="arrow bottomRight correct"
+            class="arrow bottom-right correct"
             style="--span: 1;"
             viewBox="0 0 100 100"
             xmlns="http://www.w3.org/2000/svg"
@@ -1203,7 +1203,7 @@ exports[`<FreedomToMoveRule> renders FreedomToMoveRule 1`] = `
             </svg>
           </div>
           <svg
-            class="arrow bottomRight incorrect"
+            class="arrow bottom-right incorrect"
             style="--span: 1;"
             viewBox="0 0 100 100"
             xmlns="http://www.w3.org/2000/svg"
@@ -1423,7 +1423,7 @@ exports[`<GrasshopperRules> renders GrasshopperRules 1`] = `
             />
           </svg>
           <svg
-            class="arrow bottomLeft correct"
+            class="arrow bottom-left correct"
             style="--span: 5;"
             viewBox="0 0 100 100"
             xmlns="http://www.w3.org/2000/svg"
@@ -1433,7 +1433,7 @@ exports[`<GrasshopperRules> renders GrasshopperRules 1`] = `
             />
           </svg>
           <svg
-            class="arrow bottomRight incorrect"
+            class="arrow bottom-right incorrect"
             style="--span: 5;"
             viewBox="0 0 100 100"
             xmlns="http://www.w3.org/2000/svg"
@@ -2412,7 +2412,7 @@ exports[`<OneHiveRule> renders OneHiveRule 1`] = `
             </svg>
           </div>
           <svg
-            class="arrow topRight incorrect"
+            class="arrow top-right incorrect"
             style="--span: 1;"
             viewBox="0 0 100 100"
             xmlns="http://www.w3.org/2000/svg"
@@ -2623,7 +2623,7 @@ exports[`<QueenRules> renders QueenRules 1`] = `
             </svg>
           </div>
           <svg
-            class="arrow topLeft correct"
+            class="arrow top-left correct"
             style="--span: 1;"
             viewBox="0 0 100 100"
             xmlns="http://www.w3.org/2000/svg"
@@ -2653,7 +2653,7 @@ exports[`<QueenRules> renders QueenRules 1`] = `
             />
           </svg>
           <svg
-            class="arrow bottomRight correct"
+            class="arrow bottom-right correct"
             style="--span: 1;"
             viewBox="0 0 100 100"
             xmlns="http://www.w3.org/2000/svg"
@@ -3425,7 +3425,6 @@ exports[`<SpiderRules> renders SpiderRules 1`] = `
           </div>
         </div>
       </div>
-       
       <div
         role="row"
       >
@@ -3486,7 +3485,7 @@ exports[`<SpiderRules> renders SpiderRules 1`] = `
             </span>
           </div>
           <svg
-            class="arrow topRight correct"
+            class="arrow top-right correct"
             style="--span: 1;"
             viewBox="0 0 100 100"
             xmlns="http://www.w3.org/2000/svg"
@@ -3525,7 +3524,7 @@ exports[`<SpiderRules> renders SpiderRules 1`] = `
             </span>
           </div>
           <svg
-            class="arrow topLeft correct"
+            class="arrow top-left correct"
             style="--span: 1;"
             viewBox="0 0 100 100"
             xmlns="http://www.w3.org/2000/svg"
@@ -3535,7 +3534,7 @@ exports[`<SpiderRules> renders SpiderRules 1`] = `
             />
           </svg>
           <svg
-            class="arrow topRight correct"
+            class="arrow top-right correct"
             style="--span: 1;"
             viewBox="0 0 100 100"
             xmlns="http://www.w3.org/2000/svg"
@@ -3674,7 +3673,7 @@ exports[`<SpiderRules> renders SpiderRules 1`] = `
             </span>
           </div>
           <svg
-            class="arrow topLeft correct"
+            class="arrow top-left correct"
             style="--span: 1;"
             viewBox="0 0 100 100"
             xmlns="http://www.w3.org/2000/svg"
@@ -3684,7 +3683,7 @@ exports[`<SpiderRules> renders SpiderRules 1`] = `
             />
           </svg>
           <svg
-            class="arrow bottomLeft correct"
+            class="arrow bottom-left correct"
             style="--span: 1;"
             viewBox="0 0 100 100"
             xmlns="http://www.w3.org/2000/svg"
@@ -3694,7 +3693,7 @@ exports[`<SpiderRules> renders SpiderRules 1`] = `
             />
           </svg>
           <svg
-            class="arrow topRight correct"
+            class="arrow top-right correct"
             style="--span: 1;"
             viewBox="0 0 100 100"
             xmlns="http://www.w3.org/2000/svg"
@@ -3761,7 +3760,7 @@ exports[`<SpiderRules> renders SpiderRules 1`] = `
             </span>
           </div>
           <svg
-            class="arrow topRight correct"
+            class="arrow top-right correct"
             style="--span: 1;"
             viewBox="0 0 100 100"
             xmlns="http://www.w3.org/2000/svg"
@@ -3772,7 +3771,6 @@ exports[`<SpiderRules> renders SpiderRules 1`] = `
           </svg>
         </div>
       </div>
-       
       <div
         role="row"
       >
@@ -3881,7 +3879,7 @@ exports[`<SpiderRules> renders SpiderRules 1`] = `
             />
           </svg>
           <svg
-            class="arrow topLeft correct"
+            class="arrow top-left correct"
             style="--span: 1;"
             viewBox="0 0 100 100"
             xmlns="http://www.w3.org/2000/svg"
@@ -3920,7 +3918,7 @@ exports[`<SpiderRules> renders SpiderRules 1`] = `
             </span>
           </div>
           <svg
-            class="arrow topRight correct"
+            class="arrow top-right correct"
             style="--span: 1;"
             viewBox="0 0 100 100"
             xmlns="http://www.w3.org/2000/svg"

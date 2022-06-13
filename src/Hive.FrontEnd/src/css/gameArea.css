@@ -11,6 +11,7 @@ main {
     display: grid;
     overflow: auto;
     align-items: center;
+
     --shadow: var(--focus);
 }
 

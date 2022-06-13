@@ -8,37 +8,41 @@
     fill: var(--creature);
 }
 
+.tile:not([draggable='true']) {
+    opacity: 0.3;
+}
+
+[role='cell'] .tile {
+    margin: 0;
+}
+
 [role='cell'].can-drop .tile:not(.selected) {
     pointer-events: none;
-    opacity: 100%;
+    opacity: 1;
 }
 
-.tile:not([draggable='true']) {
-    opacity: 30%;
-}
 
-.tile.stacked:not([draggable='true']):not(:hover):not(:active) ~ .tile {
+.tile.stacked:not([draggable='true'], :hover, :active) ~ .tile {
     opacity: 0;
 }
 
 .tile[draggable='true'] {
-    opacity: 100%;
+    opacity: 1;
 }
 
 .tile.selected {
     transform: rotate(-3deg);
     animation: selected 0.2s infinite;
-    opacity: 100%;
-
+    opacity: 1;
 }
 
 [role='cell'] .tile.stacked:hover {
     animation: stacked 3s;
 }
 
-.tile.selected:before,
-[draggable='true']:not(.selected):hover:before,
-[draggable='true']:not(.selected):focus:before {
+.tile.selected::before,
+[draggable='true']:not(.selected):hover::before,
+[draggable='true']:not(.selected):focus::before {
     position: absolute;
     top: 0;
     left: 0;
@@ -52,19 +56,17 @@
     box-shadow: 0 calc(var(--tile-size) / -4) calc(var(--tile-size) / 3) .5vh var(--shadow), 0 calc(var(--tile-size) / 4) calc(var(--tile-size) / 3) .5vh var(--shadow), 0 0 calc(var(--tile-size) / 3) .5vw var(--shadow);
 }
 
-.beforeDrag:before {
+.before-drag::before {
     display: none !important;
     box-shadow: none !important;
 }
 
-[role='cell'] .tile {
-    margin: 0;
-}
 
 @keyframes selected {
     0% {
         transform: rotate(-1deg);
     }
+
     50% {
         transform: rotate(1deg);
     }
@@ -72,11 +74,12 @@
 
 @keyframes stacked {
     20% {
-        opacity: 10%;
+        opacity: 0.1;
         transition-timing-function: ease-in;
     }
+
     100% {
-        opacity: 100%;
+        opacity: 1;
         transition-timing-function: ease-out;
     }
 }

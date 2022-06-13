@@ -11,7 +11,7 @@ const FreedomToMoveRule: Rule = () => (
     </Row>
     <Row>
       <RuleCell creature="spider" />
-      <RuleCell selected creature="queen" incorrectArrows={['bottomRight']} />
+      <RuleCell selected creature="queen" incorrectArrows={['bottom-right']} />
       <RuleCell creature={'beetle'} />
     </Row>
     <Row>

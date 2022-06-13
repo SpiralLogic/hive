@@ -6,19 +6,6 @@
     border-right: 1px solid white;
 }
 
-.player.hide .name {
-    transition-duration: 1s;
-    transition-property: transform;
-    transform: scaleX(0);
-}
-
-.player.hide {
-    width: 0;
-    transition-duration: 1s;
-    transition-property: width, height, font-size;
-    border: none;
-}
-
 .player0 {
     --background: var(--p0background);
     --creature: var(--p0creature);
@@ -40,6 +27,19 @@
     text-align: center;
     color: white;
     outline: none;
+}
+
+.player.hide .name {
+    transition-duration: 1s;
+    transition-property: transform;
+    transform: scaleX(0);
+}
+
+.player.hide {
+    width: 0;
+    transition-duration: 1s;
+    transition-property: width, height, font-size;
+    border: none;
 }
 
 .player .tile {
@@ -74,7 +74,7 @@
 }
 
 .player .tiles::-webkit-scrollbar-thumb:hover {
-    background-color: #FFFFFF;
+    background-color: #FFF;
 }
 
 @media only screen and (max-width: 720px) {
@@ -90,16 +90,16 @@
         height: 0;
     }
 
-    .player.hide .name {
-        transition-duration: 1s;
-        transition-property: transform;
-        transform: scaleY(0);
-    }
-
     .player .name {
         align-self: center;
         justify-content: center;
         margin: 0 3vw;
+    }
+
+    .player.hide .name {
+        transition-duration: 1s;
+        transition-property: transform;
+        transform: scaleY(0);
     }
 
     .player .tile {
@@ -116,6 +116,6 @@
 
     .player .tiles::-webkit-scrollbar-thumb {
         width: 3px;
-        background-color: #FFFFFF;
+        background-color: #FFF;
     }
 }

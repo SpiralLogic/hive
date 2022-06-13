@@ -18,11 +18,11 @@ const SpiderRules: Rule = () => (
       <RuleCell result="correct" />
       <RuleCell result="correct" />
       <RuleCell creature="beetle" />
-    </Row>{' '}
+    </Row>
     <Row>
       <RuleCell creature="ant" />
-      <RuleCell result="correct" zIndex={1} symbol="2" correctArrows={['topRight']} />
-      <RuleCell result="correct" zIndex={1} symbol="2" correctArrows={['topLeft', 'topRight']} />
+      <RuleCell result="correct" zIndex={1} symbol="2" correctArrows={['top-right']} />
+      <RuleCell result="correct" zIndex={1} symbol="2" correctArrows={['top-left', 'top-right']} />
       <RuleCell creature="queen" />
       <RuleCell result="correct" />
     </Row>
@@ -33,16 +33,16 @@ const SpiderRules: Rule = () => (
         result="correct"
         symbol="1"
         zIndex={3}
-        correctArrows={['topLeft', 'bottomLeft', 'topRight']}
+        correctArrows={['top-left', 'bottom-left', 'top-right']}
       />
       <RuleCell creature="spider" />
-      <RuleCell result="correct" zIndex={2} symbol="2" correctArrows={['topRight']} />
-    </Row>{' '}
+      <RuleCell result="correct" zIndex={2} symbol="2" correctArrows={['top-right']} />
+    </Row>
     <Row>
       <RuleCell result="correct" />
       <RuleCell result="correct" symbol="2" correctArrows={['left']} />
-      <RuleCell selected creature="spider" correctArrows={['right', 'topLeft']} />
-      <RuleCell result="correct" zIndex={3} symbol="1" correctArrows={['topRight']} />
+      <RuleCell selected creature="spider" correctArrows={['right', 'top-left']} />
+      <RuleCell result="correct" zIndex={3} symbol="1" correctArrows={['top-right']} />
     </Row>
   </Hextille>
 );

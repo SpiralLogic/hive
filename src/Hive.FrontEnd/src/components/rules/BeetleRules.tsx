@@ -13,7 +13,11 @@ const BeetleRules: Rule = () => (
     </Row>
     <Row>
       <RuleCell result="correct" creature="spider" />
-      <RuleCell creature="beetle" selected correctArrows={['topLeft', 'left', 'bottomLeft', 'bottomRight']} />
+      <RuleCell
+        creature="beetle"
+        selected
+        correctArrows={['top-left', 'left', 'bottom-left', 'bottom-right']}
+      />
       <RuleCell />
     </Row>
     <Row zIndex={-1}>

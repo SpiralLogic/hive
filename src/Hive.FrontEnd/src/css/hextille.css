@@ -5,7 +5,7 @@
     margin: 0 auto;
 }
 
-[role='grid'] .tile:not(.selected):before {
+[role='grid'] .tile:not(.selected)::before {
     --shadow: #1712A290;
 }
 
@@ -13,10 +13,6 @@
     background: transparent;
     margin: 0;
     width: var(--hex-size);
-}
-
-[role='none']:last-child {
-    display: none;
 }
 
 [role='cell'], .tile, [role='none'] {
@@ -28,6 +24,10 @@
     min-height: fit-content;
     outline: none;
     position: relative;
+}
+
+[role='none']:last-child {
+    display: none;
 }
 
 [role='cell'] > *, .tile > * {

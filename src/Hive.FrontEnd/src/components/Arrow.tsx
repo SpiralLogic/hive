@@ -2,7 +2,7 @@ import '../css/arrow.css';
 
 import { FunctionComponent } from 'preact';
 
-export type Direction = 'left' | 'right' | 'topLeft' | 'topRight' | 'bottomLeft' | 'bottomRight';
+export type Direction = 'left' | 'right' | 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right';
 const Arrow: FunctionComponent<{
   direction: Direction;
   result: 'correct' | 'incorrect';

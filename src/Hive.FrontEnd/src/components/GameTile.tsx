@@ -51,8 +51,8 @@ const GameTile: FunctionComponent<Properties> = (properties) => {
   const handleDragStart = (event: DragEvent) => {
     event.stopPropagation();
     select();
-    setClassList({ type: 'add', classes: ['beforeDrag'] });
-    setTimeout(() => setClassList({ type: 'remove', classes: ['beforeDrag'] }), 1);
+    setClassList({ type: 'add', classes: ['before-drag'] });
+    setTimeout(() => setClassList({ type: 'remove', classes: ['before-drag'] }), 1);
   };
 
   const handleDragEnd = () => {
