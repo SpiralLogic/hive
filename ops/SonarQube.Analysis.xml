@@ -6,7 +6,7 @@
 
   <Property Name="sonar.sources">/source/src/Hive.FrontEnd/src</Property>
   <Property Name="sonar.test.inclusions">/source/src/Hive.FrontEnd/test/src,/source/src/Hive.Api.Tests,/source/src/Hive.Domain.Tests</Property>
-  <Property Name="sonar.coverage.exclusions">/source/src/Hive.FrontEnd/src/index.tsx</Property>
+  <Property Name="sonar.coverage.exclusions">**/src/index.tsx</Property>
   <Property Name="sonar.typescript.tsconfigPath">/source/src/Hive.FrontEnd/tsconfig.json</Property>
   
   <Property Name="sonar.cs.opencover.reportsPaths">/source/src/Hive.Api.Tests/coverage.opencover.xml,/source/src/Hive.Domain.Tests/coverage.opencover.xml</Property>
