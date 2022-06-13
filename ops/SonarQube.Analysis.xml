@@ -9,7 +9,7 @@
   <Property Name="sonar.coverage.exclusions">/source/src/Hive.FrontEnd/src/index.tsx</Property>
   <Property Name="sonar.typescript.tsconfigPath">/source/src/Hive.FrontEnd/tsconfig.json</Property>
   
-  <Property Name="sonar.cs.opencover.reportsPaths">/source/reports/api-coverage.opencover.xml,/source/reports/domain-coverage.opencover.xml</Property>
+  <Property Name="sonar.cs.opencover.reportsPaths">/source/src/Hive.Api.Tests/coverage.opencover.xml,/source/src/Hive.Domain.Tests/coverage.opencover.xml</Property>
   <Property Name="sonar.javascript.lcov.reportPaths">/source/reports/lcov.info</Property>
   <Property Name="sonar.eslint.reportPaths">/source/reports/eslint.json,/source/reports/eslint.test.json</Property>
 

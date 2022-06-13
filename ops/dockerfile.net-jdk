@@ -21,10 +21,9 @@ RUN curl --connect-timeout 5 \
 
 RUN dotnet new tool-manifest || true
 RUN dotnet tool install dotnet-sonarscanner
-
 RUN rm /source/sonar-project.properties || true
 RUN dotnet sonarscanner begin /k:hive /s:/source/ops/SonarQube.Analysis.xml /d:sonar.login=$SONARQUBE_KEY
-
 RUN dotnet build -c test /source/src
+RUN dotnet test /source/src -c Test /p:CollectCoverage=true  /p:CoverletOutputFormat=opencover /p:SkipAutoProps=true
 
 RUN dotnet sonarscanner end /d:sonar.login=$SONARQUBE_KEY
