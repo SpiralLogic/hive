@@ -4,7 +4,7 @@
 
   <Property Name="sonar.host.url">https://sonarqube.lab.sorijen.net.au</Property>
 
-  <Property Name="sonar.sources">/source/src</Property>
+  <Property Name="sonar.sources">/source/src/Hive.FrontEnd/src</Property>
   <Property Name="sonar.test.inclusions">/source/src/Hive.FrontEnd/test/src,/source/src/Hive.Api.Tests,/source/src/Hive.Domain.Tests</Property>
   <Property Name="sonar.coverage.exclusions">/source/src/Hive.FrontEnd/src/index.tsx</Property>
   <Property Name="sonar.typescript.tsconfigPath">/source/src/Hive.FrontEnd/tsconfig.json</Property>
