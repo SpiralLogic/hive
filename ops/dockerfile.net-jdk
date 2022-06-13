@@ -12,8 +12,8 @@ COPY . /source
 
 RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash \
     && . ~/.nvm/nvm.sh \
-    && nvm install 17 \
-    && nvm use 17
+    && nvm install 16 \
+    && nvm use 16
 
 RUN dotnet new tool-manifest || true
 RUN dotnet tool install dotnet-sonarscanner
