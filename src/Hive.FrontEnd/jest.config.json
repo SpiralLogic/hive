@@ -31,8 +31,7 @@
   ],
   "coveragePathIgnorePatterns": [
     "/node_modules/",
-    "/test/",
-    "/src/index.tsx"
+    "/test/"
   ],
   "testMatch": [
     "./**/*.test.[jt]s?(x)"
