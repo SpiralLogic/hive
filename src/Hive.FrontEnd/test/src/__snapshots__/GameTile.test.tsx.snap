@@ -84,26 +84,6 @@ exports[`tile Snapshot matches current snapshot for no moves 1`] = `
 </div>
 `;
 
-exports[`tile Snapshot matches current snapshot for no moves 2`] = `
-<div
-  class="player0 hex tile tilenomove"
-  title="Player-0 tileNoMove"
->
-  <svg
-    viewBox="0 0 100 100"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <use
-      href="#hex"
-    />
-    <use
-      class="creature"
-      href="#tilenomove"
-    />
-  </svg>
-</div>
-`;
-
 exports[`tile Snapshot matches current snapshot for when stacked 1`] = `
 <div
   class="player0 hex stacked tile tilenomove"
