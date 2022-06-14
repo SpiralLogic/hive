@@ -1,10 +1,10 @@
 import { FunctionComponent } from 'preact';
-import { useEffect, useState } from 'preact/hooks';
+import { useContext, useEffect, useState } from 'preact/hooks';
 
 import { PlayerId, Tile as TileType } from '../domain';
 import { TileAction } from '../services';
 import { useClassReducer } from '../utilities/class-reducer';
-import { useHiveDispatchListener, dispatchHiveEvent } from '../utilities/dispatcher';
+import { useHiveDispatchListener, Dispatcher } from '../utilities/dispatcher';
 import { handleDrop, handleKeyboardNav, isEnterOrSpace } from '../utilities/handlers';
 import Tile from './Tile';
 
@@ -19,20 +19,21 @@ const GameTile: FunctionComponent<Properties> = (properties) => {
   const { id, moves, creature, playerId } = tile;
   const [focus, setFocus] = useState(tileSelector);
   const [classes, setClassList] = useClassReducer(`player${playerId} hex`);
+  const dispatcher = useContext(Dispatcher);
   if (stacked) setClassList({ type: 'add', classes: ['stacked'] });
 
   const deselect = (fromEvent = false) => {
     if (!classes.includes('selected')) return;
     setClassList({ type: 'remove', classes: ['selected'] });
-    dispatchHiveEvent({ type: 'tileDeselected', tile, fromEvent });
+    dispatcher.dispatch({ type: 'tileDeselected', tile, fromEvent });
   };
 
   const select = (fromEvent = false) => {
     if (classes.includes('selected')) return;
-    dispatchHiveEvent({ type: 'tileClear' });
+    dispatcher.dispatch({ type: 'tileClear' });
     setClassList({ type: 'add', classes: ['selected'] });
     if (currentPlayer != playerId) return;
-    dispatchHiveEvent({ type: 'tileSelected', tile, fromEvent });
+    dispatcher.dispatch({ type: 'tileSelected', tile, fromEvent });
   };
 
   useHiveDispatchListener<TileAction>('tileSelect', (event: TileAction) => {
@@ -56,8 +57,8 @@ const GameTile: FunctionComponent<Properties> = (properties) => {
   };
 
   const handleDragEnd = () => {
-    dispatchHiveEvent({ type: 'tileClear' });
-    dispatchHiveEvent({ type: 'tileDropped', tile });
+    dispatcher.dispatch({ type: 'tileClear' });
+    dispatcher.dispatch({ type: 'tileDropped', tile });
   };
 
   const handleClick = (event: MouseEvent) => {

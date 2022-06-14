@@ -1,11 +1,11 @@
 import '../css/gameArea.css';
 
 import { FunctionComponent } from 'preact';
-import { useEffect, useState } from 'preact/hooks';
+import { useContext, useEffect, useState } from 'preact/hooks';
 
 import { Cell, GameState, GameStatus, PlayerId } from '../domain';
 import { HextilleBuilder, HiveEvent } from '../services';
-import { getHiveDispatcher, useHiveDispatchListener } from '../utilities/dispatcher';
+import { Dispatcher, useHiveDispatchListener } from '../utilities/dispatcher';
 import { handleDragOver } from '../utilities/handlers';
 import { cellKey, removeOtherPlayerMoves, resetOtherPlayerSelected } from '../utilities/hextille';
 import { shareGame } from '../utilities/share';
@@ -62,6 +62,7 @@ const GameArea: FunctionComponent<Properties> = ({ players, cells, gameId, gameS
   const [showGameOver, setShowGameOver] = useState<boolean>(
     () => gameOutcome(gameStatus, currentPlayer) !== ''
   );
+  const dispatcher = useContext(Dispatcher);
   const shareComponent = async () => {
     const result = await shareGame(gameId, currentPlayer);
     setShowShare(result);
@@ -83,7 +84,7 @@ const GameArea: FunctionComponent<Properties> = ({ players, cells, gameId, gameS
   });
 
   removeOtherPlayerMoves(currentPlayer, { players, cells });
-  resetOtherPlayerSelected(currentPlayer, { players, cells }, getHiveDispatcher());
+  resetOtherPlayerSelected(currentPlayer, { players, cells }, dispatcher);
 
   return (
     <div {...attributes} title={'Hive Game Area'}>

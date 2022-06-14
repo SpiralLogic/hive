@@ -1,8 +1,8 @@
 import { FunctionComponent } from 'preact';
-import { useEffect, useState } from 'preact/hooks';
+import { useContext, useEffect, useState } from 'preact/hooks';
 import { HexCoordinates, Tile as TileType } from '../domain';
 import { TileEvent } from '../services';
-import { useHiveDispatchListener, dispatchHiveEvent } from '../utilities/dispatcher';
+import { useHiveDispatchListener, Dispatcher } from '../utilities/dispatcher';
 import { handleDragOver, handleKeyboardNav, isEnterOrSpace } from '../utilities/handlers';
 import { useClassReducer } from '../utilities/class-reducer';
 import Hexagon from './Hexagon';
@@ -15,6 +15,7 @@ const GameCell: FunctionComponent<Properties> = (properties) => {
   const { coords, children, hidden } = properties;
   const [classes, setClasses] = useClassReducer('hide');
   const [selectedTile, setSelectedTile] = useState<TileType | null>(null);
+  const dispatcher = useContext(Dispatcher);
 
   useEffect(() => setClasses({ type: hidden ? 'add' : 'remove', classes: ['hide'] }), [hidden, setClasses]);
 
@@ -34,7 +35,7 @@ const GameCell: FunctionComponent<Properties> = (properties) => {
 
   useHiveDispatchListener<TileEvent>('tileDropped', () => {
     if (classes.includes('active') && selectedTile && isValidMove(selectedTile.moves, coords)) {
-      dispatchHiveEvent({
+      dispatcher.dispatch({
         type: 'move',
         move: { coords, tileId: selectedTile.id },
       });
@@ -53,8 +54,8 @@ const GameCell: FunctionComponent<Properties> = (properties) => {
   const handleClick = (event: UIEvent) => {
     if (!(selectedTile && isValidMove(selectedTile.moves, coords))) return;
     event.stopPropagation();
-    dispatchHiveEvent({ type: 'tileClear', tile: selectedTile });
-    dispatchHiveEvent({ type: 'move', move: { coords, tileId: selectedTile.id } });
+    dispatcher.dispatch({ type: 'tileClear', tile: selectedTile });
+    dispatcher.dispatch({ type: 'move', move: { coords, tileId: selectedTile.id } });
   };
 
   const handleKeydown = (event: KeyboardEvent) => {

@@ -1,11 +1,11 @@
 import '../css/links.css';
 
 import { FunctionComponent } from 'preact';
-import { useState } from 'preact/hooks';
+import { useContext, useState } from 'preact/hooks';
 
 import { GameId, PlayerId } from '../domain';
 import { AiAction, HiveEvent } from '../services';
-import { getHiveDispatcher, useHiveDispatchListener } from '../utilities/dispatcher';
+import { Dispatcher, useHiveDispatchListener } from '../utilities/dispatcher';
 import { getShareUrl } from '../utilities/share';
 import SVG from './SVG';
 
@@ -24,7 +24,7 @@ export const handle = (handler: () => void) => (event: MouseEvent) => {
 
 const Links: FunctionComponent<Properties> = ({ gameId, currentPlayer, onShowRules, onShowShare }) => {
   const [useAi, setUseAi] = useState(currentPlayer === 0 ? 'on' : 'off');
-  const hiveDispatcher = getHiveDispatcher();
+  const hiveDispatcher = useContext(Dispatcher);
   const clickHandler = () => {
     const aiMode = useAi === 'on' ? 'off' : 'on';
     hiveDispatcher.dispatch<AiAction>({ type: 'toggleAi', newState: aiMode });

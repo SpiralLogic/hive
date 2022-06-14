@@ -1,9 +1,8 @@
 import { render, screen } from '@testing-library/preact';
 import { ComponentChild } from 'preact';
 import { HexEngine, HexServerConnectionFactory } from '../../src/domain/engine';
-import { getHiveDispatcher } from '../../src/utilities/dispatcher';
 import App from '../../src/components/App';
-import { cellMoveEvent, createGameState } from '../fixtures/app.fixture';
+import { createGameState } from '../fixtures/app.fixture';
 
 const defaultConnectionFactory: HexServerConnectionFactory = () => ({
   connectGame: jest.fn(),
@@ -45,14 +44,5 @@ describe('<App>', () => {
     await engine.initialGame;
     rerender(<App engine={engine} connectionFactory={defaultConnectionFactory} />);
     expect(screen.getByTitle('Hive Game Area')).toBeInTheDocument();
-  });
-
-  it('moveTile is called on move events', async () => {
-    const [rerender, engine] = renderApp(`/game/33/1`);
-    await engine.initialGame;
-    rerender(<App engine={engine} connectionFactory={defaultConnectionFactory} />);
-    getHiveDispatcher().dispatch(cellMoveEvent);
-
-    expect(engine.move).toHaveBeenCalledTimes(1);
   });
 });

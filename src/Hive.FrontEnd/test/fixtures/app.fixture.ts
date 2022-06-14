@@ -1,5 +1,4 @@
 import { GameState } from '../../src/domain';
-import { MoveEvent } from '../../src/services';
 
 const createCells = (number: number) => {
   const cellArray = Array.from({ length: number });
@@ -7,11 +6,6 @@ const createCells = (number: number) => {
     coords: { q: index, r: 0 },
     tiles: [{ id: 2, playerId: 1, creature: 'ant', moves: [{ q: 0, r: 0 }] }],
   }));
-};
-
-export const cellMoveEvent: MoveEvent = {
-  move: { coords: { q: 1, r: 1 }, tileId: 1 },
-  type: 'move',
 };
 
 export const createGameState = (cells: number): GameState => {

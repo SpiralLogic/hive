@@ -1,6 +1,5 @@
 import GameTile from '../../src/components/GameTile';
-import { MoveEvent } from '../../src/services';
-import { getHiveDispatcher } from '../../src/utilities/dispatcher';
+import { HiveDispatcher, MoveEvent } from '../../src/services';
 
 export const createCellWithNoTile = () => ({ coords: { q: 0, r: 0 }, tiles: [] });
 
@@ -32,10 +31,9 @@ export const createCellNoDrop = () => ({ coords: { q: 6, r: 6 }, tiles: [] });
 export const createCellCanDrop = createCellWithNoTile;
 export const createCellWithTileNoDrop = createCellWithTile;
 
-export const createMoveListener = () => {
+export const createMoveListener = (dispatcher: HiveDispatcher) => {
   const moveEvents: Array<MoveEvent> = [];
   const moveListener = (event: MoveEvent) => moveEvents.push(event);
-  const dispatcher = getHiveDispatcher();
   dispatcher.add<MoveEvent>('move', moveListener);
   return moveEvents;
 };

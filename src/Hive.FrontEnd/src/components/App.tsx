@@ -1,12 +1,17 @@
 import '../css/app.css';
 
 import { FunctionComponent } from 'preact';
-import { useEffect, useState } from 'preact/hooks';
+import { useEffect, useMemo, useState } from 'preact/hooks';
 
 import { GameState } from '../domain';
 import { HexEngine, HexServerConnectionFactory } from '../domain/engine';
-import { addServerHandlers, opponentConnectedHandler, opponentSelectionHandler } from '../utilities/handlers';
-import { getHiveDispatcher } from '../utilities/dispatcher';
+import {
+  addServerHandlers,
+  createOpponentConnectedHandler,
+  createOpponentSelectionHandler,
+} from '../utilities/handlers';
+import { Dispatcher } from '../utilities/dispatcher';
+import { HiveDispatcher } from '../services';
 import GameArea from './GameArea';
 
 const App: FunctionComponent<{ engine: HexEngine; connectionFactory: HexServerConnectionFactory }> = (
@@ -15,7 +20,7 @@ const App: FunctionComponent<{ engine: HexEngine; connectionFactory: HexServerCo
   const { engine, connectionFactory } = properties;
   const [gameState, updateHandler] = useState<GameState | undefined>();
   const [fetchStatus, setFetchStatus] = useState('loading !');
-  const hiveDispatcher = getHiveDispatcher();
+  const dispatcher = useMemo(() => new HiveDispatcher(), []);
 
   useEffect(() => {
     engine.initialGame
@@ -28,7 +33,7 @@ const App: FunctionComponent<{ engine: HexEngine; connectionFactory: HexServerCo
         updateHandler(initialGameState);
       })
       .catch((error: Error) => setFetchStatus(error.message));
-  }, [engine.currentPlayer, engine.initialGame, hiveDispatcher]);
+  }, [engine.currentPlayer, engine.initialGame]);
 
   useEffect(() => {
     if (!gameState?.gameId)
@@ -39,17 +44,22 @@ const App: FunctionComponent<{ engine: HexEngine; connectionFactory: HexServerCo
       currentPlayer: engine.currentPlayer,
       gameId: gameState.gameId,
       updateHandler,
-      opponentSelectionHandler,
-      opponentConnectedHandler,
+      opponentSelectionHandler: createOpponentSelectionHandler(dispatcher),
+      opponentConnectedHandler: createOpponentConnectedHandler(dispatcher),
     });
     void serverConnection.connectGame();
-    const removeServerHandlers = addServerHandlers(serverConnection.sendSelection, updateHandler, engine);
+    const removeServerHandlers = addServerHandlers(
+      serverConnection.sendSelection,
+      updateHandler,
+      engine,
+      dispatcher
+    );
 
     return () => {
       removeServerHandlers();
       return serverConnection.closeConnection();
     };
-  }, [gameState?.gameId, connectionFactory, engine]);
+  }, [gameState?.gameId, connectionFactory, engine, dispatcher]);
 
   if (gameState === undefined)
     return (
@@ -60,7 +70,11 @@ const App: FunctionComponent<{ engine: HexEngine; connectionFactory: HexServerCo
       </h1>
     );
 
-  return <GameArea {...gameState} currentPlayer={engine.currentPlayer} />;
+  return (
+    <Dispatcher.Provider value={dispatcher}>
+      <GameArea {...gameState} currentPlayer={engine.currentPlayer} />
+    </Dispatcher.Provider>
+  );
 };
 
 App.displayName = 'App';

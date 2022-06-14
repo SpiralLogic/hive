@@ -1,7 +1,6 @@
 import { GameState, Tile } from '../domain';
 import { AiMode, HexEngine, OpponentConnectedHandler, OpponentSelectionHandler } from '../domain/engine';
-import { AiAction, MoveEvent, TileEvent } from '../services';
-import { dispatchHiveEvent, getHiveDispatcher } from './dispatcher';
+import { AiAction, HiveDispatcher, MoveEvent, TileEvent } from '../services';
 
 export function handleDragOver(event_: { preventDefault: () => void }): boolean {
   event_.preventDefault();
@@ -42,26 +41,31 @@ export const handleKeyboardNav = (error: Pick<KeyboardEvent, 'key' | 'target'>):
   return false;
 };
 
-export const opponentSelectionHandler: OpponentSelectionHandler = (type, tile) => {
-  if (type === 'select') {
-    dispatchHiveEvent({ type: 'tileSelect', tile });
-  } else {
-    dispatchHiveEvent({ type: 'tileClear' });
-  }
+export const createOpponentSelectionHandler = (dispatcher: HiveDispatcher): OpponentSelectionHandler => {
+  return (type, tile) => {
+    if (type === 'select') {
+      dispatcher.dispatch({ type: 'tileSelect', tile });
+    } else {
+      dispatcher.dispatch({ type: 'tileClear' });
+    }
+  };
 };
-export const opponentConnectedHandler: OpponentConnectedHandler = (type) => {
-  if (type === 'connect') {
-    dispatchHiveEvent({ type: 'opponentConnected' });
-    dispatchHiveEvent<AiAction>({ type: 'toggleAi', newState: 'off' });
-  } else {
-    dispatchHiveEvent({ type: 'opponentDisconnected' });
-  }
+export const createOpponentConnectedHandler = (dispatcher: HiveDispatcher): OpponentConnectedHandler => {
+  return (type) => {
+    if (type === 'connect') {
+      dispatcher.dispatch({ type: 'opponentConnected' });
+      dispatcher.dispatch<AiAction>({ type: 'toggleAi', newState: 'off' });
+    } else {
+      dispatcher.dispatch({ type: 'opponentDisconnected' });
+    }
+  };
 };
 
 export const addServerHandlers = (
   sendSelection: (type: 'select' | 'deselect', tile: Tile) => void,
   updateGameState: (value: GameState) => void,
-  engine: HexEngine
+  engine: HexEngine,
+  dispatcher: HiveDispatcher
 ) => {
   const selectionChangeHandler = (event: TileEvent) =>
     !event.fromEvent && sendSelection('select', event.tile);
@@ -76,16 +80,14 @@ export const addServerHandlers = (
     engine.aiMode = newState;
   };
 
-  const hiveDispatcher = getHiveDispatcher();
-
-  hiveDispatcher.add<MoveEvent>('move', moveHandler);
-  hiveDispatcher.add<TileEvent>('tileSelected', selectionChangeHandler);
-  hiveDispatcher.add<TileEvent>('tileDeselected', deselectionChangeHandler);
-  const removeAi = hiveDispatcher.add<AiAction>('toggleAi', aiToggle);
+  dispatcher.add<MoveEvent>('move', moveHandler);
+  dispatcher.add<TileEvent>('tileSelected', selectionChangeHandler);
+  dispatcher.add<TileEvent>('tileDeselected', deselectionChangeHandler);
+  const removeAi = dispatcher.add<AiAction>('toggleAi', aiToggle);
   return () => {
-    hiveDispatcher.remove<MoveEvent>('move', moveHandler);
-    hiveDispatcher.remove<TileEvent>('tileSelected', selectionChangeHandler);
-    hiveDispatcher.remove<TileEvent>('tileDeselected', deselectionChangeHandler);
+    dispatcher.remove<MoveEvent>('move', moveHandler);
+    dispatcher.remove<TileEvent>('tileSelected', selectionChangeHandler);
+    dispatcher.remove<TileEvent>('tileDeselected', deselectionChangeHandler);
     removeAi();
   };
 };

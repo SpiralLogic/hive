@@ -3,8 +3,8 @@ import userEvent from '@testing-library/user-event';
 
 import GameArea from '../../src/components/GameArea';
 import { GameStatus } from '../../src/domain';
-import { HiveEvent, TileAction } from '../../src/services';
-import { getHiveDispatcher } from '../../src/utilities/dispatcher';
+import { HiveDispatcher, HiveEvent, TileAction } from '../../src/services';
+import { Dispatcher } from '../../src/utilities/dispatcher';
 import { createGameState } from '../fixtures/game-area.fixtures';
 import { mockClipboard, mockExecCommand, mockLocation, mockShare, noShare, simulateEvent } from '../helpers';
 
@@ -28,30 +28,36 @@ describe('<GameArea>', () => {
   it(`resets all selected tiles which aren't the current player`, async () => {
     const gameState = createGameState(1);
     global.window.history.replaceState({}, global.document.title, `/game/33/0`);
+    const dispatcher = new HiveDispatcher();
     render(
-      <GameArea
-        gameId={'123A'}
-        gameStatus="MoveSuccess"
-        players={gameState.players}
-        cells={gameState.cells}
-        currentPlayer={1}
-      />
+      <Dispatcher.Provider value={dispatcher}>
+        <GameArea
+          gameId={'123A'}
+          gameStatus="MoveSuccess"
+          players={gameState.players}
+          cells={gameState.cells}
+          currentPlayer={1}
+        />
+      </Dispatcher.Provider>
     );
-    getHiveDispatcher().dispatch<TileAction>({ type: 'tileSelect', tile: gameState.players[1].tiles[0] });
+    dispatcher.dispatch<TileAction>({ type: 'tileSelect', tile: gameState.players[1].tiles[0] });
     expect(await screen.findByTitle(/creature1/)).toHaveClass('selected');
   });
 
   it(`removes all moves for tiles which aren't the current player`, async () => {
     const gameState = createGameState(1);
     global.window.history.replaceState({}, global.document.title, `/game/33/0`);
+    const dispatcher = new HiveDispatcher();
     render(
-      <GameArea
-        gameId={'123A'}
-        gameStatus="MoveSuccess"
-        players={gameState.players}
-        cells={gameState.cells}
-        currentPlayer={1}
-      />
+      <Dispatcher.Provider value={dispatcher}>
+        <GameArea
+          gameId={'123A'}
+          gameStatus="MoveSuccess"
+          players={gameState.players}
+          cells={gameState.cells}
+          currentPlayer={1}
+        />
+      </Dispatcher.Provider>
     );
 
     expect(screen.getByTitle(/creature0/)).not.toHaveAttribute('draggable');
@@ -214,48 +220,57 @@ describe('<GameArea>', () => {
 
   it(`opens modal when player connects`, async () => {
     const gameState = createGameState(1);
+    const dispatcher = new HiveDispatcher();
     render(
-      <GameArea
-        gameId={'123A'}
-        gameStatus="MoveSuccess"
-        players={gameState.players}
-        cells={gameState.cells}
-        currentPlayer={1}
-      />
+      <Dispatcher.Provider value={dispatcher}>
+        <GameArea
+          gameId={'123A'}
+          gameStatus="MoveSuccess"
+          players={gameState.players}
+          cells={gameState.cells}
+          currentPlayer={1}
+        />
+      </Dispatcher.Provider>
     );
-    getHiveDispatcher().dispatch<HiveEvent>({ type: 'opponentConnected' });
+    dispatcher.dispatch<HiveEvent>({ type: 'opponentConnected' });
     expect(await screen.findByRole('dialog')).toBeInTheDocument();
   });
 
   it(`opens modal when player disconnects`, async () => {
     const gameState = createGameState(1);
+    const dispatcher = new HiveDispatcher();
     render(
-      <GameArea
-        gameId={'123A'}
-        gameStatus="MoveSuccess"
-        players={gameState.players}
-        cells={gameState.cells}
-        currentPlayer={1}
-      />
+      <Dispatcher.Provider value={dispatcher}>
+        <GameArea
+          gameId={'123A'}
+          gameStatus="MoveSuccess"
+          players={gameState.players}
+          cells={gameState.cells}
+          currentPlayer={1}
+        />
+      </Dispatcher.Provider>
     );
-    getHiveDispatcher().dispatch<HiveEvent>({ type: 'opponentDisconnected' });
+    dispatcher.dispatch<HiveEvent>({ type: 'opponentDisconnected' });
 
     expect(await screen.findByRole('dialog')).toBeInTheDocument();
   });
 
   it(`closes player connected modal`, async () => {
     const gameState = createGameState(1);
+    const dispatcher = new HiveDispatcher();
 
     render(
-      <GameArea
-        gameId={'123A'}
-        gameStatus={'MoveSuccess'}
-        players={gameState.players}
-        cells={gameState.cells}
-        currentPlayer={0}
-      />
+      <Dispatcher.Provider value={dispatcher}>
+        <GameArea
+          gameId={'123A'}
+          gameStatus={'MoveSuccess'}
+          players={gameState.players}
+          cells={gameState.cells}
+          currentPlayer={0}
+        />
+      </Dispatcher.Provider>
     );
-    getHiveDispatcher().dispatch<HiveEvent>({ type: 'opponentDisconnected' });
+    dispatcher.dispatch<HiveEvent>({ type: 'opponentDisconnected' });
 
     await userEvent.click(await screen.findByTitle(/close/i));
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument();

@@ -1,14 +1,13 @@
 import { screen } from '@testing-library/preact';
-import { Action, AiAction, HiveEvent, TileAction } from '../../../src/services';
+import { Action, AiAction, HiveDispatcher, HiveEvent, TileAction } from '../../../src/services';
 import {
   addServerHandlers,
   handleDragOver,
   handleDrop,
   handleKeyboardNav,
-  opponentConnectedHandler,
-  opponentSelectionHandler,
+  createOpponentConnectedHandler,
+  createOpponentSelectionHandler,
 } from '../../../src/utilities/handlers';
-import { getHiveDispatcher } from '../../../src/utilities/dispatcher';
 import gameState from '../../fixtures/game-state.json';
 import GameEngine from '../../../src/services/game-engine';
 
@@ -97,56 +96,56 @@ describe(`handler tests`, () => {
   describe(`server connection events`, () => {
     it(`opponent selection selects tile`, () => {
       const tile = { id: 1, playerId: 1, creature: 'swan', moves: [] };
-      const dispatcher = getHiveDispatcher();
+      const dispatcher = new HiveDispatcher();
       const selectHandler = jest.fn();
       dispatcher.add<TileAction>('tileSelect', selectHandler);
 
-      opponentSelectionHandler('select', tile);
+      createOpponentSelectionHandler(dispatcher)('select', tile);
       expect(selectHandler).toHaveBeenCalledWith({ type: 'tileSelect', tile });
     });
 
     it(`opponent deselection selects tile`, () => {
       const tile = { id: 1, playerId: 1, creature: 'swan', moves: [] };
-      const dispatcher = getHiveDispatcher();
+      const dispatcher = new HiveDispatcher();
       const selectHandler = jest.fn();
       dispatcher.add<Action>('tileClear', selectHandler);
 
-      opponentSelectionHandler('deselect', tile);
+      createOpponentSelectionHandler(dispatcher)('deselect', tile);
       expect(selectHandler).toHaveBeenCalledWith({ type: 'tileClear' });
     });
 
     it(`opponent deselection doesnt fire for missing tiles`, () => {
-      const dispatcher = getHiveDispatcher();
+      const dispatcher = new HiveDispatcher();
       const selectHandler = jest.fn();
       const deselectHandler = jest.fn();
       dispatcher.add<TileAction>('tileDeselect', selectHandler);
       dispatcher.add<TileAction>('tileSelect', selectHandler);
 
-      opponentSelectionHandler('select', selectedTile);
-      opponentSelectionHandler('deselect', selectedTile);
-      opponentSelectionHandler('deselect', selectedTile);
+      createOpponentSelectionHandler(dispatcher)('select', selectedTile);
+      createOpponentSelectionHandler(dispatcher)('deselect', selectedTile);
+      createOpponentSelectionHandler(dispatcher)('deselect', selectedTile);
       expect(selectHandler).not.toHaveBeenCalledWith();
       expect(deselectHandler).not.toHaveBeenCalledWith();
     });
 
     it(`opponent connected handler`, () => {
-      const dispatcher = getHiveDispatcher();
+      const dispatcher = new HiveDispatcher();
       const connectedHandler = jest.fn();
       const toggleAiHandler = jest.fn();
       dispatcher.add<HiveEvent>('opponentConnected', connectedHandler);
       dispatcher.add<AiAction>('toggleAi', toggleAiHandler);
 
-      opponentConnectedHandler('connect');
+      createOpponentConnectedHandler(dispatcher)('connect');
       expect(connectedHandler).toHaveBeenCalledWith({ type: 'opponentConnected' });
       expect(toggleAiHandler).toHaveBeenCalledWith({ type: 'toggleAi', newState: 'off' });
     });
 
     it(`opponent disconnected handler`, () => {
-      const dispatcher = getHiveDispatcher();
+      const dispatcher = new HiveDispatcher();
       const disconnectedHandler = jest.fn();
       dispatcher.add<HiveEvent>('opponentDisconnected', disconnectedHandler);
 
-      opponentConnectedHandler('disconnect');
+      createOpponentConnectedHandler(dispatcher)('disconnect');
       expect(disconnectedHandler).toHaveBeenCalledWith({ type: 'opponentDisconnected' });
     });
 
@@ -155,11 +154,11 @@ describe(`handler tests`, () => {
         .fn()
         .mockImplementation(() => Promise.resolve({ ok: true, json: () => Promise.resolve(gameState) }));
       const engine = new GameEngine();
-      const dispatcher = getHiveDispatcher();
+      const dispatcher = new HiveDispatcher();
       jest.spyOn(dispatcher, 'remove');
       const sendSelection = jest.fn();
 
-      const removeHandlers = addServerHandlers(sendSelection, jest.fn(), engine);
+      const removeHandlers = addServerHandlers(sendSelection, jest.fn(), engine, dispatcher);
 
       dispatcher.dispatch({
         type: 'move',

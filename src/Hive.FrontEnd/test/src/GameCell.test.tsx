@@ -2,7 +2,6 @@ import { fireEvent, render, screen } from '@testing-library/preact';
 import userEvent from '@testing-library/user-event';
 import { waitFor } from '@testing-library/dom';
 import { ComponentProps } from 'preact';
-import { getHiveDispatcher } from '../../src/utilities/dispatcher';
 import GameCell from '../../src/components/GameCell';
 import { simulateEvent } from '../helpers';
 import {
@@ -16,9 +15,20 @@ import {
   createMoveListener,
   movingTile,
 } from '../fixtures/game-cell.fixtures';
+import { HiveDispatcher } from '../../src/services';
+import { Dispatcher } from '../../src/utilities/dispatcher';
 
-const setUp = (...tileCreationFns: Array<() => ComponentProps<typeof GameCell>>) =>
-  render(tileCreationFns.map((factory) => <GameCell key={factory} {...factory()} />));
+const setUp = (...tileCreationFns: Array<() => ComponentProps<typeof GameCell>>) => {
+  const dispatcher = new HiveDispatcher();
+  render(
+    <Dispatcher.Provider value={dispatcher}>
+      {tileCreationFns.map((factory) => (
+        <GameCell key={factory} {...factory()} />
+      ))}
+    </Dispatcher.Provider>
+  );
+  return dispatcher;
+};
 
 describe('<GameCell>', () => {
   it(`top tile is rendered when tiles are all empty`, async () => {
@@ -60,13 +70,13 @@ describe('<GameCell>', () => {
   });
 
   it('calls move when cell is valid and active for tile being dragged', async () => {
-    const moveEvents = createMoveListener();
+    const dispatcher = setUp(createCellMovableTile, createCellWithTileAndDrop, createCellCanDrop);
+    const moveEvents = createMoveListener(dispatcher);
 
-    setUp(createCellMovableTile, createCellWithTileAndDrop, createCellCanDrop);
     await userEvent.click(screen.getByTitle(/tilecanmove/));
 
     for (const c of screen.getAllByRole('cell')) fireEvent.dragEnter(c);
-    getHiveDispatcher().dispatch({
+    dispatcher.dispatch({
       type: 'tileDropped',
       tile: movingTile,
     });
@@ -86,13 +96,12 @@ describe('<GameCell>', () => {
   });
 
   it(`doesn't call move tile on drop when cell doesn't allow drop`, async () => {
-    const moveEvents = createMoveListener();
-
-    setUp(createCellMovableTile, createCellWithTile, createCellNoDrop);
+    const dispatcher = setUp(createCellMovableTile, createCellWithTile, createCellNoDrop);
+    const moveEvents = createMoveListener(dispatcher);
 
     await userEvent.click(screen.getByTitle(/tilecanmove/));
 
-    getHiveDispatcher().dispatch({
+    dispatcher.dispatch({
       type: 'tileDropped',
       tile: movingTile,
     });
@@ -101,9 +110,8 @@ describe('<GameCell>', () => {
   });
 
   it(`don't call move tile on drop for invalid cells`, async () => {
-    const moveEvents = createMoveListener();
-
-    setUp(createCellWithTileNoDrop, createCellNoDrop);
+    const dispatcher = setUp(createCellWithTileNoDrop, createCellNoDrop);
+    const moveEvents = createMoveListener(dispatcher);
 
     for (const c of screen.getAllByRole('cell')) fireEvent.dragEnter(c);
     expect(moveEvents).toStrictEqual([]);
@@ -122,17 +130,22 @@ describe('<GameCell>', () => {
   });
 
   it('removes active and can-drop classes on drop', async () => {
-    setUp(createCellMovableTile, createCellWithTile, createCellWithTileNoDrop, createCellNoDrop);
+    const dispatcher = setUp(
+      createCellMovableTile,
+      createCellWithTile,
+      createCellWithTileNoDrop,
+      createCellNoDrop
+    );
 
     await userEvent.click(screen.getByTitle(/tilecanmove/));
 
     for (const c of screen.getAllByRole('cell')) fireEvent.dragEnter(c);
 
-    getHiveDispatcher().dispatch({
+    dispatcher.dispatch({
       type: 'tileDropped',
       tile: movingTile,
     });
-    getHiveDispatcher().dispatch({
+    dispatcher.dispatch({
       type: 'tileDeselected',
       tile: movingTile,
     });
@@ -142,17 +155,17 @@ describe('<GameCell>', () => {
   });
 
   it(`doesn't stop event propagation when occupied cell has no active tile '`, async () => {
-    const moveEvents = createMoveListener();
+    const dispatcher = setUp(createCellWithTileNoDrop);
+    const moveEvents = createMoveListener(dispatcher);
 
-    setUp(createCellWithTileNoDrop);
     await Promise.all(screen.getAllByRole('cell').map((c) => userEvent.click(c)));
 
     expect(moveEvents).toStrictEqual([]);
   });
 
   it(`makes a move when clicked with active tile`, async () => {
-    const moveEvents = createMoveListener();
-    setUp(createCellMovableTile, createCellCanDrop);
+    const dispatcher = setUp(createCellMovableTile, createCellCanDrop);
+    const moveEvents = createMoveListener(dispatcher);
 
     await userEvent.click(screen.getByTitle(/tilecanmove/));
     const cells = await screen.findAllByRole('cell');
@@ -168,17 +181,18 @@ describe('<GameCell>', () => {
   });
 
   it(`shouldn't move with no active tile on cell click`, async () => {
-    const moveEvents = createMoveListener();
+    const dispatcher = setUp(createCellNoDrop);
+    const moveEvents = createMoveListener(dispatcher);
 
-    setUp(createCellNoDrop);
     await Promise.all(screen.getAllByRole('cell').map((c) => userEvent.click(c)));
 
     expect(moveEvents).toStrictEqual([]);
   });
 
   it(`shouldn't move with invalid tile on cell click`, async () => {
-    const moveEvents = createMoveListener();
-    setUp(createCellMovableTile, createCellNoDrop);
+    const dispatcher = setUp(createCellMovableTile, createCellNoDrop);
+
+    const moveEvents = createMoveListener(dispatcher);
 
     await userEvent.click(screen.getByTitle(/tilecanmove/));
     const cells = await screen.findAllByRole('cell');
@@ -187,9 +201,9 @@ describe('<GameCell>', () => {
   });
 
   it(`fires emit event when pressing enter`, async () => {
-    const moveEvents = createMoveListener();
+    const dispatcher = setUp(createCellMovableTile, createCellCanDrop);
 
-    setUp(createCellMovableTile, createCellCanDrop);
+    const moveEvents = createMoveListener(dispatcher);
 
     await userEvent.click(screen.getByTitle(/tilecanmove/));
     const cells = await screen.findAllByRole('cell');
@@ -200,9 +214,9 @@ describe('<GameCell>', () => {
   });
 
   it(`dispatches move event when pressing space`, async () => {
-    const moveEvents = createMoveListener();
+    const dispatcher = setUp(createCellMovableTile, createCellCanDrop);
 
-    setUp(createCellMovableTile, createCellCanDrop);
+    const moveEvents = createMoveListener(dispatcher);
 
     await userEvent.click(screen.getByTitle(/tilecanmove/));
     const cells = await screen.findAllByRole('cell');
@@ -232,9 +246,9 @@ describe('<GameCell>', () => {
       .map((c, index) => String.fromCodePoint(index + 48))
       .map((key) => key.replaceAll('{', '{{').replaceAll('[', '[[')),
   ])(`doesn't start drag event for key %s`, async (key) => {
-    const moveEvents = createMoveListener();
+    const dispatcher = setUp(createCellMovableTile, createCellCanDrop);
 
-    setUp(createCellMovableTile, createCellCanDrop);
+    const moveEvents = createMoveListener(dispatcher);
 
     await userEvent.click(screen.getByTitle(/tilecanmove/));
     const cells = await screen.findAllByRole('cell');
