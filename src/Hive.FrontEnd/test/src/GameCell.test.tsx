@@ -60,6 +60,7 @@ describe('<GameCell>', () => {
 
   it('is no longer active on tile drag leave', async () => {
     setUp(createCellMovableTile, createCellWithTileAndDrop, createCellCanDrop);
+
     await userEvent.click(screen.getByTitle(/tilecanmove/));
 
     for (const c of screen.getAllByRole('cell')) fireEvent.dragEnter(c);

@@ -1,15 +1,13 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<Player> renders 1`] = `
-<div
+<section
+  aria-label="Player 1's unplaced pieces"
   class="player player1"
-  title="Player 1"
 >
-  <div
-    class="name"
-  >
+  <h2>
     Player 1
-  </div>
+  </h2>
   <div
     class="tiles"
   >
@@ -31,5 +29,5 @@ exports[`<Player> renders 1`] = `
       </svg>
     </div>
   </div>
-</div>
+</section>
 `;

@@ -1,9 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<Links> renders 1`] = `
-<div
-  class="links"
->
+<nav>
   <a
     href="http://localhost/game/123A/1"
     name="Share game to opponent"
@@ -74,5 +72,5 @@ exports[`<Links> renders 1`] = `
       />
     </svg>
   </a>
-</div>
+</nav>
 `;

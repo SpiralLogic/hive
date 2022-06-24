@@ -1,4 +1,4 @@
-.links {
+nav {
     position: absolute;
     right: 0;
     top: 0;
@@ -9,22 +9,22 @@
     gap: 20px;
 }
 
-.links a,
-.links a:visited,
-.links a:active {
+nav a,
+nav a:visited,
+nav a:active {
     fill: white;
 }
 
-.links svg {
+nav svg {
     width: 3rem;
 }
 
-.links .ai-off {
+nav .ai-off {
     filter: opacity(0.2);
 }
 
 @media only screen and (max-width: 720px) {
-    .links {
+    nav {
         gap: 2rem;
         grid-auto-flow: column;
         position: absolute;
@@ -34,7 +34,7 @@
         right: auto;
     }
 
-    .links svg {
+    nav svg {
         width: 2rem;
     }
 }

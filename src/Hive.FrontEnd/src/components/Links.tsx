@@ -36,7 +36,7 @@ const Links: FunctionComponent<Properties> = ({ gameId, currentPlayer, onShowRul
   });
 
   return (
-    <div class="links">
+    <nav>
       <a
         href={getShareUrl(gameId, currentPlayer)}
         name="Share game to opponent"
@@ -71,7 +71,7 @@ const Links: FunctionComponent<Properties> = ({ gameId, currentPlayer, onShowRul
           <use href="#github" />
         </SVG>
       </a>
-    </div>
+    </nav>
   );
 };
 

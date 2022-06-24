@@ -1,21 +1,38 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<Modal> renders 1`] = `
-<div
-  class="modal"
-  data-testid="modal"
->
-  <div
-    class="test"
-    role="dialog"
-    title="test"
-  >
-    <button
-      class="close"
-      title="Close"
+<body>
+  <div>
+    <dialog
+      aria-details="test"
+      class="test"
+      open=""
     >
-      X
-    </button>
+      <button
+        aria-label="Close Dialog"
+        class="close"
+      >
+        X
+      </button>
+    </dialog>
   </div>
-</div>
+</body>
+`;
+
+exports[`<Modal> renders 2`] = `
+<body>
+  <div>
+    <dialog
+      aria-details="test"
+      class="test"
+    >
+      <button
+        aria-label="Close Dialog"
+        class="close"
+      >
+        X
+      </button>
+    </dialog>
+  </div>
+</body>
 `;

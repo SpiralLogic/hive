@@ -1,23 +1,43 @@
 import '../css/modal.css';
 
 import { FunctionComponent } from 'preact';
+import { useEffect, useRef, useState } from 'preact/hooks';
 
-type Properties = { visible: boolean; name: string; onClose: () => void };
+type Properties = {
+  isOpen?: boolean;
+  name: string;
+  onClose?: () => void;
+};
+
 const Modal: FunctionComponent<Properties> = (properties) => {
-  const { visible, onClose, children } = properties;
-  return visible ? (
-    <div
-      data-testid={'modal'}
-      class="modal"
-      onClick={(error) => (error.target as HTMLDivElement).classList.contains('modal') && onClose()}>
-      <div role="dialog" title={properties.name} class={properties.name}>
-        <button class="close" title="Close" onClick={onClose}>
-          X
-        </button>
-        {children}
-      </div>
-    </div>
-  ) : null;
+  const { children, isOpen = false, name, onClose = () => {} } = properties;
+  const reference = useRef<HTMLDialogElement>(null);
+
+  const [open, setOpen] = useState(isOpen);
+
+  useEffect(() => {
+    const referenceOpen = reference.current?.hasAttribute('open');
+
+    if (referenceOpen !== isOpen) {
+      isOpen ? reference.current?.showModal() : reference.current?.close();
+      setOpen(isOpen);
+    }
+  }, [isOpen, open]);
+
+  const closeHandler = (event: MouseEvent) => {
+    event.preventDefault();
+    reference.current?.close();
+    onClose();
+  };
+
+  return (
+    <dialog open={open || undefined} ref={reference} aria-details={name} class={name}>
+      <button class="close" aria-label="Close Dialog" onClick={closeHandler}>
+        X
+      </button>
+      {children}
+    </dialog>
+  );
 };
 
 Modal.displayName = 'Modal';

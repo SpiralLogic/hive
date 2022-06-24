@@ -55,6 +55,7 @@ const createTiles = (cell: Cell, currentCellPlayer: PlayerId) => {
     />
   ));
 };
+
 const GameArea: FunctionComponent<Properties> = ({ players, cells, gameId, gameStatus, currentPlayer }) => {
   const [showRules, setShowRules] = useState<boolean>(false);
   const [showShare, setShowShare] = useState<boolean>(false);
@@ -68,9 +69,10 @@ const GameArea: FunctionComponent<Properties> = ({ players, cells, gameId, gameS
     setShowShare(result);
   };
 
-  const attributes = { ondragover: handleDragOver, className: 'hive' };
+  const attributes = { ondragover: handleDragOver };
   const hextilleBuilder = new HextilleBuilder(cells);
   const rows = hextilleBuilder.createRows();
+
   useEffect(() => {
     setShowGameOver(gameOutcome(gameStatus, currentPlayer) !== '');
   }, [gameStatus, currentPlayer]);
@@ -87,9 +89,9 @@ const GameArea: FunctionComponent<Properties> = ({ players, cells, gameId, gameS
   resetOtherPlayerSelected(currentPlayer, { players, cells }, dispatcher);
 
   return (
-    <div {...attributes} title={'Hive Game Area'}>
+    <main {...attributes} title={'Hive Game Area'}>
       <Players currentPlayer={currentPlayer} players={players} />
-      <main>
+      <section title="Pieces not yet in play">
         <Links
           onShowRules={setShowRules}
           onShowShare={shareComponent}
@@ -107,25 +109,20 @@ const GameArea: FunctionComponent<Properties> = ({ players, cells, gameId, gameS
             </Row>
           ))}
         </Hextille>
-      </main>
-      <Modal visible={!!playerConnected} name="player connected" onClose={() => setPlayerConnected(false)}>
+      </section>
+      <Modal isOpen={!!playerConnected} name="player connected" onClose={() => setPlayerConnected(false)}>
         <PlayerConnected connected={playerConnected} />
       </Modal>
-      <Modal visible={showRules} name="rules" onClose={() => setShowRules(false)}>
+      <Modal isOpen={showRules} onClose={() => setShowRules(false)} name="rules">
         <Rules />
       </Modal>
-      <Modal visible={showShare} name="share" onClose={() => setShowShare(false)}>
+      <Modal isOpen={showShare} onClose={() => setShowShare(false)} name="share">
         <p>Opponent's link has been copied to clipboard!</p>
       </Modal>
-      <Modal
-        visible={showGameOver}
-        name="game over"
-        onClose={() => {
-          setShowGameOver(false);
-        }}>
+      <Modal isOpen={showGameOver} onClose={() => setShowGameOver(false)} name="game over">
         <GameOver outcome={gameOutcome(gameStatus, currentPlayer)} />
       </Modal>
-    </div>
+    </main>
   );
 };
 GameArea.displayName = 'GameArea';

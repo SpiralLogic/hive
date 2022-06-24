@@ -14,7 +14,7 @@ const defaultProps = {
 describe('<Players>', () => {
   it('players are rendered', () => {
     render(<Players {...defaultProps} />);
-    expect(screen.getAllByTitle(/^Player \d$/)).toHaveLength(2);
+    expect(screen.getAllByRole('heading', { name: /Player \d+/ })).toHaveLength(2);
   });
 
   it('renders', () => {

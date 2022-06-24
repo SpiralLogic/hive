@@ -1,7 +1,16 @@
+/* eslint-disable func-names,@typescript-eslint/no-unnecessary-condition,@typescript-eslint/unbound-method */
 import '@testing-library/jest-dom';
 import '@testing-library/jest-dom/extend-expect';
 import { render } from '@testing-library/preact';
 import 'preact';
+
+HTMLDialogElement.prototype.showModal = function showModal(this: HTMLDialogElement) {
+  this.setAttribute('open', 'true');
+};
+
+HTMLDialogElement.prototype.close = function close(this: HTMLDialogElement) {
+  this.removeAttribute('open');
+};
 
 expect.addSnapshotSerializer({
   test: ({ asFragment, container, rerender }) =>

@@ -19,12 +19,12 @@ describe('<Player>', () => {
         />
       </Player>
     );
-    return [rerender, screen.getByTitle(/Player 1/)];
+    return [rerender, screen.getByLabelText(/Player 1/)];
   };
 
   it('has rendered with player name', () => {
     createPlayer();
-    expect(screen.getByText(/Player 1/)).toBeInTheDocument();
+    expect(screen.getByRole('heading')).toHaveTextContent(/Player 1/);
   });
 
   it('player is rendered with their tiles', () => {
@@ -35,16 +35,15 @@ describe('<Player>', () => {
   it(`player is hidden when last tile is played`, async () => {
     jest.useFakeTimers();
     const [rerender] = createPlayer();
-    expect(screen.getByTitle('Player 1')).not.toHaveClass('hide');
 
+    expect(screen.getByLabelText(/player 1/i)).not.toHaveClass('hide');
     rerender(<Player id={1} name="Player 1" />);
     jest.runAllTimers();
 
-    expect(await screen.findByTitle('Player 1')).toHaveClass('hide');
+    expect(await screen.findByLabelText(/player 1/i)).toHaveClass('hide');
+    fireEvent.transitionEnd(screen.getByLabelText(/player 1/i));
 
-    fireEvent.transitionEnd(screen.getByTitle('Player 1'));
-
-    expect(screen.queryByTitle('Player 1')).not.toBeInTheDocument();
+    expect(screen.queryByLabelText(/player 1/i)).not.toBeInTheDocument();
   });
 
   it('renders', () => {

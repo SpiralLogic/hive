@@ -1,4 +1,4 @@
-.hive {
+main {
     display: inline-grid;
     width: 100vw;
     height: 100%;
@@ -6,7 +6,7 @@
     grid-template-columns: max-content auto;
 }
 
-main {
+section {
     background: #232323;
     display: grid;
     overflow: auto;
@@ -16,7 +16,7 @@ main {
 }
 
 @media only screen and (max-width: 720px) {
-    .hive {
+    main {
         gap: 0;
         grid-template-columns: unset;
         grid-template-rows: max-content auto;

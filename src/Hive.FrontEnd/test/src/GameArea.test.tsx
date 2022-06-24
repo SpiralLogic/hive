@@ -93,8 +93,8 @@ describe('<GameArea>', () => {
       />
     );
 
-    await userEvent.click(screen.getByRole('link', { name: /rules/i }));
-    await userEvent.click(screen.getByTitle(/close/i));
+    await userEvent.click(screen.getByTitle(/rules/i));
+    await userEvent.click(await screen.findByRole(/button/i, { hidden: false, name: /close dialog/i }));
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
   });
 
@@ -134,7 +134,7 @@ describe('<GameArea>', () => {
       />
     );
     await userEvent.click(screen.getByTitle(/Share/));
-    await userEvent.click(await screen.findByTitle(/close/i));
+    await userEvent.click(await screen.findByRole(/button/i, { hidden: false, name: /close dialog/i }));
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
     restore();
   });
@@ -272,23 +272,7 @@ describe('<GameArea>', () => {
     );
     dispatcher.dispatch<HiveEvent>({ type: 'opponentDisconnected' });
 
-    await userEvent.click(await screen.findByTitle(/close/i));
-    expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
-  });
-
-  it(`closes game over modal`, async () => {
-    const gameState = createGameState(1);
-
-    render(
-      <GameArea
-        gameId={'123A'}
-        gameStatus={'GameOver'}
-        players={gameState.players}
-        cells={gameState.cells}
-        currentPlayer={0}
-      />
-    );
-    await userEvent.click(screen.getByTitle(/close/i));
+    await userEvent.click(await screen.findByRole(/button/i, { hidden: false, name: /close dialog/i }));
 
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
   });
@@ -365,6 +349,22 @@ describe('<GameArea>', () => {
         currentPlayer={0}
       />
     );
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+  });
+
+  it(`closes game over modal`, async () => {
+    const gameState = createGameState(1);
+
+    render(
+      <GameArea
+        gameId={'123A'}
+        gameStatus={'GameOver'}
+        players={gameState.players}
+        cells={gameState.cells}
+        currentPlayer={0}
+      />
+    );
+    await userEvent.click(await screen.findByRole(/button/i, { hidden: false, name: /close dialog/i }));
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
   });
 
