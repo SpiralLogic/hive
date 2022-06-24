@@ -1,4 +1,4 @@
-section.player {
+.player {
     display: inline-flex;
     flex-direction: column;
     width: calc(var(--tile-size) + 2vh);
@@ -6,19 +6,19 @@ section.player {
     border-right: 1px solid white;
 }
 
-section.player0 {
+.player0 {
     --background: var(--p0background);
     --creature: var(--p0creature);
     --shadow: var(--p0shadow);
 }
 
-section.player1 {
+.player1 {
     --background: var(--p1background);
     --creature: var(--p1creature);
     --shadow: var(--p1shadow);
 }
 
-section.player h2 {
+.player h2 {
     font-size: 1.5em;
     font-weight: bold;
     line-height: 2em;
@@ -29,28 +29,28 @@ section.player h2 {
     outline: none;
 }
 
-section.player.hide h2 {
+.player.hide h2 {
     transition-duration: 1s;
     transition-property: transform;
     transform: scaleX(0);
 }
 
-section.player.hide {
+.player.hide {
     width: 0;
     transition-duration: 1s;
     transition-property: width, height, font-size;
     border: none;
 }
 
-section.player .tile {
+.player .tile {
     margin: .4vh auto;
 }
 
-section.player .tile:not(.selected) {
+.player .tile:not(.selected) {
     --shadow: #1A1A1DCC;
 }
 
-section.player .tiles {
+.player .tiles {
     display: inline-grid;
     overflow: hidden auto;
     padding: 2vh .5vw;
@@ -59,54 +59,54 @@ section.player .tiles {
     grid-template-rows: max-content;
 }
 
-section.player .tiles::-webkit-scrollbar {
+.player .tiles::-webkit-scrollbar {
     width: 7px;
     height: 4px;
     border-bottom: 1px inset #7318B133;
     background-color: transparent;
 }
 
-section.player .tiles::-webkit-scrollbar-thumb {
+.player .tiles::-webkit-scrollbar-thumb {
     transition-duration: .5s;
     transition-property: background-color;
     border-radius: 2px;
     background-color: #FFFFFF30;
 }
 
-section.player .tiles::-webkit-scrollbar-thumb:hover {
+.player .tiles::-webkit-scrollbar-thumb:hover {
     background-color: #FFF;
 }
 
 @media only screen and (max-width: 720px) {
-    section.player {
+    .player {
         flex-direction: row;
         width: 100vw;
         height: calc(var(--tile-size) + 3vh);
         border-right-width: 0;
     }
 
-    section.player.hide {
+    .player.hide {
         width: 100vw;
         height: 0;
     }
 
-    section.player h2 {
+    .player h2 {
         align-self: center;
         justify-content: center;
         margin: 0 3vw;
     }
 
-    section.player.hide h2 {
+    .player.hide h2 {
         transition-duration: 1s;
         transition-property: transform;
         transform: scaleY(0);
     }
 
-    section.player .tile {
+    .player .tile {
         margin: auto .4vh;
     }
 
-    section.player .tiles {
+    .player .tiles {
         display: inline-grid;
         overflow: auto hidden;
         padding: 1vh 3vw;
@@ -114,7 +114,7 @@ section.player .tiles::-webkit-scrollbar-thumb:hover {
         grid-auto-flow: column;
     }
 
-    section.player .tiles::-webkit-scrollbar-thumb {
+    .player .tiles::-webkit-scrollbar-thumb {
         width: 3px;
         background-color: #FFF;
     }
