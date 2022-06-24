@@ -12,7 +12,7 @@ COPY . /source
 
 RUN curl --connect-timeout 5 \
              --max-time 10 \
-             --retry 5 \
+             --retry 15 \
              --retry-delay 0 \
               -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash \
     && . ~/.nvm/nvm.sh \
