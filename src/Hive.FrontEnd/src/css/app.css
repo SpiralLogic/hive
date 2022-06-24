@@ -15,7 +15,6 @@ body {
     background: #4c4c4c;
     height: 100vh;
     margin: 0;
-
     overscroll-behavior-y: contain;
 }
 
@@ -32,6 +31,7 @@ body > svg {
     body {
         filter: brightness(1.1);
         margin: 0;
+
         /* noinspection CssInvalidPropertyValue */
         max-height: fill-available;
     }
