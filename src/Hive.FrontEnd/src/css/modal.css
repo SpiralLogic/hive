@@ -1,19 +1,9 @@
 dialog::backdrop {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background-color: transparent;
-    backdrop-filter: blur(5px);
+    backdrop-filter: blur(6px);
 }
 
-dialog  {
+dialog {
     font-size: 1rem;
-    position: fixed;
-    top: 20%;
-    left: 50%;
-    display: flex;
     align-content: center;
     flex-direction: column;
     width: max-content;
@@ -22,7 +12,6 @@ dialog  {
     padding: 2vmin;
     transition-duration: .5s;
     transition-property: height, width;
-    transform: translateX(-50%);
     border-radius: 5px;
     background-color: rgb(249 235 208);
 }
