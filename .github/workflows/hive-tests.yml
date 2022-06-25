@@ -38,7 +38,7 @@ jobs:
         with:
           name: backend-results
           path: |
-            ./reports
+            ./reports/**
             ./Hive.Api.Tests/coverage.opencover.xml
             ./Hive.Domain.Tests/coverage.opencover.xml
         # Use always() to always run this step to publish test results when there are test failures
@@ -74,5 +74,5 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: frontend-results
-          path: reports
+          path: ./reports/**
         if: ${{ always() }}
