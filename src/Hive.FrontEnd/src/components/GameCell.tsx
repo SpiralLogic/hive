@@ -1,7 +1,7 @@
 import { FunctionComponent } from 'preact';
 import { useContext, useEffect, useState } from 'preact/hooks';
 import { HexCoordinates, Tile as TileType } from '../domain';
-import {  TileEvent } from '../services';
+import { TileEvent } from '../services';
 import { Dispatcher, useHiveDispatchListener } from '../utilities/dispatcher';
 import { handleDragOver, handleKeyboardNav, isEnterOrSpace } from '../utilities/handlers';
 import { useClassReducer } from '../utilities/class-reducer';
