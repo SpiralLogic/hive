@@ -1,0 +1,28 @@
+FROM library/node:17 as node-build
+
+WORKDIR /source
+ENV NODE_ENV=development
+
+RUN npm i --location=global pnpm
+COPY ./src/Hive.FrontEnd .
+
+RUN pnpm install -P
+RUN pnpm run build
+
+FROM mcr.microsoft.com/dotnet/sdk:7.0
+WORKDIR /source
+COPY ./src .
+
+ENV ASPNETCORE_ENVIRONMENT=Development
+ENV DOTNET_GENERATE_ASPNET_CERTIFICATE=true
+ENV ASPNETCORE_HTTPS_PORT=5001
+ENV ASPNETCORE_URLS="https://+:5001;http://+:5000"
+
+COPY --from=node-build /source/public /source/Hive.FrontEnd/public
+COPY --from=node-build /source/public /source/Hive.Api/wwwroot
+
+RUN dotnet build -c test
+
+EXPOSE 5001, 5000
+
+ENTRYPOINT ["dotnet","run","-c","test","--project","./Hive.Api"]

@@ -4,6 +4,7 @@ exports[`<Players> renders 1`] = `
 <body>
   <div>
     <aside
+      aria-label="PLayer pieces  not yet on the board"
       class="players"
     >
       <section

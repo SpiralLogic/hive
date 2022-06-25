@@ -4,7 +4,7 @@ import { useContext, useEffect, useState } from 'preact/hooks';
 import { PlayerId, Tile as TileType } from '../domain';
 import { TileAction } from '../services';
 import { useClassReducer } from '../utilities/class-reducer';
-import { useHiveDispatchListener, Dispatcher } from '../utilities/dispatcher';
+import { Dispatcher, useHiveDispatchListener } from '../utilities/dispatcher';
 import { handleDrop, handleKeyboardNav, isEnterOrSpace } from '../utilities/handlers';
 import Tile from './Tile';
 

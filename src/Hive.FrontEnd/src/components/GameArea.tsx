@@ -1,11 +1,11 @@
 import '../css/gameArea.css';
 
-import { FunctionComponent } from 'preact';
 import { useContext, useEffect, useState } from 'preact/hooks';
+import { FunctionComponent } from 'preact';
 
 import { Cell, GameState, GameStatus, PlayerId } from '../domain';
-import { HextilleBuilder, HiveEvent } from '../services';
-import { Dispatcher, useHiveDispatchListener } from '../utilities/dispatcher';
+import { HextilleBuilder, HiveDispatcher, HiveEvent } from '../services';
+import { useHiveDispatchListener, Dispatcher } from '../utilities/dispatcher';
 import { handleDragOver } from '../utilities/handlers';
 import { cellKey, removeOtherPlayerMoves, resetOtherPlayerSelected } from '../utilities/hextille';
 import { shareGame } from '../utilities/share';
@@ -63,13 +63,13 @@ const GameArea: FunctionComponent<Properties> = ({ players, cells, gameId, gameS
   const [showGameOver, setShowGameOver] = useState<boolean>(
     () => gameOutcome(gameStatus, currentPlayer) !== ''
   );
-  const dispatcher = useContext(Dispatcher);
+
+  const dispatcher = useContext<HiveDispatcher>(Dispatcher);
   const shareComponent = async () => {
     const result = await shareGame(gameId, currentPlayer);
     setShowShare(result);
   };
 
-  const attributes = { ondragover: handleDragOver };
   const hextilleBuilder = new HextilleBuilder(cells);
   const rows = hextilleBuilder.createRows();
 
@@ -89,9 +89,9 @@ const GameArea: FunctionComponent<Properties> = ({ players, cells, gameId, gameS
   resetOtherPlayerSelected(currentPlayer, { players, cells }, dispatcher);
 
   return (
-    <main {...attributes} title={'Hive Game Area'}>
+    <main onDragOver={handleDragOver} title="Hive Game Area">
       <Players currentPlayer={currentPlayer} players={players} />
-      <section title="Pieces not yet in play">
+      <section title="Game playing area">
         <Links
           onShowRules={setShowRules}
           onShowShare={shareComponent}

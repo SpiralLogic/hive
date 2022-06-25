@@ -1,7 +1,7 @@
 import '../css/app.css';
 
 import { FunctionComponent } from 'preact';
-import { useEffect, useMemo, useState } from 'preact/hooks';
+import { useContext, useEffect, useState } from 'preact/hooks';
 
 import { GameState } from '../domain';
 import { HexEngine, HexServerConnectionFactory } from '../domain/engine';
@@ -11,7 +11,6 @@ import {
   createOpponentSelectionHandler,
 } from '../utilities/handlers';
 import { Dispatcher } from '../utilities/dispatcher';
-import { HiveDispatcher } from '../services';
 import GameArea from './GameArea';
 
 const App: FunctionComponent<{ engine: HexEngine; connectionFactory: HexServerConnectionFactory }> = (
@@ -20,7 +19,7 @@ const App: FunctionComponent<{ engine: HexEngine; connectionFactory: HexServerCo
   const { engine, connectionFactory } = properties;
   const [gameState, updateHandler] = useState<GameState | undefined>();
   const [fetchStatus, setFetchStatus] = useState('loading !');
-  const dispatcher = useMemo(() => new HiveDispatcher(), []);
+  const dispatcher = useContext(Dispatcher);
 
   useEffect(() => {
     engine.initialGame

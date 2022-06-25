@@ -14,6 +14,7 @@ dialog {
     transition-property: height, width;
     border-radius: 5px;
     background-color: rgb(249 235 208);
+    text-align: center;
 }
 
 dialog button.close {

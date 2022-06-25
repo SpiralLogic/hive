@@ -35,16 +35,17 @@ public class Startup
         }
         else
         {
-            services.AddStackExchangeRedisCache(options =>
-            {
-                options.Configuration = _configuration["RedisHost"];
-            });
-
-            signalR.AddStackExchangeRedis(_configuration["RedisHost"]);
+            services.AddStackExchangeRedisCache(
+                options =>
+                {
+                    options.Configuration = _configuration["RedisHost"];
+                }
+            );
+            var regisConfig = _configuration["RedisHost"];
+            if (regisConfig != null) signalR.AddStackExchangeRedis(regisConfig);
         }
 
-        services.AddControllers()
-            .AddJsonOptions(options => { options.JsonSerializerOptions.Converters.AddAllJsonConverters(); });
+        services.AddControllers().AddJsonOptions(options => { options.JsonSerializerOptions.Converters.AddAllJsonConverters(); });
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -58,23 +59,27 @@ public class Startup
         }
 
         app.UseDefaultFiles();
-        app.UseStaticFiles(new StaticFileOptions
-        {
-            OnPrepareResponse = ctx =>
+        app.UseStaticFiles(
+            new StaticFileOptions
             {
-                if (ctx.File.Name != "index.html")
+                OnPrepareResponse = ctx =>
                 {
-                    const int durationInSeconds = 31536000;
-                    ctx.Context.Response.Headers[HeaderNames.CacheControl] = "public,max-age=" + durationInSeconds;
+                    if (ctx.File.Name != "index.html")
+                    {
+                        const int durationInSeconds = 31536000;
+                        ctx.Context.Response.Headers[HeaderNames.CacheControl] = "public,max-age=" + durationInSeconds;
+                    }
                 }
             }
-        });
+        );
 
         app.UseRouting();
-        app.UseEndpoints(endpoints =>
-        {
-            endpoints.MapControllers();
-            endpoints.MapHub<GameHub>("/gamehub/{id}/{playerId}");
-        });
+        app.UseEndpoints(
+            endpoints =>
+            {
+                endpoints.MapControllers();
+                endpoints.MapHub<GameHub>("/gamehub/{id}/{playerId}");
+            }
+        );
     }
 }

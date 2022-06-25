@@ -9,7 +9,7 @@ import Player from './Player';
 const Players: FunctionComponent<{ players: PlayersType; currentPlayer: PlayerId }> = (properties) => {
   const { currentPlayer, players } = properties;
   return (
-    <aside className="players">
+    <aside className="players" aria-label={'PLayer pieces  not yet on the board'}>
       {players.map((player) => (
         <Player key={player.id} name={player.name} id={player.id}>
           {player.tiles.map((tile) => (

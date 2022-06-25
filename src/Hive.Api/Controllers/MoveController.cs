@@ -79,7 +79,7 @@ public class MoveController : ControllerBase
                 gameStatus
             )) return Conflict(gameState);
 
-        var previousMoves = PreventRepeatedMoves(playerId, previousMovesJson, players);
+        var previousMoves = PreventRepeatedMoves(playerId, previousMovesJson!, players);
 
         var game = new Domain.Hive(players.ToList(), cells.ToHashSet());
 

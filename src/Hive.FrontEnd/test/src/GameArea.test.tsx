@@ -1,10 +1,10 @@
 import { render, screen } from '@testing-library/preact';
 import userEvent from '@testing-library/user-event';
+import { Dispatcher } from '../../src/utilities/dispatcher';
 
 import GameArea from '../../src/components/GameArea';
 import { GameStatus } from '../../src/domain';
 import { HiveDispatcher, HiveEvent, TileAction } from '../../src/services';
-import { Dispatcher } from '../../src/utilities/dispatcher';
 import { createGameState } from '../fixtures/game-area.fixtures';
 import { mockClipboard, mockExecCommand, mockLocation, mockShare, noShare, simulateEvent } from '../helpers';
 

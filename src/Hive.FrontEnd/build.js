@@ -1,5 +1,6 @@
 const esbuild = require('esbuild');
 const fs = require('fs');
+const path = require('path');
 
 const createIndexHtmlFile = (metafile) => {
   const outputFiles = Object.keys(metafile.outputs).map((file) => file.replace(/^public/, ''));
@@ -10,36 +11,40 @@ const createIndexHtmlFile = (metafile) => {
       .map(replaceFn)
       .join('\n  ');
 
-  const cssLinks = createOutputsHtml(
+  const scripts = createOutputsHtml(
     'js',
     (scriptFile) => `<script type="module" src="${scriptFile}"></script>`
   );
-  const scripts = createOutputsHtml(
+  const cssLinks = createOutputsHtml(
     'css',
     (cssFile) => `<link rel="stylesheet" type="text/css" href="${cssFile}" />`
   );
 
-  const indexTemplate = fs.readFileSync('./src/index.html').toString();
-  const indexHtml = indexTemplate.replace('[css]', cssLinks).replace('[scripts]', scripts);
+  const indexTemplate = fs.readFileSync(path.resolve(__dirname, './src/index.html')).toString();
+  const indexHtml = indexTemplate.replace('[scripts]', scripts).replace('[css]', cssLinks);
 
-  fs.writeFileSync('./public/index.html', indexHtml);
+  const writePath = path.resolve(__dirname, './public/index.html');
+  fs.writeFileSync(writePath, indexHtml);
   console.log('index.html written');
+  console.log('NODE_ENV: ' + process.env.NODE_ENV);
+  console.log('ASPNETCORE_ENVIRONMENT: ' + process.env.ASPNETCORE_ENVIRONMENT);
 };
 const buildProperties = {
   entryPoints: ['./src/index.tsx'],
   bundle: true,
+  minify: process.env.NODE_ENV !== 'development',
   define: { 'process.env.NODE_ENV': `"${process.env.NODE_ENV}"` },
+  sourcemap: process.env.NODE_ENV === 'development',
   inject: ['./inject.shim.js'],
   loader: {
     '.svg': 'text',
   },
   entryNames: '[name]-[hash]',
-  minify: process.env.NODE_ENV !== 'development',
   outfile: './public/js/hive.js',
-  sourcemap: process.env.NODE_ENV === 'development',
   jsxFactory: 'h',
   jsxFragment: 'Fragment',
   metafile: true,
+  platform: 'browser',
 };
 if (!process.env.WATCH) {
   const { metafile } = esbuild.buildSync(buildProperties);
