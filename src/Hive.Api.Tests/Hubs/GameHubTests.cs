@@ -1,8 +1,8 @@
 using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
+using Hive.Api.Hubs;
 using Hive.Domain.Entities;
-using Hive.Hubs;
 using Microsoft.AspNetCore.Http.Connections.Features;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Routing;
@@ -16,15 +16,13 @@ public class GameHubTests
 {
     private const string HubConnectionId = "HUB_CONNECTION_ID";
     private const string HubGroupName = "GameId";
-    private Mock<IClientProxy> _clientProxyMock;
-    private Mock<IGroupManager> _groupManagerMock;
-
-    private Mock<IFeatureCollection> _featureCollectionMock;
-    private Mock<IHttpContextFeature> _httpContextFeatureMock;
+    private Mock<IClientProxy> _clientProxyMock = new();
+    private readonly Mock<IGroupManager> _groupManagerMock = new();
+    private Mock<IFeatureCollection> _featureCollectionMock = new();
+    private Mock<IHttpContextFeature> _httpContextFeatureMock = new();
 
     private GameHub CreateGameHub(string playerId)
     {
-        _groupManagerMock = new Mock<IGroupManager>();
         _httpContextFeatureMock = new Mock<IHttpContextFeature>();
         _featureCollectionMock = new Mock<IFeatureCollection>();
         _clientProxyMock = new Mock<IClientProxy>();
@@ -34,11 +32,11 @@ public class GameHubTests
         _groupManagerMock.Setup(m => m.AddToGroupAsync(HubConnectionId, $"{HubGroupName}-{playerId}", It.IsAny<CancellationToken>()));
         _groupManagerMock.Setup(m => m.RemoveFromGroupAsync(HubConnectionId, $"{HubGroupName}-{playerId}", It.IsAny<CancellationToken>()));
 
-        _httpContextFeatureMock.SetupSequence(m => m.HttpContext.Features.Get<IRoutingFeature>())
-            .Returns(() => new RoutingFeature {RouteData = new RouteData {Values = {{"id", HubGroupName}}}})
-            .Returns(() => new RoutingFeature {RouteData = new RouteData {Values = {{"playerId", playerId}}}})
-            .Returns(() => new RoutingFeature {RouteData = new RouteData {Values = {{"id", null}}}})
-            .Returns(() => new RoutingFeature {RouteData = new RouteData {Values = {{"playerId", null}}}});
+        _httpContextFeatureMock.SetupSequence(m => m.HttpContext!.Features.Get<IRoutingFeature>())
+            .Returns(() => new RoutingFeature { RouteData = new RouteData { Values = { { "id", HubGroupName } } } })
+            .Returns(() => new RoutingFeature { RouteData = new RouteData { Values = { { "playerId", playerId } } } })
+            .Returns(() => new RoutingFeature { RouteData = new RouteData { Values = { { "id", null } } } })
+            .Returns(() => new RoutingFeature { RouteData = new RouteData { Values = { { "playerId", null } } } });
 
         _featureCollectionMock.Setup(m => m.Get<IHttpContextFeature>()).Returns(_httpContextFeatureMock.Object);
 
@@ -84,7 +82,7 @@ public class GameHubTests
             await hub.OnConnectedAsync();
             _groupManagerMock.Verify(g => g.AddToGroupAsync(HubConnectionId, HubGroupName, It.IsAny<CancellationToken>()));
             _groupManagerMock.Verify(g => g.AddToGroupAsync(HubConnectionId, $"{HubGroupName}-{playerId}", It.IsAny<CancellationToken>()));
-            _clientProxyMock.Verify(c => c.SendCoreAsync("PlayerConnection", new object[] {"connect"}, It.IsAny<CancellationToken>()));
+            _clientProxyMock.Verify(c => c.SendCoreAsync("PlayerConnection", new object[] { "connect" }, It.IsAny<CancellationToken>()));
         }
 
         [Theory]
@@ -98,7 +96,7 @@ public class GameHubTests
             _groupManagerMock.Verify(
                 g => g.RemoveFromGroupAsync(HubConnectionId, $"{HubGroupName}-{playerId}", It.IsAny<CancellationToken>())
             );
-            _clientProxyMock.Verify(c => c.SendCoreAsync("PlayerConnection", new object[] {"disconnect"}, It.IsAny<CancellationToken>()));
+            _clientProxyMock.Verify(c => c.SendCoreAsync("PlayerConnection", new object[] { "disconnect" }, It.IsAny<CancellationToken>()));
         }
 
         [Theory]
@@ -121,7 +119,7 @@ public class GameHubTests
             await hub.SendSelection("select", selectedTile);
 
             _clientProxyMock.Verify(
-                c => c.SendCoreAsync("OpponentSelection", new object[] {"select", selectedTile}, It.IsAny<CancellationToken>())
+                c => c.SendCoreAsync("OpponentSelection", new object[] { "select", selectedTile }, It.IsAny<CancellationToken>())
             );
         }
 

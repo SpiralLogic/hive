@@ -5,7 +5,7 @@ using System.Reflection;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace Hive.Converters;
+namespace Hive.Api.Converters;
 
 public class StackJsonConverter : JsonConverterFactory
 {

@@ -1,11 +1,11 @@
 ﻿using System.Text.Json;
 using System.Threading.Tasks;
-using Hive.DTOs;
+using Hive.Api.DTOs;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Options;
 
-namespace Hive.Controllers;
+namespace Hive.Api.Controllers;
 
 [ApiController]
 public class GameController : Controller

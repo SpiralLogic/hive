@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
-namespace Hive.Converters;
+namespace Hive.Api.Converters;
 
 public static class Extensions
 {

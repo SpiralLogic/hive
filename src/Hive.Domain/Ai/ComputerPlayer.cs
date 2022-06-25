@@ -105,7 +105,8 @@ public class ComputerPlayer
             if (depth == HeuristicValues.MaxDepth) await BroadcastSelect(values.Move.Tile);
 
             var score = nextScore;
-            if (nextScore < HeuristicValues.ScoreMax) score += -(await Run(values.Move, depth - 1)).Score / (HeuristicValues.MaxDepth - depth + 1);
+            if (nextScore < HeuristicValues.ScoreMax)
+                score += -(await Run(values.Move, depth - 1)).Score / (HeuristicValues.MaxDepth - depth + 1);
 
             RevertMove();
 

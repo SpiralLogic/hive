@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 
-namespace Hive;
+namespace Hive.Api;
 
 [ExcludeFromCodeCoverage]
 public static class Program

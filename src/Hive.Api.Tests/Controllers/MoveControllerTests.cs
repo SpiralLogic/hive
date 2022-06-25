@@ -3,11 +3,11 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
-using Hive.Controllers;
+using Hive.Api.Controllers;
+using Hive.Api.DTOs;
+using Hive.Api.Hubs;
 using Hive.Domain;
 using Hive.Domain.Entities;
-using Hive.DTOs;
-using Hive.Hubs;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Caching.Distributed;
@@ -302,7 +302,6 @@ public class MoveControllerTests
         for (var i = 0; i < 4; i++)
         for (var playerId = 0; playerId < 2; playerId++)
         {
-
             var player1Tile = game.Players.First(p => p.Id == playerId).Tiles.First(t => t.Moves.Any());
             game.Move(new Move(player1Tile, player1Tile.Moves.First()));
         }

@@ -3,7 +3,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using Hive.Domain.Entities;
 
-namespace Hive.Converters;
+namespace Hive.Api.Converters;
 
 public class CreatureJsonConverter : JsonConverter<Creature>
 {

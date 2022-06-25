@@ -1,6 +1,6 @@
 using FluentAssertions;
-using Hive.Controllers;
-using Hive.DTOs;
+using Hive.Api.Controllers;
+using Hive.Api.DTOs;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Distributed;

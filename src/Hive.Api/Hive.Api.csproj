@@ -3,7 +3,6 @@
         <TargetFramework>net7.0</TargetFramework>
         <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
         <GenerateTargetFrameworkAttribute>false</GenerateTargetFrameworkAttribute>
-        <RootNamespace>Hive</RootNamespace>
         <IsPackable>false</IsPackable>
         <LangVersion>latestmajor</LangVersion>
         <Nullable>enable</Nullable>

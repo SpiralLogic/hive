@@ -3,7 +3,7 @@ using System.IO;
 using System.Text;
 using System.Text.Json;
 using FluentAssertions;
-using Hive.Converters;
+using Hive.Api.Converters;
 using Hive.Domain.Entities;
 using Xunit;
 

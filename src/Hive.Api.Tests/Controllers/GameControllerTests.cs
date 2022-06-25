@@ -1,9 +1,9 @@
 using System.Threading.Tasks;
 using FluentAssertions;
-using Hive.Controllers;
+using Hive.Api.Controllers;
+using Hive.Api.DTOs;
 using Hive.Domain;
 using Hive.Domain.Entities;
-using Hive.DTOs;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Options;

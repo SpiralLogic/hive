@@ -2,16 +2,16 @@
 using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
+using Hive.Api.DTOs;
+using Hive.Api.Hubs;
 using Hive.Domain.Entities;
-using Hive.DTOs;
-using Hive.Hubs;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Options;
-using Move = Hive.DTOs.Move;
+using Move = Hive.Api.DTOs.Move;
 
-namespace Hive.Controllers;
+namespace Hive.Api.Controllers;
 
 [ApiController]
 public class MoveController : ControllerBase
@@ -75,7 +75,7 @@ public class MoveController : ControllerBase
         var gameState = JsonSerializer.Deserialize<GameState>(gameSessionJson, _jsonSerializerOptions)!;
         var (players, cells, _, gameStatus) = gameState;
 
-        if (new[] {GameStatus.GameOver, GameStatus.AiWin, GameStatus.Player0Win, GameStatus.Player1Win, GameStatus.Draw}.Contains(
+        if (new[] { GameStatus.GameOver, GameStatus.AiWin, GameStatus.Player0Win, GameStatus.Player1Win, GameStatus.Draw }.Contains(
                 gameStatus
             )) return Conflict(gameState);
 
@@ -113,7 +113,8 @@ public class MoveController : ControllerBase
 
         if (!previousMoves.TryDequeue(out var previousMove)) return previousMoves;
 
-        foreach (var tile in players.First(p => p.Id == playerId).Tiles.Where(t => t.Id == previousMove.Tile.Id)) tile.Moves.Remove(previousMove.Coords);
+        foreach (var tile in players.First(p => p.Id == playerId).Tiles.Where(t => t.Id == previousMove.Tile.Id))
+            tile.Moves.Remove(previousMove.Coords);
 
         return previousMoves;
     }

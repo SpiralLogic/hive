@@ -1,6 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
-using Hive.Converters;
-using Hive.Hubs;
+using Hive.Api.Converters;
+using Hive.Api.Hubs;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -8,7 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Net.Http.Headers;
 
-namespace Hive;
+namespace Hive.Api;
 
 [ExcludeFromCodeCoverage]
 public class Startup

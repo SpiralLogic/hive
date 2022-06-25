@@ -4,7 +4,7 @@ using Hive.Domain.Entities;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.AspNetCore.SignalR;
 
-namespace Hive.Hubs;
+namespace Hive.Api.Hubs;
 
 public class GameHub : Hub
 {

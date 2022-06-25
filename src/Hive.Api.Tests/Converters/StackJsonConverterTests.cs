@@ -5,7 +5,7 @@ using System.IO;
 using System.Text;
 using System.Text.Json;
 using FluentAssertions;
-using Hive.Converters;
+using Hive.Api.Converters;
 using Xunit;
 
 namespace Hive.Api.Tests.Converters;

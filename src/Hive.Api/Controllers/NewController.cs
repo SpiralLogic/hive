@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Linq;
 using System.Text.Json;
+using Hive.Api.DTOs;
 using Hive.Domain;
 using Hive.Domain.Entities;
-using Hive.DTOs;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Options;
 
-namespace Hive.Controllers;
+namespace Hive.Api.Controllers;
 
 [ApiController]
 public class NewController : Controller
