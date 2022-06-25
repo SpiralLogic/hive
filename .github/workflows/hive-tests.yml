@@ -12,9 +12,8 @@ jobs:
       run:
         working-directory: './src'
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-      - name: Setup dotnet
+      - uses: actions/checkout@v3
+      - name: Setup - dotnet
         uses: actions/setup-dotnet@v2
         with:
           dotnet-version: '7.0.x'
@@ -25,20 +24,20 @@ jobs:
           key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
           restore-keys: |
             ${{ runner.os }}-nuget
-      - name: Install dependencies
+      - name: Install - dependencies
         run: dotnet restore
       #      - name: Update Nuget Packages
       #        run: ../ops/dotnet-update.sh
-      - name: Api Tests
+      - name: Test - Api 
         run: dotnet test ./Hive.Api.Tests --logger "console;verbosity=detailed" --logger "trx;LogFilePrefix=testResults" --results-directory "./reports"  -c Test /p:CollectCoverage=true /p:CoverletOutputFormat=lcov /p:SkipAutoProps=true  /p:Exclude=[Hive.Domain]*
-      - name: Domain Tests
+      - name: Test - Domain
         run: dotnet test ./Hive.Domain.Tests --logger "console;verbosity=detailed" --logger "trx;LogFilePrefix=testResults" --results-directory "./reports" /p:CollectCoverage=true  /p:CoverletOutputFormat=lcov /p:SkipAutoProps=true /p:ExcludeByAttribute="ExcludeFromCodeCoverage"
-      - name: Upload dotnet test results
+      - name: Upload - Test results
         uses: actions/upload-artifact@v3
         with:
           name: backend-results
           path: |
-            ./reports/**
+            ./reports/
             ./Hive.Api.Tests/coverage.opencover.xml
             ./Hive.Domain.Tests/coverage.opencover.xml
         # Use always() to always run this step to publish test results when there are test failures
@@ -55,24 +54,24 @@ jobs:
         with:
           node-version: '17.x'
           check-latest: true
-      - name: Install pnpm
+      - name: Setup - pnpm
         run: npm install --location=global pnpm
 #      - name: Install update checker
 #        run: pnpm install -g npm-check-updates
 #      - name: Update
 #        run: pnpm up
-      - name: Installs
+      - name: Install - dependencies
         run: pnpm install
-      - name: Lint
+      - name: Lint fix - Frontend
         run: pnpm lint:fix
-      - name: Test
-        run: pnpm test
+      - name: Test - Frontend
+      - run: pnpm test
       - uses: stefanzweifel/git-auto-commit-action@v4
         with:
-          commit_message: node - lint + upgrades
-      - name: Upload dotnet test results
+          commit_message: github action lint fixes
+      - name: Upload - Test results
         uses: actions/upload-artifact@v3
         with:
           name: frontend-results
-          path: ./reports/**
+          path: ./reports/
         if: ${{ always() }}
