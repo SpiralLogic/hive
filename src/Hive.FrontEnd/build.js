@@ -20,10 +20,10 @@ const createIndexHtmlFile = (metafile) => {
     (cssFile) => `<link rel="stylesheet" type="text/css" href="${cssFile}" />`
   );
 
-  const indexTemplate = fs.readFileSync(path.resolve(__dirname, './src/index.html')).toString();
+  const indexTemplate = fs.readFileSync('./src/index.html').toString();
   const indexHtml = indexTemplate.replace('[scripts]', scripts).replace('[css]', cssLinks);
 
-  const writePath = path.resolve(__dirname, './public/index.html');
+  const writePath = './public/index.html';
   fs.writeFileSync(writePath, indexHtml);
   console.log('index.html written');
   console.log('NODE_ENV: ' + process.env.NODE_ENV);

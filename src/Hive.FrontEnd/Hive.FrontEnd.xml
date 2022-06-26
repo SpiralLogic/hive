@@ -29,8 +29,4 @@
         </Exec>
         <Error Condition="'$(ErrorCode)' != '0'" Text="Failed to build with pnpm" />
     </Target>
-
-    <Target Name="EsbuildWatch" AfterTargets="Build" Condition="'$(DotNetWatchBuild)'=='true'">
-        <Exec Command="pnpm esbuild:watch" />
-    </Target>
 </Project>
