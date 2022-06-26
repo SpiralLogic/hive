@@ -5,10 +5,12 @@ import { render } from '@testing-library/preact';
 import 'preact';
 
 HTMLDialogElement.prototype.showModal = function showModal(this: HTMLDialogElement) {
+  if (this.hasAttribute('open')) return;
   this.setAttribute('open', 'true');
 };
 
 HTMLDialogElement.prototype.close = function close(this: HTMLDialogElement) {
+  if (!this.hasAttribute('open')) return;
   this.removeAttribute('open');
   this.dispatchEvent(new Event('close', { bubbles: false, cancelable: false }));
 };
