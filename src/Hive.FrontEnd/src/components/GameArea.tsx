@@ -110,16 +110,24 @@ const GameArea: FunctionComponent<Properties> = ({ players, cells, gameId, gameS
           ))}
         </Hextille>
       </section>
-      <Modal isOpen={!!playerConnected} name="player-connected" onClose={() => setPlayerConnected(false)}>
+      <Modal
+        isOpen={!!playerConnected}
+        title={'Player Connected'}
+        class="player-connected"
+        onClose={() => setPlayerConnected(false)}>
         <PlayerConnected connected={playerConnected} />
       </Modal>
-      <Modal isOpen={showRules} onClose={() => setShowRules(false)} name="rules">
+      <Modal isOpen={showRules} title={'Game Rules'} onClose={() => setShowRules(false)} class="rules">
         <Rules />
       </Modal>
-      <Modal isOpen={showShare} onClose={() => setShowShare(false)} name="share">
+      <Modal isOpen={showShare} title={'Linked Shared'} onClose={() => setShowShare(false)} class="share">
         <p>Opponent's link has been copied to clipboard!</p>
       </Modal>
-      <Modal isOpen={showGameOver} onClose={() => setShowGameOver(false)} name="game-over">
+      <Modal
+        isOpen={showGameOver}
+        title={'Game Over'}
+        onClose={() => setShowGameOver(false)}
+        class="game-over">
         <GameOver outcome={gameOutcome(gameStatus, currentPlayer)} />
       </Modal>
     </main>

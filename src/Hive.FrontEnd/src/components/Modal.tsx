@@ -5,12 +5,13 @@ import { useEffect, useRef, useState } from 'preact/hooks';
 
 type Properties = {
   isOpen?: boolean;
-  name: string;
+  class: string;
+  title: string;
   onClose?: () => void;
 };
 
 const Modal: FunctionComponent<Properties> = (properties) => {
-  const { children, isOpen = false, name, onClose = () => {} } = properties;
+  const { children, isOpen = false, title, onClose = () => {} } = properties;
   const reference = useRef<HTMLDialogElement>(null);
 
   const [open, setOpen] = useState(isOpen);
@@ -31,7 +32,7 @@ const Modal: FunctionComponent<Properties> = (properties) => {
   };
 
   return (
-    <dialog open={open || undefined} ref={reference} aria-details={name} class={name}>
+    <dialog open={open || undefined} ref={reference} aria-label={title} class={properties.class}>
       <button class="close" aria-label="Close Dialog" onClick={closeHandler}>
         X
       </button>

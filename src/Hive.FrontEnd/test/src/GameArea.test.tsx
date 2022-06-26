@@ -78,7 +78,7 @@ describe('<GameArea>', () => {
 
     await userEvent.click(screen.getByTitle(/Rules/));
 
-    expect(await screen.findByRole('dialog')).toBeInTheDocument();
+    expect(await screen.findByRole('dialog', { name: /Game Rules/i })).toBeInTheDocument();
   });
 
   it(`closes show rules`, async () => {
@@ -95,7 +95,7 @@ describe('<GameArea>', () => {
 
     await userEvent.click(screen.getByTitle(/rules/i));
     await userEvent.click(await screen.findByRole(/button/i, { hidden: false, name: /close dialog/i }));
-    expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+    expect(screen.queryByRole('dialog', { name: /Game Rules/i })).not.toBeInTheDocument();
   });
 
   it('opens share modal', async () => {
@@ -115,7 +115,7 @@ describe('<GameArea>', () => {
 
     await userEvent.click(screen.getByTitle(/Share/));
 
-    expect(await screen.findByRole('dialog')).toBeInTheDocument();
+    expect(await screen.findByRole('dialog', { name: /Linked Shared/i })).toBeInTheDocument();
     restore();
   });
 
@@ -135,7 +135,7 @@ describe('<GameArea>', () => {
     );
     await userEvent.click(screen.getByTitle(/Share/));
     await userEvent.click(await screen.findByRole(/button/i, { hidden: false, name: /close dialog/i }));
-    expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+    expect(screen.queryByRole('dialog', { name: /Linked Shared/i, hidden: false })).not.toBeInTheDocument();
     restore();
   });
 
@@ -214,7 +214,7 @@ describe('<GameArea>', () => {
       />
     );
     await userEvent.click(screen.getByTitle(/Share/));
-    expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+    expect(screen.queryByRole('dialog', { name: /Linked Shared/i })).not.toBeInTheDocument();
     restore();
   });
 
@@ -233,7 +233,7 @@ describe('<GameArea>', () => {
       </Dispatcher.Provider>
     );
     dispatcher.dispatch<HiveEvent>({ type: 'opponentConnected' });
-    expect(await screen.findByRole('dialog')).toBeInTheDocument();
+    expect(await screen.findByRole('dialog', { name: /Player Connected/i })).toBeInTheDocument();
   });
 
   it(`opens modal when player disconnects`, async () => {
@@ -252,7 +252,7 @@ describe('<GameArea>', () => {
     );
     dispatcher.dispatch<HiveEvent>({ type: 'opponentDisconnected' });
 
-    expect(await screen.findByRole('dialog')).toBeInTheDocument();
+    expect(await screen.findByRole('dialog', { name: /Player Connected/i })).toBeInTheDocument();
   });
 
   it(`closes player connected modal`, async () => {
@@ -274,7 +274,7 @@ describe('<GameArea>', () => {
 
     await userEvent.click(await screen.findByRole(/button/i, { hidden: false, name: /close dialog/i }));
 
-    expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+    expect(screen.queryByRole('dialog', { name: /Player Connected/i })).not.toBeInTheDocument();
   });
 
   const gameStatusShownDialogs: Array<[GameStatus, number, boolean]> = [
@@ -295,7 +295,7 @@ describe('<GameArea>', () => {
 
   it.each(gameStatusShownDialogs)(
     `Game status %s shows dialog for player 1 with current player %i`,
-    (gameStatus, currentPlayer) => {
+    async (gameStatus, currentPlayer) => {
       const gameState = createGameState(1);
       render(
         <GameArea
@@ -306,7 +306,7 @@ describe('<GameArea>', () => {
           currentPlayer={currentPlayer}
         />
       );
-      expect(screen.getByRole('dialog')).toBeInTheDocument();
+      expect(screen.getByRole('dialog', { name: /game over/i })).toBeInTheDocument();
     }
   );
 
@@ -321,7 +321,7 @@ describe('<GameArea>', () => {
         currentPlayer={0}
       />
     );
-    expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+    expect(screen.queryByRole('dialog', { name: /game over/i })).not.toBeInTheDocument();
   });
 
   it.each(gameStatusShownDialogs)(`Game status %s shows dialog for player 2`, (gameStatus) => {
@@ -335,7 +335,7 @@ describe('<GameArea>', () => {
         currentPlayer={0}
       />
     );
-    expect(screen.getByRole('dialog')).toBeInTheDocument();
+    expect(screen.getByRole('dialog', { name: /game over/i })).toBeInTheDocument();
   });
 
   it.each(gameStatusNotShownDialogs)(`Game status %s doesn't show dialog for player 2`, (gameStatus) => {
@@ -349,7 +349,7 @@ describe('<GameArea>', () => {
         currentPlayer={0}
       />
     );
-    expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+    expect(screen.queryByRole('dialog', { name: /game over/i })).not.toBeInTheDocument();
   });
 
   it(`closes game over modal`, async () => {
@@ -365,7 +365,7 @@ describe('<GameArea>', () => {
       />
     );
     await userEvent.click(await screen.findByRole(/button/i, { hidden: false, name: /close dialog/i }));
-    expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+    expect(screen.queryByRole('dialog', { name: /game over/i })).not.toBeInTheDocument();
   });
 
   it(`shows game over modal with new game`, async () => {
@@ -386,5 +386,19 @@ describe('<GameArea>', () => {
     expect(assign).toHaveBeenCalledWith('/');
 
     restoreLocation();
+  });
+
+  test('default drag over is prevented to allow drop', () => {
+    const gameState = createGameState(1);
+    const view = render(
+      <GameArea
+        gameId={'123A'}
+        gameStatus="MoveSuccess"
+        players={gameState.players}
+        cells={gameState.cells}
+        currentPlayer={2}
+      />
+    );
+    expect(view).toMatchSnapshot();
   });
 });

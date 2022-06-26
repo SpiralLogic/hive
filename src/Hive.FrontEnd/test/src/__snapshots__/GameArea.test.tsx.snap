@@ -1,0 +1,606 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<GameArea> default drag over is prevented to allow drop 1`] = `
+<main
+  title="Hive Game Area"
+>
+  <aside
+    aria-label="PLayer pieces  not yet on the board"
+    class="players"
+  >
+    <section
+      aria-label="Player 1's unplaced pieces"
+      class="player player0"
+    >
+      <h2>
+        Player 1
+      </h2>
+      <div
+        class="tiles"
+      />
+    </section>
+    <section
+      aria-label="Player 2's unplaced pieces"
+      class="player player1"
+    >
+      <h2>
+        Player 2
+      </h2>
+      <div
+        class="tiles"
+      >
+        <div
+          class="player1 hex tile creature1"
+          title="Player-1 creature1"
+        >
+          <svg
+            viewBox="0 0 100 100"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <use
+              href="#hex"
+            />
+            <use
+              class="creature"
+              href="#creature1"
+            />
+          </svg>
+        </div>
+      </div>
+    </section>
+  </aside>
+  <section
+    title="Game playing area"
+  >
+    <nav>
+      <a
+        href="http://localhost/game/123A/1"
+        name="Share game to opponent"
+        title="Share"
+      >
+        <svg
+          viewBox="0 0 100 100"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <use
+            href="#share"
+          />
+        </svg>
+      </a>
+      <a
+        href="/"
+        name="New game!"
+        title="New Game"
+      >
+        <svg
+          viewBox="0 0 100 100"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <use
+            href="#new"
+          />
+        </svg>
+      </a>
+      <a
+        href="#"
+        name="Show rules"
+        title="Rules"
+      >
+        <svg
+          viewBox="0 0 100 100"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <use
+            href="#rules"
+          />
+        </svg>
+      </a>
+      <a
+        class="ai-off"
+        href="#"
+        name="Toggle Ai"
+        title="Toggle Ai"
+      >
+        <svg
+          viewBox="0 0 100 100"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <use
+            href="#ai"
+          />
+        </svg>
+      </a>
+      <a
+        class="github"
+        href="https://github.com/SpiralLogic/hive"
+        title="Source code"
+      >
+        <svg
+          viewBox="0 0 100 100"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <use
+            href="#github"
+          />
+        </svg>
+      </a>
+    </nav>
+    <div
+      class="left"
+      role="grid"
+    >
+      <div
+        role="none"
+      >
+        <div
+          class="hide"
+          role="none"
+        >
+          <svg
+            viewBox="0 0 100 100"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <use
+              href="#hex"
+            />
+          </svg>
+        </div>
+        <div
+          class="hide"
+          role="none"
+        >
+          <svg
+            viewBox="0 0 100 100"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <use
+              href="#hex"
+            />
+          </svg>
+        </div>
+      </div>
+      <div
+        role="row"
+      >
+        <div
+          class=""
+          role="cell"
+        >
+          <svg
+            viewBox="0 0 100 100"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <use
+              href="#hex"
+            />
+          </svg>
+        </div>
+        <div
+          class="hide"
+          role="none"
+        >
+          <svg
+            viewBox="0 0 100 100"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <use
+              href="#hex"
+            />
+          </svg>
+        </div>
+      </div>
+      <div
+        role="row"
+      >
+        <div
+          class="hide"
+          role="none"
+        >
+          <svg
+            viewBox="0 0 100 100"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <use
+              href="#hex"
+            />
+          </svg>
+        </div>
+        <div
+          class=""
+          role="cell"
+        >
+          <svg
+            viewBox="0 0 100 100"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <use
+              href="#hex"
+            />
+          </svg>
+          <div
+            class="player0 hex tile creature0"
+            title="Player-0 creature0"
+          >
+            <svg
+              viewBox="0 0 100 100"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <use
+                href="#hex"
+              />
+              <use
+                class="creature"
+                href="#creature0"
+              />
+            </svg>
+          </div>
+        </div>
+      </div>
+      <div
+        role="none"
+      >
+        <div
+          class="hide"
+          role="none"
+        >
+          <svg
+            viewBox="0 0 100 100"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <use
+              href="#hex"
+            />
+          </svg>
+        </div>
+        <div
+          class="hide"
+          role="none"
+        >
+          <svg
+            viewBox="0 0 100 100"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <use
+              href="#hex"
+            />
+          </svg>
+        </div>
+      </div>
+    </div>
+  </section>
+  <dialog
+    aria-label="Player Connected"
+    class="player-connected"
+  >
+    <button
+      aria-label="Close Dialog"
+      class="close"
+    >
+      X
+    </button>
+    <p>
+      Player has 
+      !
+    </p>
+  </dialog>
+  <dialog
+    aria-label="Game Rules"
+    class="rules"
+  >
+    <button
+      aria-label="Close Dialog"
+      class="close"
+    >
+      X
+    </button>
+    <div>
+      <div
+        class="menu"
+      >
+        <button
+          title="Previous"
+        >
+          &lt;
+        </button>
+        <h3>
+          Objective
+        </h3>
+        <button
+          autofocus=""
+          title="Next"
+        >
+          &gt;
+        </button>
+      </div>
+      <ul>
+        <li>
+          The first player to have a surrounded queen loses
+        </li>
+        <li>
+          Queens must be in the hive to move creatures
+        </li>
+        <li>
+          Placements into the hive must touch friendly pieces
+        </li>
+      </ul>
+      <div
+        class="left"
+        role="grid"
+      >
+        <div
+          role="row"
+        >
+          <div
+            role="cell"
+          >
+            <svg
+              viewBox="0 0 100 100"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <use
+                href="#hex"
+              />
+            </svg>
+            <div
+              class="tile ant"
+            >
+              <svg
+                viewBox="0 0 100 100"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <use
+                  href="#hex"
+                />
+                <use
+                  class="creature"
+                  href="#ant"
+                />
+              </svg>
+            </div>
+          </div>
+          <div
+            role="cell"
+          >
+            <svg
+              viewBox="0 0 100 100"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <use
+                href="#hex"
+              />
+            </svg>
+            <div
+              class="tile grasshopper"
+            >
+              <svg
+                viewBox="0 0 100 100"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <use
+                  href="#hex"
+                />
+                <use
+                  class="creature"
+                  href="#grasshopper"
+                />
+              </svg>
+            </div>
+          </div>
+           
+          <div
+            role="none"
+          >
+            <svg
+              viewBox="0 0 100 100"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <use
+                href="#hex"
+              />
+            </svg>
+          </div>
+        </div>
+        <div
+          role="row"
+        >
+          <div
+            role="cell"
+          >
+            <svg
+              viewBox="0 0 100 100"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <use
+                href="#hex"
+              />
+            </svg>
+            <div
+              class="tile spider"
+            >
+              <svg
+                viewBox="0 0 100 100"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <use
+                  href="#hex"
+                />
+                <use
+                  class="creature"
+                  href="#spider"
+                />
+              </svg>
+            </div>
+          </div>
+          <div
+            class="correct"
+            role="cell"
+          >
+            <svg
+              viewBox="0 0 100 100"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <use
+                href="#hex"
+              />
+            </svg>
+            <div
+              class="tile queen"
+            >
+              <svg
+                viewBox="0 0 100 100"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <use
+                  href="#hex"
+                />
+                <use
+                  class="creature"
+                  href="#queen"
+                />
+              </svg>
+              <span>
+                ✓
+              </span>
+            </div>
+          </div>
+          <div
+            role="cell"
+          >
+            <svg
+              viewBox="0 0 100 100"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <use
+                href="#hex"
+              />
+            </svg>
+            <div
+              class="tile beetle"
+            >
+              <svg
+                viewBox="0 0 100 100"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <use
+                  href="#hex"
+                />
+                <use
+                  class="creature"
+                  href="#beetle"
+                />
+              </svg>
+            </div>
+          </div>
+        </div>
+        <div
+          role="row"
+        >
+          <div
+            role="cell"
+          >
+            <svg
+              viewBox="0 0 100 100"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <use
+                href="#hex"
+              />
+            </svg>
+            <div
+              class="tile ant"
+            >
+              <svg
+                viewBox="0 0 100 100"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <use
+                  href="#hex"
+                />
+                <use
+                  class="creature"
+                  href="#ant"
+                />
+              </svg>
+            </div>
+          </div>
+          <div
+            role="cell"
+          >
+            <svg
+              viewBox="0 0 100 100"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <use
+                href="#hex"
+              />
+            </svg>
+            <div
+              class="tile grasshopper"
+            >
+              <svg
+                viewBox="0 0 100 100"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <use
+                  href="#hex"
+                />
+                <use
+                  class="creature"
+                  href="#grasshopper"
+                />
+              </svg>
+            </div>
+          </div>
+           
+          <div
+            role="none"
+          >
+            <svg
+              viewBox="0 0 100 100"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <use
+                href="#hex"
+              />
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+  </dialog>
+  <dialog
+    aria-label="Linked Shared"
+    class="share"
+  >
+    <button
+      aria-label="Close Dialog"
+      class="close"
+    >
+      X
+    </button>
+    <p>
+      Opponent's link has been copied to clipboard!
+    </p>
+  </dialog>
+  <dialog
+    aria-label="Game Over"
+    class="game-over"
+  >
+    <button
+      aria-label="Close Dialog"
+      class="close"
+    >
+      X
+    </button>
+    <p>
+      
+    </p>
+    <button
+      autofocus=""
+      title="New Game"
+    >
+      New Game
+    </button>
+  </dialog>
+</main>
+`;

@@ -4,7 +4,7 @@ exports[`<Modal> renders 1`] = `
 <body>
   <div>
     <dialog
-      aria-details="test"
+      aria-label="test"
       class="test"
       open=""
     >
@@ -23,7 +23,7 @@ exports[`<Modal> renders 2`] = `
 <body>
   <div>
     <dialog
-      aria-details="test"
+      aria-label="test"
       class="test"
     >
       <button
