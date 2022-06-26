@@ -1,6 +1,7 @@
 FROM library/node:17 as node-build
 
 WORKDIR /source
+ENV NODE_ENV=production
 RUN npm i --location=global pnpm
 COPY ./src/Hive.FrontEnd .
 RUN pnpm install -P
@@ -14,6 +15,8 @@ RUN dotnet publish -c release -o /app
 
 FROM mcr.microsoft.com/dotnet/aspnet:7.0
 WORKDIR /app
+ENV ASPNETCORE_ENVIRONMENT=Production
+
 COPY --from=dotnet-build /app .
 COPY --from=node-build /source/public ./wwwroot
 ENTRYPOINT ["./Hive.Api"]

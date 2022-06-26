@@ -35,7 +35,7 @@ pnpm  --prefix ./src/Hive.FrontEnd test
 ### Run in docker
 
 ```
-docker build -f ./ops/dockerfile-dev -t hive .
+docker build -f ./ops/dockerfile.dev -t hive .
 docker run -d -p 5001:5001 hive
 ```
 

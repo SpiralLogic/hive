@@ -24,14 +24,7 @@
     </Target>
 
     <Target BeforeTargets="Build" Name="BuildDev" Condition="'$(Configuration)' == 'Debug'">
-        <Exec ConsoleToMSBuild="true" EnvironmentVariables="NODE_ENV=development" Command="pnpm run build:dev">
-            <Output TaskParameter="ExitCode" PropertyName="ErrorCode" />
-        </Exec>
-        <Error Condition="'$(ErrorCode)' != '0'" Text="Failed to build with pnpm" />
-    </Target>
-    
-    <Target BeforeTargets="Build" Name="BuildRelease" Condition="'$(Configuration)' == 'Release'">
-        <Exec ConsoleToMSBuild="true" EnvironmentVariables="NODE_ENV=production" Command="pnpm run build">
+        <Exec ConsoleToMSBuild="true" Command="pnpm run build:dev">
             <Output TaskParameter="ExitCode" PropertyName="ErrorCode" />
         </Exec>
         <Error Condition="'$(ErrorCode)' != '0'" Text="Failed to build with pnpm" />
