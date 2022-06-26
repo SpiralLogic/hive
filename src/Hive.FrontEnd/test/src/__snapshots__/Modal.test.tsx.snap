@@ -5,7 +5,6 @@ exports[`<Modal> renders 1`] = `
   <div>
     <dialog
       aria-label="test"
-      class="test"
       open=""
     >
       <button
@@ -24,7 +23,6 @@ exports[`<Modal> renders 2`] = `
   <div>
     <dialog
       aria-label="test"
-      class="test"
     >
       <button
         aria-label="Close Dialog"

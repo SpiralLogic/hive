@@ -10,6 +10,7 @@ HTMLDialogElement.prototype.showModal = function showModal(this: HTMLDialogEleme
 
 HTMLDialogElement.prototype.close = function close(this: HTMLDialogElement) {
   this.removeAttribute('open');
+  this.dispatchEvent(new Event('close', { bubbles: false, cancelable: false }));
 };
 
 expect.addSnapshotSerializer({
