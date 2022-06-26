@@ -1,36 +1,28 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<Modal> renders 1`] = `
-<body>
-  <div>
-    <dialog
-      aria-label="test"
-      open=""
-    >
-      <button
-        aria-label="Close Dialog"
-        class="close"
-      >
-        X
-      </button>
-    </dialog>
-  </div>
-</body>
+<dialog
+  aria-label="test"
+  open="true"
+>
+  <button
+    aria-label="Close Dialog"
+    class="close"
+  >
+    X
+  </button>
+</dialog>
 `;
 
 exports[`<Modal> renders 2`] = `
-<body>
-  <div>
-    <dialog
-      aria-label="test"
-    >
-      <button
-        aria-label="Close Dialog"
-        class="close"
-      >
-        X
-      </button>
-    </dialog>
-  </div>
-</body>
+<dialog
+  aria-label="test"
+>
+  <button
+    aria-label="Close Dialog"
+    class="close"
+  >
+    X
+  </button>
+</dialog>
 `;

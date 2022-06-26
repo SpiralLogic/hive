@@ -1,7 +1,6 @@
 import { render, screen } from '@testing-library/preact';
 import userEvent from '@testing-library/user-event';
 import Modal from '../../src/components/Modal';
-import { renderElement } from '../helpers';
 
 describe('<Modal>', () => {
   let showModalSpy: jest.SpyInstance, closeSpy: jest.SpyInstance;
@@ -37,22 +36,16 @@ describe('<Modal>', () => {
     screen.getByRole<HTMLDialogElement>('dialog', { hidden: true }).removeAttribute('open');
 
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
-    expect(showModalSpy).toHaveBeenCalledTimes(0);
   });
 
   it(`renders initially from an opened state`, () => {
     render(<Modal title="test" isOpen={true} onClose={onCloseSpy} />);
-
-    expect(closeSpy).toHaveBeenCalledTimes(0);
-    expect(showModalSpy).toHaveBeenCalledTimes(0);
 
     expect(screen.getByRole('dialog')).toBeInTheDocument();
   });
 
   it(`renders initially from an closed state`, () => {
     render(<Modal title="test" isOpen={false} onClose={onCloseSpy} />);
-    expect(closeSpy).toHaveBeenCalledTimes(0);
-    expect(showModalSpy).toHaveBeenCalledTimes(0);
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
     expect(screen.getByRole('dialog', { hidden: true })).not.toHaveAttribute('open');
   });
@@ -115,6 +108,6 @@ describe('<Modal>', () => {
   });
 
   it.each([true, false])('renders', (isOpen) => {
-    expect(renderElement(<Modal title="test" isOpen={isOpen} onClose={onCloseSpy} />)).toMatchSnapshot();
+    expect(render(<Modal title="test" isOpen={isOpen} onClose={onCloseSpy} />)).toMatchSnapshot();
   });
 });
