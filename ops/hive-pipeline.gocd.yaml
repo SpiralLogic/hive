@@ -1,6 +1,6 @@
 format_version: 10
 pipelines:
-  hive-pipeline:
+  hive-pipe:
     group: Hive-Pipeline
     label_template: ${COUNT}
     lock_behavior: none
@@ -131,7 +131,7 @@ pipelines:
                 is_file: true
                 source: coverage/api-coverage.opencover.xml
                 destination: reports
-                pipeline: hive-pipeline
+                pipeline: hive-pipe
                 stage: test
                 job: run-api-tests
                 artifact_origin: gocd
@@ -140,7 +140,7 @@ pipelines:
                 is_file: true
                 source: coverage/domain-coverage.opencover.xml
                 destination: reports
-                pipeline: hive-pipeline
+                pipeline: hive-pipe
                 stage: test
                 job: run-domain-tests
                 artifact_origin: gocd
@@ -149,7 +149,7 @@ pipelines:
                 is_file: true
                 source: coverage/lcov.info
                 destination: reports
-                pipeline: hive-pipeline
+                pipeline: hive-pipe
                 stage: test
                 job: run-frontend-tests
                 artifact_origin: gocd
@@ -158,7 +158,7 @@ pipelines:
                 is_file: true
                 source: coverage/eslint.test.json
                 destination: reports
-                pipeline: hive-pipeline
+                pipeline: hive-pipe
                 stage: test
                 job: run-frontend-tests
                 artifact_origin: gocd
@@ -167,7 +167,7 @@ pipelines:
                 is_file: true
                 source: coverage/eslint.json
                 destination: reports
-                pipeline: hive-pipeline
+                pipeline: hive-pipe
                 stage: test
                 job: run-frontend-tests
                 artifact_origin: gocd
@@ -176,7 +176,7 @@ pipelines:
                 is_file: true
                 source: coverage/stylelint.json
                 destination: reports
-                pipeline: hive-pipeline
+                pipeline: hive-pipe
                 stage: test
                 job: run-frontend-tests
                 artifact_origin: gocd
