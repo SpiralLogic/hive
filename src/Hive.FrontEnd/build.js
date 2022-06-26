@@ -27,8 +27,8 @@ const createIndexHtmlFile = (metafile) => {
   fs.writeFileSync(writePath, indexHtml);
   console.log('index.html written');
   console.log('NODE_ENV: ' + process.env.NODE_ENV);
-  console.log('ASPNETCORE_ENVIRONMENT: ' + process.env.ASPNETCORE_ENVIRONMENT);
 };
+
 const buildProperties = {
   entryPoints: ['./src/index.tsx'],
   bundle: true,

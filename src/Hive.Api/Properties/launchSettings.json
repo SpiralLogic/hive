@@ -4,17 +4,14 @@
       "commandName": "Project",
       "launchBrowser": false,
       "environmentVariables": {
-        "NODE_ENV": "\"development\"",
-        "ASPNETCORE_ENVIRONMENT": "Development"
-      },
-      "applicationUrl": "https://localhost:5001;http://localhost:5000"
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "ASPNETCORE_HTTPS_PORT": "5001"
+      }
     },
     "run": {
       "commandName": "Project",
-      "launchBrowser": true,
-      "launchUrl": "http://localhost:5000/",
+      "launchBrowser": false,
       "environmentVariables": {
-        "NODE_ENV": "\"development\"",
         "ASPNETCORE_ENVIRONMENT": "Development",
         "ASPNETCORE_HTTPS_PORT": "5001"
       }
