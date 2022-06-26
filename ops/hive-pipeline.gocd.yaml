@@ -2,7 +2,7 @@ format_version: 10
 pipelines:
   hive-pipe:
     group: Hive-Pipeline
-    label_template: 1.${COUNT}-${git[:7]}
+    label_template: 1.${COUNT}-${git-24540d2[:7]}
     lock_behavior: none
     display_order: -1
     materials:
