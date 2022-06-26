@@ -313,12 +313,7 @@ public class MoveControllerTests
                 TestHelpers.CreateJsonOptions()
             )
         );
-
-        await _memoryCache.SetAsync(
-            TestHelpers.ExistingGameId + "-moves-1",
-            TestHelpers.GetSerializedBytes(null, TestHelpers.CreateJsonOptions())
-        );
-
+        
         var actionResult = await _controller.AiMove(TestHelpers.ExistingGameId, 1);
         actionResult.Should().BeOfType<AcceptedResult>();
     }

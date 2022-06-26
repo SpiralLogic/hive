@@ -109,9 +109,9 @@ public class MoveController : ControllerBase
 
         if (string.IsNullOrEmpty(previousMovesJson)) return fallback;
 
-        var previousMoves = JsonSerializer.Deserialize<Queue<Domain.Entities.Move>>(previousMovesJson, _jsonSerializerOptions) ?? fallback;
+        var previousMoves = JsonSerializer.Deserialize<Queue<Domain.Entities.Move>>(previousMovesJson, _jsonSerializerOptions);
 
-        if (!previousMoves.TryDequeue(out var previousMove)) return previousMoves;
+        if (!previousMoves!.TryDequeue(out var previousMove)) return previousMoves;
 
         foreach (var tile in players.First(p => p.Id == playerId).Tiles.Where(t => t.Id == previousMove.Tile.Id))
             tile.Moves.Remove(previousMove.Coords);
