@@ -37,9 +37,9 @@ jobs:
         with:
           name: backend-results
           path: |
-            ./reports/
-            ./Hive.Api.Tests/coverage.opencover.xml
-            ./Hive.Domain.Tests/coverage.opencover.xml
+            src/reports/
+            src/Hive.Api.Tests/coverage.opencover.xml
+            src/Hive.Domain.Tests/coverage.opencover.xml
         # Use always() to always run this step to publish test results when there are test failures
         if: ${{ always() }}
   FrontEnd:
@@ -60,6 +60,12 @@ jobs:
 #        run: pnpm install -g npm-check-updates
 #      - name: Update
 #        run: pnpm up
+      - uses: actions/cache@v3
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-nuget-${{ hashFiles('package.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node_modules
       - name: Install - dependencies
         run: pnpm install
       - name: Lint fix - Frontend
@@ -73,5 +79,5 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: frontend-results
-          path: ./reports/
+          path: src/Hive.FrontEnd/reports/
         if: ${{ always() }}
