@@ -2,7 +2,7 @@ format_version: 10
 pipelines:
   hive-pipe:
     group: Hive-Pipeline
-    label_template: ${COUNT}
+    label_template: 1.${COUNT}-${git[:7]}
     lock_behavior: none
     display_order: -1
     materials:
@@ -46,13 +46,13 @@ pipelines:
                   version: 0.3.0
                 options:
                   script: |-
-                    docker build -t frontend-test-results:${GO_PIPELINE_COUNTER} -f ./ops/dockerfile.frontend.test .
-                    docker run --name frontend-tests-${GO_PIPELINE_COUNTER} frontend-test-results:${GO_PIPELINE_COUNTER}
+                    docker build -t frontend-test-results:${GO_PIPELINE_LABEL} -f ./ops/dockerfile.frontend.test .
+                    docker run --name frontend-tests-${GO_PIPELINE_LABEL} frontend-test-results:${GO_PIPELINE_LABEL}
 
-                    docker cp frontend-tests-${GO_PIPELINE_COUNTER}:/source/src/Hive.FrontEnd/reports ./
+                    docker cp frontend-tests-${GO_PIPELINE_LABEL}:/source/src/Hive.FrontEnd/reports ./
 
-                    docker rm frontend-tests-${GO_PIPELINE_COUNTER}
-                    docker rmi frontend-test-results:${GO_PIPELINE_COUNTER}
+                    docker rm frontend-tests-${GO_PIPELINE_LABEL}
+                    docker rmi frontend-test-results:${GO_PIPELINE_LABEL}
                   shtype: sh
                 run_if: passed
           run-api-tests:
@@ -72,15 +72,15 @@ pipelines:
                   version: 0.3.0
                 options:
                   script: |-
-                    docker build -t api-test-results:${GO_PIPELINE_COUNTER} -f ./ops/dockerfile.api.test .
-                    docker run   --name api-tests-${GO_PIPELINE_COUNTER} api-test-results:${GO_PIPELINE_COUNTER}
+                    docker build -t api-test-results:${GO_PIPELINE_LABEL} -f ./ops/dockerfile.api.test .
+                    docker run   --name api-tests-${GO_PIPELINE_LABEL} api-test-results:${GO_PIPELINE_LABEL}
 
-                    docker cp api-tests-${GO_PIPELINE_COUNTER}:/source/api-coverage ./
-                    docker cp api-tests-${GO_PIPELINE_COUNTER}:/source/src/Hive.Api.Tests/coverage.opencover.xml ./api-coverage.opencover.xml
+                    docker cp api-tests-${GO_PIPELINE_LABEL}:/source/api-coverage ./
+                    docker cp api-tests-${GO_PIPELINE_LABEL}:/source/src/Hive.Api.Tests/coverage.opencover.xml ./api-coverage.opencover.xml
 
-                    docker stop api-tests-${GO_PIPELINE_COUNTER}
-                    docker rm api-tests-${GO_PIPELINE_COUNTER}
-                    docker rmi api-test-results:${GO_PIPELINE_COUNTER}
+                    docker stop api-tests-${GO_PIPELINE_LABEL}
+                    docker rm api-tests-${GO_PIPELINE_LABEL}
+                    docker rmi api-test-results:${GO_PIPELINE_LABEL}
                   shtype: sh
                 run_if: passed
           run-domain-tests:
@@ -100,15 +100,15 @@ pipelines:
                   version: 0.3.0
                 options:
                   script: |-
-                    docker build  -t domain-test-results:${GO_PIPELINE_COUNTER} -f ./ops/dockerfile.domain.test .
-                    docker run  --name domain-tests-${GO_PIPELINE_COUNTER} domain-test-results:${GO_PIPELINE_COUNTER}
+                    docker build  -t domain-test-results:${GO_PIPELINE_LABEL} -f ./ops/dockerfile.domain.test .
+                    docker run  --name domain-tests-${GO_PIPELINE_LABEL} domain-test-results:${GO_PIPELINE_LABEL}
 
-                    docker cp domain-tests-${GO_PIPELINE_COUNTER}:/source/domain-coverage ./
-                    docker cp domain-tests-${GO_PIPELINE_COUNTER}:/source/src/Hive.Domain.Tests/coverage.opencover.xml ./domain-coverage.opencover.xml
+                    docker cp domain-tests-${GO_PIPELINE_LABEL}:/source/domain-coverage ./
+                    docker cp domain-tests-${GO_PIPELINE_LABEL}:/source/src/Hive.Domain.Tests/coverage.opencover.xml ./domain-coverage.opencover.xml
 
-                    docker stop domain-tests-${GO_PIPELINE_COUNTER}
-                    docker rm domain-tests-${GO_PIPELINE_COUNTER}
-                    docker rmi domain-test-results:${GO_PIPELINE_COUNTER}
+                    docker stop domain-tests-${GO_PIPELINE_LABEL}
+                    docker rm domain-tests-${GO_PIPELINE_LABEL}
+                    docker rmi domain-test-results:${GO_PIPELINE_LABEL}
                   shtype: sh
                 run_if: passed
     - sonar:
@@ -187,7 +187,7 @@ pipelines:
                   version: 0.3.0
                 options:
                   script: docker build --build-arg SONARQUBE_KEY=${SONARQUBE_KEY}
-                    -t dockerfile.net-jdk:${GO_PIPELINE_COUNTER}  -f ./ops/dockerfile.net-jdk
+                    -t dockerfile.net-jdk:${GO_PIPELINE_LABEL}  -f ./ops/dockerfile.net-jdk
                     .
                   shtype: sh
                 run_if: passed
@@ -209,9 +209,9 @@ pipelines:
                   version: 0.3.0
                 options:
                   script: |-
-                    docker build -t registry.lab.sorijen.net.au/hive:${GO_PIPELINE_COUNTER} -f ./ops/dockerfile .
+                    docker build -t registry.lab.sorijen.net.au/hive:${GO_PIPELINE_LABEL} -f ./ops/dockerfile .
                     docker login -u hive -p hive registry.lab.sorijen.net.au
-                    docker push registry.lab.sorijen.net.au/hive:${GO_PIPELINE_COUNTER}
+                    docker push registry.lab.sorijen.net.au/hive:${GO_PIPELINE_LABEL}
                   shtype: sh
                 run_if: passed
     - deploy:
@@ -239,15 +239,13 @@ pipelines:
                   version: 0.3.0
                 options:
                   script: |-
-                    sed -i "s~{image}~$ARTIFACT_IMAGE:$GO_PIPELINE_COUNTER~g" ops/k8s/deployment.yaml
+                    sed -i "s~{image}~$ARTIFACT_IMAGE:$GO_PIPELINE_LABEL~g" ops/k8s/deployment.yaml
 
                     curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
 
                     chmod +x ./kubectl
 
-
                     cat ops/k8s/deployment.yaml
-
 
                     ./kubectl --token  $KUBE_TOKEN --insecure-skip-tls-verify --server $KUBERNETES_SERVICE_HOST:$KUBERNETES_PORT_443_TCP_PORT -n $NAMESPACE apply --force -f ops/k8s/deployment.yaml
                   shtype: sh
