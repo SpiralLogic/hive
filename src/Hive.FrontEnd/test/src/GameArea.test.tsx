@@ -78,7 +78,7 @@ describe('<GameArea>', () => {
 
     await userEvent.click(screen.getByTitle(/Rules/));
 
-    expect(await screen.findByRole('dialog', { name: /Game Rules/i })).toBeInTheDocument();
+    expect(await screen.findByRole('dialog', { name: /game rules/i })).toBeInTheDocument();
   });
 
   it(`closes show rules`, async () => {
@@ -95,7 +95,7 @@ describe('<GameArea>', () => {
 
     await userEvent.click(screen.getByTitle(/rules/i));
     await userEvent.click(await screen.findByRole(/button/i, { hidden: false, name: /close dialog/i }));
-    expect(screen.queryByRole('dialog', { name: /Game Rules/i })).not.toBeInTheDocument();
+    expect(screen.queryByRole('dialog', { name: /game rules/i })).not.toBeInTheDocument();
   });
 
   it('opens share modal', async () => {
@@ -115,7 +115,7 @@ describe('<GameArea>', () => {
 
     await userEvent.click(screen.getByTitle(/Share/));
 
-    expect(await screen.findByRole('dialog', { name: /Linked Shared/i })).toBeInTheDocument();
+    expect(await screen.findByRole('dialog', { name: /linked shared/i })).toBeInTheDocument();
     restore();
   });
 
@@ -135,7 +135,7 @@ describe('<GameArea>', () => {
     );
     await userEvent.click(screen.getByTitle(/Share/));
     await userEvent.click(await screen.findByRole(/button/i, { hidden: false, name: /close dialog/i }));
-    expect(screen.queryByRole('dialog', { name: /Linked Shared/i, hidden: false })).not.toBeInTheDocument();
+    expect(screen.queryByRole('dialog', { name: /linked shared/i, hidden: false })).not.toBeInTheDocument();
     restore();
   });
 
@@ -214,7 +214,7 @@ describe('<GameArea>', () => {
       />
     );
     await userEvent.click(screen.getByTitle(/Share/));
-    expect(screen.queryByRole('dialog', { name: /Linked Shared/i })).not.toBeInTheDocument();
+    expect(screen.queryByRole('dialog', { name: /linked shared/i })).not.toBeInTheDocument();
     restore();
   });
 
@@ -233,7 +233,7 @@ describe('<GameArea>', () => {
       </Dispatcher.Provider>
     );
     dispatcher.dispatch<HiveEvent>({ type: 'opponentConnected' });
-    expect(await screen.findByRole('dialog', { name: /Player Connected/i })).toBeInTheDocument();
+    expect(await screen.findByRole('dialog', { name: /player connected/i })).toBeInTheDocument();
   });
 
   it(`opens modal when player disconnects`, async () => {
@@ -252,7 +252,7 @@ describe('<GameArea>', () => {
     );
     dispatcher.dispatch<HiveEvent>({ type: 'opponentDisconnected' });
 
-    expect(await screen.findByRole('dialog', { name: /Player Connected/i })).toBeInTheDocument();
+    expect(await screen.findByRole('dialog', { name: /player connected/i })).toBeInTheDocument();
   });
 
   it(`closes player connected modal`, async () => {
@@ -274,7 +274,7 @@ describe('<GameArea>', () => {
 
     await userEvent.click(await screen.findByRole(/button/i, { hidden: false, name: /close dialog/i }));
 
-    expect(screen.queryByRole('dialog', { name: /Player Connected/i })).not.toBeInTheDocument();
+    expect(screen.queryByRole('dialog', { name: /player connected/i })).not.toBeInTheDocument();
   });
 
   const gameStatusShownDialogs: Array<[GameStatus, number, boolean]> = [
@@ -388,7 +388,7 @@ describe('<GameArea>', () => {
     restoreLocation();
   });
 
-  test('default drag over is prevented to allow drop', () => {
+  test('render snapshot', () => {
     const gameState = createGameState(1);
     const view = render(
       <GameArea
