@@ -1,4 +1,9 @@
 # Hive
+<div align="center">
+
+[![Hive Tests](https://github.com/SpiralLogic/hive/actions/workflows/hive-tests.yml/badge.svg)](https://github.com/SpiralLogic/hive/actions/workflows/hive-tests.yml)  [![CodeQL](https://github.com/SpiralLogic/hive/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/SpiralLogic/hive/actions/workflows/codeql-analysis.yml)  
+</div>
+
 
 ## Hive board game.
 
