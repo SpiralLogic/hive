@@ -1,4 +1,9 @@
-import { HubConnection, HubConnectionBuilder, HubConnectionState } from '@microsoft/signalr';
+import {
+  HttpTransportType,
+  HubConnection,
+  HubConnectionBuilder,
+  HubConnectionState,
+} from '@microsoft/signalr';
 
 import { GameId, PlayerId, Tile } from '../domain';
 import {
@@ -64,7 +69,13 @@ class ServerConnection {
 
   private createConnection = () => {
     const hubUrl = `${window.location.protocol}//${window.location.host}/gamehub/${this.gameId}/${this.currentPlayer}`;
-    const connection = new HubConnectionBuilder().withUrl(hubUrl).withAutomaticReconnect().build();
+    const connection = new HubConnectionBuilder()
+      .withUrl(hubUrl, {
+        skipNegotiation: true,
+        transport: HttpTransportType.WebSockets,
+      })
+      .withAutomaticReconnect()
+      .build();
     connection.on('ReceiveGameState', this.updateHandler);
     connection.on('OpponentSelection', this.opponentSelectionHandler);
     connection.on('PlayerConnection', this.opponentConnectedHandler);

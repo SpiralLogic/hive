@@ -60,7 +60,10 @@ describe('game Server Connection Tests', () => {
     const serverConnection = setupServer();
     await serverConnection.connectGame();
     serverConnection.getConnectionState();
-    expect(signalRWithUrlMock).toHaveBeenCalledWith('http://localhost/gamehub/33/0');
+    expect(signalRWithUrlMock).toHaveBeenCalledWith('http://localhost/gamehub/33/0', {
+      skipNegotiation: true,
+      transport: 1,
+    });
   });
 
   it(`web socket connection state can be retrieved`, async () => {
