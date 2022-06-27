@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Text.Json;
+using System.Threading.Tasks;
 using Hive.Api.DTOs;
 using Hive.Domain;
 using Hive.Domain.Entities;
@@ -25,7 +26,7 @@ public class NewController : Controller
     [HttpPost]
     [Route("api/new")]
     [Produces("application/json")]
-    public CreatedResult Post()
+    public async ValueTask<CreatedResult> Post()
     {
         var gameId = new string(HttpContext.TraceIdentifier.Split(":")[0].ToCharArray().OrderBy(_ => Guid.NewGuid())
             .ToArray());
@@ -33,7 +34,7 @@ public class NewController : Controller
         var newGame = HiveFactory.Create(new[] {"P1", "P2"});
         var gameState = new GameState(newGame.Players, newGame.Cells, gameId, GameStatus.NewGame);
         var json = JsonSerializer.Serialize(gameState, _jsonSerializerOptions);
-        _distributedCache.SetString(gameId, json);
+        await _distributedCache.SetStringAsync(gameId, json);
 
         return Created($"/api/game/{gameId}/{0}", gameState);
     }

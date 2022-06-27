@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using FluentAssertions;
 using Hive.Api.Controllers;
 using Hive.Api.DTOs;
@@ -19,16 +20,14 @@ public class NewControllerTests
     {
         var jsonOptions = TestHelpers.CreateJsonOptions();
         _memoryCache = TestHelpers.CreateTestMemoryCache();
-        var httpContext = new DefaultHttpContext {TraceIdentifier = NewGameId};
-        _controller = new NewController(Options.Create(jsonOptions), _memoryCache)
-            {ControllerContext = {HttpContext = httpContext}};
+        var httpContext = new DefaultHttpContext { TraceIdentifier = NewGameId };
+        _controller = new NewController(Options.Create(jsonOptions), _memoryCache) { ControllerContext = { HttpContext = httpContext } };
     }
 
     [Fact]
-    public void Post_CreatesNewGame()
+    public async Task Post_CreatesNewGame()
     {
-        _controller.Post()
-            .Should()
+        (await _controller.Post()).Should()
             .BeAssignableTo<CreatedResult>()
             .Which.Value.Should()
             .BeAssignableTo<GameState>()
@@ -37,10 +36,10 @@ public class NewControllerTests
     }
 
     [Fact]
-    public void Post_StoresNewGameInCache()
+    public async Task Post_StoresNewGameInCache()
     {
-        var result = _controller.Post();
+        var result = await _controller.Post();
         var gameId = result.Value.Should().BeAssignableTo<GameState>().Subject.GameId;
-        _memoryCache.GetString(gameId).Should().NotBeNullOrEmpty();
+        (await _memoryCache.GetStringAsync(gameId)).Should().NotBeNullOrEmpty();
     }
 }
