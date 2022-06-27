@@ -23,7 +23,7 @@ jobs:
           path: ~/.nuget/packages
           key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
           restore-keys: |
-            ${{ runner.os }}-nuget
+            ${{ runner.os }}-nuget-
       - name: Install - dependencies
         run: dotnet restore
       #      - name: Update Nuget Packages
@@ -63,9 +63,9 @@ jobs:
       - uses: actions/cache@v3
         with:
           path: node_modules
-          key: ${{ runner.os }}-nuget-${{ hashFiles('package.json') }}
+          key: ${{ runner.os }}-node_modules-${{ hashFiles('package.json') }}
           restore-keys: |
-            ${{ runner.os }}-node_modules
+            ${{ runner.os }}-node_modules-
       - name: Install - dependencies
         run: pnpm install
       - name: Lint fix - Frontend

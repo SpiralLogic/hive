@@ -20,7 +20,7 @@ const Modal: FunctionComponent<Properties> = (properties) => {
     dialogNode?.addEventListener('close', onClose);
 
     return () => dialogNode?.removeEventListener('close', onClose);
-  }, [isOpen]);
+  }, [isOpen, onClose]);
 
   const closeHandler = () => {
     reference.current?.close();

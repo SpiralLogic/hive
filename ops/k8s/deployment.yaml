@@ -1,18 +1,15 @@
 apiVersion: apps/v1
-kind: DaemonSet
+kind: Deployment
 metadata:
   name: hive-deployment
   namespace: hive
   labels:
     app: hive
 spec:
+  replicas: 3
   selector:
     matchLabels:
       app: hive
-  updateStrategy:
-    type: RollingUpdate
-    rollingUpdate:
-      maxUnavailable: 1
   template:
     metadata:
       labels:
@@ -20,12 +17,6 @@ spec:
     spec:
       imagePullSecrets:
         - name: sor-registry
-      tolerations:
-        # this toleration is to have the daemonset runnable on master nodes
-        # remove it if your masters can't run pods
-        - key: node.kubernetes.io/unschedulable
-          operator: Exists
-          effect: NoSchedule
       containers:
         - name: hive
           image: {image}
