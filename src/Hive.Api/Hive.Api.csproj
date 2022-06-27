@@ -30,30 +30,30 @@
         <Watch Include="$(SpaRoot)\public\**" Exclude="$(DefaultExcludes)" />
     </ItemGroup>
     <Target BeforeTargets="Build" Name="RemoveFiles" Condition="'$(Configuration)' == 'Debug'">
-        <RemoveDir Directories="wwwroot"/>
-        <MakeDir Directories="wwwroot"/>
+        <RemoveDir Directories="wwwroot" />
+        <MakeDir Directories="wwwroot" />
     </Target>
     <Target AfterTargets="Build" Name="CopyFiles" Condition="'$(Configuration)' == 'Debug'">
         <ItemGroup>
-            <MyWebRoot Include="$(SpaRoot)\public\**"/>
+            <MyWebRoot Include="$(SpaRoot)\public\**" />
         </ItemGroup>
-        <Copy SourceFiles="@(MyWebRoot)" DestinationFiles="wwwroot\%(RecursiveDir)%(Filename)%(Extension)"/>
+        <Copy SourceFiles="@(MyWebRoot)" DestinationFiles="wwwroot\%(RecursiveDir)%(Filename)%(Extension)" />
     </Target>
 
     <ItemGroup>
-        <ProjectReference Include="..\Hive.Domain\Hive.Domain.csproj"/>
+        <ProjectReference Include="..\Hive.Domain\Hive.Domain.csproj" />
     </ItemGroup>
 
     <Target Name="EsbuildWatch" BeforeTargets="Build" Condition="'$(DotNetWatchBuild)'=='true'">
         <Exec WorkingDirectory="$(SpaRoot)" ConsoleToMSBuild="true" Command="pnpm run esbuild:watch">
-            <Output TaskParameter="ConsoleOutput" ItemName="OutputOfExec"/>
-            <Output TaskParameter="ExitCode" PropertyName="ErrorCode"/>
+            <Output TaskParameter="ConsoleOutput" ItemName="OutputOfExec" />
+            <Output TaskParameter="ExitCode" PropertyName="ErrorCode" />
         </Exec>
     </Target>
     
     <ItemGroup>
-        <PackageReference Include="Microsoft.AspNetCore.SignalR.StackExchangeRedis" Version="6.0.5"/>
-        <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="6.0.5"/>
-        <PackageReference Include="StackExchange.Redis" Version="2.5.61"/>
+        <PackageReference Include="Microsoft.AspNetCore.SignalR.StackExchangeRedis" Version="6.0.6" />
+        <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="6.0.6" />
+        <PackageReference Include="StackExchange.Redis" Version="2.6.45" />
     </ItemGroup>
 </Project>
