@@ -4,7 +4,7 @@ import { Dispatcher } from '../../src/utilities/dispatcher';
 
 import GameArea from '../../src/components/GameArea';
 import { GameStatus } from '../../src/domain';
-import { HiveDispatcher, HiveEvent, TileAction } from '../../src/services';
+import { ConnectEvent, HiveDispatcher, HiveEvent, TileAction } from '../../src/services';
 import { createGameState } from '../fixtures/game-area.fixtures';
 import { mockClipboard, mockExecCommand, mockLocation, mockShare, noShare, simulateEvent } from '../helpers';
 
@@ -218,7 +218,10 @@ describe('<GameArea>', () => {
     restore();
   });
 
-  it(`opens modal when player connects`, async () => {
+  it.each<[ConnectEvent['type'], RegExp]>([
+    ['opponentConnected', /connected/i],
+    ['opponentDisconnected', /disconnected/i],
+  ])(`opens modal when player %s`, async (connectionState, expected) => {
     const gameState = createGameState(1);
     const dispatcher = new HiveDispatcher();
     render(
@@ -232,30 +235,15 @@ describe('<GameArea>', () => {
         />
       </Dispatcher.Provider>
     );
-    dispatcher.dispatch<HiveEvent>({ type: 'opponentConnected' });
-    expect(await screen.findByRole('dialog', { name: /player connected/i })).toBeInTheDocument();
+    dispatcher.dispatch<HiveEvent>({ type: connectionState });
+
+    expect(await screen.findByText(expected)).toBeInTheDocument();
   });
 
-  it(`opens modal when player disconnects`, async () => {
-    const gameState = createGameState(1);
-    const dispatcher = new HiveDispatcher();
-    render(
-      <Dispatcher.Provider value={dispatcher}>
-        <GameArea
-          gameId={'123A'}
-          gameStatus="MoveSuccess"
-          players={gameState.players}
-          cells={gameState.cells}
-          currentPlayer={1}
-        />
-      </Dispatcher.Provider>
-    );
-    dispatcher.dispatch<HiveEvent>({ type: 'opponentDisconnected' });
-
-    expect(await screen.findByRole('dialog', { name: /player connected/i })).toBeInTheDocument();
-  });
-
-  it(`closes player connected modal`, async () => {
+  it.each<[ConnectEvent['type'], RegExp]>([
+    ['opponentConnected', /player connected/i],
+    ['opponentDisconnected', /player disconnected/i],
+  ])(`closes the modal when player %s`, async (connectionState, expected) => {
     const gameState = createGameState(1);
     const dispatcher = new HiveDispatcher();
 
@@ -270,11 +258,11 @@ describe('<GameArea>', () => {
         />
       </Dispatcher.Provider>
     );
-    dispatcher.dispatch<HiveEvent>({ type: 'opponentDisconnected' });
+    dispatcher.dispatch<HiveEvent>({ type: connectionState });
 
     await userEvent.click(await screen.findByRole(/button/i, { hidden: false, name: /close dialog/i }));
 
-    expect(screen.queryByRole('dialog', { name: /player connected/i })).not.toBeInTheDocument();
+    expect(screen.queryByRole('dialog', { name: expected })).not.toBeInTheDocument();
   });
 
   const gameStatusShownDialogs: Array<[GameStatus, number, boolean]> = [

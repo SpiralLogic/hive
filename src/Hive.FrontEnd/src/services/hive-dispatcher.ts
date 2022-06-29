@@ -3,11 +3,7 @@ import { AiMode } from '../domain/engine';
 
 export type HiveEventListener<T extends HiveIntent> = <U extends T>(intent: U) => void;
 export type HiveIntent = HiveEvent | HiveAction;
-export type HiveEvent =
-  | MoveEvent
-  | TileEvent
-  | AiAction
-  | { type: 'opponentConnected' | 'opponentDisconnected' };
+export type HiveEvent = MoveEvent | TileEvent | AiAction | ConnectEvent;
 export type HiveAction = Action | TileAction;
 export type MoveEvent = { type: 'move'; move: Move };
 export type Action = {
@@ -15,6 +11,7 @@ export type Action = {
 };
 export type AiAction = { type: 'toggleAi'; newState: AiMode };
 
+export type ConnectEvent = { type: 'opponentConnected' | 'opponentDisconnected' };
 export type TileEvent = {
   type: 'tileDropped' | 'click' | 'tileSelected' | 'tileDeselected';
   tile: Tile;
