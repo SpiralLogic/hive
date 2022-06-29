@@ -8,52 +8,43 @@
         <Nullable>enable</Nullable>
         <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
         <TypeScriptToolsVersion>Latest</TypeScriptToolsVersion>
-        <SpaRoot>..\Hive.FrontEnd</SpaRoot>
+        <SpaRoot>..\Hive.FrontEnd\</SpaRoot>
         <DefaultItemExcludes>$(DefaultItemExcludes);$(SpaRoot)node_modules\**</DefaultItemExcludes>
         <Configurations>Debug;Release;Test</Configurations>
         <Platforms>AnyCPU</Platforms>
         <Version>1.1.1.1</Version>
         <AssemblyVersion>1.1.1.1</AssemblyVersion>
+        <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
     </PropertyGroup>
-    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    </PropertyGroup>
-    <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <PropertyGroup Condition="'$(Configuration)' == 'Release'">
         <DebugSymbols>false</DebugSymbols>
         <DebugType>none</DebugType>
-        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     </PropertyGroup>
 
     <ItemGroup>
-        <!-- Don't publish the SPA source files, but do show them in the project files list -->
-        <Content Remove="obj\**" />
-        <Watch Include="$(SpaRoot)\public\**" Exclude="$(DefaultExcludes)" />
+        <Content Remove="obj\**"/>
+        <Content Remove="wwwroot\**"/>
     </ItemGroup>
-    <Target BeforeTargets="Build" Name="RemoveFiles" Condition="'$(Configuration)' == 'Debug'">
-        <RemoveDir Directories="wwwroot" />
-        <MakeDir Directories="wwwroot" />
+
+    <Target Name="BuildWatchFiles" BeforeTargets="CopyFiles" Condition="'$(DotNetWatchBuild)'=='true'">
+        <RemoveDir Directories="wwwroot"/>
     </Target>
-    <Target AfterTargets="Build" Name="CopyFiles" Condition="'$(Configuration)' == 'Debug'">
+
+    <Target Name="CopyFiles" BeforeTargets="Build">
         <ItemGroup>
-            <MyWebRoot Include="$(SpaRoot)\public\**" />
+            <MyWebRoot Include="$(SpaRoot)public\**"/>
         </ItemGroup>
-        <Copy SourceFiles="@(MyWebRoot)" DestinationFiles="wwwroot\%(RecursiveDir)%(Filename)%(Extension)" />
+        <Copy SkipUnchangedFiles="true" SourceFiles="@(MyWebRoot)" DestinationFiles="wwwroot\%(RecursiveDir)%(Filename)%(Extension)"/>
     </Target>
 
     <ItemGroup>
-        <ProjectReference Include="..\Hive.Domain\Hive.Domain.csproj" />
+        <ProjectReference Include="..\Hive.Domain\Hive.Domain.csproj"/>
+        <ProjectReference Include="..\Hive.FrontEnd\Hive.FrontEnd.esproj"/>
     </ItemGroup>
 
-    <Target Name="EsbuildWatch" BeforeTargets="Build" Condition="'$(DotNetWatchBuild)'=='true'">
-        <Exec WorkingDirectory="$(SpaRoot)" ConsoleToMSBuild="true" Command="pnpm run esbuild:watch">
-            <Output TaskParameter="ConsoleOutput" ItemName="OutputOfExec" />
-            <Output TaskParameter="ExitCode" PropertyName="ErrorCode" />
-        </Exec>
-    </Target>
-    
     <ItemGroup>
-        <PackageReference Include="Microsoft.AspNetCore.SignalR.StackExchangeRedis" Version="6.0.6" />
-        <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="6.0.6" />
-        <PackageReference Include="StackExchange.Redis" Version="2.6.45" />
+        <PackageReference Include="Microsoft.AspNetCore.SignalR.StackExchangeRedis" Version="6.0.6"/>
+        <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="6.0.6"/>
+        <PackageReference Include="StackExchange.Redis" Version="2.6.45"/>
     </ItemGroup>
 </Project>
