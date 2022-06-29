@@ -5,30 +5,33 @@ import Links from '../../src/components/Links';
 import { HiveDispatcher } from '../../src/services';
 import { Dispatcher } from '../../src/utilities/dispatcher';
 
+const dispatcher = new HiveDispatcher();
+jest.spyOn(dispatcher, 'dispatch');
+
 describe('<Links>', () => {
   it(`links toggle Ai off`, async () => {
-    const dispatcher = new HiveDispatcher();
-    jest.spyOn(dispatcher, 'dispatch');
     render(
       <Dispatcher.Provider value={dispatcher}>
         <Links gameId={'123A'} currentPlayer={0} onShowShare={() => ({})} onShowRules={() => ({})} />
       </Dispatcher.Provider>
     );
+
     await userEvent.click(screen.getByTitle(/toggle ai/i));
+
     expect(dispatcher.dispatch).toHaveBeenLastCalledWith({ newState: 'off', type: 'toggleAi' });
     expect(await screen.findByTitle(/toggle ai/i)).toHaveClass('ai-off');
   });
 
-  it(`links toggle Ai on`, async () => {
-    const dispatcher = new HiveDispatcher();
-    jest.spyOn(dispatcher, 'dispatch');
+  it(`links toggle Ai off and then back on`, async () => {
     render(
       <Dispatcher.Provider value={dispatcher}>
         <Links gameId={'123A'} currentPlayer={0} onShowShare={() => ({})} onShowRules={() => ({})} />
       </Dispatcher.Provider>
     );
+
     await userEvent.click(screen.getByTitle(/toggle ai/i));
     await userEvent.click(screen.getByTitle(/toggle ai/i));
+
     expect(dispatcher.dispatch).toHaveBeenLastCalledWith({ newState: 'on', type: 'toggleAi' });
     expect(await screen.findByTitle(/toggle ai/i)).not.toHaveClass('ai-off');
   });

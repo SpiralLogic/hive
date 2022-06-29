@@ -10,6 +10,7 @@ describe('game engine Tests', () => {
   it('creates new game', async () => {
     engine = new GameEngine();
     const response = await engine.initialGame;
+
     expect(response).not.toBeFalsy();
     expect(response.cells).toHaveLength(2);
     expect(response.players).toHaveLength(2);
@@ -18,6 +19,7 @@ describe('game engine Tests', () => {
   it('gets existing game', async () => {
     engine = new GameEngine({ gameId: '33', currentPlayer: '1' });
     const response = await engine.initialGame;
+
     expect(global.fetch).toHaveBeenCalledWith('/api/game/33', {
       headers: {
         Accept: 'application/json',
@@ -25,6 +27,7 @@ describe('game engine Tests', () => {
       },
       method: 'GET',
     });
+
     expect(response).not.toBeFalsy();
     expect(response.cells).toHaveLength(2);
     expect(response.players).toHaveLength(2);
@@ -36,6 +39,7 @@ describe('game engine Tests', () => {
       tileId: 1,
       coords: { q: 0, r: 0 },
     });
+
     expect(response).not.toBeFalsy();
     expect(response.cells).toHaveLength(2);
     expect(response.players).toHaveLength(2);
@@ -48,6 +52,7 @@ describe('game engine Tests', () => {
       tileId: 1,
       coords: { q: 0, r: 0 },
     });
+
     expect(global.fetch).toHaveBeenLastCalledWith('/api/ai-move/445/1', expect.any(Object));
   });
 
@@ -58,6 +63,7 @@ describe('game engine Tests', () => {
       tileId: 1,
       coords: { q: 0, r: 0 },
     });
+
     expect(global.fetch).toHaveBeenLastCalledWith('/api/ai-move/445/0', expect.any(Object));
   });
 });

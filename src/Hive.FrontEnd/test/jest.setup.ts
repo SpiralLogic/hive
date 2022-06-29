@@ -4,6 +4,7 @@ import '@testing-library/jest-dom/extend-expect';
 import { render } from '@testing-library/preact';
 import 'preact';
 
+/** polyfill for JSON missing HTMLDialogElement for now */
 HTMLDialogElement.prototype.showModal = function showModal(this: HTMLDialogElement) {
   if (this.hasAttribute('open')) return;
   this.setAttribute('open', 'true');

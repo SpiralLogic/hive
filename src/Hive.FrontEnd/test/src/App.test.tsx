@@ -3,7 +3,6 @@ import { ComponentChild } from 'preact';
 import { HexEngine, HexServerConnectionFactory } from '../../src/domain/engine';
 import App from '../../src/components/App';
 import { createGameState } from '../fixtures/app.fixture';
-
 const defaultConnectionFactory: HexServerConnectionFactory = () => ({
   connectGame: jest.fn(),
   getConnectionState: jest.fn(),
