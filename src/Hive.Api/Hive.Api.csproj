@@ -31,7 +31,7 @@
         <RemoveDir Directories="wwwroot"/>
     </Target>
 
-    <Target Name="CopyFiles" BeforeTargets="Build">
+    <Target Name="CopyFiles" BeforeTargets="Build" Condition="'$(Configuration)' == 'Debug'">
         <ItemGroup>
             <MyWebRoot Include="$(SpaRoot)public\**"/>
         </ItemGroup>
