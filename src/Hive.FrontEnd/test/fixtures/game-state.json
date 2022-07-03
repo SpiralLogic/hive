@@ -41,12 +41,7 @@
           "id": 1,
           "playerId": 1,
           "creature": "bug",
-          "moves": [
-            {
-              "q": 1,
-              "r": 1
-            }
-          ]
+          "moves": []
         }
       ]
     }

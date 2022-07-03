@@ -9,18 +9,18 @@ import { useHiveDispatchListener, Dispatcher } from '../utilities/dispatcher';
 import { handleDragOver } from '../utilities/handlers';
 import { cellKey, removeOtherPlayerMoves, resetOtherPlayerSelected } from '../utilities/hextille';
 import { shareGame } from '../utilities/share';
+import { AiMode } from '../domain/engine';
 import GameCell from './GameCell';
 import GameOver from './GameOver';
 import GameTile from './GameTile';
 import Hextille from './Hextille';
 import Links from './Links';
 import Modal from './Modal';
-import PlayerConnected from './PlayerConnected';
 import Players from './Players';
 import Row from './Row';
 import Rules from './Rules';
 
-type Properties = GameState & { currentPlayer: PlayerId };
+type Properties = GameState & { currentPlayer: PlayerId; aiMode?: AiMode };
 
 const gameOutcome = (gameStatus: GameStatus, playerId: PlayerId) => {
   switch (gameStatus) {
@@ -55,34 +55,50 @@ const createTiles = (cell: Cell, currentCellPlayer: PlayerId) => {
     />
   ));
 };
+type CurrentDialog = 'none' | 'rules' | 'share' | 'playerConnected' | 'gameOver';
 
-const GameArea: FunctionComponent<Properties> = ({ players, cells, gameId, gameStatus, currentPlayer }) => {
-  const [showRules, setShowRules] = useState<boolean>(false);
-  const [showShare, setShowShare] = useState<boolean>(false);
-  const [playerConnected, setPlayerConnected] = useState<'connected' | 'disconnected' | false>(false);
-  const [showGameOver, setShowGameOver] = useState<boolean>(
-    () => gameOutcome(gameStatus, currentPlayer) !== ''
+const GameArea: FunctionComponent<Properties> = ({
+  players,
+  cells,
+  gameId,
+  gameStatus,
+  currentPlayer,
+  aiMode = 'off',
+}) => {
+  const [currentDialog, setCurrentDialog] = useState<CurrentDialog>(() =>
+    gameOutcome(gameStatus, currentPlayer) === '' ? 'none' : 'gameOver'
   );
+  const [playerConnected, setPlayerConnected] = useState<'connected' | 'disconnected' | false>(false);
+
+  const closeDialog = () => setCurrentDialog('none');
+
+  const openDialog = (dialog: Exclude<CurrentDialog, 'none'>) => {
+    closeDialog();
+    setTimeout(() => setCurrentDialog(dialog), 100);
+  };
 
   const dispatcher = useContext<HiveDispatcher>(Dispatcher);
+
   const shareComponent = async () => {
     const result = await shareGame(gameId, currentPlayer);
-    setShowShare(result);
+    if (result) openDialog('share');
   };
 
   const hextilleBuilder = new HextilleBuilder(cells);
   const rows = hextilleBuilder.createRows();
 
   useEffect(() => {
-    setShowGameOver(gameOutcome(gameStatus, currentPlayer) !== '');
-  }, [gameStatus, currentPlayer]);
+    if (gameOutcome(gameStatus, currentPlayer) !== '') openDialog('gameOver');
+  }, [gameStatus, currentPlayer, openDialog]);
 
   useHiveDispatchListener<HiveEvent>('opponentConnected', () => {
     setPlayerConnected('connected');
+    openDialog('playerConnected');
   });
 
   useHiveDispatchListener<HiveEvent>('opponentDisconnected', () => {
     setPlayerConnected('disconnected');
+    openDialog('playerConnected');
   });
 
   removeOtherPlayerMoves(currentPlayer, { players, cells });
@@ -93,10 +109,11 @@ const GameArea: FunctionComponent<Properties> = ({ players, cells, gameId, gameS
       <Players currentPlayer={currentPlayer} players={players} />
       <section title="Game playing area">
         <Links
-          onShowRules={setShowRules}
+          onShowRules={() => openDialog('rules')}
           onShowShare={shareComponent}
           gameId={gameId}
           currentPlayer={currentPlayer}
+          aiMode={aiMode}
         />
         <Hextille>
           {rows.map((row) => (
@@ -111,23 +128,19 @@ const GameArea: FunctionComponent<Properties> = ({ players, cells, gameId, gameS
         </Hextille>
       </section>
       <Modal
-        isOpen={!!playerConnected}
-        onClose={() => setPlayerConnected(false)}
-        title={'Player Connected'}
+        isOpen={currentDialog === 'playerConnected'}
+        onClose={closeDialog}
+        title="Player Connected"
         class="player-connected">
-        <PlayerConnected connected={playerConnected} />
+        <p>Player has {playerConnected}!</p>
       </Modal>
-      <Modal isOpen={showRules} onClose={() => setShowRules(false)} title={'Game Rules'} class="rules">
+      <Modal isOpen={currentDialog === 'rules'} onClose={closeDialog} title="Game Rules" class="rules">
         <Rules />
       </Modal>
-      <Modal isOpen={showShare} onClose={() => setShowShare(false)} title={'Linked Shared'} class="share">
+      <Modal isOpen={currentDialog === 'share'} onClose={closeDialog} title="Linked Shared" class="share">
         <p>Opponent's link has been copied to clipboard!</p>
       </Modal>
-      <Modal
-        isOpen={showGameOver}
-        onClose={() => setShowGameOver(false)}
-        title={'Game Over'}
-        class="game-over">
+      <Modal isOpen={currentDialog === 'gameOver'} onClose={closeDialog} title="Game Over" class="game-over">
         <GameOver outcome={gameOutcome(gameStatus, currentPlayer)} />
       </Modal>
     </main>

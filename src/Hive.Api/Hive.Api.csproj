@@ -24,6 +24,7 @@
     <ItemGroup>
         <Content Remove="obj\**"/>
         <Content Remove="wwwroot\**"/>
+        <Watch Include="$(SpaRoot)public\**"/>
     </ItemGroup>
 
     <Target Name="BuildWatchFiles" BeforeTargets="CopyFiles" Condition="'$(DotNetWatchBuild)'=='true'">

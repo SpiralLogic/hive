@@ -1,39 +1,39 @@
 import '../css/links.css';
 
 import { FunctionComponent } from 'preact';
-import { useContext, useState } from 'preact/hooks';
+import { useContext } from 'preact/hooks';
 
 import { GameId, PlayerId } from '../domain';
-import { AiAction, HiveEvent } from '../services';
-import { Dispatcher, useHiveDispatchListener } from '../utilities/dispatcher';
+import { AiAction } from '../services';
+import { Dispatcher } from '../utilities/dispatcher';
 import { getShareUrl } from '../utilities/share';
+import { AiMode } from '../domain/engine';
 import SVG from './SVG';
 
 type Properties = {
-  onShowRules: (value: boolean) => void;
+  onShowRules: () => void;
   onShowShare: () => void;
   gameId: GameId;
+  aiMode: AiMode;
   currentPlayer: PlayerId;
 };
 export const handle = (handler: () => void) => (event: MouseEvent) => {
   event.preventDefault();
   event.stopPropagation();
   handler();
-  return false;
 };
 
-const Links: FunctionComponent<Properties> = ({ gameId, currentPlayer, onShowRules, onShowShare }) => {
-  const [useAi, setUseAi] = useState(currentPlayer === 0 ? 'on' : 'off');
+const Links: FunctionComponent<Properties> = ({
+  gameId,
+  currentPlayer,
+  onShowRules,
+  onShowShare,
+  aiMode,
+}) => {
   const hiveDispatcher = useContext(Dispatcher);
   const clickHandler = () => {
-    const aiMode = useAi === 'on' ? 'off' : 'on';
-    hiveDispatcher.dispatch<AiAction>({ type: 'toggleAi', newState: aiMode });
-    setUseAi(aiMode);
+    hiveDispatcher.dispatch<AiAction>({ type: 'toggleAi', newState: aiMode === 'on' ? 'off' : 'on' });
   };
-
-  useHiveDispatchListener<HiveEvent>('opponentConnected', () => {
-    setUseAi('off');
-  });
 
   return (
     <nav>
@@ -51,7 +51,7 @@ const Links: FunctionComponent<Properties> = ({ gameId, currentPlayer, onShowRul
           <use href="#new" />
         </SVG>
       </a>
-      <a href="#" name="Show rules" onClick={() => onShowRules(true)} title="Rules">
+      <a href="#" name="Show rules" onClick={handle(onShowRules)} title="Rules">
         <SVG>
           <use href="#rules" />
         </SVG>
@@ -59,7 +59,7 @@ const Links: FunctionComponent<Properties> = ({ gameId, currentPlayer, onShowRul
       <a
         href="#"
         name="Toggle Ai"
-        class={useAi === 'on' ? undefined : 'ai-off'}
+        class={aiMode === 'on' ? undefined : 'ai-off'}
         onClick={handle(clickHandler)}
         title="Toggle Ai">
         <SVG>

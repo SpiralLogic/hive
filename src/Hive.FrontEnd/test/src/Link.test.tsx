@@ -12,20 +12,32 @@ describe('<Links>', () => {
   it(`links toggle Ai off`, async () => {
     render(
       <Dispatcher.Provider value={dispatcher}>
-        <Links gameId={'123A'} currentPlayer={0} onShowShare={() => ({})} onShowRules={() => ({})} />
+        <Links
+          gameId={'123A'}
+          currentPlayer={0}
+          onShowShare={() => ({})}
+          onShowRules={() => ({})}
+          aiMode="on"
+        />
       </Dispatcher.Provider>
     );
 
     await userEvent.click(screen.getByTitle(/toggle ai/i));
 
     expect(dispatcher.dispatch).toHaveBeenLastCalledWith({ newState: 'off', type: 'toggleAi' });
-    expect(await screen.findByTitle(/toggle ai/i)).toHaveClass('ai-off');
+    expect(await screen.findByTitle(/toggle ai/i)).not.toHaveClass('ai-off');
   });
 
   it(`links toggle Ai off and then back on`, async () => {
     render(
       <Dispatcher.Provider value={dispatcher}>
-        <Links gameId={'123A'} currentPlayer={0} onShowShare={() => ({})} onShowRules={() => ({})} />
+        <Links
+          gameId={'123A'}
+          currentPlayer={0}
+          onShowShare={() => ({})}
+          onShowRules={() => ({})}
+          aiMode="off"
+        />
       </Dispatcher.Provider>
     );
 
@@ -33,12 +45,20 @@ describe('<Links>', () => {
     await userEvent.click(screen.getByTitle(/toggle ai/i));
 
     expect(dispatcher.dispatch).toHaveBeenLastCalledWith({ newState: 'on', type: 'toggleAi' });
-    expect(await screen.findByTitle(/toggle ai/i)).not.toHaveClass('ai-off');
+    expect(await screen.findByTitle(/toggle ai/i)).toHaveClass('ai-off');
   });
 
   it('renders', () => {
     expect(
-      render(<Links gameId={'123A'} currentPlayer={0} onShowShare={() => ({})} onShowRules={() => ({})} />)
+      render(
+        <Links
+          gameId={'123A'}
+          currentPlayer={0}
+          onShowShare={() => ({})}
+          onShowRules={() => ({})}
+          aiMode="on"
+        />
+      )
     ).toMatchSnapshot();
   });
 });

@@ -4,13 +4,14 @@ import { FunctionComponent } from 'preact';
 import { useContext, useEffect, useState } from 'preact/hooks';
 
 import { GameState } from '../domain';
-import { HexEngine, HexServerConnectionFactory } from '../domain/engine';
+import { AiMode, HexEngine, HexServerConnectionFactory } from '../domain/engine';
 import {
   addServerHandlers,
   createOpponentConnectedHandler,
   createOpponentSelectionHandler,
 } from '../utilities/handlers';
 import { Dispatcher } from '../utilities/dispatcher';
+import { AiAction } from '../services';
 import GameArea from './GameArea';
 
 const App: FunctionComponent<{ engine: HexEngine; connectionFactory: HexServerConnectionFactory }> = (
@@ -18,6 +19,7 @@ const App: FunctionComponent<{ engine: HexEngine; connectionFactory: HexServerCo
 ) => {
   const { engine, connectionFactory } = properties;
   const [gameState, updateHandler] = useState<GameState | undefined>();
+  const [aiMode, setAiMode] = useState<AiMode>(engine.getAiMode);
   const [fetchStatus, setFetchStatus] = useState('loading !');
   const dispatcher = useContext(Dispatcher);
 
@@ -35,6 +37,15 @@ const App: FunctionComponent<{ engine: HexEngine; connectionFactory: HexServerCo
   }, [engine.currentPlayer, engine.initialGame]);
 
   useEffect(() => {
+    const aiToggle = ({ newState }: { newState: AiMode }) => {
+      setAiMode(newState);
+      return engine.setAiMode(newState);
+    };
+
+    return dispatcher.add<AiAction>('toggleAi', aiToggle);
+  }, [dispatcher, setAiMode, engine]);
+
+  useEffect(() => {
     if (!gameState?.gameId)
       return () => {
         /* no clean up */
@@ -46,11 +57,12 @@ const App: FunctionComponent<{ engine: HexEngine; connectionFactory: HexServerCo
       opponentSelectionHandler: createOpponentSelectionHandler(dispatcher),
       opponentConnectedHandler: createOpponentConnectedHandler(dispatcher),
     });
+
     void serverConnection.connectGame();
     const removeServerHandlers = addServerHandlers(
       serverConnection.sendSelection,
       updateHandler,
-      engine,
+      engine.move,
       dispatcher
     );
 
@@ -69,11 +81,7 @@ const App: FunctionComponent<{ engine: HexEngine; connectionFactory: HexServerCo
       </h1>
     );
 
-  return (
-    <Dispatcher.Provider value={dispatcher}>
-      <GameArea {...gameState} currentPlayer={engine.currentPlayer} />
-    </Dispatcher.Provider>
-  );
+  return <GameArea {...gameState} currentPlayer={engine.currentPlayer} aiMode={aiMode} />;
 };
 
 App.displayName = 'App';

@@ -1,5 +1,5 @@
-import { GameState, Tile } from '../domain';
-import { AiMode, HexEngine, OpponentConnectedHandler, OpponentSelectionHandler } from '../domain/engine';
+import { GameState, Move, Tile } from '../domain';
+import { OpponentConnectedHandler, OpponentSelectionHandler } from '../domain/engine';
 import { AiAction, HiveDispatcher, MoveEvent, TileEvent } from '../services';
 
 export function handleDragOver(event_: { preventDefault: () => void }): boolean {
@@ -64,7 +64,7 @@ export const createOpponentConnectedHandler = (dispatcher: HiveDispatcher): Oppo
 export const addServerHandlers = (
   sendSelection: (type: 'select' | 'deselect', tile: Tile) => void,
   updateGameState: (value: GameState) => void,
-  engine: HexEngine,
+  makeMove: (move: Move) => Promise<GameState>,
   dispatcher: HiveDispatcher
 ) => {
   const selectionChangeHandler = (event: TileEvent) =>
@@ -72,22 +72,16 @@ export const addServerHandlers = (
   const deselectionChangeHandler = (event: TileEvent) =>
     !event.fromEvent && sendSelection('deselect', event.tile);
   const moveHandler = async (event: MoveEvent) => {
-    const state = await engine.move(event.move);
+    const state = await makeMove(event.move);
     return updateGameState(state);
-  };
-
-  const aiToggle = ({ newState }: { newState: AiMode }) => {
-    engine.aiMode = newState;
   };
 
   dispatcher.add<MoveEvent>('move', moveHandler);
   dispatcher.add<TileEvent>('tileSelected', selectionChangeHandler);
   dispatcher.add<TileEvent>('tileDeselected', deselectionChangeHandler);
-  const removeAi = dispatcher.add<AiAction>('toggleAi', aiToggle);
   return () => {
     dispatcher.remove<MoveEvent>('move', moveHandler);
     dispatcher.remove<TileEvent>('tileSelected', selectionChangeHandler);
     dispatcher.remove<TileEvent>('tileDeselected', deselectionChangeHandler);
-    removeAi();
   };
 };

@@ -158,7 +158,7 @@ describe(`handler tests`, () => {
       jest.spyOn(dispatcher, 'remove');
       const sendSelection = jest.fn();
 
-      const removeHandlers = addServerHandlers(sendSelection, jest.fn(), engine, dispatcher);
+      const removeHandlers = addServerHandlers(sendSelection, jest.fn(), engine.move, dispatcher);
 
       dispatcher.dispatch({
         type: 'move',
@@ -171,11 +171,8 @@ describe(`handler tests`, () => {
       dispatcher.dispatch({ type: 'tileDeselected', tile: selectedTile });
       expect(sendSelection).toHaveBeenLastCalledWith('deselect', selectedTile);
 
-      dispatcher.dispatch({ type: 'toggleAi', newState: 'off' });
-      expect(engine.aiMode).toStrictEqual('off');
-
       removeHandlers();
-      expect(dispatcher.remove).toHaveBeenCalledTimes(4);
+      expect(dispatcher.remove).toHaveBeenCalledTimes(3);
     });
   });
 });

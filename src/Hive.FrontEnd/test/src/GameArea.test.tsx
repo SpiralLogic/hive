@@ -294,7 +294,7 @@ describe('<GameArea>', () => {
           currentPlayer={currentPlayer}
         />
       );
-      expect(screen.getByRole('dialog', { name: /game over/i })).toBeInTheDocument();
+      expect(await screen.findByRole('dialog', { name: /game over/i })).toBeInTheDocument();
     }
   );
 
@@ -312,7 +312,7 @@ describe('<GameArea>', () => {
     expect(screen.queryByRole('dialog', { name: /game over/i })).not.toBeInTheDocument();
   });
 
-  it.each(gameStatusShownDialogs)(`Game status %s shows dialog for player 2`, (gameStatus) => {
+  it.each(gameStatusShownDialogs)(`Game status %s shows dialog for player 2`, async (gameStatus) => {
     const gameState = createGameState(1);
     render(
       <GameArea
@@ -323,7 +323,7 @@ describe('<GameArea>', () => {
         currentPlayer={0}
       />
     );
-    expect(screen.getByRole('dialog', { name: /game over/i })).toBeInTheDocument();
+    expect(await screen.findByRole('dialog', { name: /game over/i })).toBeInTheDocument();
   });
 
   it.each(gameStatusNotShownDialogs)(`Game status %s doesn't show dialog for player 2`, (gameStatus) => {
@@ -370,7 +370,7 @@ describe('<GameArea>', () => {
         currentPlayer={0}
       />
     );
-    await userEvent.click(screen.getByRole('button', { name: /new game/i }));
+    await userEvent.click(await screen.findByRole('button', { name: /new game/i }));
     expect(assign).toHaveBeenCalledWith('/');
 
     restoreLocation();

@@ -14,7 +14,8 @@ export type EngineMove = (move: Move) => Promise<GameState>;
 export type AiMode = 'on' | 'off' | 'auto';
 export type HexEngine = {
   currentPlayer: PlayerId;
-  aiMode: AiMode;
+  setAiMode: (mode: AiMode) => void;
+  getAiMode: () => AiMode;
   initialGame: Promise<GameState>;
   move: EngineMove;
 };
