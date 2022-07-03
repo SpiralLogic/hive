@@ -289,6 +289,22 @@ public class ComputerPlayerTests
     }
 
     [Fact]
+    public async Task AntsArePreferredFromSecondMove()
+    {
+        var hive = HiveFactory.Create(new[] {"player1", " player2"});
+        
+        var p1Queen = hive.Players.First().Tiles.First(t => t.Creature == Creatures.Beetle);
+        var p2Queen = hive.Players.Skip(1).First().Tiles.First(t => t.Creature == Creatures.Beetle);
+
+        hive.Move(new Move(p1Queen, new Coords(0, 0)));
+        hive.Move(new Move(p2Queen, new Coords(0, -1)));
+
+        var player = new ComputerPlayer(hive);
+        var move = await player.GetMove();
+        Assert.Equal(move.Tile.Creature, Creatures.Ant);
+    }
+
+    [Fact]
     public async Task AntsAreScoreHighlyOncePlaced()
     {
         var initial = new InitialHiveBuilder();
