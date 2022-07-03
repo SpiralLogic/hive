@@ -96,7 +96,7 @@ const GameArea: FunctionComponent<Properties> = ({
 
   useEffect(() => {
     resetOtherPlayerSelected({ players, cells }, dispatcher);
-  }, [players, cells]);
+  }, [players, cells, dispatcher]);
 
   useHiveDispatchListener<HiveEvent>('opponentConnected', () => {
     setPlayerConnected('connected');
