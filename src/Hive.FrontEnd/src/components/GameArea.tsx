@@ -5,7 +5,7 @@ import { FunctionComponent } from 'preact';
 
 import { Cell, GameState, GameStatus, PlayerId } from '../domain';
 import { HextilleBuilder, HiveDispatcher, HiveEvent } from '../services';
-import { useHiveDispatchListener, Dispatcher } from '../utilities/dispatcher';
+import { Dispatcher, useHiveDispatchListener } from '../utilities/dispatcher';
 import { handleDragOver } from '../utilities/handlers';
 import { cellKey, removeOtherPlayerMoves, resetOtherPlayerSelected } from '../utilities/hextille';
 import { shareGame } from '../utilities/share';
@@ -44,17 +44,24 @@ const gameOutcome = (gameStatus: GameStatus, playerId: PlayerId) => {
   }
   return '';
 };
-const createTiles = (cell: Cell, currentCellPlayer: PlayerId) => {
+
+const Tiles: FunctionComponent<{ cell: Cell; currentPlayer: PlayerId }> = ({ cell, currentPlayer }) => {
   cell.tiles.reverse();
-  return cell.tiles.map((tile, index) => (
-    <GameTile
-      key={tile.id}
-      currentPlayer={currentCellPlayer}
-      {...tile}
-      stacked={index === cell.tiles.length - 1 && cell.tiles.length > 1}
-    />
-  ));
+
+  return (
+    <>
+      {cell.tiles.map((tile, index) => (
+        <GameTile
+          key={tile.id}
+          currentPlayer={currentPlayer}
+          {...tile}
+          stacked={index === cell.tiles.length - 1 && cell.tiles.length > 1}
+        />
+      ))}
+    </>
+  );
 };
+
 type CurrentDialog = 'none' | 'rules' | 'share' | 'playerConnected' | 'gameOver';
 
 const GameArea: FunctionComponent<Properties> = ({
@@ -65,19 +72,15 @@ const GameArea: FunctionComponent<Properties> = ({
   currentPlayer,
   aiMode = 'off',
 }) => {
-  const [currentDialog, setCurrentDialog] = useState<CurrentDialog>(() =>
-    gameOutcome(gameStatus, currentPlayer) === '' ? 'none' : 'gameOver'
-  );
+  const [currentDialog, setCurrentDialog] = useState<CurrentDialog>('none');
   const [playerConnected, setPlayerConnected] = useState<'connected' | 'disconnected' | false>(false);
-
   const closeDialog = () => setCurrentDialog('none');
+  const dispatcher = useContext<HiveDispatcher>(Dispatcher);
 
   const openDialog = (dialog: Exclude<CurrentDialog, 'none'>) => {
+    if (dialog != 'gameOver') setTimeout(() => setCurrentDialog(dialog), 100);
     closeDialog();
-    setTimeout(() => setCurrentDialog(dialog), 100);
   };
-
-  const dispatcher = useContext<HiveDispatcher>(Dispatcher);
 
   const shareComponent = async () => {
     const result = await shareGame(gameId, currentPlayer);
@@ -88,8 +91,12 @@ const GameArea: FunctionComponent<Properties> = ({
   const rows = hextilleBuilder.createRows();
 
   useEffect(() => {
-    if (gameOutcome(gameStatus, currentPlayer) !== '') openDialog('gameOver');
-  }, [gameStatus, currentPlayer, openDialog]);
+    if (gameOutcome(gameStatus, currentPlayer) !== '') setCurrentDialog('gameOver');
+  }, [gameStatus, currentPlayer]);
+
+  useEffect(() => {
+    resetOtherPlayerSelected({ players, cells }, dispatcher);
+  }, [players, cells]);
 
   useHiveDispatchListener<HiveEvent>('opponentConnected', () => {
     setPlayerConnected('connected');
@@ -102,7 +109,6 @@ const GameArea: FunctionComponent<Properties> = ({
   });
 
   removeOtherPlayerMoves(currentPlayer, { players, cells });
-  resetOtherPlayerSelected(currentPlayer, { players, cells }, dispatcher);
 
   return (
     <main onDragOver={handleDragOver} title="Hive Game Area">
@@ -120,7 +126,7 @@ const GameArea: FunctionComponent<Properties> = ({
             <Row key={row.id} {...row}>
               {row.cells.map((cell) => (
                 <GameCell key={cellKey(cell.coords)} coords={cell.coords} hidden={!!cell.hidden}>
-                  {createTiles(cell, currentPlayer)}
+                  <Tiles cell={cell} currentPlayer={currentPlayer} />
                 </GameCell>
               ))}
             </Row>

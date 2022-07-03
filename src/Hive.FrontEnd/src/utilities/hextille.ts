@@ -20,10 +20,9 @@ export const removeOtherPlayerMoves = (
 };
 
 export const resetOtherPlayerSelected = (
-  playerId: number,
   { players, cells }: Pick<GameState, 'players' | 'cells'>,
   dispatcher: HiveDispatcher
 ): void => {
-  for (const tile of getAllOtherPlayerTiles(playerId, players, cells))
-    dispatcher.dispatch<TileEvent>({ type: 'tileDeselected', tile });
+  for (const tile of getAllTiles(players, cells))
+    dispatcher.dispatch<TileEvent>({ type: 'tileDeselected', tile, fromEvent: true });
 };
