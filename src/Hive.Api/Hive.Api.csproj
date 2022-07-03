@@ -40,7 +40,7 @@
 
     <ItemGroup>
         <ProjectReference Include="..\Hive.Domain\Hive.Domain.csproj"/>
-        <ProjectReference Include="..\Hive.FrontEnd\Hive.FrontEnd.esproj"   Condition="'$(Configuration)' != 'Test'"/>
+        <ProjectReference Include="..\Hive.FrontEnd\Hive.FrontEnd.esproj" Condition="'$(Configuration)' == 'Debug'"/>
     </ItemGroup>
 
     <ItemGroup>
