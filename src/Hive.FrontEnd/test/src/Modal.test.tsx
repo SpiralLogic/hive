@@ -3,11 +3,10 @@ import userEvent from '@testing-library/user-event';
 import Modal from '../../src/components/Modal';
 
 describe('<Modal>', () => {
-  let showModalSpy: jest.SpyInstance, closeSpy: jest.SpyInstance;
+  let closeSpy: jest.SpyInstance;
   const onCloseSpy = jest.fn();
 
   beforeEach(() => {
-    showModalSpy = jest.spyOn(HTMLDialogElement.prototype, 'showModal');
     closeSpy = jest.spyOn(HTMLDialogElement.prototype, 'close');
   });
 
@@ -18,16 +17,6 @@ describe('<Modal>', () => {
 
     expect(screen.getByRole('button')).toBeVisible();
     expect(screen.getByRole('dialog')).toBeVisible();
-  });
-
-  it(`opens when the open attribute is true`, async () => {
-    render(<Modal title="test" isOpen={false} onClose={onCloseSpy} />);
-    expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
-
-    screen.getByRole<HTMLDialogElement>('dialog', { hidden: true }).setAttribute('open', '');
-
-    expect(screen.getByRole('dialog')).toBeVisible();
-    expect(showModalSpy).toHaveBeenCalledTimes(0);
   });
 
   it(`closes when the open attribute is false`, async () => {
@@ -46,8 +35,7 @@ describe('<Modal>', () => {
 
   it(`renders initially from an closed state`, () => {
     render(<Modal title="test" isOpen={false} onClose={onCloseSpy} />);
-    expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
-    expect(screen.getByRole('dialog', { hidden: true })).not.toHaveAttribute('open');
+    expect(screen.queryByRole('dialog', { hidden: true })).not.toBeInTheDocument();
   });
 
   it('will open and close from props', async () => {
@@ -57,15 +45,13 @@ describe('<Modal>', () => {
 
     rerender(<Modal title="test" isOpen={false} onClose={onCloseSpy} />);
 
-    expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
-    expect(screen.getByRole('dialog', { hidden: true })).not.toHaveAttribute('open');
+    expect(screen.queryByRole('dialog', { hidden: true })).not.toBeInTheDocument();
   });
 
   it('will close and open from props', async () => {
     const { rerender } = render(<Modal title="test" isOpen={false} onClose={onCloseSpy} />);
 
-    expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
-    expect(screen.getByRole('dialog', { hidden: true })).not.toHaveAttribute('open');
+    expect(screen.queryByRole('dialog', { hidden: true })).not.toBeInTheDocument();
 
     rerender(<Modal title="test" isOpen={true} onClose={onCloseSpy} />);
 

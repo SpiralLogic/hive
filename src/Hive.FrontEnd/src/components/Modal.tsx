@@ -26,14 +26,14 @@ const Modal: FunctionComponent<Properties> = (properties) => {
     reference.current?.close();
   };
 
-  return (
+  return isOpen ? (
     <dialog ref={reference} aria-label={title} class={properties.class}>
       <button class="close" aria-label="Close Dialog" onClick={closeHandler}>
         X
       </button>
       {children}
     </dialog>
-  );
+  ) : null;
 };
 
 Modal.displayName = 'Modal';
