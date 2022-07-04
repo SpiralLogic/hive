@@ -15,8 +15,9 @@ const Modal: FunctionComponent<Properties> = (properties) => {
   const reference = useRef<HTMLDialogElement>(null);
 
   useEffect(() => {
+    if (!isOpen) return;
     const dialogNode = reference.current;
-    isOpen ? dialogNode?.showModal() : dialogNode?.close();
+    dialogNode?.showModal();
     dialogNode?.addEventListener('close', onClose);
 
     return () => dialogNode?.removeEventListener('close', onClose);

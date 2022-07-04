@@ -40,26 +40,6 @@ describe('<Modal>', () => {
     expect(screen.getByRole('dialog')).toBeVisible();
   });
 
-  it('will open and close from props', async () => {
-    const { rerender } = render(<Modal title="test" isOpen={true} onClose={onCloseSpy} />);
-
-    expect(screen.getByRole('dialog')).toBeVisible();
-
-    rerender(<Modal title="test" isOpen={false} onClose={onCloseSpy} />);
-
-    expect(screen.queryByRole('dialog', { hidden: true })).not.toBeInTheDocument();
-  });
-
-  it('will close and open from props', async () => {
-    const { rerender } = render(<Modal title="test" isOpen={false} onClose={onCloseSpy} />);
-
-    expect(screen.queryByRole('dialog', { hidden: true })).not.toBeInTheDocument();
-
-    rerender(<Modal title="test" isOpen={true} onClose={onCloseSpy} />);
-
-    expect(screen.getByRole('dialog')).toHaveAttribute('open');
-  });
-
   it(`can click`, async () => {
     render(<Modal title="test" isOpen={true} onClose={onCloseSpy} />);
 
