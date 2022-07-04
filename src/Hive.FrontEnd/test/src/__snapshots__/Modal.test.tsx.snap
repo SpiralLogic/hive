@@ -13,16 +13,3 @@ exports[`<Modal> renders 1`] = `
   </button>
 </dialog>
 `;
-
-exports[`<Modal> renders 2`] = `
-<dialog
-  aria-label="test"
->
-  <button
-    aria-label="Close Dialog"
-    class="close"
-  >
-    X
-  </button>
-</dialog>
-`;

@@ -34,8 +34,10 @@ describe('<Modal>', () => {
   });
 
   it(`renders initially from an closed state`, () => {
-    render(<Modal title="test" isOpen={false} onClose={onCloseSpy} />);
+    const { rerender } = render(<Modal title="test" isOpen={false} onClose={onCloseSpy} />);
     expect(screen.queryByRole('dialog', { hidden: true })).not.toBeInTheDocument();
+    rerender(<Modal title="test" isOpen={true} onClose={onCloseSpy} />);
+    expect(screen.getByRole('dialog')).toBeVisible();
   });
 
   it('will open and close from props', async () => {
@@ -93,7 +95,7 @@ describe('<Modal>', () => {
     expect(screen.getByRole('dialog', { hidden: true })).not.toHaveAttribute('open');
   });
 
-  it.each([true, false])('renders', (isOpen) => {
-    expect(render(<Modal title="test" isOpen={isOpen} onClose={onCloseSpy} />)).toMatchSnapshot();
+  it('renders', () => {
+    expect(render(<Modal title="test" isOpen={true} onClose={onCloseSpy} />)).toMatchSnapshot();
   });
 });
