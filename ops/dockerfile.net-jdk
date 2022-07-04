@@ -10,14 +10,8 @@ ENV PATH "${JAVA_HOME}/bin:${PATH}"
 COPY --from=mcr.microsoft.com/openjdk/jdk:17-ubuntu $JAVA_HOME $JAVA_HOME
 COPY . /source
 
-RUN curl --connect-timeout 5 \
-             --max-time 10 \
-             --retry 15 \
-             --retry-delay 0 \
-              -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash \
-    && . ~/.nvm/nvm.sh \
-    && nvm install 16 \
-    && nvm use 16
+RUN curl -vv --connect-timeout 5 --max-time 10 --retry 15 -fsSL https://deb.nodesource.com/setup_16.x | bash -
+RUN apt-get install -y nodejs
 
 RUN dotnet new tool-manifest || true
 RUN dotnet tool install dotnet-sonarscanner
