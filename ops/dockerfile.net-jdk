@@ -1,24 +1,23 @@
 FROM mcr.microsoft.com/dotnet/sdk:7.0
-WORKDIR /source
 SHELL [ "/bin/bash", "-l", "-c" ]
+
+WORKDIR /source
+
+COPY --from=node:16-slim /usr/lib /usr/lib
+COPY --from=node:16-slim /usr/local/share /usr/local/share
+COPY --from=node:16-slim /usr/local/lib /usr/local/lib
+COPY --from=node:16-slim /usr/local/include /usr/local/include
+COPY --from=node:16-slim /usr/local/bin /usr/local/bin
+
+ENV JAVA_HOME /usr/lib/jvm/msopenjdk-17-amd64
+ENV PATH "${JAVA_HOME}/bin:${PATH}"
+COPY --from=mcr.microsoft.com/openjdk/jdk:17-ubuntu $JAVA_HOME $JAVA_HOME
 
 ARG SONARQUBE_KEY
 ENV LANG en_US.UTF-8
-ENV JAVA_HOME /usr/lib/jvm/msopenjdk-17-amd64
-ENV PATH "${JAVA_HOME}/bin:${PATH}"
- 
-COPY --from=mcr.microsoft.com/openjdk/jdk:17-ubuntu $JAVA_HOME $JAVA_HOME
+
 COPY . /source
-
-RUN curl --connect-timeout 5 \
-             --max-time 10 \
-             --retry 15 \
-             --retry-delay 0 \
-              -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh  | METHOD=script bash \
-    && . ~/.nvm/nvm.sh \
-    && nvm install 16 \
-    && nvm use 16
-
+RUN node -v
 RUN dotnet new tool-manifest || true
 RUN dotnet tool install dotnet-sonarscanner
 RUN dotnet sonarscanner begin /k:hive /s:/source/ops/SonarQube.Analysis.xml /d:sonar.login=$SONARQUBE_KEY

@@ -15,6 +15,7 @@
         <Version>1.1.1.1</Version>
         <AssemblyVersion>1.1.1.1</AssemblyVersion>
         <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+        <SuppressNETCoreSdkPreviewMessage>true</SuppressNETCoreSdkPreviewMessage>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Configuration)' == 'Release'">
         <DebugSymbols>false</DebugSymbols>

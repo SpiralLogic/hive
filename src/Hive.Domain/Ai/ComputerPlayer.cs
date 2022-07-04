@@ -47,7 +47,6 @@ public class ComputerPlayer
 
     private async ValueTask<ScoredMove> Run(Move? move, int depth)
     {
-
         if (depth == 0 || _stopWatch.ElapsedMilliseconds > HeuristicValues.MaxSearchTime) return new ScoredMove(move, 0);
 
         var tilesToExplore = FindMovesToExplore();
