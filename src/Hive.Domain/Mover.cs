@@ -16,12 +16,19 @@ internal class Mover
 
     internal GameStatus Move(Move move)
     {
-        if (IsGameOver()) return DetermineWinner();
+        if (IsGameOver())
+        {
+            ClearAllMoves();
+            return DetermineWinner();
+        }
+
         if (!IsValidMove(move)) return GameStatus.MoveInvalid;
 
         PerformMove(move);
 
         var nextPlayer = GetNextPlayer(move.Tile);
+
+        ClearAllMoves();
         if (IsGameOver()) return DetermineWinner();
 
         UpdateMoves(nextPlayer);
@@ -47,7 +54,6 @@ internal class Mover
 
     internal void UpdateMoves(Player nextPlayer)
     {
-        ClearAllMoves();
         if (_hive.Players.Any(p => p.Tiles.Count != HiveFactory.StartingTiles.Length))
         {
             _hive.Cells.ExceptWith(_hive.Cells.WhereEmpty());
