@@ -1,5 +1,4 @@
 import { Cell, GameState, HexCoordinates, Player, PlayerId, Tile } from '../domain';
-import { HiveDispatcher, TileEvent } from '../services';
 
 const getAllTiles = (...parents: Array<Array<Player | Cell>>): Array<Tile> =>
   parents.flatMap((g) => g.flatMap((p) => p.tiles));
@@ -17,12 +16,4 @@ export const removeOtherPlayerMoves = (
   { players, cells }: Pick<GameState, 'players' | 'cells'>
 ): void => {
   for (const t of getAllOtherPlayerTiles(playerId, players, cells)) t.moves.splice(0, t.moves.length);
-};
-
-export const resetOtherPlayerSelected = (
-  { players, cells }: Pick<GameState, 'players' | 'cells'>,
-  dispatcher: HiveDispatcher
-): void => {
-  for (const tile of getAllTiles(players, cells))
-    dispatcher.dispatch<TileEvent>({ type: 'tileDeselected', tile, fromEvent: true });
 };

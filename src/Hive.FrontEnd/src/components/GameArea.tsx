@@ -7,7 +7,7 @@ import { Cell, GameState, GameStatus, PlayerId } from '../domain';
 import { HextilleBuilder, HiveDispatcher, HiveEvent } from '../services';
 import { Dispatcher, useHiveDispatchListener } from '../utilities/dispatcher';
 import { handleDragOver } from '../utilities/handlers';
-import { cellKey, removeOtherPlayerMoves, resetOtherPlayerSelected } from '../utilities/hextille';
+import { cellKey, removeOtherPlayerMoves } from '../utilities/hextille';
 import { shareGame } from '../utilities/share';
 import { AiMode } from '../domain/engine';
 import GameCell from './GameCell';
@@ -94,10 +94,6 @@ const GameArea: FunctionComponent<Properties> = ({
     if (gameOutcome(gameStatus, currentPlayer) !== '') setCurrentDialog('gameOver');
   }, [gameStatus, currentPlayer]);
 
-  useEffect(() => {
-    resetOtherPlayerSelected({ players, cells }, dispatcher);
-  }, [players, cells, dispatcher]);
-
   useHiveDispatchListener<HiveEvent>('opponentConnected', () => {
     setPlayerConnected('connected');
     openDialog('playerConnected');
@@ -109,6 +105,7 @@ const GameArea: FunctionComponent<Properties> = ({
   });
 
   removeOtherPlayerMoves(currentPlayer, { players, cells });
+  dispatcher.dispatch({ type: 'tileClear' });
 
   return (
     <main
