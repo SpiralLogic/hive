@@ -356,7 +356,23 @@ describe('<GameArea>', () => {
     expect(screen.queryByRole('dialog', { name: /game over/i })).not.toBeInTheDocument();
   });
 
-  it(`shows game over modal with new game`, async () => {
+  it(`set's game over class when game is over`, async () => {
+    const gameState = createGameState(1);
+
+    render(
+      <GameArea
+        gameId={'123A'}
+        gameStatus={'GameOver'}
+        players={gameState.players}
+        cells={gameState.cells}
+        currentPlayer={0}
+      />
+    );
+
+    expect(screen.getByRole('main')).toHaveClass('game-over');
+  });
+
+  it(`shows game over modal with new game button`, async () => {
     const assign = jest.fn();
     const restoreLocation = mockLocation({ assign });
     const gameState = createGameState(1);
@@ -384,7 +400,21 @@ describe('<GameArea>', () => {
         gameStatus="MoveSuccess"
         players={gameState.players}
         cells={gameState.cells}
-        currentPlayer={2}
+        currentPlayer={1}
+      />
+    );
+    expect(view).toMatchSnapshot();
+  });
+
+  test('render game over snapshot', () => {
+    const gameState = createGameState(1);
+    const view = render(
+      <GameArea
+        gameId={'123A'}
+        gameStatus="GameOver"
+        players={gameState.players}
+        cells={gameState.cells}
+        currentPlayer={1}
       />
     );
     expect(view).toMatchSnapshot();

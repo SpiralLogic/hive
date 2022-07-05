@@ -1,5 +1,300 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`<GameArea> render game over snapshot 1`] = `
+<main
+  class="game-over"
+  title="Hive Game Area"
+>
+  <aside
+    aria-label="PLayer pieces  not yet on the board"
+    class="players"
+  >
+    <section
+      aria-label="Player 1's unplaced pieces"
+      class="player player0"
+    >
+      <h2>
+        Player 1
+      </h2>
+      <div
+        class="tiles"
+      />
+    </section>
+    <section
+      aria-label="Player 2's unplaced pieces"
+      class="player player1"
+    >
+      <h2>
+        Player 2
+      </h2>
+      <div
+        class="tiles"
+      >
+        <div
+          class="player1 hex tile creature1"
+          draggable="true"
+          tabindex="0"
+          title="Player-1 creature1"
+        >
+          <svg
+            viewBox="0 0 100 100"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <use
+              href="#hex"
+            />
+            <use
+              class="creature"
+              href="#creature1"
+            />
+          </svg>
+        </div>
+      </div>
+    </section>
+  </aside>
+  <section
+    title="Game playing area"
+  >
+    <nav>
+      <a
+        href="http://localhost/game/123A/0"
+        name="Share game to opponent"
+        title="Share"
+      >
+        <svg
+          viewBox="0 0 100 100"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <use
+            href="#share"
+          />
+        </svg>
+      </a>
+      <a
+        href="/"
+        name="New game!"
+        title="New Game"
+      >
+        <svg
+          viewBox="0 0 100 100"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <use
+            href="#new"
+          />
+        </svg>
+      </a>
+      <a
+        href="#"
+        name="Show rules"
+        title="Rules"
+      >
+        <svg
+          viewBox="0 0 100 100"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <use
+            href="#rules"
+          />
+        </svg>
+      </a>
+      <a
+        class="ai-off"
+        href="#"
+        name="Toggle Ai"
+        title="Toggle Ai"
+      >
+        <svg
+          viewBox="0 0 100 100"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <use
+            href="#ai"
+          />
+        </svg>
+      </a>
+      <a
+        class="github"
+        href="https://github.com/SpiralLogic/hive"
+        title="Source code"
+      >
+        <svg
+          viewBox="0 0 100 100"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <use
+            href="#github"
+          />
+        </svg>
+      </a>
+    </nav>
+    <div
+      class="left"
+      role="grid"
+    >
+      <div
+        role="none"
+      >
+        <div
+          class="hide"
+          role="none"
+        >
+          <svg
+            viewBox="0 0 100 100"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <use
+              href="#hex"
+            />
+          </svg>
+        </div>
+        <div
+          class="hide"
+          role="none"
+        >
+          <svg
+            viewBox="0 0 100 100"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <use
+              href="#hex"
+            />
+          </svg>
+        </div>
+      </div>
+      <div
+        role="row"
+      >
+        <div
+          class=""
+          role="cell"
+        >
+          <svg
+            viewBox="0 0 100 100"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <use
+              href="#hex"
+            />
+          </svg>
+        </div>
+        <div
+          class="hide"
+          role="none"
+        >
+          <svg
+            viewBox="0 0 100 100"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <use
+              href="#hex"
+            />
+          </svg>
+        </div>
+      </div>
+      <div
+        role="row"
+      >
+        <div
+          class="hide"
+          role="none"
+        >
+          <svg
+            viewBox="0 0 100 100"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <use
+              href="#hex"
+            />
+          </svg>
+        </div>
+        <div
+          class=""
+          role="cell"
+        >
+          <svg
+            viewBox="0 0 100 100"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <use
+              href="#hex"
+            />
+          </svg>
+          <div
+            class="player0 hex tile creature0"
+            title="Player-0 creature0"
+          >
+            <svg
+              viewBox="0 0 100 100"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <use
+                href="#hex"
+              />
+              <use
+                class="creature"
+                href="#creature0"
+              />
+            </svg>
+          </div>
+        </div>
+      </div>
+      <div
+        role="none"
+      >
+        <div
+          class="hide"
+          role="none"
+        >
+          <svg
+            viewBox="0 0 100 100"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <use
+              href="#hex"
+            />
+          </svg>
+        </div>
+        <div
+          class="hide"
+          role="none"
+        >
+          <svg
+            viewBox="0 0 100 100"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <use
+              href="#hex"
+            />
+          </svg>
+        </div>
+      </div>
+    </div>
+  </section>
+  <dialog
+    aria-label="Game Over"
+    class="game-over"
+    open="true"
+  >
+    <button
+      aria-label="Close Dialog"
+      class="close"
+    >
+      X
+    </button>
+    <p>
+      Game is over
+    </p>
+    <button
+      autofocus=""
+      title="New Game"
+    >
+      New Game
+    </button>
+  </dialog>
+</main>
+`;
+
 exports[`<GameArea> render snapshot 1`] = `
 <main
   title="Hive Game Area"
@@ -31,6 +326,8 @@ exports[`<GameArea> render snapshot 1`] = `
       >
         <div
           class="player1 hex tile creature1"
+          draggable="true"
+          tabindex="0"
           title="Player-1 creature1"
         >
           <svg
@@ -54,7 +351,7 @@ exports[`<GameArea> render snapshot 1`] = `
   >
     <nav>
       <a
-        href="http://localhost/game/123A/1"
+        href="http://localhost/game/123A/0"
         name="Share game to opponent"
         title="Share"
       >

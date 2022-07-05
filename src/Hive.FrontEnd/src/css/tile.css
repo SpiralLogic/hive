@@ -16,18 +16,17 @@
     margin: 0;
 }
 
+.game-over .tile,.tile[draggable='true'] {
+    opacity: 1;
+}
+
 [role='cell'].can-drop .tile:not(.selected) {
     pointer-events: none;
     opacity: 1;
 }
 
-
 .tile.stacked:not([draggable='true'], :hover, :active) ~ .tile {
     opacity: 0;
-}
-
-.tile[draggable='true'] {
-    opacity: 1;
 }
 
 .tile.selected {

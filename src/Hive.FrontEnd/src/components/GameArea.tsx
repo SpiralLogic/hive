@@ -111,7 +111,10 @@ const GameArea: FunctionComponent<Properties> = ({
   removeOtherPlayerMoves(currentPlayer, { players, cells });
 
   return (
-    <main onDragOver={handleDragOver} title="Hive Game Area">
+    <main
+      onDragOver={handleDragOver}
+      title="Hive Game Area"
+      class={gameOutcome(gameStatus, currentPlayer) === '' ? undefined : 'game-over'}>
       <Players currentPlayer={currentPlayer} players={players} />
       <section title="Game playing area">
         <Links
