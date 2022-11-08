@@ -1,4 +1,112 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1
+
+exports[`<Players> > renders 1`] = `
+<body>
+  <div>
+    <aside
+      aria-label="PLayer pieces  not yet on the board"
+      class="players"
+    >
+      <section
+        aria-label="Player 1's unplaced pieces"
+        class="player player1"
+      >
+        <h2>
+          Player 1
+        </h2>
+        <div
+          class="tiles"
+        >
+          <div
+            class="player1 hex tile ant"
+            draggable="true"
+            tabindex="0"
+            title="Player-1 ant"
+          >
+            <svg
+              viewBox="0 0 100 100"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <use
+                href="#hex"
+              />
+              <use
+                class="creature"
+                href="#ant"
+              />
+            </svg>
+          </div>
+          <div
+            class="player0 hex tile fly"
+            title="Player-0 fly"
+          >
+            <svg
+              viewBox="0 0 100 100"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <use
+                href="#hex"
+              />
+              <use
+                class="creature"
+                href="#fly"
+              />
+            </svg>
+          </div>
+          <div
+            class="player0 hex tile fly"
+            title="Player-0 fly"
+          >
+            <svg
+              viewBox="0 0 100 100"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <use
+                href="#hex"
+              />
+              <use
+                class="creature"
+                href="#fly"
+              />
+            </svg>
+          </div>
+        </div>
+      </section>
+      <section
+        aria-label="Player 2's unplaced pieces"
+        class="player player2"
+      >
+        <h2>
+          Player 2
+        </h2>
+        <div
+          class="tiles"
+        >
+          <div
+            class="player1 hex tile ant"
+            draggable="true"
+            tabindex="0"
+            title="Player-1 ant"
+          >
+            <svg
+              viewBox="0 0 100 100"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <use
+                href="#hex"
+              />
+              <use
+                class="creature"
+                href="#ant"
+              />
+            </svg>
+          </div>
+        </div>
+      </section>
+    </aside>
+  </div>
+</body>
+`;
 
 exports[`<Players> renders 1`] = `
 <body>

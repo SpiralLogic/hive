@@ -5,10 +5,10 @@ import { createGameState } from '../fixtures/app.fixture';
 import { Dispatcher } from '../../src/utilities/dispatcher';
 import { HiveDispatcher } from '../../src/services';
 
-const closeConnectionMock = jest.fn().mockImplementation(() => Promise.resolve());
+const closeConnectionMock = vi.fn().mockImplementation(() => Promise.resolve());
 const defaultConnectionFactory: HexServerConnectionFactory = () => ({
-  connectGame: jest.fn(),
-  getConnectionState: jest.fn(),
+  connectGame: vi.fn(),
+  getConnectionState: vi.fn(),
   closeConnection: closeConnectionMock,
   sendSelection: () => Promise.resolve(),
 });
@@ -17,11 +17,11 @@ describe('<App>', () => {
   const gameState = createGameState(4);
   const gameAfterMove = createGameState(5);
   const engine: HexEngine = {
-    setAiMode: jest.fn(),
-    getAiMode: jest.fn(),
+    setAiMode: vi.fn(),
+    getAiMode: vi.fn(),
     initialGame: Promise.resolve(gameState),
     currentPlayer: 0,
-    move: jest.fn().mockResolvedValue(gameAfterMove),
+    move: vi.fn().mockResolvedValue(gameAfterMove),
   };
 
   it('shows loading', () => {
@@ -49,7 +49,7 @@ describe('<App>', () => {
 
   it('cleanup', async () => {
     const dispatcher = new HiveDispatcher();
-    jest.spyOn(dispatcher, 'remove');
+    vi.spyOn(dispatcher, 'remove');
     const { rerender } = render(
       <Dispatcher.Provider value={dispatcher}>
         <App engine={engine} connectionFactory={defaultConnectionFactory} />

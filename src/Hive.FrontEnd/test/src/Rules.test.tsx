@@ -13,8 +13,8 @@ import OneHiveRule from '../../src/components/rules/OneHiveRule';
 import FreedomToMove from '../../src/components/rules/FreedomToMoveRule';
 import { Rule } from '../../src/components/rules/rule';
 
-const renderRules = (): [(ui: ComponentChild) => void, jest.Mock] => {
-  const close = jest.fn();
+const renderRules = (): [(ui: ComponentChild) => void, vi.Mock] => {
+  const close = vi.fn();
   const { rerender } = render(<Rules />);
   return [rerender, close];
 };

@@ -7,6 +7,7 @@ import { GameStatus } from '../../src/domain';
 import { ConnectEvent, HiveDispatcher, HiveEvent, TileAction } from '../../src/services';
 import { createGameState } from '../fixtures/game-area.fixtures';
 import { mockClipboard, mockExecCommand, mockLocation, mockShare, noShare, simulateEvent } from '../helpers';
+import { MockedFunction } from 'vitest';
 
 describe('<GameArea>', () => {
   test('default drag over is prevented to allow drop', () => {
@@ -99,7 +100,7 @@ describe('<GameArea>', () => {
   });
 
   it('opens share modal', async () => {
-    const clipboard = jest.fn();
+    const clipboard = vi.fn() as MockedFunction<() => Promise<void>>;
     const gameState = createGameState(1);
     const restore = mockClipboard(clipboard);
 
@@ -120,7 +121,7 @@ describe('<GameArea>', () => {
   });
 
   it(`closes share modal`, async () => {
-    const clipboard = jest.fn();
+    const clipboard = vi.fn() as MockedFunction<() => Promise<void>>;
     const gameState = createGameState(1);
     const restore = mockClipboard(clipboard);
 
@@ -140,7 +141,7 @@ describe('<GameArea>', () => {
   });
 
   it('calls share API', async () => {
-    const share = jest.fn();
+    const share = vi.fn() as MockedFunction<() => Promise<void>>;
     const restore = mockShare(share);
     const gameState = createGameState(1);
     global.window.history.replaceState({}, global.document.title, `/game/33/1`);
@@ -160,7 +161,7 @@ describe('<GameArea>', () => {
   });
 
   it('copies opponent link to clipboard with navigator', async () => {
-    const writeText = jest.fn();
+    const writeText = vi.fn() as MockedFunction<() => Promise<void>>;
     const restore1 = noShare();
     const restore2 = mockClipboard(writeText);
 
@@ -181,7 +182,7 @@ describe('<GameArea>', () => {
   });
 
   it('copies opponent link to clipboard with exec command', async () => {
-    const execCommand = jest.fn();
+    const execCommand = vi.fn() as MockedFunction<() => void>;
     const restore1 = noShare();
     const restore = mockExecCommand(execCommand);
     const gameState = createGameState(1);
@@ -373,7 +374,7 @@ describe('<GameArea>', () => {
   });
 
   it(`shows game over modal with new game button`, async () => {
-    const assign = jest.fn();
+    const assign = vi.fn();
     const restoreLocation = mockLocation({ assign });
     const gameState = createGameState(1);
 
