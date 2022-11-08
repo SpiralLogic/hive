@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1
 
-exports[`<GameArea> render game over snapshot 1`] = `
+exports[`<GameArea> > render game over snapshot 1`] = `
 <main
   class="game-over"
   title="Hive Game Area"
@@ -57,7 +57,7 @@ exports[`<GameArea> render game over snapshot 1`] = `
   >
     <nav>
       <a
-        href="http://localhost/game/123A/0"
+        href="http://localhost:3000/game/123A/0"
         name="Share game to opponent"
         title="Share"
       >
@@ -295,7 +295,7 @@ exports[`<GameArea> render game over snapshot 1`] = `
 </main>
 `;
 
-exports[`<GameArea> render snapshot 1`] = `
+exports[`<GameArea> > render snapshot 1`] = `
 <main
   title="Hive Game Area"
 >
@@ -351,7 +351,7 @@ exports[`<GameArea> render snapshot 1`] = `
   >
     <nav>
       <a
-        href="http://localhost/game/123A/0"
+        href="http://localhost:3000/game/123A/0"
         name="Share game to opponent"
         title="Share"
       >

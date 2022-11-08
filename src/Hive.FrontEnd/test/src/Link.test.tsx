@@ -6,7 +6,7 @@ import { HiveDispatcher } from '../../src/services';
 import { Dispatcher } from '../../src/utilities/dispatcher';
 
 const dispatcher = new HiveDispatcher();
-jest.spyOn(dispatcher, 'dispatch');
+vi.spyOn(dispatcher, 'dispatch');
 
 describe('<Links>', () => {
   it(`links toggle Ai off`, async () => {

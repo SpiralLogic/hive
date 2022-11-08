@@ -1,4 +1,18 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1
+
+exports[`<Modal> > renders 1`] = `
+<dialog
+  aria-label="test"
+  open="true"
+>
+  <button
+    aria-label="Close Dialog"
+    class="close"
+  >
+    X
+  </button>
+</dialog>
+`;
 
 exports[`<Modal> renders 1`] = `
 <dialog

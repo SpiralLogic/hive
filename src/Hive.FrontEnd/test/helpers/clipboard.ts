@@ -1,4 +1,4 @@
-import MockedFunction = jest.MockedFunction;
+import { MockedFunction } from 'vitest';
 
 export const mockClipboard = (function_: MockedFunction<() => Promise<void>>) => {
   const clipboard = navigator.clipboard;

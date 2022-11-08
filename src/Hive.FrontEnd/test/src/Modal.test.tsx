@@ -3,17 +3,17 @@ import userEvent from '@testing-library/user-event';
 import Modal from '../../src/components/Modal';
 
 describe('<Modal>', () => {
-  let closeSpy: jest.SpyInstance;
-  const onCloseSpy = jest.fn();
+  let closeSpy: vi.SpyInstance;
+  const onCloseSpy = vi.fn();
 
   beforeEach(() => {
-    closeSpy = jest.spyOn(HTMLDialogElement.prototype, 'close');
+    closeSpy = vi.spyOn(HTMLDialogElement.prototype, 'close');
   });
 
   it('opens the model by setting prop', () => {
-    const { rerender } = render(<Modal isOpen={false} onClose={onCloseSpy} title="test" />);
+    const { rerender } = render(<Modal isOpen={false} onClose={onCloseSpy} title='test' />);
 
-    rerender(<Modal title="test" isOpen={true} onClose={onCloseSpy} />);
+    rerender(<Modal title='test' isOpen={true} onClose={onCloseSpy} />);
 
     expect(screen.getByRole('button')).toBeVisible();
     expect(screen.getByRole('dialog')).toBeVisible();

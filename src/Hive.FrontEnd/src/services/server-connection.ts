@@ -38,12 +38,12 @@ class ServerConnection {
   }
 
   connectGame = (): Promise<void> => {
-    if (process.env.NODE_ENV !== 'production') {
+    if (!import.meta.env.PROD) {
       this.connection.onreconnecting((error) =>
-        console.warn(`reconnecting to game ${this.gameId} .. ${error}`)
+        console.warn(`reconnecting to game ${this.gameId} .. ${error}`),
       );
       this.connection.onclose((error) =>
-        console.info(`connection closed to game ${this.gameId} .. ${error}`)
+        console.info(`connection closed to game ${this.gameId} .. ${error}`),
       );
       this.connection.onreconnected((error) => {
         window.location.reload();

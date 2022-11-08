@@ -24,13 +24,13 @@ describe(`handler tests`, () => {
 
   describe(`handle drag tests`, () => {
     it('should prevent default on dragover', () => {
-      const preventDefault = jest.fn();
+      const preventDefault = vi.fn();
       handleDragOver({ preventDefault });
       expect(preventDefault).toHaveBeenCalledWith();
     });
 
     it('should prevent default ondrop', () => {
-      const preventDefault = jest.fn();
+      const preventDefault = vi.fn();
       handleDrop({ preventDefault });
       expect(preventDefault).toHaveBeenCalledWith();
     });
@@ -97,7 +97,7 @@ describe(`handler tests`, () => {
     it(`opponent selection selects tile`, () => {
       const tile = { id: 1, playerId: 1, creature: 'swan', moves: [] };
       const dispatcher = new HiveDispatcher();
-      const selectHandler = jest.fn();
+      const selectHandler = vi.fn();
       dispatcher.add<TileAction>('tileSelect', selectHandler);
 
       createOpponentSelectionHandler(dispatcher)('select', tile);
@@ -107,7 +107,7 @@ describe(`handler tests`, () => {
     it(`opponent deselection selects tile`, () => {
       const tile = { id: 1, playerId: 1, creature: 'swan', moves: [] };
       const dispatcher = new HiveDispatcher();
-      const selectHandler = jest.fn();
+      const selectHandler = vi.fn();
       dispatcher.add<Action>('tileClear', selectHandler);
 
       createOpponentSelectionHandler(dispatcher)('deselect', tile);
@@ -116,8 +116,8 @@ describe(`handler tests`, () => {
 
     it(`opponent deselection doesnt fire for missing tiles`, () => {
       const dispatcher = new HiveDispatcher();
-      const selectHandler = jest.fn();
-      const deselectHandler = jest.fn();
+      const selectHandler = vi.fn();
+      const deselectHandler = vi.fn();
       dispatcher.add<TileAction>('tileDeselect', selectHandler);
       dispatcher.add<TileAction>('tileSelect', selectHandler);
 
@@ -130,8 +130,8 @@ describe(`handler tests`, () => {
 
     it(`opponent connected handler`, () => {
       const dispatcher = new HiveDispatcher();
-      const connectedHandler = jest.fn();
-      const toggleAiHandler = jest.fn();
+      const connectedHandler = vi.fn();
+      const toggleAiHandler = vi.fn();
       dispatcher.add<HiveEvent>('opponentConnected', connectedHandler);
       dispatcher.add<AiAction>('toggleAi', toggleAiHandler);
 
@@ -142,7 +142,7 @@ describe(`handler tests`, () => {
 
     it(`opponent disconnected handler`, () => {
       const dispatcher = new HiveDispatcher();
-      const disconnectedHandler = jest.fn();
+      const disconnectedHandler = vi.fn();
       dispatcher.add<HiveEvent>('opponentDisconnected', disconnectedHandler);
 
       createOpponentConnectedHandler(dispatcher)('disconnect');
@@ -155,10 +155,10 @@ describe(`handler tests`, () => {
         .mockImplementation(() => Promise.resolve({ ok: true, json: () => Promise.resolve(gameState) }));
       const engine = new GameEngine();
       const dispatcher = new HiveDispatcher();
-      jest.spyOn(dispatcher, 'remove');
-      const sendSelection = jest.fn();
+      vi.spyOn(dispatcher, 'remove');
+      const sendSelection = vi.fn();
 
-      const removeHandlers = addServerHandlers(sendSelection, jest.fn(), engine.move, dispatcher);
+      const removeHandlers = addServerHandlers(sendSelection, vi.fn(), engine.move, dispatcher);
 
       dispatcher.dispatch({
         type: 'move',

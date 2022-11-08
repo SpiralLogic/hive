@@ -18,7 +18,7 @@ const gameOutcomes: Array<GameStatus> = [
 
 describe('<GameOver>', () => {
   it('redirects to base url when close button is pressed', async () => {
-    const location = { assign: jest.fn() };
+    const location = { assign: vi.fn() };
     const restore = mockLocation(location);
     render(<GameOver outcome="Draw" />);
 

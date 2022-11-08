@@ -1,4 +1,112 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1
+
+exports[`<GameOver> > AiWin player 0 snapshot 1`] = `
+<p>
+  AiWin
+</p>
+`;
+
+exports[`<GameOver> > AiWin player 1 snapshot 1`] = `
+<p>
+  AiWin
+</p>
+`;
+
+exports[`<GameOver> > Draw player 0 snapshot 1`] = `
+<p>
+  Draw
+</p>
+`;
+
+exports[`<GameOver> > Draw player 1 snapshot 1`] = `
+<p>
+  Draw
+</p>
+`;
+
+exports[`<GameOver> > GameOver player 0 snapshot 1`] = `
+<p>
+  GameOver
+</p>
+`;
+
+exports[`<GameOver> > GameOver player 1 snapshot 1`] = `
+<p>
+  GameOver
+</p>
+`;
+
+exports[`<GameOver> > MoveInvalid player 0 snapshot 1`] = `
+<p>
+  MoveInvalid
+</p>
+`;
+
+exports[`<GameOver> > MoveInvalid player 1 snapshot 1`] = `
+<p>
+  MoveInvalid
+</p>
+`;
+
+exports[`<GameOver> > MoveSuccess player 0 snapshot 1`] = `
+<p>
+  MoveSuccess
+</p>
+`;
+
+exports[`<GameOver> > MoveSuccess player 1 snapshot 1`] = `
+<p>
+  MoveSuccess
+</p>
+`;
+
+exports[`<GameOver> > MoveSuccessNextPlayerSkipped player 0 snapshot 1`] = `
+<p>
+  MoveSuccessNextPlayerSkipped
+</p>
+`;
+
+exports[`<GameOver> > MoveSuccessNextPlayerSkipped player 1 snapshot 1`] = `
+<p>
+  MoveSuccessNextPlayerSkipped
+</p>
+`;
+
+exports[`<GameOver> > NewGame player 0 snapshot 1`] = `
+<p>
+  NewGame
+</p>
+`;
+
+exports[`<GameOver> > NewGame player 1 snapshot 1`] = `
+<p>
+  NewGame
+</p>
+`;
+
+exports[`<GameOver> > Player0Win player 0 snapshot 1`] = `
+<p>
+  Player0Win
+</p>
+`;
+
+exports[`<GameOver> > Player0Win player 1 snapshot 1`] = `
+<p>
+  Player0Win
+</p>
+`;
+
+exports[`<GameOver> > Player1Win player 0 snapshot 1`] = `
+<p>
+  Player1Win
+</p>
+`;
+
+exports[`<GameOver> > Player1Win player 1 snapshot 1`] = `
+<p>
+  Player1Win
+</p>
+`;
 
 exports[`<GameOver> AiWin player 0 snapshot 1`] = `
 <p>

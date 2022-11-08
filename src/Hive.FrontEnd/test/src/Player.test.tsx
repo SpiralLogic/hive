@@ -31,14 +31,14 @@ describe('<Player>', () => {
   });
 
   it(`player is hidden when last tile is played`, async () => {
-    jest.useFakeTimers();
+    vi.useFakeTimers();
 
     const { rerender } = setUp();
 
     expect(screen.getByLabelText(/player 1/i)).not.toHaveClass('hide');
 
-    rerender(<Player id={1} name="Player 1" />);
-    jest.runAllTimers();
+    rerender(<Player id={1} name='Player 1' />);
+    vi.runAllTimers();
 
     expect(await screen.findByLabelText(/player 1/i)).toHaveClass('hide');
 

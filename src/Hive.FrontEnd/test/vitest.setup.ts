@@ -1,8 +1,10 @@
-/* eslint-disable func-names,@typescript-eslint/no-unnecessary-condition,@typescript-eslint/unbound-method */
 import '@testing-library/jest-dom';
-import '@testing-library/jest-dom/extend-expect';
 import { render } from '@testing-library/preact';
-import 'preact';
+import * as matchers from '@testing-library/jest-dom/matchers';
+import { expect } from 'vitest';
+
+// @ts-ignore
+expect.extend(matchers);
 
 /** polyfill for JSON missing HTMLDialogElement for now */
 HTMLDialogElement.prototype.showModal = function showModal(this: HTMLDialogElement) {

@@ -1,20 +1,22 @@
 import { h, render } from 'preact';
 import App from './components/App';
 import { serverConnectionFactory } from './services';
+import creatures from './svg/creatures.svg?raw';
+
 import GameEngine from './services/game-engine';
-// @ts-expect-error
-import creatures from './svg/creatures.svg';
 
-document.body.insertAdjacentHTML('beforeend', creatures);
+document.body.insertAdjacentHTML('beforeend', `${creatures}`);
+document.head.insertAdjacentHTML('beforeend', `<title>${import.meta.env.HIVE_APP_TITLE}</title>`);
+
 const [, , gameId, currentPlayer] = window.location.pathname.split('/');
+const engine = new GameEngine({ gameId, currentPlayer });
+const properties = {
+  engine,
+  connectionFactory: serverConnectionFactory,
+};
 
-render(
-  h(App, {
-    engine: new GameEngine({ gameId, currentPlayer }),
-    connectionFactory: serverConnectionFactory,
-  }),
-  document.body
-);
+render(h(App, properties), document.body);
 
 export { removeOtherPlayerMoves } from './utilities/hextille';
 export { cellKey } from './utilities/hextille';
+console.log(import.meta.env);

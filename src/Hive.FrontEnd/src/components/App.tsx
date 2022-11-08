@@ -1,6 +1,5 @@
 import '../css/app.css';
 
-import { FunctionComponent } from 'preact';
 import { useContext, useEffect, useState } from 'preact/hooks';
 
 import { GameState } from '../domain';
@@ -14,9 +13,7 @@ import { Dispatcher } from '../utilities/dispatcher';
 import { AiAction } from '../services';
 import GameArea from './GameArea';
 
-const App: FunctionComponent<{ engine: HexEngine; connectionFactory: HexServerConnectionFactory }> = (
-  properties
-) => {
+const App = (properties: { engine: HexEngine; connectionFactory: HexServerConnectionFactory }) => {
   const { engine, connectionFactory } = properties;
   const [gameState, updateHandler] = useState<GameState | undefined>();
   const [aiMode, setAiMode] = useState<AiMode>(engine.getAiMode);

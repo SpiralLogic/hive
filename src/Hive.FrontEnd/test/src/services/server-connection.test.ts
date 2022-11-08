@@ -3,51 +3,50 @@ import { serverConnectionFactory } from '../../../src/services';
 import gameState from '../../fixtures/game-state.json';
 import { mockLocation } from '../../helpers';
 
-jest.mock('@microsoft/signalr', () => ({
-  ...jest.requireActual('@microsoft/signalr'),
-  HubConnection: jest.fn(),
-  HubConnectionBuilder: jest.fn(),
+vi.mock('@microsoft/signalr', () => ({
+  HubConnection: vi.fn(),
+  HubConnectionBuilder: vi.fn(),
 }));
 
-global.console.info = jest.fn();
-global.console.warn = jest.fn();
-global.console.error = jest.fn();
+global.console.info = vi.fn();
+global.console.warn = vi.fn();
+global.console.error = vi.fn();
 
 describe('game Server Connection Tests', () => {
   type TestHubConnection = ReturnType<typeof createHubConnection>;
   type CallBack = (error: Error) => void;
 
-  const withUrlSpy = jest.fn().mockReturnThis();
-  const updateHandler = jest.fn();
-  const opponentSelectionHandler = jest.fn();
-  const opponentConnectedHandler = jest.fn();
+  const withUrlSpy = vi.fn().mockReturnThis();
+  const updateHandler = vi.fn();
+  const opponentSelectionHandler = vi.fn();
+  const opponentConnectedHandler = vi.fn();
 
-  global.fetch = jest.fn().mockResolvedValue({ ok: true, json: Promise.resolve(gameState) });
+  global.fetch = vi.fn().mockResolvedValue({ ok: true, json: Promise.resolve(gameState) });
 
   const createHubConnectionBuilder = (hubConnection: TestHubConnection) =>
-    jest.fn().mockImplementation(() => ({
+    vi.fn().mockImplementation(() => ({
       withUrl: withUrlSpy,
-      withAutomaticReconnect: jest.fn().mockReturnThis(),
-      build: jest.fn().mockReturnValue(hubConnection),
+      withAutomaticReconnect: vi.fn().mockReturnThis(),
+      build: vi.fn().mockReturnValue(hubConnection),
     }));
 
   const createHubConnection = (state: HubConnectionState = HubConnectionState.Connected) => {
     return {
-      start: jest.fn().mockResolvedValue(true),
-      on: jest.fn().mockResolvedValue(true),
-      stop: jest.fn().mockResolvedValue(true),
-      off: jest.fn().mockResolvedValue(true),
+      start: vi.fn().mockResolvedValue(true),
+      on: vi.fn().mockResolvedValue(true),
+      stop: vi.fn().mockResolvedValue(true),
+      off: vi.fn().mockResolvedValue(true),
       onreconnecting: (callBack: CallBack) => callBack(new Error('reconnecting error')),
       onreconnected: (callBack: CallBack) => callBack(new Error('reconnected error')),
       onclose: (callBack: CallBack) => callBack(new Error('close error')),
-      invoke: jest.fn().mockResolvedValue(true),
-      send: jest.fn().mockResolvedValue(true),
+      invoke: vi.fn().mockResolvedValue(true),
+      send: vi.fn().mockResolvedValue(true),
       state,
     };
   };
 
   const setupServer = (hubConnection: TestHubConnection) => {
-    signalR.HubConnection = jest.fn().mockImplementation(() => hubConnection);
+    signalR.HubConnection = vi.fn().mockImplementation(() => hubConnection);
     signalR.HubConnectionBuilder = createHubConnectionBuilder(hubConnection);
 
     updateHandler.mockReset();
@@ -111,7 +110,7 @@ describe('game Server Connection Tests', () => {
     const hubConnection = createHubConnection(HubConnectionState.Disconnected);
     const serverConnection = setupServer(hubConnection);
 
-    signalR.HubConnection = jest.fn().mockImplementation(() => hubConnection);
+    signalR.HubConnection = vi.fn().mockImplementation(() => hubConnection);
     expect(serverConnection.getConnectionState()).toStrictEqual(HubConnectionState.Disconnected);
   });
 
@@ -137,7 +136,7 @@ describe('game Server Connection Tests', () => {
   });
 
   it(`server connection errors handlers are connected to the console`, async () => {
-    const restoreLocation = mockLocation({ reload: jest.fn() });
+    const restoreLocation = mockLocation({ reload: vi.fn() });
 
     const hubConnection = createHubConnection();
     const serverConnection = setupServer(hubConnection);
