@@ -24,28 +24,3 @@ exports[`<Hextille> > matches current snapshot 1`] = `
   </div>
 </div>
 `;
-
-exports[`<Hextille> matches current snapshot 1`] = `
-<div
-  class="left"
-  role="grid"
->
-  <div
-    role="row"
-  >
-    <div
-      class=""
-      role="cell"
-    >
-      <svg
-        viewBox="0 0 100 100"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <use
-          href="#hex"
-        />
-      </svg>
-    </div>
-  </div>
-</div>
-`;

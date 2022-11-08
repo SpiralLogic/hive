@@ -150,7 +150,7 @@ describe(`handler tests`, () => {
     });
 
     it(`server handlers are attached`, () => {
-      global.fetch = jest
+      global.fetch = vi
         .fn()
         .mockImplementation(() => Promise.resolve({ ok: true, json: () => Promise.resolve(gameState) }));
       const engine = new GameEngine();

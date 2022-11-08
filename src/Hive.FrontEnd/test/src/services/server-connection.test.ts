@@ -3,10 +3,7 @@ import { serverConnectionFactory } from '../../../src/services';
 import gameState from '../../fixtures/game-state.json';
 import { mockLocation } from '../../helpers';
 
-vi.mock('@microsoft/signalr', () => ({
-  HubConnection: vi.fn(),
-  HubConnectionBuilder: vi.fn(),
-}));
+const { HubConnectionBuilder, HubConnection } = await vi.importMock('@microsoft/signalr');
 
 global.console.info = vi.fn();
 global.console.warn = vi.fn();
@@ -24,7 +21,7 @@ describe('game Server Connection Tests', () => {
   global.fetch = vi.fn().mockResolvedValue({ ok: true, json: Promise.resolve(gameState) });
 
   const createHubConnectionBuilder = (hubConnection: TestHubConnection) =>
-    vi.fn().mockImplementation(() => ({
+    HubConnectionBuilder.mockImplementation(() => ({
       withUrl: withUrlSpy,
       withAutomaticReconnect: vi.fn().mockReturnThis(),
       build: vi.fn().mockReturnValue(hubConnection),
@@ -46,8 +43,8 @@ describe('game Server Connection Tests', () => {
   };
 
   const setupServer = (hubConnection: TestHubConnection) => {
-    signalR.HubConnection = vi.fn().mockImplementation(() => hubConnection);
-    signalR.HubConnectionBuilder = createHubConnectionBuilder(hubConnection);
+    HubConnection.mockReset().mockImplementation(() => hubConnection);
+    createHubConnectionBuilder(hubConnection);
 
     updateHandler.mockReset();
     opponentSelectionHandler.mockReset();
@@ -110,7 +107,7 @@ describe('game Server Connection Tests', () => {
     const hubConnection = createHubConnection(HubConnectionState.Disconnected);
     const serverConnection = setupServer(hubConnection);
 
-    signalR.HubConnection = vi.fn().mockImplementation(() => hubConnection);
+    HubConnection.mockImplementation(() => hubConnection);
     expect(serverConnection.getConnectionState()).toStrictEqual(HubConnectionState.Disconnected);
   });
 

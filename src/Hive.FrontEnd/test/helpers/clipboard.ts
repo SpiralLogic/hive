@@ -27,7 +27,6 @@ export const mockExecCommand = (function_: MockedFunction<() => void>) => {
 };
 
 export const mockShare = (function_: MockedFunction<() => Promise<void>>) => {
-  // eslint-disable-next-line @typescript-eslint/unbound-method,jest/unbound-method
   const share = navigator.share;
   Object.defineProperty(navigator, 'share', {
     value: function_.mockResolvedValue(),
@@ -40,7 +39,6 @@ export const mockShare = (function_: MockedFunction<() => Promise<void>>) => {
 };
 
 export const noShare = () => {
-  // eslint-disable-next-line @typescript-eslint/unbound-method,jest/unbound-method
   const share = navigator.share;
   Object.defineProperty(navigator, 'share', { value: undefined });
   return (): void => {

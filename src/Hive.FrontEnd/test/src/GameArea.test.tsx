@@ -8,6 +8,7 @@ import { ConnectEvent, HiveDispatcher, HiveEvent, TileAction } from '../../src/s
 import { createGameState } from '../fixtures/game-area.fixtures';
 import { mockClipboard, mockExecCommand, mockLocation, mockShare, noShare, simulateEvent } from '../helpers';
 import { MockedFunction } from 'vitest';
+import { waitFor } from '@testing-library/dom';
 
 describe('<GameArea>', () => {
   test('default drag over is prevented to allow drop', () => {
@@ -42,7 +43,7 @@ describe('<GameArea>', () => {
       </Dispatcher.Provider>
     );
     dispatcher.dispatch<TileAction>({ type: 'tileSelect', tile: gameState.players[1].tiles[0] });
-    expect(await screen.findByTitle(/creature1/)).toHaveClass('selected');
+    await waitFor(() => expect(screen.getByTitle(/creature1/)).toHaveClass('selected'));
   });
 
   it(`removes all moves for tiles which aren't the current player`, async () => {
@@ -156,7 +157,9 @@ describe('<GameArea>', () => {
     );
 
     await userEvent.click(screen.getByTitle(/Share/));
-    expect(share).toHaveBeenCalledWith(expect.objectContaining({ url: `http://localhost/game/33/0` }));
+    expect(share).toHaveBeenCalledWith(
+      expect.objectContaining({ url: expect.stringContaining('/game/33/0') })
+    );
     restore();
   });
 
@@ -176,7 +179,7 @@ describe('<GameArea>', () => {
       />
     );
     await userEvent.click(screen.getByTitle(/Share/));
-    expect(writeText).toHaveBeenCalledWith(`http://localhost/game/33/0`);
+    expect(writeText).toHaveBeenCalledWith(expect.stringContaining('/game/33/0'));
     restore1();
     restore2();
   });

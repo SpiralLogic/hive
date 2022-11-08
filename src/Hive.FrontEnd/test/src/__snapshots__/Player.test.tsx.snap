@@ -31,35 +31,3 @@ exports[`<Player> > renders 1`] = `
   </div>
 </section>
 `;
-
-exports[`<Player> renders 1`] = `
-<section
-  aria-label="Player 1's unplaced pieces"
-  class="player player1"
->
-  <h2>
-    Player 1
-  </h2>
-  <div
-    class="tiles"
-  >
-    <div
-      class="player1 hex tile thing"
-      title="Player-1 thing"
-    >
-      <svg
-        viewBox="0 0 100 100"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <use
-          href="#hex"
-        />
-        <use
-          class="creature"
-          href="#thing"
-        />
-      </svg>
-    </div>
-  </div>
-</section>
-`;
