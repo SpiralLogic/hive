@@ -3,7 +3,7 @@ import gameState from '../../fixtures/game-state.json';
 
 describe('game engine Tests', () => {
   let engine: GameEngine;
-  global.fetch = jest
+  global.fetch = vi
     .fn()
     .mockImplementation(() => Promise.resolve({ ok: true, json: () => Promise.resolve(gameState) }));
 

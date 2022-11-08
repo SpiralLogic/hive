@@ -4,6 +4,7 @@ import { HiveDispatcher, TileAction, TileEvent } from '../../src/services';
 import GameTile from '../../src/components/GameTile';
 import { simulateEvent } from '../helpers';
 import { Dispatcher } from '../../src/utilities/dispatcher';
+import { waitFor } from '@testing-library/dom';
 
 const createTestDispatcher = (type: TileEvent['type'] = 'tileSelected'): [TileEvent[], HiveDispatcher] => {
   const dispatcher = new HiveDispatcher();
@@ -260,7 +261,7 @@ describe('<GameTile>', () => {
     screen.getByTitle(/tileCanMove/);
     dispatcher.dispatch<TileAction>({ type: 'tileSelect', tile: tileCanMove });
 
-    expect(await screen.findByTitle(/tileCanMove/)).toHaveClass('selected');
+    await waitFor(() => expect(screen.getByTitle(/tileCanMove/)).toHaveClass('selected'));
   });
 
   it(`doesn't emit a *selected* event when the tile is already selected`, async () => {

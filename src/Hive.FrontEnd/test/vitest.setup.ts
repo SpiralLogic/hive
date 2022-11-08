@@ -1,9 +1,8 @@
 import '@testing-library/jest-dom';
 import { render } from '@testing-library/preact';
-import * as matchers from '@testing-library/jest-dom/matchers';
+import matchers from '@testing-library/jest-dom/matchers';
 import { expect } from 'vitest';
 
-// @ts-ignore
 expect.extend(matchers);
 
 /** polyfill for JSON missing HTMLDialogElement for now */
@@ -22,6 +21,5 @@ expect.addSnapshotSerializer({
   test: ({ asFragment, container, rerender }) =>
     typeof rerender === 'function' && typeof asFragment === 'function' && container,
   serialize: ({ container }: ReturnType<typeof render>, config, indentation, depth, references, printer) =>
-    // eslint-disable-next-line testing-library/no-node-access,@typescript-eslint/no-unsafe-member-access
     printer(container.firstElementChild, config, indentation, depth, references),
 });
