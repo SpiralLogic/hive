@@ -6,7 +6,11 @@ COPY . .
 RUN dotnet new tool-manifest || true
 RUN dotnet tool install dotnet-reportgenerator-globaltool
 
-RUN dotnet test ./src/Hive.Domain.Tests -c Test --settings ./src/Hive.Domain.Tests/runsettings.xml
-RUN dotnet reportgenerator "-reports:./**/Hive.Domain.Tests/coverage.opencover.xml" "-targetdir:./domain-coverage" -reporttypes:Html
-RUN mv ./**/coverage.opencover.xml ./domain-coverage/
+RUN dotnet test --collect:"XPlat Code Coverage" ./src/Hive.Domain.Tests -c Test --settings ./src/Hive.Domain.Tests/runsettings.xml
+
+RUN mkdir -p ./domain-coverage/
+
+RUN mv ./src/Hive.Domain.Tests/**/coverage.opencover.xml ./domain-coverage/
 RUN mv ./domain-coverage/coverage.opencover.xml ./domain-coverage/domain-coverage.opencover.xml
+
+RUN dotnet reportgenerator "-reports:./domain-coverage/domain-coverage.opencover.xml" "-targetdir:./domain-coverage" -reporttypes:Html
