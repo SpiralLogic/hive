@@ -9,22 +9,24 @@
         <CleanCommand>pnpm run clean</CleanCommand>
         <DefaultItemExcludes>$(DefaultItemExcludes);node_modules\**</DefaultItemExcludes>
     </PropertyGroup>
+    
     <ItemGroup>
         <Watch Include="src/**" />
         <Watch Include="test/**" />
         <Content Include="**" Exclude="$(DefaultItemExcludes);node_modules\**;reports/**;public/**" />
     </ItemGroup>
-    <Target Name="EsBuild" AfterTargets="AfterBuild">
-        <Exec Command="$(BuildCommand)" WorkingDirectory="$(BuildWorkingDirectory)" Condition=" '$(BuildCommand)' != '' " />
-    </Target>
 
     <Target Name="VSTest">
-        <CallTarget Targets="EsClean;EsBuild" />
+        <CallTarget Targets="FrontEndClean;FrontEndBuild" />
         <Exec ConsoleToMSBuild="true" Command="$(TestCommand)" WorkingDirectory="$(BuildWorkingDirectory)" Condition=" '$(CleanCommand)' != '' " />
     </Target>
+    
+    <Target Name="FrontEndBuild" AfterTargets="AfterBuild">
+        <Exec Command="$(BuildCommand)" WorkingDirectory="$(BuildWorkingDirectory)" Condition=" '$(BuildCommand)' != 'Release' " />
+    </Target>
 
-    <Target Name="EsPublish" AfterTargets="Publish">
-        <CallTarget Targets="EsBuild" />
+    <Target Name="FrontEndPublish" AfterTargets="Publish" Condition=" '$(BuildCommand)' != 'Release' ">
+        <CallTarget Targets="FrontEndBuild" />
         <ItemGroup>
             <DistFiles Include="public\**" />
             <ResolvedFileToPublish Include="@(DistFiles->'%(FullPath)')" Exclude="@(ResolvedFileToPublish)">
@@ -35,15 +37,15 @@
         </ItemGroup>
     </Target>
 
-    <Target Name="EsClean" AfterTargets="Clean">
+    <Target Name="FrontEndClean" AfterTargets="Clean">
         <Exec Command="$(CleanCommand)" WorkingDirectory="$(BuildWorkingDirectory)" Condition=" '$(CleanCommand)' != '' " />
     </Target>
 
-    <Target Name="EsClean" AfterTargets="Rebuild">
-        <CallTarget Targets="EsClean;EsBuild" />
+    <Target Name="FrontEndClean" AfterTargets="Rebuild">
+        <CallTarget Targets="FrontEndClean;FrontEndBuild" />
     </Target>
 
-    <Target Name="DebugEnsureNodeEnv" BeforeTargets="EsBuild" Condition="'$(Configuration)' == 'Debug' And !Exists('node_modules') ">
+    <Target Name="DebugEnsureNodeEnv" BeforeTargets="FrontEndBuild" Condition="'$(Configuration)' == 'Debug' And !Exists('node_modules') ">
         <Exec Command="node --version" ContinueOnError="true">
             <Output TaskParameter="ExitCode" PropertyName="ErrorCode" />
         </Exec>
