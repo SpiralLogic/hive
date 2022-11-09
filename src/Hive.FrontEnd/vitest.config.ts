@@ -21,7 +21,7 @@ export default mergeConfig(
       reporters: ['dot'],
       coverage: {
         enabled: true,
-        reporter: ['text', 'json', 'html'],
+        reporter: ['text', 'html', 'lcov'],
         reportsDirectory: '../reports/__coverage__',
       },
     },
