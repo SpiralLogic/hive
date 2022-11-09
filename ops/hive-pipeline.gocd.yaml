@@ -63,7 +63,7 @@ pipelines:
                 source: api-coverage/**
                 destination: ''
             - build:
-                source: api-coverage.opencover.xml
+                source: api-coverage/api-coverage.opencover.xml
                 destination: coverage/
             tasks:
             - plugin:
@@ -90,7 +90,7 @@ pipelines:
                 source: domain-coverage/**
                 destination: ''
             - build:
-                source: domain-coverage.opencover.xml
+                source: domain-coverage/domain-coverage.opencover.xml
                 destination: coverage/
             tasks:
             - plugin:
