@@ -1,6 +1,8 @@
 FROM library/node:17 as node-build
 
 WORKDIR /source
+RUN chown -R node:node /source
+USER node
 COPY src/Hive.FrontEnd/package.json .
 
 ENV NODE_ENV=production
