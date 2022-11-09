@@ -6,5 +6,5 @@ COPY . .
 RUN dotnet new tool-manifest || true
 RUN dotnet tool install dotnet-reportgenerator-globaltool
 
-RUN dotnet test src/Hive.Api.Tests -c Test /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:SkipAutoProps=true  /p:Exclude=[Hive.Domain]*
-RUN dotnet reportgenerator "-reports:src/Hive.Api.Tests/coverage.opencover.xml" "-targetdir:./api-coverage" -reporttypes:Html
+RUN dotnet test src/Hive.Api.Tests -c Test --collect:"XPlat Code Coverage" /p:CoverletOutputFormat=opencover /p:SkipAutoProps=true  "/p:Exclude=[Hive.Domain]*"
+RUN dotnet reportgenerator "-reports:**/coverage.opencover.xml" "-targetdir:./api-coverage" -reporttypes:Html

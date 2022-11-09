@@ -76,7 +76,7 @@ pipelines:
                     docker run --name api-tests-${GO_PIPELINE_LABEL} api-test-results:${GO_PIPELINE_LABEL}
 
                     docker cp api-tests-${GO_PIPELINE_LABEL}:/source/api-coverage ./
-                    docker cp api-tests-${GO_PIPELINE_LABEL}:/source/src/Hive.Api.Tests/coverage.opencover.xml ./api-coverage.opencover.xml
+                    docker cp api-tests-${GO_PIPELINE_LABEL}:/source/src/Hive.Api.Tests/**/coverage.opencover.xml ./api-coverage.opencover.xml
 
                     docker stop api-tests-${GO_PIPELINE_LABEL}
                     docker rm api-tests-${GO_PIPELINE_LABEL}
@@ -104,7 +104,7 @@ pipelines:
                     docker run  --name domain-tests-${GO_PIPELINE_LABEL} domain-test-results:${GO_PIPELINE_LABEL}
 
                     docker cp domain-tests-${GO_PIPELINE_LABEL}:/source/domain-coverage ./
-                    docker cp domain-tests-${GO_PIPELINE_LABEL}:/source/src/Hive.Domain.Tests/coverage.opencover.xml ./domain-coverage.opencover.xml
+                    docker cp domain-tests-${GO_PIPELINE_LABEL}:/source/src/Hive.Domain.Tests/**/coverage.opencover.xml ./domain-coverage.opencover.xml
 
                     docker stop domain-tests-${GO_PIPELINE_LABEL}
                     docker rm domain-tests-${GO_PIPELINE_LABEL}
