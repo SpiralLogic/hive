@@ -73,7 +73,7 @@ pipelines:
                 options:
                   script: |-
                     docker build -t api-test-results:${GO_PIPELINE_LABEL} -f ./ops/dockerfile.api.test .
-                    docker run   --name api-tests-${GO_PIPELINE_LABEL} api-test-results:${GO_PIPELINE_LABEL}
+                    docker run --name api-tests-${GO_PIPELINE_LABEL} api-test-results:${GO_PIPELINE_LABEL}
 
                     docker cp api-tests-${GO_PIPELINE_LABEL}:/source/api-coverage ./
                     docker cp api-tests-${GO_PIPELINE_LABEL}:/source/src/Hive.Api.Tests/coverage.opencover.xml ./api-coverage.opencover.xml
