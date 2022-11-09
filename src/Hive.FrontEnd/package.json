@@ -7,7 +7,7 @@
     "clean:deep": "git clean -x -d -f $(git rev-parse --show-toplevel)/**",
     "preinstall": "npx only-allow pnpm",
     "start": "dotnet watch -v -p ../Hive.Api run",
-    "test": "vitest run -c vitest.config.ts --reporter=junit ",
+    "test": "vitest run -c vitest.config.ts --reporter=junit",
     "test:all": "npm-run-all -s tsc test lint:report",
     "test:ui": "vitest run --ui",
     "webstorm-integration": "vitest --watch --reporter=dot --reporter=json --outputFile=.vitest-result.json",
@@ -28,8 +28,8 @@
     "build:dev": "npm-run-all -s tsc vite:dev",
     "build:dev:watch": "npm-run-all -s vite:watch",
     "vite:build": "vite build --emptyOutDir",
-    "vite:dev": "vite dev",
-    "vite:watch": "vite build -w",
+    "vite:dev": "vite build --mode development  --emptyOutDir",
+    "vite:watch": "vite dev  --emptyOutDir",
     "watch": "npm-run-all -s clean vite:watch"
   },
   "lint-staged": {
