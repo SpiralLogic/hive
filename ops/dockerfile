@@ -1,17 +1,20 @@
 FROM library/node:17 as node-build
 
 WORKDIR /source
-COPY . .
-WORKDIR /source/src/Hive.FrontEnd
+COPY src/Hive.FrontEnd/package.json .
+
 ENV NODE_ENV=production
 RUN npm i --location=global pnpm
 RUN pnpm install -P
+
+COPY src/Hive.FrontEnd/* .
 RUN pnpm vite:build
 
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS dotnet-build
 WORKDIR /source
 
 COPY ./src .
+RUN dotnet restore
 RUN dotnet publish -c release -o /app
 
 FROM mcr.microsoft.com/dotnet/aspnet:7.0
