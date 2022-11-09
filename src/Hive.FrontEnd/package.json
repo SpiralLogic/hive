@@ -30,7 +30,7 @@
     "vite:build": "vite build",
     "vite:dev": "cross-env NODE_ENV=development vite build",
     "vite:watch": "cross-env NODE_ENV=development vite build -w",
-    "watch": "npm-run-all -s clean FrontEndBuild:watch"
+    "watch": "npm-run-all -s clean vite:watch"
   },
   "lint-staged": {
     "*.{css,md,scss}": "prettier --write",
@@ -48,10 +48,11 @@
     "@typescript-eslint/parser": "^5.29.0",
     "@typescript-eslint/typescript-estree": "^5.29.0",
     "@vitest/coverage-c8": "^0.25.1",
+    "@vitest/coverage-istanbul": "^0.25.1",
     "@vitest/ui": "^0.25.1",
     "camelcase": "^6.3.0",
     "chalk": "^5.0.1",
-    "FrontEndBuild": "0.15.13",
+    "esbuild": "0.15.13",
     "eslint": "^8.27.0",
     "eslint-config-preact": "^1.3.0",
     "eslint-config-prettier": "^8.5.0",

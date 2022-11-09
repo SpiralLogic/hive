@@ -3,12 +3,8 @@ import userEvent from '@testing-library/user-event';
 import Modal from '../../src/components/Modal';
 
 describe('<Modal>', () => {
-  let closeSpy: vi.SpyInstance;
+  const closeSpy = vi.spyOn(HTMLDialogElement.prototype, 'close');
   const onCloseSpy = vi.fn();
-
-  beforeEach(() => {
-    closeSpy = vi.spyOn(HTMLDialogElement.prototype, 'close');
-  });
 
   it('opens the model by setting prop', () => {
     const { rerender } = render(<Modal isOpen={false} onClose={onCloseSpy} title='test' />);
