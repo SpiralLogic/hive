@@ -28,8 +28,8 @@
     "build:dev": "npm-run-all -s tsc vite:dev",
     "build:dev:watch": "npm-run-all -s vite:watch",
     "vite:build": "vite build",
-    "vite:dev": "cross-env NODE_ENV=development vite build",
-    "vite:watch": "cross-env NODE_ENV=development vite build -w",
+    "vite:dev": "vite dev",
+    "vite:watch": "vite build -w",
     "watch": "npm-run-all -s clean vite:watch"
   },
   "lint-staged": {
