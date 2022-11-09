@@ -10,7 +10,7 @@ RUN dotnet test --collect:"XPlat Code Coverage" ./src/Hive.Domain.Tests -c Test 
 
 RUN mkdir -p ./domain-coverage/
 
-RUN mv ./src/Hive.Domain.Tests/**/coverage.opencover.xml ./domain-coverage/
+RUN mv "./src/Hive.Domain.Tests/**/coverage.opencover.xml" ./domain-coverage/
 RUN mv ./domain-coverage/coverage.opencover.xml ./domain-coverage/domain-coverage.opencover.xml
 
 RUN dotnet reportgenerator "-reports:./domain-coverage/domain-coverage.opencover.xml" "-targetdir:./domain-coverage" -reporttypes:Html

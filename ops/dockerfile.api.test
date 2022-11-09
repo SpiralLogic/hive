@@ -10,7 +10,7 @@ RUN dotnet test --collect:"XPlat Code Coverage" ./src/Hive.Api.Tests -c Test --s
 
 RUN mkdir -p ./api-coverage/
 
-RUN mv ./src/Hive.Api.Tests/**/coverage.opencover.xml ./api-coverage/
+RUN mv "./src/Hive.Api.Tests/**/coverage.opencover.xml" ./api-coverage/
 RUN mv ./api-coverage/coverage.opencover.xml ./api-coverage/api-coverage.opencover.xml
 
 RUN dotnet reportgenerator "-reports:./api-coverage/api-coverage.opencover.xml" "-targetdir:./api-coverage/" -reporttypes:Html
