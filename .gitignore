@@ -452,6 +452,7 @@ $RECYCLE.BIN/
 **/.run
 **/.DS_Store
 **/dist
+**/public
 **/coverage
 **/wwwroot/**
 **/js/**/*.js
