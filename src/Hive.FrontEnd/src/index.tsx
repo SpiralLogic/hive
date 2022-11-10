@@ -6,7 +6,7 @@ import creatures from './svg/creatures.svg?raw';
 import GameEngine from './services/game-engine';
 
 document.body.insertAdjacentHTML('beforeend', `${creatures}`);
-document.head.insertAdjacentHTML('beforeend', `<title>${import.meta.env.HIVE_APP_TITLE}</title>`);
+document.title = import.meta.env.HIVE_APP_TITLE;
 
 const [, , gameId, currentPlayer] = window.location.pathname.split('/');
 const engine = new GameEngine({ gameId, currentPlayer });
