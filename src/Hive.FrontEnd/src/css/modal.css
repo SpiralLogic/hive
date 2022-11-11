@@ -15,6 +15,7 @@ dialog {
     border-radius: 5px;
     background-color: rgb(249 235 208);
     text-align: center;
+    user-select: none;
 }
 
 dialog button.close {

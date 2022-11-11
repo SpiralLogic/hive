@@ -12,7 +12,7 @@ export const getAllPlayerTiles = (playerId: PlayerId, ...parents: Array<Array<Pl
 export const cellKey = ({ q, r }: HexCoordinates) => `${q}-${r}`;
 
 export const removeOtherPlayerMoves = (
-  playerId: number,
+  playerId: PlayerId,
   { players, cells }: Pick<GameState, 'players' | 'cells'>
 ): void => {
   for (const t of getAllOtherPlayerTiles(playerId, players, cells)) t.moves.splice(0, t.moves.length);

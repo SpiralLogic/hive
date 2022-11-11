@@ -28,8 +28,8 @@
     "build:dev": "npm-run-all -s tsc vite:dev",
     "build:dev:watch": "npm-run-all -s vite:watch",
     "vite:build": "vite build --emptyOutDir",
-    "vite:dev": "vite build --mode development  --emptyOutDir",
-    "vite:watch": "vite dev  --emptyOutDir",
+    "vite:dev": "vite build --mode development --emptyOutDir",
+    "vite:watch": "vite build -w",
     "watch": "npm-run-all -s clean vite:watch"
   },
   "lint-staged": {

@@ -21,7 +21,7 @@
     "watch run": {
       "commandName": "Executable",
       "executablePath": "dotnet",
-      "commandLineArgs": "watch -p $(ProjectDir) run ",
+      "commandLineArgs": "watch --project $(ProjectDir) run ",
       "workingDirectory": "$(ProjectDir)",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
