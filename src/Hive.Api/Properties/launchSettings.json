@@ -8,7 +8,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development",
         "ASPNETCORE_HTTPS_PORT": "5001"
       },
-      "applicationUrls": "https://+:5001;http://+:5000"
+      "applicationUrl": "https://+:5001;http://+:5000"
     },
     "run": {
       "commandName": "Project",
@@ -28,7 +28,7 @@
         "NODE_ENV": "development",
         "ASPNETCORE_HTTPS_PORT": "5001"
       },
-      "applicationUrls": "https://+:5001;http://+:5000"
+      "applicationUrl": "https://+:5001;http://+:5000"
     }
   }
 }

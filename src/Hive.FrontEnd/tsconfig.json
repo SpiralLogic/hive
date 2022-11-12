@@ -29,7 +29,7 @@
   },
   "include": [
     "src",
-    "./vitest-setup.ts"
+    "test"
   ],
   "references": [
     {

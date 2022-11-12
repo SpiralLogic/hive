@@ -4,15 +4,17 @@ import parser from '@typescript-eslint/parser';
 import prettier from 'eslint-plugin-prettier';
 import jest from 'eslint-plugin-jest';
 import globals from 'globals';
-import typescript from '@typescript-eslint/eslint-plugin';
+import ts from '@typescript-eslint/eslint-plugin';
 
 export default [
   'eslint:recommended',
   {
-    files: ['src/**/*.{ts,js,tsx,jsx}'],
+    files: ['src/**/*.{ts,js,tsx,jsx}','test/**/*.{ts,js,tsx,jsx}'],
     plugins: {
       unicorn,
-      typescript,
+      '@typescript-eslint': ts,
+
+      typescript: ts,
       prettier,
     },
     linterOptions: {
@@ -24,16 +26,21 @@ export default [
       parser,
       parserOptions: { project: 'tsconfig.json' },
       globals: {
+        ...globals.node,
         ...globals.browser,
+        ...globals.jest,
+        vi: 'readonly',
       },
     },
     rules: {
       'no-unused-vars': 'off',
+      ...ts.configs['eslint-recommended'].rules,
+      ...ts.configs['recommended'].rules,
     },
   },
   {
-    files: ['test/**/*.*'],
-    plugins: { typescript, jest, testingLibrary, prettier },
+    files: ['test/**/*.{ts,js,tsx,jsx}'],
+    plugins: { jest, testingLibrary },
     linterOptions: {
       reportUnusedDisableDirectives: true,
     },
@@ -47,9 +54,6 @@ export default [
         ...globals.jest,
         vi: 'readonly',
       },
-    },
-    rules: {
-      'no-unused-vars': 'off',
-    },
+    }
   },
 ];

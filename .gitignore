@@ -359,7 +359,6 @@ MigrationBackup/
 
 # globs
 Makefile.in
-*.userprefs
 *.usertasks
 config.make
 config.status
@@ -476,3 +475,7 @@ build/
 /.vscode/tasks.json
 /.config/
 reports
+*Dotnetsettings.user
+*.tsbuildinfo
+vite.config.d.ts
+vite.config.js

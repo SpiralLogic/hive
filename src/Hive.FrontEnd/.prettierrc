@@ -1,6 +1,6 @@
 ﻿{
   "singleQuote": true,
-  "printWidth": 170,
+  "printWidth": 110,
   "proseWrap": "always",
   "bracketSameLine": true,
   "endOfLine": "auto",

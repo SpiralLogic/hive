@@ -19,4 +19,3 @@ render(h(App, properties), document.body);
 
 export { removeOtherPlayerMoves } from './utilities/hextille';
 export { cellKey } from './utilities/hextille';
-console.log(import.meta.env);

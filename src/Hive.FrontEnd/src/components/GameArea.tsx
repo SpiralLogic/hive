@@ -134,19 +134,19 @@ const GameArea: FunctionComponent<Properties> = ({
         </Hextille>
       </section>
       <Modal
-        isOpen={currentDialog === 'playerConnected'}
+        open={currentDialog === 'playerConnected'}
         onClose={closeDialog}
         title="Player Connected"
         class="player-connected">
         <p>Player has {playerConnected}!</p>
       </Modal>
-      <Modal isOpen={currentDialog === 'rules'} onClose={closeDialog} title="Game Rules" class="rules">
+      <Modal open={currentDialog === 'rules'} onClose={closeDialog} title="Game Rules" class="rules">
         <Rules />
       </Modal>
-      <Modal isOpen={currentDialog === 'share'} onClose={closeDialog} title="Linked Shared" class="share">
+      <Modal open={currentDialog === 'share'} onClose={closeDialog} title="Linked Shared" class="share">
         <p>Opponent's link has been copied to clipboard!</p>
       </Modal>
-      <Modal isOpen={currentDialog === 'gameOver'} onClose={closeDialog} title="Game Over" class="game-over">
+      <Modal open={currentDialog === 'gameOver'} onClose={closeDialog} title="Game Over" class="game-over">
         <GameOver outcome={gameOutcome(gameStatus, currentPlayer)} />
       </Modal>
     </main>

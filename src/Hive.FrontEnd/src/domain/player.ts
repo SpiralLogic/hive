@@ -6,6 +6,6 @@ export type Player = {
   tiles: Array<Tile>;
 };
 
-export type PlayerId = number;
+export type PlayerId = number | string;
 export type PlayerName = string;
 export type Players = Array<Player>;

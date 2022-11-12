@@ -7,33 +7,33 @@ import { GameId, PlayerId } from '../domain';
 import { AiAction } from '../services';
 import { Dispatcher } from '../utilities/dispatcher';
 import { getShareUrl } from '../utilities/share';
-import {AiMode} from '../domain/engine';
+import { AiMode } from '../domain/engine';
 import SVG from './SVG';
 
 type Properties = {
-    onShowRules: () => void;
-    onShowShare: () => void;
-    gameId: GameId;
-    aiMode: AiMode;
-    currentPlayer: PlayerId;
+  onShowRules: () => void;
+  onShowShare: () => void;
+  gameId: GameId;
+  aiMode: AiMode;
+  currentPlayer: PlayerId;
 };
 
 const handle = (handler: () => void) => {
-    return (event: MouseEvent) => {
-        event.preventDefault();
-        event.stopPropagation();
-        handler();
-    };
+  return (event: MouseEvent) => {
+    event.preventDefault();
+    event.stopPropagation();
+    handler();
+  };
 };
 
 const Links: FunctionComponent<Properties> = ({
-                                                  gameId,
-                                                  currentPlayer,
-                                                  onShowRules,
-                                                  onShowShare,
-                                                  aiMode,
-                                              }) => {
-    const hiveDispatcher = useContext(Dispatcher);
+  gameId,
+  currentPlayer,
+  onShowRules,
+  onShowShare,
+  aiMode,
+}) => {
+  const hiveDispatcher = useContext(Dispatcher);
   const clickHandler = () => {
     hiveDispatcher.dispatch<AiAction>({ type: 'toggleAi', newState: aiMode === 'on' ? 'off' : 'on' });
   };
