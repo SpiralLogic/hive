@@ -4,7 +4,7 @@
         <DataCollectors>
             <DataCollector friendlyName="XPlat code coverage">
                 <Configuration>
-                    <Format>opencover,lconv</Format>
+                    <Format>opencover,lcov</Format>
                     <SkipAutoProps>true</SkipAutoProps>
                 </Configuration>
             </DataCollector>

@@ -10,6 +10,7 @@ internal static class TileExtensions
     }
     internal static bool IsCreature(this Tile tile, Creature creature)
     {
-        return tile.Creature == creature && tile.Creature.Name == creature.Name;
+        var (_, _, creature1) = tile;
+        return creature1 == creature && creature1.Name == creature.Name;
     }
 }

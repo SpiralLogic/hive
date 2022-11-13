@@ -7,8 +7,8 @@ namespace Hive.Domain.Tests.TestUtils;
 
 internal abstract class HiveBuilder
 {
-    internal const string Separator = " ";
-    internal static readonly HiveCharacter Empty = new("Empty", '⬡', ConsoleColor.White);
+    private const string Separator = " ";
+    private static readonly HiveCharacter Empty = new("Empty", '⬡', ConsoleColor.White);
     internal static readonly HiveCharacter Origin = new("Origin", '★', ConsoleColor.Yellow);
     internal static readonly HiveCharacter Friend = new("Cyan", '⬢', ConsoleColor.Cyan);
     internal static readonly HiveCharacter Enemy = new("Enemy", '⏣', ConsoleColor.Magenta);
@@ -39,7 +39,7 @@ internal abstract class HiveBuilder
 
         foreach (var token in rowSplit)
         {
-            var cell = new Cell(new Coords(q++, builder._currentR));
+            var cell = new Cell(new(q++, builder._currentR));
             if (token == Origin.Symbol) builder.OriginCells.Add(cell);
 
             if (token != Empty.Symbol) builder.ModifyCell(cell, token);
@@ -65,17 +65,18 @@ internal abstract class HiveBuilder
             var p0Symbol = creature.Name.ToUpperInvariant().First();
             var p1Symbol = creature.Name.ToLowerInvariant().First();
 
-            AllSymbols.Add(new HiveCharacter(creature, p0Symbol, Friend.Color));
-            AllSymbols.Add(new HiveCharacter(creature, p1Symbol, Enemy.Color));
+            AllSymbols.Add(new(creature, p0Symbol, Friend.Color));
+            AllSymbols.Add(new(creature, p1Symbol, Enemy.Color));
         }
     }
 
     protected void UpdateCoords(string newSymbol, Coords coords, List<string> actualRows)
     {
-        var rowSplit = actualRows[coords.R].Split(Separator);
-        var qOffset = coords.Q + GetQOffset(RowStrings[coords.R], coords.R);
+        var (q, r) = coords;
+        var rowSplit = actualRows[r].Split(Separator);
+        var qOffset = q + GetQOffset(RowStrings[r], r);
         rowSplit[qOffset] = newSymbol;
-        actualRows[coords.R] = string.Join(Separator, rowSplit);
+        actualRows[r] = string.Join(Separator, rowSplit);
     }
 
     private static int GetQOffset(string rowString, int r)

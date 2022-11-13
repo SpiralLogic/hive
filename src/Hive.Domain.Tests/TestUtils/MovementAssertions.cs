@@ -27,7 +27,7 @@ internal class MovementAssertions : ReferenceTypeAssertions<Func<InitialHiveBuil
                 _ => initial.OriginCell.Coords, _ => new StringBuilder(initial.ToColoredString(initial.ToString())),
                 actual => new StringBuilder(expected.GetMovementDiff(actual)));
 
-        return new AndConstraint<MovementAssertions>(this);
+        return new(this);
     }
 
 }
@@ -36,13 +36,13 @@ internal static class MovementTestExtensions
 {
     public static MovementAssertions Should(this IMovement movement)
     {
-        return new MovementAssertions(initialHiveBuilder =>
+        return new(initialHiveBuilder =>
             movement.GetMoves(initialHiveBuilder.OriginCell, new HashSet<Cell>(initialHiveBuilder.AllCells)));
     }
 
     public static MovementAssertions Should(this Creature creature)
     {
-        return new MovementAssertions(initialHiveBuilder =>
+        return new(initialHiveBuilder =>
             creature.GetAvailableMoves(initialHiveBuilder.OriginCell, new HashSet<Cell>(initialHiveBuilder.AllCells)));
     }
 }

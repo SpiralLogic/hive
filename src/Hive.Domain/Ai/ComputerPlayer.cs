@@ -9,7 +9,7 @@ using Hive.Domain.Extensions;
 
 namespace Hive.Domain.Ai;
 
-public class ComputerPlayer
+internal class ComputerPlayer
 {
     private readonly Hive _hive;
     private readonly Func<string, Tile, ValueTask>? _broadcastThought;

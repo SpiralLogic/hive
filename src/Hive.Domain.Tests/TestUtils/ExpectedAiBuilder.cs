@@ -35,9 +35,9 @@ internal class ExpectedAiBuilder : HiveBuilder
 
     protected override void ModifyCell(Cell cell, char symbol)
     {
-        if (symbol == Expected.Symbol) cell.AddTile(new Tile(TileIdSequence++, 2, Expected.Creature));
-        if (symbol == Unexpected.Symbol) cell.AddTile(new Tile(TileIdSequence++, 2, Unexpected.Creature));
-        if (symbol == Origin.Symbol) cell.AddTile(new Tile(TileIdSequence++, 0, Origin.Creature));
+        if (symbol == Expected.Symbol) cell.AddTile(new(TileIdSequence++, 2, Expected.Creature));
+        if (symbol == Unexpected.Symbol) cell.AddTile(new(TileIdSequence++, 2, Unexpected.Creature));
+        if (symbol == Origin.Symbol) cell.AddTile(new(TileIdSequence++, 0, Origin.Creature));
     }
 
     internal string GetMoveDiff(HashSet<(Coords Coords, Tile Tile)> origins, Move move)
@@ -46,17 +46,18 @@ internal class ExpectedAiBuilder : HiveBuilder
         foreach (var cell in ExpectedCells) UpdateCoords(Unexpected.ToString(), cell.Coords, actualRows);
         foreach (var cell in OriginCells) UpdateCoords(AvailableOrigin.ToString(), cell.Coords, actualRows);
 
-        UpdateCoords(IncorrectExpected.ToString(), move.Coords, actualRows);
+        var ((id, _, creature), coords) = move;
+        UpdateCoords(IncorrectExpected.ToString(), coords, actualRows);
 
         if (origins.Count > 0)
         {
-            var origin = origins.FirstOrDefault(o => o.Tile.Id == move.Tile.Id).Coords;
+            var origin = origins.FirstOrDefault(o => o.Tile.Id == id).Coords;
             UpdateCoords(Origin.ToString(), origin, actualRows);
         }
 
         var coloredRows = ToColoredString(ToString()).Split("\n");
         var comparison = actualRows.Select((row, i) => $"{ToColoredString(row)} | {coloredRows[i]}");
         return
-            $"Creature:{move.Tile.Creature.Name} - {move.Tile.Id} to coords: {move.Coords.Q}-{move.Coords.R}\n\u001b[37m{string.Join("\n", comparison)}\u001b[0m";
+            $"Creature:{creature.Name} - {id} to coords: {coords.Q}-{coords.R}\n\u001b[37m{string.Join("\n", comparison)}\u001b[0m";
     }
 }

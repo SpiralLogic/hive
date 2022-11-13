@@ -23,9 +23,9 @@ public class GameHubTests
 
     private GameHub CreateGameHub(string playerId)
     {
-        _httpContextFeatureMock = new Mock<IHttpContextFeature>();
-        _featureCollectionMock = new Mock<IFeatureCollection>();
-        _clientProxyMock = new Mock<IClientProxy>();
+        _httpContextFeatureMock = new();
+        _featureCollectionMock = new();
+        _clientProxyMock = new();
 
         _groupManagerMock.Setup(m => m.AddToGroupAsync(HubConnectionId, HubConnectionId, It.IsAny<CancellationToken>()));
         _groupManagerMock.Setup(m => m.RemoveFromGroupAsync(HubConnectionId, HubConnectionId, It.IsAny<CancellationToken>()));
@@ -33,10 +33,34 @@ public class GameHubTests
         _groupManagerMock.Setup(m => m.RemoveFromGroupAsync(HubConnectionId, $"{HubGroupName}-{playerId}", It.IsAny<CancellationToken>()));
 
         _httpContextFeatureMock.SetupSequence(m => m.HttpContext!.Features.Get<IRoutingFeature>())
-            .Returns(() => new RoutingFeature { RouteData = new RouteData { Values = { { "id", HubGroupName } } } })
-            .Returns(() => new RoutingFeature { RouteData = new RouteData { Values = { { "playerId", playerId } } } })
-            .Returns(() => new RoutingFeature { RouteData = new RouteData { Values = { { "id", null } } } })
-            .Returns(() => new RoutingFeature { RouteData = new RouteData { Values = { { "playerId", null } } } });
+            .Returns(() =>
+            {
+                var feature = new RoutingFeature();
+                feature.RouteData = new();
+                feature.RouteData.Values.Add("id", HubGroupName);
+                return feature;
+            })
+            .Returns(() =>
+            {
+                var feature = new RoutingFeature();
+                feature.RouteData = new();
+                feature.RouteData.Values.Add("playerId", playerId);
+                return feature;
+            })
+            .Returns(() =>
+            {
+                var feature = new RoutingFeature();
+                feature.RouteData = new();
+                feature.RouteData.Values.Add("id", null);
+                return feature;
+            })
+            .Returns(() =>
+            {
+                var feature = new RoutingFeature();
+                feature.RouteData = new();
+                feature.RouteData.Values.Add("playerId", null);
+                return feature;
+            });
 
         _featureCollectionMock.Setup(m => m.Get<IHttpContextFeature>()).Returns(_httpContextFeatureMock.Object);
 
@@ -50,12 +74,11 @@ public class GameHubTests
         hubCallerClientsMock.Setup(m => m.OthersInGroup(It.IsAny<string>())).Returns(_clientProxyMock.Object);
         hubCallerClientsMock.Setup(m => m.Group(It.IsAny<string>())).Returns(_clientProxyMock.Object);
 
-        return new GameHub
-        {
-            Context = hubCallerContextMock.Object,
-            Groups = _groupManagerMock.Object,
-            Clients = hubCallerClientsMock.Object
-        };
+        var hub = new GameHub();
+        hub.Context = hubCallerContextMock.Object;
+        hub.Groups = _groupManagerMock.Object;
+        hub.Clients = hubCallerClientsMock.Object;
+        return hub;
     }
 
     public class ValidGameHubTests : GameHubTests

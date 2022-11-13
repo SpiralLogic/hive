@@ -43,16 +43,14 @@ public class StackJsonConverter<T> : JsonConverter<Stack<T>>
             reader.Read();
         }
 
-        return new Stack<T>(elements);
+        return new(elements);
     }
 
     public override void Write(Utf8JsonWriter writer, Stack<T> value, JsonSerializerOptions options)
     {
         writer.WriteStartArray();
 
-        var reversed = value;
-
-        foreach (var item in reversed) JsonSerializer.Serialize(writer, item, options);
+        foreach (var item in value) JsonSerializer.Serialize(writer, item, options);
 
         writer.WriteEndArray();
     }

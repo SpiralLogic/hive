@@ -27,7 +27,7 @@ public static class CellCollectionExtensions
         return cells.WhereOccupied().FirstOrDefault(c => c.Tiles.Any(t => t.Id == tileId));
     }
 
-    internal static ISet<Cell> CreateAllEmptyNeighbours(this IEnumerable<Cell> cells)
+    internal static IEnumerable<Cell> CreateAllEmptyNeighbours(this IEnumerable<Cell> cells)
     {
         var enumerable = cells as Cell[] ?? cells.ToArray();
         return enumerable.SelectCoords()
@@ -73,7 +73,7 @@ public static class CellCollectionExtensions
         return cells.WhereOccupied().Where(c => c.PlayerControls(player));
     }
 
-    internal static IEnumerable<Coords> SelectCoords(this IEnumerable<Cell> cells)
+    private static IEnumerable<Coords> SelectCoords(this IEnumerable<Cell> cells)
     {
         return cells.Select(c => c.Coords);
     }

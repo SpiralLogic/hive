@@ -174,7 +174,7 @@ public class ComputerPlayerTests
 
         var beetleCell = initial.AllCells.First(c => c.Tiles.Any(t => t.Creature.Name == Creatures.Beetle.Name));
         var beetle = beetleCell.RemoveTopTile();
-        beetleCell.AddTile(new Tile(11, 1, Creatures.Queen));
+        beetleCell.AddTile(new(11, 1, Creatures.Queen));
         beetleCell.AddTile(beetle);
 
         var expected = new ExpectedAiBuilder();
@@ -219,8 +219,14 @@ public class ComputerPlayerTests
         expected += " ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡";
         expected += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
 
-        var player1 = new Player(0, "P1") with {Tiles = new HashSet<Tile> {new(50, 0, Creatures.Grasshopper)}};
-        var player2 = new Player(1, "P2") with {Tiles = new HashSet<Tile> {new(51, 1, Creatures.Grasshopper)}};
+        var player1 = new Player(0, "P1")
+        {
+            Tiles = new HashSet<Tile> {new(50, 0, Creatures.Grasshopper)}
+        };
+        var player2 = new Player(1, "P2")
+        {
+            Tiles = new HashSet<Tile> {new(51, 1, Creatures.Grasshopper)}
+        };
         var hive = HiveFactory.CreateInProgress(new[] {player1, player2}, initial.AllCells, 0);
         var player = new ComputerPlayer(hive);
         (await player.GetMove()).Should().MatchHive(initial, expected);
@@ -263,7 +269,10 @@ public class ComputerPlayerTests
 
         var tile = new Tile(50, 0, Creatures.Ant);
 
-        var player1 = new Player(0, "P1") with {Tiles = new HashSet<Tile> {tile}};
+        var player1 = new Player(0, "P1")
+        {
+            Tiles = new HashSet<Tile> {tile}
+        };
         var hive = HiveFactory.CreateInProgress(new[] {player1, new Player(1, "P1")}, initial.AllCells, 0);
 
         foreach (var tileMove in hive.Players.First().Tiles)
@@ -296,8 +305,8 @@ public class ComputerPlayerTests
         var p1Queen = hive.Players.First().Tiles.First(t => t.Creature == Creatures.Beetle);
         var p2Queen = hive.Players.Skip(1).First().Tiles.First(t => t.Creature == Creatures.Beetle);
 
-        hive.Move(new Move(p1Queen, new Coords(0, 0)));
-        hive.Move(new Move(p2Queen, new Coords(0, -1)));
+        hive.Move(new(p1Queen, new(0, 0)));
+        hive.Move(new(p2Queen, new(0, -1)));
 
         var player = new ComputerPlayer(hive);
         var move = await player.GetMove();
@@ -350,7 +359,7 @@ public class ComputerPlayerTests
 
         var beetleCell = initial.AllCells.First(c => c.Tiles.Any(t => t.Creature.Name == Creatures.Beetle.Name));
         var beetle = beetleCell.RemoveTopTile();
-        beetleCell.AddTile(new Tile(11, 0, Creatures.Queen));
+        beetleCell.AddTile(new(11, 0, Creatures.Queen));
         beetleCell.AddTile(beetle);
 
         var expected = new ExpectedAiBuilder();
@@ -383,7 +392,7 @@ public class ComputerPlayerTests
 
         var beetleCell = initial.AllCells.First(c => c.Tiles.Any(t => t.Creature.Name == Creatures.Beetle.Name));
         var beetle = beetleCell.RemoveTopTile();
-        beetleCell.AddTile(new Tile(13, 1, Creatures.Queen));
+        beetleCell.AddTile(new(13, 1, Creatures.Queen));
         beetleCell.AddTile(beetle);
 
         var expected = new ExpectedAiBuilder();

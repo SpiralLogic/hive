@@ -15,18 +15,20 @@ public class WontSplitHive : IMovement
             return allCells2.ToCoords();
 
         var allOccupied = allCells2.WhereOccupied().ToHashSet();
-        if (allOccupied.Count == 0)
-            return allCells2.ToCoords();
+        switch (allOccupied.Count)
+        {
+            case 0:
+                return allCells2.ToCoords();
+            case 1:
+                return allOccupied.Union(allOccupied.First().SelectNeighbors(allCells2)).ToCoords();
+            default:
+                CheckIsInHive(allOccupied, allOccupied.First());
 
-        if (allOccupied.Count == 1)
-            return allOccupied.Union(allOccupied.First().SelectNeighbors(allCells2)).ToCoords();
-
-        CheckIsInHive(allOccupied, allOccupied.First());
-
-        return allOccupied.Any() ? new HashSet<Coords>() : allCells2.ToCoords();
+                return allOccupied.Any() ? new HashSet<Coords>() : allCells2.ToCoords();
+        }
     }
 
-    private static void CheckIsInHive(ISet<Cell> remaining, Cell toCheck)
+    private static void CheckIsInHive(ICollection<Cell> remaining, Cell toCheck)
     {
         remaining.Remove(toCheck);
         var neighbours = toCheck.SelectNeighbors(remaining).ToHashSet();

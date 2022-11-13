@@ -26,7 +26,7 @@ public class GameControllerTests
         var memoryCache = TestHelpers.CreateTestMemoryCache();
         memoryCache.Set(TestHelpers.ExistingGameId, TestHelpers.GetSerializedBytes(gameState, jsonOptions));
 
-        _controller = new GameController(Options.Create(jsonOptions), memoryCache);
+        _controller = new(Options.Create(jsonOptions), memoryCache);
     }
 
     [Fact]

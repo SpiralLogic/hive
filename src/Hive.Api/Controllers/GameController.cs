@@ -20,13 +20,13 @@ public class GameController : Controller
     }
 
     [HttpGet]
-    [Route("/game/{id}/{playerId?}")]
+    [Route("/game/{id}/{playerId:int?}")]
     public async Task<IActionResult> Get(string id, int playerId = 0)
     {
         var gameSession = await _distributedCache.GetStringAsync(id);
         if (string.IsNullOrEmpty(gameSession)) return Redirect("/");
 
-        return File("/index.html", "text/html");
+        return File("/index.html", "text/html; charset=utf-8");
     }
 
     [HttpGet]

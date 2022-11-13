@@ -8,4 +8,5 @@ export default defineConfig({
   build: { outDir: '../public' },
   envPrefix: 'HIVE_',
   envDir: './env',
+  publicDir: './static',
 });
