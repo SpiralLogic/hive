@@ -12,8 +12,9 @@ import AntRules from '../../src/components/rules/AntRules';
 import OneHiveRule from '../../src/components/rules/OneHiveRule';
 import FreedomToMove from '../../src/components/rules/FreedomToMoveRule';
 import { Rule } from '../../src/components/rules/rule';
+import vitest from 'vitest';
 
-const renderRules = (): [(ui: ComponentChild) => void, vi.Mock] => {
+const renderRules = (): [(ui: ComponentChild) => void, vitest.Mock] => {
   const close = vi.fn();
   const { rerender } = render(<Rules />);
   return [rerender, close];

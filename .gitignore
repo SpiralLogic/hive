@@ -477,5 +477,5 @@ build/
 reports
 *Dotnetsettings.user
 *.tsbuildinfo
-vite.config.d.ts
-vite.config.js
+vi*.config.d.ts
+vi*.config.js

@@ -5,6 +5,7 @@ import prettier from 'eslint-plugin-prettier';
 import jest from 'eslint-plugin-jest';
 import globals from 'globals';
 import ts from '@typescript-eslint/eslint-plugin';
+import vite from 'vite/global';
 
 export default [
   'eslint:recommended',
@@ -13,7 +14,6 @@ export default [
     plugins: {
       unicorn,
       '@typescript-eslint': ts,
-
       typescript: ts,
       prettier,
     },
@@ -29,7 +29,7 @@ export default [
         ...globals.node,
         ...globals.browser,
         ...globals.jest,
-        vi: 'readonly',
+        ...vite
       },
     },
     rules: {
@@ -52,7 +52,7 @@ export default [
         ...globals.node,
         ...globals.browser,
         ...globals.jest,
-        vi: 'readonly',
+        ...vite
       },
     }
   },

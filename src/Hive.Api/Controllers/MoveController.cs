@@ -47,7 +47,7 @@ public class MoveController : ControllerBase
 
         var gameStatus = game.Move(new Domain.Entities.Move(tile, coords));
 
-        if (gameStatus == GameStatus.MoveInvalid) return BadRequest();
+        if (gameStatus == GameStatus.MoveInvalid) return BadRequest("Invalid Move");
 
         var newGameState = new GameState(game.Players, game.Cells, id, gameStatus);
         await _hubContext.Clients.Group(id).SendAsync("ReceiveGameState", newGameState);

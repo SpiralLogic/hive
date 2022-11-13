@@ -129,7 +129,7 @@ public class MoveControllerTests
     {
         DTOs.Move move = new(4, new Coords(4, 4));
 
-        (await _controller.Post(TestHelpers.ExistingGameId, move)).Should().BeOfType<ForbidResult>();
+        (await _controller.Post(TestHelpers.ExistingGameId, move)).Should().BeAssignableTo<BadRequestObjectResult>();
     }
 
     [Fact]

@@ -9,9 +9,9 @@
     ],
     "types": [
       "vite/client",
+      "vitest/importMeta",
       "vitest/globals",
       "testing-library__jest-dom",
-      "vitest/importMeta"
     ],
     "allowJs": false,
     "skipLibCheck": true,
