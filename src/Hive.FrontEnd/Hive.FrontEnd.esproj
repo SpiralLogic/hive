@@ -19,9 +19,8 @@
         <Exec Command="$(BuildCommand)" WorkingDirectory="$(BuildWorkingDirectory)" Condition=" '$(BuildCommand)' != '' " />
     </Target>
 
-    <Target Name="VSTest">
-        <CallTarget Targets="EsClean;EsBuild" />
-        <Exec ConsoleToMSBuild="true" Command="$(TestCommand)" WorkingDirectory="$(BuildWorkingDirectory)" Condition=" '$(CleanCommand)' != '' " />
+    <Target Name="Test" AfterTargets="VSTest">
+        <Exec ConsoleToMSBuild="true" Command="$(TestCommand)" WorkingDirectory="$(BuildWorkingDirectory)" Condition=" '$(TestCommand)' != '' " />
     </Target>
 
     <Target Name="EsPublish" AfterTargets="Publish">
