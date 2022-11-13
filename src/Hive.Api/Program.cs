@@ -35,7 +35,7 @@ using var app = appBuilder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
-    if (Environment.GetEnvironmentVariable("HTTPS_PORT") != null) app.UseHttpsRedirection();
+    app.UseHttpsRedirection();
 }
 
 app.UseFileServer(new FileServerOptions
