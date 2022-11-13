@@ -3,12 +3,18 @@ using Microsoft.AspNetCore.Mvc.Testing;
 
 namespace Hive.Api.Tests.Integration;
 
-// ReSharper disable once ClassNeverInstantiated.Global
 public class ProdWebApplicationFactory<TProgram>
     : WebApplicationFactory<TProgram> where TProgram : class
 {
-    protected override void ConfigureWebHost(IWebHostBuilder builder)
+    private IWebHostBuilder? _builder;
+    protected override void ConfigureWebHost(IWebHostBuilder? builder)
     {
-        builder.UseEnvironment("Production");
+        _builder = builder;
+        builder?.UseEnvironment("Production");
+    }
+    protected override void Dispose(bool disposing)
+    {
+        _builder?.UseEnvironment("Development");
+        base.Dispose(disposing);
     }
 }

@@ -11,7 +11,7 @@ using Move = Hive.Api.DTOs.Move;
 namespace Hive.Api.Tests.Integration;
 
 public class ApiIntegrationTests
-    : IClassFixture<WebApplicationFactory<Program>>
+    : IClassFixture<WebApplicationFactory<Program>> 
 {
     private readonly WebApplicationFactory<Program> _factory;
     private readonly Lazy<Task<string>> _lazyGameId;
@@ -20,7 +20,7 @@ public class ApiIntegrationTests
     {
         _factory = factory;
 
-        _lazyGameId = new Lazy<Task<string>>(async () =>
+        _lazyGameId = new(async () =>
         {
             var client = _factory.CreateClient();
             var response = await client.PostAsync("/api/new", null);

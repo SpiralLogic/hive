@@ -1,3 +1,4 @@
+using System;
 using Hive.Api.Converters;
 using Hive.Api.Hubs;
 using Microsoft.AspNetCore.Builder;
@@ -34,7 +35,7 @@ using var app = appBuilder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
-    app.UseHttpsRedirection();
+    if (Environment.GetEnvironmentVariable("HTTPS_PORT") != null) app.UseHttpsRedirection();
 }
 
 app.UseFileServer(new FileServerOptions
@@ -56,7 +57,6 @@ app.MapControllers();
 app.MapHub<GameHub>("/gamehub/{id}/{playerId}");
 app.Run();
 
-// ReSharper disable once ClassNeverInstantiated.Global
 public partial class Program
 {
 }

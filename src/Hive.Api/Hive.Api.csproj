@@ -39,6 +39,11 @@
         <Copy SkipUnchangedFiles="true" SourceFiles="@(MyWebRoot)" DestinationFiles="wwwroot\%(RecursiveDir)%(Filename)%(Extension)" />
     </Target>
 
+    <Target Name="CopyFiles" BeforeTargets="Build" Condition="'$(Configuration)' == 'Test'">
+        <Copy SkipUnchangedFiles="true" SourceFiles="$(SpaRoot)public\favicon.ico" DestinationFiles="wwwroot\favicon.ico" />
+        <Copy SkipUnchangedFiles="true" SourceFiles="$(SpaRoot)public\index.html" DestinationFiles="wwwroot\index.html" />
+    </Target>
+
     <ItemGroup>
         <ProjectReference Include="..\Hive.Domain\Hive.Domain.csproj" />
         <ProjectReference Include="..\Hive.FrontEnd\Hive.FrontEnd.esproj" Condition="'$(Configuration)' == 'Debug'" />
