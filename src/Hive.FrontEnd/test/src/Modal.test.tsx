@@ -7,9 +7,9 @@ describe('<Modal>', () => {
   const onCloseSpy = vi.fn();
 
   it('opens the model by setting prop', () => {
-    const { rerender } = render(<Modal open={false} onClose={onCloseSpy} title='test' />);
+    const { rerender } = render(<Modal open={false} onClose={onCloseSpy} title="test" />);
 
-    rerender(<Modal title='test' open={true} onClose={onCloseSpy} />);
+    rerender(<Modal title="test" open={true} onClose={onCloseSpy} />);
 
     expect(screen.getByRole('button')).toBeVisible();
     expect(screen.getByRole('dialog')).toBeVisible();

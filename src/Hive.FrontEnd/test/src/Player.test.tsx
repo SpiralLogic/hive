@@ -37,7 +37,7 @@ describe('<Player>', () => {
 
     expect(screen.getByLabelText(/player 1/i)).not.toHaveClass('hide');
 
-    rerender(<Player id={1} name='Player 1' />);
+    rerender(<Player id={1} name="Player 1" />);
     vi.runAllTimers();
 
     expect(await screen.findByLabelText(/player 1/i)).toHaveClass('hide');

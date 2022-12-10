@@ -16,6 +16,7 @@
         <AssemblyVersion>1.1.1.1</AssemblyVersion>
         <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
         <SuppressNETCoreSdkPreviewMessage>true</SuppressNETCoreSdkPreviewMessage>
+        <AnalysisMode>All</AnalysisMode>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Configuration)' == 'Release'">
         <DebugSymbols>false</DebugSymbols>
@@ -23,21 +24,21 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <Content Remove="obj\**" />
+        <Content Remove="obj\**"/>
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Hive.Domain\Hive.Domain.csproj" />
-        <ProjectReference Include="..\Hive.FrontEnd\Hive.FrontEnd.esproj" Condition="'$(Configuration)' == 'Debug'" />
+        <ProjectReference Include="..\Hive.Domain\Hive.Domain.csproj"/>
+        <ProjectReference Include="..\Hive.FrontEnd\Hive.FrontEnd.esproj" Condition="'$(Configuration)' == 'Debug'"/>
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.AspNetCore.SignalR.StackExchangeRedis" Version="7.0.0" />
-        <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="7.0.0" />
-        <PackageReference Include="StackExchange.Redis" Version="2.6.80" />
+        <PackageReference Include="Microsoft.AspNetCore.SignalR.StackExchangeRedis" Version="7.0.0"/>
+        <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="7.0.0"/>
+        <PackageReference Include="StackExchange.Redis" Version="2.6.80"/>
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="wwwroot" />
+        <Folder Include="wwwroot"/>
     </ItemGroup>
 </Project>
