@@ -46,6 +46,7 @@ pipelines:
                   version: 0.3.0
                 options:
                   script: |-
+                    docker login -u hive -p hive registry-proxy.lab.sorijen.net.au
                     docker build -t frontend-test-results:${GO_PIPELINE_LABEL} -f ./ops/dockerfile.frontend.test .
                     docker run --name frontend-tests-${GO_PIPELINE_LABEL} frontend-test-results:${GO_PIPELINE_LABEL}
 
