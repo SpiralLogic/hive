@@ -456,7 +456,7 @@ $RECYCLE.BIN/
 **/wwwroot/**
 **/js/**/*.js
 **/js/**/*.css
-**/public/index.html
+**/public
 **/js/**/*.map
 **/.build-cache/
 package-lock.json

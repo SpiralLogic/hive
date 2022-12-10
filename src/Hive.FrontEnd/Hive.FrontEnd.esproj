@@ -23,18 +23,6 @@
         <Exec ConsoleToMSBuild="true" Command="$(TestCommand)" WorkingDirectory="$(BuildWorkingDirectory)" Condition=" '$(TestCommand)' != '' " />
     </Target>
 
-    <Target Name="EsPublish" AfterTargets="Publish">
-        <CallTarget Targets="EsBuild" />
-        <ItemGroup>
-            <DistFiles Include="public\**" />
-            <ResolvedFileToPublish Include="@(DistFiles->'%(FullPath)')" Exclude="@(ResolvedFileToPublish)">
-                <RelativePath>wwwroot\%(RecursiveDir)%(FileName)%(Extension)</RelativePath>
-                <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-                <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-            </ResolvedFileToPublish>
-        </ItemGroup>
-    </Target>
-
     <Target Name="EsClean" AfterTargets="Clean">
         <Exec Command="$(CleanCommand)" WorkingDirectory="$(BuildWorkingDirectory)" Condition=" '$(CleanCommand)' != '' " />
     </Target>
