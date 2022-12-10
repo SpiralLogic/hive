@@ -2,11 +2,11 @@ import { screen } from '@testing-library/preact';
 import { Action, AiAction, HiveDispatcher, HiveEvent, TileAction } from '../../../src/services';
 import {
   addServerHandlers,
+  createOpponentConnectedHandler,
+  createOpponentSelectionHandler,
   handleDragOver,
   handleDrop,
   handleKeyboardNav,
-  createOpponentConnectedHandler,
-  createOpponentSelectionHandler,
 } from '../../../src/utilities/handlers';
 import gameState from '../../fixtures/game-state.json';
 import GameEngine from '../../../src/services/game-engine';

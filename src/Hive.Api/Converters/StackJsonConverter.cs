@@ -20,9 +20,13 @@ public class StackJsonConverter : JsonConverterFactory
 
         var elementType = typeToConvert.GetGenericArguments()[0];
 
-        var converter = (JsonConverter) Activator.CreateInstance(
+        var converter = (JsonConverter)Activator.CreateInstance(
             typeof(StackJsonConverter<>).MakeGenericType(elementType),
-            BindingFlags.Instance | BindingFlags.Public, null, null, null)!;
+            BindingFlags.Instance | BindingFlags.Public,
+            null,
+            null,
+            null
+        )!;
 
         return converter;
     }

@@ -12,7 +12,8 @@ internal class MoveSpread : IHeuristic
         var toOpponentQueen = values.MoveNeighbours.Any(c => c.HasQueen(values.OpponentId));
         var fromOpponentQueen = values.MoveFromLocation != null && values.MoveFromNeighbours.Any(c => c.HasQueen(values.OpponentId));
         if (fromOpponentQueen && toOpponentQueen) return -2 * values.MoveNeighbours.Length;
-        if (toOpponentQueen && (values.OpponentQueenNeighbours < 4 || values.MoveNeighbours.Length < 3)) return -2 * values.MoveNeighbours.Length;
+        if (toOpponentQueen && (values.OpponentQueenNeighbours < 4 || values.MoveNeighbours.Length < 3))
+            return -2 * values.MoveNeighbours.Length;
         if (fromOpponentQueen) return -values.MoveNeighbours.Length;
         return values.MoveNeighbours.Length > 1 ? 2 : 0;
     }

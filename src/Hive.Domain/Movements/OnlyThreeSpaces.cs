@@ -25,8 +25,7 @@ internal sealed record Path(Cell Last)
     internal IEnumerable<Path> Extend(ISet<Cell> allCells)
     {
         return Last.SelectNeighbors(allCells.WhereEmpty().Except(Cells))
-            .Where(c => c.SelectNeighbors(allCells).Except(Cells)
-                .Intersect(Last.SelectNeighbors(allCells).WhereOccupied()).Any())
-            .Select(cell => this with {Cells = Cells.Add(cell), Last = cell});
+            .Where(c => c.SelectNeighbors(allCells).Except(Cells).Intersect(Last.SelectNeighbors(allCells).WhereOccupied()).Any())
+            .Select(cell => this with { Cells = Cells.Add(cell), Last = cell });
     }
 }

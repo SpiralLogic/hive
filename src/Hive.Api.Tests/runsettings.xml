@@ -5,7 +5,7 @@
             <DataCollector friendlyName="XPlat code coverage">
                 <Configuration>
                     <Format>opencover,lcov</Format>
-                    <Exclude>[Hive.Domain]*</Exclude> 
+                    <Exclude>[Hive.Domain]*</Exclude>
                     <SkipAutoProps>true</SkipAutoProps>
                 </Configuration>
             </DataCollector>

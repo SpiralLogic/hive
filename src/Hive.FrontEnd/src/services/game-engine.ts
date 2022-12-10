@@ -3,11 +3,15 @@ import { AiMode, HexEngine } from '../domain/engine';
 import { getAllPlayerTiles } from '../utilities/hextille';
 
 export default class GameEngine implements HexEngine {
-  private aiMode: AiMode;
   public currentPlayer: PlayerId;
   public initialGame: Promise<GameState>;
   public gameId: GameId;
+  private aiMode: AiMode;
   private currentRequest: Promise<GameState>;
+  private requestHeaders = {
+    Accept: 'application/json',
+    'Content-Type': 'application/json',
+  };
 
   constructor(existingGame?: { gameId: string; currentPlayer: string }) {
     this.currentPlayer = Number(existingGame?.currentPlayer ?? 0);
@@ -85,10 +89,5 @@ export default class GameEngine implements HexEngine {
 
     this.currentRequest = response.json() as Promise<GameState>;
     return this.currentRequest;
-  };
-
-  private requestHeaders = {
-    Accept: 'application/json',
-    'Content-Type': 'application/json',
   };
 }

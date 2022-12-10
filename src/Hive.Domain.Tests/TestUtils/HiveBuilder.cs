@@ -14,13 +14,21 @@ internal abstract class HiveBuilder
     internal static readonly HiveCharacter Enemy = new("Enemy", '⏣', ConsoleColor.Magenta);
 
     internal readonly HashSet<Cell> AllCells = new();
+
+    protected readonly ISet<HiveCharacter> AllSymbols = new[]
+    {
+        Empty,
+        Origin,
+        Friend,
+        Enemy
+    }.ToHashSet();
+
     internal readonly HashSet<Cell> OriginCells = new();
-    protected readonly ISet<HiveCharacter> AllSymbols = new[] {Empty, Origin, Friend, Enemy}.ToHashSet();
     protected readonly List<string> RowStrings = new();
 
     private int _currentR;
-    protected int TileIdSequence;
     private int _rowLength;
+    protected int TileIdSequence;
 
     protected HiveBuilder()
     {

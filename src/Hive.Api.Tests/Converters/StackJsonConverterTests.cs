@@ -43,8 +43,7 @@ public class StackJsonConverterTests
         var json = Encoding.UTF8.GetBytes("[3,2,1]");
         var reader = new Utf8JsonReader(new ReadOnlySequence<byte>(json));
         reader.Read();
-        var result = _converter.Read(ref reader, typeof(int),
-            new JsonSerializerOptions(JsonSerializerDefaults.Web));
+        var result = _converter.Read(ref reader, typeof(int), new JsonSerializerOptions(JsonSerializerDefaults.Web));
         result.Should().BeEquivalentTo(_stack);
     }
 

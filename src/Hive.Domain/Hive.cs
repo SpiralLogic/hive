@@ -10,15 +10,15 @@ public class Hive
 {
     private readonly Mover _mover;
 
-    public ISet<Cell> Cells { get; }
-    public IList<Player> Players { get; }
-
     public Hive(IList<Player> players, ISet<Cell> cells)
     {
         _mover = new Mover(this);
         Cells = cells ?? throw new ArgumentNullException(nameof(cells));
         Players = players ?? throw new ArgumentNullException(nameof(players));
     }
+
+    public ISet<Cell> Cells { get; }
+    public IList<Player> Players { get; }
 
     public GameStatus Move(Move move)
     {

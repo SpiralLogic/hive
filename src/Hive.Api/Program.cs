@@ -1,5 +1,3 @@
-using System.IO;
-using System.Net;
 using Hive.Api.Converters;
 using Hive.Api.Hubs;
 using Microsoft.AspNetCore.Builder;

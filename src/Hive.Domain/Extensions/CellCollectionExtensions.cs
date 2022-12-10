@@ -37,7 +37,6 @@ public static class CellCollectionExtensions
             .ToHashSet();
     }
 
-
     internal static IEnumerable<Cell> SelectOccupiedNeighbors(this IEnumerable<Cell> cells, Cell originCell)
     {
         return cells.SelectNeighbors(originCell).WhereOccupied();

@@ -31,8 +31,7 @@ public class CreatureJsonConverterTests
         var json = Encoding.UTF8.GetBytes("\"Grasshopper\"");
         var reader = new Utf8JsonReader(new ReadOnlySequence<byte>(json));
         reader.Read();
-        var result = _converter.Read(ref reader, typeof(Creature),
-            new JsonSerializerOptions(JsonSerializerDefaults.Web));
+        var result = _converter.Read(ref reader, typeof(Creature), new JsonSerializerOptions(JsonSerializerDefaults.Web));
         result.Should().BeEquivalentTo(Creatures.Grasshopper);
     }
 

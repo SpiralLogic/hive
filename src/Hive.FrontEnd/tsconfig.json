@@ -2,17 +2,8 @@
   "compilerOptions": {
     "target": "ESNext",
     "useDefineForClassFields": true,
-    "lib": [
-      "DOM",
-      "DOM.Iterable",
-      "ESNext"
-    ],
-    "types": [
-      "vite/client",
-      "vitest/importMeta",
-      "vitest/globals",
-      "testing-library__jest-dom",
-    ],
+    "lib": ["DOM", "DOM.Iterable", "ESNext"],
+    "types": ["vite/client", "vitest/importMeta", "vitest/globals", "testing-library__jest-dom"],
     "allowJs": false,
     "skipLibCheck": true,
     "esModuleInterop": false,
@@ -27,10 +18,7 @@
     "jsx": "react-jsx",
     "jsxImportSource": "preact"
   },
-  "include": [
-    "src",
-    "test"
-  ],
+  "include": ["src", "test"],
   "references": [
     {
       "path": "./tsconfig.node.json"

@@ -1,22 +1,22 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-    <PropertyGroup>
-        <TargetFramework>net7.0</TargetFramework>
-        <LangVersion>latestmajor</LangVersion>
-        <Nullable>enable</Nullable>
-        <Configurations>Debug;Release;Test</Configurations>
-        <Platforms>AnyCPU</Platforms>
-        <SuppressNETCoreSdkPreviewMessage>true</SuppressNETCoreSdkPreviewMessage>
-        <AnalysisLevel>latest-All</AnalysisLevel>
-    </PropertyGroup>
-    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    </PropertyGroup>
-    <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
-        <DebugSymbols>false</DebugSymbols>
-        <DebugType>none</DebugType>
-        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    </PropertyGroup>
-    <ItemGroup>
-        <InternalsVisibleTo Include="Hive.Domain.Tests"/>
-    </ItemGroup>
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <LangVersion>latestmajor</LangVersion>
+    <Nullable>enable</Nullable>
+    <Configurations>Debug;Release;Test</Configurations>
+    <Platforms>AnyCPU</Platforms>
+    <SuppressNETCoreSdkPreviewMessage>true</SuppressNETCoreSdkPreviewMessage>
+    <AnalysisLevel>latest-All</AnalysisLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <DebugSymbols>false</DebugSymbols>
+    <DebugType>none</DebugType>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+  </PropertyGroup>
+  <ItemGroup>
+    <InternalsVisibleTo Include="Hive.Domain.Tests"/>
+  </ItemGroup>
 </Project>

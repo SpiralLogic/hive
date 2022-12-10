@@ -14,6 +14,14 @@ export class HextilleBuilder {
     this.hexagons = hexagons;
   }
 
+  createRows = (): Array<Row> => {
+    const rows = this.createEmptyRows();
+    for (const cell of this.hexagons) {
+      rows[cell.coords.r - this.firstRow].cells[cell.coords.q - this.firstColumn] = cell;
+    }
+    return rows;
+  };
+
   private determineWidth = (cells: Array<Cell>): [number, number] => {
     const min = Math.min(...cells.map((c) => c.coords.q));
     const max = Math.max(...cells.map((c) => c.coords.q));
@@ -26,6 +34,7 @@ export class HextilleBuilder {
     const height = lastCell.coords.r - firstCell.coords.r + 1;
     return [firstCell.coords.r - 1, height + 2];
   };
+
   private createEmptyRow = (index: number): Row => {
     return {
       id: this.firstRow + index,
@@ -40,12 +49,4 @@ export class HextilleBuilder {
 
   private createEmptyRows = () =>
     [...Array.from({ length: this.height }).keys()].map((element) => this.createEmptyRow(element));
-
-  createRows = (): Array<Row> => {
-    const rows = this.createEmptyRows();
-    for (const cell of this.hexagons) {
-      rows[cell.coords.r - this.firstRow].cells[cell.coords.q - this.firstColumn] = cell;
-    }
-    return rows;
-  };
 }

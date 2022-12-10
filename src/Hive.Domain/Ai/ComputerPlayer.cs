@@ -11,14 +11,14 @@ namespace Hive.Domain.Ai;
 
 internal class ComputerPlayer
 {
-    private readonly Hive _hive;
     private readonly Func<string, Tile, ValueTask>? _broadcastThought;
     private readonly ScoredMove[] _depth = new ScoredMove[HeuristicValues.MaxDepth];
     private readonly ICollection<IHeuristic> _heuristics;
+    private readonly Hive _hive;
     private readonly Stack<InProgressMove> _previousMoves = new();
-    private Tile? _lastBroadcast;
-    private readonly Stopwatch _stopWatch = new();
     private readonly Random _rnd = new();
+    private readonly Stopwatch _stopWatch = new();
+    private Tile? _lastBroadcast;
 
     public ComputerPlayer(Hive hive, Func<string, Tile, ValueTask>? broadcastThought = null)
     {

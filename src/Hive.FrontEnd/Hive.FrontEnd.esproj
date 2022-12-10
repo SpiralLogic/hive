@@ -17,7 +17,6 @@
 
     <Target Name="EsBuild" AfterTargets="AfterBuild">
         <Exec Command="$(BuildCommand)" WorkingDirectory="$(BuildWorkingDirectory)" Condition=" '$(BuildCommand)' != '' "/>
-        <RemoveDir Directories="obj"/>
         <RemoveDir Directories="bin"/>
     </Target>
 

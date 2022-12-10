@@ -9,5 +9,4 @@ internal static class MoveCollectionExtensions
     {
         coords.UnionWith(moves);
     }
-
 }

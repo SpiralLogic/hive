@@ -17,8 +17,11 @@ indent_size = 2
 # Code files
 [*.{cs,csx,vb,vbx}]
 indent_size = 4
-insert_final_newline = true
-charset = utf-8-bom
+insert_final_newline = false
+end_of_line = lf
+trim_trailing_whitespace = true
+max_line_length = 140
+
 ###############################
 # .NET Coding Conventions     #
 ###############################
@@ -57,14 +60,14 @@ dotnet_style_prefer_conditional_expression_over_return = true:silent
 # Naming Conventions          #
 ###############################
 # Style Definitions
-dotnet_naming_style.pascal_case_style.capitalization             = pascal_case
+dotnet_naming_style.pascal_case_style.capitalization = pascal_case
 # Use PascalCase for constant fields
 dotnet_naming_rule.constant_fields_should_be_pascal_case.severity = suggestion
-dotnet_naming_rule.constant_fields_should_be_pascal_case.symbols  = constant_fields
-dotnet_naming_rule.constant_fields_should_be_pascal_case.style    = pascal_case_style
-dotnet_naming_symbols.constant_fields.applicable_kinds            = field
-dotnet_naming_symbols.constant_fields.applicable_accessibilities  = *
-dotnet_naming_symbols.constant_fields.required_modifiers          = const
+dotnet_naming_rule.constant_fields_should_be_pascal_case.symbols = constant_fields
+dotnet_naming_rule.constant_fields_should_be_pascal_case.style = pascal_case_style
+dotnet_naming_symbols.constant_fields.applicable_kinds = field
+dotnet_naming_symbols.constant_fields.applicable_accessibilities = *
+dotnet_naming_symbols.constant_fields.required_modifiers = const
 ###############################
 # C# Coding Conventions       #
 ###############################
@@ -87,9 +90,9 @@ csharp_style_pattern_matching_over_as_with_null_check = true:suggestion
 csharp_style_throw_expression = true:suggestion
 csharp_style_conditional_delegate_call = true:suggestion
 # Modifier preferences
-csharp_preferred_modifier_order = public,private,protected,internal,static,extern,new,virtual,abstract,sealed,override,readonly,unsafe,volatile,async:suggestion
+csharp_preferred_modifier_order = public, private, protected, internal, static, extern, new, virtual, abstract, sealed, override, readonly, unsafe, volatile, async:suggestion
 # Expression-level preferences
-csharp_prefer_braces = true:silent
+csharp_prefer_braces = false:silent
 csharp_style_deconstructed_variable_declaration = true:suggestion
 csharp_prefer_simple_default_expression = true:suggestion
 csharp_style_prefer_local_over_anonymous_function = true:suggestion
@@ -124,9 +127,3 @@ csharp_space_between_method_call_empty_parameter_list_parentheses = false
 # Wrapping preferences
 csharp_preserve_single_line_statements = true
 csharp_preserve_single_line_blocks = true
-###############################
-# VB Coding Conventions       #
-###############################
-[*.vb]
-# Modifier preferences
-visual_basic_preferred_modifier_order = Partial,Default,Private,Protected,Public,Friend,NotOverridable,Overridable,MustOverride,Overloads,Overrides,MustInherit,NotInheritable,Static,Shared,Shadows,ReadOnly,WriteOnly,Dim,Const,WithEvents,Widening,Narrowing,Custom,Async:suggestion

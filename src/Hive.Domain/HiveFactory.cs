@@ -39,15 +39,15 @@ public static class HiveFactory
 
     private static IList<Player> CreatePlayers(IEnumerable<string> playerNames)
     {
-        return playerNames.Select((name, id) => new Player(id, name) {Tiles = CreateTiles(id, id == 0)}).ToList();
+        return playerNames.Select((name, id) => new Player(id, name) { Tiles = CreateTiles(id, id == 0) }).ToList();
     }
 
     private static ISet<Tile> CreateTiles(int playerId, bool withMoves = false)
     {
         var startingMoves = CreateCells().ToCoords();
-        return StartingTiles.Select((creature, i) => (creature, id: playerId * StartingTiles.Length + i))
+        return StartingTiles.Select((creature, i) => (creature, id: (playerId * StartingTiles.Length) + i))
             .Select(t => new Tile(t.id, playerId, t.creature))
-            .Select(t => withMoves ? t with {Moves = startingMoves.ToHashSet()} : t)
+            .Select(t => withMoves ? t with { Moves = startingMoves.ToHashSet() } : t)
             .ToHashSet();
     }
 

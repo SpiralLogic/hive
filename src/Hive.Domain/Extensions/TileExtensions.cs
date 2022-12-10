@@ -8,6 +8,7 @@ internal static class TileExtensions
     {
         return tile.Creature == Creatures.Queen;
     }
+
     internal static bool IsCreature(this Tile tile, Creature creature)
     {
         var (_, _, creature1) = tile;

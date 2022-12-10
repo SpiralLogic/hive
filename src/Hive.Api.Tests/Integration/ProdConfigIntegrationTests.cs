@@ -5,8 +5,7 @@ using Xunit;
 
 namespace Hive.Api.Tests.Integration;
 
-public class ProdConfigIntegrationTests
-    : IClassFixture<ProdWebApplicationFactory<Program>>
+public class ProdConfigIntegrationTests : IClassFixture<ProdWebApplicationFactory<Program>>
 {
     private readonly ProdWebApplicationFactory<Program> _factory;
 

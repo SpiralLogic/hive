@@ -5,8 +5,8 @@ namespace Hive.Domain.Entities;
 
 public sealed record Cell(Coords Coords)
 {
-    public Stack<Tile> Tiles { get; init; } = new();
     private readonly int _hashCode = Coords.GetHashCode();
+    public Stack<Tile> Tiles { get; init; } = new();
 
     public bool Equals(Cell? other)
     {

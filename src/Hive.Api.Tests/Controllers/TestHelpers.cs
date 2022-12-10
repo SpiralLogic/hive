@@ -27,7 +27,6 @@ internal static class TestHelpers
 
     internal static MemoryDistributedCache CreateTestMemoryCache()
     {
-        return new MemoryDistributedCache(
-            new OptionsWrapper<MemoryDistributedCacheOptions>(new MemoryDistributedCacheOptions()));
+        return new MemoryDistributedCache(new OptionsWrapper<MemoryDistributedCacheOptions>(new MemoryDistributedCacheOptions()));
     }
 }

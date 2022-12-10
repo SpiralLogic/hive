@@ -75,9 +75,14 @@ public class MoveController : ControllerBase
         var gameState = JsonSerializer.Deserialize<GameState>(gameSessionJson, _jsonSerializerOptions)!;
         var (players, cells, _, gameStatus) = gameState;
 
-        if (new[] { GameStatus.GameOver, GameStatus.AiWin, GameStatus.Player0Win, GameStatus.Player1Win, GameStatus.Draw }.Contains(
-                gameStatus
-            )) return Conflict(gameState);
+        if (new[]
+            {
+                GameStatus.GameOver,
+                GameStatus.AiWin,
+                GameStatus.Player0Win,
+                GameStatus.Player1Win,
+                GameStatus.Draw
+            }.Contains(gameStatus)) return Conflict(gameState);
 
         var previousMoves = PreventRepeatedMoves(playerId, previousMovesJson!, players);
 

@@ -12,6 +12,8 @@ internal class ExpectedAiBuilder : HiveBuilder
     private static readonly HiveCharacter AvailableOrigin = new("AvailableOrigin", '☆', ConsoleColor.Green);
     private static readonly HiveCharacter Unexpected = new("Unexpected", '⨯', ConsoleColor.Red);
 
+    public readonly ISet<(Coords, Tile)> PlayerTrayMoves = new HashSet<(Coords, Tile)>();
+
     internal ExpectedAiBuilder()
     {
         AllSymbols.Add(Expected);
@@ -20,8 +22,6 @@ internal class ExpectedAiBuilder : HiveBuilder
 
     private IEnumerable<Cell> ExpectedCells =>
         AllCells.Where(c => !c.IsEmpty() && c.TopTile().Creature.Name == Expected.Creature.Name).ToHashSet();
-
-    public readonly ISet<(Coords, Tile)> PlayerTrayMoves = new HashSet<(Coords, Tile)>();
 
     public static ExpectedAiBuilder operator +(ExpectedAiBuilder builder, string newRow)
     {
@@ -57,7 +57,6 @@ internal class ExpectedAiBuilder : HiveBuilder
 
         var coloredRows = ToColoredString(ToString()).Split("\n");
         var comparison = actualRows.Select((row, i) => $"{ToColoredString(row)} | {coloredRows[i]}");
-        return
-            $"Creature:{creature.Name} - {id} to coords: {coords.Q}-{coords.R}\n\u001b[37m{string.Join("\n", comparison)}\u001b[0m";
+        return $"Creature:{creature.Name} - {id} to coords: {coords.Q}-{coords.R}\n\u001b[37m{string.Join("\n", comparison)}\u001b[0m";
     }
 }
