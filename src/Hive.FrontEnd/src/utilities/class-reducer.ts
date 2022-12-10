@@ -6,8 +6,14 @@ const classReducer = (
 ): string => {
   const classList = new Set(initialClasses.split(' '));
   if (action.type === `add`) {
+    if (action.classes.reduce((i, c) => i && classList.has(c), true)) {
+      return initialClasses;
+    }
     for (const c of action.classes) classList.add(c);
   } else {
+    if (action.classes.reduce((i, c) => i && !classList.has(c), true)) {
+      return initialClasses;
+    }
     for (const c of action.classes) classList.delete(c);
   }
   classList.delete('');

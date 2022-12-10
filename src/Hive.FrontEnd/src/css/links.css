@@ -1,40 +1,40 @@
 nav {
-    position: absolute;
-    right: 0;
-    top: 0;
-    display: grid;
-    padding: 10px;
-    grid-auto-flow: column;
-    grid-template-columns: max-content;
-    gap: 20px;
+  position: absolute;
+  right: 0;
+  top: 0;
+  display: grid;
+  padding: 10px;
+  grid-auto-flow: column;
+  grid-template-columns: max-content;
+  gap: 20px;
 }
 
 nav a,
 nav a:visited,
 nav a:active {
-    fill: white;
+  fill: white;
 }
 
 nav svg {
-    width: 3rem;
+  width: 3rem;
 }
 
 nav .ai-off {
-    filter: opacity(0.2);
+  filter: opacity(0.2);
 }
 
 @media only screen and (max-width: 720px) {
-    nav {
-        gap: 2rem;
-        grid-auto-flow: column;
-        position: absolute;
-        justify-self: center;
-        bottom: 10px;
-        top: auto;
-        right: auto;
-    }
+  nav {
+    gap: 2rem;
+    grid-auto-flow: column;
+    position: absolute;
+    justify-self: center;
+    bottom: 10px;
+    top: auto;
+    right: auto;
+  }
 
-    nav svg {
-        width: 2rem;
-    }
+  nav svg {
+    width: 2rem;
+  }
 }

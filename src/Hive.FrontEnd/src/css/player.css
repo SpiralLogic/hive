@@ -1,121 +1,121 @@
 .player {
-    display: inline-flex;
-    flex-direction: column;
-    width: calc(var(--tile-size) + 2vh);
-    height: 100%;
-    border-right: 1px solid white;
+  display: inline-flex;
+  flex-direction: column;
+  width: calc(var(--tile-size) + 2vh);
+  height: 100%;
+  border-right: 1px solid white;
 }
 
 .player0 {
-    --background: var(--p0background);
-    --creature: var(--p0creature);
-    --shadow: var(--p0shadow);
+  --background: var(--p0background);
+  --creature: var(--p0creature);
+  --shadow: var(--p0shadow);
 }
 
 .player1 {
-    --background: var(--p1background);
-    --creature: var(--p1creature);
-    --shadow: var(--p1shadow);
+  --background: var(--p1background);
+  --creature: var(--p1creature);
+  --shadow: var(--p1shadow);
 }
 
 .player h2 {
-    font-size: 1.5em;
-    font-weight: bold;
-    line-height: 2em;
-    justify-content: center;
-    padding: 1vh 0 0;
-    text-align: center;
-    color: white;
-    outline: none;
+  font-size: 1.5em;
+  font-weight: bold;
+  line-height: 2em;
+  justify-content: center;
+  padding: 1vh 0 0;
+  text-align: center;
+  color: white;
+  outline: none;
 }
 
 .player.hide h2 {
-    transition-duration: 1s;
-    transition-property: transform;
-    transform: scaleX(0);
+  transition-duration: 1s;
+  transition-property: transform;
+  transform: scaleX(0);
 }
 
 .player.hide {
-    width: 0;
-    transition-duration: 1s;
-    transition-property: width, height, font-size;
-    border: none;
+  width: 0;
+  transition-duration: 1s;
+  transition-property: width, height, font-size;
+  border: none;
 }
 
 .player .tile {
-    margin: .4vh auto;
+  margin: 0.4vh auto;
 }
 
 .player .tile:not(.selected) {
-    --shadow: #1A1A1DCC;
+  --shadow: #1a1a1dcc;
 }
 
 .player .tiles {
-    display: inline-grid;
-    overflow: hidden auto;
-    padding: 2vh .5vw;
-    transition: all 0.1s ease-in;
-    grid-auto-flow: row;
-    grid-template-rows: max-content;
+  display: inline-grid;
+  overflow: hidden auto;
+  padding: 2vh 0.5vw;
+  transition: all 0.1s ease-in;
+  grid-auto-flow: row;
+  grid-template-rows: max-content;
 }
 
 .player .tiles::-webkit-scrollbar {
-    width: 7px;
-    height: 4px;
-    border-bottom: 1px inset #7318B133;
-    background-color: transparent;
+  width: 7px;
+  height: 4px;
+  border-bottom: 1px inset #7318b133;
+  background-color: transparent;
 }
 
 .player .tiles::-webkit-scrollbar-thumb {
-    transition-duration: .5s;
-    transition-property: background-color;
-    border-radius: 2px;
-    background-color: #FFFFFF30;
+  transition-duration: 0.5s;
+  transition-property: background-color;
+  border-radius: 2px;
+  background-color: #ffffff30;
 }
 
 .player .tiles::-webkit-scrollbar-thumb:hover {
-    background-color: #FFF;
+  background-color: #fff;
 }
 
 @media only screen and (max-width: 720px) {
-    .player {
-        flex-direction: row;
-        width: 100vw;
-        height: calc(var(--tile-size) + 3vh);
-        border-right-width: 0;
-    }
+  .player {
+    flex-direction: row;
+    width: 100vw;
+    height: calc(var(--tile-size) + 3vh);
+    border-right-width: 0;
+  }
 
-    .player.hide {
-        width: 100vw;
-        height: 0;
-    }
+  .player.hide {
+    width: 100vw;
+    height: 0;
+  }
 
-    .player h2 {
-        align-self: center;
-        justify-content: center;
-        margin: 0 3vw;
-    }
+  .player h2 {
+    align-self: center;
+    justify-content: center;
+    margin: 0 3vw;
+  }
 
-    .player.hide h2 {
-        transition-duration: 1s;
-        transition-property: transform;
-        transform: scaleY(0);
-    }
+  .player.hide h2 {
+    transition-duration: 1s;
+    transition-property: transform;
+    transform: scaleY(0);
+  }
 
-    .player .tile {
-        margin: auto .4vh;
-    }
+  .player .tile {
+    margin: auto 0.4vh;
+  }
 
-    .player .tiles {
-        display: inline-grid;
-        overflow: auto hidden;
-        padding: 1vh 3vw;
-        border-left: 1px inset #7318B133;
-        grid-auto-flow: column;
-    }
+  .player .tiles {
+    display: inline-grid;
+    overflow: auto hidden;
+    padding: 1vh 3vw;
+    border-left: 1px inset #7318b133;
+    grid-auto-flow: column;
+  }
 
-    .player .tiles::-webkit-scrollbar-thumb {
-        width: 3px;
-        background-color: #FFF;
-    }
+  .player .tiles::-webkit-scrollbar-thumb {
+    width: 3px;
+    background-color: #fff;
+  }
 }

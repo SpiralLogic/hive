@@ -1,90 +1,92 @@
 .tile {
-    width: var(--tile-size);
-    height: var(--tile-size);
+  width: var(--tile-size);
+  height: var(--tile-size);
 }
 
 .tile .creature {
-    pointer-events: none;
-    fill: var(--creature);
+  pointer-events: none;
+  fill: var(--creature);
 }
 
 .tile:not([draggable='true']) {
-    opacity: 0.3;
+  opacity: 0.3;
 }
 
 [role='cell'] .tile {
-    margin: 0;
+  margin: 0;
 }
 
-.game-over .tile,.tile[draggable='true'] {
-    opacity: 1;
+.game-over .tile,
+.tile[draggable='true'] {
+  opacity: 1;
 }
 
 [role='cell'].can-drop .tile:not(.selected) {
-    pointer-events: none;
-    opacity: 1;
+  pointer-events: none;
+  opacity: 1;
 }
 
 .tile.stacked:not([draggable='true'], :hover, :active) ~ .tile {
-    opacity: 0;
+  opacity: 0;
 }
 
 .tile.selected {
-    transform: rotate(-3deg);
-    animation: selected 0.2s infinite;
-    opacity: 1;
+  transform: rotate(-3deg);
+  animation: selected 0.2s infinite;
+  opacity: 1;
 }
 
 [role='cell'] .tile.stacked:hover {
-    animation: stacked 3s;
+  animation: stacked 3s;
 }
 
 .tile.selected::before,
 [draggable='true']:not(.selected):hover::before,
 [draggable='true']:not(.selected):focus::before {
-    position: absolute;
-    top: 0;
-    left: 0;
-    display: block;
-    width: 90%;
-    height: 50%;
-    margin: 25% 5%;
-    content: ' ';
-    transition: box-shadow 0.2s ease-in;
-    outline: none;
-    box-shadow: 0 calc(var(--tile-size) / -4) calc(var(--tile-size) / 3) .5vh var(--shadow), 0 calc(var(--tile-size) / 4) calc(var(--tile-size) / 3) .5vh var(--shadow), 0 0 calc(var(--tile-size) / 3) .5vw var(--shadow);
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: block;
+  width: 90%;
+  height: 50%;
+  margin: 25% 5%;
+  content: ' ';
+  transition: box-shadow 0.2s ease-in;
+  outline: none;
+  box-shadow: 0 calc(var(--tile-size) / -4) calc(var(--tile-size) / 3) 0.5vh var(--shadow),
+    0 calc(var(--tile-size) / 4) calc(var(--tile-size) / 3) 0.5vh var(--shadow),
+    0 0 calc(var(--tile-size) / 3) 0.5vw var(--shadow);
 }
 
 .before-drag::before {
-    display: none !important;
-    box-shadow: none !important;
+  display: none !important;
+  box-shadow: none !important;
 }
 
-
 @keyframes selected {
-    0% {
-        transform: rotate(-1deg);
-    }
+  0% {
+    transform: rotate(-1deg);
+  }
 
-    50% {
-        transform: rotate(1deg);
-    }
+  50% {
+    transform: rotate(1deg);
+  }
 }
 
 @keyframes stacked {
-    20% {
-        opacity: 0.1;
-        transition-timing-function: ease-in;
-    }
+  20% {
+    opacity: 0.1;
+    transition-timing-function: ease-in;
+  }
 
-    100% {
-        opacity: 1;
-        transition-timing-function: ease-out;
-    }
+  100% {
+    opacity: 1;
+    transition-timing-function: ease-out;
+  }
 }
 
 @media only screen and (max-width: 720px) {
-    [role='cell'] .tile.stacked:hover:active {
-        animation: stacked 3s;
-    }
+  [role='cell'] .tile.stacked:hover:active {
+    animation: stacked 3s;
+  }
 }

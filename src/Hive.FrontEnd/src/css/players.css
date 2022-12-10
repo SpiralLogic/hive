@@ -1,12 +1,12 @@
 .players {
-    border-radius: 0.1rem;
-    display: inline-grid;
-    grid-template-columns: max-content max-content;
+  border-radius: 0.1rem;
+  display: inline-grid;
+  grid-template-columns: max-content max-content;
 }
 
 @media only screen and (max-width: 720px) {
-    .players {
-        grid-template-columns: unset;
-        grid-template-rows: max-content max-content;
-    }
+  .players {
+    grid-template-columns: unset;
+    grid-template-rows: max-content max-content;
+  }
 }

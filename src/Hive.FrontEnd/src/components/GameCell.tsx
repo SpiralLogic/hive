@@ -20,7 +20,7 @@ const GameCell: FunctionComponent<Properties> = (properties) => {
   useEffect(() => setClasses({ type: hidden ? 'add' : 'remove', classes: ['hide'] }), [hidden, setClasses]);
 
   useHiveDispatchListener<TileEvent>('tileDeselected', () => {
-    setSelectedTile(null);
+    if (selectedTile !== null) setSelectedTile(null);
     setClasses({ type: 'remove', classes: ['active', 'can-drop', 'no-drop'] });
   });
 
