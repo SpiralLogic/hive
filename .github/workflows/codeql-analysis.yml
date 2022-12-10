@@ -32,7 +32,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        language: [ 'csharp', 'javascript' ]
+        language: [ 'csharp', 'javascript' ,'TypeScript']
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -48,6 +48,10 @@ jobs:
         with:
           dotnet-version: '7.0.x'
           include-prerelease: true
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 18
+          check-latest: true
       - name: Install pnpm
         run: npm install --location=global pnpm
       - name: dotnet restore
