@@ -1,6 +1,9 @@
+using System.IO;
+using System.Net;
 using Hive.Api.Converters;
 using Hive.Api.Hubs;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Net.Http.Headers;
@@ -8,8 +11,7 @@ using Microsoft.Net.Http.Headers;
 var appBuilder = WebApplication.CreateBuilder(args);
 var services = appBuilder.Services;
 
-var signalR = services.AddSignalR()
-    .AddJsonProtocol(options => { options.PayloadSerializerOptions.Converters.AddAllJsonConverters(); });
+var signalR = services.AddSignalR().AddJsonProtocol(options => { options.PayloadSerializerOptions.Converters.AddAllJsonConverters(); });
 
 if (appBuilder.Environment.IsDevelopment())
 {
@@ -37,19 +39,22 @@ if (app.Environment.IsDevelopment())
     app.UseHttpsRedirection();
 }
 
-app.UseFileServer(new FileServerOptions
-{
-    StaticFileOptions =
+app.UseFileServer(
+    new FileServerOptions
     {
-        OnPrepareResponse = ctx =>
+        StaticFileOptions =
         {
-            ctx.Context.Response.Headers.ContentType += "; charset=utf-8";
-            if (ctx.File.Name == "index.html") return;
-            var oneWeekSeconds = (60 * 60 * 24 * 7).ToString();
-            ctx.Context.Response.Headers[HeaderNames.CacheControl] = $"public, max-age={oneWeekSeconds}";
+            OnPrepareResponse = ctx =>
+            {
+                if (ctx.File.Name.EndsWith(".js") || ctx.File.Name.EndsWith(".css")|| ctx.File.Name.EndsWith(".webmanifest"))
+                    ctx.Context.Response.Headers.ContentType += "; charset=utf-8";
+                if (ctx.File.Name == "index.html") return;
+                var oneWeekSeconds = (60 * 60 * 24 * 7).ToString();
+                ctx.Context.Response.Headers[HeaderNames.CacheControl] = $"public, max-age={oneWeekSeconds}";
+            }
         }
     }
-});
+);
 
 app.UseRouting();
 app.MapControllers();
