@@ -15,7 +15,7 @@ import {
   createMoveListener,
   movingTile,
 } from '../fixtures/game-cell.fixtures';
-import { HiveDispatcher } from '../../src/services';
+import { HiveDispatcher, TileAction } from '../../src/services';
 import { Dispatcher } from '../../src/utilities/dispatcher';
 
 const setUp = (...tileCreationFns: Array<() => ComponentProps<typeof GameCell>>) => {
@@ -146,6 +146,12 @@ describe('<GameCell>', () => {
       type: 'tileDropped',
       tile: movingTile,
     });
+
+    dispatcher.dispatch({
+      type: 'tileDeselected',
+      tile: movingTile,
+    });
+
     dispatcher.dispatch({
       type: 'tileDeselected',
       tile: movingTile,
