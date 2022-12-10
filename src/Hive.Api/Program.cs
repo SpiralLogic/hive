@@ -3,7 +3,6 @@ using System.Net;
 using Hive.Api.Converters;
 using Hive.Api.Hubs;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Net.Http.Headers;
@@ -46,7 +45,7 @@ app.UseFileServer(
         {
             OnPrepareResponse = ctx =>
             {
-                if (ctx.File.Name.EndsWith(".js") || ctx.File.Name.EndsWith(".css")|| ctx.File.Name.EndsWith(".webmanifest"))
+                if (ctx.File.Name.EndsWith(".js") || ctx.File.Name.EndsWith(".css") || ctx.File.Name.EndsWith(".webmanifest"))
                     ctx.Context.Response.Headers.ContentType += "; charset=utf-8";
                 if (ctx.File.Name == "index.html") return;
                 var oneWeekSeconds = (60 * 60 * 24 * 7).ToString();

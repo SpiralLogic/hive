@@ -32,8 +32,10 @@ public class ApiIntegrationTests
 
     [Theory]
     [InlineData("/", "text/html")]
+    [InlineData("/index.html", "text/html")]
     [InlineData("/favicon.ico", "image/x-icon")]
     [InlineData("/game/ID/0", "text/html")]
+    [InlineData("/site.webmanifest", "application/manifest+json; charset=utf-8")]
     public async Task Get_EndpointsReturnSuccessAndCorrectContentType(string url, string mimeType)
     {
         var client = _factory.CreateClient();
@@ -41,7 +43,7 @@ public class ApiIntegrationTests
         var response = await client.GetAsync(url);
 
         response.EnsureSuccessStatusCode(); // Status Code 200-299
-        response.Content.Headers.ContentType?.ToString().Should().Be($"{mimeType}; charset=utf-8");
+        response.Content.Headers.ContentType?.ToString().Should().Be($"{mimeType}");
     }
 
     [Fact]

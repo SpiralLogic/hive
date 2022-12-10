@@ -31,6 +31,12 @@
         <ProjectReference Include="..\Hive.FrontEnd\Hive.FrontEnd.esproj" Condition="'$(Configuration)' == 'Debug'" />
     </ItemGroup>
 
+    <Target Name="CopyFiles" BeforeTargets="Build" Condition="'$(Configuration)' == 'Test'">
+        <Copy SkipUnchangedFiles="true" SourceFiles="$(SpaRoot)src\static\site.webmanifest" DestinationFiles="$(SpaRoot)public\site.webmanifest" />
+        <Copy SkipUnchangedFiles="true" SourceFiles="$(SpaRoot)src\static\favicon.ico" DestinationFiles="$(SpaRoot)public\favicon.ico" />
+        <Copy SkipUnchangedFiles="true" SourceFiles="$(SpaRoot)src\index.html" DestinationFiles="$(SpaRoot)public\index.html" />
+    </Target>
+
     <ItemGroup>
         <PackageReference Include="Microsoft.AspNetCore.SignalR.StackExchangeRedis" Version="7.0.0" />
         <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="7.0.0" />
