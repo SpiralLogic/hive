@@ -24,7 +24,6 @@
   justify-content: center;
   margin: 0;
   min-height: fit-content;
-  min-height: -moz-fit-content;
   outline: none;
   position: relative;
 }
