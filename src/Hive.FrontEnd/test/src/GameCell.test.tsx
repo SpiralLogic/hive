@@ -15,7 +15,7 @@ import {
   createMoveListener,
   movingTile,
 } from '../fixtures/game-cell.fixtures';
-import { HiveDispatcher, TileAction } from '../../src/services';
+import { HiveDispatcher } from '../../src/services';
 import { Dispatcher } from '../../src/utilities/dispatcher';
 
 const setUp = (...tileCreationFns: Array<() => ComponentProps<typeof GameCell>>) => {

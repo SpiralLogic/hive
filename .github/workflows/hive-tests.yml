@@ -6,7 +6,7 @@ on:
       - '.github/**'
 jobs:
   BackEnd:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     name: 'Back End - Tests'
     defaults:
       run:
@@ -43,7 +43,7 @@ jobs:
         # Use always() to always run this step to publish test results when there are test failures
         if: ${{ always() }}
   FrontEnd:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     name: 'Front End - Lint - Test'
     defaults:
       run:
@@ -52,7 +52,7 @@ jobs:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v2
         with:
-          node-version: '17.x'
+          node-version: 18
           check-latest: true
       - name: Setup - pnpm
         run: npm install --location=global pnpm
