@@ -1,4 +1,4 @@
-FROM library/node:17
+FROM registry-proxy.lab.sorijen.net.au/node:18
 
 WORKDIR /source
 COPY . .
