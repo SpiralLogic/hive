@@ -34,6 +34,8 @@ public class ApiIntegrationTests
     [InlineData("/", "text/html")]
     [InlineData("/index.html", "text/html")]
     [InlineData("/favicon.ico", "image/x-icon")]
+    [InlineData("/dummy.js", "text/javascript; charset=utf-8")]
+    [InlineData("/dummy.css", "text/css; charset=utf-8")]
     [InlineData("/game/ID/0", "text/html")]
     [InlineData("/site.webmanifest", "application/manifest+json; charset=utf-8")]
     public async Task Get_EndpointsReturnSuccessAndCorrectContentType(string url, string mimeType)

@@ -7,6 +7,7 @@
         <LangVersion>latestmajor</LangVersion>
         <Nullable>enable</Nullable>
         <SuppressNETCoreSdkPreviewMessage>true</SuppressNETCoreSdkPreviewMessage>
+        <SpaRoot>..\Hive.FrontEnd\</SpaRoot>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(Configuration)' == 'Release' ">
@@ -27,7 +28,15 @@
             <PrivateAssets>all</PrivateAssets>
         </PackageReference>
     </ItemGroup>
-    
+
+    <Target Name="CopyFiles" BeforeTargets="Build">
+        <Copy SkipUnchangedFiles="true" SourceFiles="$(SpaRoot)src\static\site.webmanifest" DestinationFiles="$(SpaRoot)public\site.webmanifest" />
+        <Copy SkipUnchangedFiles="true" SourceFiles="$(SpaRoot)src\static\favicon.ico" DestinationFiles="$(SpaRoot)public\favicon.ico" />
+        <Copy SkipUnchangedFiles="true" SourceFiles="$(SpaRoot)src\index.html" DestinationFiles="$(SpaRoot)public\index.html" />
+        <Copy SkipUnchangedFiles="false" SourceFiles="$(SpaRoot)src\index.html" DestinationFiles="$(SpaRoot)public\dummy.js" />
+        <Copy SkipUnchangedFiles="false" SourceFiles="$(SpaRoot)src\index.html" DestinationFiles="$(SpaRoot)public\dummy.css" />
+    </Target>
+
     <ItemGroup>
         <ProjectReference Include="..\Hive.Api\Hive.Api.csproj" />
     </ItemGroup>
