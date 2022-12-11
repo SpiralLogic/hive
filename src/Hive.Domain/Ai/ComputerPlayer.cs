@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
@@ -19,9 +20,18 @@ internal class ComputerPlayer
     private readonly Random _rnd = new();
     private readonly Stopwatch _stopWatch = new();
     private Tile? _lastBroadcast;
+    private readonly ImmutableArray<Move> _lastThreeMoves;
 
     public ComputerPlayer(Hive hive, Func<string, Tile, ValueTask>? broadcastThought = null)
     {
+        var currentPlayerId = hive.Players.SelectMany(p => p.Tiles)
+            .Where(t => t.Moves.Any())
+            .Concat(hive.Cells.Where(c => !c.IsEmpty()).Select(c => c.TopTile()))
+            .First()
+            .PlayerId;
+
+        _lastThreeMoves = hive.History.Where(m => m.Tile.PlayerId == currentPlayerId).TakeLast(3).ToImmutableArray();
+
         _broadcastThought = broadcastThought;
         _hive = hive;
         _heuristics = new List<IHeuristic>
@@ -181,6 +191,7 @@ internal class ComputerPlayer
 
     private IEnumerable<Move> GetMoves()
     {
+
         var cells = _hive.Cells.ToHashSet();
         var unplacedTiles = _hive.Players.SelectMany(p => p.Tiles.GroupBy(t => t.Creature).Select(g => g.First()))
             .SelectMany(t => t.Moves.Select(m => new Move(t, m)).OrderBy(_ => _rnd.Next()));
@@ -188,6 +199,8 @@ internal class ComputerPlayer
             .OrderBy(c => c.QueenNeighbours(_hive.Cells).Any())
             .Select(c => c.TopTile())
             .SelectMany(t => t.Moves.Select(m => new Move(t, m)));
-        return placedTiles.Concat(unplacedTiles).ToList();
+        var moves = placedTiles.Concat(unplacedTiles).ToHashSet();
+
+        return moves.Count > 3 ? moves.Except(_lastThreeMoves).ToList() : moves.ToList();
     }
 }

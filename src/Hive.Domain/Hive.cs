@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Threading.Tasks;
 using Hive.Domain.Ai;
 using Hive.Domain.Entities;
@@ -10,15 +11,17 @@ public class Hive
 {
     private readonly Mover _mover;
 
-    public Hive(IList<Player> players, ISet<Cell> cells)
+    public Hive(IList<Player> players, ISet<Cell> cells, IList<Move>? history = null)
     {
-        _mover = new Mover(this);
+        _mover = new Mover(this, history ?? new List<Move>());
         Cells = cells ?? throw new ArgumentNullException(nameof(cells));
         Players = players ?? throw new ArgumentNullException(nameof(players));
     }
 
     public ISet<Cell> Cells { get; }
     public IList<Player> Players { get; }
+
+    public IImmutableList<Move> History => _mover.History.ToImmutableList();
 
     public GameStatus Move(Move move)
     {

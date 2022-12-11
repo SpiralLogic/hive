@@ -38,13 +38,13 @@ public class ComputerPlayerTests
         expected += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
 
         var hive = HiveFactory.CreateInProgress(
+            0,
             new[]
             {
                 new Player(0, "P1"),
                 new Player(1, "P1")
             },
-            initial.AllCells,
-            0
+            initial.AllCells
         );
 
         var player = new ComputerPlayer(hive);
@@ -73,13 +73,13 @@ public class ComputerPlayerTests
         expected += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
 
         var hive = HiveFactory.CreateInProgress(
+            0,
             new[]
             {
                 new Player(0, "P1"),
                 new Player(1, "P1")
             },
-            initial.AllCells,
-            0
+            initial.AllCells
         );
 
         var player = new ComputerPlayer(hive);
@@ -107,13 +107,13 @@ public class ComputerPlayerTests
         expected += " ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡";
 
         var hive = HiveFactory.CreateInProgress(
+            0,
             new[]
             {
                 new Player(0, "P1"),
                 new Player(1, "P1")
             },
-            initial.AllCells,
-            0
+            initial.AllCells
         );
 
         var player = new ComputerPlayer(hive);
@@ -146,13 +146,13 @@ public class ComputerPlayerTests
         expected += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
 
         var hive = HiveFactory.CreateInProgress(
+            0,
             new[]
             {
                 new Player(0, "P1"),
                 new Player(1, "P1")
             },
-            initial.AllCells,
-            0
+            initial.AllCells
         );
 
         var player = new ComputerPlayer(hive);
@@ -185,13 +185,13 @@ public class ComputerPlayerTests
         expected += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
 
         var hive = HiveFactory.CreateInProgress(
+            0,
             new[]
             {
                 new Player(0, "P1"),
                 new Player(1, "P1")
             },
-            initial.AllCells,
-            0
+            initial.AllCells
         );
 
         var player = new ComputerPlayer(hive);
@@ -229,13 +229,13 @@ public class ComputerPlayerTests
         expected += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
 
         var hive = HiveFactory.CreateInProgress(
+            0,
             new[]
             {
                 new Player(0, "P1"),
                 new Player(1, "P1")
             },
-            initial.AllCells,
-            0
+            initial.AllCells
         );
 
         var player = new ComputerPlayer(hive);
@@ -270,13 +270,13 @@ public class ComputerPlayerTests
         var player1 = new Player(0, "P1") { Tiles = new HashSet<Tile> { new(50, 0, Creatures.Grasshopper) } };
         var player2 = new Player(1, "P2") { Tiles = new HashSet<Tile> { new(51, 1, Creatures.Grasshopper) } };
         var hive = HiveFactory.CreateInProgress(
+            0,
             new[]
             {
                 player1,
                 player2
             },
-            initial.AllCells,
-            0
+            initial.AllCells
         );
         var player = new ComputerPlayer(hive);
         (await player.GetMove()).Should().MatchHive(initial, expected);
@@ -294,13 +294,13 @@ public class ComputerPlayerTests
         initial += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
 
         var hive = HiveFactory.CreateInProgress(
+            0,
             new[]
             {
                 new Player(0, "P1"),
                 new Player(1, "P1")
             },
-            initial.AllCells,
-            0
+            initial.AllCells
         );
         var player = new ComputerPlayer(hive);
         await Assert.ThrowsAsync<ApplicationException>(async () => await player.GetMove());
@@ -329,13 +329,13 @@ public class ComputerPlayerTests
 
         var player1 = new Player(0, "P1") { Tiles = new HashSet<Tile> { tile } };
         var hive = HiveFactory.CreateInProgress(
+            0,
             new[]
             {
                 player1,
                 new Player(1, "P1")
             },
-            initial.AllCells,
-            0
+            initial.AllCells
         );
 
         foreach (var tileMove in hive.Players.First().Tiles)
@@ -389,7 +389,7 @@ public class ComputerPlayerTests
     }
 
     [Fact]
-    public async Task AntsAreScoreHighlyOncePlaced()
+    public async Task AntsAreScoredHighlyOncePlaced()
     {
         var initial = new InitialHiveBuilder();
 
@@ -414,13 +414,13 @@ public class ComputerPlayerTests
         expected += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
 
         var hive = HiveFactory.CreateInProgress(
+            0,
             new[]
             {
                 new Player(0, "P1"),
                 new Player(1, "P1")
             },
-            initial.AllCells,
-            0
+            initial.AllCells
         );
         var player = new ComputerPlayer(hive);
         (await player.GetMove()).Should().MatchHive(initial, expected);
@@ -457,13 +457,13 @@ public class ComputerPlayerTests
         expected += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
 
         var hive = HiveFactory.CreateInProgress(
+            1,
             new[]
             {
                 new Player(0, "P1"),
                 new Player(1, "P1")
             },
-            initial.AllCells,
-            1
+            initial.AllCells
         );
 
         var player = new ComputerPlayer(hive);
@@ -495,13 +495,13 @@ public class ComputerPlayerTests
         expected += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
 
         var hive = HiveFactory.CreateInProgress(
+            0,
             new[]
             {
                 new Player(0, "P1"),
                 new Player(1, "P1")
             },
-            initial.AllCells,
-            0
+            initial.AllCells
         );
         var player = new ComputerPlayer(hive);
         (await player.GetMove()).Should().MatchHive(initial, expected);
@@ -529,13 +529,101 @@ public class ComputerPlayerTests
         expected += " ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡";
 
         var hive = HiveFactory.CreateInProgress(
+            0,
+            new[]
+            {
+                new Player(0, "P1"),
+                new Player(1, "P1")
+            },
+            initial.AllCells
+        );
+
+        var player = new ComputerPlayer(hive);
+        (await player.GetMove()).Should().MatchHive(initial, expected);
+    }
+
+    [Fact]
+    public async Task DoesntRepeatSameMove()
+    {
+        var initial = new InitialHiveBuilder();
+
+        initial += " ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡";
+        initial += "⬡ ⬡ ⬡ ⬡ ⬡ b b ⬡ ⬡ ⬡ ";
+        initial += " ⬡ ⬡ ⬡ ⬡ b q b ⬡ ⬡ ⬡";
+        initial += "⬡ ⬡ b Q s s ⬡ ⬡ ⬡ ⬡ ";
+        initial += " ⬡ ⬡ ⬡ ⬡ B ⬡ ⬡ ⬡ ⬡ ⬡";
+        initial += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
+
+        var expected = new ExpectedAiBuilder();
+
+        expected += " ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡";
+        expected += "⬡ ⬡ ⬡ ⬡ ⬡ b b ⬡ ⬡ ⬡ ";
+        expected += " ⬡ ⬡ ⬡ ⬡ b q b ⬡ ⬡ ⬡";
+        expected += "⬡ ⬡ b Q s s ⬡ ⬡ ⬡ ⬡ ";
+        expected += " ⬡ ⬡ ⬡ ⬡ ★ ✔ ⬡ ⬡ ⬡ ⬡";
+        expected += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
+
+        var history = new List<Move>
+        {
+            new(new Tile(9, 1, Creatures.Beetle), new Coords(4, 3)),
+            new(new Tile(9, 1, Creatures.Beetle), new Coords(5, 3)),
+            new(new Tile(9, 1, Creatures.Beetle), new Coords(4, 4)),
+        };
+
+        var hive = HiveFactory.CreateInProgress(
+            0,
             new[]
             {
                 new Player(0, "P1"),
                 new Player(1, "P1")
             },
             initial.AllCells,
-            0
+            history
+        );
+
+        var player = new ComputerPlayer(hive);
+        (await player.GetMove()).Should().MatchHive(initial, expected);
+    }
+
+    [Fact]
+    public async Task DoesntRepeatLastThreeMovesOnly()
+    {
+        var initial = new InitialHiveBuilder();
+
+        initial += " ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡";
+        initial += "⬡ ⬡ ⬡ ⬡ ⬡ b b ⬡ ⬡ ⬡ ";
+        initial += " ⬡ ⬡ ⬡ ⬡ b q b ⬡ ⬡ ⬡";
+        initial += "⬡ ⬡ b Q s s ⬡ ⬡ ⬡ ⬡ ";
+        initial += " ⬡ ⬡ ⬡ ⬡ B ⬡ ⬡ ⬡ ⬡ ⬡";
+        initial += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
+
+        var expected = new ExpectedAiBuilder();
+
+        expected += " ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡";
+        expected += "⬡ ⬡ ⬡ ⬡ ⬡ b b ⬡ ⬡ ⬡ ";
+        expected += " ⬡ ⬡ ⬡ ⬡ b q b ⬡ ⬡ ⬡";
+        expected += "⬡ ⬡ b Q ✔ s ⬡ ⬡ ⬡ ⬡ ";
+        expected += " ⬡ ⬡ ⬡ ⬡ ★ ⬡ ⬡ ⬡ ⬡ ⬡";
+        expected += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
+
+        var history = new List<Move>
+        {
+            new(new Tile(9, 1, Creatures.Beetle), new Coords(4, 3)),
+            new(new Tile(9, 1, Creatures.Beetle), new Coords(5, 3)),
+            new(new Tile(9, 1, Creatures.Beetle), new Coords(4, 4)),
+            new(new Tile(9, 1, Creatures.Beetle), new Coords(6, 4)),
+
+        };
+
+        var hive = HiveFactory.CreateInProgress(
+            0,
+            new[]
+            {
+                new Player(0, "P1"),
+                new Player(1, "P1")
+            },
+            initial.AllCells,
+            history
         );
 
         var player = new ComputerPlayer(hive);

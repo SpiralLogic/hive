@@ -297,7 +297,7 @@ public class HiveTests
 
         var queen = players.First(p => p.Id == 1).Tiles.First(t => t.Creature == Creatures.Queen);
 
-        var hive2 = HiveFactory.CreateInProgress(players, cells, 1);
+        var hive2 = HiveFactory.CreateInProgress(1, players, cells);
         hive2.Move(new Move(queen, new Coords(0, 0))).Should().Be(GameStatus.Player0Win);
     }
 
@@ -326,7 +326,7 @@ public class HiveTests
 
         var queen = players.First(p => p.Id == 0).Tiles.First(t => t.Creature == Creatures.Queen);
 
-        var hive2 = HiveFactory.CreateInProgress(players, cells, 0);
+        var hive2 = HiveFactory.CreateInProgress(0, players, cells);
         hive2.Move(new Move(queen, new Coords(0, 0))).Should().Be(GameStatus.Player1Win);
     }
 
@@ -349,7 +349,7 @@ public class HiveTests
         initial += " ⬡ ⬡ a a ⬡ a A ⬡";
         initial += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
 
-        var hive2 = HiveFactory.CreateInProgress(hive.Players, initial.AllCells, 0);
+        var hive2 = HiveFactory.CreateInProgress(0, hive.Players, initial.AllCells);
         var ant = hive2.Cells.First(c => !c.IsEmpty() && c.TopTile().Moves.Count > 0).TopTile();
         var result = hive2.Move(new Move(ant, new Coords(4, 3)));
         result.Should().Be(GameStatus.Draw);
@@ -380,7 +380,7 @@ public class HiveTests
 
         var queen = players.First(p => p.Id == 1).Tiles.First(t => t.Creature == Creatures.Queen);
 
-        var hive2 = HiveFactory.CreateInProgress(players, cells, 1);
+        var hive2 = HiveFactory.CreateInProgress(1, players, cells);
         hive2.Move(new Move(queen, new Coords(0, 0))).Should().Be(GameStatus.Player0Win);
         hive2.Move(new Move(queen, new Coords(0, 0))).Should().Be(GameStatus.Player0Win);
         hive2.Move(new Move(queen, new Coords(0, 0))).Should().Be(GameStatus.Player0Win);
@@ -408,7 +408,7 @@ public class HiveTests
             new(new Coords(0, 0))
         };
 
-        var hiveUnderTest = HiveFactory.CreateInProgress(hive.Players, cells, 1);
+        var hiveUnderTest = HiveFactory.CreateInProgress(1, hive.Players, cells);
         var players = hiveUnderTest.Players;
 
         var queen = players.First(p => p.Id == 1).Tiles.First(t => t.Creature == Creatures.Queen);
