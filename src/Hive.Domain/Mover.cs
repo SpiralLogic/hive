@@ -8,9 +8,9 @@ namespace Hive.Domain;
 internal class Mover
 {
     private readonly Hive _hive;
-    public readonly IList<Move> History;
+    internal readonly List<Move> History;
 
-    internal Mover(Hive hive, IList<Move> history)
+    internal Mover(Hive hive, List<Move> history)
     {
         _hive = hive;
         History = history;
@@ -72,7 +72,6 @@ internal class Mover
         RemoveTile(move.Tile);
         var (tile, coords) = move;
         _hive.Cells.First(c => c.Coords == coords).AddTile(tile);
-        History.Add(move);
     }
 
     private Player GetNextPlayer(Tile movedTile)

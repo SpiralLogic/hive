@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Hive.Api.DTOs;
@@ -39,9 +37,9 @@ public class MoveController : ControllerBase
         var gameSession = await _distributedCache.GetStringAsync(id);
         if (string.IsNullOrEmpty(gameSession)) return NotFound();
 
-        var (players, cells, _, _) = JsonSerializer.Deserialize<GameState>(gameSession, _jsonSerializerOptions)!;
+        var (_, _, players, cells, history) = JsonSerializer.Deserialize<GameState>(gameSession, _jsonSerializerOptions)!;
 
-        var game = new Domain.Hive(players.ToList(), cells.ToHashSet());
+        var game = new Domain.Hive(players.ToList(), cells.ToHashSet(), history);
         var (tileId, coords) = move;
         var tile = players.SelectMany(p => p.Tiles).Concat(cells.SelectMany(c => c.Tiles)).FirstOrDefault(t => t.Id == tileId);
         if (tile == null) return Forbid();
@@ -50,7 +48,7 @@ public class MoveController : ControllerBase
 
         if (gameStatus == GameStatus.MoveInvalid) return BadRequest("Invalid Move");
 
-        var newGameState = new GameState(game.Players, game.Cells, id, gameStatus);
+        var newGameState = new GameState(id, gameStatus, game.Players, game.Cells, history);
         await _hubContext.Clients.Group(id).SendAsync("ReceiveGameState", newGameState);
 
         var json = JsonSerializer.Serialize(newGameState, _jsonSerializerOptions);
@@ -66,15 +64,13 @@ public class MoveController : ControllerBase
     public async ValueTask<IActionResult> AiMove(string id, int playerId)
     {
         if (string.IsNullOrEmpty(id)) return BadRequest();
-        var previousMovesCacheKey = $"{id}-moves";
 
         var gameSessionJson = await _distributedCache.GetStringAsync(id);
-        var previousMovesJson = await _distributedCache.GetStringAsync(previousMovesCacheKey);
 
         if (string.IsNullOrEmpty(gameSessionJson)) return NotFound();
 
         var gameState = JsonSerializer.Deserialize<GameState>(gameSessionJson, _jsonSerializerOptions)!;
-        var (players, cells, _, gameStatus) = gameState;
+        var (_, gameStatus, players, cells, history) = gameState;
 
         if (new[]
             {
@@ -85,27 +81,16 @@ public class MoveController : ControllerBase
                 GameStatus.Draw
             }.Contains(gameStatus)) return Conflict(gameState);
 
-        var previousMoves = !string.IsNullOrEmpty( previousMovesJson)? JsonSerializer.Deserialize<List<Domain.Entities.Move>>(previousMovesJson, _jsonSerializerOptions):null ;
-
-        var game = new Domain.Hive(players.ToList(), cells.ToHashSet(), previousMoves);
+        var game = new Domain.Hive(players.ToList(), cells.ToHashSet(), history);
 
         var (status, _) = await game.AiMove(async (type, tile) => await BroadCast(id, type, tile));
 
-        await StorePreviousMoves(previousMovesCacheKey, game.History);
-
-        var newGameState = new GameState(game.Players, game.Cells, id, status);
+        var newGameState = new GameState(id, status, game.Players, game.Cells, game.History.ToList());
         await _hubContext.Clients.Group(id).SendAsync("ReceiveGameState", newGameState);
         var gameJson = JsonSerializer.Serialize(newGameState, _jsonSerializerOptions);
         await _distributedCache.SetStringAsync(id, gameJson);
 
         return Accepted($"/game/{id}", newGameState);
-    }
-
-    private Task StorePreviousMoves(string previousMovesCacheKey, IEnumerable<Domain.Entities.Move> previousMoves)
-    {
-        var previousMovesJson = JsonSerializer.Serialize(previousMoves, _jsonSerializerOptions);
-
-        return _distributedCache.SetStringAsync(previousMovesCacheKey, previousMovesJson);
     }
 
     private Task BroadCast(string id, string type, Tile tile)

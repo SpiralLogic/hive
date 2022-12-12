@@ -36,7 +36,7 @@ public class MoveControllerTests
         game.Move(new Move(game.Players[0].Tiles.First(), new Coords(1, 0)));
         game.Move(new Move(game.Players[1].Tiles.First(), new Coords(2, 0)));
 
-        var gameState = new GameState(game.Players, game.Cells, TestHelpers.ExistingGameId, GameStatus.NewGame);
+        var gameState = new GameState(TestHelpers.ExistingGameId, GameStatus.NewGame, game.Players, game.Cells, new List<Move>());
 
         var jsonOptions = TestHelpers.CreateJsonOptions();
         _memoryCache = TestHelpers.CreateTestMemoryCache();
@@ -183,7 +183,7 @@ public class MoveControllerTests
                 "player2"
             }
         );
-        var gameState = new GameState(game.Players, game.Cells, TestHelpers.ExistingGameId, GameStatus.GameOver);
+        var gameState = new GameState(TestHelpers.ExistingGameId, GameStatus.GameOver, game.Players, game.Cells, new List<Move>());
         await _memoryCache.SetAsync(TestHelpers.ExistingGameId, TestHelpers.GetSerializedBytes(gameState, TestHelpers.CreateJsonOptions()));
 
         var actionResult = await _controller.AiMove(TestHelpers.ExistingGameId, 1);

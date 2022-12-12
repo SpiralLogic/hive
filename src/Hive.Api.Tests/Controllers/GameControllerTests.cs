@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Hive.Api.Controllers;
@@ -8,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Options;
 using Xunit;
+using Move = Hive.Domain.Entities.Move;
 
 namespace Hive.Api.Tests.Controllers;
 
@@ -26,7 +28,7 @@ public class GameControllerTests
                 "player2"
             }
         );
-        var gameState = new GameState(game.Players, game.Cells, ExistingGameId, GameStatus.MoveSuccess);
+        var gameState = new GameState(ExistingGameId, GameStatus.MoveSuccess, game.Players, game.Cells, new List<Move>());
 
         var jsonOptions = TestHelpers.CreateJsonOptions();
         var memoryCache = TestHelpers.CreateTestMemoryCache();
@@ -59,5 +61,43 @@ public class GameControllerTests
     {
         var res = await _controller.GetGame(MissingGameId);
         res.Result.Should().BeOfType<NotFoundResult>();
+    }
+
+    [Fact]
+    public async Task GetGame_GameWithoutHistoryInCache_ReturnsGame()
+    {
+        var game = HiveFactory.Create(
+            new[]
+            {
+                "player1",
+                "player2"
+            }
+        );
+        var gameState = new GameState(ExistingGameId, GameStatus.MoveSuccess, game.Players, game.Cells);
+
+        var jsonOptions = TestHelpers.CreateJsonOptions();
+        var memoryCache = TestHelpers.CreateTestMemoryCache();
+        await memoryCache.SetAsync(TestHelpers.ExistingGameId, TestHelpers.GetSerializedBytes(gameState, jsonOptions));
+
+        var controller = new GameController(Options.Create(jsonOptions), memoryCache);
+
+        var actionResult = (await _controller.GetGame(ExistingGameId)).Result.Should().BeOfType<OkObjectResult>().Subject;
+        actionResult.Value.Should().BeAssignableTo<GameState>();
+    }
+
+    [Fact]
+    public void GameStatusDto_SucceedsWithMissingHistory()
+    {
+        var game = HiveFactory.Create(
+            new[]
+            {
+                "player1",
+                "player2"
+            }
+        );
+        var gameState = new GameState(ExistingGameId, GameStatus.MoveSuccess, game.Players, game.Cells);
+
+        gameState.History.Should().BeOfType<List<Move>>();
+        gameState.History.Should().NotBeNull();
     }
 }

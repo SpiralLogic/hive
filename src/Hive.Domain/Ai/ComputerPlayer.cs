@@ -16,11 +16,11 @@ internal class ComputerPlayer
     private readonly ScoredMove[] _depth = new ScoredMove[HeuristicValues.MaxDepth];
     private readonly ICollection<IHeuristic> _heuristics;
     private readonly Hive _hive;
+    private readonly ImmutableArray<Move> _lastThreeMoves;
     private readonly Stack<InProgressMove> _previousMoves = new();
     private readonly Random _rnd = new();
     private readonly Stopwatch _stopWatch = new();
     private Tile? _lastBroadcast;
-    private readonly ImmutableArray<Move> _lastThreeMoves;
 
     public ComputerPlayer(Hive hive, Func<string, Tile, ValueTask>? broadcastThought = null)
     {
@@ -50,8 +50,10 @@ internal class ComputerPlayer
     public async ValueTask<Move> GetMove()
     {
         _stopWatch.Start();
+        var historyCopy = new List<Move>(_hive.History);
         var r = await Run(null, HeuristicValues.MaxDepth);
-
+        _hive.History.Clear();
+        _hive.History.AddRange(historyCopy);
         return r.Move ?? throw new ApplicationException("Could not determine next move");
     }
 
