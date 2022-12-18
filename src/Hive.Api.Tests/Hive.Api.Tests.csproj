@@ -8,6 +8,8 @@
     <Nullable>enable</Nullable>
     <SuppressNETCoreSdkPreviewMessage>true</SuppressNETCoreSdkPreviewMessage>
     <SpaRoot>..\Hive.FrontEnd\</SpaRoot>
+    <Version>1.1.1.1</Version>
+    <AssemblyVersion>1.1.1.1</AssemblyVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)' == 'Release' ">
