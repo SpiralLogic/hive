@@ -15,6 +15,7 @@
     <NoWarn>CA1016</NoWarn>
     <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
     <SuppressNETCoreSdkPreviewMessage>true</SuppressNETCoreSdkPreviewMessage>
+    <AnalysisLevel>latest</AnalysisLevel>
     <AnalysisMode>Recommended</AnalysisMode>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'Release'">
