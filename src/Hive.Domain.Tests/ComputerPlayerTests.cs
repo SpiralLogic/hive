@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using FluentAssertions;
@@ -295,7 +296,7 @@ public class ComputerPlayerTests
             initial.AllCells
         );
         var player = new ComputerPlayer(hive);
-        await Assert.ThrowsAsync<ApplicationException>(async () => await player.GetMove());
+        await Assert.ThrowsAsync<InvalidDataException>(async () => await player.GetMove());
     }
 
     [Fact]
