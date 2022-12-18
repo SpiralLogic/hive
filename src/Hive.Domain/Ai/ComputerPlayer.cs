@@ -17,7 +17,6 @@ internal class ComputerPlayer
     private readonly ICollection<IHeuristic> _heuristics;
     private readonly Hive _hive;
     private readonly ImmutableArray<Move> _lastThreeMoves;
-    private readonly Stack<InProgressMove> _previousMoves = new();
     private readonly Random _rnd = new();
     private readonly Stopwatch _stopWatch = new();
     private Tile? _lastBroadcast;
@@ -30,7 +29,7 @@ internal class ComputerPlayer
             .First()
             .PlayerId;
 
-        _lastThreeMoves = hive.History.Where(m => m.Tile.PlayerId == currentPlayerId).TakeLast(3).ToImmutableArray();
+        _lastThreeMoves = hive.History.Where(m => m.Move.Tile.PlayerId == currentPlayerId).TakeLast(3).Select(hm=>hm.Move).ToImmutableArray();
 
         _broadcastThought = broadcastThought;
         _hive = hive;
@@ -39,7 +38,7 @@ internal class ComputerPlayer
             new GameOver(),
             new NoQueenOrAntFirst(_hive),
             new AntPlacement(),
-            new BeetlePlacement(_previousMoves),
+            new BeetlePlacement(_hive.History),
             new BeetleMoveOff(),
             new BeetleMoveOn(),
             new MoveSpread(),
@@ -50,7 +49,7 @@ internal class ComputerPlayer
     public async ValueTask<Move> GetMove()
     {
         _stopWatch.Start();
-        var historyCopy = new List<Move>(_hive.History);
+        var historyCopy = new List<HistoricalMove>(_hive.History);
         var r = await Run(null, HeuristicValues.MaxDepth);
         _hive.History.Clear();
         _hive.History.AddRange(historyCopy);
@@ -82,9 +81,9 @@ internal class ComputerPlayer
             if (!toExplore.ContainsKey(nextMove.Tile.Id)) toExplore.Add(nextMove.Tile.Id, new List<ExploreNode>());
 
             var tileMoves = toExplore[nextMove.Tile.Id];
-            var values = new HeuristicValues(_hive, _previousMoves, nextMove, status);
+            var values = new HeuristicValues(_hive, nextMove, status);
             var score = _heuristics.Sum(h => h.Get(values, values.Move));
-            RevertMove();
+            _hive.RevertMove();
             tileMoves.Add(new ExploreNode(score, values));
         }
 
@@ -119,7 +118,7 @@ internal class ComputerPlayer
             if (nextScore < HeuristicValues.ScoreMax)
                 score += -(await Run(values.Move, depth - 1)).Score / (HeuristicValues.MaxDepth - depth + 1);
 
-            RevertMove();
+            _hive.RevertMove();
 
             if (score >= bestScore) (best, bestScore) = (values.Move, score);
 
@@ -150,9 +149,6 @@ internal class ComputerPlayer
 
     private GameStatus MakeMove(Move move)
     {
-        var originalCoords = _hive.Cells.FindCellOrDefault(move.Tile)?.Coords;
-        var mv = new InProgressMove(move.Tile.Id, move.Tile.PlayerId, originalCoords);
-
         if (_hive.Cells.FindCellOrDefault(move.Coords) == null)
         {
             _hive.Cells.Add(new Cell(move.Coords));
@@ -161,39 +157,11 @@ internal class ComputerPlayer
 
         var status = _hive.Move(move);
 
-        _previousMoves.Push(mv);
         return status;
-    }
-
-    private void RevertMove()
-    {
-        var (tileId, playerId, coords) = _previousMoves.Pop();
-        var currentCell = _hive.Cells.FindCellOrDefault(tileId)!;
-
-        var player = _hive.Players.FindPlayerById(playerId);
-
-        if (coords == null) RevertMoveOnBoard(currentCell, player);
-        else RevertMoveFromPlayerTiles(currentCell, coords);
-
-        _hive.RefreshMoves(player);
-    }
-
-    private void RevertMoveFromPlayerTiles(Cell currentCell, Coords coords)
-    {
-        var tile = currentCell.TopTile();
-        var moves = tile.Creature.GetAvailableMoves(currentCell, _hive.Cells);
-        tile.Moves.AddMany(moves);
-        _hive.PerformMove(new Move(currentCell.TopTile(), coords));
-    }
-
-    private static void RevertMoveOnBoard(Cell currentCell, Player player)
-    {
-        player.Tiles.Add(currentCell.RemoveTopTile());
     }
 
     private IEnumerable<Move> GetMoves()
     {
-
         var cells = _hive.Cells.ToHashSet();
         var unplacedTiles = _hive.Players.SelectMany(p => p.Tiles.GroupBy(t => t.Creature).Select(g => g.First()))
             .SelectMany(t => t.Moves.Select(m => new Move(t, m)).OrderBy(_ => _rnd.Next()));

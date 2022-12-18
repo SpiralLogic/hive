@@ -7,7 +7,7 @@ namespace Hive.Domain.Ai.Heuristics;
 
 internal class HeuristicValues
 {
-    internal const int MaxSearchTime = 7000;
+    internal const int MaxSearchTime = 30000;
     internal const int MaxDepth = 3;
     internal const int ScoreMax = 100;
     private readonly Hive _hive;
@@ -20,13 +20,13 @@ internal class HeuristicValues
     internal readonly int OpponentId;
     internal readonly int TilesPlaced;
 
-    public HeuristicValues(Hive hive, Stack<InProgressMove> previousMoves, Move move, GameStatus gameStatus)
+    public HeuristicValues(Hive hive, Move move, GameStatus gameStatus)
     {
         _hive = hive;
         Move = move;
         GameStatus = gameStatus;
         TilesPlaced = _hive.Cells.WherePlayerOccupies(move.Tile.PlayerId).Count();
-        var (_, _, coords) = previousMoves.Peek();
+        var ( _, coords) = _hive.History.Last();
         if (coords != null)
         {
             MoveFromLocation = _hive.Cells.FindCell(coords);

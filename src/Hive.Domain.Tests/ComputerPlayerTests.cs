@@ -38,7 +38,6 @@ public class ComputerPlayerTests
         expected += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
 
         var hive = HiveFactory.CreateInProgress(
-            0,
             new[]
             {
                 new Player(0, "P1"),
@@ -73,7 +72,6 @@ public class ComputerPlayerTests
         expected += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
 
         var hive = HiveFactory.CreateInProgress(
-            0,
             new[]
             {
                 new Player(0, "P1"),
@@ -107,7 +105,6 @@ public class ComputerPlayerTests
         expected += " ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡";
 
         var hive = HiveFactory.CreateInProgress(
-            0,
             new[]
             {
                 new Player(0, "P1"),
@@ -146,7 +143,6 @@ public class ComputerPlayerTests
         expected += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
 
         var hive = HiveFactory.CreateInProgress(
-            0,
             new[]
             {
                 new Player(0, "P1"),
@@ -185,7 +181,6 @@ public class ComputerPlayerTests
         expected += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
 
         var hive = HiveFactory.CreateInProgress(
-            0,
             new[]
             {
                 new Player(0, "P1"),
@@ -229,7 +224,6 @@ public class ComputerPlayerTests
         expected += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
 
         var hive = HiveFactory.CreateInProgress(
-            0,
             new[]
             {
                 new Player(0, "P1"),
@@ -270,7 +264,6 @@ public class ComputerPlayerTests
         var player1 = new Player(0, "P1") { Tiles = new HashSet<Tile> { new(50, 0, Creatures.Grasshopper) } };
         var player2 = new Player(1, "P2") { Tiles = new HashSet<Tile> { new(51, 1, Creatures.Grasshopper) } };
         var hive = HiveFactory.CreateInProgress(
-            0,
             new[]
             {
                 player1,
@@ -294,7 +287,6 @@ public class ComputerPlayerTests
         initial += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
 
         var hive = HiveFactory.CreateInProgress(
-            0,
             new[]
             {
                 new Player(0, "P1"),
@@ -329,7 +321,6 @@ public class ComputerPlayerTests
 
         var player1 = new Player(0, "P1") { Tiles = new HashSet<Tile> { tile } };
         var hive = HiveFactory.CreateInProgress(
-            0,
             new[]
             {
                 player1,
@@ -414,7 +405,6 @@ public class ComputerPlayerTests
         expected += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
 
         var hive = HiveFactory.CreateInProgress(
-            0,
             new[]
             {
                 new Player(0, "P1"),
@@ -457,7 +447,6 @@ public class ComputerPlayerTests
         expected += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
 
         var hive = HiveFactory.CreateInProgress(
-            1,
             new[]
             {
                 new Player(0, "P1"),
@@ -495,7 +484,6 @@ public class ComputerPlayerTests
         expected += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
 
         var hive = HiveFactory.CreateInProgress(
-            0,
             new[]
             {
                 new Player(0, "P1"),
@@ -529,7 +517,6 @@ public class ComputerPlayerTests
         expected += " ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡";
 
         var hive = HiveFactory.CreateInProgress(
-            0,
             new[]
             {
                 new Player(0, "P1"),
@@ -563,15 +550,14 @@ public class ComputerPlayerTests
         expected += " ⬡ ⬡ ⬡ ⬡ ★ ✔ ⬡ ⬡ ⬡ ⬡";
         expected += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
 
-        var history = new List<Move>
+        var history = new List<HistoricalMove>
         {
-            new(new Tile(9, 1, Creatures.Beetle), new Coords(4, 3)),
-            new(new Tile(9, 1, Creatures.Beetle), new Coords(5, 3)),
-            new(new Tile(9, 1, Creatures.Beetle), new Coords(4, 4)),
+            new(new(new Tile(9, 1, Creatures.Beetle), new Coords(4, 3)), new Coords(1,1)),
+            new(new(new Tile(9, 1, Creatures.Beetle), new Coords(5, 3)), new Coords(1,1)),
+            new(new(new Tile(9, 1, Creatures.Beetle), new Coords(4, 4)), new Coords(1,1)),
         };
 
         var hive = HiveFactory.CreateInProgress(
-            0,
             new[]
             {
                 new Player(0, "P1"),
@@ -606,17 +592,15 @@ public class ComputerPlayerTests
         expected += " ⬡ ⬡ ⬡ ⬡ ★ ⬡ ⬡ ⬡ ⬡ ⬡";
         expected += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
 
-        var history = new List<Move>
+        var history = new List<HistoricalMove>
         {
-            new(new Tile(9, 1, Creatures.Beetle), new Coords(4, 3)),
-            new(new Tile(9, 1, Creatures.Beetle), new Coords(5, 3)),
-            new(new Tile(9, 1, Creatures.Beetle), new Coords(4, 4)),
-            new(new Tile(9, 1, Creatures.Beetle), new Coords(6, 4)),
-
+            new(new(new Tile(9, 1, Creatures.Beetle), new Coords(4, 3)), new Coords(1,1)),
+            new(new(new Tile(9, 1, Creatures.Beetle), new Coords(5, 3)), new Coords(1,1)),
+            new(new(new Tile(9, 1, Creatures.Beetle), new Coords(4, 4)), new Coords(1,1)),
+            new(new(new Tile(9, 1, Creatures.Beetle), new Coords(6, 4)), new Coords(1,1)),
         };
 
         var hive = HiveFactory.CreateInProgress(
-            0,
             new[]
             {
                 new Player(0, "P1"),

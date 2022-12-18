@@ -8,8 +8,8 @@ public sealed record GameState(
     GameStatus GameStatus,
     IList<Player> Players,
     ISet<Cell> Cells,
-    IList<Domain.Entities.Move>? History = null
+    IList<HistoricalMove>? History = null
 )
 {
-    public IList<Domain.Entities.Move> History { get; } = History ?? new List<Domain.Entities.Move>();
+    public IList<HistoricalMove> History { get; } = History ?? new List<HistoricalMove>();
 }

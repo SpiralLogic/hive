@@ -17,6 +17,6 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <ItemGroup>
-    <InternalsVisibleTo Include="Hive.Domain.Tests"/>
+    <InternalsVisibleTo Include="Hive.Domain.Tests" />
   </ItemGroup>
 </Project>

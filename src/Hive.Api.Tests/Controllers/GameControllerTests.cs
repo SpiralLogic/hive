@@ -28,7 +28,7 @@ public class GameControllerTests
                 "player2"
             }
         );
-        var gameState = new GameState(ExistingGameId, GameStatus.MoveSuccess, game.Players, game.Cells, new List<Move>());
+        var gameState = new GameState(ExistingGameId, GameStatus.MoveSuccess, game.Players, game.Cells, new List<HistoricalMove>());
 
         var jsonOptions = TestHelpers.CreateJsonOptions();
         var memoryCache = TestHelpers.CreateTestMemoryCache();
@@ -97,7 +97,7 @@ public class GameControllerTests
         );
         var gameState = new GameState(ExistingGameId, GameStatus.MoveSuccess, game.Players, game.Cells);
 
-        gameState.History.Should().BeOfType<List<Move>>();
+        gameState.History.Should().BeOfType<List<HistoricalMove>>();
         gameState.History.Should().NotBeNull();
     }
 }

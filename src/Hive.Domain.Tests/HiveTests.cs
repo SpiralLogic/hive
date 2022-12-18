@@ -297,7 +297,11 @@ public class HiveTests
 
         var queen = players.First(p => p.Id == 1).Tiles.First(t => t.Creature == Creatures.Queen);
 
-        var hive2 = HiveFactory.CreateInProgress(1, players, cells);
+        var hive2 = HiveFactory.CreateInProgress(
+            players,
+            cells,
+            new List<HistoricalMove> { new(new(new Tile(9, 0, Creatures.Beetle), new Coords(4, 3)), new Coords(1, 1)) }
+        );
         hive2.Move(new Move(queen, new Coords(0, 0))).Should().Be(GameStatus.Player0Win);
     }
 
@@ -326,7 +330,7 @@ public class HiveTests
 
         var queen = players.First(p => p.Id == 0).Tiles.First(t => t.Creature == Creatures.Queen);
 
-        var hive2 = HiveFactory.CreateInProgress(0, players, cells);
+        var hive2 = HiveFactory.CreateInProgress(players, cells);
         hive2.Move(new Move(queen, new Coords(0, 0))).Should().Be(GameStatus.Player1Win);
     }
 
@@ -349,7 +353,7 @@ public class HiveTests
         initial += " ⬡ ⬡ a a ⬡ a A ⬡";
         initial += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
 
-        var hive2 = HiveFactory.CreateInProgress(0, hive.Players, initial.AllCells);
+        var hive2 = HiveFactory.CreateInProgress(hive.Players, initial.AllCells);
         var ant = hive2.Cells.First(c => !c.IsEmpty() && c.TopTile().Moves.Count > 0).TopTile();
         var result = hive2.Move(new Move(ant, new Coords(4, 3)));
         result.Should().Be(GameStatus.Draw);
@@ -380,7 +384,11 @@ public class HiveTests
 
         var queen = players.First(p => p.Id == 1).Tiles.First(t => t.Creature == Creatures.Queen);
 
-        var hive2 = HiveFactory.CreateInProgress(1, players, cells);
+        var hive2 = HiveFactory.CreateInProgress(
+            players,
+            cells,
+            new List<HistoricalMove> { new(new(new Tile(9, 0, Creatures.Beetle), new Coords(4, 3)), new Coords(1, 1)) }
+        );
         hive2.Move(new Move(queen, new Coords(0, 0))).Should().Be(GameStatus.Player0Win);
         hive2.Move(new Move(queen, new Coords(0, 0))).Should().Be(GameStatus.Player0Win);
         hive2.Move(new Move(queen, new Coords(0, 0))).Should().Be(GameStatus.Player0Win);
@@ -408,7 +416,11 @@ public class HiveTests
             new(new Coords(0, 0))
         };
 
-        var hiveUnderTest = HiveFactory.CreateInProgress(1, hive.Players, cells);
+        var hiveUnderTest = HiveFactory.CreateInProgress(
+            hive.Players,
+            cells,
+            new List<HistoricalMove> { new(new(new Tile(9, 0, Creatures.Beetle), new Coords(4, 3)), new Coords(1, 1)) }
+        );
         var players = hiveUnderTest.Players;
 
         var queen = players.First(p => p.Id == 1).Tiles.First(t => t.Creature == Creatures.Queen);
@@ -434,9 +446,9 @@ public class HiveTests
             }
         );
         var player1 = hive.Players[0];
-        var playerWithNomMoves = hive.Players[1] with { Tiles = new HashSet<Tile>(), Name = "test player", Id = 1 };
-
-        hive = new Hive(new List<Player> { player1, playerWithNomMoves }, hive.Cells);
+        var playerWithNoMoves = hive.Players[1] with { Tiles = new HashSet<Tile>(), Name = "test player", Id = 1 };
+        hive.Cells.First().AddTile(new Tile(20, 1, Creatures.Ant));
+        hive = new Hive(new List<Player> { player1, playerWithNoMoves }, hive.Cells);
 
         hive.Move(new Move(player1.Tiles.First(), new Coords(0, 0)));
 
@@ -445,7 +457,7 @@ public class HiveTests
             .Where(t => t.Moves.Count > 0)
             .ToList();
 
-        allTilesWithMoves.Should().NotContain(t => t.PlayerId == playerWithNomMoves.Id);
+        allTilesWithMoves.Should().NotContain(t => t.PlayerId == playerWithNoMoves.Id);
         allTilesWithMoves.Where(t => t.PlayerId == player1.Id).Should().NotBeEmpty();
     }
 }

@@ -8,12 +8,12 @@ namespace Hive.Domain;
 internal class Mover
 {
     private readonly Hive _hive;
-    internal readonly List<Move> History;
+    internal readonly List<HistoricalMove> History;
 
-    internal Mover(Hive hive, List<Move> history)
+    internal Mover(Hive hive, IEnumerable<HistoricalMove> history)
     {
         _hive = hive;
-        History = history;
+        History = new List<HistoricalMove>(history);
     }
 
     internal GameStatus Move(Move move)
@@ -73,7 +73,35 @@ internal class Mover
         var (tile, coords) = move;
         _hive.Cells.First(c => c.Coords == coords).AddTile(tile);
     }
+    internal void RefreshMoves(Player player)
+    {
+        UpdateMoves(player);
+    }
+    internal void RevertMove()
+    {
+        var (move, coords) = this.History.Last();
+        this.History.RemoveAt(this.History.Count-1);
 
+        var currentCell = _hive.Cells.FindTile(move.Tile.Id)!;
+        var player = _hive.Players.FindPlayerById(move.Tile.PlayerId);
+
+        if (coords == null) RevertMoveOnBoard(currentCell, player);
+        else RevertMoveFromPlayerTiles(currentCell, coords);
+
+        this.RefreshMoves(player);
+    }
+
+    private static void RevertMoveOnBoard(Cell currentCell, Player player)
+    {
+        player.Tiles.Add(currentCell.RemoveTopTile());
+    }
+    private void RevertMoveFromPlayerTiles(Cell currentCell, Coords coords)
+    {
+        var tile = currentCell.TopTile();
+        var moves = tile.Creature.GetAvailableMoves(currentCell, _hive.Cells);
+        tile.Moves.AddMany(moves);
+        this.PerformMove(new Move(currentCell.TopTile(), coords));
+    }
     private Player GetNextPlayer(Tile movedTile)
     {
         return _hive.Players.First(p => p.Id != movedTile.PlayerId);

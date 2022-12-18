@@ -22,9 +22,9 @@ public static class CellCollectionExtensions
         return cells.WhereOccupied().FirstOrDefault(c => c.Tiles.Any(t => t.Id == tile.Id));
     }
 
-    internal static Cell? FindCellOrDefault(this IEnumerable<Cell> cells, int tileId)
+    internal static Cell FindTile(this IEnumerable<Cell> cells, int tileId)
     {
-        return cells.WhereOccupied().FirstOrDefault(c => c.Tiles.Any(t => t.Id == tileId));
+        return cells.WhereOccupied().First(c => c.Tiles.Any(t => t.Id == tileId));
     }
 
     internal static IEnumerable<Cell> CreateAllEmptyNeighbours(this IEnumerable<Cell> cells)

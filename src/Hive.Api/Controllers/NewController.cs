@@ -9,7 +9,6 @@ using Hive.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Options;
-using Move = Hive.Domain.Entities.Move;
 
 namespace Hive.Api.Controllers;
 
@@ -39,7 +38,7 @@ public class NewController : Controller
                 "P2"
             }
         );
-        var gameState = new GameState(gameId, GameStatus.NewGame, newGame.Players, newGame.Cells, new List<Move>());
+        var gameState = new GameState(gameId, GameStatus.NewGame, newGame.Players, newGame.Cells, new List<HistoricalMove>());
         var json = JsonSerializer.Serialize(gameState, _jsonSerializerOptions);
         await _distributedCache.SetStringAsync(gameId, json);
 

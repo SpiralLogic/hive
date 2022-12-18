@@ -29,11 +29,9 @@ public static class HiveFactory
         return new(CreatePlayers(playerNames), CreateCells());
     }
 
-    public static Hive CreateInProgress(int playerId, IList<Player> players, ISet<Cell> cells, IList<Move>? history = null)
+    public static Hive CreateInProgress(IList<Player> players, ISet<Cell> cells, IEnumerable<HistoricalMove>? history = null)
     {
         var hive = new Hive(players, cells, history);
-        var currentPlayer = hive.Players.FindPlayerById(playerId);
-        hive.RefreshMoves(currentPlayer);
         return hive;
     }
 
