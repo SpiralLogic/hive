@@ -1,3 +1,5 @@
+using System;
+using System.Globalization;
 using Hive.Api.Converters;
 using Hive.Api.Hubs;
 using Microsoft.AspNetCore.Builder;
@@ -43,10 +45,10 @@ app.UseFileServer(
         {
             OnPrepareResponse = ctx =>
             {
-                if (ctx.File.Name.EndsWith(".js") || ctx.File.Name.EndsWith(".css") || ctx.File.Name.EndsWith(".webmanifest"))
+                if (ctx.File.Name.EndsWith(".js", StringComparison.InvariantCultureIgnoreCase) || ctx.File.Name.EndsWith(".css", StringComparison.InvariantCultureIgnoreCase) || ctx.File.Name.EndsWith(".webmanifest", StringComparison.InvariantCultureIgnoreCase))
                     ctx.Context.Response.Headers.ContentType += "; charset=utf-8";
                 if (ctx.File.Name == "index.html") return;
-                var oneWeekSeconds = (60 * 60 * 24 * 7).ToString();
+                var oneWeekSeconds = (60 * 60 * 24 * 7).ToString(CultureInfo.InvariantCulture);
                 ctx.Context.Response.Headers[HeaderNames.CacheControl] = $"public, max-age={oneWeekSeconds}";
             }
         }
