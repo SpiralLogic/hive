@@ -14,6 +14,7 @@
     <Platforms>AnyCPU</Platforms>
     <Version>1.1.1.1</Version>
     <AssemblyVersion>1.1.1.1</AssemblyVersion>
+    <AssemblyFileVersion>1.1.1.1</AssemblyFileVersion>
     <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
     <SuppressNETCoreSdkPreviewMessage>true</SuppressNETCoreSdkPreviewMessage>
     <AnalysisMode>Recommended</AnalysisMode>

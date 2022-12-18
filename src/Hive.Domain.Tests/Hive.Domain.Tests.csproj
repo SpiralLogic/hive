@@ -9,6 +9,7 @@
     <SuppressNETCoreSdkPreviewMessage>true</SuppressNETCoreSdkPreviewMessage>
     <Version>1.1.1.1</Version>
     <AssemblyVersion>1.1.1.1</AssemblyVersion>
+    <AssemblyFileVersion>1.1.1.1</AssemblyFileVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
     <DebugSymbols>false</DebugSymbols>
