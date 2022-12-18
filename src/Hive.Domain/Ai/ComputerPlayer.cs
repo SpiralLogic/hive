@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Hive.Domain.Ai.Heuristics;
@@ -49,11 +50,8 @@ internal class ComputerPlayer
     public async ValueTask<Move> GetMove()
     {
         _stopWatch.Start();
-        var historyCopy = new List<HistoricalMove>(_hive.History);
-        var r = await Run(null, HeuristicValues.MaxDepth);
-        _hive.History.Clear();
-        _hive.History.AddRange(historyCopy);
-        return r.Move ?? throw new ApplicationException("Could not determine next move");
+        var r = await Run(null, HeuristicValues.MaxDepth).ConfigureAwait(false);
+        return r.Move ?? throw new InvalidDataException("Could not determine next move");
     }
 
     private async ValueTask<ScoredMove> Run(Move? move, int depth)

@@ -32,7 +32,7 @@ public static class CellCollectionExtensions
         var enumerable = cells as Cell[] ?? cells.ToArray();
         return enumerable.SelectCoords()
             .SelectMany(coords => coords.Neighbours())
-            .SelectCells()
+            .ToCells()
             .Except(enumerable.WhereOccupied())
             .ToHashSet();
     }
@@ -64,7 +64,14 @@ public static class CellCollectionExtensions
 
     internal static ISet<Coords> ToCoords(this IEnumerable<Cell> cells)
     {
-        return cells.SelectCoords().ToHashSet();
+        var set = new HashSet<Coords>(cells.Count());
+
+        foreach (var cell in cells)
+        {
+            set.Add(cell.Coords);
+        }
+
+        return set;
     }
 
     internal static IEnumerable<Cell> WherePlayerControls(this IEnumerable<Cell> cells, Player player)

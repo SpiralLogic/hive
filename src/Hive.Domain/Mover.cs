@@ -67,13 +67,14 @@ internal class Mover
         UpdatePlayerTileMoves(nextPlayer);
     }
 
-    internal void PerformMove(Move move)
+    private void PerformMove(Move move)
     {
         RemoveTile(move.Tile);
         var (tile, coords) = move;
         _hive.Cells.First(c => c.Coords == coords).AddTile(tile);
     }
-    internal void RefreshMoves(Player player)
+
+    private void RefreshMoves(Player player)
     {
         UpdateMoves(player);
     }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Hive.Domain.Ai;
@@ -26,7 +27,7 @@ public class Hive
     public ISet<Cell> Cells { get; }
     public IList<Player> Players { get; }
 
-    public List<HistoricalMove> History => _mover.History;
+    public ICollection<HistoricalMove> History => _mover.History;
 
     public GameStatus Move(Move move)
     {
