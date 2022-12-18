@@ -12,9 +12,7 @@
     <DefaultItemExcludes>$(DefaultItemExcludes);$(SpaRoot)node_modules\**</DefaultItemExcludes>
     <Configurations>Debug;Release;Test</Configurations>
     <Platforms>AnyCPU</Platforms>
-    <Version>1.1.1.1</Version>
-    <AssemblyVersion>1.1.1.1</AssemblyVersion>
-    <AssemblyFileVersion>1.1.1.1</AssemblyFileVersion>
+    <NoWarn>CA1016</NoWarn>
     <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
     <SuppressNETCoreSdkPreviewMessage>true</SuppressNETCoreSdkPreviewMessage>
     <AnalysisMode>Recommended</AnalysisMode>
