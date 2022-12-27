@@ -9,7 +9,7 @@ internal class BeetleMoveOff : IHeuristic
     {
         if (values.MoveFromLocation == null) return 0;
         if (move.Tile.IsCreature(Creatures.Beetle) &&
-            values.MoveFromLocation.HasQueen(values.OpponentId) &&
+            values.MoveFromLocation.HasPlayerQueen(values.OpponentId) &&
             values.OpponentQueenNeighbours < 4) return -60;
         return 0;
     }

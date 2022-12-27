@@ -8,13 +8,6 @@ internal static class CoordCollectionExtensions
 {
     internal static ISet<Cell> ToCells(this IEnumerable<Coords> coords)
     {
-        var set = new HashSet<Cell>(coords.Count());
-
-        foreach (var coord in coords)
-        {
-            set.Add(new Cell(coord));
-        }
-
-        return set;
+        return coords.Select(c => new Cell(c)).ToHashSet();
     }
 }

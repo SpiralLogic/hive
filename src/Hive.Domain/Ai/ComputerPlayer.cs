@@ -17,21 +17,12 @@ internal class ComputerPlayer
     private readonly ScoredMove[] _depth = new ScoredMove[HeuristicValues.MaxDepth];
     private readonly ICollection<IHeuristic> _heuristics;
     private readonly Hive _hive;
-    private readonly ImmutableArray<Move> _lastThreeMoves;
     private readonly Random _rnd = new();
     private readonly Stopwatch _stopWatch = new();
     private Tile? _lastBroadcast;
 
     public ComputerPlayer(Hive hive, Func<string, Tile, ValueTask>? broadcastThought = null)
     {
-        var currentPlayerId = hive.Players.SelectMany(p => p.Tiles)
-            .Where(t => t.Moves.Any())
-            .Concat(hive.Cells.Where(c => !c.IsEmpty()).Select(c => c.TopTile()))
-            .First()
-            .PlayerId;
-
-        _lastThreeMoves = hive.History.Where(m => m.Move.Tile.PlayerId == currentPlayerId).TakeLast(3).Select(hm=>hm.Move).ToImmutableArray();
-
         _broadcastThought = broadcastThought;
         _hive = hive;
         _heuristics = new List<IHeuristic>
@@ -43,6 +34,7 @@ internal class ComputerPlayer
             new BeetleMoveOff(),
             new BeetleMoveOn(),
             new MoveSpread(),
+            new NoRepeatedPreviousMoves(_hive.History),
             new QueenScoring()
         };
     }
@@ -71,7 +63,7 @@ internal class ComputerPlayer
 
     private IDictionary<int, List<ExploreNode>> FindMovesToExplore()
     {
-        var moves = GetMoves().ToArray();
+        var moves = GetMoves().ToImmutableArray();
         var toExplore = new Dictionary<int, List<ExploreNode>>();
         foreach (var nextMove in moves)
         {
@@ -167,8 +159,6 @@ internal class ComputerPlayer
             .OrderBy(c => c.QueenNeighbours(_hive.Cells).Any())
             .Select(c => c.TopTile())
             .SelectMany(t => t.Moves.Select(m => new Move(t, m)));
-        var moves = placedTiles.Concat(unplacedTiles).ToHashSet();
-
-        return moves.Count > 3 ? moves.Except(_lastThreeMoves).ToList() : moves.ToList();
+        return placedTiles.Concat(unplacedTiles);
     }
 }

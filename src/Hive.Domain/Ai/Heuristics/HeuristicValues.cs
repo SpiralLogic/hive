@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using Hive.Domain.Entities;
 using Hive.Domain.Extensions;
@@ -48,7 +49,7 @@ internal class HeuristicValues
     private int CountPlayerQueenNeighbours(int playerId)
     {
         return _hive.Cells.WhereOccupied()
-                   .FirstOrDefault(c => c.HasQueen(playerId))
+                   .FirstOrDefault(c => c.HasPlayerQueen(playerId))
                    ?.SelectNeighbors(_hive.Cells)
                    .WhereOccupied()
                    .Count() ??

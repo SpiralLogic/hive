@@ -21,20 +21,23 @@ internal static class CellExtensions
         return cell.Tiles.Any(t => t.PlayerId == playerId);
     }
 
-    internal static IEnumerable<Cell> SelectNeighbors(this Cell cell, IEnumerable<Cell> fromCells)
+    internal static IEnumerable<Cell> SelectNeighbors(this Cell cell, IEnumerable<Cell> cells)
     {
-        return fromCells.SelectNeighbors(cell);
+        return cells.SelectNeighbors(cell);
     }
 
-    internal static bool HasQueen(this Cell cell, int? playerId = null)
+    internal static bool HasQueen(this Cell cell)
     {
-        var queen = cell.Tiles.FirstOrDefault(t => t.IsQueen());
-
-        return playerId.HasValue && queen != null ? queen.PlayerId == playerId.Value : queen != null;
+        return cell.Tiles.FirstOrDefault(t => t.IsQueen()) != null;
     }
 
-    internal static IEnumerable<Cell> QueenNeighbours(this Cell cell, IEnumerable<Cell> cells, int? playerId = null)
+    internal static bool HasPlayerQueen(this Cell cell, int playerId)
     {
-        return cells.SelectOccupiedNeighbors(cell).Where(c => c.HasQueen(playerId));
+        return cell.Tiles.FirstOrDefault(t => t.IsQueen() && t.PlayerId == playerId) != null;
+    }
+
+    internal static IEnumerable<Cell> QueenNeighbours(this Cell cell, IEnumerable<Cell> cells)
+    {
+        return cells.SelectOccupiedNeighbors(cell).Where(c => c.HasQueen());
     }
 }

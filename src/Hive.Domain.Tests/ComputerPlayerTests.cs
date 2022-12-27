@@ -553,9 +553,10 @@ public class ComputerPlayerTests
 
         var history = new List<HistoricalMove>
         {
-            new(new(new Tile(9, 1, Creatures.Beetle), new Coords(4, 3)), new Coords(1,1)),
-            new(new(new Tile(9, 1, Creatures.Beetle), new Coords(5, 3)), new Coords(1,1)),
-            new(new(new Tile(9, 1, Creatures.Beetle), new Coords(4, 4)), new Coords(1,1)),
+            new(new(new Tile(9, 0, Creatures.Beetle), new Coords(4, 3)), new Coords(5, 4)),
+            new(new(new Tile(9, 0, Creatures.Beetle), new Coords(5, 3)), new Coords(5, 4)),
+            new(new(new Tile(9, 0, Creatures.Beetle), new Coords(4, 4)), new Coords(5, 4)),
+            new(new(new Tile(19, 1, Creatures.Beetle), new Coords(1, 4)), new Coords(1, 1)),
         };
 
         var hive = HiveFactory.CreateInProgress(
@@ -595,10 +596,11 @@ public class ComputerPlayerTests
 
         var history = new List<HistoricalMove>
         {
-            new(new(new Tile(9, 1, Creatures.Beetle), new Coords(4, 3)), new Coords(1,1)),
-            new(new(new Tile(9, 1, Creatures.Beetle), new Coords(5, 3)), new Coords(1,1)),
-            new(new(new Tile(9, 1, Creatures.Beetle), new Coords(4, 4)), new Coords(1,1)),
-            new(new(new Tile(9, 1, Creatures.Beetle), new Coords(6, 4)), new Coords(1,1)),
+            new(new(new Tile(9, 1, Creatures.Beetle), new Coords(4, 3)), new Coords(5, 4)),
+            new(new(new Tile(9, 1, Creatures.Beetle), new Coords(5, 3)), new Coords(5, 4)),
+            new(new(new Tile(9, 1, Creatures.Beetle), new Coords(4, 4)), new Coords(5, 4)),
+            new(new(new Tile(9, 1, Creatures.Beetle), new Coords(6, 4)), new Coords(4, 4)),
+            new(new(new Tile(19, 1, Creatures.Beetle), new Coords(1, 4)), new Coords(1, 1)),
         };
 
         var hive = HiveFactory.CreateInProgress(
@@ -639,7 +641,11 @@ public class ComputerPlayerTests
 
         await player.GetMove();
 
-        tileBroadcasts.Should().Contain(b => b.type == "select").Subject.tile.Should().BeOfType<Tile>();
+        foreach (var broadcast in tileBroadcasts.Where(t => t.type == "select"))
+        {
+            var (_, tile) = broadcast;
+            tile.Should().NotBeNull();
+        }
     }
 
     [Fact]

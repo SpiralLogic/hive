@@ -29,12 +29,8 @@ public static class CellCollectionExtensions
 
     internal static IEnumerable<Cell> CreateAllEmptyNeighbours(this IEnumerable<Cell> cells)
     {
-        var enumerable = cells as Cell[] ?? cells.ToArray();
-        return enumerable.SelectCoords()
-            .SelectMany(coords => coords.Neighbours())
-            .ToCells()
-            .Except(enumerable.WhereOccupied())
-            .ToHashSet();
+        var occupied = cells.WhereOccupied().ToCoords().ToHashSet();
+        return cells.SelectMany(cell => cell.Coords.Neighbours()).Except(occupied).ToCells();
     }
 
     internal static IEnumerable<Cell> SelectOccupiedNeighbors(this IEnumerable<Cell> cells, Cell originCell)
@@ -64,14 +60,7 @@ public static class CellCollectionExtensions
 
     internal static ISet<Coords> ToCoords(this IEnumerable<Cell> cells)
     {
-        var set = new HashSet<Coords>(cells.Count());
-
-        foreach (var cell in cells)
-        {
-            set.Add(cell.Coords);
-        }
-
-        return set;
+        return cells.Select(c => c.Coords).ToHashSet();
     }
 
     internal static IEnumerable<Cell> WherePlayerControls(this IEnumerable<Cell> cells, Player player)
@@ -79,8 +68,4 @@ public static class CellCollectionExtensions
         return cells.WhereOccupied().Where(c => c.PlayerControls(player));
     }
 
-    private static IEnumerable<Coords> SelectCoords(this IEnumerable<Cell> cells)
-    {
-        return cells.Select(c => c.Coords);
-    }
 }
