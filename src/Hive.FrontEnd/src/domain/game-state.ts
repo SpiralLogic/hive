@@ -1,11 +1,13 @@
 import { Cell } from './cell';
 import { Player } from './player';
+import { HistoricalMove } from './historical-move';
 
 export type GameState = {
-  cells: Array<Cell>;
-  players: Array<Player>;
+  cells: Cell[];
+  players: Player[];
   gameId: GameId;
   gameStatus: GameStatus;
+  history?: HistoricalMove[];
 };
 
 export type GameId = string;

@@ -1,7 +1,7 @@
 import GameTile from '../../src/components/GameTile';
 import { HiveDispatcher, MoveEvent } from '../../src/services';
 
-export const createCellWithNoTile = () => ({ coords: { q: 0, r: 0 }, tiles: [] });
+export const createCellWithNoTile = () => ({ coords: { q: 0, r: 0 }, tiles: [], history: [] });
 
 export const createCellWithTile = () => {
   const tile = { id: 2, playerId: 1, creature: 'fly', moves: [] };

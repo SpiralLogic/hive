@@ -48,7 +48,7 @@ public class MoveController : ControllerBase
 
         if (gameStatus == GameStatus.MoveInvalid) return BadRequest("Invalid Move");
 
-        var newGameState = new GameState(id, gameStatus, game.Players, game.Cells, history);
+        var newGameState = new GameState(id, gameStatus, game.Players, game.Cells, game.History);
         await _hubContext.Clients.Group(id).SendAsync("ReceiveGameState", newGameState);
 
         var json = JsonSerializer.Serialize(newGameState, _jsonSerializerOptions);
@@ -85,7 +85,7 @@ public class MoveController : ControllerBase
 
         var (status, _) = await game.AiMove(async (type, tile) => await BroadCast(id, type, tile));
 
-        var newGameState = new GameState(id, status, game.Players, game.Cells, game.History.ToList());
+        var newGameState = new GameState(id, status, game.Players, game.Cells, game.History);
         await _hubContext.Clients.Group(id).SendAsync("ReceiveGameState", newGameState);
         var gameJson = JsonSerializer.Serialize(newGameState, _jsonSerializerOptions);
         await _distributedCache.SetStringAsync(id, gameJson);

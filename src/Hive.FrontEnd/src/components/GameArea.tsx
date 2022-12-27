@@ -1,9 +1,9 @@
 import '../css/gameArea.css';
 
 import { useContext, useEffect, useState } from 'preact/hooks';
-import { FunctionComponent } from 'preact';
+import { FunctionComponent, h } from 'preact';
 
-import { Cell, GameState, GameStatus, PlayerId } from '../domain';
+import { Cell, GameState, GameStatus, HexCoordinates, PlayerId } from '../domain';
 import { HextilleBuilder, HiveDispatcher, HiveEvent } from '../services';
 import { Dispatcher, useHiveDispatchListener } from '../utilities/dispatcher';
 import { handleDragOver } from '../utilities/handlers';
@@ -19,6 +19,8 @@ import Modal from './Modal';
 import Players from './Players';
 import Row from './Row';
 import Rules from './Rules';
+import { HistoricalMove } from '../domain/historical-move';
+import { f } from 'vitest/dist/index-81973d31';
 
 type Properties = GameState & { currentPlayer: PlayerId; aiMode?: AiMode };
 
@@ -63,10 +65,18 @@ const Tiles: FunctionComponent<{ cell: Cell; currentPlayer: PlayerId }> = ({ cel
 };
 
 type CurrentDialog = 'none' | 'rules' | 'share' | 'playerConnected' | 'gameOver';
-
+const isPreviousMove = (history: HistoricalMove[], coords: HexCoordinates) => {
+  if (!history.length) return false;
+  const previousMove = history[history.length - 1];
+  return (
+    (previousMove.move.coords.q === coords.q && previousMove.move.coords.r === coords.r) ||
+    (previousMove.originalCoords?.q === coords.q && previousMove.originalCoords.r === coords.r)
+  );
+};
 const GameArea: FunctionComponent<Properties> = ({
   players,
   cells,
+  history,
   gameId,
   gameStatus,
   currentPlayer,
@@ -106,7 +116,6 @@ const GameArea: FunctionComponent<Properties> = ({
 
   removeOtherPlayerMoves(currentPlayer, { players, cells });
   dispatcher.dispatch({ type: 'tileClear' });
-
   return (
     <main
       onDragOver={handleDragOver}
@@ -125,7 +134,11 @@ const GameArea: FunctionComponent<Properties> = ({
           {rows.map((row) => (
             <Row key={row.id} {...row}>
               {row.cells.map((cell) => (
-                <GameCell key={cellKey(cell.coords)} coords={cell.coords} hidden={!!cell.hidden}>
+                <GameCell
+                  historical={isPreviousMove(history || [], cell.coords)}
+                  key={cellKey(cell.coords)}
+                  coords={cell.coords}
+                  hidden={!!cell.hidden}>
                   <Tiles cell={cell} currentPlayer={currentPlayer} />
                 </GameCell>
               ))}

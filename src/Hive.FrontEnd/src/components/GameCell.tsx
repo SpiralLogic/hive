@@ -10,13 +10,13 @@ import Hexagon from './Hexagon';
 const isValidMove = (validMoves: Array<HexCoordinates>, coords: HexCoordinates) =>
   validMoves.some((destination) => destination.q == coords.q && destination.r == coords.r);
 
-type Properties = { coords: HexCoordinates; hidden?: boolean };
+type Properties = { coords: HexCoordinates; historical?: boolean; hidden?: boolean };
 const GameCell: FunctionComponent<Properties> = (properties) => {
-  const { coords, children, hidden } = properties;
+  const { coords, children, historical = false, hidden } = properties;
   const [classes, setClasses] = useClassReducer('hide');
+  setClasses({ type: historical ? 'add' : 'remove', classes: ['historical'] });
   const [selectedTile, setSelectedTile] = useState<TileType | null>(null);
   const dispatcher = useContext(Dispatcher);
-
   useEffect(() => setClasses({ type: hidden ? 'add' : 'remove', classes: ['hide'] }), [hidden, setClasses]);
 
   useHiveDispatchListener<TileEvent>('tileDeselected', () => {
@@ -64,7 +64,7 @@ const GameCell: FunctionComponent<Properties> = (properties) => {
   };
 
   const attributes = {
-    class: classes || '',
+    class: classes || undefined,
     tabindex: selectedTile && isValidMove(selectedTile.moves, coords) ? 0 : undefined,
     role: hidden ? 'none' : 'cell',
   };

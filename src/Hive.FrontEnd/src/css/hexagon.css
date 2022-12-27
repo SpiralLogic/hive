@@ -21,6 +21,11 @@
   transform: scale(0);
 }
 
+[role='none'].historical > svg:first-child,
+[role='cell'].historical > svg:first-child {
+  fill: blue;
+}
+
 [role='cell'].no-drop.active,
 [role='cell'].no-drop:focus,
 [role='cell'].no-drop:hover {
