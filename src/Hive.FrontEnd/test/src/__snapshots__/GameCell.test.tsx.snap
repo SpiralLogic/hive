@@ -2,7 +2,6 @@
 
 exports[`<GameCell> > renders cell with no tile 1`] = `
 <div
-  class=""
   role="cell"
 >
   <svg
@@ -18,7 +17,6 @@ exports[`<GameCell> > renders cell with no tile 1`] = `
 
 exports[`<GameCell> > renders cell with tile 1`] = `
 <div
-  class=""
   role="cell"
 >
   <svg

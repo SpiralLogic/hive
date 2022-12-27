@@ -166,7 +166,6 @@ exports[`<GameArea> > render game over snapshot 1`] = `
         role="row"
       >
         <div
-          class=""
           role="cell"
         >
           <svg
@@ -209,7 +208,6 @@ exports[`<GameArea> > render game over snapshot 1`] = `
           </svg>
         </div>
         <div
-          class=""
           role="cell"
         >
           <svg
@@ -774,7 +772,6 @@ exports[`<GameArea> > render snapshot 1`] = `
         role="row"
       >
         <div
-          class=""
           role="cell"
         >
           <svg
@@ -817,7 +814,6 @@ exports[`<GameArea> > render snapshot 1`] = `
           </svg>
         </div>
         <div
-          class=""
           role="cell"
         >
           <svg

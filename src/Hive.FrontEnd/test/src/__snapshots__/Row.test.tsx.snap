@@ -18,7 +18,6 @@ exports[`<Row> > renders 1`] = `
     </svg>
   </div>
   <div
-    class=""
     role="cell"
   >
     <svg
@@ -31,7 +30,6 @@ exports[`<Row> > renders 1`] = `
     </svg>
   </div>
   <div
-    class=""
     role="cell"
   >
     <svg
