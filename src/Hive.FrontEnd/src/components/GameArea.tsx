@@ -1,7 +1,7 @@
 import '../css/gameArea.css';
 
 import { useContext, useEffect, useState } from 'preact/hooks';
-import { FunctionComponent, h } from 'preact';
+import { FunctionComponent } from 'preact';
 
 import { Cell, GameState, GameStatus, HexCoordinates, PlayerId } from '../domain';
 import { HextilleBuilder, HiveDispatcher, HiveEvent } from '../services';
@@ -20,7 +20,6 @@ import Players from './Players';
 import Row from './Row';
 import Rules from './Rules';
 import { HistoricalMove } from '../domain/historical-move';
-import { f } from 'vitest/dist/index-81973d31';
 
 type Properties = GameState & { currentPlayer: PlayerId; aiMode?: AiMode };
 
