@@ -5,10 +5,10 @@ import viteConfig from './vite.config';
 export default mergeConfig(
   viteConfig,
   defineConfig({
-    root: './test',
+    root: './',
     base: 'http://localhost',
     test: {
-      root: './src',
+      root: './test',
       include: ['**/src/**/*.test.*'],
       exclude: ['./src/__snapshots__/**'],
       setupFiles: ['./vitest.setup.ts'],
