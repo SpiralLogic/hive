@@ -1,16 +1,16 @@
 import { render, screen } from '@testing-library/preact';
-import { AiMode, HexEngine, HexServerConnectionFactory } from '../../src/domain/engine';
+import { AiMode, HexEngine } from '../../src/domain/engine';
 import App from '../../src/components/App';
 import { createGameState } from '../fixtures/app.fixture';
-import { Dispatcher } from '../../src/utilities/dispatcher';
 import { HiveDispatcher } from '../../src/services';
+import { Dispatcher } from '../../src/hooks/useHiveDispatchListener';
 
-const closeConnectionMock = vi.fn().mockImplementation(() => Promise.resolve());
-const defaultConnectionFactory: HexServerConnectionFactory = () => ({
+const closeConnectionMock = vi.fn(async (): Promise<void> => {});
+const defaultConnectionFactory = () => ({
   connectGame: vi.fn(),
   getConnectionState: vi.fn(),
   closeConnection: closeConnectionMock,
-  sendSelection: () => Promise.resolve(),
+  sendSelection: vi.fn(),
 });
 
 describe('<App>', () => {

@@ -3,17 +3,17 @@ import '../css/app.css';
 import { useContext, useEffect, useState } from 'preact/hooks';
 
 import { GameState } from '../domain';
-import { AiMode, HexEngine, HexServerConnectionFactory } from '../domain/engine';
+import { AiMode, HexEngine } from '../domain/engine';
 import {
   addServerHandlers,
   createOpponentConnectedHandler,
   createOpponentSelectionHandler,
 } from '../utilities/handlers';
-import { Dispatcher } from '../utilities/dispatcher';
-import { AiAction } from '../services';
+import { AiAction, ServerConnectionFactory } from '../services';
 import GameArea from './GameArea';
+import { Dispatcher } from '../hooks/useHiveDispatchListener';
 
-const App = (properties: { engine: HexEngine; connectionFactory: HexServerConnectionFactory }) => {
+const App = (properties: { engine: HexEngine; connectionFactory: ServerConnectionFactory }) => {
   const { engine, connectionFactory } = properties;
   const [gameState, updateHandler] = useState<GameState | undefined>();
   const [aiMode, setAiMode] = useState<AiMode>(engine.getAiMode);

@@ -11,12 +11,13 @@ import {
   createCellWithNoTile,
   createCellWithTile,
   createCellWithTileAndDrop,
+  createCellWithTileAndHistoricalMove,
   createCellWithTileNoDrop,
   createMoveListener,
   movingTile,
 } from '../fixtures/game-cell.fixtures';
 import { HiveDispatcher } from '../../src/services';
-import { Dispatcher } from '../../src/utilities/dispatcher';
+import { Dispatcher } from '../../src/hooks/useHiveDispatchListener';
 
 const setUp = (...tileCreationFns: Array<() => ComponentProps<typeof GameCell>>) => {
   const dispatcher = new HiveDispatcher();
@@ -34,6 +35,12 @@ describe('<GameCell>', () => {
   it(`top tile is rendered when tiles are all empty`, async () => {
     setUp(createCellWithTile);
     expect(screen.getByTitle(/fly/)).toBeInTheDocument();
+  });
+
+  it(`shows cells with historical moves`, async () => {
+    setUp(createCellWithTileAndHistoricalMove);
+
+    expect(screen.getByRole('cell')).toHaveClass('historical');
   });
 
   it('allows drop on dragover', async () => {

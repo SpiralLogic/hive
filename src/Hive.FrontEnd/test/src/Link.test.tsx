@@ -3,7 +3,7 @@ import userEvent from '@testing-library/user-event';
 import Links from '../../src/components/Links';
 
 import { HiveDispatcher } from '../../src/services';
-import { Dispatcher } from '../../src/utilities/dispatcher';
+import { Dispatcher } from '../../src/hooks/useHiveDispatchListener';
 
 const dispatcher = new HiveDispatcher();
 vi.spyOn(dispatcher, 'dispatch');

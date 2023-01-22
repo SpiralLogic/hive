@@ -1,6 +1,5 @@
 import { render, screen } from '@testing-library/preact';
 import userEvent from '@testing-library/user-event';
-import { Dispatcher } from '../../src/utilities/dispatcher';
 
 import GameArea from '../../src/components/GameArea';
 import { GameStatus } from '../../src/domain';
@@ -9,6 +8,7 @@ import { createGameState } from '../fixtures/game-area.fixtures';
 import { mockClipboard, mockExecCommand, mockLocation, mockShare, noShare, simulateEvent } from '../helpers';
 import { MockedFunction } from 'vitest';
 import { waitFor } from '@testing-library/dom';
+import { Dispatcher } from '../../src/hooks/useHiveDispatchListener';
 
 describe('<GameArea>', () => {
   test('default drag over is prevented to allow drop', () => {
@@ -405,6 +405,21 @@ describe('<GameArea>', () => {
         players={gameState.players}
         cells={gameState.cells}
         currentPlayer={1}
+      />
+    );
+    expect(view).toMatchSnapshot();
+  });
+
+  test('render snapshot with historical move', () => {
+    const gameState = createGameState(1, true);
+    const view = render(
+      <GameArea
+        gameId={'123A'}
+        gameStatus="MoveSuccess"
+        players={gameState.players}
+        cells={gameState.cells}
+        currentPlayer={1}
+        history={gameState.history}
       />
     );
     expect(view).toMatchSnapshot();

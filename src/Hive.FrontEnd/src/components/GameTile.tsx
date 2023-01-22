@@ -3,10 +3,10 @@ import { useContext, useEffect, useState } from 'preact/hooks';
 
 import { PlayerId, Tile as TileType } from '../domain';
 import { TileAction } from '../services';
-import { useClassReducer } from '../utilities/class-reducer';
-import { Dispatcher, useHiveDispatchListener } from '../utilities/dispatcher';
 import { handleDrop, handleKeyboardNav, isEnterOrSpace } from '../utilities/handlers';
 import Tile from './Tile';
+import { useClassReducer } from '../hooks/useClassReducer';
+import { Dispatcher, useHiveDispatchListener } from '../hooks/useHiveDispatchListener';
 
 const tileSelector = `[tabindex].tile`;
 const cellSelector = `[tabindex][role="cell"]`;

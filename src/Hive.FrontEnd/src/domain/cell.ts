@@ -2,6 +2,6 @@ import { HexCoordinates } from './hex-coordinates';
 import { Tile } from './tile';
 
 export type Cell = {
-  coords: HexCoordinates;
+  readonly coords: HexCoordinates;
   tiles: Array<Tile>;
 };

@@ -3,8 +3,8 @@ import userEvent from '@testing-library/user-event';
 import { HiveDispatcher, TileAction, TileEvent } from '../../src/services';
 import GameTile from '../../src/components/GameTile';
 import { simulateEvent } from '../helpers';
-import { Dispatcher } from '../../src/utilities/dispatcher';
 import { waitFor } from '@testing-library/dom';
+import { Dispatcher } from '../../src/hooks/useHiveDispatchListener';
 
 const createTestDispatcher = (type: TileEvent['type'] = 'tileSelected'): [TileEvent[], HiveDispatcher] => {
   const dispatcher = new HiveDispatcher();

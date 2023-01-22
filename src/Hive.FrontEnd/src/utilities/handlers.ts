@@ -1,6 +1,12 @@
 import { GameState, Move, Tile } from '../domain';
-import { OpponentConnectedHandler, OpponentSelectionHandler } from '../domain/engine';
-import { AiAction, HiveDispatcher, MoveEvent, TileEvent } from '../services';
+import {
+  AiAction,
+  HiveDispatcher,
+  MoveEvent,
+  OpponentConnectedHandler,
+  OpponentSelectionHandler,
+  TileEvent,
+} from '../services';
 
 export function handleDragOver(event_: { preventDefault: () => void }): boolean {
   event_.preventDefault();

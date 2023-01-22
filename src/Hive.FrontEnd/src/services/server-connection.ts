@@ -5,15 +5,27 @@ import {
   HubConnectionState,
 } from '@microsoft/signalr';
 
-import { GameId, PlayerId, Tile } from '../domain';
-import {
-  HexServerConnectionFactory,
-  OpponentConnectedHandler,
-  OpponentSelectionHandler,
-  ServerConnectionConfig,
-} from '../domain/engine';
+import { GameId, GameState, PlayerId, Tile } from '../domain';
 
-class ServerConnection {
+export type PlayerSelectionEvent = 'select' | 'deselect';
+export type PlayerConnectionEvent = 'connect' | 'disconnect';
+export type GameStateUpdateHandler = (gameState: GameState) => void;
+export type OpponentSelectionHandler = (type: PlayerSelectionEvent, tile: Tile) => void;
+export type OpponentConnectedHandler = (type: PlayerConnectionEvent) => void;
+export type ServerConnectionConfig = {
+  currentPlayer: PlayerId;
+  gameId: GameId;
+  updateHandler: GameStateUpdateHandler;
+  opponentSelectionHandler: OpponentSelectionHandler;
+  opponentConnectedHandler: OpponentConnectedHandler;
+};
+export interface ServerConnection {
+  connectGame: () => Promise<void>;
+  getConnectionState: () => HubConnectionState;
+  sendSelection: OpponentSelectionHandler;
+  closeConnection: () => Promise<void>;
+}
+class ServerConnectionImpl implements ServerConnection {
   private readonly updateHandler;
 
   private readonly gameId: GameId;
@@ -82,6 +94,5 @@ class ServerConnection {
     return connection;
   };
 }
-
-export const serverConnectionFactory: HexServerConnectionFactory = (config: ServerConnectionConfig) =>
-  new ServerConnection(config);
+export type ServerConnectionFactory = (config: ServerConnectionConfig) => ServerConnection;
+export const serverConnectionFactory = (config: ServerConnectionConfig) => new ServerConnectionImpl(config);

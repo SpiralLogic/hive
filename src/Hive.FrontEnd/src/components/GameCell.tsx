@@ -2,10 +2,10 @@ import { FunctionComponent } from 'preact';
 import { useContext, useEffect, useState } from 'preact/hooks';
 import { HexCoordinates, Tile as TileType } from '../domain';
 import { TileEvent } from '../services';
-import { Dispatcher, useHiveDispatchListener } from '../utilities/dispatcher';
 import { handleDragOver, handleKeyboardNav, isEnterOrSpace } from '../utilities/handlers';
-import { useClassReducer } from '../utilities/class-reducer';
 import Hexagon from './Hexagon';
+import { useClassReducer } from '../hooks/useClassReducer';
+import { Dispatcher, useHiveDispatchListener } from '../hooks/useHiveDispatchListener';
 
 const isValidMove = (validMoves: Array<HexCoordinates>, coords: HexCoordinates) =>
   validMoves.some((destination) => destination.q == coords.q && destination.r == coords.r);

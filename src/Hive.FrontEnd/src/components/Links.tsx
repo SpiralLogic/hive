@@ -5,10 +5,10 @@ import { useContext } from 'preact/hooks';
 
 import { GameId, PlayerId } from '../domain';
 import { AiAction } from '../services';
-import { Dispatcher } from '../utilities/dispatcher';
 import { getShareUrl } from '../utilities/share';
 import { AiMode } from '../domain/engine';
 import SVG from './SVG';
+import { Dispatcher } from '../hooks/useHiveDispatchListener';
 
 type Properties = {
   onShowRules: () => void;

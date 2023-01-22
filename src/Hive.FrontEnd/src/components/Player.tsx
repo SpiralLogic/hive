@@ -4,7 +4,7 @@ import { FunctionComponent, toChildArray } from 'preact';
 import { useEffect, useState } from 'preact/hooks';
 
 import { PlayerId } from '../domain';
-import { useClassReducer } from '../utilities/class-reducer';
+import { useClassReducer } from '../hooks/useClassReducer';
 
 type Properties = {
   name: string;

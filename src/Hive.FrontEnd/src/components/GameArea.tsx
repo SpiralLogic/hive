@@ -5,7 +5,6 @@ import { FunctionComponent } from 'preact';
 
 import { Cell, GameState, GameStatus, HexCoordinates, PlayerId } from '../domain';
 import { HextilleBuilder, HiveDispatcher, HiveEvent } from '../services';
-import { Dispatcher, useHiveDispatchListener } from '../utilities/dispatcher';
 import { handleDragOver } from '../utilities/handlers';
 import { cellKey, removeOtherPlayerMoves } from '../utilities/hextille';
 import { shareGame } from '../utilities/share';
@@ -20,6 +19,7 @@ import Players from './Players';
 import Row from './Row';
 import Rules from './Rules';
 import { HistoricalMove } from '../domain/historical-move';
+import { Dispatcher, useHiveDispatchListener } from '../hooks/useHiveDispatchListener';
 
 type Properties = GameState & { currentPlayer: PlayerId; aiMode?: AiMode };
 
@@ -72,6 +72,7 @@ const isPreviousMove = (history: HistoricalMove[], coords: HexCoordinates) => {
     (previousMove.originalCoords?.q === coords.q && previousMove.originalCoords.r === coords.r)
   );
 };
+
 const GameArea: FunctionComponent<Properties> = ({
   players,
   cells,

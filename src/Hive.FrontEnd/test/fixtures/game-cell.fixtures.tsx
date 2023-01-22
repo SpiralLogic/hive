@@ -8,6 +8,11 @@ export const createCellWithTile = () => {
   return { coords: { q: 1, r: 1 }, children: <GameTile currentPlayer={0} {...tile} /> };
 };
 
+export const createCellWithTileAndHistoricalMove = () => {
+  const tile = { id: 2, playerId: 1, creature: 'fly', moves: [] };
+  return { coords: { q: 1, r: 1 }, historical: true, children: <GameTile currentPlayer={0} {...tile} /> };
+};
+
 export const movingTile = {
   id: 2,
   moves: [
