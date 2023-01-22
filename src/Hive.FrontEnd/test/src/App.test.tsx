@@ -5,7 +5,7 @@ import { createGameState } from '../fixtures/app.fixture';
 import { HiveDispatcher } from '../../src/services';
 import { Dispatcher } from '../../src/hooks/useHiveDispatchListener';
 
-const closeConnectionMock = vi.fn(async (): Promise<void> => {});
+const closeConnectionMock = vi.fn();
 const defaultConnectionFactory = () => ({
   connectGame: vi.fn(),
   getConnectionState: vi.fn(),

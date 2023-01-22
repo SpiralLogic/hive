@@ -1,7 +1,7 @@
 import { Cell, GameState } from '../../src/domain';
 import { HistoricalMove } from '../../src/domain/historical-move';
 
-export const createGameState = (cells: number, withHistory: boolean = false): GameState => {
+export const createGameState = (cells: number, withHistory = false): GameState => {
   const emptyCell: Cell = { coords: { q: 0, r: 0 }, tiles: [] };
   const player0 = { id: 0, name: 'Player 1', tiles: [] };
   const player1 = {
