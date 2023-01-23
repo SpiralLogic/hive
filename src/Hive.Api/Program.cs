@@ -47,6 +47,7 @@ app.UseFileServer(
             {
                 if (ctx.File.Name.EndsWith(".js", StringComparison.InvariantCultureIgnoreCase) || ctx.File.Name.EndsWith(".css", StringComparison.InvariantCultureIgnoreCase) || ctx.File.Name.EndsWith(".webmanifest", StringComparison.InvariantCultureIgnoreCase))
                     ctx.Context.Response.Headers.ContentType += "; charset=utf-8";
+                ctx.Context.Response.Headers[HeaderNames.XContentTypeOptions] = "nosniff";
                 if (ctx.File.Name == "index.html") return;
                 var oneWeekSeconds = (60 * 60 * 24 * 7).ToString(CultureInfo.InvariantCulture);
                 ctx.Context.Response.Headers[HeaderNames.CacheControl] = $"public, max-age={oneWeekSeconds}";

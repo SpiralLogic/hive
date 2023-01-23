@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using FluentAssertions;
 using Hive.Domain.Entities;
 using Microsoft.AspNetCore.Mvc.Testing;
+using Microsoft.Net.Http.Headers;
 using Xunit;
 using Move = Hive.Api.DTOs.Move;
 
@@ -47,6 +48,24 @@ public class ApiIntegrationTests : IClassFixture<WebApplicationFactory<Program>>
 
         response.EnsureSuccessStatusCode(); // Status Code 200-299
         response.Content.Headers.ContentType?.ToString().Should().Be($"{mimeType}");
+    }
+
+ [Theory]
+    [InlineData("/")]
+    [InlineData("/index.html")]
+    [InlineData("/favicon.ico")]
+    [InlineData("/dummy.js")]
+    [InlineData("/dummy.css")]
+    [InlineData("/game/ID/0")]
+    [InlineData("/site.webmanifest")]
+    public async Task Get_EndpointsHaveNoSniffXContentTypeOptions(string url)
+    {
+        var client = _factory.CreateClient();
+
+        var response = await client.GetAsync(url);
+
+        response.EnsureSuccessStatusCode(); // Status Code 200-299
+        response.Headers.GetValues(HeaderNames.XContentTypeOptions).Should().Contain("nosniff");
     }
 
     [Fact]
