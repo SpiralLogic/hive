@@ -57,12 +57,12 @@ export const createOpponentSelectionHandler = (dispatcher: HiveDispatcher): Oppo
   };
 };
 export const createOpponentConnectedHandler = (dispatcher: HiveDispatcher): OpponentConnectedHandler => {
-  return (type) => {
+  return (type, playerId) => {
     if (type === 'connect') {
-      dispatcher.dispatch({ type: 'opponentConnected' });
+      dispatcher.dispatch({ type: 'opponentConnected', playerId: playerId });
       dispatcher.dispatch<AiAction>({ type: 'toggleAi', newState: 'off' });
     } else {
-      dispatcher.dispatch({ type: 'opponentDisconnected' });
+      dispatcher.dispatch({ type: 'opponentDisconnected', playerId: playerId });
     }
   };
 };

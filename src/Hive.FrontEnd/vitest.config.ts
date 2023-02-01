@@ -8,11 +8,11 @@ export default mergeConfig(
     root: './',
     base: 'http://localhost',
     test: {
-      root: './test',
-      include: ['**/src/**/*.test.*'],
-      exclude: ['./src/__snapshots__/**'],
-      setupFiles: ['./vitest.setup.ts'],
-      outputFile: '../reports/__tests__/test-results.xml',
+      root: './',
+      include: ['./test/src/**/*.test.*'],
+      exclude: ['./test/src/__snapshots__/**'],
+      setupFiles: ['./test/vitest.setup.ts'],
+      outputFile: './reports/__tests__/test-results.xml',
       typecheck: { checker: 'tsc' },
       clearMocks: true,
       environment: 'jsdom',
@@ -22,7 +22,7 @@ export default mergeConfig(
       coverage: {
         enabled: true,
         reporter: ['text', 'html', 'lcov'],
-        reportsDirectory: '../reports/__coverage__',
+        reportsDirectory: './reports/__coverage__',
       },
     },
   })

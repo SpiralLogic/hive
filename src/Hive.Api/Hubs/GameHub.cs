@@ -30,8 +30,8 @@ public class GameHub : Hub
             await Groups.AddToGroupAsync(Context.ConnectionId, groupName);
             if (playerId is string player)
             {
-                await Groups.AddToGroupAsync(Context.ConnectionId, $"{groupName}-{player}");
-                await Clients.Group($"{groupName}-{(player == "0" ? "1" : "0")}").SendAsync("PlayerConnection", "connect");
+                await Groups.AddToGroupAsync(Context.ConnectionId, groupName);
+                await Clients.Group(groupName).SendAsync("PlayerConnection", "connect", playerId);
             }
         }
     }
@@ -47,8 +47,8 @@ public class GameHub : Hub
             await Groups.RemoveFromGroupAsync(Context.ConnectionId, groupName);
             if (playerId is string player)
             {
-                await Groups.RemoveFromGroupAsync(Context.ConnectionId, $"{groupName}-{player}");
-                await Clients.Group($"{groupName}-{(player == "0" ? "1" : "0")}").SendAsync("PlayerConnection", "disconnect");
+                await Groups.RemoveFromGroupAsync(Context.ConnectionId, groupName);
+                await Clients.Group(groupName).SendAsync("PlayerConnection", "disconnect", playerId);
             }
         }
     }

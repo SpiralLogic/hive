@@ -4,7 +4,7 @@ import { useContext, useEffect, useState } from 'preact/hooks';
 import { FunctionComponent } from 'preact';
 
 import { Cell, GameState, GameStatus, HexCoordinates, PlayerId } from '../domain';
-import { HextilleBuilder, HiveDispatcher, HiveEvent } from '../services';
+import { ConnectEvent, HextilleBuilder, HiveDispatcher, HiveEvent } from '../services';
 import { handleDragOver } from '../utilities/handlers';
 import { cellKey, removeOtherPlayerMoves } from '../utilities/hextille';
 import { shareGame } from '../utilities/share';
@@ -88,8 +88,7 @@ const GameArea: FunctionComponent<Properties> = ({
   const dispatcher = useContext<HiveDispatcher>(Dispatcher);
 
   const openDialog = (dialog: Exclude<CurrentDialog, 'none'>) => {
-    if (dialog != 'gameOver') setTimeout(() => setCurrentDialog(dialog), 100);
-    closeDialog();
+    if (dialog != 'gameOver') setCurrentDialog(dialog);
   };
 
   const shareComponent = async () => {
@@ -104,14 +103,18 @@ const GameArea: FunctionComponent<Properties> = ({
     if (gameOutcome(gameStatus, currentPlayer) !== '') setCurrentDialog('gameOver');
   }, [gameStatus, currentPlayer]);
 
-  useHiveDispatchListener<HiveEvent>('opponentConnected', () => {
+  useHiveDispatchListener<ConnectEvent>('opponentConnected', ({ playerId }) => {
     setPlayerConnected('connected');
-    openDialog('playerConnected');
+    if (playerId !== currentPlayer) {
+      openDialog('playerConnected');
+    }
   });
 
-  useHiveDispatchListener<HiveEvent>('opponentDisconnected', () => {
+  useHiveDispatchListener<ConnectEvent>('opponentDisconnected', ({ playerId }) => {
     setPlayerConnected('disconnected');
-    openDialog('playerConnected');
+    if (playerId !== currentPlayer) {
+      openDialog('playerConnected');
+    }
   });
 
   removeOtherPlayerMoves(currentPlayer, { players, cells });

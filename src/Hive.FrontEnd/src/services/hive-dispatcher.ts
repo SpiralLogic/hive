@@ -1,4 +1,4 @@
-import { Move, Tile } from '../domain';
+import { Move, PlayerId, Tile } from '../domain';
 import { AiMode } from '../domain/engine';
 
 export type HiveEventListener<T extends HiveIntent> = <U extends T>(intent: U) => void;
@@ -11,7 +11,7 @@ export type Action = {
 };
 export type AiAction = { type: 'toggleAi'; newState: AiMode };
 
-export type ConnectEvent = { type: 'opponentConnected' | 'opponentDisconnected' };
+export type ConnectEvent = { type: 'opponentConnected' | 'opponentDisconnected'; playerId: PlayerId };
 export type TileEvent = {
   type: 'tileDropped' | 'click' | 'tileSelected' | 'tileDeselected';
   tile: Tile;
