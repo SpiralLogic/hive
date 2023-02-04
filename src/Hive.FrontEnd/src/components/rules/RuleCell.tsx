@@ -4,17 +4,21 @@ import { JSXInternal } from 'preact/src/jsx';
 import Arrow, { Direction } from '../Arrow';
 import Hexagon from '../Hexagon';
 import Tile from '../Tile';
+import { useClassSignal } from '../../hooks/useClassReducer';
 
 type Result = 'correct' | 'incorrect';
-type Arrows = ([Direction, number | undefined] | Direction)[];
+type CellArrows = ([Direction, number | undefined] | Direction)[];
 
-const createArrows = (arrows: Arrows | undefined, style: Result) =>
-  arrows?.map((a) => {
-    const [direction, length] = Array.isArray(a) ? a : [a];
-    return <Arrow key={direction} result={style} direction={direction} length={length} />;
-  });
+const Arrows: FunctionComponent<{ arrows: CellArrows | undefined; style: Result }> = ({ arrows, style }) => (
+  <>
+    {arrows?.map((a) => {
+      const [direction, length] = Array.isArray(a) ? a : [a];
+      return <Arrow key={direction} result={style} direction={direction} length={length} />;
+    })}
+  </>
+);
 
-const getResultChar = (result?: Result, symbol?: string) => {
+const ResultChar: FunctionComponent<{ result?: Result; symbol?: string }> = ({ result, symbol }) => {
   if (symbol) return <span>{symbol}</span>;
   switch (result) {
     case 'correct':
@@ -34,23 +38,25 @@ const RuleCell: FunctionComponent<{
   symbol?: string;
   zIndex?: number;
   selected?: boolean;
-  correctArrows?: Arrows;
-  incorrectArrows?: Arrows;
+  correctArrows?: CellArrows;
+  incorrectArrows?: CellArrows;
   style?: JSXInternal.CSSProperties;
 }> = (properties) => {
   const { correctArrows, incorrectArrows, symbol, zIndex, result, ...rest } = properties;
-  const classes = [];
-  if (result) classes.push(result);
-  if (!properties.creature && !result) classes.push('blank');
+  const [classes, classAction] = useClassSignal();
+  const [tileClasses, tileClassAction] = useClassSignal('tile');
+  if (result) classAction.add(result);
+  if (!properties.creature && !result) classAction.add('blank');
 
   return (
-    <Hexagon
-      role="cell"
-      class={classes.length > 0 ? classes.join(' ') : undefined}
-      style={properties.selected ? { zIndex: 4 } : { zIndex }}>
-      <Tile {...rest}>{getResultChar(result, symbol)}</Tile>
-      {createArrows(correctArrows, 'correct')}
-      {createArrows(incorrectArrows, 'incorrect')}
+    <Hexagon role="cell" classes={classes} style={properties.selected ? { zIndex: 4 } : { zIndex }}>
+      <>
+        <Tile classes={tileClasses} classAction={tileClassAction} {...rest}>
+          <ResultChar result={result} symbol={symbol} />
+        </Tile>
+        <Arrows arrows={correctArrows} style="correct" />
+        <Arrows arrows={incorrectArrows} style="incorrect" />
+      </>
     </Hexagon>
   );
 };

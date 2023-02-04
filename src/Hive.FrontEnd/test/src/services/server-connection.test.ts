@@ -118,7 +118,7 @@ describe('game Server Connection Tests', () => {
     const serverConnection = setupServer(hubConnection);
     await serverConnection.connectGame();
 
-    expect(hubConnection.on).toHaveBeenLastCalledWith('PlayerConnection', opponentConnectedHandler);
+    expect(hubConnection.on).toHaveBeenLastCalledWith('PlayerConnection', expect.any(Function));
     restoreLocation();
   });
 

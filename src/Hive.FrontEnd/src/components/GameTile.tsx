@@ -5,11 +5,12 @@ import { PlayerId, Tile as TileType } from '../domain';
 import { TileAction } from '../services';
 import { handleDrop, handleKeyboardNav, isEnterOrSpace } from '../utilities/handlers';
 import Tile from './Tile';
-import { useClassReducer } from '../hooks/useClassReducer';
+import { useClassSignal } from '../hooks/useClassReducer';
 import { Dispatcher, useHiveDispatchListener } from '../hooks/useHiveDispatchListener';
+import { signal, useSignal } from '@preact/signals';
 
 const tileSelector = `[tabindex].tile`;
-const cellSelector = `[tabindex][role="cell"]`;
+const cellSelector = `[role="cell"].can-drop`;
 type Properties = TileType & { stacked?: boolean; currentPlayer: PlayerId };
 
 const handleMouseLeave = (event: { currentTarget: HTMLElement }) => event.currentTarget.blur();
@@ -18,20 +19,20 @@ const GameTile: FunctionComponent<Properties> = (properties) => {
   const { currentPlayer, stacked, ...tile } = properties;
   const { id, moves, creature, playerId } = tile;
   const [focus, setFocus] = useState(tileSelector);
-  const [classes, setClassList] = useClassReducer(`player${playerId} hex`);
+  const [classes, classAction] = useClassSignal(`player${playerId}`, 'hex');
   const dispatcher = useContext(Dispatcher);
-  if (stacked) setClassList({ type: 'add', classes: ['stacked'] });
+  if (stacked) classAction.add('stacked');
 
   const deselect = (fromEvent = false) => {
-    if (!classes.includes('selected')) return;
-    setClassList({ type: 'remove', classes: ['selected'] });
+    if (!classes.peek().includes('selected')) return;
+    classAction.remove('selected');
     dispatcher.dispatch({ type: 'tileDeselected', tile, fromEvent });
   };
 
   const select = (fromEvent = false) => {
-    if (classes.includes('selected')) return;
+    if (classes.peek().includes('selected')) return;
     dispatcher.dispatch({ type: 'tileClear' });
-    setClassList({ type: 'add', classes: ['selected'] });
+    classAction.add('selected');
     if (currentPlayer != playerId) return;
     dispatcher.dispatch({ type: 'tileSelected', tile, fromEvent });
   };
@@ -52,24 +53,29 @@ const GameTile: FunctionComponent<Properties> = (properties) => {
   const handleDragStart = (event: DragEvent) => {
     event.stopPropagation();
     select();
-    setClassList({ type: 'add', classes: ['before-drag'] });
-    setTimeout(() => setClassList({ type: 'remove', classes: ['before-drag'] }), 1);
+    classAction.add('before-drag');
+    setTimeout(() => classAction.remove('before-drag'), 1);
   };
 
   const handleDragEnd = () => {
-    dispatcher.dispatch({ type: 'tileClear' });
     dispatcher.dispatch({ type: 'tileDropped', tile });
+    dispatcher.dispatch({ type: 'tileClear' });
   };
 
   const handleClick = (event: MouseEvent) => {
     event.stopPropagation();
-    return classes.includes('selected') ? deselect() : select();
+    if (classes.peek().includes('selected')) {
+      deselect();
+    } else {
+      select();
+      setFocus(cellSelector);
+    }
   };
 
   const handleKeyDown = (event: KeyboardEvent) => {
     if (handleKeyboardNav(event) || !isEnterOrSpace(event)) return;
     event.stopPropagation();
-    if (classes.includes('selected')) {
+    if (classes.peek().includes('selected')) {
       deselect();
     } else {
       select();
@@ -85,10 +91,9 @@ const GameTile: FunctionComponent<Properties> = (properties) => {
 
   const attributes = {
     title: `Player-${playerId} ${creature}`,
-    class: classes,
     draggable: moves.length > 0 ? true : undefined,
-    tabindex: moves.length > 0 ? 0 : undefined,
     creature,
+    canTabTo: signal(moves.length),
   };
 
   const handlers =
@@ -104,7 +109,7 @@ const GameTile: FunctionComponent<Properties> = (properties) => {
       : {
           ondrop: handleDrop,
         };
-  return <Tile {...attributes} {...handlers} />;
+  return <Tile classes={classes} classAction={classAction} {...attributes} {...handlers} />;
 };
 GameTile.displayName = 'GameTile';
 export default GameTile;

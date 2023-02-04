@@ -239,7 +239,7 @@ describe('<GameArea>', () => {
         />
       </Dispatcher.Provider>
     );
-    dispatcher.dispatch<HiveEvent>({ type: connectionState });
+    dispatcher.dispatch<ConnectEvent>({ type: connectionState, playerId: 0 });
 
     expect(await screen.findByText(expected)).toBeInTheDocument();
   });
@@ -262,7 +262,7 @@ describe('<GameArea>', () => {
         />
       </Dispatcher.Provider>
     );
-    dispatcher.dispatch<HiveEvent>({ type: connectionState });
+    dispatcher.dispatch<ConnectEvent>({ type: connectionState, playerId: 1 });
 
     await userEvent.click(await screen.findByRole(/button/i, { hidden: false, name: /close dialog/i }));
 

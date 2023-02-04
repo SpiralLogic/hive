@@ -1,4 +1,4 @@
-import { GameState, Move, Tile } from '../domain';
+import { GameState, Move, PlayerId, Tile } from '../domain';
 import {
   AiAction,
   HiveDispatcher,
@@ -24,20 +24,20 @@ const focusNext = (target: HTMLElement, direction: -1 | 1) => {
   const allTabbable = [...document.querySelectorAll('*[tabindex]:not(.name)')];
   let index = allTabbable.indexOf(target);
   if (index + direction < 0) index = allTabbable.length;
-  (allTabbable[(index + direction) % allTabbable.length] as HTMLElement).focus();
+  (allTabbable[(index + direction) % allTabbable.length] as HTMLElement)?.focus();
 };
 
-export const handleKeyboardNav = (error: Pick<KeyboardEvent, 'key' | 'target'>): boolean => {
-  if (error.target instanceof HTMLElement) {
-    switch (error.key) {
+export const handleKeyboardNav = (event: Pick<KeyboardEvent, 'key' | 'target'>): boolean => {
+  if (event.target instanceof HTMLElement) {
+    switch (event.key) {
       case 'ArrowDown':
       case 'ArrowRight':
-        focusNext(error.target, 1);
+        focusNext(event.target, 1);
         return true;
 
       case 'ArrowUp':
       case 'ArrowLeft':
-        focusNext(error.target, -1);
+        focusNext(event.target, -1);
         return true;
 
       default:
@@ -57,12 +57,12 @@ export const createOpponentSelectionHandler = (dispatcher: HiveDispatcher): Oppo
   };
 };
 export const createOpponentConnectedHandler = (dispatcher: HiveDispatcher): OpponentConnectedHandler => {
-  return (type, playerId) => {
+  return (type, playerId: PlayerId) => {
     if (type === 'connect') {
-      dispatcher.dispatch({ type: 'opponentConnected', playerId: playerId });
+      dispatcher.dispatch({ type: 'opponentConnected', playerId });
       dispatcher.dispatch<AiAction>({ type: 'toggleAi', newState: 'off' });
     } else {
-      dispatcher.dispatch({ type: 'opponentDisconnected', playerId: playerId });
+      dispatcher.dispatch({ type: 'opponentDisconnected', playerId});
     }
   };
 };

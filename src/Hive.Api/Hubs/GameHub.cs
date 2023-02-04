@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Threading.Tasks;
 using Hive.Domain.Entities;
 using Microsoft.AspNetCore.Routing;
@@ -30,8 +31,9 @@ public class GameHub : Hub
             await Groups.AddToGroupAsync(Context.ConnectionId, groupName);
             if (playerId is string player)
             {
+                var playerInt = int.Parse(player, NumberStyles.Integer, CultureInfo.InvariantCulture);
                 await Groups.AddToGroupAsync(Context.ConnectionId, groupName);
-                await Clients.Group(groupName).SendAsync("PlayerConnection", "connect", playerId);
+                await Clients.Group(groupName).SendAsync("PlayerConnection", "connect", playerInt);
             }
         }
     }
@@ -47,8 +49,9 @@ public class GameHub : Hub
             await Groups.RemoveFromGroupAsync(Context.ConnectionId, groupName);
             if (playerId is string player)
             {
+                var playerInt = int.Parse(player, NumberStyles.Integer, CultureInfo.InvariantCulture);
                 await Groups.RemoveFromGroupAsync(Context.ConnectionId, groupName);
-                await Clients.Group(groupName).SendAsync("PlayerConnection", "disconnect", playerId);
+                await Clients.Group(groupName).SendAsync("PlayerConnection", "disconnect", playerInt);
             }
         }
     }

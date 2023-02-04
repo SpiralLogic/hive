@@ -93,9 +93,8 @@ class ServerConnectionImpl implements ServerConnection {
       .build();
     connection.on('ReceiveGameState', this.updateHandler);
     connection.on('OpponentSelection', this.opponentSelectionHandler);
-    connection.on('PlayerConnection', (status, playerId) =>
-      this.opponentConnectedHandler(status, parseInt(playerId))
-    );
+    connection.on('PlayerConnection', this.opponentConnectedHandler);
+
     return connection;
   };
 }

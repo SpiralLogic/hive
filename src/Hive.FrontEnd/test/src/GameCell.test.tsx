@@ -58,6 +58,7 @@ describe('<GameCell>', () => {
 
   it('is active on tile drag enter', async () => {
     setUp(createCellMovableTile, createCellWithTileAndDrop, createCellCanDrop);
+
     await userEvent.click(screen.getByTitle(/tilecanmove/));
 
     for (const c of screen.getAllByRole('cell')) fireEvent.dragEnter(c);
@@ -164,7 +165,7 @@ describe('<GameCell>', () => {
       tile: movingTile,
     });
 
-    await Promise.all(screen.getAllByRole('cell').map((c) => waitFor(() => expect(c).toHaveClass('active'))));
+    for (const c of screen.getAllByRole('cell')) expect(c).not.toHaveClass('active');
     for (const c of screen.getAllByRole('cell')) expect(c).not.toHaveClass('can-drop');
   });
 
@@ -220,9 +221,7 @@ describe('<GameCell>', () => {
     const moveEvents = createMoveListener(dispatcher);
 
     await userEvent.click(screen.getByTitle(/tilecanmove/));
-    const cells = await screen.findAllByRole('cell');
-    cells[1].focus();
-    await userEvent.keyboard('{enter}');
+    await userEvent.keyboard('{Enter}');
 
     expect(moveEvents).toStrictEqual(expect.arrayContaining([expect.objectContaining({ type: 'move' })]));
   });

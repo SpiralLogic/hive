@@ -135,8 +135,8 @@ describe(`handler tests`, () => {
       dispatcher.add<HiveEvent>('opponentConnected', connectedHandler);
       dispatcher.add<AiAction>('toggleAi', toggleAiHandler);
 
-      createOpponentConnectedHandler(dispatcher)('connect');
-      expect(connectedHandler).toHaveBeenCalledWith({ type: 'opponentConnected' });
+      createOpponentConnectedHandler(dispatcher)('connect', 0);
+      expect(connectedHandler).toHaveBeenCalledWith({ type: 'opponentConnected', playerId: 0 });
       expect(toggleAiHandler).toHaveBeenCalledWith({ type: 'toggleAi', newState: 'off' });
     });
 
@@ -145,8 +145,8 @@ describe(`handler tests`, () => {
       const disconnectedHandler = vi.fn();
       dispatcher.add<HiveEvent>('opponentDisconnected', disconnectedHandler);
 
-      createOpponentConnectedHandler(dispatcher)('disconnect');
-      expect(disconnectedHandler).toHaveBeenCalledWith({ type: 'opponentDisconnected' });
+      createOpponentConnectedHandler(dispatcher)('disconnect', 0);
+      expect(disconnectedHandler).toHaveBeenCalledWith({ type: 'opponentDisconnected', playerId: 0 });
     });
 
     it(`server handlers are attached`, () => {

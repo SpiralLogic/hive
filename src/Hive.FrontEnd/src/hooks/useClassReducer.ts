@@ -1,25 +1,19 @@
-﻿import { useReducer } from 'preact/hooks';
+﻿import { useCallback } from 'preact/hooks';
+import { useSignal } from '@preact/signals';
 
-const classReducer = (
-  initialClasses: string,
-  action: { type: 'add' | 'remove'; classes: Array<string> },
-): string => {
-  const classList = new Set(initialClasses.split(' '));
-  if (action.type === `add`) {
-    if (action.classes.reduce((i, c) => i && classList.has(c), true)) {
-      return initialClasses;
-    }
-    for (const c of action.classes) classList.add(c);
-  } else {
-    if (action.classes.reduce((i, c) => i && !classList.has(c), true)) {
-      return initialClasses;
-    }
-    for (const c of action.classes) classList.delete(c);
-  }
-  classList.delete('');
-  return [...classList].join(' ');
+const getClassString = (classList: Set<string>) => Array.from(classList).join(' ');
+export const useClassSignal = (...initialClasses: string[]) => {
+  const classList = new Set<string>(initialClasses.map((c) => c.trim()));
+  const classSignal = useSignal(getClassString(classList));
+  const add = useCallback((...classes: string[]) => {
+    classes.forEach((c) => classList.add(c));
+    classSignal.value = Array.from(classList).join(' ');
+  }, []);
+
+  const remove = useCallback((...classes: string[]) => {
+    classes.forEach((c) => classList.delete(c));
+    classSignal.value = getClassString(classList);
+  }, []);
+
+  return [classSignal, { add, remove }] as const;
 };
-export const useClassReducer = (
-  initialClasses: string,
-): [string, (action: { type: 'add' | 'remove'; classes: Array<string> }) => void] =>
-  useReducer(classReducer, initialClasses);

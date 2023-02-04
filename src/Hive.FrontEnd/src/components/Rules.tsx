@@ -46,7 +46,7 @@ const Rules = () => {
           <li key={d}>{d}</li>
         ))}
       </ul>
-      <RuleComponent />
+      <RuleComponent key={RuleComponent.title} />
     </div>
   );
 };

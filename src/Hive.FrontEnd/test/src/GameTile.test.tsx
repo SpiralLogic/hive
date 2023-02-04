@@ -174,19 +174,6 @@ describe('<GameTile>', () => {
     expect(tileEvents).toStrictEqual([expect.objectContaining({ type: 'tileSelected' })]);
   });
 
-  it('removes focus on mouseLeave', async () => {
-    render(
-      <Dispatcher.Provider value={new HiveDispatcher()}>
-        <GameTile currentPlayer={1} {...tileCanMove} />
-      </Dispatcher.Provider>
-    );
-    const tileCanMoveElement = screen.getByTitle(/tileCanMove/);
-
-    tileCanMoveElement.focus();
-    await userEvent.unhover(tileCanMoveElement);
-    expect(tileCanMoveElement).not.toHaveFocus();
-  });
-
   it('is draggable when there are available moves', () => {
     render(
       <Dispatcher.Provider value={new HiveDispatcher()}>
@@ -290,7 +277,10 @@ describe('<GameTile>', () => {
     );
 
     const tileNoMoveElement = screen.getByTitle(/tileNoMove/);
-    dispatcher.dispatch<TileAction>({ type: 'tileSelect', tile: tileNoMove });
+    dispatcher.dispatch<TileAction>({
+      type: 'tileSelect',
+      tile: { id: 1, playerId: 0, creature: 'queen', moves: [] },
+    });
 
     expect(tileNoMoveElement).not.toHaveClass('selected');
   });

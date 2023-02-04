@@ -4,7 +4,7 @@ import { FunctionComponent, toChildArray } from 'preact';
 import { useEffect, useState } from 'preact/hooks';
 
 import { PlayerId } from '../domain';
-import { useClassReducer } from '../hooks/useClassReducer';
+import { useClassSignal } from '../hooks/useClassReducer';
 
 type Properties = {
   name: string;
@@ -12,15 +12,15 @@ type Properties = {
 };
 const Player: FunctionComponent<Properties> = (properties) => {
   const { name, id, children } = properties;
-  const [classes, setClassList] = useClassReducer(`player player${id}`);
+  const [classes, classAction] = useClassSignal(`player player${id}`);
   const [hidden, setHidden] = useState(false);
   const hasChildren = toChildArray(children).length === 0;
 
   useEffect(() => {
     if (hasChildren) {
-      setTimeout(() => setClassList({ type: 'add', classes: ['hide'] }), 100);
+      setTimeout(() => classAction.add('hide'), 100);
     }
-  }, [hasChildren, setClassList]);
+  }, [hasChildren, classAction]);
 
   const ontransitionend = () => {
     setHidden(hasChildren);

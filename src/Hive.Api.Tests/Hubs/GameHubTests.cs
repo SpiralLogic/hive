@@ -1,3 +1,4 @@
+using System.Globalization;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
@@ -112,13 +113,14 @@ public class GameHubTests
 
             await hub.OnConnectedAsync();
             _groupManagerMock.Verify(g => g.AddToGroupAsync(HubConnectionId, HubGroupName, It.IsAny<CancellationToken>()));
-            _groupManagerMock.Verify(g => g.AddToGroupAsync(HubConnectionId, $"{HubGroupName}-{playerId}", It.IsAny<CancellationToken>()));
+            _groupManagerMock.Verify(g => g.AddToGroupAsync(HubConnectionId, HubGroupName, It.IsAny<CancellationToken>()));
             _clientProxyMock.Verify(
                 c => c.SendCoreAsync(
                     "PlayerConnection",
                     new object[]
                     {
-                        "connect"
+                        "connect",
+                        int.Parse(playerId, NumberStyles.Integer, CultureInfo.InvariantCulture)
                     },
                     It.IsAny<CancellationToken>()
                 )
@@ -133,15 +135,14 @@ public class GameHubTests
             var hub = CreateGameHub(playerId);
             await hub.OnDisconnectedAsync(null);
             _groupManagerMock.Verify(g => g.RemoveFromGroupAsync(HubConnectionId, HubGroupName, It.IsAny<CancellationToken>()));
-            _groupManagerMock.Verify(
-                g => g.RemoveFromGroupAsync(HubConnectionId, $"{HubGroupName}-{playerId}", It.IsAny<CancellationToken>())
-            );
+            _groupManagerMock.Verify(g => g.RemoveFromGroupAsync(HubConnectionId, HubGroupName, It.IsAny<CancellationToken>()));
             _clientProxyMock.Verify(
                 c => c.SendCoreAsync(
                     "PlayerConnection",
                     new object[]
                     {
-                        "disconnect"
+                        "disconnect",
+                        int.Parse(playerId, NumberStyles.Integer, CultureInfo.InvariantCulture)
                     },
                     It.IsAny<CancellationToken>()
                 )
