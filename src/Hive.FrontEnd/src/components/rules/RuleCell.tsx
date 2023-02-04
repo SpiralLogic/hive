@@ -44,14 +44,13 @@ const RuleCell: FunctionComponent<{
 }> = (properties) => {
   const { correctArrows, incorrectArrows, symbol, zIndex, result, ...rest } = properties;
   const [classes, classAction] = useClassSignal();
-  const [tileClasses, tileClassAction] = useClassSignal('tile');
   if (result) classAction.add(result);
   if (!properties.creature && !result) classAction.add('blank');
 
   return (
     <Hexagon role="cell" classes={classes} style={properties.selected ? { zIndex: 4 } : { zIndex }}>
       <>
-        <Tile classes={tileClasses} classAction={tileClassAction} {...rest}>
+        <Tile {...rest}>
           <ResultChar result={result} symbol={symbol} />
         </Tile>
         <Arrows arrows={correctArrows} style="correct" />

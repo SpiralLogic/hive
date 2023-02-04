@@ -1,5 +1,5 @@
 import { FunctionComponent } from 'preact';
-import { useContext, useEffect, useState } from 'preact/hooks';
+import { useCallback, useContext, useEffect, useState } from 'preact/hooks';
 
 import { PlayerId, Tile as TileType } from '../domain';
 import { TileAction } from '../services';
@@ -7,7 +7,7 @@ import { handleDrop, handleKeyboardNav, isEnterOrSpace } from '../utilities/hand
 import Tile from './Tile';
 import { useClassSignal } from '../hooks/useClassReducer';
 import { Dispatcher, useHiveDispatchListener } from '../hooks/useHiveDispatchListener';
-import { signal, useSignal } from '@preact/signals';
+import { signal } from '@preact/signals';
 
 const tileSelector = `[tabindex].tile`;
 const cellSelector = `[role="cell"].can-drop`;
@@ -18,7 +18,7 @@ const handleMouseLeave = (event: { currentTarget: HTMLElement }) => event.curren
 const GameTile: FunctionComponent<Properties> = (properties) => {
   const { currentPlayer, stacked, ...tile } = properties;
   const { id, moves, creature, playerId } = tile;
-  const [focus, setFocus] = useState(tileSelector);
+  const [focus, setFocusSelector] = useState(tileSelector);
   const [classes, classAction] = useClassSignal(`player${playerId}`, 'hex');
   const dispatcher = useContext(Dispatcher);
   if (stacked) classAction.add('stacked');
@@ -47,7 +47,7 @@ const GameTile: FunctionComponent<Properties> = (properties) => {
 
   useHiveDispatchListener('tileClear', () => {
     deselect(true);
-    setFocus('');
+    setFocusSelector('');
   });
 
   const handleDragStart = (event: DragEvent) => {
@@ -68,7 +68,7 @@ const GameTile: FunctionComponent<Properties> = (properties) => {
       deselect();
     } else {
       select();
-      setFocus(cellSelector);
+      setFocusSelector(cellSelector);
     }
   };
 
@@ -79,14 +79,14 @@ const GameTile: FunctionComponent<Properties> = (properties) => {
       deselect();
     } else {
       select();
-      setFocus(cellSelector);
+      setFocusSelector(cellSelector);
     }
   };
   useEffect(() => {
     if (!focus) return;
     const focusElement = document.querySelector<HTMLElement>(focus);
     focusElement?.focus();
-    setFocus('');
+    setFocusSelector('');
   }, [focus]);
 
   const attributes = {
@@ -107,9 +107,9 @@ const GameTile: FunctionComponent<Properties> = (properties) => {
           ondrop: handleDrop,
         }
       : {
-          ondrop: handleDrop,
+          ondrop: useCallback(handleDrop, []),
         };
-  return <Tile classes={classes} classAction={classAction} {...attributes} {...handlers} />;
+  return <Tile classes={classes} {...attributes} {...handlers} />;
 };
 GameTile.displayName = 'GameTile';
 export default GameTile;

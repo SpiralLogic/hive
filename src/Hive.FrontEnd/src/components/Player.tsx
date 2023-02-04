@@ -1,7 +1,7 @@
 import '../css/player.css';
 
 import { FunctionComponent, toChildArray } from 'preact';
-import { useEffect, useState } from 'preact/hooks';
+import { useEffect } from 'preact/hooks';
 
 import { PlayerId } from '../domain';
 import { useClassSignal } from '../hooks/useClassReducer';
@@ -13,7 +13,6 @@ type Properties = {
 const Player: FunctionComponent<Properties> = (properties) => {
   const { name, id, children } = properties;
   const [classes, classAction] = useClassSignal(`player player${id}`);
-  const [hidden, setHidden] = useState(false);
   const hasChildren = toChildArray(children).length === 0;
 
   useEffect(() => {
@@ -23,12 +22,12 @@ const Player: FunctionComponent<Properties> = (properties) => {
   }, [hasChildren, classAction]);
 
   const ontransitionend = () => {
-    setHidden(hasChildren);
+    classAction.add('hidden');
   };
 
   const handlers = { onTransitionEnd: ontransitionend, onAnimationEnd: ontransitionend };
 
-  return hidden ? null : (
+  return (
     <section class={classes} aria-label={`${name}'s unplaced pieces`} {...handlers}>
       <h2>{name}</h2>
       <div class="tiles">{children}</div>

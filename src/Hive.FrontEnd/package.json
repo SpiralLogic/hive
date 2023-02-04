@@ -29,7 +29,7 @@
     "build:dev:watch": "npm-run-all -s vite:watch",
     "vite:build": "vite build --emptyOutDir",
     "vite:dev": "vite build --sourcemap=true --mode development",
-    "vite:watch": "cross-env NODE_ENV=development vite build --mode development -w",
+    "vite:watch": "cross-env NODE_ENV=development vite build  --sourcemap=true --mode development -w",
     "watch": "npm-run-all -s clean vite:watch"
   },
   "lint-staged": {

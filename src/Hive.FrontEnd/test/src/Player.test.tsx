@@ -44,7 +44,7 @@ describe('<Player>', () => {
 
     fireEvent.transitionEnd(screen.getByLabelText(/player 1/i));
 
-    expect(screen.queryByLabelText(/player 1/i)).not.toBeInTheDocument();
+    expect(screen.queryByLabelText(/player 1/i)).toHaveClass('hidden');
   });
 
   it('renders', () => {

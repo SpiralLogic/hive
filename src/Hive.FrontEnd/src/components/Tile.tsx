@@ -1,29 +1,29 @@
 import '../css/tile.css';
 
-import { FunctionComponent } from 'preact';
+import { FunctionComponent, JSX } from 'preact';
 
 import Hexagon from './Hexagon';
-import { computed, Signal } from '@preact/signals';
-import { useClassSignal } from '../hooks/useClassReducer';
+import { Signal, useComputed } from '@preact/signals';
 
-type Properties = {
+type Properties = Partial<JSX.IntrinsicAttributes> & {
   selected?: boolean;
   creature?: string;
-  classes: Signal<string>;
-  classAction: ReturnType<typeof useClassSignal>[1];
-
-  [rest: string]: unknown;
+  classes?: Signal<string>;
 };
 
 const Tile: FunctionComponent<Properties> = (properties) => {
-  const { classes, children, classAction, selected, creature, ...rest } = properties;
-  classAction.add('tile');
-  if (creature) classAction.add(`${creature.toLowerCase()}`);
-  if (selected) classAction.add('selected');
+  const { classes, children, selected, creature, ...rest } = properties;
+  const tileClasses = useComputed(() => {
+    const computedClass = ['tile'];
+    if (classes?.value) computedClass.unshift(classes.value);
+    if (creature) computedClass.push(`${creature.toLowerCase()}`);
+    if (selected) computedClass.push('selected');
+    return computedClass.join(' ');
+  });
 
-  const svgs = creature ? <use className={`creature`} href={`#${creature.toLowerCase()}`} /> : undefined;
+  const svgs = creature ? <use className="creature" href={`#${creature.toLowerCase()}`} /> : undefined;
   return (
-    <Hexagon svgs={svgs} {...rest} classes={classes}>
+    <Hexagon svg={svgs} classes={tileClasses} {...rest}>
       {children}
     </Hexagon>
   );

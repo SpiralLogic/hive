@@ -1,12 +1,12 @@
 import { FunctionComponent } from 'preact';
-import { useContext, useEffect, useRef, useState } from 'preact/hooks';
+import { useContext, useEffect, useRef } from 'preact/hooks';
 import { HexCoordinates, Tile as TileType } from '../domain';
 import { MoveEvent, TileEvent } from '../services';
 import { handleDragOver, handleKeyboardNav, isEnterOrSpace } from '../utilities/handlers';
 import Hexagon from './Hexagon';
 import { useClassSignal } from '../hooks/useClassReducer';
 import { Dispatcher, useHiveDispatchListener } from '../hooks/useHiveDispatchListener';
-import { computed, useComputed, useSignal } from '@preact/signals';
+import {  useSignal } from '@preact/signals';
 
 const isValidMove = (validMoves: Array<HexCoordinates>, coords: HexCoordinates) =>
   validMoves.some((destination) => destination.q == coords.q && destination.r == coords.r);
@@ -75,8 +75,8 @@ const GameCell: FunctionComponent<Properties> = (properties) => {
   };
 
   const attributes = {
-    class: classes,
-    role: hidden ? 'none' : 'cell',
+    classes,
+    role: 'cell',
   };
 
   const handlers = {
@@ -94,5 +94,5 @@ const GameCell: FunctionComponent<Properties> = (properties) => {
     </Hexagon>
   );
 };
-GameCell.displayName = 'Cell';
+GameCell.displayName = 'GameCell';
 export default GameCell;

@@ -42,6 +42,10 @@
   border: none;
 }
 
+.player.hidden{
+    width:0;
+}
+
 .player .tile {
   margin: 0.4vh auto;
 }
