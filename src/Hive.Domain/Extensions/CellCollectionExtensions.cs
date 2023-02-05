@@ -27,7 +27,7 @@ public static class CellCollectionExtensions
         return cells.WhereOccupied().First(c => c.Tiles.Any(t => t.Id == tileId));
     }
 
-    internal static IEnumerable<Cell> CreateAllEmptyNeighbours(this IEnumerable<Cell> cells)
+    internal static IEnumerable<Cell> CreateAllEmptyNeighbours(this ISet<Cell> cells)
     {
         var occupied = cells.WhereOccupied().ToCoords().ToHashSet();
         return cells.SelectMany(cell => cell.Coords.Neighbours()).Except(occupied).ToCells();

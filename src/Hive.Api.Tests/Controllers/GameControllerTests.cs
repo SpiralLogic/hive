@@ -9,7 +9,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Options;
 using Xunit;
-using Move = Hive.Domain.Entities.Move;
 
 namespace Hive.Api.Tests.Controllers;
 
@@ -81,7 +80,7 @@ public class GameControllerTests
 
         var controller = new GameController(Options.Create(jsonOptions), memoryCache);
 
-        var actionResult = (await _controller.GetGame(ExistingGameId)).Result.Should().BeOfType<OkObjectResult>().Subject;
+        var actionResult = (await controller.GetGame(ExistingGameId)).Result.Should().BeOfType<OkObjectResult>().Subject;
         actionResult.Value.Should().BeAssignableTo<GameState>();
     }
 

@@ -16,7 +16,7 @@ export const createGameState = (cells: number, withHistory = false): GameState =
     tiles: [{ id: 0, playerId: 0, creature: 'creature0', moves: [{ q: 0, r: 0 }] }],
   });
   const history: HistoricalMove[] = [
-    { move: { tileId: 1, coords: { q: 1, r: 1 } }, originalCoords: { q: 0, r: 0 } },
+    { move: { tile: { id: 1, playerId: 1 }, coords: { q: 1, r: 1 } }, originalCoords: { q: 0, r: 0 } },
   ];
   const gameState: GameState = {
     gameId: '33',

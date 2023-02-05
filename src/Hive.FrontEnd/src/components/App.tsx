@@ -15,6 +15,7 @@ import { Dispatcher } from '../hooks/useHiveDispatchListener';
 import { HistoricalMove } from '../domain/historical-move';
 
 const isOpponentAi = (history: HistoricalMove[] | undefined, currentPlayer: PlayerId) =>
+  history?.length === 0 ||
   history
     ?.filter((h) => h.move.tile.playerId !== currentPlayer)
     .slice(-1)

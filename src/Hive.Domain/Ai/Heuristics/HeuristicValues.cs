@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Collections.Immutable;
 using System.Linq;
 using Hive.Domain.Entities;
 using Hive.Domain.Extensions;
@@ -27,7 +26,7 @@ internal class HeuristicValues
         Move = move;
         GameStatus = gameStatus;
         TilesPlaced = _hive.Cells.WherePlayerOccupies(move.Tile.PlayerId).Count();
-        var ( _, coords) = _hive.History.Last();
+        var ( _, coords, _) = _hive.History.Last();
         if (coords != null)
         {
             MoveFromLocation = _hive.Cells.FindCell(coords);

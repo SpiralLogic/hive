@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Hive.Domain.Ai;
 using Hive.Domain.Entities;
-using Hive.Domain.Extensions;
 
 namespace Hive.Domain;
 
@@ -30,15 +29,13 @@ public class Hive
 
     public GameStatus Move(Move move)
     {
-        var coords = Cells.FindCellOrDefault(move.Tile)?.Coords;
-        _mover.History.Add(new HistoricalMove(move, coords));
         return _mover.Move(move);
     }
 
-    public async ValueTask<(GameStatus status, Move move)> AiMove(Func<string, Tile, ValueTask> broadcastThought)
+    public async ValueTask<GameStatus> AiMove(Func<string, Tile, ValueTask> broadcastThought)
     {
         var aiMove = await new ComputerPlayer(this, broadcastThought).GetMove();
-        return (Move(aiMove), aiMove);
+        return _mover.Move(aiMove, true);
     }
 
     internal void RevertMove()

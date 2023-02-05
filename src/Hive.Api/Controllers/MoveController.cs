@@ -83,7 +83,7 @@ public class MoveController : ControllerBase
 
         var game = new Domain.Hive(players.ToList(), cells.ToHashSet(), history);
 
-        var (status, _) = await game.AiMove(async (type, tile) => await BroadCast(id, type, tile));
+        var status = await game.AiMove(async (type, tile) => await BroadCast(id, type, tile));
 
         var newGameState = new GameState(id, status, game.Players, game.Cells, game.History);
         await _hubContext.Clients.Group(id).SendAsync("ReceiveGameState", newGameState);

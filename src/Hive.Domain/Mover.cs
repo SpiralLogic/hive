@@ -16,8 +16,9 @@ internal class Mover
         History = new List<HistoricalMove>(history);
     }
 
-    internal GameStatus Move(Move move)
+    internal GameStatus Move(Move move, bool isAiMove = false)
     {
+        History.Add(new HistoricalMove(move, _hive.Cells.FindCellOrDefault(move.Tile)?.Coords, isAiMove));
         if (IsGameOver())
         {
             ClearAllMoves();
@@ -78,12 +79,13 @@ internal class Mover
     {
         UpdateMoves(player);
     }
+
     internal void RevertMove()
     {
-        var (move, coords) = this.History.Last();
-        this.History.RemoveAt(this.History.Count-1);
+        var (move, coords, _) = this.History.Last();
+        this.History.RemoveAt(this.History.Count - 1);
 
-        var currentCell = _hive.Cells.FindTile(move.Tile.Id)!;
+        var currentCell = _hive.Cells.FindTile(move.Tile.Id);
         var player = _hive.Players.FindPlayerById(move.Tile.PlayerId);
 
         if (coords == null) RevertMoveOnBoard(currentCell, player);
@@ -96,6 +98,7 @@ internal class Mover
     {
         player.Tiles.Add(currentCell.RemoveTopTile());
     }
+
     private void RevertMoveFromPlayerTiles(Cell currentCell, Coords coords)
     {
         var tile = currentCell.TopTile();
@@ -103,6 +106,7 @@ internal class Mover
         tile.Moves.AddMany(moves);
         this.PerformMove(new Move(currentCell.TopTile(), coords));
     }
+
     private Player GetNextPlayer(Tile movedTile)
     {
         return _hive.Players.First(p => p.Id != movedTile.PlayerId);
