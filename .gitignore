@@ -452,7 +452,7 @@ $RECYCLE.BIN/
 **/.DS_Store
 **/dist
 **/public
-**/coverage
+**/reports
 **/wwwroot/**
 **/js/**/*.js
 **/js/**/*.css
@@ -474,7 +474,6 @@ build/
 /.vscode/launch.json
 /.vscode/tasks.json
 /.config/
-reports
 *Dotnetsettings.user
 *.tsbuildinfo
 vi*.config.d.ts
