@@ -3,7 +3,7 @@ import userEvent from '@testing-library/user-event';
 
 import GameArea from '../../src/components/GameArea';
 import { GameStatus } from '../../src/domain';
-import { ConnectEvent, HiveDispatcher, HiveEvent, TileAction } from '../../src/services';
+import { AiAction, ConnectEvent, HiveDispatcher, TileAction } from '../../src/services';
 import { createGameState } from '../fixtures/game-area.fixtures';
 import { mockClipboard, mockExecCommand, mockLocation, mockShare, noShare, simulateEvent } from '../helpers';
 import { MockedFunction } from 'vitest';
@@ -265,10 +265,39 @@ describe('<GameArea>', () => {
     dispatcher.dispatch<ConnectEvent>({ type: connectionState, playerId: 1 });
 
     await userEvent.click(await screen.findByRole(/button/i, { hidden: false, name: /close dialog/i }));
-
     expect(screen.queryByRole('dialog', { name: expected })).not.toBeInTheDocument();
   });
 
+  describe('ai toggle', () => {
+    let dispatcher: HiveDispatcher;
+    const toggleAiHandler = vi.fn();
+    beforeEach(() => {
+      dispatcher = new HiveDispatcher();
+      dispatcher.add<AiAction>('toggleAi', toggleAiHandler);
+
+      const gameState = createGameState(1);
+      render(
+        <Dispatcher.Provider value={dispatcher}>
+          <GameArea
+            gameId={'123A'}
+            gameStatus={'MoveSuccess'}
+            players={gameState.players}
+            cells={gameState.cells}
+            currentPlayer={0}
+          />
+        </Dispatcher.Provider>
+      );
+    });
+    it(`opponent connected handler toggles ai mode`, () => {
+      dispatcher.dispatch<ConnectEvent>({ type: 'opponentConnected', playerId: 1 });
+      expect(toggleAiHandler).toHaveBeenCalledWith({ type: 'toggleAi', newState: 'off' });
+    });
+
+    it(`opponent connected handler doesn't toggle ai mode for current player`, () => {
+      dispatcher.dispatch<ConnectEvent>({ type: 'opponentConnected', playerId: 0 });
+      expect(toggleAiHandler).not.toHaveBeenCalled();
+    });
+  });
   const gameStatusShownDialogs: Array<[GameStatus, number, boolean]> = [
     ['AiWin', 0, true],
     ['Player0Win', 0, true],

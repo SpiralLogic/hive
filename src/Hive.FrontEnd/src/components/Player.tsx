@@ -13,16 +13,16 @@ type Properties = {
 const Player: FunctionComponent<Properties> = (properties) => {
   const { name, id, children } = properties;
   const [classes, classAction] = useClassSignal(`player player${id}`);
-  const hasChildren = toChildArray(children).length === 0;
+  const hasNoChildren = toChildArray(children).length === 0;
 
   useEffect(() => {
-    if (hasChildren) {
+    if (hasNoChildren) {
       setTimeout(() => classAction.add('hide'), 100);
     }
-  }, [hasChildren, classAction]);
+  }, [hasNoChildren, classAction]);
 
   const ontransitionend = () => {
-    classAction.add('hidden');
+    if (classes.peek().includes('hide')) classAction.add('hidden');
   };
 
   const handlers = { onTransitionEnd: ontransitionend, onAnimationEnd: ontransitionend };

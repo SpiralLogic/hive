@@ -1,5 +1,5 @@
 import { screen } from '@testing-library/preact';
-import { Action, AiAction, HiveDispatcher, HiveEvent, TileAction } from '../../../src/services';
+import { Action, HiveDispatcher, HiveEvent, TileAction } from '../../../src/services';
 import {
   addServerHandlers,
   createOpponentConnectedHandler,
@@ -131,13 +131,10 @@ describe(`handler tests`, () => {
     it(`opponent connected handler`, () => {
       const dispatcher = new HiveDispatcher();
       const connectedHandler = vi.fn();
-      const toggleAiHandler = vi.fn();
       dispatcher.add<HiveEvent>('opponentConnected', connectedHandler);
-      dispatcher.add<AiAction>('toggleAi', toggleAiHandler);
 
       createOpponentConnectedHandler(dispatcher)('connect', 0);
       expect(connectedHandler).toHaveBeenCalledWith({ type: 'opponentConnected', playerId: 0 });
-      expect(toggleAiHandler).toHaveBeenCalledWith({ type: 'toggleAi', newState: 'off' });
     });
 
     it(`opponent disconnected handler`, () => {

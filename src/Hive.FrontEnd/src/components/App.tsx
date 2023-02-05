@@ -2,7 +2,7 @@ import '../css/app.css';
 
 import { useContext, useEffect, useState } from 'preact/hooks';
 
-import { GameState } from '../domain';
+import { GameState, PlayerId } from '../domain';
 import { AiMode, HexEngine } from '../domain/engine';
 import {
   addServerHandlers,
@@ -12,6 +12,13 @@ import {
 import { AiAction, ServerConnectionFactory } from '../services';
 import GameArea from './GameArea';
 import { Dispatcher } from '../hooks/useHiveDispatchListener';
+import { HistoricalMove } from '../domain/historical-move';
+
+const isOpponentAi = (history: HistoricalMove[] | undefined, currentPlayer: PlayerId) =>
+  history
+    ?.filter((h) => h.move.tile.playerId !== currentPlayer)
+    .slice(-1)
+    .some((h) => h.aiMove);
 
 const App = (properties: { engine: HexEngine; connectionFactory: ServerConnectionFactory }) => {
   const { engine, connectionFactory } = properties;
@@ -28,6 +35,9 @@ const App = (properties: { engine: HexEngine; connectionFactory: ServerConnectio
           document.title,
           `/game/${initialGameState.gameId}/${engine.currentPlayer}${document.location.search}`
         );
+        if (!isOpponentAi(initialGameState.history, engine.currentPlayer)) {
+          setAiMode('off');
+        }
         updateHandler(initialGameState);
       })
       .catch((error: Error) => setFetchStatus(error.message));

@@ -4,7 +4,7 @@ import { useContext, useEffect, useState } from 'preact/hooks';
 import { FunctionComponent } from 'preact';
 
 import { Cell, GameState, GameStatus, HexCoordinates, PlayerId } from '../domain';
-import { ConnectEvent, HextilleBuilder, HiveDispatcher, HiveEvent } from '../services';
+import { AiAction, ConnectEvent, HextilleBuilder, HiveDispatcher } from '../services';
 import { handleDragOver } from '../utilities/handlers';
 import { cellKey, removeOtherPlayerMoves } from '../utilities/hextille';
 import { shareGame } from '../utilities/share';
@@ -104,15 +104,16 @@ const GameArea: FunctionComponent<Properties> = ({
   }, [gameStatus, currentPlayer]);
 
   useHiveDispatchListener<ConnectEvent>('opponentConnected', ({ playerId }) => {
-    setPlayerConnected('connected');
     if (playerId !== currentPlayer) {
+      dispatcher.dispatch<AiAction>({ type: 'toggleAi', newState: 'off' });
+      setPlayerConnected('connected');
       openDialog('playerConnected');
     }
   });
 
   useHiveDispatchListener<ConnectEvent>('opponentDisconnected', ({ playerId }) => {
-    setPlayerConnected('disconnected');
     if (playerId !== currentPlayer) {
+      setPlayerConnected('disconnected');
       openDialog('playerConnected');
     }
   });

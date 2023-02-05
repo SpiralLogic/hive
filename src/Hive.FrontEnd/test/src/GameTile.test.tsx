@@ -66,6 +66,21 @@ describe('<GameTile>', () => {
     expect(tileEvents).toEqual(expect.arrayContaining([expect.objectContaining(expectedEvent)]));
   });
 
+  it('removes focus on mouse leave', async () => {
+    render(
+      <Dispatcher.Provider value={new HiveDispatcher()}>
+        <GameTile currentPlayer={1} {...tileCanMove} />
+      </Dispatcher.Provider>
+    );
+    const tileCanMoveElement = screen.getByTitle(/tileCanMove/);
+
+    await userEvent.click(tileCanMoveElement);
+    expect(tileCanMoveElement).toHaveFocus();
+
+    await userEvent.unhover(tileCanMoveElement);
+    expect(tileCanMoveElement).not.toHaveFocus();
+  });
+
   it('selects tile on enter', async () => {
     render(
       <Dispatcher.Provider value={new HiveDispatcher()}>
@@ -157,7 +172,7 @@ describe('<GameTile>', () => {
     expect(await screen.findByTitle(/tileCanMove/)).toHaveClass('selected');
   });
 
-  it('doesnt fire a tile start event with multiple clicks on the same tile', async () => {
+  it(`doesn't fire a tile start event with multiple clicks on the same tile`, async () => {
     const [tileEvents, dispatcher] = createTestDispatcher();
 
     render(
@@ -266,6 +281,20 @@ describe('<GameTile>', () => {
     dispatcher.dispatch<TileAction>({ type: 'tileSelect', tile: tileCanMove });
 
     expect(selectedEvents).toHaveLength(1);
+  });
+
+  it(`doesn't emit a *selected* event when opponents tile is selected from dispatch`, async () => {
+    const [selectedEvents, dispatcher] = createTestDispatcher('tileSelected');
+
+    render(
+      <Dispatcher.Provider value={dispatcher}>
+        <GameTile currentPlayer={0} {...tileCanMove} />
+      </Dispatcher.Provider>
+    );
+
+    dispatcher.dispatch<TileAction>({ type: 'tileSelect', tile: tileCanMove });
+
+    expect(selectedEvents).toHaveLength(0);
   });
 
   it(`tile is only *selected* on matching select events`, () => {

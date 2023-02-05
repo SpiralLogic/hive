@@ -1,6 +1,5 @@
 import { GameState, Move, PlayerId, Tile } from '../domain';
 import {
-  AiAction,
   HiveDispatcher,
   MoveEvent,
   OpponentConnectedHandler,
@@ -60,9 +59,8 @@ export const createOpponentConnectedHandler = (dispatcher: HiveDispatcher): Oppo
   return (type, playerId: PlayerId) => {
     if (type === 'connect') {
       dispatcher.dispatch({ type: 'opponentConnected', playerId });
-      dispatcher.dispatch<AiAction>({ type: 'toggleAi', newState: 'off' });
     } else {
-      dispatcher.dispatch({ type: 'opponentDisconnected', playerId});
+      dispatcher.dispatch({ type: 'opponentDisconnected', playerId });
     }
   };
 };
