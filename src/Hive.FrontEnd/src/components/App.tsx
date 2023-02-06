@@ -3,13 +3,13 @@ import '../css/app.css';
 import { useContext, useEffect, useState } from 'preact/hooks';
 
 import { GameState, PlayerId } from '../domain';
-import { AiMode, HexEngine } from '../domain/engine';
+import { HexEngine } from '../domain/engine';
 import {
   addServerHandlers,
   createOpponentConnectedHandler,
   createOpponentSelectionHandler,
 } from '../utilities/handlers';
-import { AiAction, ServerConnectionFactory } from '../services';
+import { ServerConnectionFactory } from '../services';
 import GameArea from './GameArea';
 import { Dispatcher } from '../hooks/useHiveDispatchListener';
 import { HistoricalMove } from '../domain/historical-move';
@@ -24,7 +24,6 @@ const isOpponentAi = (history: HistoricalMove[] | undefined, currentPlayer: Play
 const App = (properties: { engine: HexEngine; connectionFactory: ServerConnectionFactory }) => {
   const { engine, connectionFactory } = properties;
   const [gameState, updateHandler] = useState<GameState | undefined>();
-  const [aiMode, setAiMode] = useState<AiMode>(engine.getAiMode);
   const [fetchStatus, setFetchStatus] = useState('loading !');
   const dispatcher = useContext(Dispatcher);
 
@@ -37,21 +36,12 @@ const App = (properties: { engine: HexEngine; connectionFactory: ServerConnectio
           `/game/${initialGameState.gameId}/${engine.currentPlayer}${document.location.search}`
         );
         if (!isOpponentAi(initialGameState.history, engine.currentPlayer)) {
-          setAiMode('off');
+          engine.getAiMode().value = 'off';
         }
         updateHandler(initialGameState);
       })
       .catch((error: Error) => setFetchStatus(error.message));
   }, [engine.currentPlayer, engine.initialGame]);
-
-  useEffect(() => {
-    const aiToggle = ({ newState }: { newState: AiMode }) => {
-      setAiMode(newState);
-      return engine.setAiMode(newState);
-    };
-
-    return dispatcher.add<AiAction>('toggleAi', aiToggle);
-  }, [dispatcher, setAiMode, engine]);
 
   useEffect(() => {
     if (!gameState?.gameId)
@@ -89,7 +79,7 @@ const App = (properties: { engine: HexEngine; connectionFactory: ServerConnectio
       </h1>
     );
 
-  return <GameArea {...gameState} currentPlayer={engine.currentPlayer} aiMode={aiMode} />;
+  return <GameArea {...gameState} currentPlayer={engine.currentPlayer} aiMode={engine.getAiMode()} />;
 };
 
 App.displayName = 'App';

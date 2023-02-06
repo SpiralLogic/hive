@@ -3,12 +3,14 @@ import userEvent from '@testing-library/user-event';
 
 import GameArea from '../../src/components/GameArea';
 import { GameStatus } from '../../src/domain';
-import { AiAction, ConnectEvent, HiveDispatcher, TileAction } from '../../src/services';
+import { ConnectEvent, HiveDispatcher, TileAction } from '../../src/services';
 import { createGameState } from '../fixtures/game-area.fixtures';
 import { mockClipboard, mockExecCommand, mockLocation, mockShare, noShare, simulateEvent } from '../helpers';
 import { MockedFunction } from 'vitest';
 import { waitFor } from '@testing-library/dom';
 import { Dispatcher } from '../../src/hooks/useHiveDispatchListener';
+import { Signal, signal } from '@preact/signals';
+import { AiMode } from '../../src/domain/engine';
 
 describe('<GameArea>', () => {
   test('default drag over is prevented to allow drop', () => {
@@ -20,6 +22,7 @@ describe('<GameArea>', () => {
         players={gameState.players}
         cells={gameState.cells}
         currentPlayer={2}
+        aiMode={signal('off')}
       />
     );
     const preventDefault = simulateEvent(screen.getByTitle('Hive Game Area'), 'dragover');
@@ -39,6 +42,7 @@ describe('<GameArea>', () => {
           players={gameState.players}
           cells={gameState.cells}
           currentPlayer={1}
+          aiMode={signal('off')}
         />
       </Dispatcher.Provider>
     );
@@ -58,6 +62,7 @@ describe('<GameArea>', () => {
           players={gameState.players}
           cells={gameState.cells}
           currentPlayer={1}
+          aiMode={signal('off')}
         />
       </Dispatcher.Provider>
     );
@@ -75,6 +80,7 @@ describe('<GameArea>', () => {
         players={gameState.players}
         cells={gameState.cells}
         currentPlayer={1}
+        aiMode={signal('off')}
       />
     );
 
@@ -92,6 +98,7 @@ describe('<GameArea>', () => {
         players={gameState.players}
         cells={gameState.cells}
         currentPlayer={1}
+        aiMode={signal('off')}
       />
     );
 
@@ -112,6 +119,7 @@ describe('<GameArea>', () => {
         players={gameState.players}
         cells={gameState.cells}
         currentPlayer={0}
+        aiMode={signal('off')}
       />
     );
 
@@ -133,6 +141,7 @@ describe('<GameArea>', () => {
         players={gameState.players}
         cells={gameState.cells}
         currentPlayer={0}
+        aiMode={signal('off')}
       />
     );
     await userEvent.click(screen.getByTitle(/Share/));
@@ -153,6 +162,7 @@ describe('<GameArea>', () => {
         players={gameState.players}
         cells={gameState.cells}
         currentPlayer={1}
+        aiMode={signal('off')}
       />
     );
 
@@ -176,6 +186,7 @@ describe('<GameArea>', () => {
         players={gameState.players}
         cells={gameState.cells}
         currentPlayer={1}
+        aiMode={signal('off')}
       />
     );
     await userEvent.click(screen.getByTitle(/Share/));
@@ -196,6 +207,7 @@ describe('<GameArea>', () => {
         players={gameState.players}
         cells={gameState.cells}
         currentPlayer={1}
+        aiMode={signal('off')}
       />
     );
     await userEvent.click(screen.getByTitle(/Share/));
@@ -215,6 +227,7 @@ describe('<GameArea>', () => {
         players={gameState.players}
         cells={gameState.cells}
         currentPlayer={1}
+        aiMode={signal('off')}
       />
     );
     await userEvent.click(screen.getByTitle(/Share/));
@@ -236,6 +249,7 @@ describe('<GameArea>', () => {
           players={gameState.players}
           cells={gameState.cells}
           currentPlayer={1}
+          aiMode={signal('off')}
         />
       </Dispatcher.Provider>
     );
@@ -259,6 +273,7 @@ describe('<GameArea>', () => {
           players={gameState.players}
           cells={gameState.cells}
           currentPlayer={0}
+          aiMode={signal('off')}
         />
       </Dispatcher.Provider>
     );
@@ -270,12 +285,13 @@ describe('<GameArea>', () => {
 
   describe('ai toggle', () => {
     let dispatcher: HiveDispatcher;
+    let aiMode: Signal<AiMode>;
     const toggleAiHandler = vi.fn();
     beforeEach(() => {
       dispatcher = new HiveDispatcher();
-      dispatcher.add<AiAction>('toggleAi', toggleAiHandler);
 
       const gameState = createGameState(1);
+      aiMode = signal('on');
       render(
         <Dispatcher.Provider value={dispatcher}>
           <GameArea
@@ -284,13 +300,14 @@ describe('<GameArea>', () => {
             players={gameState.players}
             cells={gameState.cells}
             currentPlayer={0}
+            aiMode={aiMode}
           />
         </Dispatcher.Provider>
       );
     });
     it(`opponent connected handler toggles ai mode`, () => {
       dispatcher.dispatch<ConnectEvent>({ type: 'opponentConnected', playerId: 1 });
-      expect(toggleAiHandler).toHaveBeenCalledWith({ type: 'toggleAi', newState: 'off' });
+      expect(aiMode.value).toBe('off');
     });
 
     it(`opponent connected handler doesn't toggle ai mode for current player`, () => {
@@ -325,6 +342,7 @@ describe('<GameArea>', () => {
           players={gameState.players}
           cells={gameState.cells}
           currentPlayer={currentPlayer}
+          aiMode={signal('off')}
         />
       );
       expect(await screen.findByRole('dialog', { name: /game over/i })).toBeInTheDocument();
@@ -340,6 +358,7 @@ describe('<GameArea>', () => {
         players={gameState.players}
         cells={gameState.cells}
         currentPlayer={0}
+        aiMode={signal('off')}
       />
     );
     expect(screen.queryByRole('dialog', { name: /game over/i })).not.toBeInTheDocument();
@@ -354,6 +373,7 @@ describe('<GameArea>', () => {
         players={gameState.players}
         cells={gameState.cells}
         currentPlayer={0}
+        aiMode={signal('off')}
       />
     );
     expect(await screen.findByRole('dialog', { name: /game over/i })).toBeInTheDocument();
@@ -368,6 +388,7 @@ describe('<GameArea>', () => {
         players={gameState.players}
         cells={gameState.cells}
         currentPlayer={0}
+        aiMode={signal('off')}
       />
     );
     expect(screen.queryByRole('dialog', { name: /game over/i })).not.toBeInTheDocument();
@@ -383,6 +404,7 @@ describe('<GameArea>', () => {
         players={gameState.players}
         cells={gameState.cells}
         currentPlayer={0}
+        aiMode={signal('off')}
       />
     );
     await userEvent.click(await screen.findByRole(/button/i, { hidden: false, name: /close dialog/i }));
@@ -399,6 +421,7 @@ describe('<GameArea>', () => {
         players={gameState.players}
         cells={gameState.cells}
         currentPlayer={0}
+        aiMode={signal('off')}
       />
     );
 
@@ -417,6 +440,7 @@ describe('<GameArea>', () => {
         players={gameState.players}
         cells={gameState.cells}
         currentPlayer={0}
+        aiMode={signal('off')}
       />
     );
     await userEvent.click(await screen.findByRole('button', { name: /new game/i }));
@@ -434,6 +458,7 @@ describe('<GameArea>', () => {
         players={gameState.players}
         cells={gameState.cells}
         currentPlayer={1}
+        aiMode={signal('off')}
       />
     );
     expect(view).toMatchSnapshot();
@@ -448,6 +473,7 @@ describe('<GameArea>', () => {
         players={gameState.players}
         cells={gameState.cells}
         currentPlayer={1}
+        aiMode={signal('off')}
         history={gameState.history}
       />
     );
@@ -463,6 +489,7 @@ describe('<GameArea>', () => {
         players={gameState.players}
         cells={gameState.cells}
         currentPlayer={1}
+        aiMode={signal('off')}
       />
     );
     expect(view).toMatchSnapshot();

@@ -1,12 +1,13 @@
 import { GameId, GameState, Move, PlayerId } from '../domain';
 import { AiMode, HexEngine } from '../domain/engine';
 import { getAllPlayerTiles } from '../utilities/hextille';
+import { effect, Signal, signal } from '@preact/signals';
 
 export default class GameEngine implements HexEngine {
   public currentPlayer: PlayerId;
   public initialGame: Promise<GameState>;
   public gameId: GameId;
-  private aiMode: AiMode;
+  private readonly aiMode: Signal<AiMode>;
   private currentRequest: Promise<GameState>;
   private requestHeaders = {
     Accept: 'application/json',
@@ -16,17 +17,16 @@ export default class GameEngine implements HexEngine {
   constructor(existingGame?: { gameId: string; currentPlayer: string }) {
     this.currentPlayer = Number(existingGame?.currentPlayer ?? 0);
     this.gameId = existingGame?.gameId ?? '';
-    this.aiMode = this.currentPlayer === 0 ? 'on' : 'off';
-
+    this.aiMode = signal<AiMode>(this.currentPlayer === 0 ? 'on' : 'off');
     this.currentRequest = existingGame?.gameId
       ? this.getExistingGame(existingGame.gameId)
       : this.getNewGame();
 
     this.initialGame = this.completeRequest();
+    effect(() => this.setAiMode(this.aiMode.value));
   }
 
-  setAiMode = async (mode: AiMode) => {
-    this.aiMode = mode;
+  private setAiMode = async (mode: AiMode) => {
     if (mode === 'on') {
       const { cells, players } = await this.completeRequest();
       if (
@@ -45,7 +45,7 @@ export default class GameEngine implements HexEngine {
 
   move = async (move: Move): Promise<GameState> => {
     await this.postRequest(`/api/move/${this.gameId}`, move);
-    if (this.aiMode === 'on') {
+    if (this.aiMode.value === 'on') {
       await this.completeRequest();
       return this.aiMove();
     }

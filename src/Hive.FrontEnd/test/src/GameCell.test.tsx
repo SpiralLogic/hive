@@ -219,8 +219,10 @@ describe('<GameCell>', () => {
     const dispatcher = setUp(createCellMovableTile, createCellCanDrop);
 
     const moveEvents = createMoveListener(dispatcher);
+    const tileCanMove = screen.getByTitle(/tilecanmove/);
 
-    await userEvent.click(screen.getByTitle(/tilecanmove/));
+    await userEvent.click(tileCanMove);
+    await userEvent.tab();
     await userEvent.keyboard('{Enter}');
 
     expect(moveEvents).toStrictEqual(expect.arrayContaining([expect.objectContaining({ type: 'move' })]));
@@ -231,12 +233,11 @@ describe('<GameCell>', () => {
 
     const moveEvents = createMoveListener(dispatcher);
 
-    await userEvent.click(screen.getByTitle(/tilecanmove/));
-    const cells = await screen.findAllByRole('cell');
-    cells[1].focus();
-    await userEvent.keyboard(' ');
+      await userEvent.click(screen.getByTitle(/tilecanmove/));
+      await userEvent.tab();
+      await userEvent.keyboard(' ');
 
-    expect(moveEvents).toStrictEqual(expect.arrayContaining([expect.objectContaining({ type: 'move' })]));
+      expect(moveEvents).toStrictEqual(expect.arrayContaining([expect.objectContaining({ type: 'move' })]));
   });
 
   it.each([

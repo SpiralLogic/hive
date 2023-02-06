@@ -4,7 +4,7 @@ import { useContext, useEffect, useState } from 'preact/hooks';
 import { FunctionComponent } from 'preact';
 
 import { Cell, GameState, GameStatus, HexCoordinates, PlayerId } from '../domain';
-import { AiAction, ConnectEvent, HextilleBuilder, HiveDispatcher } from '../services';
+import { ConnectEvent, HextilleBuilder, HiveDispatcher } from '../services';
 import { handleDragOver } from '../utilities/handlers';
 import { cellKey, removeOtherPlayerMoves } from '../utilities/hextille';
 import { shareGame } from '../utilities/share';
@@ -20,8 +20,9 @@ import Row from './Row';
 import Rules from './Rules';
 import { HistoricalMove } from '../domain/historical-move';
 import { Dispatcher, useHiveDispatchListener } from '../hooks/useHiveDispatchListener';
+import { Signal, useComputed, useSignal } from '@preact/signals';
 
-type Properties = GameState & { currentPlayer: PlayerId; aiMode?: AiMode };
+type Properties = GameState & { currentPlayer: PlayerId; aiMode: Signal<AiMode> };
 
 const gameOutcome = (gameStatus: GameStatus, playerId: PlayerId) => {
   switch (gameStatus) {
@@ -80,15 +81,19 @@ const GameArea: FunctionComponent<Properties> = ({
   gameId,
   gameStatus,
   currentPlayer,
-  aiMode = 'off',
+  aiMode,
 }) => {
-  const [currentDialog, setCurrentDialog] = useState<CurrentDialog>('none');
+  const currentDialog = useSignal<CurrentDialog>('none');
+  const showGameOver = useComputed<boolean>(() => currentDialog.value === 'gameOver');
+  const showPlayerConnected = useComputed<boolean>(() => currentDialog.value === 'playerConnected');
+  const showShare = useComputed<boolean>(() => currentDialog.value === 'share');
+  const showRules = useComputed<boolean>(() => currentDialog.value === 'rules');
   const [playerConnected, setPlayerConnected] = useState<'connected' | 'disconnected' | false>(false);
-  const closeDialog = () => setCurrentDialog('none');
+  const closeDialog = () => (currentDialog.value = 'none');
   const dispatcher = useContext<HiveDispatcher>(Dispatcher);
 
   const openDialog = (dialog: Exclude<CurrentDialog, 'none'>) => {
-    if (dialog != 'gameOver') setCurrentDialog(dialog);
+    if (dialog != 'gameOver') currentDialog.value = dialog;
   };
 
   const shareComponent = async () => {
@@ -100,12 +105,12 @@ const GameArea: FunctionComponent<Properties> = ({
   const rows = hextilleBuilder.createRows();
 
   useEffect(() => {
-    if (gameOutcome(gameStatus, currentPlayer) !== '') setCurrentDialog('gameOver');
+    if (gameOutcome(gameStatus, currentPlayer) !== '') currentDialog.value = 'gameOver';
   }, [gameStatus, currentPlayer]);
 
   useHiveDispatchListener<ConnectEvent>('opponentConnected', ({ playerId }) => {
     if (playerId !== currentPlayer) {
-      dispatcher.dispatch<AiAction>({ type: 'toggleAi', newState: 'off' });
+      aiMode.value = 'off';
       setPlayerConnected('connected');
       openDialog('playerConnected');
     }
@@ -151,19 +156,19 @@ const GameArea: FunctionComponent<Properties> = ({
         </Hextille>
       </section>
       <Modal
-        open={currentDialog === 'playerConnected'}
+        open={showPlayerConnected}
         onClose={closeDialog}
         title="Player Connected"
         class="player-connected">
         <p>Player has {playerConnected}!</p>
       </Modal>
-      <Modal open={currentDialog === 'rules'} onClose={closeDialog} title="Game Rules" class="rules">
+      <Modal open={showRules} onClose={closeDialog} title="Game Rules" class="rules">
         <Rules />
       </Modal>
-      <Modal open={currentDialog === 'share'} onClose={closeDialog} title="Linked Shared" class="share">
+      <Modal open={showShare} onClose={closeDialog} title="Linked Shared" class="share">
         <p>Opponent's link has been copied to clipboard!</p>
       </Modal>
-      <Modal open={currentDialog === 'gameOver'} onClose={closeDialog} title="Game Over" class="game-over">
+      <Modal open={showGameOver} onClose={closeDialog} title="Game Over" class="game-over">
         <GameOver outcome={gameOutcome(gameStatus, currentPlayer)} />
       </Modal>
     </main>

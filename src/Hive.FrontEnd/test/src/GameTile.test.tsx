@@ -103,12 +103,12 @@ describe('<GameTile>', () => {
     );
     const tileCanMoveElement = screen.getByTitle(/tileCanMove/);
 
-    tileCanMoveElement.focus();
+    await userEvent.hover(tileCanMoveElement);
     await userEvent.keyboard('{enter}');
-    expect(await screen.findByTitle(/tilecanmove/i)).toHaveClass('selected');
+    expect(screen.getByTitle(/tilecanmove/i)).toHaveClass('selected');
 
     await userEvent.keyboard('{enter}');
-    expect(await screen.findByTitle(/tilecanmove/i)).not.toHaveClass('selected');
+    expect(screen.getByTitle(/tilecanmove/i)).not.toHaveClass('selected');
   });
 
   it('use handler', async () => {

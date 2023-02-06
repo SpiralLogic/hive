@@ -1,5 +1,5 @@
 import { FunctionComponent } from 'preact';
-import { useCallback, useContext, useEffect, useState } from 'preact/hooks';
+import { useCallback, useContext, useEffect } from 'preact/hooks';
 
 import { PlayerId, Tile as TileType } from '../domain';
 import { TileAction } from '../services';
@@ -7,18 +7,20 @@ import { handleDrop, handleKeyboardNav, isEnterOrSpace } from '../utilities/hand
 import Tile from './Tile';
 import { useClassSignal } from '../hooks/useClassReducer';
 import { Dispatcher, useHiveDispatchListener } from '../hooks/useHiveDispatchListener';
-import { signal } from '@preact/signals';
+import { effect, signal, useSignal } from '@preact/signals';
 
 const tileSelector = `[tabindex].tile`;
 const cellSelector = `[role="cell"].can-drop`;
 type Properties = TileType & { stacked?: boolean; currentPlayer: PlayerId };
 
-const handleMouseLeave = (event: { currentTarget: HTMLElement }) => event.currentTarget.blur();
+const handleMouseLeave = (event: { currentTarget: HTMLElement }) => {
+  event.currentTarget.blur();
+};
 
 const GameTile: FunctionComponent<Properties> = (properties) => {
   const { currentPlayer, stacked, ...tile } = properties;
   const { id, moves, creature, playerId } = tile;
-  const [focus, setFocusSelector] = useState(tileSelector);
+  const focus = useSignal(tileSelector);
   const [classes, classAction] = useClassSignal(`player${playerId}`, 'hex');
   const dispatcher = useContext(Dispatcher);
   if (stacked) classAction.add('stacked');
@@ -30,11 +32,12 @@ const GameTile: FunctionComponent<Properties> = (properties) => {
   };
 
   const select = (fromEvent = false) => {
-    if (classes.peek().includes('selected')) return;
+    if (classes.value.includes('selected')) return;
     dispatcher.dispatch({ type: 'tileClear' });
     classAction.add('selected');
     if (currentPlayer != playerId) return;
     dispatcher.dispatch({ type: 'tileSelected', tile, fromEvent });
+    focus.value = cellSelector;
   };
 
   useHiveDispatchListener<TileAction>('tileSelect', (event: TileAction) => {
@@ -47,7 +50,6 @@ const GameTile: FunctionComponent<Properties> = (properties) => {
 
   useHiveDispatchListener('tileClear', () => {
     deselect(true);
-    setFocusSelector('');
   });
 
   const handleDragStart = (event: DragEvent) => {
@@ -62,38 +64,34 @@ const GameTile: FunctionComponent<Properties> = (properties) => {
     dispatcher.dispatch({ type: 'tileClear' });
   };
 
-  const handleClick = (event: MouseEvent) => {
+  const handleClick = (event: UIEvent & { currentTarget: HTMLElement }) => {
     event.stopPropagation();
     if (classes.peek().includes('selected')) {
       deselect();
+      event.currentTarget.focus();
     } else {
       select();
-      setFocusSelector(cellSelector);
     }
   };
 
-  const handleKeyDown = (event: KeyboardEvent) => {
+  const handleKeyDown = (event: KeyboardEvent & { currentTarget: HTMLElement }) => {
     if (handleKeyboardNav(event) || !isEnterOrSpace(event)) return;
-    event.stopPropagation();
-    if (classes.peek().includes('selected')) {
-      deselect();
-    } else {
-      select();
-      setFocusSelector(cellSelector);
-    }
+    handleClick(event);
   };
   useEffect(() => {
-    if (!focus) return;
-    const focusElement = document.querySelector<HTMLElement>(focus);
-    focusElement?.focus();
-    setFocusSelector('');
+    return effect(() => {
+      if (!focus.value) return;
+      const focusElement = document.querySelector<HTMLElement>(focus.value);
+      focusElement?.focus();
+      focus.value = '';
+    });
   }, [focus]);
 
   const attributes = {
     title: `Player-${playerId} ${creature}`,
     draggable: moves.length > 0 ? true : undefined,
     creature,
-    canTabTo: signal(moves.length),
+    canTabTo: signal(moves.length > 0),
   };
 
   const handlers =

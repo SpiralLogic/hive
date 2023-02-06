@@ -2,9 +2,10 @@ import '../css/modal.css';
 
 import { FunctionComponent } from 'preact';
 import { useEffect, useRef } from 'preact/hooks';
+import { effect, Signal } from '@preact/signals';
 
 type Properties = {
-  open: boolean;
+  open: Signal<boolean>;
   onClose: () => void;
   class?: string;
   title: string;
@@ -15,13 +16,17 @@ const Modal: FunctionComponent<Properties> = (properties) => {
   const reference = useRef<HTMLDialogElement>(null);
 
   useEffect(() => {
-    if (!open) return;
-    const dialogNode = reference.current;
-    if (!dialogNode?.open) dialogNode?.showModal();
+    const dispose = effect(() => {
+      const dialogNode = reference.current;
+      if (!open.value) return;
+      if (!dialogNode?.open) dialogNode?.showModal();
+      dialogNode?.addEventListener('close', onClose);
+    });
 
-    dialogNode?.addEventListener('close', onClose);
-
-    return () => dialogNode?.removeEventListener('close', onClose);
+    return () => {
+      reference.current?.removeEventListener('close', onClose);
+      dispose();
+    };
   }, [open, onClose]);
 
   const closeHandler = () => {

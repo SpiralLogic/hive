@@ -3,7 +3,7 @@ import '../css/hexagon.css';
 import { FunctionComponent, JSX } from 'preact';
 
 import SVG from './SVG';
-import {  Signal } from '@preact/signals';
+import { Signal } from '@preact/signals';
 
 type Properties = {
   classes?: Signal<string>;
@@ -16,10 +16,10 @@ const Hexagon: FunctionComponent<Properties> = (properties) => {
 
   if (hidden) attributes.role = 'none';
   if (classes?.peek().length) attributes.class = classes;
-  const tabIndex = canTabTo?.value ? 0 : undefined;
+  if (canTabTo?.value) attributes.tabIndex = 0;
 
   return (
-    <div tabIndex={tabIndex} {...attributes}>
+    <div {...attributes}>
       <SVG>
         <use href="#hex" />
         {svg}

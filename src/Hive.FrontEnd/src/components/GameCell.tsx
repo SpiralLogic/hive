@@ -6,7 +6,7 @@ import { handleDragOver, handleKeyboardNav, isEnterOrSpace } from '../utilities/
 import Hexagon from './Hexagon';
 import { useClassSignal } from '../hooks/useClassReducer';
 import { Dispatcher, useHiveDispatchListener } from '../hooks/useHiveDispatchListener';
-import {  useSignal } from '@preact/signals';
+import { useComputed } from '@preact/signals';
 
 const isValidMove = (validMoves: Array<HexCoordinates>, coords: HexCoordinates) =>
   validMoves.some((destination) => destination.q == coords.q && destination.r == coords.r);
@@ -15,7 +15,7 @@ type Properties = { coords: HexCoordinates; historical?: boolean; hidden?: boole
 const GameCell: FunctionComponent<Properties> = (properties) => {
   const { coords, children, historical = false, hidden } = properties;
   const [classes, classActions] = useClassSignal('hide');
-  const canTabTo = useSignal(false);
+  const canTabTo = useComputed(() => classes.value.includes('can-drop'));
   historical ? classActions.add('historical') : classActions.remove('historical');
 
   const selectedTile = useRef<TileType | null>(null);
@@ -25,17 +25,14 @@ const GameCell: FunctionComponent<Properties> = (properties) => {
   useHiveDispatchListener<TileEvent>('tileDeselected', () => {
     if (selectedTile.current !== null) selectedTile.current = null;
     classActions.remove('active', 'can-drop', 'no-drop');
-    canTabTo.value = false;
   });
 
   useHiveDispatchListener<TileEvent>('tileSelected', (intent) => {
     selectedTile.current = intent.tile;
     if (isValidMove(intent.tile.moves, coords)) {
       classActions.add('can-drop');
-      canTabTo.value = true;
     } else {
       classActions.add('no-drop');
-      canTabTo.value = false;
     }
   });
 
@@ -77,6 +74,7 @@ const GameCell: FunctionComponent<Properties> = (properties) => {
   const attributes = {
     classes,
     role: 'cell',
+    canTabTo,
   };
 
   const handlers = {
@@ -89,7 +87,7 @@ const GameCell: FunctionComponent<Properties> = (properties) => {
     onkeydown: handleKeydown,
   };
   return (
-    <Hexagon canTabTo={canTabTo} hidden={hidden} {...attributes} {...handlers}>
+    <Hexagon hidden={hidden} {...attributes} {...handlers}>
       {children}
     </Hexagon>
   );

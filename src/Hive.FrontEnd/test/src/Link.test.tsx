@@ -4,12 +4,15 @@ import Links from '../../src/components/Links';
 
 import { HiveDispatcher } from '../../src/services';
 import { Dispatcher } from '../../src/hooks/useHiveDispatchListener';
+import { signal } from '@preact/signals';
+import { AiMode } from '../../src/domain/engine';
 
 const dispatcher = new HiveDispatcher();
 vi.spyOn(dispatcher, 'dispatch');
 
 describe('<Links>', () => {
   it(`links toggle Ai off`, async () => {
+    const aiMode = signal<AiMode>('on');
     render(
       <Dispatcher.Provider value={dispatcher}>
         <Links
@@ -17,18 +20,19 @@ describe('<Links>', () => {
           currentPlayer={0}
           onShowShare={() => ({})}
           onShowRules={() => ({})}
-          aiMode="on"
+          aiMode={aiMode}
         />
       </Dispatcher.Provider>
     );
 
     await userEvent.click(screen.getByTitle(/toggle ai/i));
 
-    expect(dispatcher.dispatch).toHaveBeenLastCalledWith({ newState: 'off', type: 'toggleAi' });
-    expect(await screen.findByTitle(/toggle ai/i)).not.toHaveClass('ai-off');
+    expect(aiMode.value).toBe('off');
+    expect(await screen.findByTitle(/toggle ai/i)).toHaveClass('ai-off');
   });
 
   it(`links toggle Ai off and then back on`, async () => {
+    const aiMode = signal<AiMode>('off');
     render(
       <Dispatcher.Provider value={dispatcher}>
         <Links
@@ -36,15 +40,17 @@ describe('<Links>', () => {
           currentPlayer={0}
           onShowShare={() => ({})}
           onShowRules={() => ({})}
-          aiMode="off"
+          aiMode={aiMode}
         />
       </Dispatcher.Provider>
     );
 
     await userEvent.click(screen.getByTitle(/toggle ai/i));
+    expect(aiMode.value).toBe('on');
+
     await userEvent.click(screen.getByTitle(/toggle ai/i));
 
-    expect(dispatcher.dispatch).toHaveBeenLastCalledWith({ newState: 'on', type: 'toggleAi' });
+    expect(aiMode.value).toBe('off');
     expect(await screen.findByTitle(/toggle ai/i)).toHaveClass('ai-off');
   });
 
@@ -56,7 +62,7 @@ describe('<Links>', () => {
           currentPlayer={0}
           onShowShare={() => ({})}
           onShowRules={() => ({})}
-          aiMode="on"
+          aiMode={signal('on')}
         />
       )
     ).toMatchSnapshot();

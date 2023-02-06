@@ -4,6 +4,7 @@ import App from '../../src/components/App';
 import { createGameState } from '../fixtures/app.fixture';
 import { HiveDispatcher } from '../../src/services';
 import { Dispatcher } from '../../src/hooks/useHiveDispatchListener';
+import { signal } from '@preact/signals';
 
 const closeConnectionMock = vi.fn();
 const defaultConnectionFactory = () => ({
@@ -16,29 +17,17 @@ const defaultConnectionFactory = () => ({
 describe('<App>', () => {
   const gameState = createGameState(4);
   const gameAfterMove = createGameState(5);
+  const aiMode = signal<AiMode>('off');
   const engine: HexEngine = {
-    setAiMode: vi.fn(),
-    getAiMode: vi.fn(),
+    getAiMode: () => aiMode,
     initialGame: Promise.resolve(gameState),
     currentPlayer: 0,
-    move: vi.fn().mockResolvedValue(gameAfterMove),
+    move: vi.fn().mockResolvedValue({ ...gameAfterMove, gameId: 'ddd' }),
   };
 
   it('shows loading', () => {
     render(<App engine={engine} connectionFactory={defaultConnectionFactory} />);
     expect(screen.getByText(/loading/)).toBeInTheDocument();
-  });
-
-  it.each<AiMode>(['on', 'off'])('turns %s Ai move', (state) => {
-    const dispatcher = new HiveDispatcher();
-    render(
-      <Dispatcher.Provider value={dispatcher}>
-        <App engine={engine} connectionFactory={defaultConnectionFactory} />
-      </Dispatcher.Provider>
-    );
-
-    dispatcher.dispatch({ type: 'toggleAi', newState: state });
-    expect(engine.setAiMode).toBeCalledWith(state);
   });
 
   it('shows game when loaded', async () => {
@@ -50,7 +39,7 @@ describe('<App>', () => {
   it('cleanup', async () => {
     const dispatcher = new HiveDispatcher();
     vi.spyOn(dispatcher, 'remove');
-    const { rerender } = render(
+    const { unmount, rerender } = render(
       <Dispatcher.Provider value={dispatcher}>
         <App engine={engine} connectionFactory={defaultConnectionFactory} />
       </Dispatcher.Provider>
@@ -61,6 +50,7 @@ describe('<App>', () => {
         <App engine={engine} connectionFactory={defaultConnectionFactory} />
       </Dispatcher.Provider>
     );
+    unmount();
     expect(dispatcher.remove).toBeCalled();
   });
 });
