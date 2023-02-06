@@ -57,21 +57,21 @@ describe('game engine Tests', () => {
   });
 
   it('AI move made for player 0', async () => {
-      engine = new GameEngine({ gameId: '445', currentPlayer: '1' });
-      engine.getAiMode().value = 'on';
-      await engine.move({
-        tileId: 1,
-        coords: { q: 0, r: 0 },
-      });
+    engine = new GameEngine({ gameId: '445', currentPlayer: '1' });
+    engine.getAiMode().value = 'on';
+    await engine.move({
+      tileId: 1,
+      coords: { q: 0, r: 0 },
+    });
 
-      expect(global.fetch).toHaveBeenLastCalledWith('/api/ai-move/445/0', expect.any(Object));
+    expect(global.fetch).toHaveBeenLastCalledWith('/api/ai-move/445/0', expect.any(Object));
   });
 
   it('No AI move on toggle off', async () => {
-      engine = new GameEngine({ gameId: '445', currentPlayer: '0' });
-      engine.getAiMode().value = 'off';
+    engine = new GameEngine({ gameId: '445', currentPlayer: '0' });
+    engine.getAiMode().value = 'off';
 
-      expect(global.fetch).not.toHaveBeenCalledWith(/api\/ai-move/, expect.any(Object));
+    expect(global.fetch).not.toHaveBeenCalledWith(/api\/ai-move/, expect.any(Object));
   });
 
   it('gets Ai Mode', async () => {

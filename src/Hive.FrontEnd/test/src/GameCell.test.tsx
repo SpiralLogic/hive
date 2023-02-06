@@ -233,11 +233,11 @@ describe('<GameCell>', () => {
 
     const moveEvents = createMoveListener(dispatcher);
 
-      await userEvent.click(screen.getByTitle(/tilecanmove/));
-      await userEvent.tab();
-      await userEvent.keyboard(' ');
+    await userEvent.click(screen.getByTitle(/tilecanmove/));
+    await userEvent.tab();
+    await userEvent.keyboard(' ');
 
-      expect(moveEvents).toStrictEqual(expect.arrayContaining([expect.objectContaining({ type: 'move' })]));
+    expect(moveEvents).toStrictEqual(expect.arrayContaining([expect.objectContaining({ type: 'move' })]));
   });
 
   it.each([
