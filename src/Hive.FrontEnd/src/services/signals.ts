@@ -1,6 +1,5 @@
 import { Cell, GameId, GameState, GameStatus, HexCoordinates, Player, PlayerId, TileId } from '../domain';
 import { batch, signal } from '@preact/signals';
-import { create } from 'zustand';
 import { HistoricalMove } from '../domain/historical-move';
 import { useContext } from 'preact/hooks';
 import { createContext } from 'preact';
@@ -52,11 +51,3 @@ const createGameState = () => {
 };
 export const GameStateContext = createContext(createGameState());
 export const useGameState = () => useContext(GameStateContext);
-export const useHiveStore = create<GameState & { updateHandler: (gameState: GameState) => void }>((set) => ({
-  cells: [],
-  players: [],
-  history: [],
-  gameStatus: 'NewGame',
-  gameId: '',
-  updateHandler: (newGameState) => set(() => newGameState),
-}));
