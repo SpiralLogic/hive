@@ -5,6 +5,8 @@ import GameTile from '../../src/components/GameTile';
 import { simulateEvent } from '../helpers';
 import { waitFor } from '@testing-library/dom';
 import { Dispatcher } from '../../src/hooks/useHiveDispatchListener';
+import { PlayerId, Tile } from '../../src/domain';
+import { moveMap } from '../../src/services/signals';
 
 const createTestDispatcher = (type: TileEvent['type'] = 'tileSelected'): [TileEvent[], HiveDispatcher] => {
   const dispatcher = new HiveDispatcher();
@@ -24,15 +26,24 @@ const tileCanMove = Object.freeze({
 
 const tileNoMove = Object.freeze({ id: 2, playerId: 0, creature: 'tileNoMove', moves: [] });
 
+const setup = (
+  dispatcher: HiveDispatcher,
+  ...tiles: (Tile & { stacked?: boolean; currentPlayer?: PlayerId })[]
+) => {
+  tiles.forEach((t) => moveMap.value.set(`${t.playerId}-${t.id}`, t.moves));
+
+  return render(
+    <Dispatcher.Provider value={dispatcher}>
+      {tiles.map(({ currentPlayer, ...tile }) => (
+        <GameTile key={tile.id} currentPlayer={currentPlayer === 0 ? 0 : 1} {...tile} />
+      ))}
+    </Dispatcher.Provider>
+  );
+};
 describe('<GameTile>', () => {
   it('emits tile start event on click', async () => {
     const [tileEvents, dispatcher] = createTestDispatcher();
-
-    render(
-      <Dispatcher.Provider value={dispatcher}>
-        <GameTile currentPlayer={1} {...tileCanMove} />
-      </Dispatcher.Provider>
-    );
+    setup(dispatcher, tileCanMove);
     const tileCanMoveElement = screen.getByTitle(/tileCanMove/);
 
     const expectedEvent: TileEvent = {
@@ -47,12 +58,8 @@ describe('<GameTile>', () => {
 
   it('emits tile start event on enter', async () => {
     const [tileEvents, dispatcher] = createTestDispatcher();
+    setup(dispatcher, tileCanMove);
 
-    render(
-      <Dispatcher.Provider value={dispatcher}>
-        <GameTile currentPlayer={1} {...tileCanMove} />
-      </Dispatcher.Provider>
-    );
     const tileCanMoveElement = screen.getByTitle(/tileCanMove/);
 
     const expectedEvent: TileEvent = {
@@ -67,11 +74,8 @@ describe('<GameTile>', () => {
   });
 
   it('removes focus on mouse leave', async () => {
-    render(
-      <Dispatcher.Provider value={new HiveDispatcher()}>
-        <GameTile currentPlayer={1} {...tileCanMove} />
-      </Dispatcher.Provider>
-    );
+    setup(new HiveDispatcher(), tileCanMove);
+
     const tileCanMoveElement = screen.getByTitle(/tileCanMove/);
 
     await userEvent.click(tileCanMoveElement);
@@ -82,11 +86,8 @@ describe('<GameTile>', () => {
   });
 
   it('selects tile on enter', async () => {
-    render(
-      <Dispatcher.Provider value={new HiveDispatcher()}>
-        <GameTile currentPlayer={1} {...tileCanMove} />
-      </Dispatcher.Provider>
-    );
+    setup(new HiveDispatcher(), tileCanMove);
+
     const tileCanMoveElement = screen.getByTitle(/tileCanMove/);
 
     tileCanMoveElement.focus();
@@ -96,11 +97,8 @@ describe('<GameTile>', () => {
   });
 
   it('deselects tile on second enter', async () => {
-    render(
-      <Dispatcher.Provider value={new HiveDispatcher()}>
-        <GameTile currentPlayer={1} {...tileCanMove} />
-      </Dispatcher.Provider>
-    );
+    setup(new HiveDispatcher(), tileCanMove);
+
     const tileCanMoveElement = screen.getByTitle(/tileCanMove/);
 
     await userEvent.hover(tileCanMoveElement);
@@ -112,11 +110,8 @@ describe('<GameTile>', () => {
   });
 
   it('use handler', async () => {
-    render(
-      <Dispatcher.Provider value={new HiveDispatcher()}>
-        <GameTile currentPlayer={1} {...tileCanMove} />
-      </Dispatcher.Provider>
-    );
+    setup(new HiveDispatcher(), tileCanMove);
+
     const tileCanMoveElement = screen.getByTitle(/tileCanMove/);
 
     tileCanMoveElement.focus();
@@ -128,11 +123,8 @@ describe('<GameTile>', () => {
   it('emits tile start event on space', async () => {
     const [tileEvents, dispatcher] = createTestDispatcher();
 
-    render(
-      <Dispatcher.Provider value={dispatcher}>
-        <GameTile currentPlayer={1} {...tileCanMove} />
-      </Dispatcher.Provider>
-    );
+    setup(dispatcher, tileCanMove);
+
     const tileCanMoveElement = screen.getByTitle(/tileCanMove/);
 
     tileCanMoveElement.focus();
@@ -146,11 +138,8 @@ describe('<GameTile>', () => {
   });
 
   it('selects previous selected tile on click', async () => {
-    render(
-      <Dispatcher.Provider value={new HiveDispatcher()}>
-        <GameTile currentPlayer={1} {...tileCanMove} />
-      </Dispatcher.Provider>
-    );
+    setup(new HiveDispatcher(), tileCanMove);
+
     const tileCanMoveElement = screen.getByTitle(/tileCanMove/);
 
     await userEvent.click(tileCanMoveElement);
@@ -161,11 +150,8 @@ describe('<GameTile>', () => {
   });
 
   it('deselects previous selected tile on click', async () => {
-    render(
-      <Dispatcher.Provider value={new HiveDispatcher()}>
-        <GameTile currentPlayer={1} {...tileCanMove} />
-      </Dispatcher.Provider>
-    );
+    setup(new HiveDispatcher(), tileCanMove);
+
     const tileCanMoveElement = screen.getByTitle(/tileCanMove/);
 
     await userEvent.click(tileCanMoveElement);
@@ -175,11 +161,8 @@ describe('<GameTile>', () => {
   it(`doesn't fire a tile start event with multiple clicks on the same tile`, async () => {
     const [tileEvents, dispatcher] = createTestDispatcher();
 
-    render(
-      <Dispatcher.Provider value={dispatcher}>
-        <GameTile currentPlayer={1} {...tileCanMove} />
-      </Dispatcher.Provider>
-    );
+    setup(dispatcher, tileCanMove);
+
     const tileCanMoveElement = screen.getByTitle(/tileCanMove/);
 
     await userEvent.click(tileCanMoveElement);
@@ -190,35 +173,25 @@ describe('<GameTile>', () => {
   });
 
   it('is draggable when there are available moves', () => {
-    render(
-      <Dispatcher.Provider value={new HiveDispatcher()}>
-        <GameTile currentPlayer={1} {...tileCanMove} />
-      </Dispatcher.Provider>
-    );
+    setup(new HiveDispatcher(), tileCanMove);
+
     const tileCanMoveElement = screen.getByTitle(/tileCanMove/);
 
     expect(tileCanMoveElement).toHaveAttribute('draggable', 'true');
   });
 
   it('is *not* draggable when there are no moves available', () => {
-    render(
-      <Dispatcher.Provider value={new HiveDispatcher()}>
-        <GameTile currentPlayer={1} {...tileNoMove} />
-      </Dispatcher.Provider>
-    );
+    setup(new HiveDispatcher(), tileNoMove);
 
     const tileNoMoveElement = screen.getByTitle(/tileNoMove/);
-    expect(tileNoMoveElement).not.toHaveAttribute('draggable', 'false');
+    expect(tileNoMoveElement).toHaveAttribute('draggable', 'false');
   });
 
   it('emits start event on drag start', () => {
     const [tileEvents, dispatcher] = createTestDispatcher();
 
-    render(
-      <Dispatcher.Provider value={dispatcher}>
-        <GameTile currentPlayer={1} {...tileCanMove} />
-      </Dispatcher.Provider>
-    );
+    setup(dispatcher, tileCanMove);
+
     const tileCanMoveElement = screen.getByTitle(/tileCanMove/);
 
     fireEvent.dragStart(tileCanMoveElement);
@@ -233,12 +206,7 @@ describe('<GameTile>', () => {
 
   it('emits tile dropped event on drag end', () => {
     const [dropEvents, dispatcher] = createTestDispatcher('tileDropped');
-
-    render(
-      <Dispatcher.Provider value={dispatcher}>
-        <GameTile currentPlayer={1} {...tileCanMove} />
-      </Dispatcher.Provider>
-    );
+    setup(dispatcher, tileCanMove);
 
     const tileCanMoveElement = screen.getByTitle(/tileCanMove/);
     fireEvent.dragEnd(tileCanMoveElement);
@@ -253,12 +221,7 @@ describe('<GameTile>', () => {
 
   it(`tile can be selected via action`, async () => {
     const [, dispatcher] = createTestDispatcher();
-
-    render(
-      <Dispatcher.Provider value={dispatcher}>
-        <GameTile currentPlayer={1} {...tileCanMove} />
-      </Dispatcher.Provider>
-    );
+    setup(dispatcher, tileCanMove);
 
     screen.getByTitle(/tileCanMove/);
     dispatcher.dispatch<TileAction>({ type: 'tileSelect', tile: tileCanMove });
@@ -268,12 +231,7 @@ describe('<GameTile>', () => {
 
   it(`doesn't emit a *selected* event when the tile is already selected`, async () => {
     const [selectedEvents, dispatcher] = createTestDispatcher('tileSelected');
-
-    render(
-      <Dispatcher.Provider value={dispatcher}>
-        <GameTile currentPlayer={1} {...tileCanMove} />
-      </Dispatcher.Provider>
-    );
+    setup(dispatcher, tileCanMove);
 
     await userEvent.click(screen.getByTitle(/tileCanMove/));
     expect(screen.getByTitle(/tileCanMove/)).toHaveClass('selected');
@@ -286,11 +244,7 @@ describe('<GameTile>', () => {
   it(`doesn't emit a *selected* event when opponents tile is selected from dispatch`, async () => {
     const [selectedEvents, dispatcher] = createTestDispatcher('tileSelected');
 
-    render(
-      <Dispatcher.Provider value={dispatcher}>
-        <GameTile currentPlayer={0} {...tileCanMove} />
-      </Dispatcher.Provider>
-    );
+    setup(dispatcher, { ...tileCanMove, currentPlayer: 0 });
 
     dispatcher.dispatch<TileAction>({ type: 'tileSelect', tile: tileCanMove });
 
@@ -299,16 +253,12 @@ describe('<GameTile>', () => {
 
   it(`tile is only *selected* on matching select events`, () => {
     const [, dispatcher] = createTestDispatcher();
-    render(
-      <Dispatcher.Provider value={dispatcher}>
-        <GameTile currentPlayer={1} {...tileNoMove} />
-      </Dispatcher.Provider>
-    );
+    setup(dispatcher, tileNoMove);
 
     const tileNoMoveElement = screen.getByTitle(/tileNoMove/);
     dispatcher.dispatch<TileAction>({
       type: 'tileSelect',
-      tile: { id: 1, playerId: 0, creature: 'queen', moves: [] },
+      tile: { id: 1, playerId: 0, creature: 'queen' },
     });
 
     expect(tileNoMoveElement).not.toHaveClass('selected');
@@ -316,12 +266,7 @@ describe('<GameTile>', () => {
 
   it(`tile is only deselected on matching select events`, () => {
     const [deselectEvents, dispatcher] = createTestDispatcher('tileDeselected');
-    render(
-      <Dispatcher.Provider value={dispatcher}>
-        <GameTile currentPlayer={1} {...tileCanMove} />
-        <GameTile currentPlayer={1} {...tileNoMove} />
-      </Dispatcher.Provider>
-    );
+    setup(dispatcher, tileCanMove, tileNoMove);
 
     dispatcher.dispatch<TileAction>({ type: 'tileSelect', tile: tileCanMove });
     dispatcher.dispatch<TileAction>({ type: 'tileDeselect', tile: tileNoMove });
@@ -330,18 +275,11 @@ describe('<GameTile>', () => {
   });
 
   it('default on drop is prevented', () => {
-    render(
-      <Dispatcher.Provider value={new HiveDispatcher()}>
-        <GameTile currentPlayer={1} {...tileCanMove} />
-      </Dispatcher.Provider>
-    );
+    setup(new HiveDispatcher(), tileCanMove);
+
     const tileCanMoveElement = screen.getByTitle(/tileCanMove/);
 
-    render(
-      <Dispatcher.Provider value={new HiveDispatcher()}>
-        <GameTile currentPlayer={1} {...tileNoMove} />
-      </Dispatcher.Provider>
-    );
+    setup(new HiveDispatcher(), tileNoMove);
 
     const tileNoMoveElement = screen.getByTitle(/tileNoMove/);
 
@@ -352,11 +290,7 @@ describe('<GameTile>', () => {
 
 describe('tile Snapshot', () => {
   it('matches current snapshot for can move', () => {
-    render(
-      <Dispatcher.Provider value={new HiveDispatcher()}>
-        <GameTile currentPlayer={1} {...tileCanMove} />
-      </Dispatcher.Provider>
-    );
+    setup(new HiveDispatcher(), tileCanMove);
 
     const tileCanMoveElement = screen.getByTitle(/tileCanMove/);
 
@@ -364,32 +298,20 @@ describe('tile Snapshot', () => {
   });
 
   it('matches current snapshot for no moves', () => {
-    render(
-      <Dispatcher.Provider value={new HiveDispatcher()}>
-        <GameTile currentPlayer={1} {...tileNoMove} />
-      </Dispatcher.Provider>
-    );
+    setup(new HiveDispatcher(), tileNoMove);
 
     const tileNoMoveElement = screen.getByTitle(/tileNoMove/);
     expect(tileNoMoveElement).toMatchSnapshot();
   });
 
   it('matches current snapshot for when stacked', () => {
-    render(
-      <Dispatcher.Provider value={new HiveDispatcher()}>
-        <GameTile currentPlayer={0} {...tileNoMove} stacked={true} />
-      </Dispatcher.Provider>
-    );
+    setup(new HiveDispatcher(), { ...tileNoMove, stacked: true });
+
     expect(screen.getByTitle(/Player-0/)).toMatchSnapshot();
   });
 
   it('renders creature', () => {
-    render(
-      <Dispatcher.Provider value={new HiveDispatcher()}>
-        <GameTile currentPlayer={1} {...tileCanMove} />
-        <GameTile currentPlayer={1} {...tileNoMove} />
-      </Dispatcher.Provider>
-    );
+    setup(new HiveDispatcher(), tileCanMove, tileNoMove);
 
     const tileCanMoveElement = screen.getByTitle(/tileCanMove/);
     const tileNoMoveElement = screen.getByTitle(/tileNoMove/);

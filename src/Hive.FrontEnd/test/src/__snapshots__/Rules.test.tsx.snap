@@ -146,6 +146,7 @@ exports[`<AntRules> > renders AntRules 1`] = `
           </svg>
         </div>
         <div
+          class=""
           role="cell"
         >
           <svg
@@ -295,6 +296,7 @@ exports[`<AntRules> > renders AntRules 1`] = `
           </svg>
         </div>
         <div
+          class=""
           role="cell"
         >
           <svg
@@ -351,6 +353,7 @@ exports[`<AntRules> > renders AntRules 1`] = `
           </div>
         </div>
         <div
+          class=""
           role="cell"
         >
           <svg
@@ -473,6 +476,7 @@ exports[`<AntRules> > renders AntRules 1`] = `
           </svg>
         </div>
         <div
+          class=""
           role="cell"
         >
           <svg
@@ -501,6 +505,7 @@ exports[`<AntRules> > renders AntRules 1`] = `
           </div>
         </div>
         <div
+          class=""
           role="cell"
         >
           <svg
@@ -623,6 +628,7 @@ exports[`<AntRules> > renders AntRules 1`] = `
           </svg>
         </div>
         <div
+          class=""
           role="cell"
           style="z-index: 4;"
         >
@@ -828,6 +834,7 @@ exports[`<BeetleRules> > renders BeetleRules 1`] = `
           </div>
         </div>
         <div
+          class=""
           role="cell"
           style="z-index: 4;"
         >
@@ -1015,6 +1022,7 @@ exports[`<BeetleRules> > renders BeetleRules 1`] = `
           </svg>
         </div>
         <div
+          class=""
           role="cell"
         >
           <svg
@@ -1043,6 +1051,7 @@ exports[`<BeetleRules> > renders BeetleRules 1`] = `
           </div>
         </div>
         <div
+          class=""
           role="cell"
         >
           <svg
@@ -1087,6 +1096,7 @@ exports[`<FreedomToMoveRule> > renders FreedomToMoveRule 1`] = `
         role="row"
       >
         <div
+          class=""
           role="cell"
         >
           <svg
@@ -1115,6 +1125,7 @@ exports[`<FreedomToMoveRule> > renders FreedomToMoveRule 1`] = `
           </div>
         </div>
         <div
+          class=""
           role="cell"
         >
           <svg
@@ -1147,6 +1158,7 @@ exports[`<FreedomToMoveRule> > renders FreedomToMoveRule 1`] = `
         role="row"
       >
         <div
+          class=""
           role="cell"
         >
           <svg
@@ -1175,6 +1187,7 @@ exports[`<FreedomToMoveRule> > renders FreedomToMoveRule 1`] = `
           </div>
         </div>
         <div
+          class=""
           role="cell"
           style="z-index: 4;"
         >
@@ -1214,6 +1227,7 @@ exports[`<FreedomToMoveRule> > renders FreedomToMoveRule 1`] = `
           </svg>
         </div>
         <div
+          class=""
           role="cell"
         >
           <svg
@@ -1246,6 +1260,7 @@ exports[`<FreedomToMoveRule> > renders FreedomToMoveRule 1`] = `
         role="row"
       >
         <div
+          class=""
           role="cell"
         >
           <svg
@@ -1347,6 +1362,7 @@ exports[`<GrasshopperRules> > renders GrasshopperRules 1`] = `
           </div>
         </div>
         <div
+          class=""
           role="cell"
         >
           <svg
@@ -1375,6 +1391,7 @@ exports[`<GrasshopperRules> > renders GrasshopperRules 1`] = `
           </div>
         </div>
         <div
+          class=""
           role="cell"
           style="z-index: 4;"
         >
@@ -1444,6 +1461,7 @@ exports[`<GrasshopperRules> > renders GrasshopperRules 1`] = `
           </svg>
         </div>
         <div
+          class=""
           role="cell"
           style="z-index: -1;"
         >
@@ -1530,6 +1548,7 @@ exports[`<GrasshopperRules> > renders GrasshopperRules 1`] = `
           </svg>
         </div>
         <div
+          class=""
           role="cell"
         >
           <svg
@@ -1583,6 +1602,7 @@ exports[`<GrasshopperRules> > renders GrasshopperRules 1`] = `
           </div>
         </div>
         <div
+          class=""
           role="cell"
         >
           <svg
@@ -1627,6 +1647,7 @@ exports[`<GrasshopperRules> > renders GrasshopperRules 1`] = `
           </svg>
         </div>
         <div
+          class=""
           role="cell"
         >
           <svg
@@ -1655,6 +1676,7 @@ exports[`<GrasshopperRules> > renders GrasshopperRules 1`] = `
           </div>
         </div>
         <div
+          class=""
           role="cell"
         >
           <svg
@@ -1683,6 +1705,7 @@ exports[`<GrasshopperRules> > renders GrasshopperRules 1`] = `
           </div>
         </div>
         <div
+          class=""
           role="cell"
         >
           <svg
@@ -1767,6 +1790,7 @@ exports[`<GrasshopperRules> > renders GrasshopperRules 1`] = `
           </div>
         </div>
         <div
+          class=""
           role="cell"
         >
           <svg
@@ -1864,6 +1888,7 @@ exports[`<GrasshopperRules> > renders GrasshopperRules 1`] = `
           </svg>
         </div>
         <div
+          class=""
           role="cell"
         >
           <svg
@@ -1892,6 +1917,7 @@ exports[`<GrasshopperRules> > renders GrasshopperRules 1`] = `
           </div>
         </div>
         <div
+          class=""
           role="cell"
         >
           <svg
@@ -1936,6 +1962,7 @@ exports[`<Objective> > renders Objective 1`] = `
         role="row"
       >
         <div
+          class=""
           role="cell"
         >
           <svg
@@ -1964,6 +1991,7 @@ exports[`<Objective> > renders Objective 1`] = `
           </div>
         </div>
         <div
+          class=""
           role="cell"
         >
           <svg
@@ -2009,6 +2037,7 @@ exports[`<Objective> > renders Objective 1`] = `
         role="row"
       >
         <div
+          class=""
           role="cell"
         >
           <svg
@@ -2069,6 +2098,7 @@ exports[`<Objective> > renders Objective 1`] = `
           </div>
         </div>
         <div
+          class=""
           role="cell"
         >
           <svg
@@ -2101,6 +2131,7 @@ exports[`<Objective> > renders Objective 1`] = `
         role="row"
       >
         <div
+          class=""
           role="cell"
         >
           <svg
@@ -2129,6 +2160,7 @@ exports[`<Objective> > renders Objective 1`] = `
           </div>
         </div>
         <div
+          class=""
           role="cell"
         >
           <svg
@@ -2186,6 +2218,7 @@ exports[`<OneHiveRule> > renders OneHiveRule 1`] = `
         role="row"
       >
         <div
+          class=""
           role="cell"
         >
           <svg
@@ -2214,6 +2247,7 @@ exports[`<OneHiveRule> > renders OneHiveRule 1`] = `
           </div>
         </div>
         <div
+          class=""
           role="cell"
         >
           <svg
@@ -2246,6 +2280,7 @@ exports[`<OneHiveRule> > renders OneHiveRule 1`] = `
         role="row"
       >
         <div
+          class=""
           role="cell"
         >
           <svg
@@ -2356,6 +2391,7 @@ exports[`<OneHiveRule> > renders OneHiveRule 1`] = `
         role="row"
       >
         <div
+          class=""
           role="cell"
         >
           <svg
@@ -2384,6 +2420,7 @@ exports[`<OneHiveRule> > renders OneHiveRule 1`] = `
           </div>
         </div>
         <div
+          class=""
           role="cell"
           style="z-index: 4;"
         >
@@ -2423,6 +2460,7 @@ exports[`<OneHiveRule> > renders OneHiveRule 1`] = `
           </svg>
         </div>
         <div
+          class=""
           role="cell"
         >
           <svg
@@ -2507,6 +2545,7 @@ exports[`<QueenRules> > renders QueenRules 1`] = `
           </div>
         </div>
         <div
+          class=""
           role="cell"
         >
           <svg
@@ -2535,6 +2574,7 @@ exports[`<QueenRules> > renders QueenRules 1`] = `
           </div>
         </div>
         <div
+          class=""
           role="cell"
         >
           <svg
@@ -2595,6 +2635,7 @@ exports[`<QueenRules> > renders QueenRules 1`] = `
           </div>
         </div>
         <div
+          class=""
           role="cell"
           style="z-index: 4;"
         >
@@ -2692,6 +2733,7 @@ exports[`<QueenRules> > renders QueenRules 1`] = `
           </div>
         </div>
         <div
+          class=""
           role="cell"
         >
           <svg
@@ -2736,6 +2778,7 @@ exports[`<QueenRules> > renders QueenRules 1`] = `
           </svg>
         </div>
         <div
+          class=""
           role="cell"
         >
           <svg
@@ -2792,6 +2835,7 @@ exports[`<QueenRules> > renders QueenRules 1`] = `
           </div>
         </div>
         <div
+          class=""
           role="cell"
         >
           <svg
@@ -2824,6 +2868,7 @@ exports[`<QueenRules> > renders QueenRules 1`] = `
         role="row"
       >
         <div
+          class=""
           role="cell"
         >
           <svg
@@ -2852,6 +2897,7 @@ exports[`<QueenRules> > renders QueenRules 1`] = `
           </div>
         </div>
         <div
+          class=""
           role="cell"
         >
           <svg
@@ -2880,6 +2926,7 @@ exports[`<QueenRules> > renders QueenRules 1`] = `
           </div>
         </div>
         <div
+          class=""
           role="cell"
         >
           <svg
@@ -2952,6 +2999,7 @@ exports[`<Rules> > renders 1`] = `
       role="row"
     >
       <div
+        class=""
         role="cell"
       >
         <svg
@@ -2980,6 +3028,7 @@ exports[`<Rules> > renders 1`] = `
         </div>
       </div>
       <div
+        class=""
         role="cell"
       >
         <svg
@@ -3025,6 +3074,7 @@ exports[`<Rules> > renders 1`] = `
       role="row"
     >
       <div
+        class=""
         role="cell"
       >
         <svg
@@ -3085,6 +3135,7 @@ exports[`<Rules> > renders 1`] = `
         </div>
       </div>
       <div
+        class=""
         role="cell"
       >
         <svg
@@ -3117,6 +3168,7 @@ exports[`<Rules> > renders 1`] = `
       role="row"
     >
       <div
+        class=""
         role="cell"
       >
         <svg
@@ -3145,6 +3197,7 @@ exports[`<Rules> > renders 1`] = `
         </div>
       </div>
       <div
+        class=""
         role="cell"
       >
         <svg
@@ -3213,6 +3266,7 @@ exports[`<SpiderRules> > renders SpiderRules 1`] = `
           </svg>
         </div>
         <div
+          class=""
           role="cell"
         >
           <svg
@@ -3241,6 +3295,7 @@ exports[`<SpiderRules> > renders SpiderRules 1`] = `
           </div>
         </div>
         <div
+          class=""
           role="cell"
         >
           <svg
@@ -3269,6 +3324,7 @@ exports[`<SpiderRules> > renders SpiderRules 1`] = `
           </div>
         </div>
         <div
+          class=""
           role="cell"
         >
           <svg
@@ -3313,6 +3369,7 @@ exports[`<SpiderRules> > renders SpiderRules 1`] = `
           </svg>
         </div>
         <div
+          class=""
           role="cell"
         >
           <svg
@@ -3397,6 +3454,7 @@ exports[`<SpiderRules> > renders SpiderRules 1`] = `
           </div>
         </div>
         <div
+          class=""
           role="cell"
         >
           <svg
@@ -3429,6 +3487,7 @@ exports[`<SpiderRules> > renders SpiderRules 1`] = `
         role="row"
       >
         <div
+          class=""
           role="cell"
         >
           <svg
@@ -3545,6 +3604,7 @@ exports[`<SpiderRules> > renders SpiderRules 1`] = `
           </svg>
         </div>
         <div
+          class=""
           role="cell"
         >
           <svg
@@ -3617,6 +3677,7 @@ exports[`<SpiderRules> > renders SpiderRules 1`] = `
           </svg>
         </div>
         <div
+          class=""
           role="cell"
         >
           <svg
@@ -3704,6 +3765,7 @@ exports[`<SpiderRules> > renders SpiderRules 1`] = `
           </svg>
         </div>
         <div
+          class=""
           role="cell"
         >
           <svg
@@ -3841,6 +3903,7 @@ exports[`<SpiderRules> > renders SpiderRules 1`] = `
           </svg>
         </div>
         <div
+          class=""
           role="cell"
           style="z-index: 4;"
         >

@@ -2,7 +2,8 @@
 import { useContext, useEffect } from 'preact/hooks';
 import { createContext } from 'preact';
 
-export const Dispatcher = createContext(new HiveDispatcher());
+export const dispatcher = new HiveDispatcher();
+export const Dispatcher = createContext(dispatcher);
 export const useHiveDispatchListener = <T extends HiveIntent>(
   type: T['type'],
   listener: HiveEventListener<T>

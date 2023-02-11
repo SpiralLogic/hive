@@ -4,6 +4,7 @@ import { FunctionComponent, JSX } from 'preact';
 
 import Hexagon from './Hexagon';
 import { Signal, useComputed } from '@preact/signals';
+import { useMemo } from 'preact/hooks';
 
 type Properties = Partial<JSX.IntrinsicAttributes> & {
   selected?: boolean;
@@ -13,6 +14,10 @@ type Properties = Partial<JSX.IntrinsicAttributes> & {
 
 const Tile: FunctionComponent<Properties> = (properties) => {
   const { classes, children, selected, creature, ...rest } = properties;
+  const svg = useMemo(
+    () => (creature ? <use className="creature" href={`#${creature.toLowerCase()}`} /> : undefined),
+    [creature]
+  );
   const tileClasses = useComputed(() => {
     const computedClass = ['tile'];
     if (classes?.value) computedClass.unshift(classes.value);
@@ -21,9 +26,8 @@ const Tile: FunctionComponent<Properties> = (properties) => {
     return computedClass.join(' ');
   });
 
-  const svgs = creature ? <use className="creature" href={`#${creature.toLowerCase()}`} /> : undefined;
   return (
-    <Hexagon svg={svgs} classes={tileClasses} {...rest}>
+    <Hexagon svg={svg} classes={tileClasses} {...rest}>
       {children}
     </Hexagon>
   );

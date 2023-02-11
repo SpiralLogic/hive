@@ -29,6 +29,7 @@ exports[`<GameCell> > renders cell with tile 1`] = `
   </svg>
   <div
     class="player1 hex tile fly"
+    draggable="false"
     title="Player-1 fly"
   >
     <svg

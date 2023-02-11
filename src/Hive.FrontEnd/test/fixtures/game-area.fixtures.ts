@@ -23,6 +23,7 @@ export const createGameState = (cells: number, withHistory = false): GameState =
     cells: row,
     players: [player0, player1],
     gameStatus: 'MoveSuccess',
+    history: [],
   };
 
   return withHistory ? { ...gameState, history } : gameState;

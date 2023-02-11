@@ -25,6 +25,7 @@ exports[`tile Snapshot > matches current snapshot for can move 1`] = `
 exports[`tile Snapshot > matches current snapshot for no moves 1`] = `
 <div
   class="player0 hex tile tilenomove"
+  draggable="false"
   title="Player-0 tileNoMove"
 >
   <svg
@@ -45,6 +46,7 @@ exports[`tile Snapshot > matches current snapshot for no moves 1`] = `
 exports[`tile Snapshot > matches current snapshot for when stacked 1`] = `
 <div
   class="player0 hex stacked tile tilenomove"
+  draggable="false"
   title="Player-0 tileNoMove"
 >
   <svg
@@ -87,6 +89,7 @@ exports[`tile Snapshot > renders creature 1`] = `
 exports[`tile Snapshot > renders creature 2`] = `
 <div
   class="player0 hex tile tilenomove"
+  draggable="false"
   title="Player-0 tileNoMove"
 >
   <svg

@@ -2,29 +2,42 @@ import { render, screen } from '@testing-library/preact';
 import userEvent from '@testing-library/user-event';
 
 import GameArea from '../../src/components/GameArea';
-import { GameStatus } from '../../src/domain';
+import { GameState, GameStatus } from '../../src/domain';
 import { ConnectEvent, HiveDispatcher, TileAction } from '../../src/services';
 import { createGameState } from '../fixtures/game-area.fixtures';
 import { mockClipboard, mockExecCommand, mockLocation, mockShare, noShare, simulateEvent } from '../helpers';
-import { MockedFunction } from 'vitest';
+import { MockedFunction, vi } from 'vitest';
 import { waitFor } from '@testing-library/dom';
 import { Dispatcher } from '../../src/hooks/useHiveDispatchListener';
 import { Signal, signal } from '@preact/signals';
 import { AiMode } from '../../src/domain/engine';
+import { GameStateContext } from '../../src/services/signals';
+import { ComponentProps } from 'preact';
+import { signalize } from '../helpers/signalize';
 
+const setup = (gameState: GameState, props: ComponentProps<typeof GameArea>) => {
+  const gameStateContext = {
+    ...signalize(gameState),
+    setGameState: vi.fn(),
+  };
+
+  const dispatcher = new HiveDispatcher();
+
+  return {
+    ...render(
+      <Dispatcher.Provider value={dispatcher}>
+        <GameStateContext.Provider value={gameStateContext}>
+          <GameArea {...(props as ComponentProps<typeof GameArea>)} />
+        </GameStateContext.Provider>
+      </Dispatcher.Provider>
+    ),
+    dispatcher,
+  };
+};
 describe('<GameArea>', () => {
   test('default drag over is prevented to allow drop', () => {
     const gameState = createGameState(1);
-    render(
-      <GameArea
-        gameId={'123A'}
-        gameStatus="MoveSuccess"
-        players={gameState.players}
-        cells={gameState.cells}
-        currentPlayer={2}
-        aiMode={signal('off')}
-      />
-    );
+    setup(gameState, { currentPlayer: 2, aiMode: signal('off') });
     const preventDefault = simulateEvent(screen.getByTitle('Hive Game Area'), 'dragover');
 
     expect(preventDefault).toHaveBeenCalledWith();
@@ -33,19 +46,8 @@ describe('<GameArea>', () => {
   it(`resets all selected tiles which aren't the current player`, async () => {
     const gameState = createGameState(1);
     global.window.history.replaceState({}, global.document.title, `/game/33/0`);
-    const dispatcher = new HiveDispatcher();
-    render(
-      <Dispatcher.Provider value={dispatcher}>
-        <GameArea
-          gameId={'123A'}
-          gameStatus="MoveSuccess"
-          players={gameState.players}
-          cells={gameState.cells}
-          currentPlayer={1}
-          aiMode={signal('off')}
-        />
-      </Dispatcher.Provider>
-    );
+
+    const { dispatcher } = setup(gameState, { currentPlayer: 1, aiMode: signal('off') });
     dispatcher.dispatch<TileAction>({ type: 'tileSelect', tile: gameState.players[1].tiles[0] });
     await waitFor(() => expect(screen.getByTitle(/creature1/)).toHaveClass('selected'));
   });
@@ -53,36 +55,15 @@ describe('<GameArea>', () => {
   it(`removes all moves for tiles which aren't the current player`, async () => {
     const gameState = createGameState(1);
     global.window.history.replaceState({}, global.document.title, `/game/33/0`);
-    const dispatcher = new HiveDispatcher();
-    render(
-      <Dispatcher.Provider value={dispatcher}>
-        <GameArea
-          gameId={'123A'}
-          gameStatus="MoveSuccess"
-          players={gameState.players}
-          cells={gameState.cells}
-          currentPlayer={1}
-          aiMode={signal('off')}
-        />
-      </Dispatcher.Provider>
-    );
+    setup(gameState, { currentPlayer: 1, aiMode: signal('off') });
 
-    expect(screen.getByTitle(/creature0/)).not.toHaveAttribute('draggable');
+    expect(screen.getByTitle(/creature0/)).toHaveAttribute('draggable', 'false');
     expect(screen.getByTitle(/creature1/)).toHaveAttribute('draggable');
   });
 
   it('opens show rules', async () => {
     const gameState = createGameState(1);
-    render(
-      <GameArea
-        gameId={'123A'}
-        gameStatus="MoveSuccess"
-        players={gameState.players}
-        cells={gameState.cells}
-        currentPlayer={1}
-        aiMode={signal('off')}
-      />
-    );
+    setup(gameState, { currentPlayer: 1, aiMode: signal('off') });
 
     await userEvent.click(screen.getByTitle(/Rules/));
 
@@ -91,16 +72,7 @@ describe('<GameArea>', () => {
 
   it(`closes show rules`, async () => {
     const gameState = createGameState(1);
-    render(
-      <GameArea
-        gameId={'123A'}
-        gameStatus="MoveSuccess"
-        players={gameState.players}
-        cells={gameState.cells}
-        currentPlayer={1}
-        aiMode={signal('off')}
-      />
-    );
+    setup(gameState, { currentPlayer: 1, aiMode: signal('off') });
 
     await userEvent.click(screen.getByTitle(/rules/i));
     await userEvent.click(await screen.findByRole(/button/i, { hidden: false, name: /close dialog/i }));
@@ -112,16 +84,7 @@ describe('<GameArea>', () => {
     const gameState = createGameState(1);
     const restore = mockClipboard(clipboard);
 
-    render(
-      <GameArea
-        gameId={'123A'}
-        gameStatus="MoveSuccess"
-        players={gameState.players}
-        cells={gameState.cells}
-        currentPlayer={0}
-        aiMode={signal('off')}
-      />
-    );
+    setup(gameState, { currentPlayer: 0, aiMode: signal('off') });
 
     await userEvent.click(screen.getByTitle(/Share/));
 
@@ -134,16 +97,8 @@ describe('<GameArea>', () => {
     const gameState = createGameState(1);
     const restore = mockClipboard(clipboard);
 
-    render(
-      <GameArea
-        gameId={'123A'}
-        gameStatus={'MoveSuccess'}
-        players={gameState.players}
-        cells={gameState.cells}
-        currentPlayer={0}
-        aiMode={signal('off')}
-      />
-    );
+    setup(gameState, { currentPlayer: 0, aiMode: signal('off') });
+
     await userEvent.click(screen.getByTitle(/Share/));
     await userEvent.click(await screen.findByRole(/button/i, { hidden: false, name: /close dialog/i }));
     expect(screen.queryByRole('dialog', { name: /linked shared/i, hidden: false })).not.toBeInTheDocument();
@@ -155,16 +110,7 @@ describe('<GameArea>', () => {
     const restore = mockShare(share);
     const gameState = createGameState(1);
     global.window.history.replaceState({}, global.document.title, `/game/33/1`);
-    render(
-      <GameArea
-        gameId={'33'}
-        gameStatus="MoveSuccess"
-        players={gameState.players}
-        cells={gameState.cells}
-        currentPlayer={1}
-        aiMode={signal('off')}
-      />
-    );
+    setup(gameState, { currentPlayer: 1, aiMode: signal('off') });
 
     await userEvent.click(screen.getByTitle(/Share/));
     expect(share).toHaveBeenCalledWith(
@@ -179,16 +125,8 @@ describe('<GameArea>', () => {
     const restore2 = mockClipboard(writeText);
 
     const gameState = createGameState(1);
-    render(
-      <GameArea
-        gameId={'33'}
-        gameStatus="MoveSuccess"
-        players={gameState.players}
-        cells={gameState.cells}
-        currentPlayer={1}
-        aiMode={signal('off')}
-      />
-    );
+    setup(gameState, { currentPlayer: 1, aiMode: signal('off') });
+
     await userEvent.click(screen.getByTitle(/Share/));
     expect(writeText).toHaveBeenCalledWith(expect.stringContaining('/game/33/0'));
     restore1();
@@ -200,16 +138,8 @@ describe('<GameArea>', () => {
     const restore1 = noShare();
     const restore = mockExecCommand(execCommand);
     const gameState = createGameState(1);
-    render(
-      <GameArea
-        gameId={'33'}
-        gameStatus="MoveSuccess"
-        players={gameState.players}
-        cells={gameState.cells}
-        currentPlayer={1}
-        aiMode={signal('off')}
-      />
-    );
+    setup(gameState, { currentPlayer: 1, aiMode: signal('off') });
+
     await userEvent.click(screen.getByTitle(/Share/));
     expect(execCommand).toHaveBeenCalledWith('copy');
     expect(screen.queryByRole('textbox')).not.toBeInTheDocument();
@@ -220,16 +150,8 @@ describe('<GameArea>', () => {
   it(`closes modal when share link can't be copied`, async () => {
     const restore = noShare();
     const gameState = createGameState(1);
-    render(
-      <GameArea
-        gameId={'123A'}
-        gameStatus="MoveSuccess"
-        players={gameState.players}
-        cells={gameState.cells}
-        currentPlayer={1}
-        aiMode={signal('off')}
-      />
-    );
+    setup(gameState, { currentPlayer: 1, aiMode: signal('off') });
+
     await userEvent.click(screen.getByTitle(/Share/));
     expect(screen.queryByRole('dialog', { name: /linked shared/i })).not.toBeInTheDocument();
     restore();
@@ -240,19 +162,8 @@ describe('<GameArea>', () => {
     ['opponentDisconnected', /disconnected/i],
   ])(`opens modal when player %s`, async (connectionState, expected) => {
     const gameState = createGameState(1);
-    const dispatcher = new HiveDispatcher();
-    render(
-      <Dispatcher.Provider value={dispatcher}>
-        <GameArea
-          gameId={'123A'}
-          gameStatus="MoveSuccess"
-          players={gameState.players}
-          cells={gameState.cells}
-          currentPlayer={1}
-          aiMode={signal('off')}
-        />
-      </Dispatcher.Provider>
-    );
+    const { dispatcher } = setup(gameState, { currentPlayer: 1, aiMode: signal('off') });
+
     dispatcher.dispatch<ConnectEvent>({ type: connectionState, playerId: 0 });
 
     expect(await screen.findByText(expected)).toBeInTheDocument();
@@ -263,20 +174,9 @@ describe('<GameArea>', () => {
     ['opponentDisconnected', /player disconnected/i],
   ])(`closes the modal when player %s`, async (connectionState, expected) => {
     const gameState = createGameState(1);
-    const dispatcher = new HiveDispatcher();
 
-    render(
-      <Dispatcher.Provider value={dispatcher}>
-        <GameArea
-          gameId={'123A'}
-          gameStatus={'MoveSuccess'}
-          players={gameState.players}
-          cells={gameState.cells}
-          currentPlayer={0}
-          aiMode={signal('off')}
-        />
-      </Dispatcher.Provider>
-    );
+    const { dispatcher } = setup(gameState, { currentPlayer: 0, aiMode: signal('off') });
+
     dispatcher.dispatch<ConnectEvent>({ type: connectionState, playerId: 1 });
 
     await userEvent.click(await screen.findByRole(/button/i, { hidden: false, name: /close dialog/i }));
@@ -287,24 +187,14 @@ describe('<GameArea>', () => {
     let dispatcher: HiveDispatcher;
     let aiMode: Signal<AiMode>;
     const toggleAiHandler = vi.fn();
-    beforeEach(() => {
-      dispatcher = new HiveDispatcher();
 
+    beforeEach(() => {
       const gameState = createGameState(1);
       aiMode = signal('on');
-      render(
-        <Dispatcher.Provider value={dispatcher}>
-          <GameArea
-            gameId={'123A'}
-            gameStatus={'MoveSuccess'}
-            players={gameState.players}
-            cells={gameState.cells}
-            currentPlayer={0}
-            aiMode={aiMode}
-          />
-        </Dispatcher.Provider>
-      );
+      const view = setup(gameState, { currentPlayer: 0, aiMode });
+      dispatcher = view.dispatcher;
     });
+
     it(`opponent connected handler toggles ai mode`, () => {
       dispatcher.dispatch<ConnectEvent>({ type: 'opponentConnected', playerId: 1 });
       expect(aiMode.value).toBe('off');
@@ -335,95 +225,44 @@ describe('<GameArea>', () => {
     `Game status %s shows dialog for player 1 with current player %i`,
     async (gameStatus, currentPlayer) => {
       const gameState = createGameState(1);
-      render(
-        <GameArea
-          gameId={'123A'}
-          gameStatus={gameStatus}
-          players={gameState.players}
-          cells={gameState.cells}
-          currentPlayer={currentPlayer}
-          aiMode={signal('off')}
-        />
-      );
+      setup({ ...gameState, gameStatus }, { currentPlayer, aiMode: signal('off') });
+
       expect(await screen.findByRole('dialog', { name: /game over/i })).toBeInTheDocument();
     }
   );
 
   it.each(gameStatusNotShownDialogs)(`Game status %s doesn't show dialog for player 1`, (gameStatus) => {
     const gameState = createGameState(1);
-    render(
-      <GameArea
-        gameId={'123A'}
-        gameStatus={gameStatus}
-        players={gameState.players}
-        cells={gameState.cells}
-        currentPlayer={0}
-        aiMode={signal('off')}
-      />
-    );
+    setup({ ...gameState, gameStatus }, { currentPlayer: 0, aiMode: signal('off') });
+
     expect(screen.queryByRole('dialog', { name: /game over/i })).not.toBeInTheDocument();
   });
 
   it.each(gameStatusShownDialogs)(`Game status %s shows dialog for player 2`, async (gameStatus) => {
     const gameState = createGameState(1);
-    render(
-      <GameArea
-        gameId={'123A'}
-        gameStatus={gameStatus}
-        players={gameState.players}
-        cells={gameState.cells}
-        currentPlayer={0}
-        aiMode={signal('off')}
-      />
-    );
+    setup({ ...gameState, gameStatus }, { currentPlayer: 0, aiMode: signal('off') });
+
     expect(await screen.findByRole('dialog', { name: /game over/i })).toBeInTheDocument();
   });
 
   it.each(gameStatusNotShownDialogs)(`Game status %s doesn't show dialog for player 2`, (gameStatus) => {
     const gameState = createGameState(1);
-    render(
-      <GameArea
-        gameId={'123A'}
-        gameStatus={gameStatus}
-        players={gameState.players}
-        cells={gameState.cells}
-        currentPlayer={0}
-        aiMode={signal('off')}
-      />
-    );
+    setup({ ...gameState, gameStatus }, { currentPlayer: 0, aiMode: signal('off') });
+
     expect(screen.queryByRole('dialog', { name: /game over/i })).not.toBeInTheDocument();
   });
 
   it(`closes game over modal`, async () => {
     const gameState = createGameState(1);
+    setup({ ...gameState, gameStatus: 'GameOver' }, { currentPlayer: 0, aiMode: signal('off') });
 
-    render(
-      <GameArea
-        gameId={'123A'}
-        gameStatus={'GameOver'}
-        players={gameState.players}
-        cells={gameState.cells}
-        currentPlayer={0}
-        aiMode={signal('off')}
-      />
-    );
     await userEvent.click(await screen.findByRole(/button/i, { hidden: false, name: /close dialog/i }));
     expect(screen.queryByRole('dialog', { name: /game over/i })).not.toBeInTheDocument();
   });
 
   it(`set's game over class when game is over`, async () => {
     const gameState = createGameState(1);
-
-    render(
-      <GameArea
-        gameId={'123A'}
-        gameStatus={'GameOver'}
-        players={gameState.players}
-        cells={gameState.cells}
-        currentPlayer={0}
-        aiMode={signal('off')}
-      />
-    );
+    setup({ ...gameState, gameStatus: 'GameOver' }, { currentPlayer: 0, aiMode: signal('off') });
 
     expect(screen.getByRole('main')).toHaveClass('game-over');
   });
@@ -433,16 +272,8 @@ describe('<GameArea>', () => {
     const restoreLocation = mockLocation({ assign });
     const gameState = createGameState(1);
 
-    render(
-      <GameArea
-        gameId={'123A'}
-        gameStatus={'GameOver'}
-        players={gameState.players}
-        cells={gameState.cells}
-        currentPlayer={0}
-        aiMode={signal('off')}
-      />
-    );
+    setup({ ...gameState, gameStatus: 'GameOver' }, { currentPlayer: 0, aiMode: signal('off') });
+
     await userEvent.click(await screen.findByRole('button', { name: /new game/i }));
     expect(assign).toHaveBeenCalledWith('/');
 
@@ -451,47 +282,26 @@ describe('<GameArea>', () => {
 
   test('render snapshot', () => {
     const gameState = createGameState(1);
-    const view = render(
-      <GameArea
-        gameId={'123A'}
-        gameStatus="MoveSuccess"
-        players={gameState.players}
-        cells={gameState.cells}
-        currentPlayer={1}
-        aiMode={signal('off')}
-      />
+    const view = setup(
+      { ...gameState, gameStatus: 'MoveSuccess' },
+      { currentPlayer: 1, aiMode: signal('off') }
     );
+
     expect(view).toMatchSnapshot();
   });
 
   test('render snapshot with historical move', () => {
     const gameState = createGameState(1, true);
-    const view = render(
-      <GameArea
-        gameId={'123A'}
-        gameStatus="MoveSuccess"
-        players={gameState.players}
-        cells={gameState.cells}
-        currentPlayer={1}
-        aiMode={signal('off')}
-        history={gameState.history}
-      />
-    );
+
+    const view = setup(gameState, { currentPlayer: 0, aiMode: signal('off') });
+
     expect(view).toMatchSnapshot();
   });
 
   test('render game over snapshot', () => {
     const gameState = createGameState(1);
-    const view = render(
-      <GameArea
-        gameId={'123A'}
-        gameStatus="GameOver"
-        players={gameState.players}
-        cells={gameState.cells}
-        currentPlayer={1}
-        aiMode={signal('off')}
-      />
-    );
+    const view = setup({ ...gameState, gameStatus: 'GameOver' }, { currentPlayer: 0, aiMode: signal('off') });
+
     expect(view).toMatchSnapshot();
   });
 });

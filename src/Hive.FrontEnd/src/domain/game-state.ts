@@ -7,7 +7,7 @@ export type GameState = {
   players: Player[];
   gameId: GameId;
   gameStatus: GameStatus;
-  history?: HistoricalMove[];
+  history: HistoricalMove[];
 };
 
 export type GameId = string;

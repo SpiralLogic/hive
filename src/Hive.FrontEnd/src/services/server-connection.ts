@@ -10,7 +10,7 @@ import { GameId, GameState, PlayerId, Tile } from '../domain';
 export type PlayerSelectionEvent = 'select' | 'deselect';
 export type PlayerConnectionEvent = 'connect' | 'disconnect';
 export type GameStateUpdateHandler = (gameState: GameState) => void;
-export type OpponentSelectionHandler = (type: PlayerSelectionEvent, tile: Tile) => void;
+export type OpponentSelectionHandler = (type: PlayerSelectionEvent, tile: Omit<Tile, 'moves'>) => void;
 export type OpponentConnectedHandler = (type: PlayerConnectionEvent, playerId: PlayerId) => void;
 
 export type ServerConnectionConfig = {
@@ -70,7 +70,7 @@ class ServerConnectionImpl implements ServerConnection {
 
   getConnectionState = (): HubConnectionState => this.connection.state;
 
-  sendSelection: OpponentSelectionHandler = (type: 'select' | 'deselect', tile: Tile) => {
+  sendSelection: OpponentSelectionHandler = (type: 'select' | 'deselect', tile: Omit<Tile, 'moves'>) => {
     if (this.connection.state === HubConnectionState.Connected)
       this.connection
         .send('SendSelection', type, tile)

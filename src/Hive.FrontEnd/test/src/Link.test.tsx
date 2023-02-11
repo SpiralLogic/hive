@@ -16,7 +16,7 @@ describe('<Links>', () => {
     render(
       <Dispatcher.Provider value={dispatcher}>
         <Links
-          gameId={'123A'}
+          gameId={signal('123A')}
           currentPlayer={0}
           onShowShare={() => ({})}
           onShowRules={() => ({})}
@@ -36,7 +36,7 @@ describe('<Links>', () => {
     render(
       <Dispatcher.Provider value={dispatcher}>
         <Links
-          gameId={'123A'}
+          gameId={signal('123A')}
           currentPlayer={0}
           onShowShare={() => ({})}
           onShowRules={() => ({})}
@@ -58,7 +58,7 @@ describe('<Links>', () => {
     expect(
       render(
         <Links
-          gameId={'123A'}
+          gameId={signal('123A')}
           currentPlayer={0}
           onShowShare={() => ({})}
           onShowRules={() => ({})}

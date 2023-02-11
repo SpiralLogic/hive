@@ -7,11 +7,12 @@ import { handleDrop, handleKeyboardNav, isEnterOrSpace } from '../utilities/hand
 import Tile from './Tile';
 import { useClassSignal } from '../hooks/useClassReducer';
 import { Dispatcher, useHiveDispatchListener } from '../hooks/useHiveDispatchListener';
-import { effect, signal, useSignal } from '@preact/signals';
+import { effect, useComputed, useSignal } from '@preact/signals';
+import { moveMap } from '../services/signals';
 
 const tileSelector = `[tabindex].tile`;
 const cellSelector = `[role="cell"].can-drop`;
-type Properties = TileType & { stacked?: boolean; currentPlayer: PlayerId };
+type Properties = Omit<TileType, 'moves'> & { stacked?: boolean; currentPlayer: PlayerId };
 
 const handleMouseLeave = (event: { currentTarget: HTMLElement }) => {
   event.currentTarget.blur();
@@ -19,9 +20,16 @@ const handleMouseLeave = (event: { currentTarget: HTMLElement }) => {
 
 const GameTile: FunctionComponent<Properties> = (properties) => {
   const { currentPlayer, stacked, ...tile } = properties;
-  const { id, moves, creature, playerId } = tile;
+  const { id, creature, playerId } = tile;
   const focus = useSignal(tileSelector);
+  const availableMoveCount = useComputed(
+    () => currentPlayer === playerId && !!moveMap.value.get(`${playerId}-${id}`)?.length
+  );
+  const tabIndex = useComputed<0 | undefined>(() =>
+    currentPlayer === playerId && !!moveMap.value.get(`${playerId}-${id}`)?.length ? 0 : undefined
+  );
   const [classes, classAction] = useClassSignal(`player${playerId}`, 'hex');
+
   const dispatcher = useContext(Dispatcher);
   if (stacked) classAction.add('stacked');
 
@@ -52,19 +60,19 @@ const GameTile: FunctionComponent<Properties> = (properties) => {
     deselect(true);
   });
 
-  const handleDragStart = (event: DragEvent) => {
+  const handleDragStart = useCallback((event: DragEvent) => {
     event.stopPropagation();
     select();
     classAction.add('before-drag');
     setTimeout(() => classAction.remove('before-drag'), 1);
-  };
+  }, []);
 
-  const handleDragEnd = () => {
+  const handleDragEnd = useCallback(() => {
     dispatcher.dispatch({ type: 'tileDropped', tile });
     dispatcher.dispatch({ type: 'tileClear' });
-  };
+  }, []);
 
-  const handleClick = (event: UIEvent & { currentTarget: HTMLElement }) => {
+  const handleClick = useCallback((event: UIEvent & { currentTarget: HTMLElement }) => {
     event.stopPropagation();
     if (classes.peek().includes('selected')) {
       deselect();
@@ -72,15 +80,16 @@ const GameTile: FunctionComponent<Properties> = (properties) => {
     } else {
       select();
     }
-  };
+  }, []);
 
-  const handleKeyDown = (event: KeyboardEvent & { currentTarget: HTMLElement }) => {
+  const handleKeyDown = useCallback((event: KeyboardEvent & { currentTarget: HTMLElement }) => {
     if (handleKeyboardNav(event) || !isEnterOrSpace(event)) return;
     handleClick(event);
-  };
+  }, []);
+
   useEffect(() => {
     return effect(() => {
-      if (!focus.value) return;
+      if (!focus.peek()) return;
       const focusElement = document.querySelector<HTMLElement>(focus.value);
       focusElement?.focus();
       focus.value = '';
@@ -89,24 +98,19 @@ const GameTile: FunctionComponent<Properties> = (properties) => {
 
   const attributes = {
     title: `Player-${playerId} ${creature}`,
-    draggable: moves.length > 0 ? true : undefined,
+    draggable: availableMoveCount,
     creature,
-    canTabTo: signal(moves.length > 0),
+    tabIndex,
   };
 
-  const handlers =
-    moves.length > 0
-      ? {
-          onclick: handleClick,
-          ondragstart: handleDragStart,
-          ondragend: handleDragEnd,
-          onkeydown: handleKeyDown,
-          onmouseleave: handleMouseLeave,
-          ondrop: handleDrop,
-        }
-      : {
-          ondrop: useCallback(handleDrop, []),
-        };
+  const handlers = {
+    onclick: handleClick,
+    ondragstart: handleDragStart,
+    ondragend: handleDragEnd,
+    onkeydown: handleKeyDown,
+    onmouseleave: handleMouseLeave,
+    ondrop: handleDrop,
+  };
   return <Tile classes={classes} {...attributes} {...handlers} />;
 };
 GameTile.displayName = 'GameTile';

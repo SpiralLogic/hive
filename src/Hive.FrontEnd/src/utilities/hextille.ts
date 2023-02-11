@@ -1,19 +1,9 @@
-import { Cell, GameState, HexCoordinates, Player, PlayerId, Tile } from '../domain';
+import { Cell, HexCoordinates, Player, PlayerId, Tile } from '../domain';
 
 const getAllTiles = (...parents: Array<Array<Player | Cell>>): Array<Tile> =>
   parents.flatMap((g) => g.flatMap((p) => p.tiles));
-
-const getAllOtherPlayerTiles = (playerId: PlayerId, ...parents: Array<Array<Player | Cell>>) =>
-  getAllTiles(...parents).filter((t) => t.playerId !== playerId);
 
 export const getAllPlayerTiles = (playerId: PlayerId, ...parents: Array<Array<Player | Cell>>) =>
   getAllTiles(...parents).filter((t) => t.playerId === playerId);
 
 export const cellKey = ({ q, r }: HexCoordinates) => `${q}-${r}`;
-
-export const removeOtherPlayerMoves = (
-  playerId: PlayerId,
-  { players, cells }: Pick<GameState, 'players' | 'cells'>
-): void => {
-  for (const t of getAllOtherPlayerTiles(playerId, players, cells)) t.moves.splice(0, t.moves.length);
-};

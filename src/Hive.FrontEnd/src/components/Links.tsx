@@ -11,7 +11,7 @@ import { Signal, useComputed } from '@preact/signals';
 type Properties = {
   onShowRules: () => void;
   onShowShare: () => void;
-  gameId: GameId;
+  gameId: Signal<GameId>;
   aiMode: Signal<AiMode>;
   currentPlayer: PlayerId;
 };
@@ -38,7 +38,7 @@ const Links: FunctionComponent<Properties> = ({
   return (
     <nav>
       <a
-        href={getShareUrl(gameId, currentPlayer)}
+        href={getShareUrl(gameId.value, currentPlayer)}
         name="Share game to opponent"
         title="Share"
         onClick={handle(onShowShare)}>

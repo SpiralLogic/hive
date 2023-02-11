@@ -13,6 +13,7 @@ exports[`<Player> > renders 1`] = `
   >
     <div
       class="player1 hex tile thing"
+      draggable="false"
       title="Player-1 thing"
     >
       <svg

@@ -32,8 +32,7 @@ exports[`<GameArea> > render game over snapshot 1`] = `
       >
         <div
           class="player1 hex tile creature1"
-          draggable="true"
-          tabindex="0"
+          draggable="false"
           title="Player-1 creature1"
         >
           <svg
@@ -57,7 +56,7 @@ exports[`<GameArea> > render game over snapshot 1`] = `
   >
     <nav>
       <a
-        href="http://localhost:3000/game/123A/0"
+        href="http://localhost:3000/game/33/1"
         name="Share game to opponent"
         title="Share"
       >
@@ -220,6 +219,7 @@ exports[`<GameArea> > render game over snapshot 1`] = `
           </svg>
           <div
             class="player0 hex tile creature0"
+            draggable="false"
             title="Player-0 creature0"
           >
             <svg
@@ -281,6 +281,7 @@ exports[`<GameArea> > render game over snapshot 1`] = `
     </button>
     <p>
       Player has 
+      
       !
     </p>
   </dialog>
@@ -332,6 +333,7 @@ exports[`<GameArea> > render game over snapshot 1`] = `
           role="row"
         >
           <div
+            class=""
             role="cell"
           >
             <svg
@@ -360,6 +362,7 @@ exports[`<GameArea> > render game over snapshot 1`] = `
             </div>
           </div>
           <div
+            class=""
             role="cell"
           >
             <svg
@@ -405,6 +408,7 @@ exports[`<GameArea> > render game over snapshot 1`] = `
           role="row"
         >
           <div
+            class=""
             role="cell"
           >
             <svg
@@ -465,6 +469,7 @@ exports[`<GameArea> > render game over snapshot 1`] = `
             </div>
           </div>
           <div
+            class=""
             role="cell"
           >
             <svg
@@ -497,6 +502,7 @@ exports[`<GameArea> > render game over snapshot 1`] = `
           role="row"
         >
           <div
+            class=""
             role="cell"
           >
             <svg
@@ -525,6 +531,7 @@ exports[`<GameArea> > render game over snapshot 1`] = `
             </div>
           </div>
           <div
+            class=""
             role="cell"
           >
             <svg
@@ -638,8 +645,7 @@ exports[`<GameArea> > render snapshot 1`] = `
       >
         <div
           class="player1 hex tile creature1"
-          draggable="true"
-          tabindex="0"
+          draggable="false"
           title="Player-1 creature1"
         >
           <svg
@@ -663,7 +669,7 @@ exports[`<GameArea> > render snapshot 1`] = `
   >
     <nav>
       <a
-        href="http://localhost:3000/game/123A/0"
+        href="http://localhost:3000/game/33/0"
         name="Share game to opponent"
         title="Share"
       >
@@ -826,6 +832,7 @@ exports[`<GameArea> > render snapshot 1`] = `
           </svg>
           <div
             class="player0 hex tile creature0"
+            draggable="false"
             title="Player-0 creature0"
           >
             <svg
@@ -887,6 +894,7 @@ exports[`<GameArea> > render snapshot 1`] = `
     </button>
     <p>
       Player has 
+      
       !
     </p>
   </dialog>
@@ -938,6 +946,7 @@ exports[`<GameArea> > render snapshot 1`] = `
           role="row"
         >
           <div
+            class=""
             role="cell"
           >
             <svg
@@ -966,6 +975,7 @@ exports[`<GameArea> > render snapshot 1`] = `
             </div>
           </div>
           <div
+            class=""
             role="cell"
           >
             <svg
@@ -1011,6 +1021,7 @@ exports[`<GameArea> > render snapshot 1`] = `
           role="row"
         >
           <div
+            class=""
             role="cell"
           >
             <svg
@@ -1071,6 +1082,7 @@ exports[`<GameArea> > render snapshot 1`] = `
             </div>
           </div>
           <div
+            class=""
             role="cell"
           >
             <svg
@@ -1103,6 +1115,7 @@ exports[`<GameArea> > render snapshot 1`] = `
           role="row"
         >
           <div
+            class=""
             role="cell"
           >
             <svg
@@ -1131,6 +1144,7 @@ exports[`<GameArea> > render snapshot 1`] = `
             </div>
           </div>
           <div
+            class=""
             role="cell"
           >
             <svg
@@ -1243,8 +1257,7 @@ exports[`<GameArea> > render snapshot with historical move 1`] = `
       >
         <div
           class="player1 hex tile creature1"
-          draggable="true"
-          tabindex="0"
+          draggable="false"
           title="Player-1 creature1"
         >
           <svg
@@ -1268,7 +1281,7 @@ exports[`<GameArea> > render snapshot with historical move 1`] = `
   >
     <nav>
       <a
-        href="http://localhost:3000/game/123A/0"
+        href="http://localhost:3000/game/33/1"
         name="Share game to opponent"
         title="Share"
       >
@@ -1433,6 +1446,7 @@ exports[`<GameArea> > render snapshot with historical move 1`] = `
           </svg>
           <div
             class="player0 hex tile creature0"
+            draggable="false"
             title="Player-0 creature0"
           >
             <svg
@@ -1494,6 +1508,7 @@ exports[`<GameArea> > render snapshot with historical move 1`] = `
     </button>
     <p>
       Player has 
+      
       !
     </p>
   </dialog>
@@ -1545,6 +1560,7 @@ exports[`<GameArea> > render snapshot with historical move 1`] = `
           role="row"
         >
           <div
+            class=""
             role="cell"
           >
             <svg
@@ -1573,6 +1589,7 @@ exports[`<GameArea> > render snapshot with historical move 1`] = `
             </div>
           </div>
           <div
+            class=""
             role="cell"
           >
             <svg
@@ -1618,6 +1635,7 @@ exports[`<GameArea> > render snapshot with historical move 1`] = `
           role="row"
         >
           <div
+            class=""
             role="cell"
           >
             <svg
@@ -1678,6 +1696,7 @@ exports[`<GameArea> > render snapshot with historical move 1`] = `
             </div>
           </div>
           <div
+            class=""
             role="cell"
           >
             <svg
@@ -1710,6 +1729,7 @@ exports[`<GameArea> > render snapshot with historical move 1`] = `
           role="row"
         >
           <div
+            class=""
             role="cell"
           >
             <svg
@@ -1738,6 +1758,7 @@ exports[`<GameArea> > render snapshot with historical move 1`] = `
             </div>
           </div>
           <div
+            class=""
             role="cell"
           >
             <svg

@@ -66,7 +66,7 @@ export const createOpponentConnectedHandler = (dispatcher: HiveDispatcher): Oppo
 };
 
 export const addServerHandlers = (
-  sendSelection: (type: 'select' | 'deselect', tile: Tile) => void,
+  sendSelection: (type: 'select' | 'deselect', tile: Omit<Tile, 'moves'>) => void,
   updateGameState: (value: GameState) => void,
   makeMove: (move: Move) => Promise<GameState>,
   dispatcher: HiveDispatcher

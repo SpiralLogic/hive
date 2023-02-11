@@ -1,7 +1,6 @@
 import { fireEvent, render, screen } from '@testing-library/preact';
 import userEvent from '@testing-library/user-event';
 import { waitFor } from '@testing-library/dom';
-import { ComponentProps } from 'preact';
 import GameCell from '../../src/components/GameCell';
 import { simulateEvent } from '../helpers';
 import {
@@ -18,13 +17,26 @@ import {
 } from '../fixtures/game-cell.fixtures';
 import { HiveDispatcher } from '../../src/services';
 import { Dispatcher } from '../../src/hooks/useHiveDispatchListener';
+import { Cell, HexCoordinates, PlayerId, TileId } from '../../src/domain';
+import GameTile from '../../src/components/GameTile';
+import { cellKey } from '../../src/utilities/hextille';
+import { moveMap } from '../../src/services/signals';
 
-const setUp = (...tileCreationFns: Array<() => ComponentProps<typeof GameCell>>) => {
+const setUp = (...tileCreationFns: Array<() => { cell: Cell; historical?: boolean }>) => {
+  const comps = tileCreationFns.map((t) => t());
+
+  moveMap.value = new Map<`${PlayerId}-${TileId}`, HexCoordinates[]>();
+  comps.flatMap(({ cell }) => cell.tiles).forEach((t) => moveMap.value.set(`${t.playerId}-${t.id}`, t.moves));
+
   const dispatcher = new HiveDispatcher();
   render(
     <Dispatcher.Provider value={dispatcher}>
-      {tileCreationFns.map((factory) => (
-        <GameCell key={factory} {...factory()} />
+      {comps.map(({ cell, historical }) => (
+        <GameCell key={cellKey(cell.coords)} coords={cell.coords} historical={historical}>
+          {cell.tiles.map((tile) => (
+            <GameTile currentPlayer={1} {...tile} />
+          ))}
+        </GameCell>
       ))}
     </Dispatcher.Provider>
   );
@@ -53,13 +65,13 @@ describe('<GameCell>', () => {
     setUp(createCellMovableTile, createCellWithTileAndDrop, createCellCanDrop);
     await userEvent.click(screen.getByTitle(/tilecanmove/));
     const cells = await screen.findAllByRole('cell');
-    await Promise.all(cells.slice(1).map((c) => waitFor(() => expect(c).toHaveClass('can-drop'))));
+    await Promise.all(cells.slice(-1).map((c) => waitFor(() => expect(c).toHaveClass('can-drop'))));
   });
 
   it('is active on tile drag enter', async () => {
     setUp(createCellMovableTile, createCellWithTileAndDrop, createCellCanDrop);
-
-    await userEvent.click(screen.getByTitle(/tilecanmove/));
+    const t = screen.getByTitle(/tilecanmove/);
+    await userEvent.click(t);
 
     for (const c of screen.getAllByRole('cell')) fireEvent.dragEnter(c);
 
@@ -95,10 +107,6 @@ describe('<GameCell>', () => {
         {
           type: 'move',
           move: { tileId: 2, coords: { q: 0, r: 0 } },
-        },
-        {
-          type: 'move',
-          move: { tileId: 2, coords: { q: 2, r: 2 } },
         },
       ])
     );

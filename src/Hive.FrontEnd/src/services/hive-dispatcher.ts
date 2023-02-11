@@ -11,12 +11,12 @@ export type Action = {
 export type ConnectEvent = { type: 'opponentConnected' | 'opponentDisconnected'; playerId: PlayerId };
 export type TileEvent = {
   type: 'tileDropped' | 'click' | 'tileSelected' | 'tileDeselected';
-  tile: Tile;
+  tile: Omit<Tile, 'moves'>;
   fromEvent?: boolean;
 };
 export type TileAction = {
   type: 'tileSelect' | 'tileDeselect';
-  tile: Tile;
+  tile: Omit<Tile, 'moves'>;
 };
 
 export class HiveDispatcher {

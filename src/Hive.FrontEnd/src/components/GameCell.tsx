@@ -1,5 +1,5 @@
 import { FunctionComponent } from 'preact';
-import { useContext, useEffect, useRef } from 'preact/hooks';
+import { useCallback, useContext, useEffect, useRef } from 'preact/hooks';
 import { HexCoordinates, Tile as TileType } from '../domain';
 import { MoveEvent, TileEvent } from '../services';
 import { handleDragOver, handleKeyboardNav, isEnterOrSpace } from '../utilities/handlers';
@@ -7,18 +7,19 @@ import Hexagon from './Hexagon';
 import { useClassSignal } from '../hooks/useClassReducer';
 import { Dispatcher, useHiveDispatchListener } from '../hooks/useHiveDispatchListener';
 import { useComputed } from '@preact/signals';
+import { moveMap } from '../services/signals';
 
-const isValidMove = (validMoves: Array<HexCoordinates>, coords: HexCoordinates) =>
+const isValidMove = (coords: HexCoordinates, validMoves: Array<HexCoordinates> = []) =>
   validMoves.some((destination) => destination.q == coords.q && destination.r == coords.r);
 
 type Properties = { coords: HexCoordinates; historical?: boolean; hidden?: boolean };
 const GameCell: FunctionComponent<Properties> = (properties) => {
   const { coords, children, historical = false, hidden } = properties;
   const [classes, classActions] = useClassSignal('hide');
-  const canTabTo = useComputed(() => classes.value.includes('can-drop'));
+  const tabIndex = useComputed<0 | undefined>(() => (classes.value.includes('can-drop') ? 0 : undefined));
   historical ? classActions.add('historical') : classActions.remove('historical');
 
-  const selectedTile = useRef<TileType | null>(null);
+  const selectedTile = useRef<Omit<TileType, 'moves'> | null>(null);
   const dispatcher = useContext(Dispatcher);
   useEffect(() => (hidden ? classActions.add('hide') : classActions.remove('hide')), [hidden, classActions]);
 
@@ -29,7 +30,7 @@ const GameCell: FunctionComponent<Properties> = (properties) => {
 
   useHiveDispatchListener<TileEvent>('tileSelected', (intent) => {
     selectedTile.current = intent.tile;
-    if (isValidMove(intent.tile.moves, coords)) {
+    if (isValidMove(coords, moveMap.value.get(`${intent.tile.playerId}-${intent.tile.id}`))) {
       classActions.add('can-drop');
     } else {
       classActions.add('no-drop');
@@ -40,7 +41,7 @@ const GameCell: FunctionComponent<Properties> = (properties) => {
     if (
       classes.value.includes('active') &&
       selectedTile.current &&
-      isValidMove(selectedTile.current.moves, coords)
+      isValidMove(coords, moveMap.value.get(`${selectedTile.current.playerId}-${selectedTile.current.id}`))
     ) {
       dispatcher.dispatch({
         type: 'move',
@@ -49,32 +50,38 @@ const GameCell: FunctionComponent<Properties> = (properties) => {
     }
   });
 
-  const handleDragLeave = (event: DragEvent) => {
+  const handleDragLeave = useCallback((event: DragEvent) => {
     event.stopPropagation();
     classActions.remove('active');
-  };
+  }, []);
 
-  const handleDragEnter = () => {
+  const handleDragEnter = useCallback(() => {
     if (selectedTile.current) classActions.add('active');
-  };
+  }, []);
 
-  const handleClick = (event: UIEvent) => {
-    if (!(selectedTile.current && isValidMove(selectedTile.current.moves, coords))) return;
+  const handleClick = useCallback((event: UIEvent) => {
+    if (
+      !(
+        selectedTile.current &&
+        isValidMove(coords, moveMap.value.get(`${selectedTile.current.playerId}-${selectedTile.current.id}`))
+      )
+    )
+      return;
     event.stopPropagation();
     const move: MoveEvent = { type: 'move', move: { coords, tileId: selectedTile.current?.id } };
     dispatcher.dispatch({ type: 'tileClear', tile: selectedTile.current });
     dispatcher.dispatch(move);
-  };
+  }, []);
 
-  const handleKeydown = (event: KeyboardEvent) => {
+  const handleKeydown = useCallback((event: KeyboardEvent) => {
     if (handleKeyboardNav(event) || !isEnterOrSpace(event)) return;
     handleClick(event);
-  };
+  }, []);
 
   const attributes = {
     classes,
     role: 'cell',
-    canTabTo,
+    tabIndex,
   };
 
   const handlers = {

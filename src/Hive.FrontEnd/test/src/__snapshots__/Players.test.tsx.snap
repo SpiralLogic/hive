@@ -19,8 +19,7 @@ exports[`<Players> > renders 1`] = `
         >
           <div
             class="player1 hex tile ant"
-            draggable="true"
-            tabindex="0"
+            draggable="false"
             title="Player-1 ant"
           >
             <svg
@@ -38,6 +37,7 @@ exports[`<Players> > renders 1`] = `
           </div>
           <div
             class="player0 hex tile fly"
+            draggable="false"
             title="Player-0 fly"
           >
             <svg
@@ -55,6 +55,7 @@ exports[`<Players> > renders 1`] = `
           </div>
           <div
             class="player0 hex tile fly"
+            draggable="false"
             title="Player-0 fly"
           >
             <svg
@@ -84,8 +85,7 @@ exports[`<Players> > renders 1`] = `
         >
           <div
             class="player1 hex tile ant"
-            draggable="true"
-            tabindex="0"
+            draggable="false"
             title="Player-1 ant"
           >
             <svg

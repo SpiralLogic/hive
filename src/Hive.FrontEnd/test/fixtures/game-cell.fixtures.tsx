@@ -1,16 +1,17 @@
-import GameTile from '../../src/components/GameTile';
 import { HiveDispatcher, MoveEvent } from '../../src/services';
 
-export const createCellWithNoTile = () => ({ coords: { q: 0, r: 0 }, tiles: [], history: [] });
+export const createCellWithNoTile = () => ({
+  cell: { coords: { q: 0, r: 0 }, tiles: [] },
+});
 
 export const createCellWithTile = () => {
   const tile = { id: 2, playerId: 1, creature: 'fly', moves: [] };
-  return { coords: { q: 1, r: 1 }, children: <GameTile currentPlayer={0} {...tile} /> };
+  return { cell: { coords: { q: 1, r: 1 }, tiles: [tile] } };
 };
 
 export const createCellWithTileAndHistoricalMove = () => {
   const tile = { id: 2, playerId: 1, creature: 'fly', moves: [] };
-  return { coords: { q: 1, r: 1 }, historical: true, children: <GameTile currentPlayer={0} {...tile} /> };
+  return { cell: { coords: { q: 1, r: 1 }, tiles: [tile] }, historical: true };
 };
 
 export const movingTile = {
@@ -18,20 +19,21 @@ export const movingTile = {
   moves: [
     { q: 0, r: 0 },
     { q: 2, r: 2 },
+    { q: 1, r: 1 },
   ],
   creature: 'tilecanmove',
   playerId: 1,
 };
 export const createCellMovableTile = () => {
-  return { coords: { q: 1, r: 1 }, children: <GameTile currentPlayer={1} {...movingTile} /> };
+  return { cell: { coords: { q: 1, r: 1 }, tiles: [movingTile] } };
 };
 
 export const createCellWithTileAndDrop = () => {
   const tile = { id: 2, playerId: 1, creature: 'ant', moves: [{ r: 0, q: 0 }] };
-  return { coords: { q: 2, r: 2 }, children: <GameTile currentPlayer={0} {...tile} /> };
+  return { cell: { coords: { q: 2, r: 2 }, tiles: [tile] } };
 };
 
-export const createCellNoDrop = () => ({ coords: { q: 6, r: 6 }, tiles: [] });
+export const createCellNoDrop = () => ({ cell: { coords: { q: 6, r: 6 }, tiles: [] } });
 
 export const createCellCanDrop = createCellWithNoTile;
 export const createCellWithTileNoDrop = createCellWithTile;

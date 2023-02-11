@@ -3,7 +3,7 @@ import { AiMode, HexEngine } from '../../src/domain/engine';
 import App from '../../src/components/App';
 import { createGameState } from '../fixtures/app.fixture';
 import { HiveDispatcher } from '../../src/services';
-import { Dispatcher } from '../../src/hooks/useHiveDispatchListener';
+import { dispatcher, Dispatcher } from '../../src/hooks/useHiveDispatchListener';
 import { signal } from '@preact/signals';
 
 const closeConnectionMock = vi.fn();
@@ -13,25 +13,43 @@ const defaultConnectionFactory = () => ({
   closeConnection: closeConnectionMock,
   sendSelection: vi.fn(),
 });
-
-describe('<App>', () => {
-  const gameState = createGameState(4);
-  const gameAfterMove = createGameState(5);
+let engine: HexEngine;
+const setup = (gameState = createGameState(4), gameAfterMove = createGameState(5)) => {
   const aiMode = signal<AiMode>('off');
-  const engine: HexEngine = {
+  engine = {
     getAiMode: () => aiMode,
     initialGame: Promise.resolve(gameState),
     currentPlayer: 0,
-    move: vi.fn().mockResolvedValue({ ...gameAfterMove, gameId: 'ddd' }),
+    move: vi
+      .fn()
+      .mockReset()
+      .mockResolvedValue({ ...gameAfterMove, gameId: 'ddd' }),
   };
-
+  const dispatcher = new HiveDispatcher();
+  return {
+    ...render(
+      <Dispatcher.Provider value={dispatcher}>
+        <App engine={engine} connectionFactory={defaultConnectionFactory} />
+      </Dispatcher.Provider>
+    ),
+    dispatcher,
+  };
+};
+describe('<App>', () => {
   it('shows loading', () => {
-    render(<App engine={engine} connectionFactory={defaultConnectionFactory} />);
+    setup();
     expect(screen.getByText(/loading/)).toBeInTheDocument();
   });
 
+  it('loads initial board', async () => {
+    setup();
+    await engine.initialGame;
+    dispatcher.dispatch({ type: 'move', move: { tileId: 1, coords: { q: 0, r: 0 } } });
+    expect(await screen.findByTitle('Hive Game Area')).toBeInTheDocument();
+  });
+
   it('shows game when loaded', async () => {
-    render(<App engine={engine} connectionFactory={defaultConnectionFactory} />);
+    setup();
     await engine.initialGame;
     expect(await screen.findByTitle('Hive Game Area')).toBeInTheDocument();
   });

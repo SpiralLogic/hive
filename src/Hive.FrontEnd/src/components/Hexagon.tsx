@@ -9,17 +9,15 @@ type Properties = {
   classes?: Signal<string>;
   hidden?: boolean;
   svg?: JSX.Element;
-  canTabTo?: Signal<boolean>;
-} & Partial<JSX.HTMLAttributes>;
+  tabIndex?: Signal<0 | undefined>;
+} & Omit<Partial<JSX.HTMLAttributes>, 'tabIndex'>;
 const Hexagon: FunctionComponent<Properties> = (properties) => {
-  const { canTabTo, classes, hidden, children, svg, ...attributes } = properties;
+  const { tabIndex, classes, hidden, children, svg, ...attributes } = properties;
 
   if (hidden) attributes.role = 'none';
-  if (classes?.peek().length) attributes.class = classes;
-  if (canTabTo?.value) attributes.tabIndex = 0;
 
   return (
-    <div {...attributes}>
+    <div class={classes} tabIndex={tabIndex as Signal<number>} {...attributes}>
       <SVG>
         <use href="#hex" />
         {svg}
