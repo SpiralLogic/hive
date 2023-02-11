@@ -34,7 +34,7 @@ const Game: FunctionalComponent<{
   return (
     <Hextille>
       {rows.value.map((row) => (
-        <Row key={row.id} {...row}>
+        <Row key={`${row.id}`} {...row}>
           {row.cells.map((cell) => (
             <GameCell
               historical={isPreviousMove(history.value, cell.coords)}

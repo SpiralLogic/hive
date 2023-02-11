@@ -9,7 +9,7 @@ const Tiles: FunctionComponent<{ cell: Cell; currentPlayer: PlayerId }> = ({ cel
     <>
       {cell.tiles.map((tile, index) => (
         <GameTile
-          key={tile.id}
+          key={`${tile.id}`}
           currentPlayer={currentPlayer}
           {...tile}
           stacked={index === cell.tiles.length - 1 && cell.tiles.length > 1}

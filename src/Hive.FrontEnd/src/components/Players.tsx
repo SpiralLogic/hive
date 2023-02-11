@@ -13,11 +13,11 @@ const Players: FunctionComponent<{ currentPlayer: PlayerId }> = (properties) => 
   return (
     <aside className="players" aria-label={'PLayer pieces  not yet on the board'}>
       {players.value.map((player) => (
-        <Player key={player.id} name={player.name} id={player.id}>
+        <Player key={`${player.id}`} name={player.name} id={player.id}>
           {player.tiles
             .map(({ moves, ...tile }) => tile)
             .map((tile) => (
-              <GameTile currentPlayer={currentPlayer} key={tile.id} {...tile} />
+              <GameTile currentPlayer={currentPlayer} key={`${tile.id}`} {...tile} />
             ))}
         </Player>
       ))}
