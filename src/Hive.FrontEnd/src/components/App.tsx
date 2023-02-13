@@ -82,11 +82,7 @@ const App = (properties: { engine: HexEngine; connectionFactory: ServerConnectio
       </h1>
     );
 
-  return (
-    <>
-      <GameArea currentPlayer={engine.currentPlayer} aiMode={engine.getAiMode()} />
-    </>
-  );
+  return <GameArea currentPlayer={engine.currentPlayer} aiMode={engine.getAiMode()} />;
 };
 
 App.displayName = 'App';

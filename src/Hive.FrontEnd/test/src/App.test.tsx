@@ -20,10 +20,7 @@ const setup = (gameState = createGameState(4), gameAfterMove = createGameState(5
     getAiMode: () => aiMode,
     initialGame: Promise.resolve(gameState),
     currentPlayer: 0,
-    move: vi
-      .fn()
-      .mockReset()
-      .mockResolvedValue({ ...gameAfterMove, gameId: 'ddd' }),
+    move: vi.fn().mockReset().mockResolvedValueOnce(createGameState(5)).mockResolvedValue(gameAfterMove),
   };
   const dispatcher = new HiveDispatcher();
   return {
@@ -42,9 +39,30 @@ describe('<App>', () => {
   });
 
   it('loads initial board', async () => {
-    setup();
+    const gameState = createGameState(4);
+    const gameStateAfterMove = {
+      ...gameState,
+      players: [
+        {
+          ...gameState.players[0],
+          tiles: [
+            {
+              id: 4,
+              playerId: 0,
+              creature: 'rabbit',
+              moves: [],
+            },
+          ],
+        },
+        gameState.players[1],
+      ],
+    };
+    setup(gameState, gameStateAfterMove);
     await engine.initialGame;
     dispatcher.dispatch({ type: 'move', move: { tileId: 1, coords: { q: 0, r: 0 } } });
+    await engine.move;
+    dispatcher.dispatch({ type: 'move', move: { tileId: 1, coords: { q: 0, r: 0 } } });
+    await engine.move;
     expect(await screen.findByTitle('Hive Game Area')).toBeInTheDocument();
   });
 

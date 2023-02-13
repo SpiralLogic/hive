@@ -38,7 +38,11 @@ const createGameState = () => {
       updateMoveMap(gameState.players, gameState.cells);
       batch(() => {
         cells.value = gameState.cells;
-        if (gameState.players.some((p) => p.tiles.length !== players.peek().at(p.id)?.tiles.length))
+        if (
+          gameState.players.some(
+            (p) => p.tiles.length !== players.peek().find((p2) => p.id === p2.id)?.tiles.length
+          )
+        )
           players.value = gameState.players;
         history.value = gameState.history;
         gameStatus.value = gameState.gameStatus;
