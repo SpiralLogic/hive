@@ -134,11 +134,10 @@ describe('game Server Connection Tests', () => {
     const hubConnection = createHubConnection();
     const serverConnection = setupServer(hubConnection);
 
-    serverConnection.sendSelection('select', { id: 1, playerId: 1, creature: 'duck', moves: [] });
+    serverConnection.sendSelection('select', { id: 1, playerId: 1, creature: 'duck' });
     expect(hubConnection.send).toHaveBeenCalledWith('SendSelection', 'select', {
       creature: 'duck',
       id: 1,
-      moves: [],
       playerId: 1,
     });
   });
@@ -147,7 +146,7 @@ describe('game Server Connection Tests', () => {
     const hubConnection = createHubConnection(HubConnectionState.Disconnected);
     const serverConnection = setupServer(hubConnection);
 
-    serverConnection.sendSelection('select', { id: 1, playerId: 1, creature: 'duck', moves: [] });
+    serverConnection.sendSelection('select', { id: 1, playerId: 1, creature: 'duck' });
     expect(hubConnection.send).not.toHaveBeenCalledWith();
   });
 

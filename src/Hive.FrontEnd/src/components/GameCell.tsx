@@ -6,7 +6,7 @@ import { handleDragOver, handleKeyboardNav, isEnterOrSpace } from '../utilities/
 import Hexagon from './Hexagon';
 import { useClassSignal } from '../hooks/useClassReducer';
 import { Dispatcher, useHiveDispatchListener } from '../hooks/useHiveDispatchListener';
-import { useComputed } from '@preact/signals';
+import { useSignal } from '@preact/signals';
 import { moveMap } from '../services/signals';
 
 const isValidMove = (coords: HexCoordinates, validMoves: Array<HexCoordinates> = []) =>
@@ -16,7 +16,7 @@ type Properties = { coords: HexCoordinates; historical?: boolean; hidden?: boole
 const GameCell: FunctionComponent<Properties> = (properties) => {
   const { coords, children, historical = false, hidden } = properties;
   const [classes, classActions] = useClassSignal('hide');
-  const tabIndex = useComputed<0 | undefined>(() => (classes.value.includes('can-drop') ? 0 : undefined));
+  const tabIndex = useSignal<-1 | 0>(-1);
   historical ? classActions.add('historical') : classActions.remove('historical');
 
   const selectedTile = useRef<Omit<TileType, 'moves'> | null>(null);
@@ -26,12 +26,15 @@ const GameCell: FunctionComponent<Properties> = (properties) => {
   useHiveDispatchListener<TileEvent>('tileDeselected', () => {
     if (selectedTile.current !== null) selectedTile.current = null;
     classActions.remove('active', 'can-drop', 'no-drop');
+    tabIndex.value = -1;
   });
 
   useHiveDispatchListener<TileEvent>('tileSelected', (intent) => {
+    if (classes.value.includes('hide')) return;
     selectedTile.current = intent.tile;
     if (isValidMove(coords, moveMap.value.get(`${intent.tile.playerId}-${intent.tile.id}`))) {
       classActions.add('can-drop');
+      tabIndex.value = 0;
     } else {
       classActions.add('no-drop');
     }
@@ -47,6 +50,8 @@ const GameCell: FunctionComponent<Properties> = (properties) => {
         type: 'move',
         move: { coords, tileId: selectedTile.current.id },
       });
+    } else {
+      classActions.remove('active');
     }
   });
 

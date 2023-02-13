@@ -25,11 +25,11 @@
     "lint:test:fix": "cross-env ESLINT_USE_FLAT_CONFIG=true eslint -c eslint.config.mjs --fix test",
     "lint:test:report": "cross-env ESLINT_USE_FLAT_CONFIG=true eslint -c eslint.config.mjs -o reports/__lint__/eslint.test.json -f json test",
     "build": "npm-run-all -s clean vite:build",
-    "build:dev": "npm-run-all -s  vite:dev",
+    "build:dev": "npm-run-all -s tsc vite:dev",
     "build:dev:watch": "npm-run-all -s vite:watch",
     "vite:build": "vite build --emptyOutDir",
-    "vite:dev": "cross-env NODE_ENV=development vite build --sourcemap=true --mode development",
-    "vite:watch": "cross-env NODE_ENV=development vite build  --sourcemap=true --mode development -w",
+    "vite:dev": "cross-env NODE_ENV=development vite build --manifest --sourcemap=true --mode development",
+    "vite:watch": "cross-env NODE_ENV=development vite build --manifest  --sourcemap=true --mode development -w",
     "watch": "npm-run-all -s clean vite:watch"
   },
   "lint-staged": {

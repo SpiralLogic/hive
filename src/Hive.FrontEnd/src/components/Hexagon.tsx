@@ -3,25 +3,29 @@ import '../css/hexagon.css';
 import { FunctionComponent, JSX } from 'preact';
 
 import SVG from './SVG';
-import { Signal } from '@preact/signals';
+import { Signal, useSignalEffect } from '@preact/signals';
+import { useRef } from 'preact/hooks';
 
-type Properties = {
+type Properties = Omit<Partial<JSX.HTMLAttributes>, 'tabIndex'> & {
   classes?: Signal<string>;
   hidden?: boolean;
   svg?: JSX.Element;
-  tabIndex?: Signal<0 | undefined>;
-} & Omit<Partial<JSX.HTMLAttributes>, 'tabIndex'>;
+  tabIndex?: Signal<-1 | 0>;
+};
 const Hexagon: FunctionComponent<Properties> = (properties) => {
-  const { tabIndex, classes, hidden, children, svg, ...attributes } = properties;
-
+  const { classes, hidden, children, svg, ...attributes } = properties;
+  const ref = useRef<HTMLDivElement>(null);
   if (hidden) attributes.role = 'none';
-
+  useSignalEffect(() => {
+    if (attributes.tabIndex?.value === 0) {
+      ref.current?.setAttribute('tabindex', '0');
+    } else {
+      ref.current?.removeAttribute('tabindex');
+    }
+  });
   return (
-    <div class={classes} tabIndex={tabIndex as Signal<number>} {...attributes}>
-      <SVG>
-        <use href="#hex" />
-        {svg}
-      </SVG>
+    <div class={classes} ref={ref} {...attributes}>
+      <SVG href="hex">{svg}</SVG>
       {children}
     </div>
   );

@@ -5,7 +5,7 @@ import GameTile from '../../src/components/GameTile';
 import { simulateEvent } from '../helpers';
 import { waitFor } from '@testing-library/dom';
 import { Dispatcher } from '../../src/hooks/useHiveDispatchListener';
-import { PlayerId, Tile } from '../../src/domain';
+import { Tile } from '../../src/domain';
 import { moveMap } from '../../src/services/signals';
 
 const createTestDispatcher = (type: TileEvent['type'] = 'tileSelected'): [TileEvent[], HiveDispatcher] => {
@@ -24,18 +24,22 @@ const tileCanMove = Object.freeze({
   moves: [{ q: 1, r: 1 }],
 });
 
+const tileOpponentCanMove = Object.freeze({
+  id: 2,
+  playerId: 0,
+  creature: 'tileOpponentCanMove',
+  moves: [{ q: 1, r: 1 }],
+});
+
 const tileNoMove = Object.freeze({ id: 2, playerId: 0, creature: 'tileNoMove', moves: [] });
 
-const setup = (
-  dispatcher: HiveDispatcher,
-  ...tiles: (Tile & { stacked?: boolean; currentPlayer?: PlayerId })[]
-) => {
+const setup = (dispatcher: HiveDispatcher, ...tiles: (Tile & { stacked?: boolean })[]) => {
   tiles.forEach((t) => moveMap.value.set(`${t.playerId}-${t.id}`, t.moves));
 
   return render(
     <Dispatcher.Provider value={dispatcher}>
-      {tiles.map(({ currentPlayer, ...tile }) => (
-        <GameTile key={tile.id} currentPlayer={currentPlayer === 0 ? 0 : 1} {...tile} />
+      {tiles.map(({ ...tile }) => (
+        <GameTile key={tile.id} currentPlayer={1} {...tile} />
       ))}
     </Dispatcher.Provider>
   );
@@ -244,7 +248,7 @@ describe('<GameTile>', () => {
   it(`doesn't emit a *selected* event when opponents tile is selected from dispatch`, async () => {
     const [selectedEvents, dispatcher] = createTestDispatcher('tileSelected');
 
-    setup(dispatcher, { ...tileCanMove, currentPlayer: 0 });
+    setup(dispatcher, { ...tileOpponentCanMove });
 
     dispatcher.dispatch<TileAction>({ type: 'tileSelect', tile: tileCanMove });
 
@@ -270,6 +274,16 @@ describe('<GameTile>', () => {
 
     dispatcher.dispatch<TileAction>({ type: 'tileSelect', tile: tileCanMove });
     dispatcher.dispatch<TileAction>({ type: 'tileDeselect', tile: tileNoMove });
+
+    expect(deselectEvents).toHaveLength(0);
+  });
+
+  it(`deselects current players tile on click`, async () => {
+    const [deselectEvents, dispatcher] = createTestDispatcher('tileDeselected');
+    setup(dispatcher, tileCanMove, tileOpponentCanMove);
+
+    dispatcher.dispatch<TileAction>({ type: 'tileSelect', tile: tileOpponentCanMove });
+    await userEvent.click(screen.getByTitle(/tileOpponentCanMove/));
 
     expect(deselectEvents).toHaveLength(0);
   });

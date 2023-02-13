@@ -5,9 +5,6 @@
   margin: 0 auto;
 }
 
-[role='grid'] .tile:not(.selected)::before {
-  --shadow: #1712a290;
-}
 
 [role='none'] {
   background: transparent;

@@ -6,7 +6,7 @@ exports[`<GameArea> > render game over snapshot 1`] = `
   title="Hive Game Area"
 >
   <aside
-    aria-label="PLayer pieces  not yet on the board"
+    aria-label="PLayer pieces not yet on the board"
     class="players"
   >
     <section
@@ -616,10 +616,11 @@ exports[`<GameArea> > render game over snapshot 1`] = `
 
 exports[`<GameArea> > render snapshot 1`] = `
 <main
+  class="player1"
   title="Hive Game Area"
 >
   <aside
-    aria-label="PLayer pieces  not yet on the board"
+    aria-label="PLayer pieces not yet on the board"
     class="players"
   >
     <section
@@ -1228,10 +1229,11 @@ exports[`<GameArea> > render snapshot 1`] = `
 
 exports[`<GameArea> > render snapshot with historical move 1`] = `
 <main
+  class="player0"
   title="Hive Game Area"
 >
   <aside
-    aria-label="PLayer pieces  not yet on the board"
+    aria-label="PLayer pieces not yet on the board"
     class="players"
   >
     <section

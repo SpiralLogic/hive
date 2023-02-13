@@ -163,16 +163,6 @@ describe('<GameCell>', () => {
       tile: movingTile,
     });
 
-    dispatcher.dispatch({
-      type: 'tileDeselected',
-      tile: movingTile,
-    });
-
-    dispatcher.dispatch({
-      type: 'tileDeselected',
-      tile: movingTile,
-    });
-
     for (const c of screen.getAllByRole('cell')) expect(c).not.toHaveClass('active');
     for (const c of screen.getAllByRole('cell')) expect(c).not.toHaveClass('can-drop');
   });
@@ -214,18 +204,17 @@ describe('<GameCell>', () => {
 
   it(`shouldn't move with invalid tile on cell click`, async () => {
     const dispatcher = setUp(createCellMovableTile, createCellNoDrop);
-
     const moveEvents = createMoveListener(dispatcher);
 
     await userEvent.click(screen.getByTitle(/tilecanmove/));
     const cells = await screen.findAllByRole('cell');
     await userEvent.click(cells[1]);
+
     expect(moveEvents).toStrictEqual([]);
   });
 
   it(`fires emit event when pressing enter`, async () => {
     const dispatcher = setUp(createCellMovableTile, createCellCanDrop);
-
     const moveEvents = createMoveListener(dispatcher);
     const tileCanMove = screen.getByTitle(/tilecanmove/);
 

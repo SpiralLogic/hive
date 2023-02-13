@@ -9,9 +9,7 @@ nav {
   gap: 20px;
 }
 
-nav a,
-nav a:visited,
-nav a:active {
+nav a, nav a:where(:visited, :active) {
   fill: white;
 }
 

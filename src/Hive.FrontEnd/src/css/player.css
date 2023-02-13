@@ -6,18 +6,6 @@
   border-right: 1px solid white;
 }
 
-.player0 {
-  --background: var(--p0background);
-  --creature: var(--p0creature);
-  --shadow: var(--p0shadow);
-}
-
-.player1 {
-  --background: var(--p1background);
-  --creature: var(--p1creature);
-  --shadow: var(--p1shadow);
-}
-
 .player h2 {
   font-size: 1.5em;
   font-weight: bold;
@@ -50,9 +38,6 @@
   margin: 0.4vh auto;
 }
 
-.player .tile:not(.selected) {
-  --shadow: #1a1a1dcc;
-}
 
 .player .tiles {
   display: inline-grid;

@@ -1,14 +1,14 @@
 :root {
-  --focus: #1712a2a0;
-  --p0background: #ffee0b;
-  --p0creature: #000;
-  --p0shadow: #d2116a7d;
-  --p1background: #000;
-  --p1creature: #ffee0b;
-  --p1shadow: #8a2be27d;
-  --hex-offset: -1;
-  --hex-size: 95px;
-  --tile-size: 70px;
+    --focus: #1712a290;
+    --p0background: #ffee0b;
+    --p0creature: #000;
+    --p0shadow: #d2116a7d;
+    --p1background: #000;
+    --p1creature: #ffee0b;
+    --p1shadow: #8a2be27d;
+    --hex-offset: -1;
+    --hex-size: 95px;
+    --tile-size: 70px;
 }
 
 body {

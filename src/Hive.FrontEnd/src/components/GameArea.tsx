@@ -52,7 +52,7 @@ const GameArea: FunctionComponent<Properties> = ({ currentPlayer, aiMode }) => {
   const currentDialog = useSignal<CurrentDialog>('none');
   const showGameOver = useComputed<boolean>(() => currentDialog.value === 'gameOver');
   const classes = useComputed<string | undefined>(() =>
-    gameStatus.value === 'GameOver' ? 'game-over' : undefined
+    gameStatus.value === 'GameOver' ? 'game-over' : `player${currentPlayer}`
   );
   const showPlayerConnected = useComputed<boolean>(() => currentDialog.value === 'playerConnected');
   const showShare = useComputed<boolean>(() => currentDialog.value === 'share');
