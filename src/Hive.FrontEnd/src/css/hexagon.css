@@ -24,6 +24,7 @@
 
 [role='cell']:is(.active,.no-drop:focus,.no-drop:hover) {
     --focus: transparent;
+
     fill: #5d001e;
     transition-duration: 0.1s;
 }

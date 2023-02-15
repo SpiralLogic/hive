@@ -15,7 +15,10 @@ const Players: FunctionComponent<{ currentPlayer: PlayerId }> = (properties) => 
       {players.value.map((player) => (
         <Player key={`${player.id}`} name={player.name} id={player.id}>
           {player.tiles
-            .map(({ moves, ...tile }) => tile)
+            .map((tile) => ({
+              ...tile,
+              moves: undefined,
+            }))
             .map((tile) => (
               <GameTile currentPlayer={currentPlayer} key={`${tile.id}`} {...tile} />
             ))}

@@ -33,6 +33,10 @@
     opacity: 1;
 }
 
+[role='cell'].historical .tile {
+    opacity: .7;
+}
+
 [role='cell'].can-drop .tile:not(.selected) {
     pointer-events: none;
     opacity: 1;
@@ -60,10 +64,6 @@ main.player0 .tile.player0.selected:hover {
 
 [role='cell'].historical {
     fill: var(--focus);
-    opacity: .7;
-}
-
-[role='cell'].historical .tile {
     opacity: .7;
 }
 
