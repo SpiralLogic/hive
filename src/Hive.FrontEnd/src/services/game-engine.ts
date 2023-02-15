@@ -38,6 +38,14 @@ export default class GameEngine implements HexEngine {
         await this.aiMove();
       }
     }
+    let result = true;
+    while (this.aiMode.value === 'auto' && result) {
+      try {
+        await this.aiMove();
+      } catch {
+        result = false;
+      }
+    }
     await this.completeRequest();
   };
 
@@ -53,7 +61,8 @@ export default class GameEngine implements HexEngine {
   };
 
   private aiMove = async (): Promise<GameState> => {
-    await this.postRequest(`/api/ai-move/${this.gameId}/${this.currentPlayer == 0 ? 1 : 0}`);
+    await this.postRequest(`/api/ai-move/${this.gameId}`);
+
     return this.completeRequest();
   };
 
@@ -77,7 +86,8 @@ export default class GameEngine implements HexEngine {
       headers: this.requestHeaders,
       body: body ? JSON.stringify(body) : undefined,
     });
-    this.currentRequest = response.json() as Promise<GameState>;
+    if (!response?.ok) throw new Error('Error performing post request');
+    this.currentRequest = response.json();
     return this.currentRequest;
   };
 
@@ -87,7 +97,7 @@ export default class GameEngine implements HexEngine {
       headers: this.requestHeaders,
     });
 
-    this.currentRequest = response.json() as Promise<GameState>;
+    this.currentRequest = response.json();
     return this.currentRequest;
   };
 }

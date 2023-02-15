@@ -3,9 +3,11 @@ import gameState from '../../fixtures/game-state.json';
 
 describe('game engine Tests', () => {
   let engine: GameEngine;
-  global.fetch = vi
-    .fn()
-    .mockImplementation(() => Promise.resolve({ ok: true, json: () => Promise.resolve(gameState) }));
+  beforeEach(() => {
+    global.fetch = vi
+      .fn()
+      .mockImplementation(() => Promise.resolve({ ok: true, json: () => Promise.resolve(gameState) }));
+  });
 
   it('creates new game', async () => {
     engine = new GameEngine();
@@ -53,7 +55,7 @@ describe('game engine Tests', () => {
       coords: { q: 0, r: 0 },
     });
 
-    expect(global.fetch).toHaveBeenLastCalledWith('/api/ai-move/445/1', expect.any(Object));
+    expect(global.fetch).toHaveBeenLastCalledWith('/api/ai-move/445', expect.any(Object));
   });
 
   it('AI move made for player 0', async () => {
@@ -64,7 +66,7 @@ describe('game engine Tests', () => {
       coords: { q: 0, r: 0 },
     });
 
-    expect(global.fetch).toHaveBeenLastCalledWith('/api/ai-move/445/0', expect.any(Object));
+    expect(global.fetch).toHaveBeenLastCalledWith('/api/ai-move/445', expect.any(Object));
   });
 
   it('No AI move on toggle off', async () => {
@@ -78,5 +80,19 @@ describe('game engine Tests', () => {
     engine = new GameEngine({ gameId: '445', currentPlayer: '0' });
 
     expect(engine.getAiMode().value).toStrictEqual('on');
+  });
+
+  it('Ai Mode for both players', async () => {
+    global.fetch = vi
+      .fn()
+      .mockReset()
+      .mockImplementationOnce(() => Promise.resolve({ ok: true, json: () => Promise.resolve(gameState) }))
+      .mockImplementationOnce(() => Promise.resolve({ ok: true, json: () => Promise.resolve(gameState) }))
+      .mockRejectedValue({ ok: false, message: 'Game Over' });
+
+    engine = new GameEngine({ gameId: '445', currentPlayer: '0' });
+    engine.getAiMode().value = 'auto';
+    expect(global.fetch).toHaveBeenLastCalledWith('/api/ai-move/445', expect.any(Object));
+    expect(global.fetch).toHaveBeenCalledTimes(2);
   });
 });

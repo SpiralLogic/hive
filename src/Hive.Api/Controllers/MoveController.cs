@@ -58,10 +58,10 @@ public class MoveController : ControllerBase
     }
 
     [HttpPost]
-    [Route("/api/ai-move/{id}/{playerId:int}")]
+    [Route("/api/ai-move/{id}")]
     [Produces("application/json")]
     [ProducesErrorResponseType(typeof(BadRequestResult))]
-    public async ValueTask<IActionResult> AiMove(string id, int playerId)
+    public async ValueTask<IActionResult> AiMove(string id)
     {
         if (string.IsNullOrEmpty(id)) return BadRequest();
 

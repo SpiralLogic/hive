@@ -31,9 +31,13 @@ const Links: FunctionComponent<Properties> = ({
   aiMode,
 }) => {
   const clickHandler = () => {
-    aiMode.value = aiMode.value === 'on' ? 'off' : 'on';
+    aiMode.value = aiMode.value !== 'off' ? 'off' : 'on';
   };
-  const aiClass = useComputed(() => (aiMode.value === 'on' ? undefined : 'ai-off'));
+  const wheelHandler = () => {
+    aiMode.value = 'auto';
+  };
+
+  const aiClass = useComputed(() => (aiMode.value !== 'off' ? undefined : 'ai-off'));
   return (
     <nav>
       <a
@@ -49,7 +53,13 @@ const Links: FunctionComponent<Properties> = ({
       <a href="#" name="Show rules" onClick={handle(onShowRules)} title="Rules">
         <SVG href="rules" />
       </a>
-      <a href="#" name="Toggle Ai" class={aiClass} onClick={handle(clickHandler)} title="Toggle Ai">
+      <a
+        href="#"
+        name="Toggle Ai"
+        class={aiClass}
+        onWheel={handle(wheelHandler)}
+        onClick={handle(clickHandler)}
+        title="Toggle Ai">
         <SVG href="ai" />
       </a>
       <a class="github" href="https://github.com/SpiralLogic/hive" title="Source code">

@@ -34,13 +34,13 @@ const GameTile: FunctionComponent<Properties> = (properties) => {
   if (stacked) classAction.add('stacked');
 
   const deselect = (fromEvent = false) => {
-    if (!classes.value.includes('selected')) return;
+    if (!classes.peek().includes('selected')) return;
     classAction.remove('selected');
     dispatcher.dispatch({ type: 'tileDeselected', tile, fromEvent });
   };
 
   const select = (fromEvent = false) => {
-    if (classes.value.includes('selected')) return;
+    if (classes.peek().includes('selected')) return;
     dispatcher.dispatch({ type: 'tileClear' });
     classAction.add('selected');
     if (currentPlayer != playerId) return;
@@ -73,7 +73,7 @@ const GameTile: FunctionComponent<Properties> = (properties) => {
   }, []);
 
   const handleClick = useCallback((event: UIEvent & { currentTarget: HTMLElement }) => {
-    if (playerId !== currentPlayer) return;
+    if (playerId !== currentPlayer || !moveMap.value.has(`${playerId}-${id}`)) return;
     event.stopPropagation();
     if (classes.peek().includes('selected')) {
       deselect();
