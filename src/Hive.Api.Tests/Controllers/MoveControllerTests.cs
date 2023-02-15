@@ -67,7 +67,7 @@ public class MoveControllerTests
     public async Task PostAiMove_GameInCache_ReturnsAccepted()
     {
 
-        var actionResult = await _controller.AiMove(TestHelpers.ExistingGameId, 1);
+        var actionResult = await _controller.AiMove(TestHelpers.ExistingGameId);
         var result = actionResult.Should().BeOfType<AcceptedResult>().Subject;
         result.Location.Should().Be($"/game/{TestHelpers.ExistingGameId}");
         result.Value.Should().BeAssignableTo<GameState>();
@@ -87,7 +87,7 @@ public class MoveControllerTests
     [Fact]
     public async Task PostAiMove_GameInCache_PerformsMove()
     {
-        var result = (await _controller.AiMove(TestHelpers.ExistingGameId, 1)).Should().BeOfType<AcceptedResult>().Subject;
+        var result = (await _controller.AiMove(TestHelpers.ExistingGameId)).Should().BeOfType<AcceptedResult>().Subject;
         result.Value.Should().BeAssignableTo<GameState>();
     }
 
@@ -115,7 +115,7 @@ public class MoveControllerTests
     public async Task PostAiMove_GameInCache_SendsNewGameState()
     {
 
-        var result = (await _controller.AiMove(TestHelpers.ExistingGameId, 1)).Should().BeOfType<AcceptedResult>().Subject;
+        var result = (await _controller.AiMove(TestHelpers.ExistingGameId)).Should().BeOfType<AcceptedResult>().Subject;
         var newGameState = result.Value.Should().BeAssignableTo<GameState>().Subject;
 
         _hubMock.Verify(m => m.Clients.Group(TestHelpers.ExistingGameId), Times.AtLeastOnce);
@@ -156,7 +156,7 @@ public class MoveControllerTests
     [Fact]
     public async Task PostAiMove_IdMissing_ReturnsBadRequest()
     {
-        (await _controller.AiMove(null!, 1)).Should().BeOfType<BadRequestResult>();
+        (await _controller.AiMove(null!)).Should().BeOfType<BadRequestResult>();
     }
 
     [Fact]
@@ -170,7 +170,7 @@ public class MoveControllerTests
     [Fact]
     public async Task PostAiMove_GameNotInCache_ReturnsNotFound()
     {
-        (await _controller.AiMove(TestHelpers.MissingGameId, 1)).Should().BeOfType<NotFoundResult>();
+        (await _controller.AiMove(TestHelpers.MissingGameId)).Should().BeOfType<NotFoundResult>();
     }
 
     [Fact]
@@ -186,7 +186,7 @@ public class MoveControllerTests
         var gameState = new GameState(TestHelpers.ExistingGameId, GameStatus.GameOver, game.Players, game.Cells, new List<HistoricalMove>());
         await _memoryCache.SetAsync(TestHelpers.ExistingGameId, TestHelpers.GetSerializedBytes(gameState, TestHelpers.CreateJsonOptions()));
 
-        var actionResult = await _controller.AiMove(TestHelpers.ExistingGameId, 1);
+        var actionResult = await _controller.AiMove(TestHelpers.ExistingGameId);
         actionResult.Should().BeOfType<ConflictObjectResult>();
     }
 }

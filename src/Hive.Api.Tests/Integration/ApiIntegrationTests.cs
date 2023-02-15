@@ -98,7 +98,7 @@ public class ApiIntegrationTests : IClassFixture<WebApplicationFactory<Program>>
         var client = _factory.CreateClient();
         var gameId = await _lazyGameId.Value;
 
-        var response = await client.PostAsync($"/api/ai-move/{gameId}/0", null);
+        var response = await client.PostAsync($"/api/ai-move/{gameId}", null);
 
         response.EnsureSuccessStatusCode();
         response.Content.Headers.ContentType?.ToString().Should().Be("application/json; charset=utf-8");
