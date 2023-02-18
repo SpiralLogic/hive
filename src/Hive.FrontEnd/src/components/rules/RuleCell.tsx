@@ -5,6 +5,7 @@ import Arrow, { Direction } from '../Arrow';
 import Hexagon from '../Hexagon';
 import Tile from '../Tile';
 import { useClassSignal } from '../../hooks/useClassReducer';
+import { Creature } from '../../domain';
 
 type Result = 'correct' | 'incorrect';
 type CellArrows = ([Direction, number | undefined] | Direction)[];
@@ -34,7 +35,7 @@ const ResultChar: FunctionComponent<{ result?: Result; symbol?: string }> = ({ r
 
 const RuleCell: FunctionComponent<{
   result?: Result;
-  creature?: string;
+  creature?: Creature;
   symbol?: string;
   zIndex?: number;
   selected?: boolean;

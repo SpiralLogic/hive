@@ -30,7 +30,6 @@ exports[`<Players> > renders 1`] = `
                 href="#hex"
               />
               <use
-                class="creature"
                 href="#ant"
               />
             </svg>
@@ -48,7 +47,6 @@ exports[`<Players> > renders 1`] = `
                 href="#hex"
               />
               <use
-                class="creature"
                 href="#fly"
               />
             </svg>
@@ -66,7 +64,6 @@ exports[`<Players> > renders 1`] = `
                 href="#hex"
               />
               <use
-                class="creature"
                 href="#fly"
               />
             </svg>
@@ -96,7 +93,6 @@ exports[`<Players> > renders 1`] = `
                 href="#hex"
               />
               <use
-                class="creature"
                 href="#ant"
               />
             </svg>

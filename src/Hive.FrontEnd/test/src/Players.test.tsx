@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/preact';
 import Players from '../../src/components/Players';
 import { GameStateContext } from '../../src/services/signals';
-import { signal } from '@preact/signals';
+import { signalize } from '../helpers/signalize';
 
 const ant = { id: 1, playerId: 1, creature: 'ant', moves: [{ q: 1, r: 1 }] };
 const fly = { id: 2, playerId: 0, creature: 'fly', moves: [] };
@@ -13,15 +13,17 @@ const setup = () =>
   render(
     <GameStateContext.Provider
       value={{
-        history: signal([]),
-        gameId: signal('33'),
-        cells: signal([]),
-        gameStatus: signal('NewGame'),
+        ...signalize({
+          history: [],
+          gameId: '33',
+          cells: [],
+          gameStatus: 'NewGame',
+          players: [
+            { id: 1, name: 'Player 1', tiles: [ant, fly, fly] },
+            { id: 2, name: 'Player 2', tiles: [ant] },
+          ],
+        }),
         setGameState: vi.fn(),
-        players: signal([
-          { id: 1, name: 'Player 1', tiles: [ant, fly, fly] },
-          { id: 2, name: 'Player 2', tiles: [ant] },
-        ]),
       }}>
       <Players {...defaultProps} />
     </GameStateContext.Provider>

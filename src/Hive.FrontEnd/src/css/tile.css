@@ -15,7 +15,7 @@
     height: var(--tile-size);
 }
 
-.tile .creature {
+.tile use:nth-child(2) {
     pointer-events: none;
     fill: var(--creature);
 }

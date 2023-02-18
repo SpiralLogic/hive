@@ -7,16 +7,17 @@ describe('<Modal>', () => {
   const closeSpy = vi.spyOn(HTMLDialogElement.prototype, 'close');
   const onCloseSpy = vi.fn();
 
-  it('opens the model by setting prop', () => {
-    const { rerender } = render(<Modal open={signal(false)} onClose={onCloseSpy} title="test" />);
+  it('opens the model by toggling signal', () => {
+    const isOpen = signal(false);
+    render(<Modal open={isOpen} onClose={onCloseSpy} title="test" />);
 
-    rerender(<Modal title="test" open={signal(true)} onClose={onCloseSpy} />);
+    isOpen.value = true;
 
     expect(screen.getByRole('button')).toBeVisible();
     expect(screen.getByRole('dialog')).toBeVisible();
   });
 
-  it(`closes when the open attribute is false`, async () => {
+  it(`closes when the close method is called`, async () => {
     render(<Modal title="test" open={signal(true)} onClose={onCloseSpy} />);
 
     screen.getByRole<HTMLDialogElement>('dialog', { hidden: true }).close();
@@ -30,7 +31,7 @@ describe('<Modal>', () => {
     expect(screen.getByRole('dialog')).toBeInTheDocument();
   });
 
-  it(`renders initially from an closed state`, () => {
+  it(`renders initially from a closed state`, () => {
     const { rerender } = render(<Modal title="test" open={signal(false)} onClose={onCloseSpy} />);
     expect(screen.getByRole('dialog', { hidden: true })).not.toBeVisible();
     rerender(<Modal title="test" open={signal(true)} onClose={onCloseSpy} />);

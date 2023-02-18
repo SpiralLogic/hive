@@ -24,7 +24,6 @@ exports[`<Player> > renders 1`] = `
           href="#hex"
         />
         <use
-          class="creature"
           href="#thing"
         />
       </svg>

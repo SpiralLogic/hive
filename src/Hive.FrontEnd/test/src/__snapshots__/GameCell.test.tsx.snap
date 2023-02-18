@@ -40,7 +40,6 @@ exports[`<GameCell> > renders cell with tile 1`] = `
         href="#hex"
       />
       <use
-        class="creature"
         href="#fly"
       />
     </svg>

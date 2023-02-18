@@ -45,13 +45,13 @@ const Links: FunctionComponent<Properties> = ({
         name="Share game to opponent"
         title="Share"
         onClick={handle(onShowShare)}>
-        <SVG href="share" />
+        <SVG hrefs="share" />
       </a>
       <a href={`/`} name="New game!" title="New Game">
-        <SVG href="new" />
+        <SVG hrefs="new" />
       </a>
       <a href="#" name="Show rules" onClick={handle(onShowRules)} title="Rules">
-        <SVG href="rules" />
+        <SVG hrefs="rules" />
       </a>
       <a
         href="#"
@@ -60,10 +60,10 @@ const Links: FunctionComponent<Properties> = ({
         onWheel={handle(wheelHandler)}
         onClick={handle(clickHandler)}
         title="Toggle Ai">
-        <SVG href="ai" />
+        <SVG hrefs="ai" />
       </a>
       <a class="github" href="https://github.com/SpiralLogic/hive" title="Source code">
-        <SVG href="github" />
+        <SVG hrefs="github" />
       </a>
     </nav>
   );

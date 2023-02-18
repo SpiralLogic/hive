@@ -15,7 +15,6 @@ exports[`tile Snapshot > matches current snapshot for can move 1`] = `
       href="#hex"
     />
     <use
-      class="creature"
       href="#tilecanmove"
     />
   </svg>
@@ -36,7 +35,6 @@ exports[`tile Snapshot > matches current snapshot for no moves 1`] = `
       href="#hex"
     />
     <use
-      class="creature"
       href="#tilenomove"
     />
   </svg>
@@ -57,7 +55,6 @@ exports[`tile Snapshot > matches current snapshot for when stacked 1`] = `
       href="#hex"
     />
     <use
-      class="creature"
       href="#tilenomove"
     />
   </svg>
@@ -79,7 +76,6 @@ exports[`tile Snapshot > renders creature 1`] = `
       href="#hex"
     />
     <use
-      class="creature"
       href="#tilecanmove"
     />
   </svg>
@@ -100,7 +96,6 @@ exports[`tile Snapshot > renders creature 2`] = `
       href="#hex"
     />
     <use
-      class="creature"
       href="#tilenomove"
     />
   </svg>

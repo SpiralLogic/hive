@@ -1,4 +1,3 @@
-import { ComponentChild } from 'preact';
 import { render, screen } from '@testing-library/preact';
 import userEvent from '@testing-library/user-event';
 import Rules from '../../src/components/Rules';
@@ -12,38 +11,30 @@ import AntRules from '../../src/components/rules/AntRules';
 import OneHiveRule from '../../src/components/rules/OneHiveRule';
 import FreedomToMove from '../../src/components/rules/FreedomToMoveRule';
 import { Rule } from '../../src/components/rules/rule';
-import vitest from 'vitest';
 
-const renderRules = (): [(ui: ComponentChild) => void, vitest.Mock] => {
-  const close = vi.fn();
-  const { rerender } = render(<Rules />);
-  return [rerender, close];
+const renderRules = () => {
+  return render(<Rules />);
 };
 
 describe('<Rules>', () => {
   it('next button moves next', async () => {
-    const [rerender] = renderRules();
+    renderRules();
     await userEvent.click(screen.getByTitle('Next'));
-    rerender(<Rules />);
-
     expect(screen.getByRole('heading')).toHaveTextContent(/Queen/);
   });
 
   it('prev button goes back to end', async () => {
-    const [rerender] = renderRules();
+    renderRules();
     await userEvent.click(screen.getByTitle('Previous'));
-    rerender(<Rules />);
     expect(screen.getByRole('heading')).toHaveTextContent(/Freedom To Move/);
   });
 
   it('prev button moves back', async () => {
-    const [rerender] = renderRules();
-    await userEvent.click(screen.getByTitle('Next'));
+    renderRules();
     await userEvent.click(screen.getByTitle('Next'));
     await userEvent.click(screen.getByTitle('Previous'));
-    rerender(<Rules />);
 
-    expect(screen.getByRole('heading')).toHaveTextContent(/Queen/);
+    expect(screen.getByRole('heading')).toHaveTextContent(/Objective/);
   });
 
   it('renders', () => {

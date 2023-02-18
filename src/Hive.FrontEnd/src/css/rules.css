@@ -76,11 +76,11 @@
   --fill: cyan;
 }
 
-.rules .creature {
+.rules use:nth-child(2) {
   --creature: var(--fill);
 }
 
-.rules .correct .tile .creature {
+.rules .correct .tile use:nth-child(2) {
   opacity: 0.3;
 }
 
@@ -93,7 +93,7 @@
   z-index: unset;
 }
 
-.rules .tile:not(.creature) svg use:only-child {
+.rules .tile:not(use:nth-child(2)) svg use:only-child {
   fill: white;
 }
 

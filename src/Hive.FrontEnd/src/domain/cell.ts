@@ -1,7 +1,8 @@
-import { HexCoordinates } from './hex-coordinates';
-import { Tile } from './tile';
+import { HexCoordinate } from './hex-coordinate';
+import { Tiles } from './tile';
 
 export type Cell = {
-  readonly coords: HexCoordinates;
-  tiles: Array<Tile>;
+  readonly coords: HexCoordinate;
+  tiles: Tiles;
 };
+export type Cells = Cell[];

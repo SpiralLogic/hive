@@ -1,5 +1,5 @@
 import { useGameState } from '../services/signals';
-import { HexCoordinates, PlayerId } from '../domain';
+import { HexCoordinate, PlayerId } from '../domain';
 import { cellKey } from '../utilities/hextille';
 import { useComputed } from '@preact/signals';
 import { HextilleBuilder } from '../services';
@@ -11,7 +11,7 @@ import Tiles from './Tiles';
 import { HistoricalMove } from '../domain/historical-move';
 import { FunctionalComponent } from 'preact';
 
-const isPreviousMove = (history: HistoricalMove[], coords: HexCoordinates) => {
+const isPreviousMove = (history: HistoricalMove[], coords: HexCoordinate) => {
   if (!history.length) return false;
   const previousMove = history[history.length - 1];
   return (

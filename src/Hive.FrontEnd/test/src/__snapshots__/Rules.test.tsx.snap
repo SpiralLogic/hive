@@ -168,7 +168,6 @@ exports[`<AntRules> > renders AntRules 1`] = `
                 href="#hex"
               />
               <use
-                class="creature"
                 href="#queen"
               />
             </svg>
@@ -318,7 +317,6 @@ exports[`<AntRules> > renders AntRules 1`] = `
                 href="#hex"
               />
               <use
-                class="creature"
                 href="#grasshopper"
               />
             </svg>
@@ -375,7 +373,6 @@ exports[`<AntRules> > renders AntRules 1`] = `
                 href="#hex"
               />
               <use
-                class="creature"
                 href="#queen"
               />
             </svg>
@@ -498,7 +495,6 @@ exports[`<AntRules> > renders AntRules 1`] = `
                 href="#hex"
               />
               <use
-                class="creature"
                 href="#beetle"
               />
             </svg>
@@ -527,7 +523,6 @@ exports[`<AntRules> > renders AntRules 1`] = `
                 href="#hex"
               />
               <use
-                class="creature"
                 href="#beetle"
               />
             </svg>
@@ -651,7 +646,6 @@ exports[`<AntRules> > renders AntRules 1`] = `
                 href="#hex"
               />
               <use
-                class="creature"
                 href="#ant"
               />
             </svg>
@@ -824,7 +818,6 @@ exports[`<BeetleRules> > renders BeetleRules 1`] = `
                 href="#hex"
               />
               <use
-                class="creature"
                 href="#spider"
               />
             </svg>
@@ -857,7 +850,6 @@ exports[`<BeetleRules> > renders BeetleRules 1`] = `
                 href="#hex"
               />
               <use
-                class="creature"
                 href="#beetle"
               />
             </svg>
@@ -968,7 +960,6 @@ exports[`<BeetleRules> > renders BeetleRules 1`] = `
                 href="#hex"
               />
               <use
-                class="creature"
                 href="#ant"
               />
             </svg>
@@ -1044,7 +1035,6 @@ exports[`<BeetleRules> > renders BeetleRules 1`] = `
                 href="#hex"
               />
               <use
-                class="creature"
                 href="#spider"
               />
             </svg>
@@ -1073,7 +1063,6 @@ exports[`<BeetleRules> > renders BeetleRules 1`] = `
                 href="#hex"
               />
               <use
-                class="creature"
                 href="#grasshopper"
               />
             </svg>
@@ -1118,7 +1107,6 @@ exports[`<FreedomToMoveRule> > renders FreedomToMoveRule 1`] = `
                 href="#hex"
               />
               <use
-                class="creature"
                 href="#ant"
               />
             </svg>
@@ -1147,7 +1135,6 @@ exports[`<FreedomToMoveRule> > renders FreedomToMoveRule 1`] = `
                 href="#hex"
               />
               <use
-                class="creature"
                 href="#grasshopper"
               />
             </svg>
@@ -1180,7 +1167,6 @@ exports[`<FreedomToMoveRule> > renders FreedomToMoveRule 1`] = `
                 href="#hex"
               />
               <use
-                class="creature"
                 href="#spider"
               />
             </svg>
@@ -1210,7 +1196,6 @@ exports[`<FreedomToMoveRule> > renders FreedomToMoveRule 1`] = `
                 href="#hex"
               />
               <use
-                class="creature"
                 href="#queen"
               />
             </svg>
@@ -1249,7 +1234,6 @@ exports[`<FreedomToMoveRule> > renders FreedomToMoveRule 1`] = `
                 href="#hex"
               />
               <use
-                class="creature"
                 href="#beetle"
               />
             </svg>
@@ -1282,7 +1266,6 @@ exports[`<FreedomToMoveRule> > renders FreedomToMoveRule 1`] = `
                 href="#hex"
               />
               <use
-                class="creature"
                 href="#ant"
               />
             </svg>
@@ -1384,7 +1367,6 @@ exports[`<GrasshopperRules> > renders GrasshopperRules 1`] = `
                 href="#hex"
               />
               <use
-                class="creature"
                 href="#beetle"
               />
             </svg>
@@ -1414,7 +1396,6 @@ exports[`<GrasshopperRules> > renders GrasshopperRules 1`] = `
                 href="#hex"
               />
               <use
-                class="creature"
                 href="#grasshopper"
               />
             </svg>
@@ -1484,7 +1465,6 @@ exports[`<GrasshopperRules> > renders GrasshopperRules 1`] = `
                 href="#hex"
               />
               <use
-                class="creature"
                 href="#queen"
               />
             </svg>
@@ -1570,7 +1550,6 @@ exports[`<GrasshopperRules> > renders GrasshopperRules 1`] = `
                 href="#hex"
               />
               <use
-                class="creature"
                 href="#grasshopper"
               />
             </svg>
@@ -1624,7 +1603,6 @@ exports[`<GrasshopperRules> > renders GrasshopperRules 1`] = `
                 href="#hex"
               />
               <use
-                class="creature"
                 href="#ant"
               />
             </svg>
@@ -1669,7 +1647,6 @@ exports[`<GrasshopperRules> > renders GrasshopperRules 1`] = `
                 href="#hex"
               />
               <use
-                class="creature"
                 href="#queen"
               />
             </svg>
@@ -1698,7 +1675,6 @@ exports[`<GrasshopperRules> > renders GrasshopperRules 1`] = `
                 href="#hex"
               />
               <use
-                class="creature"
                 href="#spider"
               />
             </svg>
@@ -1727,7 +1703,6 @@ exports[`<GrasshopperRules> > renders GrasshopperRules 1`] = `
                 href="#hex"
               />
               <use
-                class="creature"
                 href="#ant"
               />
             </svg>
@@ -1812,7 +1787,6 @@ exports[`<GrasshopperRules> > renders GrasshopperRules 1`] = `
                 href="#hex"
               />
               <use
-                class="creature"
                 href="#beetle"
               />
             </svg>
@@ -1910,7 +1884,6 @@ exports[`<GrasshopperRules> > renders GrasshopperRules 1`] = `
                 href="#hex"
               />
               <use
-                class="creature"
                 href="#spider"
               />
             </svg>
@@ -1939,7 +1912,6 @@ exports[`<GrasshopperRules> > renders GrasshopperRules 1`] = `
                 href="#hex"
               />
               <use
-                class="creature"
                 href="#spider"
               />
             </svg>
@@ -1984,7 +1956,6 @@ exports[`<Objective> > renders Objective 1`] = `
                 href="#hex"
               />
               <use
-                class="creature"
                 href="#ant"
               />
             </svg>
@@ -2013,7 +1984,6 @@ exports[`<Objective> > renders Objective 1`] = `
                 href="#hex"
               />
               <use
-                class="creature"
                 href="#grasshopper"
               />
             </svg>
@@ -2059,7 +2029,6 @@ exports[`<Objective> > renders Objective 1`] = `
                 href="#hex"
               />
               <use
-                class="creature"
                 href="#spider"
               />
             </svg>
@@ -2088,7 +2057,6 @@ exports[`<Objective> > renders Objective 1`] = `
                 href="#hex"
               />
               <use
-                class="creature"
                 href="#queen"
               />
             </svg>
@@ -2120,7 +2088,6 @@ exports[`<Objective> > renders Objective 1`] = `
                 href="#hex"
               />
               <use
-                class="creature"
                 href="#beetle"
               />
             </svg>
@@ -2153,7 +2120,6 @@ exports[`<Objective> > renders Objective 1`] = `
                 href="#hex"
               />
               <use
-                class="creature"
                 href="#ant"
               />
             </svg>
@@ -2182,7 +2148,6 @@ exports[`<Objective> > renders Objective 1`] = `
                 href="#hex"
               />
               <use
-                class="creature"
                 href="#grasshopper"
               />
             </svg>
@@ -2240,7 +2205,6 @@ exports[`<OneHiveRule> > renders OneHiveRule 1`] = `
                 href="#hex"
               />
               <use
-                class="creature"
                 href="#beetle"
               />
             </svg>
@@ -2269,7 +2233,6 @@ exports[`<OneHiveRule> > renders OneHiveRule 1`] = `
                 href="#hex"
               />
               <use
-                class="creature"
                 href="#beetle"
               />
             </svg>
@@ -2302,7 +2265,6 @@ exports[`<OneHiveRule> > renders OneHiveRule 1`] = `
                 href="#hex"
               />
               <use
-                class="creature"
                 href="#spider"
               />
             </svg>
@@ -2413,7 +2375,6 @@ exports[`<OneHiveRule> > renders OneHiveRule 1`] = `
                 href="#hex"
               />
               <use
-                class="creature"
                 href="#ant"
               />
             </svg>
@@ -2443,7 +2404,6 @@ exports[`<OneHiveRule> > renders OneHiveRule 1`] = `
                 href="#hex"
               />
               <use
-                class="creature"
                 href="#queen"
               />
             </svg>
@@ -2482,7 +2442,6 @@ exports[`<OneHiveRule> > renders OneHiveRule 1`] = `
                 href="#hex"
               />
               <use
-                class="creature"
                 href="#grasshopper"
               />
             </svg>
@@ -2567,7 +2526,6 @@ exports[`<QueenRules> > renders QueenRules 1`] = `
                 href="#hex"
               />
               <use
-                class="creature"
                 href="#ant"
               />
             </svg>
@@ -2596,7 +2554,6 @@ exports[`<QueenRules> > renders QueenRules 1`] = `
                 href="#hex"
               />
               <use
-                class="creature"
                 href="#spider"
               />
             </svg>
@@ -2658,7 +2615,6 @@ exports[`<QueenRules> > renders QueenRules 1`] = `
                 href="#hex"
               />
               <use
-                class="creature"
                 href="#queen"
               />
             </svg>
@@ -2755,7 +2711,6 @@ exports[`<QueenRules> > renders QueenRules 1`] = `
                 href="#hex"
               />
               <use
-                class="creature"
                 href="#spider"
               />
             </svg>
@@ -2800,7 +2755,6 @@ exports[`<QueenRules> > renders QueenRules 1`] = `
                 href="#hex"
               />
               <use
-                class="creature"
                 href="#queen"
               />
             </svg>
@@ -2857,7 +2811,6 @@ exports[`<QueenRules> > renders QueenRules 1`] = `
                 href="#hex"
               />
               <use
-                class="creature"
                 href="#beetle"
               />
             </svg>
@@ -2890,7 +2843,6 @@ exports[`<QueenRules> > renders QueenRules 1`] = `
                 href="#hex"
               />
               <use
-                class="creature"
                 href="#grasshopper"
               />
             </svg>
@@ -2919,7 +2871,6 @@ exports[`<QueenRules> > renders QueenRules 1`] = `
                 href="#hex"
               />
               <use
-                class="creature"
                 href="#ant"
               />
             </svg>
@@ -2948,7 +2899,6 @@ exports[`<QueenRules> > renders QueenRules 1`] = `
                 href="#hex"
               />
               <use
-                class="creature"
                 href="#beetle"
               />
             </svg>
@@ -3021,7 +2971,6 @@ exports[`<Rules> > renders 1`] = `
               href="#hex"
             />
             <use
-              class="creature"
               href="#ant"
             />
           </svg>
@@ -3050,7 +2999,6 @@ exports[`<Rules> > renders 1`] = `
               href="#hex"
             />
             <use
-              class="creature"
               href="#grasshopper"
             />
           </svg>
@@ -3096,7 +3044,6 @@ exports[`<Rules> > renders 1`] = `
               href="#hex"
             />
             <use
-              class="creature"
               href="#spider"
             />
           </svg>
@@ -3125,7 +3072,6 @@ exports[`<Rules> > renders 1`] = `
               href="#hex"
             />
             <use
-              class="creature"
               href="#queen"
             />
           </svg>
@@ -3157,7 +3103,6 @@ exports[`<Rules> > renders 1`] = `
               href="#hex"
             />
             <use
-              class="creature"
               href="#beetle"
             />
           </svg>
@@ -3190,7 +3135,6 @@ exports[`<Rules> > renders 1`] = `
               href="#hex"
             />
             <use
-              class="creature"
               href="#ant"
             />
           </svg>
@@ -3219,7 +3163,6 @@ exports[`<Rules> > renders 1`] = `
               href="#hex"
             />
             <use
-              class="creature"
               href="#grasshopper"
             />
           </svg>
@@ -3288,7 +3231,6 @@ exports[`<SpiderRules> > renders SpiderRules 1`] = `
                 href="#hex"
               />
               <use
-                class="creature"
                 href="#grasshopper"
               />
             </svg>
@@ -3317,7 +3259,6 @@ exports[`<SpiderRules> > renders SpiderRules 1`] = `
                 href="#hex"
               />
               <use
-                class="creature"
                 href="#grasshopper"
               />
             </svg>
@@ -3346,7 +3287,6 @@ exports[`<SpiderRules> > renders SpiderRules 1`] = `
                 href="#hex"
               />
               <use
-                class="creature"
                 href="#ant"
               />
             </svg>
@@ -3391,7 +3331,6 @@ exports[`<SpiderRules> > renders SpiderRules 1`] = `
                 href="#hex"
               />
               <use
-                class="creature"
                 href="#queen"
               />
             </svg>
@@ -3476,7 +3415,6 @@ exports[`<SpiderRules> > renders SpiderRules 1`] = `
                 href="#hex"
               />
               <use
-                class="creature"
                 href="#beetle"
               />
             </svg>
@@ -3509,7 +3447,6 @@ exports[`<SpiderRules> > renders SpiderRules 1`] = `
                 href="#hex"
               />
               <use
-                class="creature"
                 href="#ant"
               />
             </svg>
@@ -3626,7 +3563,6 @@ exports[`<SpiderRules> > renders SpiderRules 1`] = `
                 href="#hex"
               />
               <use
-                class="creature"
                 href="#queen"
               />
             </svg>
@@ -3699,7 +3635,6 @@ exports[`<SpiderRules> > renders SpiderRules 1`] = `
                 href="#hex"
               />
               <use
-                class="creature"
                 href="#beetle"
               />
             </svg>
@@ -3787,7 +3722,6 @@ exports[`<SpiderRules> > renders SpiderRules 1`] = `
                 href="#hex"
               />
               <use
-                class="creature"
                 href="#spider"
               />
             </svg>
@@ -3926,7 +3860,6 @@ exports[`<SpiderRules> > renders SpiderRules 1`] = `
                 href="#hex"
               />
               <use
-                class="creature"
                 href="#spider"
               />
             </svg>

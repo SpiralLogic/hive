@@ -17,7 +17,7 @@ import {
 } from '../fixtures/game-cell.fixtures';
 import { HiveDispatcher } from '../../src/services';
 import { Dispatcher } from '../../src/hooks/useHiveDispatchListener';
-import { Cell, HexCoordinates, PlayerId, TileId } from '../../src/domain';
+import { Cell, HexCoordinate, PlayerId, TileId } from '../../src/domain';
 import GameTile from '../../src/components/GameTile';
 import { cellKey } from '../../src/utilities/hextille';
 import { moveMap } from '../../src/services/signals';
@@ -25,7 +25,7 @@ import { moveMap } from '../../src/services/signals';
 const setUp = (...tileCreationFns: Array<() => { cell: Cell; historical?: boolean }>) => {
   const comps = tileCreationFns.map((t) => t());
 
-  moveMap.value = new Map<`${PlayerId}-${TileId}`, HexCoordinates[]>();
+  moveMap.value = new Map<`${PlayerId}-${TileId}`, HexCoordinate[]>();
   comps.flatMap(({ cell }) => cell.tiles).forEach((t) => moveMap.value.set(`${t.playerId}-${t.id}`, t.moves));
 
   const dispatcher = new HiveDispatcher();

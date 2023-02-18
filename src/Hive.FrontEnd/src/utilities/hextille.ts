@@ -1,4 +1,4 @@
-import { Cell, HexCoordinates, Player, PlayerId, Tile } from '../domain';
+import { Cell, HexCoordinate, Player, PlayerId, Tile } from '../domain';
 
 const getAllTiles = (...parents: Array<Array<Player | Cell>>): Array<Tile> =>
   parents.flatMap((g) => g.flatMap((p) => p.tiles));
@@ -6,4 +6,4 @@ const getAllTiles = (...parents: Array<Array<Player | Cell>>): Array<Tile> =>
 export const getAllPlayerTiles = (playerId: PlayerId, ...parents: Array<Array<Player | Cell>>) =>
   getAllTiles(...parents).filter((t) => t.playerId === playerId);
 
-export const cellKey = ({ q, r }: HexCoordinates) => `${q}-${r}`;
+export const cellKey = ({ q, r }: HexCoordinate) => `${q}-${r}`;

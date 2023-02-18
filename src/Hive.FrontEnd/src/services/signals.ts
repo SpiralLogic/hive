@@ -1,6 +1,6 @@
-import { Cell, GameId, GameState, GameStatus, HexCoordinates, Player, PlayerId, TileId } from '../domain';
+import { Cells, GameId, GameState, GameStatus, HexCoordinates, Player, Players, TileMapKey } from '../domain';
 import { batch, signal } from '@preact/signals';
-import { HistoricalMove } from '../domain/historical-move';
+import { HistoricalMoves } from '../domain/historical-move';
 import { useContext } from 'preact/hooks';
 import { createContext } from 'preact';
 
@@ -9,11 +9,10 @@ type NonEmptyArray<T> = [T, ...T[]];
 function isNonEmpty<A>(arr: Array<A>): arr is NonEmptyArray<A> {
   return arr.length > 0;
 }
+export const moveMap = signal(new Map<TileMapKey, HexCoordinates>());
 
-export const moveMap = signal(new Map<`${PlayerId}-${TileId}`, HexCoordinates[]>());
-
-const updateMoveMap = (players: Player[], cells: Cell[]) => {
-  const newMoveMap = new Map<`${PlayerId}-${TileId}`, HexCoordinates[]>();
+const updateMoveMap = (players: Player[], cells: Cells) => {
+  const newMoveMap = new Map<TileMapKey, HexCoordinates>();
   players
     .flatMap((p) => p.tiles)
     .forEach((t) => {
@@ -28,9 +27,9 @@ const updateMoveMap = (players: Player[], cells: Cell[]) => {
 };
 
 const createGameState = () => {
-  const cells = signal<Cell[]>([]);
-  const players = signal<Player[]>([]);
-  const history = signal<HistoricalMove[]>([]);
+  const cells = signal<Cells>([]);
+  const players = signal<Players>([]);
+  const history = signal<HistoricalMoves>([]);
   const gameStatus = signal<GameStatus>('NewGame');
   const gameId = signal<GameId>('');
   const setGameState = (gameState: GameState) => {

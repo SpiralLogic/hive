@@ -1,12 +1,13 @@
-import { HexCoordinates } from './hex-coordinates';
+import { HexCoordinates } from './hex-coordinate';
+import { PlayerId } from './player';
+import { Creature } from './creature';
 
 export type Tile = {
   id: TileId;
   playerId: PlayerId;
-  creature: TileCreature;
-  moves: Array<HexCoordinates>;
+  creature: Creature;
+  moves: HexCoordinates;
 };
-
-type PlayerId = number;
+export type Tiles = Tile[];
 export type TileId = number;
-export type TileCreature = string;
+export type TileMapKey = `${PlayerId}-${TileId}`;

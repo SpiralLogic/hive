@@ -5,15 +5,16 @@ import { FunctionComponent, JSX } from 'preact';
 import SVG from './SVG';
 import { Signal, useSignalEffect } from '@preact/signals';
 import { useRef } from 'preact/hooks';
+import { Creature } from '../domain';
 
 type Properties = Omit<Partial<JSX.HTMLAttributes>, 'tabIndex'> & {
   classes?: Signal<string>;
   hidden?: boolean;
-  svg?: JSX.Element;
   tabIndex?: Signal<-1 | 0>;
+  svgs?: Creature[];
 };
 const Hexagon: FunctionComponent<Properties> = (properties) => {
-  const { classes, hidden, children, svg, ...attributes } = properties;
+  const { svgs = [], classes, hidden, children, ...attributes } = properties;
   const ref = useRef<HTMLDivElement>(null);
   if (hidden) attributes.role = 'none';
   useSignalEffect(() => {
@@ -25,7 +26,7 @@ const Hexagon: FunctionComponent<Properties> = (properties) => {
   });
   return (
     <div class={classes} ref={ref} {...attributes}>
-      <SVG href="hex">{svg}</SVG>
+      <SVG hrefs={['hex', ...svgs]} />
       {children}
     </div>
   );

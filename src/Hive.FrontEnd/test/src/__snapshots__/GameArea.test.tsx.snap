@@ -43,7 +43,6 @@ exports[`<GameArea> > render game over snapshot 1`] = `
               href="#hex"
             />
             <use
-              class="creature"
               href="#creature1"
             />
           </svg>
@@ -230,7 +229,6 @@ exports[`<GameArea> > render game over snapshot 1`] = `
                 href="#hex"
               />
               <use
-                class="creature"
                 href="#creature0"
               />
             </svg>
@@ -355,7 +353,6 @@ exports[`<GameArea> > render game over snapshot 1`] = `
                   href="#hex"
                 />
                 <use
-                  class="creature"
                   href="#ant"
                 />
               </svg>
@@ -384,7 +381,6 @@ exports[`<GameArea> > render game over snapshot 1`] = `
                   href="#hex"
                 />
                 <use
-                  class="creature"
                   href="#grasshopper"
                 />
               </svg>
@@ -430,7 +426,6 @@ exports[`<GameArea> > render game over snapshot 1`] = `
                   href="#hex"
                 />
                 <use
-                  class="creature"
                   href="#spider"
                 />
               </svg>
@@ -459,7 +454,6 @@ exports[`<GameArea> > render game over snapshot 1`] = `
                   href="#hex"
                 />
                 <use
-                  class="creature"
                   href="#queen"
                 />
               </svg>
@@ -491,7 +485,6 @@ exports[`<GameArea> > render game over snapshot 1`] = `
                   href="#hex"
                 />
                 <use
-                  class="creature"
                   href="#beetle"
                 />
               </svg>
@@ -524,7 +517,6 @@ exports[`<GameArea> > render game over snapshot 1`] = `
                   href="#hex"
                 />
                 <use
-                  class="creature"
                   href="#ant"
                 />
               </svg>
@@ -553,7 +545,6 @@ exports[`<GameArea> > render game over snapshot 1`] = `
                   href="#hex"
                 />
                 <use
-                  class="creature"
                   href="#grasshopper"
                 />
               </svg>
@@ -657,7 +648,6 @@ exports[`<GameArea> > render snapshot 1`] = `
               href="#hex"
             />
             <use
-              class="creature"
               href="#creature1"
             />
           </svg>
@@ -844,7 +834,6 @@ exports[`<GameArea> > render snapshot 1`] = `
                 href="#hex"
               />
               <use
-                class="creature"
                 href="#creature0"
               />
             </svg>
@@ -969,7 +958,6 @@ exports[`<GameArea> > render snapshot 1`] = `
                   href="#hex"
                 />
                 <use
-                  class="creature"
                   href="#ant"
                 />
               </svg>
@@ -998,7 +986,6 @@ exports[`<GameArea> > render snapshot 1`] = `
                   href="#hex"
                 />
                 <use
-                  class="creature"
                   href="#grasshopper"
                 />
               </svg>
@@ -1044,7 +1031,6 @@ exports[`<GameArea> > render snapshot 1`] = `
                   href="#hex"
                 />
                 <use
-                  class="creature"
                   href="#spider"
                 />
               </svg>
@@ -1073,7 +1059,6 @@ exports[`<GameArea> > render snapshot 1`] = `
                   href="#hex"
                 />
                 <use
-                  class="creature"
                   href="#queen"
                 />
               </svg>
@@ -1105,7 +1090,6 @@ exports[`<GameArea> > render snapshot 1`] = `
                   href="#hex"
                 />
                 <use
-                  class="creature"
                   href="#beetle"
                 />
               </svg>
@@ -1138,7 +1122,6 @@ exports[`<GameArea> > render snapshot 1`] = `
                   href="#hex"
                 />
                 <use
-                  class="creature"
                   href="#ant"
                 />
               </svg>
@@ -1167,7 +1150,6 @@ exports[`<GameArea> > render snapshot 1`] = `
                   href="#hex"
                 />
                 <use
-                  class="creature"
                   href="#grasshopper"
                 />
               </svg>
@@ -1270,7 +1252,6 @@ exports[`<GameArea> > render snapshot with historical move 1`] = `
               href="#hex"
             />
             <use
-              class="creature"
               href="#creature1"
             />
           </svg>
@@ -1459,7 +1440,6 @@ exports[`<GameArea> > render snapshot with historical move 1`] = `
                 href="#hex"
               />
               <use
-                class="creature"
                 href="#creature0"
               />
             </svg>
@@ -1584,7 +1564,6 @@ exports[`<GameArea> > render snapshot with historical move 1`] = `
                   href="#hex"
                 />
                 <use
-                  class="creature"
                   href="#ant"
                 />
               </svg>
@@ -1613,7 +1592,6 @@ exports[`<GameArea> > render snapshot with historical move 1`] = `
                   href="#hex"
                 />
                 <use
-                  class="creature"
                   href="#grasshopper"
                 />
               </svg>
@@ -1659,7 +1637,6 @@ exports[`<GameArea> > render snapshot with historical move 1`] = `
                   href="#hex"
                 />
                 <use
-                  class="creature"
                   href="#spider"
                 />
               </svg>
@@ -1688,7 +1665,6 @@ exports[`<GameArea> > render snapshot with historical move 1`] = `
                   href="#hex"
                 />
                 <use
-                  class="creature"
                   href="#queen"
                 />
               </svg>
@@ -1720,7 +1696,6 @@ exports[`<GameArea> > render snapshot with historical move 1`] = `
                   href="#hex"
                 />
                 <use
-                  class="creature"
                   href="#beetle"
                 />
               </svg>
@@ -1753,7 +1728,6 @@ exports[`<GameArea> > render snapshot with historical move 1`] = `
                   href="#hex"
                 />
                 <use
-                  class="creature"
                   href="#ant"
                 />
               </svg>
@@ -1782,7 +1756,6 @@ exports[`<GameArea> > render snapshot with historical move 1`] = `
                   href="#hex"
                 />
                 <use
-                  class="creature"
                   href="#grasshopper"
                 />
               </svg>
