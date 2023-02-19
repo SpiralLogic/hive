@@ -60,7 +60,9 @@ describe('<GameArea>', () => {
     expect(screen.getByTitle(/creature0/)).toHaveAttribute('draggable', 'false');
     expect(screen.getByTitle(/creature1/)).toHaveAttribute('draggable');
   });
+});
 
+describe('<GameArea> rules dialog', () => {
   it('opens show rules', async () => {
     const gameState = createGameState(1);
     setup(gameState, { currentPlayer: 1, aiMode: signal('off') });
@@ -78,8 +80,9 @@ describe('<GameArea>', () => {
     await userEvent.click(await screen.findByRole(/button/i, { hidden: false, name: /close dialog/i }));
     expect(screen.queryByRole('dialog', { name: /game rules/i })).not.toBeInTheDocument();
   });
-
-  it('opens share modal', async () => {
+});
+describe('<GameArea> share dialog', () => {
+  it('opens share dialog', async () => {
     const clipboard = vi.fn() as MockedFunction<() => Promise<void>>;
     const gameState = createGameState(1);
     const restore = mockClipboard(clipboard);
@@ -92,7 +95,7 @@ describe('<GameArea>', () => {
     restore();
   });
 
-  it(`closes share modal`, async () => {
+  it(`closes share dialog`, async () => {
     const clipboard = vi.fn() as MockedFunction<() => Promise<void>>;
     const gameState = createGameState(1);
     const restore = mockClipboard(clipboard);
@@ -147,7 +150,7 @@ describe('<GameArea>', () => {
     restore();
   });
 
-  it(`closes modal when share link can't be copied`, async () => {
+  it(`closes dialog when share link can't be copied`, async () => {
     const restore = noShare();
     const gameState = createGameState(1);
     setup(gameState, { currentPlayer: 1, aiMode: signal('off') });
@@ -160,7 +163,7 @@ describe('<GameArea>', () => {
   it.each<[ConnectEvent['type'], RegExp]>([
     ['opponentConnected', /connected/i],
     ['opponentDisconnected', /disconnected/i],
-  ])(`opens modal when player %s`, async (connectionState, expected) => {
+  ])(`opens dialog when player %s`, async (connectionState, expected) => {
     const gameState = createGameState(1);
     const { dispatcher } = setup(gameState, { currentPlayer: 1, aiMode: signal('off') });
 
@@ -172,7 +175,7 @@ describe('<GameArea>', () => {
   it.each<[ConnectEvent['type'], RegExp]>([
     ['opponentConnected', /player connected/i],
     ['opponentDisconnected', /player disconnected/i],
-  ])(`closes the modal when player %s`, async (connectionState, expected) => {
+  ])(`closes the dialog for player %s when close button is clicked`, async (connectionState, expected) => {
     const gameState = createGameState(1);
 
     const { dispatcher } = setup(gameState, { currentPlayer: 0, aiMode: signal('off') });
@@ -182,29 +185,32 @@ describe('<GameArea>', () => {
     await userEvent.click(await screen.findByRole(/button/i, { hidden: false, name: /close dialog/i }));
     expect(screen.queryByRole('dialog', { name: expected })).not.toBeInTheDocument();
   });
+});
 
-  describe('ai toggle', () => {
-    let dispatcher: HiveDispatcher;
-    let aiMode: Signal<AiMode>;
-    const toggleAiHandler = vi.fn();
+describe('ai toggle', () => {
+  let dispatcher: HiveDispatcher;
+  let aiMode: Signal<AiMode>;
+  const toggleAiHandler = vi.fn();
 
-    beforeEach(() => {
-      const gameState = createGameState(1);
-      aiMode = signal('on');
-      const view = setup(gameState, { currentPlayer: 0, aiMode });
-      dispatcher = view.dispatcher;
-    });
-
-    it(`opponent connected handler toggles ai mode`, () => {
-      dispatcher.dispatch<ConnectEvent>({ type: 'opponentConnected', playerId: 1 });
-      expect(aiMode.value).toBe('off');
-    });
-
-    it(`opponent connected handler doesn't toggle ai mode for current player`, () => {
-      dispatcher.dispatch<ConnectEvent>({ type: 'opponentConnected', playerId: 0 });
-      expect(toggleAiHandler).not.toHaveBeenCalled();
-    });
+  beforeEach(() => {
+    const gameState = createGameState(1);
+    aiMode = signal('on');
+    const view = setup(gameState, { currentPlayer: 0, aiMode });
+    dispatcher = view.dispatcher;
   });
+
+  it(`toggles ai mode when opponent connects`, () => {
+    dispatcher.dispatch<ConnectEvent>({ type: 'opponentConnected', playerId: 1 });
+    expect(aiMode.value).toBe('off');
+  });
+
+  it(`doesn't toggle ai mode when connected opponent is current player`, () => {
+    dispatcher.dispatch<ConnectEvent>({ type: 'opponentConnected', playerId: 0 });
+    expect(toggleAiHandler).not.toHaveBeenCalled();
+  });
+});
+
+describe('<GameArea> game status dialog', () => {
   const gameStatusShownDialogs: Array<[GameStatus, number, boolean]> = [
     ['AiWin', 0, true],
     ['Player0Win', 0, true],
@@ -222,7 +228,7 @@ describe('<GameArea>', () => {
   ];
 
   it.each(gameStatusShownDialogs)(
-    `Game status %s shows dialog for player 1 with current player %i`,
+    `shows game status %s dialog for player 1 with current player %i`,
     async (gameStatus, currentPlayer) => {
       const gameState = createGameState(1);
       setup({ ...gameState, gameStatus }, { currentPlayer, aiMode: signal('off') });
@@ -231,28 +237,28 @@ describe('<GameArea>', () => {
     }
   );
 
-  it.each(gameStatusNotShownDialogs)(`Game status %s doesn't show dialog for player 1`, (gameStatus) => {
+  it.each(gameStatusNotShownDialogs)(`doesn't show game status %s dialog for player 1`, (gameStatus) => {
     const gameState = createGameState(1);
     setup({ ...gameState, gameStatus }, { currentPlayer: 0, aiMode: signal('off') });
 
     expect(screen.queryByRole('dialog', { name: /game over/i })).not.toBeInTheDocument();
   });
 
-  it.each(gameStatusShownDialogs)(`Game status %s shows dialog for player 2`, async (gameStatus) => {
+  it.each(gameStatusShownDialogs)(`shows game status %s dialog for player 2`, async (gameStatus) => {
     const gameState = createGameState(1);
     setup({ ...gameState, gameStatus }, { currentPlayer: 0, aiMode: signal('off') });
 
     expect(await screen.findByRole('dialog', { name: /game over/i })).toBeInTheDocument();
   });
 
-  it.each(gameStatusNotShownDialogs)(`Game status %s doesn't show dialog for player 2`, (gameStatus) => {
+  it.each(gameStatusNotShownDialogs)(`doesn't show game status %s dialog for player 2`, (gameStatus) => {
     const gameState = createGameState(1);
     setup({ ...gameState, gameStatus }, { currentPlayer: 0, aiMode: signal('off') });
 
     expect(screen.queryByRole('dialog', { name: /game over/i })).not.toBeInTheDocument();
   });
 
-  it(`closes game over modal`, async () => {
+  it(`closes game over dialog`, async () => {
     const gameState = createGameState(1);
     setup({ ...gameState, gameStatus: 'GameOver' }, { currentPlayer: 0, aiMode: signal('off') });
 
@@ -267,7 +273,7 @@ describe('<GameArea>', () => {
     expect(screen.getByRole('main')).toHaveClass('game-over');
   });
 
-  it(`shows game over modal with new game button`, async () => {
+  it(`shows game over dialog with new game button`, async () => {
     const assign = vi.fn();
     const restoreLocation = mockLocation({ assign });
     const gameState = createGameState(1);
@@ -279,8 +285,10 @@ describe('<GameArea>', () => {
 
     restoreLocation();
   });
+});
 
-  test('render snapshot', () => {
+describe('<GameArea> snapshots', () => {
+  it('matches', () => {
     const gameState = createGameState(1);
     const view = setup(
       { ...gameState, gameStatus: 'MoveSuccess' },
@@ -290,7 +298,7 @@ describe('<GameArea>', () => {
     expect(view).toMatchSnapshot();
   });
 
-  test('render snapshot with historical move', () => {
+  it('matches with historical move', () => {
     const gameState = createGameState(1, true);
 
     const view = setup(gameState, { currentPlayer: 0, aiMode: signal('off') });
@@ -298,7 +306,7 @@ describe('<GameArea>', () => {
     expect(view).toMatchSnapshot();
   });
 
-  test('render game over snapshot', () => {
+  it('matches game over', () => {
     const gameState = createGameState(1);
     const view = setup({ ...gameState, gameStatus: 'GameOver' }, { currentPlayer: 0, aiMode: signal('off') });
 

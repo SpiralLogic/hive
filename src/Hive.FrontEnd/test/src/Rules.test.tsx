@@ -20,12 +20,14 @@ describe('<Rules>', () => {
   it('next button moves next', async () => {
     renderRules();
     await userEvent.click(screen.getByTitle('Next'));
+
     expect(screen.getByRole('heading')).toHaveTextContent(/Queen/);
   });
 
   it('prev button goes back to end', async () => {
     renderRules();
     await userEvent.click(screen.getByTitle('Previous'));
+
     expect(screen.getByRole('heading')).toHaveTextContent(/Freedom To Move/);
   });
 
@@ -36,8 +38,10 @@ describe('<Rules>', () => {
 
     expect(screen.getByRole('heading')).toHaveTextContent(/Objective/);
   });
+});
 
-  it('renders', () => {
+describe('<Rules> snapshots', () => {
+  it('matches', () => {
     expect(render(<Rules />)).toMatchSnapshot();
   });
 });

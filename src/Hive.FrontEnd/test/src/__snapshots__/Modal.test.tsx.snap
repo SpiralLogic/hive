@@ -1,6 +1,6 @@
 // Vitest Snapshot v1
 
-exports[`<Modal> > renders 1`] = `
+exports[`<Modal> snapshots > matches 1`] = `
 <dialog
   aria-label="test"
   open="true"

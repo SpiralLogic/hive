@@ -23,8 +23,8 @@ const setup = (aiMode: Signal<AiMode>) =>
     </Dispatcher.Provider>
   );
 
-describe('<Links>', () => {
-  it(`links toggle Ai off`, async () => {
+describe('<Links> ai toggle', () => {
+  it(`toggles Ai off`, async () => {
     const aiMode = signal<AiMode>('on');
     setup(aiMode);
 
@@ -34,7 +34,7 @@ describe('<Links>', () => {
     expect(await screen.findByTitle(/toggle ai/i)).toHaveClass('ai-off');
   });
 
-  it(`links toggle Ai off and then back on`, async () => {
+  it(`toggles Ai off and then back on`, async () => {
     const aiMode = signal<AiMode>('off');
     setup(aiMode);
 
@@ -47,7 +47,7 @@ describe('<Links>', () => {
     expect(await screen.findByTitle(/toggle ai/i)).toHaveClass('ai-off');
   });
 
-  it(`mouse wheel toggles Ai on`, async () => {
+  it(`toggles auto Ai on mouse wheel `, async () => {
     const aiMode = signal<AiMode>('off');
     setup(aiMode);
 
@@ -57,7 +57,7 @@ describe('<Links>', () => {
     expect(await screen.findByTitle(/toggle ai/i)).not.toHaveClass('ai-off');
   });
 
-  it(`click toggles auto Ai off`, async () => {
+  it(`toggles auto Ai off on click`, async () => {
     const aiMode = signal<AiMode>('auto');
     setup(aiMode);
 
@@ -66,8 +66,10 @@ describe('<Links>', () => {
     expect(aiMode.value).toBe('off');
     expect(await screen.findByTitle(/toggle ai/i)).toHaveClass('ai-off');
   });
+});
 
-  it('renders', () => {
+describe('<Links> snapshots', () => {
+  it('matches', () => {
     expect(setup(signal('on'))).toMatchSnapshot();
   });
 });

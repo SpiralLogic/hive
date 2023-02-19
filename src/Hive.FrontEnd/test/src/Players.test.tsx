@@ -6,7 +6,7 @@ import { signalize } from '../helpers/signalize';
 const ant = { id: 1, playerId: 1, creature: 'ant', moves: [{ q: 1, r: 1 }] };
 const fly = { id: 2, playerId: 0, creature: 'fly', moves: [] };
 
-const defaultProps = {
+const playerProps = {
   currentPlayer: 0,
 };
 const setup = () =>
@@ -25,16 +25,20 @@ const setup = () =>
         }),
         setGameState: vi.fn(),
       }}>
-      <Players {...defaultProps} />
+      <Players {...playerProps} />
     </GameStateContext.Provider>
   );
+
 describe('<Players>', () => {
-  it('players are rendered', () => {
+  it('renders player headings', () => {
     setup();
+
     expect(screen.getAllByRole('heading', { name: /Player \d+/ })).toHaveLength(2);
   });
+});
 
-  it('renders', () => {
+describe('<Players> snapshots', () => {
+  it('matches', () => {
     global.window.history.replaceState({}, global.document.title, `/game/33/1`);
     const view = setup();
     expect(view.baseElement).toMatchSnapshot();

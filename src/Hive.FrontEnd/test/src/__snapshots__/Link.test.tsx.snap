@@ -1,6 +1,6 @@
 // Vitest Snapshot v1
 
-exports[`<Links> > renders 1`] = `
+exports[`<Links> snapshots > matches 1`] = `
 <nav>
   <a
     href="http://localhost:3000/game/123A/1"

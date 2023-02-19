@@ -3,7 +3,7 @@ import { AiMode, HexEngine } from '../../src/domain/engine';
 import App from '../../src/components/App';
 import { createGameState } from '../fixtures/app.fixture';
 import { HiveDispatcher } from '../../src/services';
-import { dispatcher, Dispatcher } from '../../src/hooks/useHiveDispatchListener';
+import { Dispatcher } from '../../src/hooks/useHiveDispatchListener';
 import { signal } from '@preact/signals';
 
 const closeConnectionMock = vi.fn();
@@ -20,7 +20,7 @@ const setup = (gameState = createGameState(4), gameAfterMove = createGameState(5
     getAiMode: () => aiMode,
     initialGame: Promise.resolve(gameState),
     currentPlayer: 0,
-    move: vi.fn().mockReset().mockResolvedValueOnce(createGameState(5)).mockResolvedValue(gameAfterMove),
+    move: vi.fn().mockResolvedValueOnce(createGameState(5)).mockResolvedValue(gameAfterMove),
   };
   const dispatcher = new HiveDispatcher();
   return {
@@ -42,6 +42,22 @@ describe('<App>', () => {
     const gameState = createGameState(4);
     const gameStateAfterMove = {
       ...gameState,
+      history: [
+        ...gameState.history,
+        {
+          move: {
+            tile: {
+              id: 4,
+              playerId: 0,
+            },
+            coords: {
+              q: -1,
+              r: -4,
+            },
+          },
+          aiMove: false,
+        },
+      ],
       players: [
         {
           ...gameState.players[0],
@@ -57,7 +73,7 @@ describe('<App>', () => {
         gameState.players[1],
       ],
     };
-    setup(gameState, gameStateAfterMove);
+    const { dispatcher } = setup(gameState, gameStateAfterMove);
     await engine.initialGame;
     dispatcher.dispatch({ type: 'move', move: { tileId: 1, coords: { q: 0, r: 0 } } });
     await engine.move;
@@ -72,7 +88,7 @@ describe('<App>', () => {
     expect(await screen.findByTitle('Hive Game Area')).toBeInTheDocument();
   });
 
-  it('cleanup', async () => {
+  it('cleans up event handlers', async () => {
     const dispatcher = new HiveDispatcher();
     vi.spyOn(dispatcher, 'remove');
     const { unmount, rerender } = render(

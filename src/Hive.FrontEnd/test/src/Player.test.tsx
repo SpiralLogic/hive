@@ -15,11 +15,13 @@ const setUp = () => {
 describe('<Player>', () => {
   it('has rendered with player name', () => {
     setUp();
+
     expect(screen.getByRole('heading')).toHaveTextContent(/Player 1/);
   });
 
-  it('player is rendered with their tiles', () => {
+  it('renders player tiles', () => {
     setUp();
+
     expect(screen.getByTitle(/Player-1/)).toBeInTheDocument();
   });
 
@@ -39,8 +41,10 @@ describe('<Player>', () => {
 
     expect(screen.queryByLabelText(/player 1/i)).toHaveClass('hidden');
   });
+});
 
-  it('renders', () => {
+describe('<Player> snapshots', () => {
+  it('matches', () => {
     expect(setUp()).toMatchSnapshot();
   });
 });

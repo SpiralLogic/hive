@@ -1,4 +1,4 @@
-import { fireEvent, render, screen } from '@testing-library/preact';
+import { render, screen } from '@testing-library/preact';
 import userEvent from '@testing-library/user-event';
 import { waitFor } from '@testing-library/dom';
 import GameCell from '../../src/components/GameCell';
@@ -40,6 +40,7 @@ const setUp = (...tileCreationFns: Array<() => { cell: Cell; historical?: boolea
       ))}
     </Dispatcher.Provider>
   );
+
   return dispatcher;
 };
 
@@ -54,26 +55,32 @@ describe('<GameCell>', () => {
 
     expect(screen.getByRole('cell')).toHaveClass('historical');
   });
+});
 
+describe('<GameCell> drag events', () => {
   it('allows drop on dragover', async () => {
     setUp(createCellWithTile);
+
     const preventDefault = simulateEvent(screen.getByRole('cell'), 'dragover');
+
     expect(preventDefault).toHaveBeenCalledWith();
   });
 
-  it('is available on drag start', async () => {
+  it('allows drop on drag start', async () => {
     setUp(createCellMovableTile, createCellWithTileAndDrop, createCellCanDrop);
+
     await userEvent.click(screen.getByTitle(/tilecanmove/));
     const cells = await screen.findAllByRole('cell');
+
     await Promise.all(cells.slice(-1).map((c) => waitFor(() => expect(c).toHaveClass('can-drop'))));
   });
 
-  it('is active on tile drag enter', async () => {
+  it('is active on tile drag over', async () => {
     setUp(createCellMovableTile, createCellWithTileAndDrop, createCellCanDrop);
     const t = screen.getByTitle(/tilecanmove/);
     await userEvent.click(t);
 
-    for (const c of screen.getAllByRole('cell')) fireEvent.dragEnter(c);
+    for (const c of screen.getAllByRole('cell')) await userEvent.hover(c);
 
     await Promise.all(screen.getAllByRole('cell').map((c) => waitFor(() => expect(c).toHaveClass('active'))));
   });
@@ -83,20 +90,20 @@ describe('<GameCell>', () => {
 
     await userEvent.click(screen.getByTitle(/tilecanmove/));
 
-    for (const c of screen.getAllByRole('cell')) fireEvent.dragEnter(c);
-    for (const c of screen.getAllByRole('cell')) fireEvent.dragLeave(c);
+    for (const c of screen.getAllByRole('cell')) await userEvent.hover(c);
+    for (const c of screen.getAllByRole('cell')) await userEvent.unhover(c);
     await Promise.all(
       screen.getAllByRole('cell').map((c) => waitFor(() => expect(c).not.toHaveClass('active')))
     );
   });
 
-  it('calls move when cell is valid and active for tile being dragged', async () => {
+  it('calls move when tile is dropped on valid and active cell', async () => {
     const dispatcher = setUp(createCellMovableTile, createCellWithTileAndDrop, createCellCanDrop);
     const moveEvents = createMoveListener(dispatcher);
 
     await userEvent.click(screen.getByTitle(/tilecanmove/));
 
-    for (const c of screen.getAllByRole('cell')) fireEvent.dragEnter(c);
+    for (const c of screen.getAllByRole('cell')) await userEvent.hover(c);
     dispatcher.dispatch({
       type: 'tileDropped',
       tile: movingTile,
@@ -112,7 +119,7 @@ describe('<GameCell>', () => {
     );
   });
 
-  it(`doesn't call move tile on drop when cell doesn't allow drop`, async () => {
+  it(`doesn't call move on drop when cell isn't valid`, async () => {
     const dispatcher = setUp(createCellMovableTile, createCellWithTile, createCellNoDrop);
     const moveEvents = createMoveListener(dispatcher);
 
@@ -126,11 +133,11 @@ describe('<GameCell>', () => {
     expect(moveEvents).toStrictEqual([]);
   });
 
-  it(`don't call move tile on drop for invalid cells`, async () => {
+  it(`doesn't call move on drop for invalid cells`, async () => {
     const dispatcher = setUp(createCellWithTileNoDrop, createCellNoDrop);
     const moveEvents = createMoveListener(dispatcher);
 
-    for (const c of screen.getAllByRole('cell')) fireEvent.dragEnter(c);
+    for (const c of screen.getAllByRole('cell')) await userEvent.hover(c);
     expect(moveEvents).toStrictEqual([]);
   });
 
@@ -139,8 +146,8 @@ describe('<GameCell>', () => {
 
     await userEvent.click(screen.getByTitle(/tilecanmove/));
 
-    for (const c of screen.getAllByRole('cell')) fireEvent.dragEnter(c);
-    for (const c of screen.getAllByRole('cell')) fireEvent.dragLeave(c);
+    for (const c of screen.getAllByRole('cell')) await userEvent.hover(c);
+    for (const c of screen.getAllByRole('cell')) await userEvent.unhover(c);
     await Promise.all(
       screen.getAllByRole('cell').map((c) => waitFor(() => expect(c).not.toHaveClass('active')))
     );
@@ -156,7 +163,7 @@ describe('<GameCell>', () => {
 
     await userEvent.click(screen.getByTitle(/tilecanmove/));
 
-    for (const c of screen.getAllByRole('cell')) fireEvent.dragEnter(c);
+    for (const c of screen.getAllByRole('cell')) await userEvent.hover(c);
 
     dispatcher.dispatch({
       type: 'tileDropped',
@@ -167,7 +174,7 @@ describe('<GameCell>', () => {
     for (const c of screen.getAllByRole('cell')) expect(c).not.toHaveClass('can-drop');
   });
 
-  it(`doesn't stop event propagation when occupied cell has no active tile '`, async () => {
+  it(`doesn't stop event propagation when occupied cell has no active tile'`, async () => {
     const dispatcher = setUp(createCellWithTileNoDrop);
     const moveEvents = createMoveListener(dispatcher);
 
@@ -193,7 +200,7 @@ describe('<GameCell>', () => {
     );
   });
 
-  it(`shouldn't move with no active tile on cell click`, async () => {
+  it(`doesn't move with no active tile on cell click`, async () => {
     const dispatcher = setUp(createCellNoDrop);
     const moveEvents = createMoveListener(dispatcher);
 
@@ -202,7 +209,7 @@ describe('<GameCell>', () => {
     expect(moveEvents).toStrictEqual([]);
   });
 
-  it(`shouldn't move with invalid tile on cell click`, async () => {
+  it(`doesn't move with invalid tile on cell click`, async () => {
     const dispatcher = setUp(createCellMovableTile, createCellNoDrop);
     const moveEvents = createMoveListener(dispatcher);
 
@@ -212,8 +219,10 @@ describe('<GameCell>', () => {
 
     expect(moveEvents).toStrictEqual([]);
   });
+});
 
-  it(`fires emit event when pressing enter`, async () => {
+describe('<GameCell> dispatch events', () => {
+  it(`dispatches move event when pressing enter`, async () => {
     const dispatcher = setUp(createCellMovableTile, createCellCanDrop);
     const moveEvents = createMoveListener(dispatcher);
     const tileCanMove = screen.getByTitle(/tilecanmove/);
@@ -256,7 +265,7 @@ describe('<GameCell>', () => {
     ...Array.from({ length: 79 })
       .map((c, index) => String.fromCodePoint(index + 48))
       .map((key) => key.replaceAll('{', '{{').replaceAll('[', '[[')),
-  ])(`doesn't start drag event for key %s`, async (key) => {
+  ])(`doesn't emit move event for key %s`, async (key) => {
     const dispatcher = setUp(createCellMovableTile, createCellCanDrop);
 
     const moveEvents = createMoveListener(dispatcher);
@@ -268,13 +277,15 @@ describe('<GameCell>', () => {
 
     expect(moveEvents).toStrictEqual([]);
   });
+});
 
-  it('renders cell with tile', () => {
+describe('<GameCell> snapshots', () => {
+  it('matches cell with tile', () => {
     setUp(createCellWithTile);
     expect(screen.getByRole('cell')).toMatchSnapshot();
   });
 
-  it('renders cell with no tile', () => {
+  it('matches cell with no tile', () => {
     setUp(createCellWithNoTile);
     expect(screen.getByRole('cell')).toMatchSnapshot();
   });

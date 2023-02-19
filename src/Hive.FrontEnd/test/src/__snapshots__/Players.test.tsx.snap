@@ -1,6 +1,6 @@
 // Vitest Snapshot v1
 
-exports[`<Players> > renders 1`] = `
+exports[`<Players> snapshots > matches 1`] = `
 <body>
   <div>
     <aside

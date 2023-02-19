@@ -2910,7 +2910,7 @@ exports[`<QueenRules> > renders QueenRules 1`] = `
 </body>
 `;
 
-exports[`<Rules> > renders 1`] = `
+exports[`<Rules> snapshots > matches 1`] = `
 <div>
   <div
     class="menu"

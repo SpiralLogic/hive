@@ -3,8 +3,8 @@ import GameCell from '../../src/components/GameCell';
 import Hextille from '../../src/components/Hextille';
 import Row from '../../src/components/Row';
 
-describe('<Hextille>', () => {
-  it('matches current snapshot', () => {
+describe('<Hextille> snapshots', () => {
+  it('matches', () => {
     expect(
       render(
         <Hextille>

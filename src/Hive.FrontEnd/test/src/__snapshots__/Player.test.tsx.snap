@@ -1,6 +1,6 @@
 // Vitest Snapshot v1
 
-exports[`<Player> > renders 1`] = `
+exports[`<Player> snapshots > matches 1`] = `
 <section
   aria-label="Player 1's unplaced pieces"
   class="player player1"

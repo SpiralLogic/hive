@@ -1,7 +1,7 @@
 import GameEngine from '../../../src/services/game-engine';
 import gameState from '../../fixtures/game-state.json';
 
-describe('game engine Tests', () => {
+describe('game engine', () => {
   let engine: GameEngine;
   beforeEach(() => {
     global.fetch = vi
@@ -35,7 +35,7 @@ describe('game engine Tests', () => {
     expect(response.players).toHaveLength(2);
   });
 
-  it('move tile', async () => {
+  it('moves tile', async () => {
     engine = new GameEngine({ gameId: '33', currentPlayer: '1' });
     const response = await engine.move({
       tileId: 1,
@@ -47,7 +47,7 @@ describe('game engine Tests', () => {
     expect(response.players).toHaveLength(2);
   });
 
-  it('AI move made for player 1', async () => {
+  it('makes AI move for player 1', async () => {
     engine = new GameEngine({ gameId: '445', currentPlayer: '0' });
     engine.getAiMode().value = 'on';
     await engine.move({
@@ -58,7 +58,7 @@ describe('game engine Tests', () => {
     expect(global.fetch).toHaveBeenLastCalledWith('/api/ai-move/445', expect.any(Object));
   });
 
-  it('AI move made for player 0', async () => {
+  it('makes AI move for player 0', async () => {
     engine = new GameEngine({ gameId: '445', currentPlayer: '1' });
     engine.getAiMode().value = 'on';
     await engine.move({
@@ -82,13 +82,12 @@ describe('game engine Tests', () => {
     expect(engine.getAiMode().value).toStrictEqual('on');
   });
 
-  it('Ai Mode for both players', async () => {
+  it('performs Ai moves for both players', async () => {
     global.fetch = vi
       .fn()
       .mockReset()
       .mockImplementationOnce(() => Promise.resolve({ ok: true, json: () => Promise.resolve(gameState) }))
-      .mockImplementationOnce(() => Promise.resolve({ ok: true, json: () => Promise.resolve(gameState) }))
-      .mockRejectedValue({ ok: false, message: 'Game Over' });
+      .mockImplementationOnce(() => Promise.resolve({ ok: true, json: () => Promise.resolve(gameState) }));
 
     engine = new GameEngine({ gameId: '445', currentPlayer: '0' });
     engine.getAiMode().value = 'auto';

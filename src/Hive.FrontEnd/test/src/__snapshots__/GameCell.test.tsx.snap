@@ -1,6 +1,6 @@
 // Vitest Snapshot v1
 
-exports[`<GameCell> > renders cell with no tile 1`] = `
+exports[`<GameCell> snapshots > matches cell with no tile 1`] = `
 <div
   role="cell"
 >
@@ -15,7 +15,7 @@ exports[`<GameCell> > renders cell with no tile 1`] = `
 </div>
 `;
 
-exports[`<GameCell> > renders cell with tile 1`] = `
+exports[`<GameCell> snapshots > matches cell with tile 1`] = `
 <div
   role="cell"
 >

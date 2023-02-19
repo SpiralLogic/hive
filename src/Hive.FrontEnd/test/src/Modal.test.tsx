@@ -3,10 +3,10 @@ import { render, screen } from '@testing-library/preact';
 import userEvent from '@testing-library/user-event';
 import Modal from '../../src/components/Modal';
 
-describe('<Modal>', () => {
-  const closeSpy = vi.spyOn(HTMLDialogElement.prototype, 'close');
-  const onCloseSpy = vi.fn();
+const closeSpy = vi.spyOn(HTMLDialogElement.prototype, 'close');
+const onCloseSpy = vi.fn();
 
+describe('<Modal>', () => {
   it('opens the model by toggling signal', () => {
     const isOpen = signal(false);
     render(<Modal open={isOpen} onClose={onCloseSpy} title="test" />);
@@ -33,8 +33,11 @@ describe('<Modal>', () => {
 
   it(`renders initially from a closed state`, () => {
     const { rerender } = render(<Modal title="test" open={signal(false)} onClose={onCloseSpy} />);
+
     expect(screen.getByRole('dialog', { hidden: true })).not.toBeVisible();
+
     rerender(<Modal title="test" open={signal(true)} onClose={onCloseSpy} />);
+
     expect(screen.getByRole('dialog')).toBeVisible();
   });
 
@@ -49,6 +52,7 @@ describe('<Modal>', () => {
 
   it(`doesn't allow multiple interactions during transition`, async () => {
     render(<Modal title="test" open={signal(true)} onClose={onCloseSpy} />);
+
     expect(screen.getByRole('dialog')).toHaveAttribute('open');
 
     await userEvent.click(screen.getByRole('button'));
@@ -70,10 +74,13 @@ describe('<Modal>', () => {
     render(<Modal title="test" open={signal(true)} onClose={onCloseSpy} />);
 
     await userEvent.click(screen.getByRole('button'));
+
     expect(screen.getByRole('dialog', { hidden: true })).not.toHaveAttribute('open');
   });
+});
 
-  it('renders', () => {
+describe('<Modal> snapshots', () => {
+  it('matches', () => {
     expect(render(<Modal title="test" open={signal(true)} onClose={onCloseSpy} />)).toMatchSnapshot();
   });
 });

@@ -1,6 +1,6 @@
 // Vitest Snapshot v1
 
-exports[`<Hextille> > matches current snapshot 1`] = `
+exports[`<Hextille> snapshots > matches 1`] = `
 <div
   class="left"
   role="grid"

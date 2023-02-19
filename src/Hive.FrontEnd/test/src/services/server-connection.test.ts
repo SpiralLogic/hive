@@ -20,7 +20,7 @@ const console = {
 };
 vi.stubGlobal('console', console);
 
-describe('game Server Connection Tests', () => {
+describe('server connection', () => {
   type TestHubConnection = ReturnType<typeof createHubConnection>;
   type CallBack = (error: Error) => void;
 

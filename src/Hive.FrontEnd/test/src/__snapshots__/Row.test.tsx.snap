@@ -1,6 +1,6 @@
 // Vitest Snapshot v1
 
-exports[`<Row> > renders 1`] = `
+exports[`<Row> snapshots > matches 1`] = `
 <div
   role="row"
 >

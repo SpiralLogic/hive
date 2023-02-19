@@ -26,12 +26,14 @@ describe('<GameOver>', () => {
     expect(location.assign).toBeCalledWith('/');
     restore();
   });
+});
 
-  test.each(gameOutcomes)(`%s player 0 snapshot`, (gameOutcome) => {
+describe('<GameOver> snapshots', () => {
+  it.each(gameOutcomes)(`%s player 0 matches`, (gameOutcome) => {
     expect(render(<GameOver outcome={gameOutcome} />)).toMatchSnapshot();
   });
 
-  test.each(gameOutcomes)(`%s player 1 snapshot`, (gameOutcome) => {
+  it.each(gameOutcomes)(`%s player 1 matches`, (gameOutcome) => {
     expect(render(<GameOver outcome={gameOutcome} />)).toMatchSnapshot();
   });
 });

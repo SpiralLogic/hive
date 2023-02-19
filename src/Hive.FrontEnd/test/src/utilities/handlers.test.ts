@@ -23,13 +23,13 @@ describe(`handler tests`, () => {
   };
 
   describe(`handle drag tests`, () => {
-    it('should prevent default on dragover', () => {
+    it('prevents default on dragover', () => {
       const preventDefault = vi.fn();
       handleDragOver({ preventDefault });
       expect(preventDefault).toHaveBeenCalledWith();
     });
 
-    it('should prevent default ondrop', () => {
+    it('prevents default ondrop', () => {
       const preventDefault = vi.fn();
       handleDrop({ preventDefault });
       expect(preventDefault).toHaveBeenCalledWith();
@@ -47,37 +47,37 @@ describe(`handler tests`, () => {
       [div1, div2, div3, div4] = [...elements];
     });
 
-    it('should move to next element on keydown', () => {
+    it('moves to next element on keydown', () => {
       expect(handleKeyboardNav({ key: 'ArrowDown', target: div1 })).toBe(true);
       expect(div2).toHaveFocus();
       expect(div4).not.toHaveFocus();
     });
 
-    it('should move to next element on key right', () => {
+    it('moves to next element on key right', () => {
       expect(handleKeyboardNav({ key: 'ArrowRight', target: div1 })).toBe(true);
       expect(div2).toHaveFocus();
       expect(div4).not.toHaveFocus();
     });
 
-    it('should move to next element on key up', () => {
+    it('moves to next element on key up', () => {
       expect(handleKeyboardNav({ key: 'ArrowUp', target: div3 })).toBe(true);
       expect(div2).toHaveFocus();
       expect(div4).not.toHaveFocus();
     });
 
-    it('should move to last element on key up from first', () => {
+    it('moves to last element on key up from first', () => {
       expect(handleKeyboardNav({ key: 'ArrowUp', target: div1 })).toBe(true);
       expect(div3).toHaveFocus();
       expect(div4).not.toHaveFocus();
     });
 
-    it('should move to next element on key left', () => {
+    it('moves to next element on key left', () => {
       expect(handleKeyboardNav({ key: 'ArrowLeft', target: div3 })).toBe(true);
       expect(div2).toHaveFocus();
       expect(div4).not.toHaveFocus();
     });
 
-    it('should not move on other keys', () => {
+    it(`does not move on other keys`, () => {
       expect(handleKeyboardNav({ key: 'n', target: div1 })).toBe(false);
       expect(div1).not.toHaveFocus();
       expect(div2).not.toHaveFocus();
@@ -85,7 +85,7 @@ describe(`handler tests`, () => {
       expect(div4).not.toHaveFocus();
     });
 
-    it('should not move target', () => {
+    it('does not move target', () => {
       expect(handleKeyboardNav({ key: 'n', target: null })).toBe(false);
       expect(div1).not.toHaveFocus();
       expect(div2).not.toHaveFocus();
@@ -94,7 +94,7 @@ describe(`handler tests`, () => {
   });
 
   describe(`server connection events`, () => {
-    it(`opponent selection selects tile`, () => {
+    it(`selects tile on opponent selection`, () => {
       const tile = { id: 1, playerId: 1, creature: 'swan', moves: [] };
       const dispatcher = new HiveDispatcher();
       const selectHandler = vi.fn();
@@ -104,7 +104,7 @@ describe(`handler tests`, () => {
       expect(selectHandler).toHaveBeenCalledWith({ type: 'tileSelect', tile });
     });
 
-    it(`opponent deselection selects tile`, () => {
+    it(`deselects tile on opponent deselection`, () => {
       const tile = { id: 1, playerId: 1, creature: 'swan', moves: [] };
       const dispatcher = new HiveDispatcher();
       const selectHandler = vi.fn();
@@ -114,7 +114,7 @@ describe(`handler tests`, () => {
       expect(selectHandler).toHaveBeenCalledWith({ type: 'tileClear' });
     });
 
-    it(`opponent deselection doesnt fire for missing tiles`, () => {
+    it(`doesn't fire opponent deselection for missing tiles`, () => {
       const dispatcher = new HiveDispatcher();
       const selectHandler = vi.fn();
       const deselectHandler = vi.fn();
@@ -128,7 +128,7 @@ describe(`handler tests`, () => {
       expect(deselectHandler).not.toHaveBeenCalledWith();
     });
 
-    it(`opponent connected handler`, () => {
+    it(`calls opponent connected handler`, () => {
       const dispatcher = new HiveDispatcher();
       const connectedHandler = vi.fn();
       dispatcher.add<HiveEvent>('opponentConnected', connectedHandler);
@@ -137,7 +137,7 @@ describe(`handler tests`, () => {
       expect(connectedHandler).toHaveBeenCalledWith({ type: 'opponentConnected', playerId: 0 });
     });
 
-    it(`opponent disconnected handler`, () => {
+    it(`calls opponent disconnected handler`, () => {
       const dispatcher = new HiveDispatcher();
       const disconnectedHandler = vi.fn();
       dispatcher.add<HiveEvent>('opponentDisconnected', disconnectedHandler);
@@ -146,7 +146,7 @@ describe(`handler tests`, () => {
       expect(disconnectedHandler).toHaveBeenCalledWith({ type: 'opponentDisconnected', playerId: 0 });
     });
 
-    it(`server handlers are attached`, () => {
+    it(`attaches server handlers`, () => {
       global.fetch = vi
         .fn()
         .mockImplementation(() => Promise.resolve({ ok: true, json: () => Promise.resolve(gameState) }));
