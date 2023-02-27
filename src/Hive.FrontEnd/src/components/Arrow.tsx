@@ -1,20 +1,23 @@
 import '../css/arrow.css';
-
-import { FunctionComponent } from 'preact';
+import SVG from './SVG';
 
 export type Direction = 'left' | 'right' | 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right';
-const Arrow: FunctionComponent<{
+const Arrow = ({
+  direction,
+  result,
+  length = 1,
+}: {
   direction: Direction;
   result: 'correct' | 'incorrect';
   length?: number;
-}> = ({ direction, result, length = 1 }) => (
-  <svg
+}) => (
+  <SVG
     class={`arrow ${direction} ${result}`}
     style={{ '--span': length }}
     xmlns="http://www.w3.org/2000/svg"
-    viewBox="0 0 100 100">
-    <use href="#arrow" />
-  </svg>
+    viewBox="0 0 100 100"
+    hrefs={['arrow']}
+  />
 );
 
 Arrow.displayName = 'Arrow';

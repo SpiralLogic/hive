@@ -10,16 +10,16 @@ import { Creature } from '../../domain';
 type Result = 'correct' | 'incorrect';
 type CellArrows = ([Direction, number | undefined] | Direction)[];
 
-const Arrows: FunctionComponent<{ arrows: CellArrows | undefined; style: Result }> = ({ arrows, style }) => (
+const Arrows = ({ arrows, result }: { arrows: CellArrows | undefined; result: Result }) => (
   <>
     {arrows?.map((a) => {
       const [direction, length] = Array.isArray(a) ? a : [a];
-      return <Arrow key={direction} result={style} direction={direction} length={length} />;
+      return <Arrow key={direction} result={result} direction={direction} length={length} />;
     })}
   </>
 );
 
-const ResultChar: FunctionComponent<{ result?: Result; symbol?: string }> = ({ result, symbol }) => {
+const ResultChar = ({ result, symbol }: { result?: Result; symbol?: string }) => {
   if (symbol) return <span>{symbol}</span>;
   switch (result) {
     case 'correct':
@@ -54,8 +54,8 @@ const RuleCell: FunctionComponent<{
         <Tile {...rest}>
           <ResultChar result={result} symbol={symbol} />
         </Tile>
-        <Arrows arrows={correctArrows} style="correct" />
-        <Arrows arrows={incorrectArrows} style="incorrect" />
+        <Arrows arrows={correctArrows} result="correct" />
+        <Arrows arrows={incorrectArrows} result="incorrect" />
       </>
     </Hexagon>
   );

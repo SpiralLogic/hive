@@ -1,10 +1,10 @@
 import '../css/row.css';
 
-import { FunctionComponent } from 'preact';
+import { ComponentChildren } from 'preact';
 
-type Properties = { class?: string; zIndex?: number; hidden?: boolean };
+type Properties = { class?: string; zIndex?: number; hidden?: boolean; children: ComponentChildren };
 
-const Row: FunctionComponent<Properties> = (properties) => {
+const Row = (properties: Properties) => {
   const { hidden, zIndex, children } = properties;
   return (
     <div class={properties.class} role={hidden ? 'none' : 'row'} style={zIndex ? { zIndex } : undefined}>

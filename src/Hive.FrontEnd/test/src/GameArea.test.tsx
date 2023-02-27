@@ -11,7 +11,7 @@ import { waitFor } from '@testing-library/dom';
 import { Dispatcher } from '../../src/hooks/useHiveDispatchListener';
 import { Signal, signal } from '@preact/signals';
 import { AiMode } from '../../src/domain/engine';
-import { GameStateContext } from '../../src/services/signals';
+import { GameStateContext } from '../../src/services/gameStateContext';
 import { ComponentProps } from 'preact';
 import { signalize } from '../helpers/signalize';
 

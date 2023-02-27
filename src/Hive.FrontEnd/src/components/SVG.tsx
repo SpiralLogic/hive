@@ -1,18 +1,17 @@
-import { FunctionComponent } from 'preact';
 import { Creature } from '../domain';
+import { JSX } from 'preact';
 
-export type Svg = Creature | 'hex' | 'github' | 'share' | 'arrow' | 'new' | 'ai' | 'rules';
+export type SvgHrefs = Creature | 'hex' | 'github' | 'share' | 'arrow' | 'new' | 'ai' | 'rules';
 
 type Properties = {
-  hrefs: Svg | Svg[];
-};
+  hrefs: SvgHrefs[];
+} & JSX.IntrinsicElements['svg'];
 
-const SVG: FunctionComponent<Properties> = ({ hrefs }) => {
-  if (!Array.isArray(hrefs)) hrefs = [hrefs];
+const SVG = ({ hrefs, ...rest }: Properties) => {
   return (
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-      {hrefs.map((href) => (
-        <use href={`#${href.toLowerCase()}`} />
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" {...rest}>
+      {hrefs.map((href, i) => (
+        <use key={`${href}${i}`} href={`#${href.toLowerCase()}`} />
       ))}
     </svg>
   );

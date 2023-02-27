@@ -1,5 +1,4 @@
 import '../css/gameArea.css';
-import { FunctionComponent } from 'preact';
 
 import { GameStatus, PlayerId } from '../domain';
 import { handleDragOver } from '../utilities/handlers';
@@ -8,7 +7,7 @@ import Links from './Links';
 import Players from './Players';
 import { Signal, useComputed, useSignal, useSignalEffect } from '@preact/signals';
 import Game from './Game';
-import { useGameState } from '../services/signals';
+import { useGameState } from '../services/gameStateContext';
 import { useCallback, useMemo } from 'preact/hooks';
 import { shareGame } from '../utilities/share';
 import { useHiveDispatchListener } from '../hooks/useHiveDispatchListener';
@@ -47,7 +46,7 @@ const gameOutcome = (gameStatus: GameStatus, playerId: PlayerId) => {
   return '';
 };
 
-const GameArea: FunctionComponent<Properties> = ({ currentPlayer, aiMode }) => {
+const GameArea = ({ currentPlayer, aiMode }: Properties) => {
   const { gameId, gameStatus } = useGameState();
   const currentDialog = useSignal<CurrentDialog>('none');
   const showGameOver = useComputed<boolean>(() => currentDialog.value === 'gameOver');

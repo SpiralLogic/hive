@@ -1,22 +1,28 @@
 import '../css/hexagon.css';
 
-import { FunctionComponent, JSX } from 'preact';
-
 import SVG from './SVG';
 import { Signal, useSignalEffect } from '@preact/signals';
 import { useRef } from 'preact/hooks';
 import { Creature } from '../domain';
+import { ComponentChildren, JSX } from 'preact';
 
-type Properties = Omit<JSX.HTMLAttributes, 'tabIndex'> & {
+type Properties = {
   classes?: Signal<string>;
   hidden?: boolean;
   tabIndex?: Signal<-1 | 0>;
-  svgs?: Creature[];
+  creature?: Creature;
+  children?: ComponentChildren;
+  role?: JSX.IntrinsicElements['div']['role'];
+  style?: JSX.IntrinsicElements['div']['style'];
 };
-const Hexagon: FunctionComponent<Properties> = (properties) => {
-  const { svgs = [], classes, hidden, children, ...attributes } = properties;
+const Hexagon = (properties: Properties) => {
+  const { creature, classes, hidden, children, ...attributes } = properties;
   const ref = useRef<HTMLDivElement>(null);
+  const svgHrefs = ['hex'];
+
+  if (creature) svgHrefs.push(creature);
   if (hidden) attributes.role = 'none';
+
   useSignalEffect(() => {
     if (attributes.tabIndex?.value === 0) {
       ref.current?.setAttribute('tabindex', '0');
@@ -26,7 +32,7 @@ const Hexagon: FunctionComponent<Properties> = (properties) => {
   });
   return (
     <div class={classes} ref={ref} {...attributes}>
-      <SVG hrefs={['hex', ...svgs]} />
+      <SVG hrefs={svgHrefs} />
       {children}
     </div>
   );

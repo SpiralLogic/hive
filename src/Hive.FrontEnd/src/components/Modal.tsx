@@ -1,6 +1,6 @@
 import '../css/modal.css';
 
-import { FunctionComponent } from 'preact';
+import { ComponentChildren } from 'preact';
 import { useEffect, useRef } from 'preact/hooks';
 import { effect, Signal } from '@preact/signals';
 
@@ -8,10 +8,11 @@ type Properties = {
   open: Signal<boolean>;
   onClose: () => void;
   class?: string;
+  children?: ComponentChildren;
   title: string;
 };
 
-const Modal: FunctionComponent<Properties> = (properties) => {
+const Modal = (properties: Properties) => {
   const { children, open, onClose, title } = properties;
   const reference = useRef<HTMLDialogElement>(null);
 

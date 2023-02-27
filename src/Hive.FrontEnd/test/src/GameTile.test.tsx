@@ -6,7 +6,7 @@ import { simulateEvent } from '../helpers';
 import { waitFor } from '@testing-library/dom';
 import { Dispatcher } from '../../src/hooks/useHiveDispatchListener';
 import { Tile } from '../../src/domain';
-import { moveMap } from '../../src/services/signals';
+import { moveMap } from '../../src/services/gameStateContext';
 
 const createTestDispatcher = (type: TileEvent['type'] = 'tileSelected') => {
   const dispatcher = new HiveDispatcher();

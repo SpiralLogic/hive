@@ -13,7 +13,7 @@ import { ServerConnectionFactory } from '../services';
 import GameArea from './GameArea';
 import { Dispatcher } from '../hooks/useHiveDispatchListener';
 import { HistoricalMove } from '../domain/historical-move';
-import { useGameState } from '../services/signals';
+import { useGameState } from '../services/gameStateContext';
 import { useSignal, useSignalEffect } from '@preact/signals';
 
 const isOpponentAi = (history: HistoricalMove[] | undefined, currentPlayer: PlayerId) =>

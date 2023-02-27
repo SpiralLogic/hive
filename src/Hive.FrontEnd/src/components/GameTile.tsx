@@ -1,4 +1,3 @@
-import { FunctionComponent } from 'preact';
 import { useCallback, useContext, useEffect } from 'preact/hooks';
 
 import { PlayerId, Tile as TileType } from '../domain';
@@ -8,7 +7,7 @@ import Tile from './Tile';
 import { useClassSignal } from '../hooks/useClassReducer';
 import { Dispatcher, useHiveDispatchListener } from '../hooks/useHiveDispatchListener';
 import { effect, useComputed, useSignal } from '@preact/signals';
-import { moveMap } from '../services/signals';
+import { moveMap } from '../services/gameStateContext';
 
 const tileSelector = `[tabindex].tile`;
 const cellSelector = `[role="cell"].can-drop`;
@@ -18,7 +17,7 @@ const handleMouseLeave = (event: { currentTarget: HTMLElement }) => {
   event.currentTarget.blur();
 };
 
-const GameTile: FunctionComponent<Properties> = (properties) => {
+const GameTile = (properties: Properties) => {
   const { currentPlayer, stacked, ...tile } = properties;
   const { id, creature, playerId } = tile;
   const focus = useSignal(tileSelector);

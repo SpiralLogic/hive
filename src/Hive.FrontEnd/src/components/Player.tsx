@@ -1,6 +1,6 @@
 import '../css/player.css';
 
-import { FunctionComponent, toChildArray } from 'preact';
+import { ComponentChildren, toChildArray } from 'preact';
 import { useEffect } from 'preact/hooks';
 
 import { PlayerId } from '../domain';
@@ -9,8 +9,9 @@ import { useClassSignal } from '../hooks/useClassReducer';
 type Properties = {
   name: string;
   id: PlayerId;
+  children?: ComponentChildren;
 };
-const Player: FunctionComponent<Properties> = (properties) => {
+const Player = (properties: Properties) => {
   const { name, id, children } = properties;
   const [classes, classAction] = useClassSignal(`player player${id}`);
   const hasNoChildren = toChildArray(children).length === 0;

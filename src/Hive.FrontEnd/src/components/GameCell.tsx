@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'preact';
+import { ComponentChildren } from 'preact';
 import { useCallback, useContext, useEffect, useRef } from 'preact/hooks';
 import { HexCoordinate, Tile as TileType } from '../domain';
 import { MoveEvent, TileEvent } from '../services';
@@ -7,13 +7,18 @@ import Hexagon from './Hexagon';
 import { useClassSignal } from '../hooks/useClassReducer';
 import { Dispatcher, useHiveDispatchListener } from '../hooks/useHiveDispatchListener';
 import { useSignal } from '@preact/signals';
-import { moveMap } from '../services/signals';
+import { moveMap } from '../services/gameStateContext';
 
 const isValidMove = (coords: HexCoordinate, validMoves: Array<HexCoordinate> = []) =>
   validMoves.some((destination) => destination.q == coords.q && destination.r == coords.r);
 
-type Properties = { coords: HexCoordinate; historical?: boolean; hidden?: boolean };
-const GameCell: FunctionComponent<Properties> = (properties) => {
+type Properties = {
+  coords: HexCoordinate;
+  historical?: boolean;
+  hidden?: boolean;
+  children?: ComponentChildren;
+};
+const GameCell = (properties: Properties) => {
   const { coords, children, historical = false, hidden } = properties;
   const [classes, classActions] = useClassSignal('hide');
   const tabIndex = useSignal<-1 | 0>(-1);

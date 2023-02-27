@@ -1,13 +1,11 @@
 import '../css/players.css';
 
-import { FunctionComponent } from 'preact';
-
 import { PlayerId } from '../domain';
 import GameTile from './GameTile';
 import Player from './Player';
-import { useGameState } from '../services/signals';
+import { useGameState } from '../services/gameStateContext';
 
-const Players: FunctionComponent<{ currentPlayer: PlayerId }> = (properties) => {
+const Players = (properties: { currentPlayer: PlayerId }) => {
   const { currentPlayer } = properties;
   const { players } = useGameState();
   return (

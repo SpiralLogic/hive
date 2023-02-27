@@ -1,18 +1,19 @@
 import '../css/tile.css';
 
-import { FunctionComponent, JSX } from 'preact';
+import { ComponentChildren, JSX } from 'preact';
 
 import Hexagon from './Hexagon';
 import { Signal, useComputed } from '@preact/signals';
 import { Creature } from '../domain';
 
-type Properties = Partial<JSX.IntrinsicAttributes> & {
+type Properties = JSX.IntrinsicAttributes & {
   selected?: boolean;
   creature?: Creature;
   classes?: Signal<string>;
+  children?: ComponentChildren;
 };
 
-const Tile: FunctionComponent<Properties> = (properties) => {
+const Tile = (properties: Properties) => {
   const { classes, children, selected, creature, ...rest } = properties;
   const tileClasses = useComputed(() => {
     const computedClass = ['tile'];
@@ -23,7 +24,7 @@ const Tile: FunctionComponent<Properties> = (properties) => {
   });
 
   return (
-    <Hexagon svgs={creature ? [creature] : []} classes={tileClasses} {...rest}>
+    <Hexagon creature={creature} classes={tileClasses} {...rest}>
       {children}
     </Hexagon>
   );

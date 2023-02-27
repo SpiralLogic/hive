@@ -1,4 +1,4 @@
-import { useGameState } from '../services/signals';
+import { useGameState } from '../services/gameStateContext';
 import { HexCoordinate, PlayerId } from '../domain';
 import { cellKey } from '../utilities/hextille';
 import { useComputed } from '@preact/signals';
@@ -9,7 +9,6 @@ import Row from './Row';
 import GameCell from './GameCell';
 import Tiles from './Tiles';
 import { HistoricalMove } from '../domain/historical-move';
-import { FunctionalComponent } from 'preact';
 
 const isPreviousMove = (history: HistoricalMove[], coords: HexCoordinate) => {
   if (!history.length) return false;
@@ -20,9 +19,7 @@ const isPreviousMove = (history: HistoricalMove[], coords: HexCoordinate) => {
   );
 };
 
-const Game: FunctionalComponent<{
-  currentPlayer: PlayerId;
-}> = (props) => {
+const Game = (props: { currentPlayer: PlayerId }) => {
   const { cells, history } = useGameState();
 
   const rows = useComputed(() => {

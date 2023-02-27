@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/preact';
 import Players from '../../src/components/Players';
-import { GameStateContext } from '../../src/services/signals';
+import { GameStateContext } from '../../src/services/gameStateContext';
 import { signalize } from '../helpers/signalize';
 
 const ant = { id: 1, playerId: 1, creature: 'ant', moves: [{ q: 1, r: 1 }] };

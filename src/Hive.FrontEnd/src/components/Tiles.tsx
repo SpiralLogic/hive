@@ -1,8 +1,7 @@
-import { FunctionComponent } from 'preact';
 import { Cell, PlayerId } from '../domain';
 import GameTile from './GameTile';
 
-const Tiles: FunctionComponent<{ cell: Cell; currentPlayer: PlayerId }> = ({ cell, currentPlayer }) => {
+const Tiles = ({ cell, currentPlayer }: { cell: Cell; currentPlayer: PlayerId }) => {
   cell.tiles.reverse();
 
   return (
