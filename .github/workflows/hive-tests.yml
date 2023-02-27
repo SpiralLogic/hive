@@ -40,13 +40,13 @@ jobs:
       - name: OpenCover Badge Generator Api
         uses: danpetitt/open-cover-badge-generator-action@v1.0.9
         with:
-          path-to-opencover-xml: ./src/coverage/api-coverage.opencover.xml
+          path-to-opencover-xml: ./src/coverage/api/coverage.opencover.xml
           minimum-coverage: 75
           path-to-badges: ./src/coverage/api/
       - name: OpenCover Badge Generator Domain
         uses: danpetitt/open-cover-badge-generator-action@v1.0.9
         with:
-          path-to-opencover-xml: ./src/coverage/domain-coverage.opencover.xml
+          path-to-opencover-xml: ./src/coverage/domain/coverage.opencover.xml
           minimum-coverage: 75
           path-to-badges: ./src/coverage/domain/
       - name: Upload - Test results
