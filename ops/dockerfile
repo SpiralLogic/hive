@@ -15,7 +15,7 @@ WORKDIR /source
 
 COPY ./src .
 RUN dotnet restore
-RUN dotnet publish -c release -o /app
+RUN dotnet publish -c release --property PublishDir=/app
 
 FROM mcr.microsoft.com/dotnet/aspnet:8.0.100-preview.1
 WORKDIR /app
