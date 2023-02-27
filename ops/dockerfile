@@ -17,7 +17,7 @@ COPY ./src .
 RUN dotnet restore
 RUN dotnet publish -c release --property PublishDir=/app
 
-FROM mcr.microsoft.com/dotnet/aspnet:8.0.100-preview.1
+FROM mcr.microsoft.com/dotnet/aspnet:8.0.0-preview.1
 WORKDIR /app
 ENV ASPNETCORE_ENVIRONMENT=Production
 
