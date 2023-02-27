@@ -42,22 +42,22 @@ jobs:
         with:
           path-to-opencover-xml: ./src/coverage/api-coverage.opencover.xml
           minimum-coverage: 75
-          path-to-badges: ./src/coverage/api
+          path-to-badges: ./src/coverage/api/
       - name: OpenCover Badge Generator Domain
         uses: danpetitt/open-cover-badge-generator-action@v1.0.9
         with:
           path-to-opencover-xml: ./src/coverage/domain-coverage.opencover.xml
           minimum-coverage: 75
-          path-to-badges: ./src/coverage/domain
-        - name: Upload - Test results
-          uses: actions/upload-artifact@v3
-          with:
-            name: backend-results
-            path: |
-              ./src/coverage/api
-              ./src/coverage/domain
-          # Use always() to always run this step to publish test results when there are test failures
-          if: ${{ always() }}
+          path-to-badges: ./src/coverage/domain/
+      - name: Upload - Test results
+        uses: actions/upload-artifact@v3
+        with:
+          name: backend-results
+          path: |
+            ./src/coverage/api
+            ./src/coverage/domain
+        # Use always() to always run this step to publish test results when there are test failures
+        if: ${{ always() }}
   FrontEnd:
     runs-on: ubuntu-22.04
     name: 'Front End - Lint - Test'
