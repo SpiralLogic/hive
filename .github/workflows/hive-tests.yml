@@ -32,9 +32,10 @@ jobs:
         run: |
             mkdir coverage
             dotnet test --collect:"XPlat Code Coverage" ./Hive.Api.Tests  -c Test --settings ./Hive.Api.Tests/runsettings.xml
-            mv **/coverage.opencover.xml coverage/api-coverage.opencover.xml
+            mv ./Hive.Api.Tests/TestResults/*/coverage.opencover.xml coverage/api-coverage.opencover.xml
+            
             dotnet test --collect:"XPlat Code Coverage" ./Hive.Domain.Tests  -c Test --settings ./Hive.Domain.Tests/runsettings.xml
-            mv **/coverage.opencover.xml coverage/domain-coverage.opencover.xml
+            mv ./Hive.Domain.Tests/TestResults/*/coverage.opencover.xml coverage/domain-coverage.opencover.xml
       - name: Upload - Test results
         uses: actions/upload-artifact@v3
         with:
