@@ -28,15 +28,13 @@ jobs:
         run: dotnet restore
       #      - name: Update Nuget Packages
       #        run: ../ops/dotnet-update.sh
-      - name: Test - Api 
+      - name: Test 
         run: |
             dotnet test --collect:"XPlat Code Coverage" ./Hive.Api.Tests  -c Test --settings ./Hive.Api.Tests/runsettings.xml
             dotnet test --collect:"XPlat Code Coverage" ./Hive.Domain.Tests  -c Test --settings ./Hive.Domain.Tests/runsettings.xml
             mkdir coverage
-            mv /Hive.Api.Tests/TestResults/**/coverage.opencover.xml coverage/api-coverage.opencover.xml
-            mv /Hive.Domain.Tests/TestResults/**/coverage.opencover.xml coverage/domain-coverage.opencover.xml
-      - name: Test - Domain
-        run: dotnet test --collect:"XPlat Code Coverage" ./Hive.Domain.Tests  -c Test --settings ./Hive.Domain.Tests/runsettings.xml
+            mv ./Hive.Api.Tests/TestResults/**/coverage.opencover.xml coverage/api-coverage.opencover.xml
+            mv ./Hive.Domain.Tests/TestResults/**/coverage.opencover.xml coverage/domain-coverage.opencover.xml
       - name: Upload - Test results
         uses: actions/upload-artifact@v3
         with:
