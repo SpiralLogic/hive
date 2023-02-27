@@ -2,7 +2,6 @@ import unicorn from 'eslint-plugin-unicorn';
 import testingLibrary from 'eslint-plugin-testing-library';
 import parser from '@typescript-eslint/parser';
 import prettier from 'eslint-plugin-prettier';
-import jest from 'eslint-plugin-jest';
 import globals from 'globals';
 import ts from '@typescript-eslint/eslint-plugin';
 
@@ -37,7 +36,7 @@ export default [
   },
   {
     files: ['test/**/*.{ts,js,tsx,jsx}'],
-    plugins: { jest, testingLibrary },
+    plugins: { vitest,  testingLibrary },
     linterOptions: {
       reportUnusedDisableDirectives: true,
     },

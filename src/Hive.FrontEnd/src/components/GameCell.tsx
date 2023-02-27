@@ -85,7 +85,7 @@ const GameCell: FunctionComponent<Properties> = (properties) => {
 
   const attributes = {
     classes,
-    role: 'cell',
+    role: 'cell' as const,
     tabIndex,
   };
 

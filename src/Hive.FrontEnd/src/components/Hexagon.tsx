@@ -7,7 +7,7 @@ import { Signal, useSignalEffect } from '@preact/signals';
 import { useRef } from 'preact/hooks';
 import { Creature } from '../domain';
 
-type Properties = Omit<Partial<JSX.HTMLAttributes>, 'tabIndex'> & {
+type Properties = Omit<JSX.HTMLAttributes, 'tabIndex'> & {
   classes?: Signal<string>;
   hidden?: boolean;
   tabIndex?: Signal<-1 | 0>;
