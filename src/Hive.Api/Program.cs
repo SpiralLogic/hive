@@ -12,11 +12,7 @@ var services = appBuilder.Services;
 
 var signalR = services.AddSignalR().AddJsonProtocol(options => { options.PayloadSerializerOptions.Converters.AddAllJsonConverters(); });
 
-if (appBuilder.Environment.IsDevelopment())
-{
-    services.AddDistributedMemoryCache();
-}
-else
+if (appBuilder.Environment.IsProduction())
 {
     services.AddStackExchangeRedisCache(
         options =>
@@ -26,6 +22,10 @@ else
     );
     var regisConfig = appBuilder.Configuration["RedisHost"];
     if (regisConfig != null) signalR.AddStackExchangeRedis(regisConfig);
+}
+else
+{
+    services.AddDistributedMemoryCache();
 }
 
 services.AddControllers().AddJsonOptions(options => { options.JsonSerializerOptions.Converters.AddAllJsonConverters(); });

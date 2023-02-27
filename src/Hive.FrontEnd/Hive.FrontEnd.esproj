@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.Build.NoTargets/3.7.0">
     <PropertyGroup>
-        <TargetFramework>net7.0</TargetFramework>
+        <TargetFramework>net8.0</TargetFramework>
         <Configurations>Debug;Release</Configurations>
         <IsPackable>false</IsPackable>
         <TestCommand>pnpm test</TestCommand>

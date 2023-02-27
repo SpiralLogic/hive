@@ -24,7 +24,7 @@ public class WontSplitHive : IMovement
             default:
                 CheckIsInHive(allOccupied, allOccupied.First());
 
-                return allOccupied.Any() ? new HashSet<Coords>() : allCells2.ToCoords();
+                return allOccupied.Count != 0 ? new HashSet<Coords>() : allCells2.ToCoords();
         }
     }
 
@@ -32,7 +32,7 @@ public class WontSplitHive : IMovement
     {
         remaining.Remove(toCheck);
         var neighbours = toCheck.SelectNeighbors(remaining).ToHashSet();
-        if (!neighbours.Any()) return;
+        if (neighbours.Count == 0) return;
         foreach (var n in neighbours)
             CheckIsInHive(remaining, n);
     }

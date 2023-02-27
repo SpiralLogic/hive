@@ -10,14 +10,14 @@ RUN pnpm install -P
 COPY ./src/Hive.FrontEnd .
 RUN pnpm vite:build
 
-FROM mcr.microsoft.com/dotnet/sdk:7.0 AS dotnet-build
+FROM mcr.microsoft.com/dotnet/sdk:8.0.100-preview.1 AS dotnet-build
 WORKDIR /source
 
 COPY ./src .
 RUN dotnet restore
 RUN dotnet publish -c release -o /app
 
-FROM mcr.microsoft.com/dotnet/aspnet:7.0
+FROM mcr.microsoft.com/dotnet/aspnet:8.0.100-preview.1
 WORKDIR /app
 ENV ASPNETCORE_ENVIRONMENT=Production
 

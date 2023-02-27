@@ -35,12 +35,12 @@ public static class HiveFactory
         return hive;
     }
 
-    private static IList<Player> CreatePlayers(IEnumerable<string> playerNames)
+    private static List<Player> CreatePlayers(IEnumerable<string> playerNames)
     {
         return playerNames.Select((name, id) => new Player(id, name) { Tiles = CreateTiles(id, id == 0) }).ToList();
     }
 
-    private static ISet<Tile> CreateTiles(int playerId, bool withMoves = false)
+    private static HashSet<Tile> CreateTiles(int playerId, bool withMoves = false)
     {
         var startingMoves = CreateCells().ToCoords();
         return StartingTiles.Select((creature, i) => (creature, id: (playerId * StartingTiles.Length) + i))

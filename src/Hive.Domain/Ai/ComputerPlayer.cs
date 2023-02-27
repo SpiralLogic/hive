@@ -61,7 +61,7 @@ internal class ComputerPlayer
         return _depth[depth - 1];
     }
 
-    private IDictionary<int, List<ExploreNode>> FindMovesToExplore()
+    private Dictionary<int, List<ExploreNode>> FindMovesToExplore()
     {
         var moves = GetMoves().ToImmutableArray();
         var toExplore = new Dictionary<int, List<ExploreNode>>();
@@ -85,7 +85,7 @@ internal class ComputerPlayer
         var moves = new List<ExploreNode>();
         foreach (var (_, values) in toExplore) moves.AddRange(values.OrderByDescending(t => t.Score).Take(3).ToList());
 
-        var max = moves.Any() ? moves.Max(m => m.Score) : 0;
+        var max = moves.Count != 0 ? moves.Max(m => m.Score) : 0;
 
         return moves.OrderByDescending(t => t.Score)
             .Where(s => s.Score > 0 || max <= 0)

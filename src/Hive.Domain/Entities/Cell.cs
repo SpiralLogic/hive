@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 
 namespace Hive.Domain.Entities;
 
@@ -22,7 +21,7 @@ public sealed record Cell(Coords Coords)
 
     public bool IsEmpty()
     {
-        return !Tiles.Any();
+        return Tiles.Count == 0;
     }
 
     public Tile TopTile()
