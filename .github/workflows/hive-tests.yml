@@ -37,22 +37,6 @@ jobs:
             mv ./Hive.Api.Tests/TestResults/*/coverage.opencover.xml ./coverage/api/coverage.opencover.xml
             dotnet test --collect:"XPlat Code Coverage" ./Hive.Domain.Tests  -c Test --settings ./Hive.Domain.Tests/runsettings.xml
             mv ./Hive.Domain.Tests/TestResults/*/coverage.opencover.xml ./coverage/domain/coverage.opencover.xml
-      - name: OpenCover Badge Generator Api
-        uses: danpetitt/open-cover-badge-generator-action@v1.0.10
-        with:
-          path-to-opencover-xml: ./src/coverage/api/coverage.opencover.xml
-          minimum-coverage: 75
-          path-to-badges: ./src/coverage/api/
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
-          commit-branch-name: badges
-      - name: OpenCover Badge Generator Domain
-        uses: danpetitt/open-cover-badge-generator-action@v1.0.10
-        with:
-          path-to-opencover-xml: ./src/coverage/domain/coverage.opencover.xml
-          minimum-coverage: 75
-          path-to-badges: ./src/coverage/domain/
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
-          commit-branch-name: badges
       - name: Upload - Test results
         uses: actions/upload-artifact@v3
         with:
