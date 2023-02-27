@@ -38,14 +38,14 @@ jobs:
             dotnet test --collect:"XPlat Code Coverage" ./Hive.Domain.Tests  -c Test --settings ./Hive.Domain.Tests/runsettings.xml
             mv ./Hive.Domain.Tests/TestResults/*/coverage.opencover.xml ./coverage/domain/coverage.opencover.xml
       - name: OpenCover Badge Generator Api
-        uses: danpetitt/open-cover-badge-generator-action@v1.0.9
+        uses: danpetitt/open-cover-badge-generator-action@v1.0.10
         with:
           path-to-opencover-xml: ./src/coverage/api/coverage.opencover.xml
           minimum-coverage: 75
           path-to-badges: ./src/coverage/api/
           commit-badges: false
       - name: OpenCover Badge Generator Domain
-        uses: danpetitt/open-cover-badge-generator-action@v1.0.9
+        uses: danpetitt/open-cover-badge-generator-action@v1.0.10
         with:
           path-to-opencover-xml: ./src/coverage/domain/coverage.opencover.xml
           minimum-coverage: 75
