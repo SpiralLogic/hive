@@ -49,14 +49,12 @@ jobs:
         with:
           path-to-opencover-xml: ./src/coverage/api-coverage.opencover.xml
           minimum-coverage: 75
-          commit-badges: false
           repo-token: ${{ secrets.CI_TOKEN }}
       - name: OpenCover Badge Generator Domain
         uses: danpetitt/open-cover-badge-generator-action@v1.0.9
         with:
           path-to-opencover-xml: ./src/coverage/domain-coverage.opencover.xml
           minimum-coverage: 75
-          commit-badges: false
           repo-token: ${{ secrets.CI_TOKEN }}
   FrontEnd:
     runs-on: ubuntu-22.04
