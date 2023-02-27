@@ -30,19 +30,19 @@ jobs:
       #        run: ../ops/dotnet-update.sh
       - name: Test 
         run: |
-            mkdir coverage
+            mkdir -p ./coverage
             dotnet test --collect:"XPlat Code Coverage" ./Hive.Api.Tests  -c Test --settings ./Hive.Api.Tests/runsettings.xml
-            mv ./Hive.Api.Tests/TestResults/*/coverage.opencover.xml coverage/api-coverage.opencover.xml
-            
+            mv ./Hive.Api.Tests/TestResults/*/coverage.opencover.xml ./coverage/api-coverage.opencover.xml
             dotnet test --collect:"XPlat Code Coverage" ./Hive.Domain.Tests  -c Test --settings ./Hive.Domain.Tests/runsettings.xml
-            mv ./Hive.Domain.Tests/TestResults/*/coverage.opencover.xml coverage/domain-coverage.opencover.xml
+            mv ./Hive.Domain.Tests/TestResults/*/coverage.opencover.xml ./coverage/domain-coverage.opencover.xml
+            ls ./coverage
       - name: Upload - Test results
         uses: actions/upload-artifact@v3
         with:
           name: backend-results
           path: |
-            coverage/api-coverage.opencover.xml
-            coverage/domain-coverage.opencover.xml
+            ./coverage/api-coverage.opencover.xml
+            ./coverage/domain-coverage.opencover.xml
         # Use always() to always run this step to publish test results when there are test failures
         if: ${{ always() }}
       - name: OpenCover Badge Generator Api
