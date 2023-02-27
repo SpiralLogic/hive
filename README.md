@@ -1,9 +1,9 @@
 # Hive
 <div align="center">
-
-[![Hive Tests](https://github.com/SpiralLogic/hive/actions/workflows/hive-tests.yml/badge.svg)](https://github.com/SpiralLogic/hive/actions/workflows/hive-tests.yml)  [![CodeQL](https://github.com/SpiralLogic/hive/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/SpiralLogic/hive/actions/workflows/codeql-analysis.yml)
-[![Hive Tests](https://github.com/SpiralLogic/hive/actions/workflows/hive-tests.yml/badge.svg)]
-[![Hive Tests](https://github.com/SpiralLogic/hive/actions/workflows/hive-tests.yml/badge.svg)]
+[![Hive Tests](https://github.com/SpiralLogic/hive/actions/workflows/hive-tests.yml/badge.svg)](https://github.com/SpiralLogic/hive/actions/workflows/hive-tests.yml)
+[![CodeQL](https://github.com/SpiralLogic/hive/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/SpiralLogic/hive/actions/workflows/codeql-analysis.yml)
+[![Domain Coverage](https://github.com/SpiralLogic/hive/actions/workflows/hive-tests.yml/coverage/domain/coverage-badge-branch.svg)](https://github.com/SpiralLogic/hive/actions/workflows/hive-tests.yml)
+[![Api Coverage](https://github.com/SpiralLogic/hive/actions/workflows/hive-tests.yml/coverage/api/coverage-badge-branch.svg)](https://github.com/SpiralLogic/hive/actions/workflows/hive-tests.yml)
 </div>
 
 
