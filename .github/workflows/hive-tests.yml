@@ -35,27 +35,26 @@ jobs:
             mv ./Hive.Api.Tests/TestResults/*/coverage.opencover.xml ./coverage/api-coverage.opencover.xml
             dotnet test --collect:"XPlat Code Coverage" ./Hive.Domain.Tests  -c Test --settings ./Hive.Domain.Tests/runsettings.xml
             mv ./Hive.Domain.Tests/TestResults/*/coverage.opencover.xml ./coverage/domain-coverage.opencover.xml
-            ls ./coverage
       - name: Upload - Test results
         uses: actions/upload-artifact@v3
         with:
           name: backend-results
           path: |
-            ./coverage/api-coverage.opencover.xml
-            ./coverage/domain-coverage.opencover.xml
+            ./src/coverage/api-coverage.opencover.xml
+            ./src/coverage/domain-coverage.opencover.xml
         # Use always() to always run this step to publish test results when there are test failures
         if: ${{ always() }}
       - name: OpenCover Badge Generator Api
         uses: danpetitt/open-cover-badge-generator-action@v1.0.9
         with:
-          path-to-opencover-xml: ./coverage/api-coverage.opencover.xml
+          path-to-opencover-xml: ./src/coverage/api-coverage.opencover.xml
           minimum-coverage: 75
           commit-badges: false
           repo-token: ${{ secrets.CI_TOKEN }}
       - name: OpenCover Badge Generator Domain
         uses: danpetitt/open-cover-badge-generator-action@v1.0.9
         with:
-          path-to-opencover-xml: ./coverage/domain-coverage.opencover.xml
+          path-to-opencover-xml: ./src/coverage/domain-coverage.opencover.xml
           minimum-coverage: 75
           commit-badges: false
           repo-token: ${{ secrets.CI_TOKEN }}
