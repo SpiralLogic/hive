@@ -21,7 +21,7 @@ jobs:
       - uses: actions/cache@v3
         with:
           path: ~/.nuget/packages
-          key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
+          key: ${{ runner.os }}-nuget-${{ hashFiles('~/.nuget/packages/packages.lock.json') }}
           restore-keys: |
             ${{ runner.os }}-nuget-
       - name: Install - dependencies
@@ -83,7 +83,7 @@ jobs:
       - uses: actions/cache@v3
         with:
           path: node_modules
-          key: ${{ runner.os }}-node_modules-${{ hashFiles('package.json') }}
+          key: ${{ runner.os }}-node_modules-${{ hashFiles('pnpm-lock.yaml') }}
           restore-keys: |
             ${{ runner.os }}-node_modules-
       - name: Install - dependencies

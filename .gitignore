@@ -459,7 +459,6 @@ $RECYCLE.BIN/
 **/public
 **/js/**/*.map
 **/.build-cache/
-package-lock.json
 *.sln.DotSettings.user
 __coverage__
 __lint__
