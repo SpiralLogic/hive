@@ -43,14 +43,16 @@ jobs:
           path-to-opencover-xml: ./src/coverage/api/coverage.opencover.xml
           minimum-coverage: 75
           path-to-badges: ./src/coverage/api/
-          commit-badges: false
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          commit-branch-name: badges
       - name: OpenCover Badge Generator Domain
         uses: danpetitt/open-cover-badge-generator-action@v1.0.10
         with:
           path-to-opencover-xml: ./src/coverage/domain/coverage.opencover.xml
           minimum-coverage: 75
           path-to-badges: ./src/coverage/domain/
-          commit-badges: false
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          commit-branch-name: badges
       - name: Upload - Test results
         uses: actions/upload-artifact@v3
         with:
