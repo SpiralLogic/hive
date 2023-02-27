@@ -15,7 +15,7 @@ COPY --from=mcr.microsoft.com/openjdk/jdk:17-ubuntu $JAVA_HOME $JAVA_HOME
 
 ARG SONARQUBE_KEY
 ENV LANG en_US.UTF-8
-
+ENV DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=1
 COPY . /source
 RUN node -v
 RUN dotnet new tool-manifest || true
