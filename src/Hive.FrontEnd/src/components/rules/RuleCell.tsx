@@ -1,21 +1,21 @@
-import { FunctionComponent } from 'preact';
-import { JSXInternal } from 'preact/src/jsx';
+import {FunctionComponent} from 'preact';
+import {JSXInternal} from 'preact/src/jsx';
 
-import Arrow, { Direction } from '../Arrow';
+import Arrow, {Direction} from '../Arrow';
 import Hexagon from '../Hexagon';
 import Tile from '../Tile';
-import { useClassSignal } from '../../hooks/useClassReducer';
-import { Creature } from '../../domain';
+import {useClassSignal} from '../../hooks/useClassSignal';
+import {Creature} from '../../domain';
 
 type Result = 'correct' | 'incorrect';
 type CellArrows = ([Direction, number | undefined] | Direction)[];
 
-const Arrows = ({ arrows, result }: { arrows: CellArrows | undefined; result: Result }) => (
-  <>
-    {arrows?.map((a) => {
-      const [direction, length] = Array.isArray(a) ? a : [a];
-      return <Arrow key={direction} result={result} direction={direction} length={length} />;
-    })}
+const Arrows = ({arrows, result}: { arrows: CellArrows | undefined; result: Result }) => (
+    <>
+        {arrows?.map((a) => {
+            const [direction, length] = Array.isArray(a) ? a : [a];
+            return <Arrow key={direction} result={result} direction={direction} length={length}/>;
+        })}
   </>
 );
 

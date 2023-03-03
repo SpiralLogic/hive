@@ -21,7 +21,7 @@ spec:
         - name: hive
           image: {image}
           ports:
-            - containerPort: 8080
+            - containerPort: 80
           env:
             - name: ASPNETCORE_ENVIRONMENT
               value: Production
@@ -29,7 +29,7 @@ spec:
             failureThreshold: 3
             httpGet:
               path: /game/RA5KTT7H0M80E/0
-              port: 8080
+              port: 80
               scheme: HTTP
             initialDelaySeconds: 20
             periodSeconds: 2
@@ -39,7 +39,7 @@ spec:
             failureThreshold: 3
             httpGet:
               path: /game/RA5KTT7H0M80E/0
-              port: 8080
+              port: 80
               scheme: HTTP
             initialDelaySeconds: 20
             periodSeconds: 2
