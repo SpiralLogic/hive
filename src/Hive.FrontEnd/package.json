@@ -82,8 +82,8 @@
     "vite": "^4.1.4"
   },
   "engines": {
-    "node": ">=17",
-    "pnpm": ">=6"
+    "node": ">=18",
+    "pnpm": ">=7"
   },
   "pnpm": {
     "peerDependencyRules": {
