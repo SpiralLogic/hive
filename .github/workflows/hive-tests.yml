@@ -76,9 +76,9 @@ jobs:
         run: pnpm lint:fix
       - name: Test - Frontend
         run: pnpm test
-      - uses: stefanzweifel/git-auto-commit-action@v4
-        with:
-          commit_message: github action lint fixes
+#      - uses: stefanzweifel/git-auto-commit-action@v4
+#        with:
+#          commit_message: github action lint fixes
       - name: Upload - Test results
         uses: actions/upload-artifact@v3
         with:
