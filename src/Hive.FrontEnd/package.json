@@ -37,23 +37,23 @@
     "*.{js,jsx,ts,tsx}": "eslint --fix"
   },
   "devDependencies": {
-    "@testing-library/dom": "^9.0.0",
+    "@testing-library/dom": "^9.2.0",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/preact": "^3.2.3",
     "@testing-library/user-event": "^14.4.3",
-    "@types/node": "^18.14.4",
+    "@types/node": "^18.15.11",
     "@types/testing-library__jest-dom": "^5.14.5",
-    "@typescript-eslint/eslint-plugin": "^5.54.0",
-    "@typescript-eslint/parser": "^5.54.0",
-    "@typescript-eslint/typescript-estree": "^5.54.0",
-    "@vitest/coverage-c8": "^0.29.2",
-    "@vitest/coverage-istanbul": "^0.29.2",
-    "@vitest/ui": "^0.29.2",
+    "@typescript-eslint/eslint-plugin": "^5.57.0",
+    "@typescript-eslint/parser": "^5.57.0",
+    "@typescript-eslint/typescript-estree": "^5.57.0",
+    "@vitest/coverage-c8": "^0.29.8",
+    "@vitest/coverage-istanbul": "^0.29.8",
+    "@vitest/ui": "^0.29.8",
     "camelcase": "^7.0.1",
     "chalk": "^5.2.0",
-    "eslint": "^8.35.0",
+    "eslint": "^8.37.0",
     "eslint-config-preact": "^1.3.0",
-    "eslint-config-prettier": "^8.6.0",
+    "eslint-config-prettier": "^8.8.0",
     "eslint-config-typescript": "^3.0.0",
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-testing-library": "^5.10.2",
@@ -62,28 +62,28 @@
     "eslint-plugin-vitest": "^0.0.53",
     "fsevents": "^2.3.2",
     "globals": "^13.20.0",
-    "jsdom": "^21.1.0",
-    "prettier": "^2.8.4",
-    "stylelint": "^15.2.0",
+    "jsdom": "^21.1.1",
+    "prettier": "^2.8.7",
+    "stylelint": "^15.3.0",
     "stylelint-config-standard": "^30.0.1",
-    "vitest": "^0.29.2"
+    "vitest": "^0.29.8"
   },
   "dependencies": {
-    "@microsoft/signalr": "^7.0.3",
+    "@microsoft/signalr": "^7.0.4",
     "@preact/preset-vite": "^2.5.0",
     "@preact/signals": "^1.1.3",
     "cross-env": "^7.0.3",
     "esbuild": "0.17.10",
-    "lint-staged": "^13.1.2",
+    "lint-staged": "^13.2.0",
     "npm-run-all": "^4.1.5",
-    "preact": "^10.13.0",
-    "rimraf": "^4.1.3",
+    "preact": "^10.13.2",
+    "rimraf": "^4.4.1",
     "typescript": "5.0.1-rc",
-    "vite": "^4.1.4"
+    "vite": "^4.2.1"
   },
   "engines": {
     "node": ">=18",
-    "pnpm": ">=7"
+    "pnpm": ">=8"
   },
   "pnpm": {
     "peerDependencyRules": {
