@@ -22,6 +22,9 @@ pipelines:
         jobs:
           run-frontend-tests:
             timeout: 0
+            secure_variables:
+              REGISTRY_USER: "{{SECRET:[secrets-for-gocdsecrets-for-gocd][REGISTRY_USER]}}"
+              REGISTRY_PASS: "{{SECRET:[secrets-for-gocdsecrets-for-gocd][REGISTRY_PASS]}}"
             elastic_profile_id: hive-agent
             artifacts:
             - build:
@@ -122,6 +125,8 @@ pipelines:
             timeout: 0
             environment_variables:
               SONARQUBE_URL: sonarqube.lab.sorijen.net.au
+            secure_variables:
+              SONARQUBE_KEY: "{{SECRET:[secrets-for-gocdsecrets-for-gocd][SONARQUBE_KEY]}}"
             elastic_profile_id: hive-agent
             tasks:
             - fetch:
@@ -199,6 +204,9 @@ pipelines:
           build:
             timeout: 0
             elastic_profile_id: hive-agent
+            secure_variables:
+              REGISTRY_USER: "{{SECRET:[secrets-for-gocdsecrets-for-gocd][REGISTRY_USER]}}"
+              REGISTRY_PASS: "{{SECRET:[secrets-for-gocdsecrets-for-gocd][REGISTRY_PASS]}}"
             tasks:
             - plugin:
                 configuration:
@@ -226,6 +234,8 @@ pipelines:
               ARTIFACT_IMAGE: registry.lab.sorijen.net.au/hive
               KUBERNETES_SERVICE_HOST: https://10.1.2.2
               KUBERNETES_PORT_443_TCP_PORT: '6443'
+            secure_variables:
+              KUBE_TOKEN: "{{SECRET:[secrets-for-gocdsecrets-for-gocd][KUBE_TOKEN]}}"
             elastic_profile_id: hive-agent
             tasks:
             - plugin:
