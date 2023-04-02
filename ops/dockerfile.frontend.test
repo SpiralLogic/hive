@@ -1,4 +1,4 @@
-FROM registry-proxy.lab.sorijen.net.au/library/node:18
+FROM registry-proxy.lab.sorijen.net.au/library/node:18-alpine
 
 WORKDIR /source
 COPY . .
