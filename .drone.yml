@@ -9,3 +9,9 @@ steps:
     - npm i --location=global pnpm
     - pnpm install
     - pnpm test:all
+  - name: gitea_release
+    image: plugins/gitea-release
+    settings:
+      api_key: 0ea6e8527a482a7160c81a11f74b35f72f914bf4
+      base_url: https://git.lab.sorijen.net.au
+      files: src/Hive.FrontEnd/reports/*
