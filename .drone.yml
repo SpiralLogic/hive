@@ -6,8 +6,9 @@ host_aliases:
     hostnames:
      - git.lab.sorijen.net.au
 steps:
-  - name: greeting
-    image: alpine
+  - name: test
+    image: registry-proxy.lab.sorijen.net.au/library/node:18
     commands:
-      - echo hello
-      - echo world
+    - npm i --location=global pnpm
+    - pnpm install
+    - pnpm test:all
