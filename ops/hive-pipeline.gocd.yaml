@@ -192,8 +192,7 @@ pipelines:
                     docker login -u $REGISTRY_USER -p $REGISTRY_PASS registry-proxy.lab.sorijen.net.au
                     docker build --build-arg SONARQUBE_KEY=${SONARQUBE_KEY} \
                     -t dockerfile.net-jdk:${GO_PIPELINE_LABEL} \
-                    -f ./ops/dockerfile.net-jdk
-                    .
+                    -f ./ops/dockerfile.net-jdk .                    .
                   shtype: sh
                 run_if: passed
     - build:
