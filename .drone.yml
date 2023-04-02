@@ -1,7 +1,7 @@
 kind: pipeline
 type: kubernetes
 name: default
-host_alias:
+host_aliases:
   - ip: 10.1.1.2
     hostnames:
      - git.lab.sorijen.net.au
