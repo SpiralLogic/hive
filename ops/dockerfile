@@ -10,7 +10,7 @@ RUN pnpm install -P
 COPY ./src/Hive.FrontEnd .
 RUN pnpm vite:build
 
-FROM mcr.microsoft.com/dotnet/sdk:8.0.100-preview.1 AS dotnet-build
+FROM mcr.microsoft.com/dotnet/sdk:8.0.100-preview.2 AS dotnet-build
 WORKDIR /source
 
 COPY ./src .
