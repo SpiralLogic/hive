@@ -188,7 +188,8 @@ pipelines:
                   id: script-executor
                   version: 0.3.0
                 options:
-                  script: docker build --build-arg SONARQUBE_KEY=${SONARQUBE_KEY}
+                  script: docker login -u $REGISTRY_USER -p $REGISTRY_PASS registry-proxy.lab.sorijen.net.au
+                     docker build --build-arg SONARQUBE_KEY=${SONARQUBE_KEY}
                     -t dockerfile.net-jdk:${GO_PIPELINE_LABEL}  -f ./ops/dockerfile.net-jdk
                     .
                   shtype: sh
@@ -239,7 +240,7 @@ pipelines:
                   version: 0.3.0
                 options:
                   script: |-
-                    sed -i "s~{image}~$ARTIFACT_IMAGE:$GO_PIPELINE_LABEL~g" /source/reports/lcov.info
+                    sed -i "s~{image}~$ARTIFACT_IMAGE:$GO_PIPELINE_LABEL~g" ops/k8s/deployment.yaml
                     curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
 
                     chmod +x ./kubectl
