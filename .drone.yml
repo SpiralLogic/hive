@@ -6,13 +6,9 @@ host_aliases:
     hostnames:
      - git.lab.sorijen.net.au
 steps:
-  - name: dnsutils
-    image: registry.k8s.io/e2e-test-images/jessie-dnsutils:1.3
-    commands:
-    - sleep infinity
   - name: test
     image: registry-proxy.lab.sorijen.net.au/library/node:18
     commands:
-    - npm i --location=global pnpm
+    - curl -fsSL https://get.pnpm.io/install.sh | sh -
     - pnpm install
     - pnpm test:all
