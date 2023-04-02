@@ -5,6 +5,11 @@ pipelines:
     label_template: 1.${COUNT}-${git-24540d2[:7]}
     lock_behavior: none
     display_order: -1
+    secure_variables:
+      REGISTRY_USER: AES:gEEHvMeY4jUkiRpoIUMlYw==:emq5OvWgQJ82P/3t6RSNvQ==
+      REGISTRY_PASS: AES:cKfOp8Qt/kAQKEpu+GiWrQ==:e9/R4AirIcXsprVRRcWUCg==
+      KUBE_TOKEN: AES:1ZcCIxGPD5JERhOZ+yrO4Q==:SlR+iWSDvFkFwBnL2vLaj7SRjqc2ocuvlLDK8YUyOyrmKYTSae9ZrGw8CKoONHerpCwnfbz8f8F3CiIy9IQwFtq4gdeNEz4UyXYToLGjj7ESwRTHlkxk/eq/pg51HEYVD/LZuUgIawORVg2tTR75DpEzzIkPo6kflikTeVblt4oNq/71g5vfxH+R2F9L72FKkdxb+0lQO3H+UMAQhaWj9cwWROGhpMY/n/XYfzLm3GPoBF0XONALzKyyRhWbnkn6fYJv6VoaMk9dUlC+C2U3GZyX+3KK+Uiux0Z51+Af2BpCoZHK0/WMa/0lzGPC6mAaKYLx0IXlakQmjAVWX7wzKswEK9B6U+Xei3SkQVE2L8gpjcFadRtqeuKLchau+OK8J1xeJrk+31MQZ3xS566a6TCGttyuaEgtGXcOmKbaqmN23PvXzp4dwQYNw+szdvgziFDfnbwBpb2Lv25pisApv+9JTE8YlnauguWMMpnHm1P9CyAAjciarZA98pWF+qKyw6J9Q4VuN/HyDWkyf9ZDifepmLiS6HxJYdAgj8CzF92ovJbJLVs9h5t/J4FtH9DxGxiTvjCq4lxLphbPmpK2/jgGiAdOP4JD3d+k7sb1ULENq2t38MCrgYbsYpbBe9X0j/erzSgWByoANP1twnr8eoKVasuN48zzpSwExxBdV+jonzD3uXXUvNWOldQ/O09jYH1jXpRbLBa8YCjb4rOmFBrs5TJ0pI1U2dkK2m0Fs5KqLMggRAVK3LwusDVMXQy++y9ZqVVldrkzW+Yqadk0GpADS6psmjgHobYo0Qga9TGwKQV7PnInpYdVb5KULIymeEZKKsmLLWliei0DmSplcqTXEw9sVe2zEMgDs+Aeq8udm56ioJnEyHLKt3WnTsQWcDeSri3GNXwdGGuUw8VSG/k7fT+3j/DcNvvter+idpmpZAj7lr9cXetRpa2nMM7ylwRpopWBwndlQYMYqlcWJNAKvrHgwYuFw5T+n9XPL6QWwxUmmZmY4XbaTJqbtFBSyewnp0Dymfx4XFWyqVC3xfiN7GyrnBJlWp9ZfhRo760bcWkfRdSzZnqF4G+12ENCxFUerQUFXFHgYYGmazqfZtOWTSPRdwWd2Ktrl+9DCyHpbTRI1svAY/W2HGF5zir17jXIOUkgsDKLVhppyKdo7QO9a2N1UPEZwnuUX0Uue9MzHy0sMniU7z/m2+ZCoLGtvDBwcqt5XGRamu5y3pdRJZ3JsGnr3hXa6+8vPRKxnrawiru/gQXnro8vQK3RsErr
+      SONARQUBE_KEY: AES:4gGQvy5Dx0Ww2UBgLhAYEw==:42Jn3lSB9vJYdcYxOxcgaNguMtuEVkMLI0LgGadSbg7qIp84ZJ640InfNkXAF+h1
     materials:
       git-24540d2:
         git: https://git.lab.sorijen.net.au/spirallogic/hive.git
@@ -22,9 +27,6 @@ pipelines:
         jobs:
           run-frontend-tests:
             timeout: 0
-            environment_variables:
-              REGISTRY_USER: '{{SECRET:[secrets-for-gocd][REGISTRY_USER]}}'
-              REGISTRY_PASS: '{{SECRET:[secrets-for-gocd][REGISTRY_PASS]}}'
             elastic_profile_id: hive-agent
             artifacts:
             - build:
@@ -125,7 +127,6 @@ pipelines:
             timeout: 0
             environment_variables:
               SONARQUBE_URL: sonarqube.lab.sorijen.net.au
-              SONARQUBE_KEY: '{{SECRET:[secrets-for-gocd][SONARQUBE_KEY]}}'
             elastic_profile_id: hive-agent
             tasks:
             - fetch:
@@ -203,9 +204,6 @@ pipelines:
           build:
             timeout: 0
             elastic_profile_id: hive-agent
-            environment_variables:
-              REGISTRY_USER: '{{SECRET:[secrets-for-gocd][REGISTRY_USER]}}'
-              REGISTRY_PASS: '{{SECRET:[secrets-for-gocd][REGISTRY_PASS]}}'
             tasks:
             - plugin:
                 configuration:
@@ -233,7 +231,6 @@ pipelines:
               ARTIFACT_IMAGE: registry.lab.sorijen.net.au/hive
               KUBERNETES_SERVICE_HOST: https://10.1.2.2
               KUBERNETES_PORT_443_TCP_PORT: '6443'
-              KUBE_TOKEN: '{{SECRET:[secrets-for-gocd][KUBE_TOKEN]}}'
             elastic_profile_id: hive-agent
             tasks:
             - plugin:
