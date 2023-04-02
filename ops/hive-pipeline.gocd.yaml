@@ -22,9 +22,6 @@ pipelines:
         jobs:
           run-frontend-tests:
             timeout: 0
-            secure_variables:
-              REGISTRY_USER: AES:r/r773XU9Ci/lDywBFAQ+Q==:pbsFnXVEJoexPXoKhWmJgQ==
-              REGISTRY_PASS: AES:5qps4M43PzG7d6UWnVNPzA==:ElbbgNy+iXgz6W3i/apPBw==
             elastic_profile_id: hive-agent
             artifacts:
             - build:
@@ -125,8 +122,6 @@ pipelines:
             timeout: 0
             environment_variables:
               SONARQUBE_URL: sonarqube.lab.sorijen.net.au
-            secure_variables:
-              SONARQUBE_KEY: AES:ZK2/8+IvbWQv0491bHyvzA==:FX4EInqV1xDHitTXxR1zpU9QlQDemU3tn3DI2b7h2b31DM1cMxrmkFDIfBeTe2qe
             elastic_profile_id: hive-agent
             tasks:
             - fetch:
@@ -204,9 +199,6 @@ pipelines:
           build:
             timeout: 0
             elastic_profile_id: hive-agent
-            secure_variables:
-              REGISTRY_USER: AES:r/r773XU9Ci/lDywBFAQ+Q==:pbsFnXVEJoexPXoKhWmJgQ==
-              REGISTRY_PASS: AES:5qps4M43PzG7d6UWnVNPzA==:ElbbgNy+iXgz6W3i/apPBw==
             tasks:
             - plugin:
                 configuration:
@@ -234,8 +226,6 @@ pipelines:
               ARTIFACT_IMAGE: registry.lab.sorijen.net.au/hive
               KUBERNETES_SERVICE_HOST: https://10.1.2.2
               KUBERNETES_PORT_443_TCP_PORT: '6443'
-            secure_variables:
-              KUBE_TOKEN: AES:l10TUp6iI9E+loZ+spTWEw==:UCf+vlHB5iT4oUxgmCEZQ+taC5JGDElIb9PjQR0W6DjIbQZT24x+k/aOT8Ar+fh3F/YOTi89G80BiEeUS9UNI1THug+07o/0fYK+YlJrfi6JQ92Zcq4fgjXj+px0D8ITMAlAoZFUsNFW2msBb+KmLkLemnStOeergkEzNIjb0ceSOERw1Wp6HtxmpIqGuihoddWdTYWKbp8KJLmu66GnXsOqBIgdwulo3wpSlXXzskE20hjG7VBnOznWa65hsJsoVQmHnzBjIZFK8wH6EF6JVTbKe4lKot+IoyMukFkiVgjuL7oCMBVhskE9X4bQrCE0NxFMNrI0zNAmAH/l999Sabt3Ad9GPcHAnh0H2nkYGzhIlTaptCFbRzTaRvaTq0RKEyS+dYuDIda0syKFlxRhWVHwK9Cj8/UNRMlCON9mqhwJRq54RHenABXaAWHGZzS8pBjyWxg1ai2h4p+llRnBKH75khf+4Ml0gmAinUbUCVQvKB5e0tor30LEQUwWLcA23Odf3NH1lZ1MHS4axFAaaDaaVwLUIg3BVWkyYZtK4VvHXFzzZY/+bwHH9kNHcUzHkIysFp48lFhUG+tuv7TeWszyQ/nNvlQ1N2UZraIm8F/Ubczsg5M2D+6lnL5xizC0jVkVgP6mKPQQvizMPPGGsjwr6UgYUHvu7Al/YoaB5kVFdKc0lSo/wKJhmbDTJyG+DwQtXoPTI9buyxTvh8/Y/F586Ypk5HjhMVYpZ/HtQe81V/EXQcQPIrzjvRuI37Y2tKATS5tec7SfSJiQJYm0bVCkmhuF/C7pO0B5/uZ3/jI0SwzDJQ560wJswZ7so8aWRqu2RuSXYX9e7g+qyNDsWghcQKKiUSVLHCWUtz1kq4AQS+R84OOO7HcWHVyJO3FASLTxOg/0Ji/LM7ci3Gg8ESMosNj+cU67gR51qSTfvy4RHBfn5Ld3sNfAhn7TE/+/6+jCCcrkGKO3elaIY3NJ4Tcr4BhSJRP/84WPO3pn95uPFyTBMp9Ap2OMdW730803VI4Qv2Vx+Ez0keCN3fHmU7R8mrLfzLu0CDWEe/+vRGRurUJDuR4OHJ83aDrXOZCXbeKtyC+KMAZKdi/vbmsFdSDRkzzxWa2g6UgW30iuwXwXrxaILKheqCnWem/f89qlrMMprADQ1EBkt6XLmEw+u1KhQX4qZVSS1gG3oqaXCfKwiU6SConPNv7jcIZBA1JvkgEF7Fp9+uxuy4ejWt2p1mWSMI6dfvbUk0fokdqnvy45FSGQ1k3nItr/b8EGeWRm
             elastic_profile_id: hive-agent
             tasks:
             - plugin:
