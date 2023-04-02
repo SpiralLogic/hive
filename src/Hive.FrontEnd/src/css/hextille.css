@@ -34,7 +34,7 @@
   position: absolute;
 }
 
-@media only screen and (max-width: 720px) {
+@media only screen and (width <= 720px) {
   [role='grid'] {
     border-radius: 0;
     padding: 5vh;

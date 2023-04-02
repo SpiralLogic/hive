@@ -21,7 +21,7 @@ nav .ai-off {
   filter: opacity(0.2);
 }
 
-@media only screen and (max-width: 720px) {
+@media only screen and (width <= 720px) {
   nav {
     gap: 2rem;
     grid-auto-flow: column;

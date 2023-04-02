@@ -15,7 +15,7 @@ section {
   --shadow: var(--focus);
 }
 
-@media only screen and (max-width: 720px) {
+@media only screen and (width <= 720px) {
   main {
     gap: 0;
     grid-template-columns: unset;

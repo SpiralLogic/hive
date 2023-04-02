@@ -22,7 +22,7 @@ body > svg {
   display: none;
 }
 
-@media only screen and (max-width: 720px) {
+@media only screen and (width <= 720px) {
   :root {
     --hex-size: 60px;
     --tile-size: 45px;

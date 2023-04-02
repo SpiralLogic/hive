@@ -101,7 +101,7 @@
   opacity: 1;
 }
 
-@media only screen and (max-width: 720px) {
+@media only screen and (width <= 720px) {
   .rules {
     --hex-size: max(40px, 16vmin);
     --tile-size: max(36px, 13vmin);

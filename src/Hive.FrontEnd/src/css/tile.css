@@ -115,7 +115,7 @@ main.player0 .tile.player0.selected:hover {
     }
 }
 
-@media only screen and (max-width: 720px) {
+@media only screen and (width <= 720px) {
     [role='cell'] .tile.stacked:hover:active {
         animation: stacked 3s;
     }
