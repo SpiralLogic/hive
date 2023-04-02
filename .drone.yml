@@ -5,7 +5,7 @@ steps:
   - name: test
     image: registry-proxy.lab.sorijen.net.au/library/node:18
     commands:
-    - cd source/src/Hive.FrontEnd
+    - cd src/Hive.FrontEnd
     - npm i --location=global pnpm
     - pnpm install
     - pnpm test:all
