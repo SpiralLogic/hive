@@ -17,7 +17,7 @@ ARG SONARQUBE_KEY
 ENV LANG en_US.UTF-8
 ENV DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=1
 COPY . /source
-RUN sed -i "s~../~src/Hive.FrontEnd/~g" ops/k8s/deployment.yaml
+RUN sed -i "s~../~src/Hive.FrontEnd/~g" /source/reports/lcov.info
 RUN node -v
 RUN dotnet new tool-manifest || true
 RUN dotnet tool install dotnet-sonarscanner
