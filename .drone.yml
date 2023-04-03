@@ -1,4 +1,17 @@
 kind: pipeline
+type: exec
+name: report
+
+platform:
+  os: linux
+  arch: amd64
+
+steps:
+- name: greeting
+  commands:
+  - mkdir -p ${DRONE_WORKSPACE}/reports/ mkdir -p ${DRONE_WORKSPACE}/reports/ 
+---
+kind: pipeline
 type: kubernetes
 name: testing
 steps:
@@ -57,16 +70,3 @@ services:
 volumes:
 - name: dockersock
   temp: {}
----
-kind: pipeline
-type: exec
-name: report
-
-platform:
-  os: linux
-  arch: amd64
-
-steps:
-- name: greeting
-  commands:
-  - mkdir -p ${DRONE_WORKSPACE}/reports/ mkdir -p ${DRONE_WORKSPACE}/reports/ 
