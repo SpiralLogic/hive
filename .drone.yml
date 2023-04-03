@@ -1,72 +1,71 @@
 kind: pipeline
-type: exec
-name: report
-
-platform:
-  os: linux
-  arch: amd64
-
-steps:
-- name: greeting
-  commands:
-  - mkdir -p ${DRONE_WORKSPACE}/reports/ mkdir -p ${DRONE_WORKSPACE}/reports/ 
----
-kind: pipeline
 type: kubernetes
 name: testing
 steps:
   - name: frontend
     image: registry-proxy.lab.sorijen.net.au/library/node:18-alpine
     commands:
-    - cd src/Hive.FrontEnd
-    - npm i --location=global pnpm
-    - pnpm install
-    - pnpm test:all
-    - mv reports/*
-    - ${DRONE_WORKSPACE}/reports/
+      - cd src/Hive.FrontEnd
+      - npm i --location=global pnpm
+      - pnpm install
+      - pnpm test:all
+      - mv reports/* /reports/
+    volumes:
+      - name: reports
+        path: /reports
   - name: domain
     image: mcr.microsoft.com/dotnet/sdk:8.0.100-preview.2
     commands:
-    - dotnet new tool-manifest || true
-    - dotnet tool install dotnet-reportgenerator-globaltool
-    - dotnet test --collect:"XPlat Code Coverage" ./src/Hive.Domain.Tests -c Test --settings ./src/Hive.Domain.Tests/runsettings.xml
-    - mkdir -p ./domain-coverage/
-    - mv src/Hive.Domain.Tests/TestResults/**/coverage.opencover.xml ./domain-coverage/
-    - mv ./domain-coverage/coverage.opencover.xml ./domain-coverage/domain-coverage.opencover.xml
-    - dotnet reportgenerator "-reports:./domain-coverage/domain-coverage.opencover.xml" "-targetdir:${DRONE_WORKSPACE}/reports" -reporttypes:Html
+      - dotnet new tool-manifest || true
+      - dotnet tool install dotnet-reportgenerator-globaltool
+      - dotnet test --collect:"XPlat Code Coverage" ./src/Hive.Domain.Tests -c Test --settings ./src/Hive.Domain.Tests/runsettings.xml
+      - mkdir -p ./domain-coverage/
+      - mv src/Hive.Domain.Tests/TestResults/**/coverage.opencover.xml ./domain-coverage/
+      - mv ./domain-coverage/coverage.opencover.xml ./domain-coverage/domain-coverage.opencover.xml
+      - dotnet reportgenerator "-reports:./domain-coverage/domain-coverage.opencover.xml" "-targetdir:/reports" -reporttypes:Html
+    volumes:
+      - name: reports
+        path: /reports
   - name: api
     image: mcr.microsoft.com/dotnet/sdk:8.0.100-preview.2
     commands:
-    - dotnet new tool-manifest || true
-    - dotnet tool install dotnet-reportgenerator-globaltool
-    - dotnet test --collect:"XPlat Code Coverage" ./src/Hive.Api.Tests -c Test --settings ./src/Hive.Api.Tests/runsettings.xml
-    - mkdir -p ./api-coverage/
-    - mv src/Hive.Api.Tests/TestResults/**/coverage.opencover.xml ./api-coverage/
-    - mv ./api-coverage/coverage.opencover.xml ./api-coverage/api-coverage.opencover.xml
-    - dotnet reportgenerator "-reports:./api-coverage/api-coverage.opencover.xml" "-targetdir:${DRONE_WORKSPACE}/reports" -reporttypes:Html
+      - dotnet new tool-manifest || true
+      - dotnet tool install dotnet-reportgenerator-globaltool
+      - dotnet test --collect:"XPlat Code Coverage" ./src/Hive.Api.Tests -c Test --settings ./src/Hive.Api.Tests/runsettings.xml
+      - mkdir -p ./api-coverage/
+      - mv src/Hive.Api.Tests/TestResults/**/coverage.opencover.xml ./api-coverage/
+      - mv ./api-coverage/coverage.opencover.xml ./api-coverage/api-coverage.opencover.xml
+      - dotnet reportgenerator "-reports:./api-coverage/api-coverage.opencover.xml" "-targetdir:/reports" -reporttypes:Html
+    volumes:
+      - name: reports
+        path: /reports
   - name: sonar
     image: docker:dind
     depends_on:
-    - frontend
-    - domain
-    - api
+      - frontend
+      - domain
+      - api
     volumes:
-    - name: dockersock
-      path: /var/run
+      - name: dockersock
+        path: /var/run
+      - name: reports
+        path: /reports
     commands:
-    - sleep 5 # give docker enough time to start
-    - docker build --build-arg SONARQUBE_KEY=${SONARQUBE_KEY} \
-      -t dockerfile.net-jdk:${DRONE_BUILD_NUMBER}-${DRONE_COMMIT_SHA:0:8} \
-      -f ./ops/dockerfile.net-jdk .
-    
+      - sleep 5 # give docker enough time to start
+      - docker build --build-arg SONARQUBE_KEY=${SONARQUBE_KEY} \
+        -t dockerfile.net-jdk:${DRONE_BUILD_NUMBER}-${DRONE_COMMIT_SHA:0:8} \
+        -f ./ops/dockerfile.net-jdk .
+
 services:
-- name: docker
-  image: docker:dind
-  privileged: true
-  volumes:
-  - name: dockersock
-    path: /var/run
+  - name: docker
+    image: docker:dind
+    privileged: true
+    volumes:
+      - name: dockersock
+        path: /var/run
 
 volumes:
-- name: dockersock
-  temp: {}
+  - name: dockersock
+    temp: { }
+  - name: reports
+    temp: { }
