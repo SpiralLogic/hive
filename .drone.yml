@@ -1,6 +1,6 @@
 kind: pipeline
 type: kubernetes
-name: default
+name: testing
 steps:
   - name: frontend
     image: registry-proxy.lab.sorijen.net.au/library/node:18-alpine
@@ -60,7 +60,7 @@ volumes:
 ---
 kind: pipeline
 type: exec
-name: default
+name: report
 
 platform:
   os: linux
