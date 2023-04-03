@@ -46,7 +46,7 @@ steps:
       - domain
       - api
     volumes:
-      - name: dockersock
+      - name: docker
         path: /var/run
       - name: reports
         path: /reports
@@ -55,6 +55,7 @@ steps:
         from_secret: SONARQUBE_KEY
     commands:
       - sleep 5 # give docker enough time to start
+      - docker ps -a
       - docker build --build-arg SONARQUBE_KEY=${SONARQUBE_KEY} \
         -t dockerfile.net-jdk:${DRONE_BUILD_NUMBER}-${DRONE_COMMIT_SHA:0:8} \
         -f ${DRONE_WORKSPACE}/ops/dockerfile.net-jdk ${DRONE_WORKSPACE}
