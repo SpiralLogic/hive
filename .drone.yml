@@ -57,7 +57,7 @@ steps:
       - sleep 5 # give docker enough time to start
       - docker build --build-arg SONARQUBE_KEY=${SONARQUBE_KEY} \
         -t dockerfile.net-jdk:${DRONE_BUILD_NUMBER}-${DRONE_COMMIT_SHA:0:8} \
-        -f ./ops/dockerfile.net-jdk .
+        -f ${DRONE_WORKSPACE}/ops/dockerfile.net-jdk ${DRONE_WORKSPACE}
 
 services:
   - name: docker
