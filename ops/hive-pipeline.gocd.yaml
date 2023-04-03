@@ -189,6 +189,7 @@ pipelines:
                   version: 0.3.0
                 options:
                   script: |-
+                    RUN sed -i "s~${DRONE_WORKSPACE}~/source/~g" /source/ops/SonarQube.Analysis.xml
                     docker login -u $REGISTRY_USER -p $REGISTRY_PASS registry-proxy.lab.sorijen.net.au
                     docker build --build-arg SONARQUBE_KEY=${SONARQUBE_KEY} \
                     -t dockerfile.net-jdk:${GO_PIPELINE_LABEL} \

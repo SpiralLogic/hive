@@ -4,14 +4,14 @@
 
   <Property Name="sonar.host.url">https://sonarqube.lab.sorijen.net.au</Property>
 
-  <Property Name="sonar.sources">/source/src/Hive.FrontEnd/src</Property>
-  <Property Name="sonar.test.inclusions">/source/src/Hive.FrontEnd/test/src,/source/src/Hive.Api.Tests,/source/src/Hive.Domain.Tests</Property>
+  <Property Name="sonar.sources">${DRONE_WORKSPACE}/src/Hive.FrontEnd/src</Property>
+  <Property Name="sonar.test.inclusions">${drone_workspace}/src/Hive.FrontEnd/test/src,${drone_workspace}/src/Hive.Api.Tests,${drone_workspace}/src/Hive.Domain.Tests</Property>
   <Property Name="sonar.coverage.exclusions">**/src/index.tsx</Property>
-  <Property Name="sonar.typescript.tsconfigPath">/source/src/Hive.FrontEnd/tsconfig.json</Property>
+  <Property Name="sonar.typescript.tsconfigPath">${drone_workspace}/src/Hive.FrontEnd/tsconfig.json</Property>
 
-  <Property Name="sonar.css.stylelint.reportPaths">/source/reports/stylelint.json</Property>
-  <Property Name="sonar.cs.opencover.reportsPaths">/source/reports/api-coverage.opencover.xml,/source/reports/domain-coverage.opencover.xml</Property>
-  <Property Name="sonar.javascript.lcov.reportPaths">/source/reports/lcov.info</Property>
-  <Property Name="sonar.eslint.reportPaths">/source/reports/eslint.json,/source/reports/eslint.test.json</Property>
+  <Property Name="sonar.css.stylelint.reportPaths">${drone_workspace}/reports/stylelint.json</Property>
+  <Property Name="sonar.cs.opencover.reportsPaths">${drone_workspace}/reports/api-coverage.opencover.xml,${drone_workspace}/reports/domain-coverage.opencover.xml</Property>
+  <Property Name="sonar.javascript.lcov.reportPaths">${drone_workspace}/reports/lcov.info</Property>
+  <Property Name="sonar.eslint.reportPaths">${drone_workspace}/reports/eslint.json,${drone_workspace}/reports/eslint.test.json</Property>
 
 </SonarQubeAnalysisProperties>
