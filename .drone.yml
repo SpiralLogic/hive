@@ -2,16 +2,30 @@ kind: pipeline
 type: kubernetes
 name: default
 steps:
-  - name: test
-    image: registry-proxy.lab.sorijen.net.au/library/node:18
+  - name: frontend
+    image: registry-proxy.lab.sorijen.net.au/library/node:18-alpine
     commands:
     - cd src/Hive.FrontEnd
     - npm i --location=global pnpm
     - pnpm install
     - pnpm test:all
-  - name: gitea_release
-    image: plugins/gitea-release
-    settings:
-      api_key: 0ea6e8527a482a7160c81a11f74b35f72f914bf4
-      base_url: https://git.lab.sorijen.net.au
-      files: src/Hive.FrontEnd/reports/*
+  - name: domain
+    image: mcr.microsoft.com/dotnet/sdk:8.0.100-preview.2
+    commands:
+    - dotnet new tool-manifest || true
+    - dotnet tool install dotnet-reportgenerator-globaltool
+    - dotnet test --collect:"XPlat Code Coverage" ./src/Hive.Domain.Tests -c Test --settings ./src/Hive.Domain.Tests/runsettings.xml
+    - mkdir -p ./domain-coverage/
+    - mv src/Hive.Domain.Tests/TestResults/**/coverage.opencover.xml ./domain-coverage/
+    - mv ./domain-coverage/coverage.opencover.xml ./domain-coverage/domain-coverage.opencover.xml
+    - dotnet reportgenerator "-reports:./domain-coverage/domain-coverage.opencover.xml" "-targetdir:./domain-coverage" -reporttypes:Html
+  - name: api
+    image: mcr.microsoft.com/dotnet/sdk:8.0.100-preview.2
+    commands:
+    - dotnet new tool-manifest || true
+    - dotnet tool install dotnet-reportgenerator-globaltool
+    - dotnet test --collect:"XPlat Code Coverage" ./src/Hive.Api.Tests -c Test --settings ./src/Hive.Api.Tests/runsettings.xml
+    - mkdir -p ./api-coverage/
+    - mv src/Hive.Api.Tests/TestResults/**/coverage.opencover.xml ./api-coverage/
+    - mv ./api-coverage/coverage.opencover.xml ./api-coverage/api-coverage.opencover.xml
+    - dotnet reportgenerator "-reports:./api-coverage/api-coverage.opencover.xml" "-targetdir:./api-coverage" -reporttypes:Html
