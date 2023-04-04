@@ -21,6 +21,7 @@ pipelines:
           allow_only_on_success: false
         jobs:
           sonar-image-build:
+            elastic_profile_id: hive-agent
             timeout: 0
             tasks:
             - plugin:
