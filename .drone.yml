@@ -49,6 +49,8 @@ steps:
       - name: reports
         path: /reports
     environment:
+      LANG: en_US.UTF-8
+      DOTNET_SYSTEM_GLOBALIZATION_INVARIANT: 1
       SONARQUBE_KEY:
         from_secret: SONARQUBE_KEY
     commands:
