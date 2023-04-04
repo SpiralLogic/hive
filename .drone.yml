@@ -52,13 +52,13 @@ steps:
       SONARQUBE_KEY:
         from_secret: SONARQUBE_KEY
     commands:
-      - sed -i "s~\.\./~Hive\.FrontEnd/~g" /source/reports/lcov.info
+      - sed -i "s~\.\./~Hive\.FrontEnd/~g" /reports/lcov.info
       - node -v
       - dotnet new tool-manifest || true
       - dotnet tool install dotnet-sonarscanner
-      - dotnet sonarscanner begin /k:hive /s:/source/ops/SonarQube.Analysis.xml /d:sonar.login=$SONARQUBE_KEY
-      - dotnet build -c Test /source/src
-      - dotnet test ./src -c Test --collect:"XPlat Code Coverage" --settings /source/src/Hive.Api.Tests/runsettings.xml
+      - dotnet sonarscanner begin /k:hive /s:ops/SonarQube.Analysis.xml /d:sonar.login=$SONARQUBE_KEY
+      - dotnet build -c Test ./src
+      - dotnet test ./src -c Test --collect:"XPlat Code Coverage" --settings ./src/Hive.Api.Tests/runsettings.xml
       - dotnet sonarscanner end /d:sonar.login=$SONARQUBE_KEY
 
 services:
