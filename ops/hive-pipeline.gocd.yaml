@@ -17,239 +17,239 @@ pipelines:
         auto_update: true
         branch: master
     stages:
-    - test:
-        fetch_materials: true
-        keep_artifacts: false
-        clean_workspace: false
-        approval:
-          type: success
-          allow_only_on_success: false
-        jobs:
-          run-frontend-tests:
-            timeout: 0
-            elastic_profile_id: hive-agent
-            artifacts:
-            - build:
-                source: reports/**
-                destination: ''
-            - build:
-                source: reports/__coverage__/lcov.info
-                destination: coverage/
-            - build:
-                source: reports/__lint__/eslint.json
-                destination: coverage/
-            - build:
-                source: reports/__lint__/eslint.test.json
-                destination: coverage/
-            - build:
-                source: reports/__lint__/stylelint.json
-                destination: coverage/
-            tasks:
-            - plugin:
-                configuration:
-                  id: script-executor
-                  version: 0.3.0
-                options:
-                  script: |-
-                    docker login -u $REGISTRY_USER -p $REGISTRY_PASS registry-proxy.lab.sorijen.net.au
-                    docker build -t frontend-test-results:${GO_PIPELINE_LABEL} -f ./ops/dockerfile.frontend.test .
-                    docker run --name frontend-tests-${GO_PIPELINE_LABEL} frontend-test-results:${GO_PIPELINE_LABEL}
-
-                    docker cp frontend-tests-${GO_PIPELINE_LABEL}:/source/src/Hive.FrontEnd/reports ./
-
-                    docker rm frontend-tests-${GO_PIPELINE_LABEL}
-                    docker rmi frontend-test-results:${GO_PIPELINE_LABEL}
-                  shtype: sh
-                run_if: passed
-          run-api-tests:
-            timeout: 0
-            elastic_profile_id: hive-agent
-            artifacts:
-            - build:
-                source: api-coverage/**
-                destination: ''
-            - build:
-                source: api-coverage/api-coverage.opencover.xml
-                destination: coverage/
-            tasks:
-            - plugin:
-                configuration:
-                  id: script-executor
-                  version: 0.3.0
-                options:
-                  script: |-
-                    docker build -t api-test-results:${GO_PIPELINE_LABEL} -f ./ops/dockerfile.api.test .
-                    docker run --name api-tests-${GO_PIPELINE_LABEL} api-test-results:${GO_PIPELINE_LABEL}
-
-                    docker cp api-tests-${GO_PIPELINE_LABEL}:/source/api-coverage ./
-
-                    docker stop api-tests-${GO_PIPELINE_LABEL}
-                    docker rm api-tests-${GO_PIPELINE_LABEL}
-                    docker rmi api-test-results:${GO_PIPELINE_LABEL}
-                  shtype: sh
-                run_if: passed
-          run-domain-tests:
-            timeout: 0
-            elastic_profile_id: hive-agent
-            artifacts:
-            - build:
-                source: domain-coverage/**
-                destination: ''
-            - build:
-                source: domain-coverage/domain-coverage.opencover.xml
-                destination: coverage/
-            tasks:
-            - plugin:
-                configuration:
-                  id: script-executor
-                  version: 0.3.0
-                options:
-                  script: |-
-                    docker build -t domain-test-results:${GO_PIPELINE_LABEL} -f ./ops/dockerfile.domain.test .
-                    docker run --name domain-tests-${GO_PIPELINE_LABEL} domain-test-results:${GO_PIPELINE_LABEL}
-
-                    docker cp domain-tests-${GO_PIPELINE_LABEL}:/source/domain-coverage ./
-
-                    docker stop domain-tests-${GO_PIPELINE_LABEL}
-                    docker rm domain-tests-${GO_PIPELINE_LABEL}
-                    docker rmi domain-test-results:${GO_PIPELINE_LABEL}
-                  shtype: sh
-                run_if: passed
-    - sonar:
-        fetch_materials: true
-        keep_artifacts: false
-        clean_workspace: false
-        approval:
-          type: success
-          allow_only_on_success: true
-        jobs:
-          scan:
-            timeout: 0
-            environment_variables:
-              SONARQUBE_URL: sonarqube.lab.sorijen.net.au
-            elastic_profile_id: hive-agent
-            tasks:
-            - fetch:
-                is_file: true
-                source: coverage/api-coverage.opencover.xml
-                destination: reports
-                pipeline: hive-pipe
-                stage: test
-                job: run-api-tests
-                artifact_origin: gocd
-                run_if: passed
-            - fetch:
-                is_file: true
-                source: coverage/domain-coverage.opencover.xml
-                destination: reports
-                pipeline: hive-pipe
-                stage: test
-                job: run-domain-tests
-                artifact_origin: gocd
-                run_if: passed
-            - fetch:
-                is_file: true
-                source: coverage/lcov.info
-                destination: reports
-                pipeline: hive-pipe
-                stage: test
-                job: run-frontend-tests
-                artifact_origin: gocd
-                run_if: passed
-            - fetch:
-                is_file: true
-                source: coverage/eslint.test.json
-                destination: reports
-                pipeline: hive-pipe
-                stage: test
-                job: run-frontend-tests
-                artifact_origin: gocd
-                run_if: passed
-            - fetch:
-                is_file: true
-                source: coverage/eslint.json
-                destination: reports
-                pipeline: hive-pipe
-                stage: test
-                job: run-frontend-tests
-                artifact_origin: gocd
-                run_if: passed
-            - fetch:
-                is_file: true
-                source: coverage/stylelint.json
-                destination: reports
-                pipeline: hive-pipe
-                stage: test
-                job: run-frontend-tests
-                artifact_origin: gocd
-                run_if: passed
-            - plugin:
-                configuration:
-                  id: script-executor
-                  version: 0.3.0
-                options:
-                  script: |-
-                    RUN sed -i "s~${DRONE_WORKSPACE}~/source/~g" /source/ops/SonarQube.Analysis.xml
-                    docker login -u $REGISTRY_USER -p $REGISTRY_PASS registry-proxy.lab.sorijen.net.au
-                    docker build --build-arg SONARQUBE_KEY=${SONARQUBE_KEY} \
-                    -t dockerfile.sonar:${GO_PIPELINE_LABEL} \
-                    -f ./ops/dockerfile.sonar .
-                  shtype: sh
-                run_if: passed
-    - build:
-        fetch_materials: true
-        keep_artifacts: false
-        clean_workspace: false
-        approval:
-          type: success
-          allow_only_on_success: false
-        jobs:
-          build:
-            timeout: 0
-            elastic_profile_id: hive-agent
-            tasks:
-            - plugin:
-                configuration:
-                  id: script-executor
-                  version: 0.3.0
-                options:
-                  script: |-
-                    docker build -t registry.lab.sorijen.net.au/hive:${GO_PIPELINE_LABEL} -f ./ops/dockerfile .
-                    docker login -u $REGISTRY_USER -p $REGISTRY_PASS registry.lab.sorijen.net.au
-                    docker push registry.lab.sorijen.net.au/hive:${GO_PIPELINE_LABEL}
-                  shtype: sh
-                run_if: passed
-    - deploy:
-        fetch_materials: true
-        keep_artifacts: false
-        clean_workspace: false
-        approval:
-          type: success
-          allow_only_on_success: true
-        jobs:
-          deploy:
-            timeout: 0
-            environment_variables:
-              NAMESPACE: hive
-              ARTIFACT_IMAGE: registry.lab.sorijen.net.au/hive
-              KUBERNETES_SERVICE_HOST: https://10.1.2.2
-              KUBERNETES_PORT_443_TCP_PORT: '6443'
-            elastic_profile_id: hive-agent
-            tasks:
-            - plugin:
-                configuration:
-                  id: script-executor
-                  version: 0.3.0
-                options:
-                  script: |-
-                    sed -i "s~{image}~$ARTIFACT_IMAGE:$GO_PIPELINE_LABEL~g" ops/k8s/deployment.yaml
-                    curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
-
-                    chmod +x ./kubectl
-                    cat ops/k8s/deployment.yaml
-                    ./kubectl --token  $KUBE_TOKEN --insecure-skip-tls-verify --server $KUBERNETES_SERVICE_HOST:$KUBERNETES_PORT_443_TCP_PORT -n $NAMESPACE apply --force -f ops/k8s/deployment.yaml
-                  shtype: sh
-                run_if: passed
+      - test:
+          fetch_materials: true
+          keep_artifacts: false
+          clean_workspace: false
+          approval:
+            type: success
+            allow_only_on_success: false
+          jobs:
+            run-frontend-tests:
+              timeout: 0
+              elastic_profile_id: hive-agent
+              artifacts:
+                - build:
+                    source: reports/**
+                    destination: ''
+                - build:
+                    source: reports/__coverage__/lcov.info
+                    destination: coverage/
+                - build:
+                    source: reports/__lint__/eslint.json
+                    destination: coverage/
+                - build:
+                    source: reports/__lint__/eslint.test.json
+                    destination: coverage/
+                - build:
+                    source: reports/__lint__/stylelint.json
+                    destination: coverage/
+              tasks:
+                - plugin:
+                    configuration:
+                      id: script-executor
+                      version: 0.3.0
+                    options:
+                      script: |-
+                        docker login -u $REGISTRY_USER -p $REGISTRY_PASS registry-proxy.lab.sorijen.net.au
+                        docker build -t frontend-test-results:${GO_PIPELINE_LABEL} -f ./ops/dockerfile.frontend.test .
+                        docker run --name frontend-tests-${GO_PIPELINE_LABEL} frontend-test-results:${GO_PIPELINE_LABEL}
+                        
+                        docker cp frontend-tests-${GO_PIPELINE_LABEL}:/source/src/Hive.FrontEnd/reports ./
+                        
+                        docker rm frontend-tests-${GO_PIPELINE_LABEL}
+                        docker rmi frontend-test-results:${GO_PIPELINE_LABEL}
+                      shtype: sh
+                    run_if: passed
+            run-api-tests:
+              timeout: 0
+              elastic_profile_id: hive-agent
+              artifacts:
+                - build:
+                    source: api-coverage/**
+                    destination: ''
+                - build:
+                    source: api-coverage/api-coverage.opencover.xml
+                    destination: coverage/
+              tasks:
+                - plugin:
+                    configuration:
+                      id: script-executor
+                      version: 0.3.0
+                    options:
+                      script: |-
+                        docker build -t api-test-results:${GO_PIPELINE_LABEL} -f ./ops/dockerfile.api.test .
+                        docker run --name api-tests-${GO_PIPELINE_LABEL} api-test-results:${GO_PIPELINE_LABEL}
+                        
+                        docker cp api-tests-${GO_PIPELINE_LABEL}:/source/api-coverage ./
+                        
+                        docker stop api-tests-${GO_PIPELINE_LABEL}
+                        docker rm api-tests-${GO_PIPELINE_LABEL}
+                        docker rmi api-test-results:${GO_PIPELINE_LABEL}
+                      shtype: sh
+                    run_if: passed
+            run-domain-tests:
+              timeout: 0
+              elastic_profile_id: hive-agent
+              artifacts:
+                - build:
+                    source: domain-coverage/**
+                    destination: ''
+                - build:
+                    source: domain-coverage/domain-coverage.opencover.xml
+                    destination: coverage/
+              tasks:
+                - plugin:
+                    configuration:
+                      id: script-executor
+                      version: 0.3.0
+                    options:
+                      script: |-
+                        docker build -t domain-test-results:${GO_PIPELINE_LABEL} -f ./ops/dockerfile.domain.test .
+                        docker run --name domain-tests-${GO_PIPELINE_LABEL} domain-test-results:${GO_PIPELINE_LABEL}
+                        
+                        docker cp domain-tests-${GO_PIPELINE_LABEL}:/source/domain-coverage ./
+                        
+                        docker stop domain-tests-${GO_PIPELINE_LABEL}
+                        docker rm domain-tests-${GO_PIPELINE_LABEL}
+                        docker rmi domain-test-results:${GO_PIPELINE_LABEL}
+                      shtype: sh
+                    run_if: passed
+      - sonar:
+          fetch_materials: true
+          keep_artifacts: false
+          clean_workspace: false
+          approval:
+            type: success
+            allow_only_on_success: true
+          jobs:
+            scan:
+              timeout: 0
+              environment_variables:
+                SONARQUBE_URL: sonarqube.lab.sorijen.net.au
+              elastic_profile_id: hive-agent
+              tasks:
+                - fetch:
+                    is_file: true
+                    source: coverage/api-coverage.opencover.xml
+                    destination: reports
+                    pipeline: hive-pipe
+                    stage: test
+                    job: run-api-tests
+                    artifact_origin: gocd
+                    run_if: passed
+                - fetch:
+                    is_file: true
+                    source: coverage/domain-coverage.opencover.xml
+                    destination: reports
+                    pipeline: hive-pipe
+                    stage: test
+                    job: run-domain-tests
+                    artifact_origin: gocd
+                    run_if: passed
+                - fetch:
+                    is_file: true
+                    source: coverage/lcov.info
+                    destination: reports
+                    pipeline: hive-pipe
+                    stage: test
+                    job: run-frontend-tests
+                    artifact_origin: gocd
+                    run_if: passed
+                - fetch:
+                    is_file: true
+                    source: coverage/eslint.test.json
+                    destination: reports
+                    pipeline: hive-pipe
+                    stage: test
+                    job: run-frontend-tests
+                    artifact_origin: gocd
+                    run_if: passed
+                - fetch:
+                    is_file: true
+                    source: coverage/eslint.json
+                    destination: reports
+                    pipeline: hive-pipe
+                    stage: test
+                    job: run-frontend-tests
+                    artifact_origin: gocd
+                    run_if: passed
+                - fetch:
+                    is_file: true
+                    source: coverage/stylelint.json
+                    destination: reports
+                    pipeline: hive-pipe
+                    stage: test
+                    job: run-frontend-tests
+                    artifact_origin: gocd
+                    run_if: passed
+                - plugin:
+                    configuration:
+                      id: script-executor
+                      version: 0.3.0
+                    options:
+                      script: |-
+                        RUN sed -i "s~${DRONE_WORKSPACE}~/source/~g" /source/ops/SonarQube.Analysis.xml
+                        docker login -u $REGISTRY_USER -p $REGISTRY_PASS registry-proxy.lab.sorijen.net.au
+                        docker build --build-arg SONARQUBE_KEY=${SONARQUBE_KEY} \
+                        -t dockerfile.sonar:${GO_PIPELINE_LABEL} \
+                        -f ./ops/dockerfile.sonar .
+                      shtype: sh
+                    run_if: passed
+      - build:
+          fetch_materials: true
+          keep_artifacts: false
+          clean_workspace: false
+          approval:
+            type: success
+            allow_only_on_success: false
+          jobs:
+            build:
+              timeout: 0
+              elastic_profile_id: hive-agent
+              tasks:
+                - plugin:
+                    configuration:
+                      id: script-executor
+                      version: 0.3.0
+                    options:
+                      script: |-
+                        docker build -t registry.lab.sorijen.net.au/hive:${GO_PIPELINE_LABEL} -f ./ops/dockerfile .
+                        docker login -u $REGISTRY_USER -p $REGISTRY_PASS registry.lab.sorijen.net.au
+                        docker push registry.lab.sorijen.net.au/hive:${GO_PIPELINE_LABEL}
+                      shtype: sh
+                    run_if: passed
+      - deploy:
+          fetch_materials: true
+          keep_artifacts: false
+          clean_workspace: false
+          approval:
+            type: success
+            allow_only_on_success: true
+          jobs:
+            deploy:
+              timeout: 0
+              environment_variables:
+                NAMESPACE: hive
+                ARTIFACT_IMAGE: registry.lab.sorijen.net.au/hive
+                KUBERNETES_SERVICE_HOST: https://10.1.2.2
+                KUBERNETES_PORT_443_TCP_PORT: '6443'
+              elastic_profile_id: hive-agent
+              tasks:
+                - plugin:
+                    configuration:
+                      id: script-executor
+                      version: 0.3.0
+                    options:
+                      script: |-
+                        sed -i "s~{image}~$ARTIFACT_IMAGE:$GO_PIPELINE_LABEL~g" ops/k8s/deployment.yaml
+                        curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+                        
+                        chmod +x ./kubectl
+                        cat ops/k8s/deployment.yaml
+                        ./kubectl --token  $KUBE_TOKEN --insecure-skip-tls-verify --server $KUBERNETES_SERVICE_HOST:$KUBERNETES_PORT_443_TCP_PORT -n $NAMESPACE apply --force -f ops/k8s/deployment.yaml
+                      shtype: sh
+                    run_if: passed
   sonar-image-build:
     group: Hive-Pipeline
     label_template: ${COUNT}
@@ -265,32 +265,32 @@ pipelines:
         auto_update: true
         branch: maste
     stages:
-    - sonar:
-        fetch_materials: true
-        keep_artifacts: false
-        clean_workspace: false
-        approval:
-          type: manual
-          allow_only_on_success: false
-        jobs:
-          sonar-image-build:
-            timeout: 0
-            elastic_profile_id: hive-agent
-            tasks:
-            - plugin:
-                configuration:
-                  id: script-executor
-                  version: 0.3.0
-                options:
-                  script: |-
-                    docker login -u $REGISTRY_USER -p $REGISTRY_PASS registry-proxy.lab.sorijen.net.au
-                    docker login -u $REGISTRY_USER -p $REGISTRY_PASS registry.lab.sorijen.net.au
-                    docker build --compress \
-                    -t registry.lab.sorijen.net.au/sonar-scanner:latest \
-                    -t registry.lab.sorijen.net.au/sonar-scanner:${GO_PIPELINE_LABEL} \
-                    -f ./ops/dockerfile.net-jdk .
-                    docker push registry.lab.sorijen.net.au/sonar-scanner:latest
-                    docker push registry.lab.sorijen.net.au/sonar-scanner:${GO_PIPELINE_LABEL}
-                  shtype: sh
-                run_if: passed
+      - sonar:
+          fetch_materials: true
+          keep_artifacts: false
+          clean_workspace: false
+          approval:
+            type: manual
+            allow_only_on_success: false
+          jobs:
+            sonar-image-build:
+              timeout: 0
+              elastic_profile_id: hive-agent
+              tasks:
+                - plugin:
+                    configuration:
+                      id: script-executor
+                      version: 0.3.0
+                    options:
+                      script: |-
+                        docker login -u $REGISTRY_USER -p $REGISTRY_PASS registry-proxy.lab.sorijen.net.au
+                        docker login -u $REGISTRY_USER -p $REGISTRY_PASS registry.lab.sorijen.net.au
+                        docker build --compress \
+                        -t registry.lab.sorijen.net.au/sonar-scanner:latest \
+                        -t registry.lab.sorijen.net.au/sonar-scanner:${GO_PIPELINE_LABEL} \
+                        -f ./ops/dockerfile.net-jdk .
+                        docker push registry.lab.sorijen.net.au/sonar-scanner:latest
+                        docker push registry.lab.sorijen.net.au/sonar-scanner:${GO_PIPELINE_LABEL}
+                      shtype: sh
+                    run_if: passed
 
