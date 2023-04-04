@@ -52,7 +52,7 @@ steps:
       SONARQUBE_KEY:
         from_secret: SONARQUBE_KEY
     commands:
-      - sed -i "s~\.\./~Hive\.FrontEnd/~g" /reports/lcov.info
+      - sed -i "s~\.\./~Hive\.FrontEnd/~g" /reports/__coverage__/lcov.info
       - node -v
       - dotnet new tool-manifest || true
       - dotnet tool install dotnet-sonarscanner
