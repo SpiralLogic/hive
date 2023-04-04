@@ -288,7 +288,7 @@ pipelines:
                         docker build --compress \
                         -t registry.lab.sorijen.net.au/sonar-scanner:latest \
                         -t registry.lab.sorijen.net.au/sonar-scanner:${GO_PIPELINE_LABEL} \
-                        -f ./ops/dockerfile.net-jdk .
+                        -f ./ops/dockerfile.sonar-scanner .
                         docker push registry.lab.sorijen.net.au/sonar-scanner:latest
                         docker push registry.lab.sorijen.net.au/sonar-scanner:${GO_PIPELINE_LABEL}
                       shtype: sh
