@@ -1,4 +1,4 @@
-﻿FROM proxy.lab.sorijen.net.au/sonar-scanner:latest
+﻿FROM registry.lab.sorijen.net.au/sonar-scanner:latest
 
 ARG SONARQUBE_KEY
 ENV LANG en_US.UTF-8
