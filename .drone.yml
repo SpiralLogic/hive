@@ -40,7 +40,7 @@ steps:
       - name: reports
         path: /reports
   - name: sonar
-    image: proxy.lab.sorijen.net.au/sonar-scanner
+    image: registry.lab.sorijen.net.au/sonar-scanner
     depends_on:
       - frontend
       - domain
