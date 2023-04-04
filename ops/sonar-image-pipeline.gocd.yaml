@@ -23,7 +23,7 @@ pipelines:
             type: manual
             allow_only_on_success: false
           jobs:
-            sonar-scanner-build:
+            sonar-image-build:
               timeout: 0
               elastic_profile_id: hive-agent
               tasks:
