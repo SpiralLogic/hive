@@ -40,24 +40,26 @@ steps:
       - name: reports
         path: /reports
   - name: sonar
-    image: kytay/sonar-node-plugin
+    image: proxy.lab.sorijen.net.au/sonar-scanner
     depends_on:
       - frontend
       - domain
       - api
     volumes:
-      - name: docker
-        path: /var/run
       - name: reports
         path: /reports
     environment:
       SONARQUBE_KEY:
         from_secret: SONARQUBE_KEY
     commands:
-      - sleep 5 # give docker enough time to start
-      - docker ps -a
-      - docker build --build-arg SONARQUBE_KEY=${SONARQUBE_KEY} \
-        -f ${DRONE_WORKSPACE}/ops/dockerfile.sonar ${DRONE_WORKSPACE}
+      - sed -i "s~\.\./~Hive\.FrontEnd/~g" /source/reports/lcov.info
+      - node -v
+      - dotnet new tool-manifest || true
+      - dotnet tool install dotnet-sonarscanner
+      - dotnet sonarscanner begin /k:hive /s:/source/ops/SonarQube.Analysis.xml /d:sonar.login=$SONARQUBE_KEY
+      - dotnet build -c Test /source/src
+      - dotnet test ./src -c Test --collect:"XPlat Code Coverage" --settings /source/src/Hive.Api.Tests/runsettings.xml
+      - dotnet sonarscanner end /d:sonar.login=$SONARQUBE_KEY
 
 services:
   - name: docker
