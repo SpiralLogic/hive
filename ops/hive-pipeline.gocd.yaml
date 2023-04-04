@@ -250,3 +250,28 @@ pipelines:
                     ./kubectl --token  $KUBE_TOKEN --insecure-skip-tls-verify --server $KUBERNETES_SERVICE_HOST:$KUBERNETES_PORT_443_TCP_PORT -n $NAMESPACE apply --force -f ops/k8s/deployment.yaml
                   shtype: sh
                 run_if: passed
+  sonar-image-build:
+    group: Hive-Pipeline
+    label_template: ${COUNT}
+    lock_behavior: none
+    materials:
+      git-7529a08:
+        git: https://github.com/SpiralLogic/hive.git
+        shallow_clone: true
+        auto_update: true
+        branch: master
+    stages:
+      - sonar-builder:
+          fetch_materials: true
+          keep_artifacts: false
+          clean_workspace: false
+          approval:
+            type: success
+            allow_only_on_success: false
+          jobs:
+            sonar-scanner-build:
+              timeout: 0
+              tasks:
+                - exec:
+                    command: ls
+                    run_if: passed
