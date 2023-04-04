@@ -12,7 +12,7 @@ pipelines:
       SONARQUBE_KEY: AES:4gGQvy5Dx0Ww2UBgLhAYEw==:42Jn3lSB9vJYdcYxOxcgaNguMtuEVkMLI0LgGadSbg7qIp84ZJ640InfNkXAF+h1
     materials:
       git-24540d2:
-        git: https://git.lab.sorijen.net.au/spirallogic/hive.git
+        git: https://github.com/SpiralLogic/hive.git
         shallow_clone: false
         auto_update: true
         branch: master
