@@ -4,7 +4,6 @@ pipelines:
     group: Hive-Pipeline
     label_template: ${COUNT}
     lock_behavior: none
-    display_order: -1
     materials:
       git-7529a08:
         git: https://github.com/SpiralLogic/hive.git
@@ -12,7 +11,7 @@ pipelines:
         auto_update: true
         branch: master
     stages:
-      - sonar:
+      - sonar-builder:
           fetch_materials: true
           keep_artifacts: false
           clean_workspace: false
