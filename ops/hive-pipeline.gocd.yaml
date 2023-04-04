@@ -263,7 +263,7 @@ pipelines:
         git: https://github.com/SpiralLogic/hive.git
         shallow_clone: false
         auto_update: true
-        branch: maste
+        branch: master
     stages:
       - sonar:
           fetch_materials: true
