@@ -73,22 +73,3 @@ volumes:
     temp: { }
   - name: reports
     temp: { }
----
-kind: pipeline
-name: Create Sonar Scanner Image
-
-steps:
-  - name: build
-    image: plugins/docker
-    settings:
-      registry: proxy.lab.sorijen.net.au
-      username: ${REGISTRY_USER}
-      password: ${REGISTRY_PASSWORD}
-      repo: sonar-scanner
-      dockerfile: ops/dockerfile.net-jdk
-      force_tag: true
-      tags:
-        - latest
-        - ${DRONE_BUILD_NUMBER}
-      ssh-agent-key:
-        from_secret: private_key
