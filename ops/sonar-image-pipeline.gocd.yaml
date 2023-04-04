@@ -12,29 +12,30 @@ pipelines:
         auto_update: false
         branch: master
     stages:
-      - build:
-          fetch_materials: true
-          keep_artifacts: false
-          clean_workspace: false
-          approval:
-            type: success
-            allow_only_on_success: false
-          jobs:
-            sonar-image-build:
-              timeout: 0
-              tasks:
-                - plugin:
-                    configuration:
-                      id: script-executor
-                      version: 0.3.0
-                    options:
-                      script: |-
-                        docker login -u $REGISTRY_USER -p $REGISTRY_PASS registry-proxy.lab.sorijen.net.au                        - -u
-                        docker login -u $REGISTRY_USER -p $REGISTRY_PASS registry.lab.sorijen.net.au
-                        docker build --build-arg SONARQUBE_KEY=${SONARQUBE_KEY} \
-                          -t registry.lab.sorijen.net.au/sonar-scanner:latest \
-                          -t registry.lab.sorijen.net.au/sonar-scanner:${GO_PIPELINE_LABEL} \
-                          -f ./ops/dockerfile.sonar .
-                        docker push registry.lab.sorijen.net.au/sonar-scanner:latest
-                        docker push registry.lab.sorijen.net.au/sonar-scanner:${GO_PIPELINE_LABEL}
-          
+    - build:
+        fetch_materials: true
+        keep_artifacts: false
+        clean_workspace: false
+        approval:
+          type: success
+          allow_only_on_success: false
+        jobs:
+          sonar-image-build:
+            timeout: 0
+            tasks:
+            - plugin:
+                configuration:
+                  id: script-executor
+                  version: 0.3.0
+                options:
+                  script: |-
+                    docker login -u $REGISTRY_USER -p $REGISTRY_PASS registry-proxy.lab.sorijen.net.au                        - -u
+                    docker login -u $REGISTRY_USER -p $REGISTRY_PASS registry.lab.sorijen.net.au
+                    docker build --build-arg SONARQUBE_KEY=${SONARQUBE_KEY} \
+                      -t registry.lab.sorijen.net.au/sonar-scanner:latest \
+                      -t registry.lab.sorijen.net.au/sonar-scanner:${GO_PIPELINE_LABEL} \
+                      -f ./ops/dockerfile.sonar .
+                    docker push registry.lab.sorijen.net.au/sonar-scanner:latest
+                    docker push registry.lab.sorijen.net.au/sonar-scanner:${GO_PIPELINE_LABEL}
+                  shtype: sh
+                run_if: passed
