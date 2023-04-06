@@ -150,7 +150,7 @@ pipelines:
                 - fetch:
                     is_file: true
                     source: coverage/lcov.info
-                    destination: reports
+                    destination: reports/__coverage__/
                     pipeline: hive-pipe
                     stage: test
                     job: run-frontend-tests
@@ -159,7 +159,7 @@ pipelines:
                 - fetch:
                     is_file: true
                     source: coverage/eslint.test.json
-                    destination: reports
+                    destination: reports/__lint__/
                     pipeline: hive-pipe
                     stage: test
                     job: run-frontend-tests
@@ -168,7 +168,7 @@ pipelines:
                 - fetch:
                     is_file: true
                     source: coverage/eslint.json
-                    destination: reports
+                    destination: reports/__lint__/
                     pipeline: hive-pipe
                     stage: test
                     job: run-frontend-tests
@@ -177,7 +177,7 @@ pipelines:
                 - fetch:
                     is_file: true
                     source: coverage/stylelint.json
-                    destination: reports
+                    destination: reports/__lint__/
                     pipeline: hive-pipe
                     stage: test
                     job: run-frontend-tests
@@ -189,7 +189,7 @@ pipelines:
                       version: 0.3.0
                     options:
                       script: |-
-                        RUN sed -i "s~${DRONE_WORKSPACE}~/source/~g" /source/ops/SonarQube.Analysis.xml
+                        RUN sed -i "s~${WORKSPACE}~/source/~g" /source/ops/SonarQube.Analysis.xml
                         docker login -u $REGISTRY_USER -p $REGISTRY_PASS registry-proxy.lab.sorijen.net.au
                         docker build --build-arg SONARQUBE_KEY=${SONARQUBE_KEY} \
                         -t dockerfile.sonar:${GO_PIPELINE_LABEL} \
