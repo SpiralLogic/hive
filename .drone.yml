@@ -57,7 +57,7 @@ steps:
         from_secret: SONARQUBE_KEY
     commands:
       - sed -i "s~\.\./~Hive\.FrontEnd/~g" /drone/src/reports/__coverage__/lcov.info
-      - sed -i "s~$${WORKSPACE}/~/drone/src~g" /drone/src/ops/SonarQube.Analysis.xml
+      - sed -i "s~/source~/drone/src~g" /drone/src/ops/SonarQube.Analysis.xml
       - node -v
       - dotnet new tool-manifest || true
       - dotnet tool install dotnet-sonarscanner
