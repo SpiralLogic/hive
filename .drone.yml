@@ -1,6 +1,10 @@
 kind: pipeline
 type: kubernetes
 name: testing
+
+clone:
+  depth: 1
+
 steps:
   - name: frontend
     image: registry-proxy.lab.sorijen.net.au/library/node:18-alpine
@@ -65,7 +69,19 @@ steps:
       - dotnet build -c Test ./src
       - dotnet test ./src -c Test --collect:"XPlat Code Coverage" --settings ./src/Hive.Api.Tests/runsettings.xml
       - dotnet sonarscanner end /d:sonar.login=$SONARQUBE_KEY
-
+  - name: docker
+    image: plugins/docker
+    settings:
+      registry: registry.lab.sorijen.net.au
+      username: 
+        from_secret: REGISTRY_USER
+      password: 
+        from_secret: REGISTRY_PASS
+      repo: registry.lab.sorijen.net.au/hive
+      dockerfile: ops/dockerfile
+      tags:
+      - latest
+    
 volumes:
   - name: reports
     temp: { }

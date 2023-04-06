@@ -1,8 +1,7 @@
-FROM library/node:17 as node-build
+FROM library/node:18-alpine as node-build
 
 WORKDIR /source
 COPY src/Hive.FrontEnd/package.json .
-
 ENV NODE_ENV=production
 RUN npm i --location=global pnpm
 RUN pnpm install -P
@@ -12,12 +11,12 @@ RUN pnpm vite:build
 
 FROM mcr.microsoft.com/dotnet/sdk:8.0.100-preview.2 AS dotnet-build
 WORKDIR /source
+ENV ASPNETCORE_ENVIRONMENT=Production
 
 COPY ./src .
-RUN dotnet restore
 RUN dotnet publish -c release --property PublishDir=/app
 
-FROM mcr.microsoft.com/dotnet/aspnet:8.0.0-preview.1
+FROM mcr.microsoft.com/dotnet/aspnet:8.0.0-preview.2
 WORKDIR /app
 ENV ASPNETCORE_ENVIRONMENT=Production
 

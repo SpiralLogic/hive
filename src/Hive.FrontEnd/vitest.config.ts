@@ -16,9 +16,11 @@ export default defineConfig({
     globals: true,
     reporters: ['dot'],
     coverage: {
+      provider: 'c8',
       enabled: true,
       reporter: ['text', 'html', 'lcov'],
       reportsDirectory: '../reports/__coverage__',
+      100: true,
     },
   },
 });
