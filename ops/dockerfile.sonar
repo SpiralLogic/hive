@@ -6,7 +6,7 @@ ENV DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=1
 
 COPY . /source
 RUN sed -i "s~\.\./~Hive\.FrontEnd/~g" /source/reports/__coverage__/lcov.info
-RUN sed -i "s~${WORKSPACE}~/source~g" /ops/SonarQube.Analysis.xml
+RUN sed -i "s~${WORKSPACE}~/source~g" /source/ops/SonarQube.Analysis.xml
 RUN node -v
 RUN dotnet new tool-manifest || true
 RUN dotnet tool install dotnet-sonarscanner
