@@ -81,6 +81,7 @@ steps:
       dockerfile: ops/dockerfile
       tags:
       - latest
+      - ${DRONE_BUILD_NUMBER}-${DRONE_COMMIT_SHA:0:8}
     
 volumes:
   - name: reports
