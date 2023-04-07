@@ -19,7 +19,7 @@ spec:
         - name: sor-registry
       containers:
         - name: hive
-          image: {image}
+          image: registry.sorijen.net.au/hive:latest
           ports:
             - containerPort: 80
           env:
