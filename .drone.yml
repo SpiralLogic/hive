@@ -99,8 +99,9 @@ steps:
       templates:
         - ops/k8s/deployment.yaml
       app_name: hive
-    # depends_on: 
-    #   - build
+    depends_on: 
+      - build
+      - sonar
 volumes:
   - name: reports
     temp: { }
