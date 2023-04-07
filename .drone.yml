@@ -83,21 +83,24 @@ steps:
       - latest
       - ${DRONE_BUILD_NUMBER}-${DRONE_COMMIT_SHA:0:8}
   - name: deploy
-    image: danielgormly/drone-plugin-kube:0.0.1
+    image: zc2638/drone-k8s-plugin
     pull: if-not-exists
     settings:
-      server: https://10.1.2.1:6443
-      tokentoken:
+      k8s_server: https://10.1.2.1:6443
+      k8s_token:
         from_secret: HIVE_TOKEN
-      ca:
+      k8s_ca_crt:
         from_secret: HIVE_CA
+      k8s_skip_tls: true
       namespace: hive
       # config_files:
       #   - default:test-config:testdata/config.yaml
       #   - default:test-config:testdata/config.yaml:a.yaml
-      template: ops/k8s/deployment.yaml
+      templates:
+        - ops/k8s/deployment.yaml
+      app_name: hive
     # depends_on: 
-      # - build
+    #   - build
 volumes:
   - name: reports
     temp: { }
