@@ -88,9 +88,6 @@ steps:
       - frontend
       - domain
       - api
-    volumes:
-      - name: reports
-        path: /drone/src/reports
     settings:
       registry: registry.lab.sorijen.net.au
       username: 
