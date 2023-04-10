@@ -1,0 +1,37 @@
+
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: hive-test-results-service
+  namespace: hive
+spec:
+  selector:
+    app: hive-test-results
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: hive-test-results-ingress
+  namespace: hive
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: hive-test-results.lab.sorijen.net.au
+      http:
+        paths:
+          - backend:
+              service:
+                name: hive-test-results-service
+                port:
+                  number: 80
+            path: /
+            pathType: ImplementationSpecific
+  tls:
+    - hosts:
+        - hive-test-results.lab.sorijen.net.au
+      secretName: wildcard-cert
