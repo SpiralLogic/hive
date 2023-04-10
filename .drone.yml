@@ -1,6 +1,6 @@
 kind: pipeline
 type: kubernetes
-name: testing
+name: hive
 
 clone:
   depth: 1
@@ -14,7 +14,7 @@ steps:
       - pnpm install
       - pnpm test:all
       - mv reports/* /drone/src/reports/
-      - cp -r reports/__coverage__ /drone/src/reports/frontend
+      - cp -r /drone/src/reports/__coverage__ /drone/src/reports/frontend
     volumes:
       - name: reports
         path: /drone/src/reports
