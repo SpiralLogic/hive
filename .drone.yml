@@ -88,6 +88,9 @@ steps:
       - frontend
       - domain
       - api
+    volumes:
+      - name: reports
+        path: /reports
     settings:
       registry: registry.lab.sorijen.net.au
       username: 
