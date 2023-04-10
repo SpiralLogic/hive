@@ -1,0 +1,2 @@
+FROM nginx:latest
+COPY ./reports/** /usr/share/nginx/html/

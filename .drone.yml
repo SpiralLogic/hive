@@ -82,6 +82,26 @@ steps:
       tags:
       - latest
       - ${DRONE_BUILD_NUMBER}-${DRONE_COMMIT_SHA:0:8}
+  - name: hive-test-results
+    image: plugins/docker
+    depends_on:
+      - frontend
+      - domain
+      - api
+    volumes:
+      - name: reports
+        path: /drone/src/reports
+    settings:
+      registry: registry.lab.sorijen.net.au
+      username: 
+        from_secret: REGISTRY_USER
+      password: 
+        from_secret: REGISTRY_PASSWORD
+      repo: registry.lab.sorijen.net.au/hive-test-results
+      dockerfile: ops/dockerfile.test-results
+      tags:
+      - latest
+      - ${DRONE_BUILD_NUMBER}-${DRONE_COMMIT_SHA:0:8}
   - name: deploy
     image: zc2638/drone-k8s-plugin
     pull: if-not-exists

@@ -16,7 +16,7 @@ indent_size = 2
 
 # Code files
 [*.{cs,csx,vb,vbx}]
-indent_size = 4
+indent_size = 2
 insert_final_newline = false
 end_of_line = lf
 trim_trailing_whitespace = true
