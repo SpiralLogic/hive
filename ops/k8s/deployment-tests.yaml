@@ -1,0 +1,80 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hive-test-results
+  namespace: hive
+  labels:
+    app: hive-test-results
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hive-test-results
+  template:
+    metadata:
+      labels:
+        app: hive-test-results
+    spec:
+      imagePullSecrets:
+        - name: sor-registry
+      containers:
+        - name: hive-test-results
+          image: registry.lab.sorijen.net.au/hive-test-results:latest
+          ports:
+            - containerPort: 80
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /api/index.html
+              port: 80
+              scheme: HTTP
+            initialDelaySeconds: 20
+            periodSeconds: 2
+            successThreshold: 1
+            timeoutSeconds: 2
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /api/index.html
+              port: 80
+              scheme: HTTP
+            initialDelaySeconds: 20
+            periodSeconds: 2
+            successThreshold: 2
+            timeoutSeconds: 2
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: hive-test-results-service
+  namespace: hive
+spec:
+  selector:
+    app: hive-test-results
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: hive-test-results-ingress
+  namespace: hive
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: hive-test-results.lab.sorijen.net.au
+      http:
+        paths:
+          - backend:
+              service:
+                name: hive-test-results-service
+                port:
+                  number: 80
+            path: /
+            pathType: ImplementationSpecific
+  tls:
+    - hosts:
+        - hive-test-results.lab.sorijen.net.au
+      secretName: wildcard-cert

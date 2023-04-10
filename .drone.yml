@@ -126,6 +126,22 @@ steps:
     depends_on: 
       - build
       - sonar
+  - name: deploy-test-results
+    image: zc2638/drone-k8s-plugin
+    pull: if-not-exists
+    settings:
+      k8s_server: https://10.1.2.1:6443
+      k8s_token:
+        from_secret: HIVE_TOKEN
+      k8s_ca_crt:
+        from_secret: HIVE_CA
+      k8s_skip_tls: true
+      namespace: hive
+      templates:
+        - ops/k8s/deployment-tests.yaml
+      app_name: hive-test-results
+    depends_on: 
+      - hive-test-results
 volumes:
   - name: reports
     temp: { }
