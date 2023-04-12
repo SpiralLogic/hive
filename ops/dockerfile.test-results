@@ -1,2 +1,3 @@
 FROM nginx:latest
 COPY /reports /usr/share/nginx/html
+COPY ops/index.html /usr/share/nginx/html/ops/index.html
