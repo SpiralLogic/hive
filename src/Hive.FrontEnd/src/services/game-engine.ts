@@ -23,7 +23,9 @@ export default class GameEngine implements HexEngine {
       : this.getNewGame();
 
     this.initialGame = this.completeRequest();
-    effect(() => this.setAiMode(this.aiMode.value));
+    effect(() => {
+        void this.setAiMode(this.aiMode.value)
+    });
   }
 
   private setAiMode = async (mode: AiMode) => {

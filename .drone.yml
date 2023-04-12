@@ -167,3 +167,14 @@ steps:
       - pnpm install
       - pnpm update -L
       - pnpm test:all
+      - git add .
+  - name: git-push
+    image: appleboy/drone-git-push
+    settings:
+      branch: master
+      remote: git@github.com:SpiralLogic/hive.git
+      force: false
+      commit: true
+      ssh_key:
+        from_secret: github_ssh_key
+      commit_message: "node module updates from CI"
