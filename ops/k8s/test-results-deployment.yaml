@@ -1,34 +1,32 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: hive-deployment
+  name: hive-test-results
   namespace: hive
   labels:
-    app: hive
+    app: hive-test-results
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
-      app: hive
+      app: hive-test-results
   template:
     metadata:
       labels:
-        app: hive
+        app: hive-test-results
     spec:
       imagePullSecrets:
         - name: sor-registry
       containers:
-        - name: hive
-          image: registry.sorijen.net.au/hive:latest
+        - name: hive-test-results
+          image: registry.lab.sorijen.net.au/hive-test-results:latest
+          imagePullPolicy: Always
           ports:
             - containerPort: 80
-          env:
-            - name: ASPNETCORE_ENVIRONMENT
-              value: Production
           livenessProbe:
             failureThreshold: 3
             httpGet:
-              path: /game/RA5KTT7H0M80E/0
+              path: /api/index.html
               port: 80
               scheme: HTTP
             initialDelaySeconds: 20
@@ -38,7 +36,7 @@ spec:
           readinessProbe:
             failureThreshold: 3
             httpGet:
-              path: /game/RA5KTT7H0M80E/0
+              path: /api/index.html
               port: 80
               scheme: HTTP
             initialDelaySeconds: 20

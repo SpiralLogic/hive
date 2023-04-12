@@ -118,11 +118,11 @@ steps:
         from_secret: HIVE_CA
       k8s_skip_tls: true
       namespace: hive
-      # config_files:
-      #   - default:test-config:testdata/config.yaml
-      #   - default:test-config:testdata/config.yaml:a.yaml
+      init_templates:
+        - ops/k8s/hive-ingress.yaml
+        - ops/k8s/hive-redis.yaml
       templates:
-        - ops/k8s/deployment.yaml
+        - ops/k8s/hive-deployment.yaml
       app_name: hive
     depends_on: 
       - build
@@ -138,8 +138,10 @@ steps:
         from_secret: HIVE_CA
       k8s_skip_tls: true
       namespace: hive
+      init_templates:
+        - ops/k8s/test-results-ingress.yaml
       templates:
-        - ops/k8s/deployment-tests.yaml
+        - ops/k8s/test-results-deployment.yaml
       app_name: hive-test-results
     depends_on: 
       - hive-test-results

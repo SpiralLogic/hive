@@ -241,12 +241,12 @@ pipelines:
                       version: 0.3.0
                     options:
                       script: |-
-                        sed -i "s~{image}~$ARTIFACT_IMAGE:$GO_PIPELINE_LABEL~g" ops/k8s/deployment.yaml
+                        sed -i "s~{image}~$ARTIFACT_IMAGE:$GO_PIPELINE_LABEL~g" ops/k8s/hive-deployment.yaml
                         curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
                         
                         chmod +x ./kubectl
-                        cat ops/k8s/deployment.yaml
-                        ./kubectl --token  $KUBE_TOKEN --insecure-skip-tls-verify --server $KUBERNETES_SERVICE_HOST:$KUBERNETES_PORT_443_TCP_PORT -n $NAMESPACE apply --force -f ops/k8s/deployment.yaml
+                        cat ops/k8s/hive-deployment.yaml
+                        ./kubectl --token  $KUBE_TOKEN --insecure-skip-tls-verify --server $KUBERNETES_SERVICE_HOST:$KUBERNETES_PORT_443_TCP_PORT -n $NAMESPACE apply --force -f ops/k8s/hive-deployment.yaml
                       shtype: sh
                     run_if: passed
   sonar-image-build:
