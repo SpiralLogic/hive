@@ -167,7 +167,6 @@ steps:
       - pnpm install
       - pnpm update -L
       - pnpm test:all
-      - git add .
   - name: git-push
     image: appleboy/drone-git-push
     settings:
