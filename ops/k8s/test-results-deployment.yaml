@@ -30,7 +30,7 @@ spec:
               port: 80
               scheme: HTTP
             initialDelaySeconds: 20
-            periodSeconds: 2
+            periodSeconds: 200
             successThreshold: 1
             timeoutSeconds: 2
           readinessProbe:
