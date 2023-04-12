@@ -177,4 +177,5 @@ steps:
       ssh_key:
         from_secret: github_ssh_key
       commit_message: "node module updates from CI"
-      author: Drone CI
+      author_name: Drone CI
+      author_email: sorijen@sorijen.net.au
