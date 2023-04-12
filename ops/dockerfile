@@ -1,4 +1,4 @@
-FROM registry-proxy.lab.sorijen.net.au/library/node:18-alpine as node-build
+FROM library/node:18-alpine as node-build
 
 WORKDIR /source
 COPY src/Hive.FrontEnd/package.json .
