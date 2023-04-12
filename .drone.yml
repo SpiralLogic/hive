@@ -147,3 +147,6 @@ steps:
 volumes:
   - name: reports
     temp: { }
+image_pull_secrets:
+  - sor-registry
+  - sor-registry-proxy
