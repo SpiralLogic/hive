@@ -150,3 +150,20 @@ volumes:
 image_pull_secrets:
   - sor-registry
   - sor-registry-proxy
+---
+kind: pipeline
+type: kubernetes
+name: hive
+
+clone:
+  depth: 1
+
+steps:
+  - name: update node modules
+    image: registry-proxy.lab.sorijen.net.au/library/node:18-alpine
+    commands:
+      - cd src/Hive.FrontEnd
+      - npm i --location=global pnpm
+      - pnpm install
+      - pnpm update -L
+      - pnpm test:all
