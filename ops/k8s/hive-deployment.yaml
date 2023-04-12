@@ -19,7 +19,7 @@ spec:
         - name: sor-registry
       containers:
         - name: hive
-          image: registry.sorijen.net.au/hive:latest
+          image: registry.lab.sorijen.net.au/hive:latest
           imagePullPolicy: Always
           ports:
             - containerPort: 80
