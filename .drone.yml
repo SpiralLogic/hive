@@ -164,7 +164,6 @@ steps:
     commands:
       - cd src/Hive.FrontEnd
       - npm i --location=global pnpm
-      - pnpm install
       - pnpm update -L
       - pnpm test:all
   - name: git-push
