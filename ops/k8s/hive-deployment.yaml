@@ -32,7 +32,7 @@ spec:
               path: /game/RA5KTT7H0M80E/0
               port: 8080
               scheme: HTTP
-            initialDelaySeconds: 60
+            initialDelaySeconds: 20
             periodSeconds: 2
             successThreshold: 1
             timeoutSeconds: 2
@@ -42,7 +42,7 @@ spec:
               path: /game/RA5KTT7H0M80E/0
               port: 8080
               scheme: HTTP
-            initialDelaySeconds: 60
-            periodSeconds: 20
+            initialDelaySeconds: 20
+            periodSeconds: 2
             successThreshold: 2
             timeoutSeconds: 2
