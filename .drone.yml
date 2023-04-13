@@ -169,8 +169,8 @@ steps:
   - name: dotnet-upgrade
     image: mcr.microsoft.com/dotnet/sdk:8.0.100-preview.2
     commands:
-      - >
-          bash -c "regex='PackageReference Include="([^"]*)" Version="([^"]*)"'
+      - |
+        bash -c "regex='PackageReference Include="([^"]*)" Version="([^"]*)"'
           find . -name "*.*proj" | while read proj
           do
             while read line
@@ -184,8 +184,8 @@ steps:
                   dotnet add $proj package $name
                 fi
               fi
-          done < $proj
-          done";
+            done < $proj
+          done
       - dotnet test ./src -c Test
   - name: git-push
     image: appleboy/drone-git-push
