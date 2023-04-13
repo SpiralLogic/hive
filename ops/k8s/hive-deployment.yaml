@@ -23,8 +23,8 @@ spec:
           labelSelector:
             matchLabels:
               app: hive
-          matchLabelKeys:
-            - pod-template-hash
+#          matchLabelKeys:
+#            - pod-template-hash
       imagePullSecrets:
         - name: sor-registry
       containers:

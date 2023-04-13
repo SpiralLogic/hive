@@ -33,15 +33,16 @@ spec:
       labels:
         app: redis-cluster
     spec:
+      
       topologySpreadConstraints:
         - maxSkew: 1
           topologyKey: kubernetes.io/hostname
-          whenUnsatisfiable: ScheduleAnyway
+          whenUnsatisfiable: DoNotSchedule
           labelSelector:
             matchLabels:
               app: redis-cluster
-          matchLabelKeys:
-            - controller-revision-hash
+#          matchLabelKeys:
+#            - controller-revision-hash
       containers:
       - name: redis
         image: redis:6.2.6
