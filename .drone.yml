@@ -66,8 +66,6 @@ steps:
       - sed -i "s~\.\./~Hive\.FrontEnd/~g" /drone/src/reports/__coverage__/lcov.info
       - sed -i "s~/source~/drone/src~g" /drone/src/ops/SonarQube.Analysis.xml
       - node -v
-      - dotnet new tool-manifest || true
-      - dotnet tool install dotnet-sonarscanner
       - dotnet sonarscanner begin /k:hive /s:/drone/src/ops/SonarQube.Analysis.xml /d:sonar.login=$SONARQUBE_KEY
       - dotnet build -c Test ./src
       - dotnet test ./src -c Test --collect:"XPlat Code Coverage" --settings ./src/Hive.Api.Tests/runsettings.xml
