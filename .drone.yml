@@ -49,7 +49,7 @@ steps:
       - name: reports
         path: /drone/src/reports
   - name: sonar
-    image: registry.lab.sorijen.net.au/sonar-scanner:latest
+    image: registry.lab.sorijen.net.au/build-image:latest
     depends_on:
       - frontend
       - domain
@@ -219,7 +219,7 @@ trigger:
 ---
 kind: pipeline
 type: kubernetes
-name: build sonar scanner image
+name: create-build-image
 
 clone:
   depth: 1
@@ -234,9 +234,9 @@ steps:
         from_secret: REGISTRY_USER
       password:
         from_secret: REGISTRY_PASSWORD
-      repo: registry.lab.sorijen.net.au/sonar-scanner
+      repo: registry.lab.sorijen.net.au/build-image
       mirror: https://registry-proxy.lab.sorijen.net.au
-      dockerfile: ops/dockerfile.sonar-scanner
+      dockerfile: ops/dockerfile.build-image
       tags:
         - latest
         - ${DRONE_BUILD_NUMBER}-${DRONE_COMMIT_SHA:0:8}

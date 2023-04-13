@@ -1,4 +1,4 @@
-FROM registry.lab.sorijen.net.au/sonar-scanner as build
+FROM registry.lab.sorijen.net.au/build-image as build
 
 WORKDIR /usr/src/frontend
 COPY src/Hive.FrontEnd/package.json src/Hive.FrontEnd/pnpm-lock.yaml ./
