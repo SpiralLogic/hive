@@ -180,7 +180,7 @@ trigger:
 ---
 kind: pipeline
 type: kubernetes
-name: updates
+name: upgrades
 
 clone:
   depth: 1
@@ -216,6 +216,9 @@ steps:
 trigger:
   event:
     - cron
+  cron:
+    include:
+      - upgrades
 ---
 kind: pipeline
 type: kubernetes
@@ -246,3 +249,6 @@ image_pull_secrets:
 trigger:
   event:
     - cron
+  cron:
+    include:
+      - create-build-image
