@@ -143,6 +143,8 @@ steps:
         - master
       event:
         - promote
+      target:
+        - prod
   - name: deploy-test-results
     image: zc2638/drone-k8s-plugin
     pull: if-not-exists
@@ -166,6 +168,8 @@ steps:
         - master
       event:
         - promote
+      target:
+        - prod
 volumes:
   - name: reports
     temp: { }
