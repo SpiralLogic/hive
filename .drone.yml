@@ -216,7 +216,7 @@ steps:
       password:
         from_secret: REGISTRY_PASSWORD
       repo: registry.lab.sorijen.net.au/sonar-scanner
-      mirror: registry-proxy.lab.sorijen.net.au
+      mirror: https://registry-proxy.lab.sorijen.net.au
       dockerfile: ops/dockerfile.sonar-scanner
       tags:
         - latest
