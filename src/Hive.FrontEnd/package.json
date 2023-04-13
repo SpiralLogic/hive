@@ -43,7 +43,7 @@
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/preact": "^3.2.3",
     "@testing-library/user-event": "^14.4.3",
-    "@types/node": "^18.15.11",
+    "@types/node": "*",
     "@types/testing-library__jest-dom": "^5.14.5",
     "@typescript-eslint/eslint-plugin": "^5.58.0",
     "@typescript-eslint/parser": "^5.58.0",
@@ -84,7 +84,7 @@
     "vite": "^4.2.1"
   },
   "engines": {
-    "node": ">=18",
+    "node": ">=19",
     "pnpm": ">=8"
   },
   "pnpm": {

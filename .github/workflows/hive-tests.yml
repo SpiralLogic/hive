@@ -26,8 +26,6 @@ jobs:
             ${{ runner.os }}-nuget-
       - name: Install - dependencies
         run: dotnet restore
-      #      - name: Update Nuget Packages
-      #        run: ../ops/dotnet-update.sh
       - name: Test 
         run: |
             mkdir -p ./coverage
@@ -56,14 +54,10 @@ jobs:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
-          node-version: 18
+          node-version: 19
           check-latest: true
       - name: Setup - pnpm
         run: npm install --location=global pnpm
-#      - name: Install update checker
-#        run: pnpm install -g npm-check-updates
-#      - name: Update
-#        run: pnpm up
       - uses: actions/cache@v3
         with:
           path: node_modules
@@ -76,9 +70,6 @@ jobs:
         run: pnpm lint:fix
       - name: Test - Frontend
         run: pnpm test
-#      - uses: stefanzweifel/git-auto-commit-action@v4
-#        with:
-#          commit_message: github action lint fixes
       - name: Upload - Test results
         uses: actions/upload-artifact@v3
         with:
