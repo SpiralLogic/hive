@@ -94,33 +94,43 @@ steps:
     settings:
       mirror: https://registry-proxy.lab.sorijen.net.au
       registry: registry.lab.sorijen.net.au
-      username: 
+      username:
         from_secret: REGISTRY_USER
-      password: 
+      password:
         from_secret: REGISTRY_PASSWORD
       repo: registry.lab.sorijen.net.au/hive-test-results
       dockerfile: ops/dockerfile.test-results
       tags:
-      - latest
-      - ${DRONE_BUILD_NUMBER}-${DRONE_COMMIT_SHA:0:8}
+        - latest
+        - ${DRONE_BUILD_NUMBER}-${DRONE_COMMIT_SHA:0:8}
+volumes:
+  - name: reports
+    temp: { }
+image_pull_secrets:
+  - sor-registry
+  - sor-registry-proxy
+trigger:
+  event:
+    - push
+    - pull_request
+---
+kind: pipeline
+type: kubernetes
+name: hive deploy
+
+clone:
+  depth: 1
+
+steps:
+
   - name: update-deploy
     image: alpine
     commands:
       - sed -i s~latest~${DRONE_BUILD_PARENT}-${DRONE_COMMIT_SHA:0:8}~g ops/k8s/hive-deployment.yaml
-    when:
-      event:
-        - promote
-      target:
-        - prod
   - name: test-results-update-deploy
     image: alpine
     commands:
       - sed -i s~latest~${DRONE_BUILD_PARENT}-${DRONE_COMMIT_SHA:0:8}~g ops/k8s/test-results-deployment.yaml 
-    when:
-      event:
-        - promote
-      target:
-        - prod
   - name: deploy
     image: zc2638/drone-k8s-plugin
     pull: if-not-exists
@@ -140,11 +150,6 @@ steps:
       app_name: hive
     depends_on:
       - update-deploy
-    when:
-      event:
-        - promote
-      target:
-        - prod
   - name: deploy-test-results
     image: zc2638/drone-k8s-plugin
     pull: if-not-exists
@@ -163,22 +168,14 @@ steps:
       app_name: hive-test-results
     depends_on:
       - test-results-update-deploy
-    when:
-      event:
-        - promote
-      target:
-        - prod
-volumes:
-  - name: reports
-    temp: { }
 image_pull_secrets:
   - sor-registry
   - sor-registry-proxy
 trigger:
   event:
-    - push
-    - pull_request
     - promote
+  target:
+    - prod
 ---
 kind: pipeline
 type: kubernetes
