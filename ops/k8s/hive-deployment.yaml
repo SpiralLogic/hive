@@ -22,7 +22,7 @@ spec:
           image: registry.lab.sorijen.net.au/hive:latest
           imagePullPolicy: Always
           ports:
-            - containerPort: 80
+            - containerPort: 8080
           env:
             - name: ASPNETCORE_ENVIRONMENT
               value: Production
@@ -30,7 +30,7 @@ spec:
             failureThreshold: 3
             httpGet:
               path: /game/RA5KTT7H0M80E/0
-              port: 80
+              port: 8080
               scheme: HTTP
             initialDelaySeconds: 60
             periodSeconds: 2
@@ -40,7 +40,7 @@ spec:
             failureThreshold: 3
             httpGet:
               path: /game/RA5KTT7H0M80E/0
-              port: 80
+              port: 8080
               scheme: HTTP
             initialDelaySeconds: 60
             periodSeconds: 20
