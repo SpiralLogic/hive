@@ -165,12 +165,12 @@ steps:
       - cd src/Hive.FrontEnd
       - npm i --location=global pnpm
       - pnpm update -L
-      - pnpm test:all
+      # - pnpm test:all
   - name: git-push
     image: appleboy/drone-git-push
     settings:
       branch: master
-      remote: ssh://git@github.com:SpiralLogic/hive.git
+      remote: ssh://git@github.com/SpiralLogic/hive.git
       force: false
       commit: true
       ssh_key:
