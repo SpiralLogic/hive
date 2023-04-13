@@ -16,4 +16,6 @@ ENV DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=1
 
 COPY --from=mcr.microsoft.com/openjdk/jdk:17-ubuntu $JAVA_HOME $JAVA_HOME
 
+RUN wget -qO- https://get.pnpm.io/install.sh | ENV="$HOME/.bashrc" SHELL="$(which bash)" bash -
+
 RUN dotnet tool install -g dotnet-sonarscanner
