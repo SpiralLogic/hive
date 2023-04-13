@@ -477,3 +477,4 @@ build/
 *.tsbuildinfo
 vi*.config.d.ts
 vi*.config.js
+.pnpm-store
