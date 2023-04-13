@@ -217,6 +217,7 @@ steps:
       password:
         from_secret: REGISTRY_PASSWORD
       repo: registry.lab.sorijen.net.au/sonar-scanner
+      cache_from: registry.lab.sorijen.net.au/sonar-scanner
       dockerfile: ops/dockerfile.sonar-scanner
       tags:
         - latest
