@@ -199,3 +199,25 @@ steps:
       - dotnet-upgrade
       - node-upgrade
     failure: ignore
+---
+kind: pipeline
+type: kubernetes
+name: build sonar scanner image
+
+clone:
+  depth: 1
+
+steps:
+  - name: build
+    image: plugins/docker
+    settings:
+      registry: registry.lab.sorijen.net.au
+      username:
+        from_secret: REGISTRY_USER
+      password:
+        from_secret: REGISTRY_PASSWORD
+      repo: registry.lab.sorijen.net.au/sonar-scanner
+      dockerfile: ops/dockerfile.sonar-scanner
+      tags:
+        - latest
+        - ${DRONE_BUILD_NUMBER}-${DRONE_COMMIT_SHA:0:8}

@@ -12,4 +12,7 @@ COPY --from=registry-proxy.lab.sorijen.net.au/library/node:18-alpine /usr/local/
 ENV JAVA_HOME /usr/lib/jvm/msopenjdk-17-amd64
 ENV PATH "${JAVA_HOME}/bin:${PATH}"
 COPY --from=mcr.microsoft.com/openjdk/jdk:17-ubuntu $JAVA_HOME $JAVA_HOME
+
+RUN dotnet tool install -g dotnet-sonarscanner
+
 ENTRYPOINT ["/bin/bash","-l"]

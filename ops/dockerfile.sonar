@@ -6,8 +6,6 @@ ENV DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=1
 
 COPY . /source
 RUN sed -i "s~\.\./~Hive\.FrontEnd/~g" /source/reports/__coverage__/lcov.info
-RUN dotnet new tool-manifest || true
-RUN dotnet tool install dotnet-sonarscanner
 RUN dotnet sonarscanner begin /k:hive /s:/source/ops/SonarQube.Analysis.xml /d:sonar.login=$SONARQUBE_KEY
 RUN dotnet build -c Test /source/src
 RUN dotnet test ./src -c Test --collect:"XPlat Code Coverage" --settings /source/src/Hive.Api.Tests/runsettings.xml
