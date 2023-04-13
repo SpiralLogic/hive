@@ -5,6 +5,7 @@ metadata:
   namespace: hive
   labels:
     app: hive
+    buildId: "<buildId>"
 spec:
   replicas: 3
   selector:
