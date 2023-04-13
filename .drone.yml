@@ -171,7 +171,6 @@ steps:
     settings:
       branch: master
       remote: ssh://git@github.com:SpiralLogic/hive.git
-      remote_name: origin
       force: false
       commit: true
       ssh_key:
