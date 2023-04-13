@@ -10,10 +10,12 @@ COPY --from=node:18-alpine /usr/local/include /usr/local/include
 COPY --from=node:18-alpine /usr/local/bin /usr/local/bin
 
 ENV JAVA_HOME /usr/lib/jvm/msopenjdk-17-amd64
-ENV PATH "/root/.dotnet/tools:${JAVA_HOME}/bin:${PATH}"
+ENV PATH "${JAVA_HOME}/bin:${PATH}"
 
 COPY --from=mcr.microsoft.com/openjdk/jdk:17-ubuntu $JAVA_HOME $JAVA_HOME
 
+RUN echo "PATH=$PATH:/root/.dotnet/tools" >> ~/.bash_profile
+RUN export PATH="$PATH:/root/.dotnet/tools"
 RUN dotnet tool install -g dotnet-sonarscanner
 
 ENTRYPOINT ["/bin/bash","-l"]
