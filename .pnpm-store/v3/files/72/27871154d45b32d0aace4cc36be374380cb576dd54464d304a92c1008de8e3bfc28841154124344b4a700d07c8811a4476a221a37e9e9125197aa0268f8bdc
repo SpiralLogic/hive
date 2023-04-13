@@ -1,0 +1,212 @@
+import { CoverageProvider, Vitest, AfterSuiteRunMeta, ReportContext, ResolvedCoverageOptions } from 'vitest';
+import { BaseCoverageProvider } from 'vitest/coverage';
+import { CoverageMap } from 'istanbul-lib-coverage';
+import { Instrumenter } from 'istanbul-lib-instrument';
+
+type PartialNull<T> = {
+	[P in keyof T]: T[P] | null;
+};
+
+interface RollupError extends RollupLog {
+	name?: string;
+	stack?: string;
+	watchFiles?: string[];
+}
+
+type RollupWarning = RollupLog;
+
+interface RollupLog {
+	binding?: string;
+	cause?: unknown;
+	code?: string;
+	exporter?: string;
+	frame?: string;
+	hook?: string;
+	id?: string;
+	ids?: string[];
+	loc?: {
+		column: number;
+		file?: string;
+		line: number;
+	};
+	message: string;
+	names?: string[];
+	plugin?: string;
+	pluginCode?: string;
+	pos?: number;
+	reexporter?: string;
+	stack?: string;
+	url?: string;
+}
+
+interface SourceMap {
+	file: string;
+	mappings: string;
+	names: string[];
+	sources: string[];
+	sourcesContent: (string | null)[];
+	version: number;
+	toString(): string;
+	toUrl(): string;
+}
+
+interface ModuleOptions {
+	assertions: Record<string, string>;
+	meta: CustomPluginOptions;
+	moduleSideEffects: boolean | 'no-treeshake';
+	syntheticNamedExports: boolean | string;
+}
+
+interface PluginCache {
+	delete(id: string): boolean;
+	get<T = any>(id: string): T;
+	has(id: string): boolean;
+	set<T = any>(id: string, value: T): void;
+}
+
+interface MinimalPluginContext {
+	meta: PluginContextMeta;
+}
+
+interface EmittedAsset {
+	fileName?: string;
+	name?: string;
+	needsCodeReference?: boolean;
+	source?: string | Uint8Array;
+	type: 'asset';
+}
+
+interface EmittedChunk {
+	fileName?: string;
+	id: string;
+	implicitlyLoadedAfterOneOf?: string[];
+	importer?: string;
+	name?: string;
+	preserveSignature?: PreserveEntrySignaturesOption;
+	type: 'chunk';
+}
+
+type EmittedFile = EmittedAsset | EmittedChunk;
+
+type EmitFile = (emittedFile: EmittedFile) => string;
+
+interface ModuleInfo extends ModuleOptions {
+	ast: AcornNode | null;
+	code: string | null;
+	dynamicImporters: readonly string[];
+	dynamicallyImportedIdResolutions: readonly ResolvedId[];
+	dynamicallyImportedIds: readonly string[];
+	exportedBindings: Record<string, string[]> | null;
+	exports: string[] | null;
+	hasDefaultExport: boolean | null;
+	/** @deprecated Use `moduleSideEffects` instead */
+	hasModuleSideEffects: boolean | 'no-treeshake';
+	id: string;
+	implicitlyLoadedAfterOneOf: readonly string[];
+	implicitlyLoadedBefore: readonly string[];
+	importedIdResolutions: readonly ResolvedId[];
+	importedIds: readonly string[];
+	importers: readonly string[];
+	isEntry: boolean;
+	isExternal: boolean;
+	isIncluded: boolean | null;
+}
+
+type GetModuleInfo = (moduleId: string) => ModuleInfo | null;
+
+interface CustomPluginOptions {
+	[plugin: string]: any;
+}
+
+interface PluginContext extends MinimalPluginContext {
+	addWatchFile: (id: string) => void;
+	cache: PluginCache;
+	emitFile: EmitFile;
+	error: (error: RollupError | string, pos?: number | { column: number; line: number }) => never;
+	getFileName: (fileReferenceId: string) => string;
+	getModuleIds: () => IterableIterator<string>;
+	getModuleInfo: GetModuleInfo;
+	getWatchFiles: () => string[];
+	load: (
+		options: { id: string; resolveDependencies?: boolean } & Partial<PartialNull<ModuleOptions>>
+	) => Promise<ModuleInfo>;
+	/** @deprecated Use `this.getModuleIds` instead */
+	moduleIds: IterableIterator<string>;
+	parse: (input: string, options?: any) => AcornNode;
+	resolve: (
+		source: string,
+		importer?: string,
+		options?: {
+			assertions?: Record<string, string>;
+			custom?: CustomPluginOptions;
+			isEntry?: boolean;
+			skipSelf?: boolean;
+		}
+	) => Promise<ResolvedId | null>;
+	setAssetSource: (assetReferenceId: string, source: string | Uint8Array) => void;
+	warn: (warning: RollupWarning | string, pos?: number | { column: number; line: number }) => void;
+}
+
+interface PluginContextMeta {
+	rollupVersion: string;
+	watchMode: boolean;
+}
+
+interface ResolvedId extends ModuleOptions {
+	external: boolean | 'absolute';
+	id: string;
+	resolvedBy: string;
+}
+
+interface TransformPluginContext extends PluginContext {
+	getCombinedSourcemap: () => SourceMap;
+}
+type PreserveEntrySignaturesOption = false | 'strict' | 'allow-extension' | 'exports-only';
+
+interface AcornNode {
+	end: number;
+	start: number;
+	type: string;
+}
+
+type Options = ResolvedCoverageOptions<'istanbul'>;
+type Threshold = 'lines' | 'functions' | 'statements' | 'branches';
+interface TestExclude {
+    new (opts: {
+        cwd?: string | string[];
+        include?: string | string[];
+        exclude?: string | string[];
+        extension?: string | string[];
+        excludeNodeModules?: boolean;
+    }): {
+        shouldInstrument(filePath: string): boolean;
+        glob(cwd: string): Promise<string[]>;
+    };
+}
+declare class IstanbulCoverageProvider extends BaseCoverageProvider implements CoverageProvider {
+    name: string;
+    ctx: Vitest;
+    options: Options;
+    instrumenter: Instrumenter;
+    testExclude: InstanceType<TestExclude>;
+    /**
+     * Coverage objects collected from workers.
+     * Some istanbul utilizers write these into file system instead of storing in memory.
+     * If storing in memory causes issues, we can simply write these into fs in `onAfterSuiteRun`
+     * and read them back when merging coverage objects in `onAfterAllFilesRun`.
+     */
+    coverages: any[];
+    initialize(ctx: Vitest): void;
+    resolveOptions(): Options;
+    onFileTransform(sourceCode: string, id: string, pluginCtx: TransformPluginContext): {
+        code: string;
+        map: any;
+    } | undefined;
+    onAfterSuiteRun({ coverage }: AfterSuiteRunMeta): void;
+    clean(clean?: boolean): Promise<void>;
+    reportCoverage({ allTestsRun }?: ReportContext): Promise<void>;
+    checkThresholds(coverageMap: CoverageMap, thresholds: Record<Threshold, number | undefined>): void;
+    includeUntestedFiles(coverageMap: CoverageMap): Promise<void>;
+}
+
+export { IstanbulCoverageProvider };
