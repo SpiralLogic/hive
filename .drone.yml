@@ -7,7 +7,7 @@ clone:
 
 steps:
   - name: frontend
-    image: registry-proxy.lab.sorijen.net.au/library/node:18-alpine
+    image: node:18-alpine
     commands:
       - cd src/Hive.FrontEnd
       - npm i --location=global pnpm
@@ -170,7 +170,7 @@ clone:
 
 steps:
   - name: node-upgrade
-    image: registry-proxy.lab.sorijen.net.au/library/node:18-alpine
+    image: node:18-alpine
     commands:
       - cd src/Hive.FrontEnd
       - npm i --location=global pnpm
