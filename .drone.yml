@@ -208,6 +208,7 @@ clone:
 steps:
   - name: build
     image: plugins/docker
+    privileged: true
     settings:
       registry: registry.lab.sorijen.net.au
       username:
