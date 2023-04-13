@@ -176,7 +176,6 @@ image_pull_secrets:
 trigger:
   event:
     - promote
-    - push
     - rollback
 ---
 kind: pipeline
