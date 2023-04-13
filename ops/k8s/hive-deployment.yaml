@@ -16,6 +16,15 @@ spec:
       labels:
         app: hive
     spec:
+      topologySpreadConstraints:
+        - maxSkew: 1
+          topologyKey: node
+          whenUnsatisfiable: ScheduleAnyway
+          labelSelector:
+            matchLabels:
+              app: hive
+          matchLabelKeys:
+            - pod-template-hash
       imagePullSecrets:
         - name: sor-registry
       containers:
