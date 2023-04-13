@@ -127,12 +127,12 @@ steps:
     image: alpine
     commands:
       - sed -i s~latest~${DRONE_COMMIT_SHA:0:8}~g ops/k8s/hive-deployment.yaml
-      - sed -i s~\<buildId\>:~${DRONE_BUILD_PARENT}~g ops/k8s/hive-deployment.yaml
+      - sed -i s~\<buildId\>~${DRONE_BUILD_PARENT}~g ops/k8s/hive-deployment.yaml
   - name: test-results-update-deploy
     image: alpine
     commands:
       - sed -i s~latest~${DRONE_COMMIT_SHA:0:8}~g ops/k8s/test-results-deployment.yaml
-      - sed -i s~\<buildId\>:~${DRONE_BUILD_PARENT}~g ops/k8s/test-results-deployment.yaml 
+      - sed -i s~\<buildId\>~${DRONE_BUILD_PARENT}~g ops/k8s/test-results-deployment.yaml 
   - name: deploy
     image: zc2638/drone-k8s-plugin
     pull: if-not-exists
@@ -176,8 +176,8 @@ image_pull_secrets:
 trigger:
   event:
     - promote
-  target:
-    - prod
+    - push
+    - rollback
 ---
 kind: pipeline
 type: kubernetes
