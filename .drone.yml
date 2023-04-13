@@ -186,4 +186,4 @@ steps:
     depends_on:
       - dotnet-upgrade
       - node-upgrade
-      
+    failure: ignore
