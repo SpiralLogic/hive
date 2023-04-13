@@ -164,6 +164,7 @@ trigger:
   event:
     - push
     - pull_request
+    - custom
 ---
 kind: pipeline
 type: kubernetes
