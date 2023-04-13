@@ -12,7 +12,7 @@ steps:
       - cd src/Hive.FrontEnd
       - npm i --location=global pnpm
       - pnpm install
-      - pnpm test:all
+      - pnpm test:all:report
       - mv reports/* /drone/src/reports/
       - cp -r /drone/src/reports/__coverage__ /drone/src/reports/frontend
     volumes:
