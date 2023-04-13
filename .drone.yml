@@ -106,16 +106,21 @@ steps:
   - name: update-deploy
     image: alpine
     commands:
-      - sed -i s~latest~${DRONE_BUILD_NUMBER}-${DRONE_COMMIT_SHA:0:8}~g ops/k8s/hive-deployment.yaml
-    depends_on:
-      - build
-      - sonar
+      - sed -i s~latest~${DRONE_BUILD_PARENT}-${DRONE_COMMIT_SHA:0:8}~g ops/k8s/hive-deployment.yaml
+    when:
+      event:
+        - promote
+      target:
+        - prod
   - name: test-results-update-deploy
     image: alpine
     commands:
-      - sed -i s~latest~${DRONE_BUILD_NUMBER}-${DRONE_COMMIT_SHA:0:8}~g ops/k8s/test-results-deployment.yaml 
-    depends_on:
-      - hive-test-results
+      - sed -i s~latest~${DRONE_BUILD_PARENT}-${DRONE_COMMIT_SHA:0:8}~g ops/k8s/test-results-deployment.yaml 
+    when:
+      event:
+        - promote
+      target:
+        - prod
   - name: deploy
     image: zc2638/drone-k8s-plugin
     pull: if-not-exists
@@ -210,7 +215,6 @@ steps:
     depends_on:
       - dotnet-upgrade
       - node-upgrade
-    failure: ignore
 trigger:
   event:
     - cron
