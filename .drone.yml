@@ -1,13 +1,13 @@
 kind: pipeline
 type: kubernetes
-name: hive
+name: tests
 
 clone:
   depth: 50
 
 steps:
   - name: frontend
-    image: node:18-alpine
+    image: node:19-alpine
     commands:
       - cd src/Hive.FrontEnd
       - npm i --location=global pnpm
@@ -187,7 +187,7 @@ clone:
 
 steps:
   - name: node-upgrade
-    image: node:18-alpine
+    image: node:19-alpine
     commands:
       - cd src/Hive.FrontEnd
       - npm i --location=global pnpm
