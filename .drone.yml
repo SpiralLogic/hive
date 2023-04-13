@@ -110,9 +110,6 @@ steps:
     depends_on:
       - build
       - sonar
-    when:
-      branch:
-        - master
   - name: test-results-update-deploy
     image: alpine
     commands:
@@ -139,8 +136,6 @@ steps:
     depends_on:
       - update-deploy
     when:
-      branch:
-        - master
       event:
         - promote
       target:
@@ -164,8 +159,6 @@ steps:
     depends_on:
       - test-results-update-deploy
     when:
-      branch:
-        - master
       event:
         - promote
       target:
