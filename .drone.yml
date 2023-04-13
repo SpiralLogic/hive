@@ -216,9 +216,6 @@ steps:
 trigger:
   event:
     - cron
-  target:
-    include:
-      - weekly
 ---
 kind: pipeline
 type: kubernetes
@@ -249,6 +246,3 @@ image_pull_secrets:
 trigger:
   event:
     - cron
-  target:
-    include:
-      - weekly
