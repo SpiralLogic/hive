@@ -185,7 +185,7 @@ steps:
                 fi
               fi
             done < $proj
-          done
+          done"
       - dotnet test ./src -c Test
   - name: git-push
     image: appleboy/drone-git-push
