@@ -222,3 +222,6 @@ steps:
       tags:
         - latest
         - ${DRONE_BUILD_NUMBER}-${DRONE_COMMIT_SHA:0:8}
+image_pull_secrets:
+  - sor-registry
+  - sor-registry-proxy
