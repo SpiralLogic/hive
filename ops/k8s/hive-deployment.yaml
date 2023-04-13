@@ -18,8 +18,8 @@ spec:
     spec:
       topologySpreadConstraints:
         - maxSkew: 1
-          topologyKey: node
-          whenUnsatisfiable: ScheduleAnyway
+          topologyKey: kubernetes.io/hostname
+          whenUnsatisfiable: DoNotSchedule
           labelSelector:
             matchLabels:
               app: hive
