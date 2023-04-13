@@ -20,5 +20,5 @@ WORKDIR /usr/src/app
 ENV ASPNETCORE_ENVIRONMENT=Production
 
 COPY --from=build /usr/src/app .
-COPY --from=build /source/frontend/public ./wwwroot
+COPY --from=build /usr/src/frontend/public ./wwwroot
 ENTRYPOINT ["./Hive.Api"]
