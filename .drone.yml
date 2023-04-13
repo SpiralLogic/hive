@@ -110,6 +110,9 @@ steps:
     depends_on:
       - build
       - sonar
+    when:
+      branch:
+        - master
   - name: test-results-update-deploy
     image: alpine
     commands:
@@ -135,6 +138,11 @@ steps:
       app_name: hive
     depends_on:
       - update-deploy
+    when:
+      branch:
+        - master
+      event:
+        - promote
   - name: deploy-test-results
     image: zc2638/drone-k8s-plugin
     pull: if-not-exists
@@ -153,12 +161,21 @@ steps:
       app_name: hive-test-results
     depends_on:
       - test-results-update-deploy
+    when:
+      branch:
+        - master
+      event:
+        - promote
 volumes:
   - name: reports
     temp: { }
 image_pull_secrets:
   - sor-registry
   - sor-registry-proxy
+trigger:
+  event:
+    - push
+    - pull_request
 ---
 kind: pipeline
 type: kubernetes
