@@ -50,7 +50,6 @@ steps:
         path: /drone/src/reports
   - name: sonar
     image: registry.lab.sorijen.net.au/sonar-scanner:latest
-    pull: always
     depends_on:
       - frontend
       - domain
@@ -197,6 +196,12 @@ steps:
       - dotnet-upgrade
       - node-upgrade
     failure: ignore
+trigger:
+  event:
+    - cron
+  target:
+    include:
+      - weekly
 ---
 kind: pipeline
 type: kubernetes
@@ -224,3 +229,9 @@ steps:
 image_pull_secrets:
   - sor-registry
   - sor-registry-proxy
+trigger:
+  event:
+    - cron
+  target:
+    include:
+      - weekly
