@@ -50,6 +50,7 @@ steps:
         path: /drone/src/reports
   - name: sonar
     image: registry.lab.sorijen.net.au/sonar-scanner:latest
+    pull: always
     depends_on:
       - frontend
       - domain
@@ -94,6 +95,7 @@ steps:
       - name: reports
         path: /drone/src/reports
     settings:
+      mirror: https://registry-proxy.lab.sorijen.net.au
       registry: registry.lab.sorijen.net.au
       username: 
         from_secret: REGISTRY_USER
