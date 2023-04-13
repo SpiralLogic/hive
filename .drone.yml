@@ -199,7 +199,7 @@ steps:
       commit_message: "package updates from CI"
       author_name: Drone CI
       author_email: sorijen@sorijen.net.au
-      depends_on:
-        - dotnet-upgrade
-        - node-upgrade
-        
+    depends_on:
+      - dotnet-upgrade
+      - node-upgrade
+      
