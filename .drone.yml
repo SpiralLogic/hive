@@ -212,6 +212,7 @@ steps:
     image: plugins/docker
     settings:
       registry: registry.lab.sorijen.net.au
+      privileged: true
       username:
         from_secret: REGISTRY_USER
       password:
