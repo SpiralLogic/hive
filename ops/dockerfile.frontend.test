@@ -1,8 +1,0 @@
-FROM registry-proxy.lab.sorijen.net.au/library/node:18-alpine
-
-WORKDIR /source
-COPY . .
-WORKDIR /source/src/Hive.FrontEnd
-RUN npm i --location=global pnpm
-RUN pnpm install
-RUN pnpm test:all

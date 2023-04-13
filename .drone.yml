@@ -106,6 +106,19 @@ steps:
       tags:
       - latest
       - ${DRONE_BUILD_NUMBER}-${DRONE_COMMIT_SHA:0:8}
+  - name: update-deploy
+    image: alpine
+    commands:
+      - sed -i s~latest~${DRONE_BUILD_NUMBER}-${DRONE_COMMIT_SHA:0:8}~g ops/k8s/hive-deployment.yaml
+    depends_on:
+      - build
+      - sonar
+  - name: test-results-update-deploy
+    image: alpine
+    commands:
+      - sed -i s~latest~${DRONE_BUILD_NUMBER}-${DRONE_COMMIT_SHA:0:8}~g ops/k8s/test-results-deployment.yaml 
+    depends_on:
+      - hive-test-results
   - name: deploy
     image: zc2638/drone-k8s-plugin
     pull: if-not-exists
@@ -123,9 +136,8 @@ steps:
       templates:
         - ops/k8s/hive-deployment.yaml
       app_name: hive
-    depends_on: 
-      - build
-      - sonar
+    depends_on:
+      - update-deploy
   - name: deploy-test-results
     image: zc2638/drone-k8s-plugin
     pull: if-not-exists
@@ -142,8 +154,8 @@ steps:
       templates:
         - ops/k8s/test-results-deployment.yaml
       app_name: hive-test-results
-    depends_on: 
-      - hive-test-results
+    depends_on:
+      - test-results-update-deploy
 volumes:
   - name: reports
     temp: { }
