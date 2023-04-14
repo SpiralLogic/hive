@@ -302,3 +302,6 @@ trigger:
   cron:
     include:
       - create-build-image
+---
+kind: signature
+hmac: 6d100052c57672a34ed8029d07b332bd0caa968e19197069c80561d22dd766ee
