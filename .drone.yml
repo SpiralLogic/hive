@@ -104,6 +104,10 @@ steps:
       tags:
         - latest
         - ${DRONE_COMMIT_SHA:0:8}
+  - name: gitleaks
+    image: plugins/gitleaks
+    settings:
+      path: .
   - name: update-deploy
     image: alpine
     commands:
@@ -157,19 +161,7 @@ steps:
       app_name: hive-test-results
     depends_on:
       - test-results-update-deploy
-  - name: scan
-    image: drone-plugins/drone-snyk
-    pull: if-not-exists
-    privileged: true
-    settings:
-      image: registry.lab.sorijen.net.au/hive:${DRONE_BUILD_NUMBER}
-      fail_on_issues: false
-    depends_on:
-      - build
-  - name: gitleaks
-    image: plugins/gitleaks
-    settings:
-      path: .
+
 volumes:
   - name: reports
     temp: { }
@@ -237,7 +229,6 @@ steps:
       app_name: hive-test-results
     depends_on:
       - test-results-update-deploy
-
 image_pull_secrets:
   - sor-registry
   - sor-registry-proxy
@@ -320,4 +311,6 @@ trigger:
       - create-build-image
 ---
 kind: signature
-hmac: c015fec8c37c1a271b393f86fda1a14ef74662082d27eda52e347d2847d9413b
+hmac: 942df3ce4d569171a29880c8f7d62fa371691c7b56c547ee727850d25ee610bd
+
+
