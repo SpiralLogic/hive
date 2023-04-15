@@ -112,6 +112,7 @@ steps:
     depends_on:
       - sonar
       - build
+      - gitleaks
   - name: test-results-update-deploy
     image: alpine
     commands:
@@ -165,7 +166,7 @@ steps:
       fail_on_issues: false
     depends_on:
       - build
-  - name: run gitleaks
+  - name: gitleaks
     image: plugins/gitleaks
     settings:
       path: .
@@ -319,5 +320,4 @@ trigger:
       - create-build-image
 ---
 kind: signature
-hmac: 6f4562f26c605a4ece8521b84ad7c2d3b8691d985fb89e0ce1873af3e27d772b
-
+hmac: c015fec8c37c1a271b393f86fda1a14ef74662082d27eda52e347d2847d9413b
