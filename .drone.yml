@@ -71,10 +71,15 @@ steps:
       - dotnet sonarscanner end /d:sonar.login=$SONARQUBE_KEY
   - name: build
     image: plugins/docker
+    privileged: true
     settings:
       registry: registry.lab.sorijen.net.au
       custom_dns: 10.1.3.100
       mirror: https://registry-proxy.lab.sorijen.net.au
+      username: 
+        from_secret: REGISTRY_USER
+      password: 
+        from_secret: REGISTRY_PASSWORD
       repo: registry.lab.sorijen.net.au/hive
       dockerfile: ops/dockerfile
       tags:
@@ -93,6 +98,10 @@ steps:
     settings:
       mirror: https://registry-proxy.lab.sorijen.net.au
       registry: registry.lab.sorijen.net.au
+      username:
+        from_secret: REGISTRY_USER
+      password:
+        from_secret: REGISTRY_PASSWORD
       repo: registry.lab.sorijen.net.au/hive-test-results
       dockerfile: ops/dockerfile.test-results
       tags:
