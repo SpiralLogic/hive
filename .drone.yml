@@ -156,6 +156,19 @@ steps:
       app_name: hive-test-results
     depends_on:
       - test-results-update-deploy
+  - name: scan
+    image: drone-plugins/drone-snyk
+    pull: if-not-exists
+    privileged: true
+    settings:
+      image: registry.lab.sorijen.net.au/hive:${DRONE_BUILD_NUMBER}
+      fail_on_issues: false
+    depends_on:
+      - build
+  - name: run gitleaks
+    image: plugins/gitleaks
+    settings:
+      path: .
 volumes:
   - name: reports
     temp: { }
@@ -223,6 +236,7 @@ steps:
       app_name: hive-test-results
     depends_on:
       - test-results-update-deploy
+
 image_pull_secrets:
   - sor-registry
   - sor-registry-proxy
@@ -305,4 +319,5 @@ trigger:
       - create-build-image
 ---
 kind: signature
-hmac: 369b052862edc74cf4cfa329152f7c757cb987d2a5f11d9d4e40e0924f8c463a
+hmac: 6f4562f26c605a4ece8521b84ad7c2d3b8691d985fb89e0ce1873af3e27d772b
+
