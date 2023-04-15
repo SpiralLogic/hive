@@ -4,9 +4,6 @@ name: tests
 
 clone:
   depth: 50
-dns_config:
-  nameservers:
-    - 10.1.3.100
 steps:
   - name: frontend
     image: node:19-alpine
@@ -236,9 +233,6 @@ name: upgrades
 
 clone:
   depth: 1
-dns_config:
-  nameservers:
-    - 10.1.3.100
 steps:
   - name: node-upgrade
     image: node:19-alpine
@@ -280,9 +274,6 @@ name: create-build-image
 
 clone:
   depth: 1
-dns_config:
-  nameservers:
-    - 10.1.3.100
 steps:
   - name: build
     image: plugins/docker
