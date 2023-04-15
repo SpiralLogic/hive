@@ -122,11 +122,12 @@ steps:
   - name: deploy
     image: zc2638/drone-k8s-plugin
     settings:
-      k8s_server: https://10.1.2.1:6443
+      k8s_server: 
+        from_secret: K8_SERVER
       k8s_token:
-        from_secret: HIVE_TOKEN
+        from_secret: DEPLOY_TOKEN
       k8s_ca_crt:
-        from_secret: HIVE_CA
+        from_secret: DEPLOY_SA_CA
       k8s_skip_tls: true
       namespace: hive
       init_templates:
@@ -140,11 +141,12 @@ steps:
   - name: deploy-test-results
     image: zc2638/drone-k8s-plugin
     settings:
-      k8s_server: https://10.1.2.1:6443
+      k8s_server:
+        from_secret: K8_SERVER
       k8s_token:
-        from_secret: HIVE_TOKEN
+        from_secret: DEPLOY_TOKEN
       k8s_ca_crt:
-        from_secret: HIVE_CA
+        from_secret: DEPLOY_SA_CA
       k8s_skip_tls: true
       namespace: hive
       init_templates:
@@ -187,11 +189,12 @@ steps:
   - name: deploy
     image: zc2638/drone-k8s-plugin
     settings:
-      k8s_server: https://10.1.2.1:6443
+      k8s_server:
+        from_secret: K8_SERVER
       k8s_token:
-        from_secret: HIVE_TOKEN
+        from_secret: DEPLOY_TOKEN
       k8s_ca_crt:
-        from_secret: HIVE_CA
+        from_secret: DEPLOY_SA_CA
       k8s_skip_tls: true
       namespace: hive
       init_templates:
@@ -205,11 +208,12 @@ steps:
   - name: deploy-test-results
     image: zc2638/drone-k8s-plugin
     settings:
-      k8s_server: https://10.1.2.1:6443
+      k8s_server:
+        from_secret: K8_SERVER
       k8s_token:
-        from_secret: HIVE_TOKEN
+        from_secret: DEPLOY_TOKEN
       k8s_ca_crt:
-        from_secret: HIVE_CA
+        from_secret: DEPLOY_SA_CA
       k8s_skip_tls: true
       namespace: hive
       init_templates:

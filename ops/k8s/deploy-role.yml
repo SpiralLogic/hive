@@ -1,0 +1,9 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: hive-deploy-role
+  namespace: hive
+rules:
+- apiGroups: ["", "extensions", "apps","networking.k8s.io"]
+  resources: ["Issuer","Deployment","Service","Ingress","ConfigMap","StatefulSet"]
+  verbs: ["PATCH","GET","LIST","CREATE","UPDATE"]
