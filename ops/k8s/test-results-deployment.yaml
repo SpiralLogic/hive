@@ -5,7 +5,7 @@ metadata:
   namespace: hive
   labels:
     app: hive-test-results
-    buildId: "<buildId>"
+    buildId: "buildId"
 spec:
   replicas: 1
   selector:

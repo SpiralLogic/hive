@@ -41,8 +41,6 @@ spec:
           labelSelector:
             matchLabels:
               app: redis-cluster
-#          matchLabelKeys:
-#            - controller-revision-hash
       containers:
       - name: redis
         image: redis:6.2.6
