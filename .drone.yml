@@ -73,6 +73,7 @@ steps:
     image: plugins/docker
     settings:
       registry: registry.lab.sorijen.net.au
+      custom_dns: 10.1.3.100
       mirror: https://registry-proxy.lab.sorijen.net.au
       username: 
         from_secret: REGISTRY_USER
@@ -302,6 +303,3 @@ trigger:
   cron:
     include:
       - create-build-image
----
-kind: signature
-hmac: 6d100052c57672a34ed8029d07b332bd0caa968e19197069c80561d22dd766ee
