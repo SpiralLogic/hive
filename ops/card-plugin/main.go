@@ -18,7 +18,6 @@ func writeCardTo(out io.Writer, data []byte) {
 }
 
 func writeCard(path string, card interface{}) {
-
     data, _ := json.Marshal(card)
     log.Println(data)
 
@@ -34,13 +33,10 @@ func writeCard(path string, card interface{}) {
 
 func main() {
     data := os.Getenv("PLUGIN_BODY")
-    var body interface{}
-    json.Unmarshal([]byte(data), &body)
-    data2, _ := json.Marshal(body)
 
     card := drone.CardInput{
         Schema: "https://raw.githubusercontent.com/SpiralLogic/hive/master/ops/adaptive-card/build-widget.json",
-        Data:   data2,
+        Data:   data,
     }
 
     writeCard("/dev/stdout", &card)
