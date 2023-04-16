@@ -6,26 +6,11 @@ clone:
   depth: 50
   
 steps:
-  - name: restore-cache-with-filesystem
-    image: meltwater/drone-cache:dev
-    pull: true
-    settings:
-      backend: "filesystem"
-      restore: true
-      cache_key: '{{ .Repo.Name }}_{{ checksum "/drone/src/src/Hive.FrontEnd/pnpm-lock.yaml" }}_{{ arch }}_{{ os }}'
-      archive_format: "gzip"
-      # filesystem_cache_root: "/tmp/cache"
-      mount:
-        - /drone/src/.pnpm-store
-    volumes:
-      - name: cache
-        path: /tmp/cache
   - name: frontend
     image: node:19-alpine
     commands:
       - cd src/Hive.FrontEnd
       - npm i --location=global pnpm
-      - pnpm config set store-dir /drone/src/.pnpm-store
       - pnpm install --frozen-lockfile
       - pnpm test:all:report
       - mv reports/* /drone/src/reports/
@@ -33,8 +18,6 @@ steps:
     volumes:
       - name: reports
         path: /drone/src/reports
-    depends_on:
-      - restore-cache-with-filesystem
   - name: backend
     image: mcr.microsoft.com/dotnet/sdk:8.0.100-preview.3
     commands:
@@ -90,8 +73,6 @@ steps:
       tags:
       - latest
       - ${DRONE_COMMIT_SHA:0:8}
-    depends_on:
-      - restore-cache-with-filesystem
   - name: test-results
     privileged: true
     image: plugins/docker
@@ -170,26 +151,6 @@ steps:
       app_name: hive-test-results
     depends_on:
       - test-results-update-deploy
-  - name: rebuild-cache-with-key
-    image: meltwater/drone-cache:dev
-    pull: true
-    settings:
-      backend: "filesystem"
-      rebuild: true
-      cache_key: '{{ .Repo.Name }}_{{ checksum "/drone/src/src/Hive.FrontEnd/pnpm-lock.yaml" }}_{{ arch }}_{{ os }}'
-      archive_format: "gzip"
-      # filesystem_cache_root: "/tmp/cache"
-      mount:
-        - /drone/src/.pnpm-store
-    volumes:
-      - name: cache
-        path: /tmp/cache
-    depends_on: 
-      - build
-    when:
-      status:
-        - failure
-        - success
   - name: Card Maker
     image: registry.lab.sorijen.net.au/card-maker:latest
     pull: always
@@ -199,9 +160,7 @@ steps:
 volumes:
   - name: reports
     temp: { }
-  - name: cache
-    host:
-      path: /var/lib/cache/pnpm
+
 image_pull_secrets:
   - sor-registry
   - sor-registry-proxy
@@ -334,6 +293,8 @@ steps:
       repo: registry.lab.sorijen.net.au/build-image
       mirror: https://registry-proxy.lab.sorijen.net.au
       dockerfile: ops/dockerfile.build-image
+      squash: true
+      compress: true
       tags:
         - latest
         - ${DRONE_BUILD_NUMBER}-${DRONE_COMMIT_SHA:0:8}

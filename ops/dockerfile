@@ -1,11 +1,9 @@
 FROM registry.lab.sorijen.net.au/build-image as build
 
 WORKDIR /usr/src/frontend
+COPY src/Hive.FrontEnd/package.json src/Hive.FrontEnd/pnpm-lock.yaml ./
 ENV NODE_ENV=production
 
-COPY src/Hive.FrontEnd/package.json src/Hive.FrontEnd/pnpm-lock.yaml ./
-RUN pnpm config set store-dir /tmp/.pnpm-store
-COPY .pnpm-store /tmp/.pnpm-store
 RUN pnpm install -P --frozen-lockfile
 
 COPY ./src/Hive.FrontEnd .
