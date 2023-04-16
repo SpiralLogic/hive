@@ -156,15 +156,7 @@ steps:
     pull: always
     commands:
       - drone-card-maker ops/adaptive-card/card.json
-  - name: Snky
-    image: drone-plugins/drone-snyk
-    pull: if-not-exists
-    privileged: true
-    settings:
-      dockerfile: ops/dockerfile
-      registry: https://registry.lab.sorijen.net.au 
-      image: registry.lab.sorijen.net.au/hive:latest
-      fail_on_issues: false // step won't fail if set to false
+
 volumes:
   - name: reports
     temp: { }
