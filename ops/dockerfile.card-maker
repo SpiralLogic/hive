@@ -1,0 +1,7 @@
+FROM  golang:1.20
+WORKDIR /source
+COPY . .
+RUN go mod tidy
+RUN go build
+
+ENTRYPOINT ["./hive", "./card.json"]
