@@ -1,45 +1,85 @@
 package main
 
 import (
-    "encoding/base64"
-    "encoding/json"
-    "github.com/drone/drone-go/drone"
-    "io"
-    "log"
-    "os"
+	"encoding/base64"
+	"encoding/json"
+	"fmt"
+	"github.com/drone/drone-go/drone"
+	"io"
+	"log"
+	"os"
 )
 
 func writeCardTo(out io.Writer, data []byte) {
-    encoded := base64.StdEncoding.EncodeToString(data)
-    io.WriteString(out, "\u001B]1338;")
-    io.WriteString(out, encoded)
-    io.WriteString(out, "\u001B]0m")
-    io.WriteString(out, "\n")
+	encoded := base64.StdEncoding.EncodeToString(data)
+
+	io.WriteString(out, "\u001B]1338;")
+	io.WriteString(out, encoded)
+	io.WriteString(out, "\u001B]0m")
+	io.WriteString(out, "\n")
 }
 
 func writeCard(path string, card interface{}) {
-    data, _ := json.Marshal(card)
-    log.Println(data)
+	data, _ := json.Marshal(card)
 
-    switch {
-    case path == "/dev/stdout":
-        writeCardTo(os.Stdout, data)
-    case path == "/dev/stderr":
-        writeCardTo(os.Stderr, data)
-    case path != "":
-        os.WriteFile(path, data, 0644)
-    }
+	switch {
+	case path == "/dev/stdout":
+		writeCardTo(os.Stdout, data)
+	case path == "/dev/stderr":
+		writeCardTo(os.Stderr, data)
+	case path != "":
+		os.WriteFile(path, data, 0644)
+	}
 }
 
 func main() {
-    data := os.Getenv("PLUGIN_BODY")
-
-    card := drone.CardInput{
-        Schema: "https://raw.githubusercontent.com/SpiralLogic/hive/master/ops/adaptive-card/build-widget.json",
-        Data:   data,
+	jsonData := `
+		{
+  "title": "Build links",
+  "description": "Build output links",
+  "build": [
+    {
+      "title2": "Created",
+      "value": "2017-02-14T06:00:00Z"
+    },
+    {
+      "title2": "commitMessage",
+      "value": "did stuff"
+    },
+    {
+      "title2": "runTime",
+      "value": "2000"
     }
+  ],
+  "links": [
+    {
+      "title": "Test Coverage",
+      "url": "https://hive-test-results.lab.sorijen.net.au"
+    },
+    {
+      "title": "Game",
+      "url": "https://hive.sorijen.net.au"
+    }
+  ]
+}
+	`
 
-    writeCard("/dev/stdout", &card)
+	var data json.RawMessage
 
-    os.Exit(0)
+	err := json.Unmarshal([]byte(jsonData), &data)
+
+	if err != nil {
+		fmt.Printf("could not unmarshal json: %s\n", err)
+		return
+	}
+
+	card := drone.CardInput{
+		Schema: "https://raw.githubusercontent.com/SpiralLogic/hive/master/ops/adaptive-card/build-widget.json",
+		Data:   data,
+	}
+	log.Println(&card)
+
+	writeCard("/dev/stdout", &card)
+
+	os.Exit(0)
 }
