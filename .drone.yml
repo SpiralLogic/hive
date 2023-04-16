@@ -59,7 +59,6 @@ steps:
         path: /drone/src/reports
   - name: sonar
     image: registry.lab.sorijen.net.au/build-image:latest
-    pull: always
     depends_on:
       - backend
       - frontend
