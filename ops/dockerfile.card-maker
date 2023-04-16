@@ -8,6 +8,7 @@ FROM alpine
 WORKDIR /app
 COPY --from=build /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
 
-COPY --from=build /source/hive /app/hive
+COPY --from=build /source/drone-card-maker /app/drone-card-maker
+RUN ln -s /app/drone-card-maker /usr/local/bin
 
-CMD ["/app/hive", "card.json"]
+CMD ["/app/drone-card-maker", "card.json"]

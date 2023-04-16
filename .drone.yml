@@ -9,7 +9,7 @@ steps:
     image: registry.lab.sorijen.net.au/card-maker:latest
     pull: always
     commands:
-      - /app/hive ops/adaptive-card/card.json
+      - drone-card-maker ops/adaptive-card/card.json
   - name: frontend
     image: node:19-alpine
     commands:

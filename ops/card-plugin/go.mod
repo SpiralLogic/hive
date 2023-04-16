@@ -1,4 +1,4 @@
-module hive
+module drone-card-maker
 
 go 1.20
 
