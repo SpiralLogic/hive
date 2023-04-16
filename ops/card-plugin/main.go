@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/base64"
 	"encoding/json"
+	"fmt"
 	"github.com/drone/drone-go/drone"
 	"io"
 	"log"
@@ -32,11 +33,22 @@ func writeCard(path string, card interface{}) {
 }
 
 func main() {
-	jsonData, _ := os.ReadFile(os.Args[1])
+	log.Print(os.Args[1])
+	fileData, _ := os.ReadFile(os.Args[1])
+	jsonData := string(fileData)
+	log.Print(jsonData)
+	var data json.RawMessage
+
+	err := json.Unmarshal([]byte(jsonData), &data)
+
+	if err != nil {
+		fmt.Printf("could not unmarshal json: %s\n", err)
+		return
+	}
 
 	card := drone.CardInput{
 		Schema: "https://raw.githubusercontent.com/SpiralLogic/hive/master/ops/adaptive-card/build-widget.json",
-		Data:   jsonData,
+		Data:   data,
 	}
 	log.Println(&card)
 
