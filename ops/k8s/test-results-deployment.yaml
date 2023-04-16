@@ -8,6 +8,7 @@ metadata:
     buildId: "buildId"
 spec:
   replicas: 1
+  revisionHistoryLimit: 4
   selector:
     matchLabels:
       app: hive-test-results
