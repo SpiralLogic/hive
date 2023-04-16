@@ -33,37 +33,7 @@ func writeCard(path string, card interface{}) {
 }
 
 func main() {
-	jsonData := `
-		{
-  "title": "Build links",
-  "description": "Build output links",
-  "build": [
-    {
-      "title2": "Created",
-      "value": "2017-02-14T06:00:00Z"
-    },
-    {
-      "title2": "commitMessage",
-      "value": "did stuff"
-    },
-    {
-      "title2": "runTime",
-      "value": "2000"
-    }
-  ],
-  "links": [
-    {
-      "title": "Test Coverage",
-      "url": "https://hive-test-results.lab.sorijen.net.au"
-    },
-    {
-      "title": "Game",
-      "url": "https://hive.sorijen.net.au"
-    }
-  ]
-}
-	`
-
+	jsonData := os.Getenv("PLUGIN_BODY")
 	var data json.RawMessage
 
 	err := json.Unmarshal([]byte(jsonData), &data)
