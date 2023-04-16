@@ -16,7 +16,7 @@ steps:
       archive_format: "gzip"
       # filesystem_cache_root: "/tmp/cache"
       mount:
-        - /drone/src/src/Hive.FrontEnd/node_modules/.pnpm
+        - /drone/src/.pnpm-store
     volumes:
       - name: cache
         path: /tmp/cache
@@ -25,6 +25,7 @@ steps:
     commands:
       - cd src/Hive.FrontEnd
       - npm i --location=global pnpm
+      - pnpm config set store-dir /drone/src/.pnpm-store
       - pnpm install --frozen-lockfile
       - pnpm test:all:report
       - mv reports/* /drone/src/reports/
@@ -180,7 +181,7 @@ steps:
       archive_format: "gzip"
       # filesystem_cache_root: "/tmp/cache"
       mount:
-        - /drone/src/src/Hive.FrontEnd/node_modules/.pnpm
+        - /drone/src/.pnpm-store
     volumes:
       - name: cache
         path: /tmp/cache
