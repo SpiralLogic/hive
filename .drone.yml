@@ -5,6 +5,10 @@ name: tests
 clone:
   depth: 50
 steps:
+  - name: Card Test
+    image: alpine
+    commands:
+      - cat ops/adaptive-card/card.json | base64 
   - name: frontend
     image: node:19-alpine
     commands:
@@ -309,8 +313,3 @@ trigger:
   cron:
     include:
       - create-build-image
----
-kind: signature
-hmac: 942df3ce4d569171a29880c8f7d62fa371691c7b56c547ee727850d25ee610bd
-
-
