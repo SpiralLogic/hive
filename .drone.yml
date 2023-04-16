@@ -11,8 +11,7 @@ steps:
       - cd ops/card-plugin
       - go mod tidy
       - go build
-      - PLUGIN_BODY=$(cat ../adaptive-card/card.json) echo "$PLUGIN_BODY"
-      - ./hive
+      - PLUGIN_BODY=$(cat ../adaptive-card/card.json) ./hive
   - name: frontend
     image: node:19-alpine
     commands:
