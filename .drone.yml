@@ -186,6 +186,10 @@ steps:
         path: /tmp/cache
     depends_on: 
       - build
+    when:
+      status:
+        - failure
+        - success
   - name: Card Maker
     image: registry.lab.sorijen.net.au/card-maker:latest
     pull: always
