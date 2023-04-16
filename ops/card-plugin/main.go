@@ -33,10 +33,8 @@ func writeCard(path string, card interface{}) {
 }
 
 func main() {
-	log.Print(os.Args[1])
 	fileData, _ := os.ReadFile(os.Args[1])
 	jsonData := string(fileData)
-	log.Print(jsonData)
 	var data json.RawMessage
 
 	err := json.Unmarshal([]byte(jsonData), &data)
@@ -50,9 +48,8 @@ func main() {
 		Schema: "https://raw.githubusercontent.com/SpiralLogic/hive/master/ops/adaptive-card/build-widget.json",
 		Data:   data,
 	}
-	log.Println(&card)
 
 	writeCard("/dev/stdout", &card)
-
+	log.Print("Card Created")
 	os.Exit(0)
 }
