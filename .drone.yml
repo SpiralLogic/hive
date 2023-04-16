@@ -4,6 +4,7 @@ name: tests
 
 clone:
   depth: 50
+  
 steps:
   - name: restore-cache-with-filesystem
     image: meltwater/drone-cache:dev
@@ -11,7 +12,7 @@ steps:
     settings:
       backend: "filesystem"
       restore: true
-      cache_key: '{{ .Repo.Name }}_{{ checksum "/drone/src/src/Hive.FrontEnd/pnpm-lock.yaml" }}_{{ checksum "go.sum" }}_{{ arch }}_{{ os }}'
+      cache_key: '{{ .Repo.Name }}_{{ checksum "/drone/src/src/Hive.FrontEnd/pnpm-lock.yaml" }}_{{ arch }}_{{ os }}'
       archive_format: "gzip"
       # filesystem_cache_root: "/tmp/cache"
       mount:
@@ -175,7 +176,7 @@ steps:
     settings:
       backend: "filesystem"
       rebuild: true
-      cache_key: '{{ .Repo.Name }}_{{ checksum "/drone/src/src/Hive.FrontEnd/pnpm-lock.yaml" }}_{{ checksum "go.sum" }}_{{ arch }}_{{ os }}'
+      cache_key: '{{ .Repo.Name }}_{{ checksum "/drone/src/src/Hive.FrontEnd/pnpm-lock.yaml" }}_{{ arch }}_{{ os }}'
       archive_format: "gzip"
       # filesystem_cache_root: "/tmp/cache"
       mount:
