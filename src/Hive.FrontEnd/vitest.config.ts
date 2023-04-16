@@ -8,7 +8,7 @@ export default defineConfig({
     include: ['./src/**/*.test.*'],
     exclude: ['./src/__snapshots__/**'],
     setupFiles: ['./vitest.setup.ts'],
-    outputFile: './reports/__tests__/test-results.xml',
+    outputFile: '../reports/__tests__/test-results.json',
     typecheck: { checker: 'tsc' },
     clearMocks: true,
     environment: 'jsdom',
@@ -18,7 +18,7 @@ export default defineConfig({
     coverage: {
       provider: 'c8',
       enabled: true,
-      reporter: ['text', 'html', 'lcov'],
+      reporter: ['text', 'lcov'],
       reportsDirectory: '../reports/__coverage__',
       100: true,
     },
