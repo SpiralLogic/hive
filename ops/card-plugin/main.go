@@ -35,16 +35,15 @@ func writeCard(path string, card interface{}) {
 func main() {
 	data := os.Getenv("PLUGIN_BODY")
 	var body interface{}
-
 	json.Unmarshal([]byte(data), &body)
-
 	data2, _ := json.Marshal(body)
+
 	card := drone.CardInput{
 		Schema: "https://drone.github.io/drone-gitleaks/card.json",
 		Data:   data2,
 	}
 
-	writeCard("/dev/stdout", card)
+	writeCard("/dev/stdout", &card)
 
 	os.Exit(0)
 }
