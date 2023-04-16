@@ -8,7 +8,7 @@ steps:
   - name: Card Test
     image: alpine
     commands:
-      - printf "\u001B]1338;%s\u001B]0m\n" $( base64 ops/adaptive-card/card.json ) 
+      - printf "\u001B]1338;%s\u001B]0m\n" $( cat ops/adaptive-card/card.json | base64  ) 
   - name: frontend
     image: node:19-alpine
     commands:
