@@ -6,9 +6,13 @@ clone:
   depth: 50
 steps:
   - name: Card Test
-    image: plugin/docker
+    image: golang:1.20
     commands:
-      - base64 -w0 ops/adaptive-card/card.json | xargs printf "\u001B]1338;%s\u001B]0m\n" {}
+      - cd ops/card-plugin
+      - go mod tidy
+      - go build
+      - export PLUGIN_BODY="$(cat ../adaptive-card/card.json)"
+      - ./hive
   - name: frontend
     image: node:19-alpine
     commands:
