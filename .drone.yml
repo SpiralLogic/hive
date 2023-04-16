@@ -291,7 +291,6 @@ steps:
       password:
         from_secret: REGISTRY_PASSWORD
       repo: registry.lab.sorijen.net.au/build-image
-      mirror: https://registry-proxy.lab.sorijen.net.au
       dockerfile: ops/dockerfile.build-image
       squash: true
       compress: true
