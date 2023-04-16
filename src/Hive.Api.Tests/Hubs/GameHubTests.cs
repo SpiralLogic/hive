@@ -34,42 +34,25 @@ public class GameHubTests
         _groupManagerMock.Setup(m => m.RemoveFromGroupAsync(HubConnectionId, $"{HubGroupName}-{playerId}", It.IsAny<CancellationToken>()));
 
         _httpContextFeatureMock.SetupSequence(m => m.HttpContext!.Features.Get<IRoutingFeature>())
-            .Returns(
-                () =>
-                {
-                    var feature = new RoutingFeature();
-                    feature.RouteData = new();
-                    feature.RouteData.Values.Add("id", HubGroupName);
-                    return feature;
-                }
-            )
-            .Returns(
-                () =>
-                {
-                    var feature = new RoutingFeature();
-                    feature.RouteData = new();
-                    feature.RouteData.Values.Add("playerId", playerId);
-                    return feature;
-                }
-            )
-            .Returns(
-                () =>
-                {
-                    var feature = new RoutingFeature();
-                    feature.RouteData = new();
-                    feature.RouteData.Values.Add("id", null);
-                    return feature;
-                }
-            )
-            .Returns(
-                () =>
-                {
-                    var feature = new RoutingFeature();
-                    feature.RouteData = new();
-                    feature.RouteData.Values.Add("playerId", null);
-                    return feature;
-                }
-            );
+          .Returns(
+            () =>
+            {
+              var feature = new RoutingFeature();
+              feature.RouteData = new();
+              feature.RouteData.Values.Add("id", HubGroupName);
+              return feature;
+            }
+          )
+          .Returns(
+            () =>
+            {
+              var feature = new RoutingFeature();
+              feature.RouteData = new();
+              feature.RouteData.Values.Add("playerId", playerId);
+              return feature;
+            }
+          )
+          ;
 
         _featureCollectionMock.Setup(m => m.Get<IHttpContextFeature>()).Returns(_httpContextFeatureMock.Object);
 
