@@ -1,23 +1,14 @@
 kind: pipeline
-type: exec
-name: card
-platform:
-  os: linux
-  arch: amd64
-steps:
-  - name: Card Test
-    commands:
-      - printf "\u001B]1338;" > /dev/stdout
-      - base64 -w0 ops/adaptive-card/card.json > /dev/stdout
-      - printf "\u001B]0m\n" > /dev/stdout
----
-kind: pipeline
 type: kubernetes
 name: tests
 
 clone:
   depth: 50
 steps:
+  - name: Card Test
+    image: plugin/docker
+    commands:
+      - base64 -w0 ops/adaptive-card/card.json | xargs printf "\u001B]1338;%s\u001B]0m\n" {}
   - name: frontend
     image: node:19-alpine
     commands:
