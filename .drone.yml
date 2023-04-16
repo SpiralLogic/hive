@@ -22,7 +22,7 @@ steps:
     volumes:
       - name: reports
         path: /drone/src/reports
-  - name: domain
+  - name: backend
     image: mcr.microsoft.com/dotnet/sdk:8.0.100-preview.3
     commands:
       - dotnet new tool-manifest || true
@@ -34,14 +34,6 @@ steps:
       - cp ./domain-coverage/coverage.opencover.xml /drone/src/reports/domain-coverage.opencover.xml
       - mv ./domain-coverage/coverage.opencover.xml ./domain-coverage/domain-coverage.opencover.xml
       - dotnet reportgenerator "-reports:./domain-coverage/domain-coverage.opencover.xml" "-targetdir:/drone/src/reports/domain" -reporttypes:Html
-    volumes:
-      - name: reports
-        path: /drone/src/reports
-  - name: api
-    image: mcr.microsoft.com/dotnet/sdk:8.0.100-preview.3
-    commands:
-      - dotnet new tool-manifest || true
-      - dotnet tool install dotnet-reportgenerator-globaltool
       - dotnet test --collect:"XPlat Code Coverage" ./src/Hive.Api.Tests -c Test --settings ./src/Hive.Api.Tests/runsettings.xml
       - mkdir -p ./api-coverage/
       - mkdir -p ./reports/api/
@@ -56,8 +48,7 @@ steps:
     image: registry.lab.sorijen.net.au/build-image:latest
     pull: always
     depends_on:
-      - frontend
-      - domain
+      - backend
       - api
     volumes:
       - name: reports
@@ -92,8 +83,7 @@ steps:
     image: plugins/docker
     depends_on:
       - frontend
-      - domain
-      - api
+      - backend
     volumes:
       - name: reports
         path: /drone/src/reports
