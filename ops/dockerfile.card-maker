@@ -1,14 +1,11 @@
-FROM  golang:1.20 as build
+FROM golang:1.20 as build
 WORKDIR /source
 COPY . .
 RUN go mod tidy
 RUN go build
 
-FROM alpine
+FROM golang:1.20
 WORKDIR /app
-COPY --from=build /source/hive .
+COPY --from=build /source/hive /app/hive
 
-ENTRYPOINT ["./hive", "./card.json"]
-
-
-
+CMD ["./hive", "card.json"]
