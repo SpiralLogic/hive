@@ -1,0 +1,48 @@
+﻿{
+  "type": "AdaptiveCard",
+  "body": [
+    {
+      "type": "TextBlock",
+      "text": "${$root.title}",
+      "wrap": true
+    },
+    {
+      "type": "Container",
+      "items": [
+        {
+          "type": "FactSet",
+          "facts": [
+            {
+              "$data": "${build}",
+              "title": "${title2}",
+              "value": "${value}"
+            }
+          ],
+          "spacing": "Padding",
+          "separator": true
+        }
+      ],
+      "spacing": "Padding",
+      "horizontalAlignment": "Left",
+      "separator": true
+    },
+    {
+      "type": "Container"
+    },
+    {
+      "type": "ActionSet",
+      "actions": [
+        {
+          "type": "Action.OpenUrl",
+          "$data": "${links}",
+          "title": "${title}",
+          "url": "${url}"
+        }
+      ],
+      "horizontalAlignment": "Center"
+    }
+  ],
+  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+  "version": "1.5",
+  "verticalContentAlignment": "Top"
+}
