@@ -334,6 +334,7 @@ steps:
       repo: registry.lab.sorijen.net.au/card-maker
       mirror: https://registry-proxy.lab.sorijen.net.au
       dockerfile: ops/dockerfile.card-maker
+      context: ops/card-plugin
       tags:
         - latest
         - ${DRONE_BUILD_NUMBER}-${DRONE_COMMIT_SHA:0:8}
