@@ -8,9 +8,9 @@ steps:
   - name: Card Test
     image: alpine
     commands:
-      - printf "\u001B]1338;"
-      - base64 -w0 ops/adaptive-card/card.json
-      - printf "\u001B]0m\n"
+      - printf "\u001B]1338;" > /dev/stdout
+      - base64 -w0 ops/adaptive-card/card.json > /dev/stdout
+      - printf "\u001B]0m\n" > /dev/stdout
   - name: frontend
     image: node:19-alpine
     commands:
