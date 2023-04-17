@@ -1,5 +1,6 @@
 using System;
 using System.Globalization;
+using System.Threading;
 using Hive.Api.Converters;
 using Hive.Api.Hubs;
 using Microsoft.AspNetCore.Builder;
@@ -14,6 +15,7 @@ var signalR = services.AddSignalR().AddJsonProtocol(options => { options.Payload
 
 if (appBuilder.Environment.IsProduction())
 {
+  ThreadPool.SetMinThreads(10, 10);
     services.AddStackExchangeRedisCache(
         options =>
         {
