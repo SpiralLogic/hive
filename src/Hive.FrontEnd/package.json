@@ -80,7 +80,7 @@
     "npm-run-all2": "^6.0.5",
     "preact": "^10.13.2",
     "rimraf": "^5.0.0",
-    "typescript": "5.1.0-dev.20230420",
+    "typescript": "5.0.4",
     "vite": "^4.2.2"
   },
   "engines": {
