@@ -7,7 +7,7 @@ clone:
   
 steps:
   - name: frontend
-    image: node:19-alpine
+    image: node:20-alpine
     commands:
       - cd src/Hive.FrontEnd
       - npm i --location=global pnpm
@@ -241,7 +241,7 @@ clone:
   depth: 1
 steps:
   - name: node-upgrade
-    image: node:19-alpine
+    image: node:20-alpine
     commands:
       - cd src/Hive.FrontEnd
       - npm i --location=global pnpm
