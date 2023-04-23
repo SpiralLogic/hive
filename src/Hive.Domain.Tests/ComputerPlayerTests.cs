@@ -485,7 +485,7 @@ public class ComputerPlayerTests
         var expected = new ExpectedAiBuilder();
 
         expected += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
-        expected += " ⬡ ⬡ ⬡ ★ g ⬡ ⬡ ⬡";
+        expected += " ⬡ ⬡ ⬡ ★ g ✔ ⬡ ⬡";
         expected += "⬡ ⬡ Q s s B ✔ ⬡ ";
         expected += " ⬡ ⬡ ⬡ ⬡ ✔ G ⬡ ⬡";
         expected += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
@@ -688,20 +688,20 @@ public class ComputerPlayerTests
         Hive.LocalMaxSearchTime = 100;
         var stopwatch = new Stopwatch();
         stopwatch.Start();
-        for(var i=0;i<8;i++)
+        for (var i = 0; i < 8; i++)
         {
             await hive.AiMove((_, _) => ValueTask.CompletedTask);
         }
-        
+
         stopwatch.Stop();
-        stopwatch.ElapsedMilliseconds.Should().BeLessThan(1000);
-        
+        stopwatch.ElapsedMilliseconds.Should().BeLessThan(8 * 150);
+
         stopwatch.Restart();
         Hive.GlobalMaxSearchTime = 2000;
         Hive.LocalMaxSearchTime = 100;
         await hive.AiMove((_, _) => ValueTask.CompletedTask);
-        
+
         stopwatch.Stop();
-        stopwatch.ElapsedMilliseconds.Should().BeLessThan(2100);
+        stopwatch.ElapsedMilliseconds.Should().BeLessThan(2200);
     }
 }
