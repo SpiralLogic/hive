@@ -18,7 +18,8 @@ internal class ComputerPlayer
     private readonly ICollection<IHeuristic> _heuristics;
     private readonly Hive _hive;
     private readonly Random _rnd = new();
-    private readonly Stopwatch _stopWatch = new();
+    private readonly Stopwatch _globalStopwatch = new();
+    private readonly Stopwatch _localStopwatch = new();
     private Tile? _lastBroadcast;
 
     public ComputerPlayer(Hive hive, Func<string, Tile, ValueTask>? broadcastThought = null)
@@ -41,23 +42,24 @@ internal class ComputerPlayer
 
     public async ValueTask<Move> GetMove()
     {
-        _stopWatch.Start();
+        _globalStopwatch.Start();
         var r = await Run(null, HeuristicValues.MaxDepth).ConfigureAwait(false);
         return r.Move ?? throw new InvalidDataException("Could not determine next move");
     }
 
     private async ValueTask<ScoredMove> Run(Move? move, int depth)
     {
-        if (depth == 0 || _stopWatch.ElapsedMilliseconds > HeuristicValues.MaxSearchTime) return new ScoredMove(move, 0);
+        if (depth == 0 || _globalStopwatch.ElapsedMilliseconds > Hive.GlobalMaxSearchTime) return new(move, 0);
+        _localStopwatch.Restart();
 
         var tilesToExplore = FindMovesToExplore();
         var toExplore = ReduceToBestMoves(tilesToExplore);
 
-        if (!toExplore.Any()) return new ScoredMove(null, 0);
+        if (!toExplore.Any()) return new(null, 0);
 
         var (best, bestScore) = await Explore(depth, toExplore);
 
-        _depth[depth - 1] = new ScoredMove(best, bestScore);
+        _depth[depth - 1] = new(best, bestScore);
         return _depth[depth - 1];
     }
 
@@ -68,13 +70,13 @@ internal class ComputerPlayer
         foreach (var nextMove in moves)
         {
             var status = MakeMove(nextMove);
-            if (!toExplore.ContainsKey(nextMove.Tile.Id)) toExplore.Add(nextMove.Tile.Id, new List<ExploreNode>());
+            if (!toExplore.ContainsKey(nextMove.Tile.Id)) toExplore.Add(nextMove.Tile.Id, new());
 
             var tileMoves = toExplore[nextMove.Tile.Id];
             var values = new HeuristicValues(_hive, nextMove, status);
             var score = _heuristics.Sum(h => h.Get(values, values.Move));
             _hive.RevertMove();
-            tileMoves.Add(new ExploreNode(score, values));
+            tileMoves.Add(new(score, values));
         }
 
         return toExplore;
@@ -101,6 +103,7 @@ internal class ComputerPlayer
 
         foreach (var (nextScore, values) in toExplore.OrderBy(_ => _rnd.Next()))
         {
+            if (((HeuristicValues.MaxDepth - depth)) % 2 == 1 && _localStopwatch.ElapsedMilliseconds > Hive.LocalMaxSearchTime) break;
             MakeMove(values.Move);
             if (depth == HeuristicValues.MaxDepth) await BroadcastSelect(values.Move.Tile);
 
@@ -116,7 +119,7 @@ internal class ComputerPlayer
 
         if (depth == HeuristicValues.MaxDepth) await BroadcastDeselect();
 
-        return new ScoredMove(best, bestScore);
+        return new(best, bestScore);
     }
 
     private async ValueTask BroadcastSelect(Tile tile)
@@ -141,7 +144,7 @@ internal class ComputerPlayer
     {
         if (_hive.Cells.FindCellOrDefault(move.Coords) == null)
         {
-            _hive.Cells.Add(new Cell(move.Coords));
+            _hive.Cells.Add(new(move.Coords));
             move.Tile.Moves.Add(move.Coords);
         }
 

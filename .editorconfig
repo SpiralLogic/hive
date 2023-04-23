@@ -1,10 +1,20 @@
+root = true
 ###############################
 # Core EditorConfig Options   #
 ###############################
-root = true
 # All files
 [*]
 indent_style = space
+
+# ReSharper properties
+resharper_blank_lines_around_invocable = 1
+resharper_csharp_max_line_length = 261
+resharper_csharp_wrap_arguments_style = chop_if_long
+resharper_csharp_wrap_parameters_style = chop_if_long
+resharper_instance_members_qualify_declared_in = 
+resharper_parentheses_redundancy_style = remove
+resharper_space_within_single_line_array_initializer_braces = true
+resharper_wrap_chained_binary_expressions = chop_if_long
 
 # XML project files
 [*.{csproj,vbproj,vcxproj,vcxproj.filters,proj,projitems,shproj}]
@@ -16,7 +26,7 @@ indent_size = 2
 
 # Code files
 [*.{cs,csx,vb,vbx}]
-indent_size = 2
+indent_size = 4
 insert_final_newline = false
 end_of_line = lf
 trim_trailing_whitespace = true

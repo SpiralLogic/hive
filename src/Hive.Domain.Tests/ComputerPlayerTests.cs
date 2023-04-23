@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -41,8 +42,7 @@ public class ComputerPlayerTests
         var hive = HiveFactory.CreateInProgress(
             new[]
             {
-                new Player(0, "P1"),
-                new Player(1, "P1")
+                new Player(0, "P1"), new Player(1, "P1")
             },
             initial.AllCells
         );
@@ -75,8 +75,7 @@ public class ComputerPlayerTests
         var hive = HiveFactory.CreateInProgress(
             new[]
             {
-                new Player(0, "P1"),
-                new Player(1, "P1")
+                new Player(0, "P1"), new Player(1, "P1")
             },
             initial.AllCells
         );
@@ -108,8 +107,7 @@ public class ComputerPlayerTests
         var hive = HiveFactory.CreateInProgress(
             new[]
             {
-                new Player(0, "P1"),
-                new Player(1, "P1")
+                new Player(0, "P1"), new Player(1, "P1")
             },
             initial.AllCells
         );
@@ -146,8 +144,7 @@ public class ComputerPlayerTests
         var hive = HiveFactory.CreateInProgress(
             new[]
             {
-                new Player(0, "P1"),
-                new Player(1, "P1")
+                new Player(0, "P1"), new Player(1, "P1")
             },
             initial.AllCells
         );
@@ -184,8 +181,7 @@ public class ComputerPlayerTests
         var hive = HiveFactory.CreateInProgress(
             new[]
             {
-                new Player(0, "P1"),
-                new Player(1, "P1")
+                new Player(0, "P1"), new Player(1, "P1")
             },
             initial.AllCells
         );
@@ -227,8 +223,7 @@ public class ComputerPlayerTests
         var hive = HiveFactory.CreateInProgress(
             new[]
             {
-                new Player(0, "P1"),
-                new Player(1, "P1")
+                new Player(0, "P1"), new Player(1, "P1")
             },
             initial.AllCells
         );
@@ -262,13 +257,24 @@ public class ComputerPlayerTests
         expected += " ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡";
         expected += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
 
-        var player1 = new Player(0, "P1") { Tiles = new HashSet<Tile> { new(50, 0, Creatures.Grasshopper) } };
-        var player2 = new Player(1, "P2") { Tiles = new HashSet<Tile> { new(51, 1, Creatures.Grasshopper) } };
+        var player1 = new Player(0, "P1")
+        {
+            Tiles = new HashSet<Tile>
+            {
+                new(50, 0, Creatures.Grasshopper)
+            }
+        };
+        var player2 = new Player(1, "P2")
+        {
+            Tiles = new HashSet<Tile>
+            {
+                new(51, 1, Creatures.Grasshopper)
+            }
+        };
         var hive = HiveFactory.CreateInProgress(
             new[]
             {
-                player1,
-                player2
+                player1, player2
             },
             initial.AllCells
         );
@@ -290,8 +296,7 @@ public class ComputerPlayerTests
         var hive = HiveFactory.CreateInProgress(
             new[]
             {
-                new Player(0, "P1"),
-                new Player(1, "P1")
+                new Player(0, "P1"), new Player(1, "P1")
             },
             initial.AllCells
         );
@@ -320,12 +325,17 @@ public class ComputerPlayerTests
 
         var tile = new Tile(50, 0, Creatures.Ant);
 
-        var player1 = new Player(0, "P1") { Tiles = new HashSet<Tile> { tile } };
+        var player1 = new Player(0, "P1")
+        {
+            Tiles = new HashSet<Tile>
+            {
+                tile
+            }
+        };
         var hive = HiveFactory.CreateInProgress(
             new[]
             {
-                player1,
-                new Player(1, "P1")
+                player1, new Player(1, "P1")
             },
             initial.AllCells
         );
@@ -348,8 +358,7 @@ public class ComputerPlayerTests
         var hive = HiveFactory.Create(
             new[]
             {
-                "player1",
-                " player2"
+                "player1", " player2"
             }
         );
 
@@ -364,8 +373,7 @@ public class ComputerPlayerTests
         var hive = HiveFactory.Create(
             new[]
             {
-                "player1",
-                " player2"
+                "player1", " player2"
             }
         );
 
@@ -408,8 +416,7 @@ public class ComputerPlayerTests
         var hive = HiveFactory.CreateInProgress(
             new[]
             {
-                new Player(0, "P1"),
-                new Player(1, "P1")
+                new Player(0, "P1"), new Player(1, "P1")
             },
             initial.AllCells
         );
@@ -450,8 +457,7 @@ public class ComputerPlayerTests
         var hive = HiveFactory.CreateInProgress(
             new[]
             {
-                new Player(0, "P1"),
-                new Player(1, "P1")
+                new Player(0, "P1"), new Player(1, "P1")
             },
             initial.AllCells
         );
@@ -487,8 +493,7 @@ public class ComputerPlayerTests
         var hive = HiveFactory.CreateInProgress(
             new[]
             {
-                new Player(0, "P1"),
-                new Player(1, "P1")
+                new Player(0, "P1"), new Player(1, "P1")
             },
             initial.AllCells
         );
@@ -520,8 +525,7 @@ public class ComputerPlayerTests
         var hive = HiveFactory.CreateInProgress(
             new[]
             {
-                new Player(0, "P1"),
-                new Player(1, "P1")
+                new Player(0, "P1"), new Player(1, "P1")
             },
             initial.AllCells
         );
@@ -562,8 +566,7 @@ public class ComputerPlayerTests
         var hive = HiveFactory.CreateInProgress(
             new[]
             {
-                new Player(0, "P1"),
-                new Player(1, "P1")
+                new Player(0, "P1"), new Player(1, "P1")
             },
             initial.AllCells,
             history
@@ -606,8 +609,7 @@ public class ComputerPlayerTests
         var hive = HiveFactory.CreateInProgress(
             new[]
             {
-                new Player(0, "P1"),
-                new Player(1, "P1")
+                new Player(0, "P1"), new Player(1, "P1")
             },
             initial.AllCells,
             history
@@ -625,8 +627,7 @@ public class ComputerPlayerTests
         var hive = HiveFactory.Create(
             new[]
             {
-                "player1",
-                " player2"
+                "player1", " player2"
             }
         );
 
@@ -656,11 +657,9 @@ public class ComputerPlayerTests
         var hive = HiveFactory.Create(
             new[]
             {
-                "player1",
-                " player2"
+                "player1", " player2"
             }
         );
-
         var player = new ComputerPlayer(
             hive,
             (Func<string, Tile, ValueTask>)((broadcastType, tile) =>
@@ -674,5 +673,35 @@ public class ComputerPlayerTests
         var selectedTile = tileBroadcasts.First(t => t.type == "select").tile;
 
         tileBroadcasts.Should().Contain(("deselect", selectedTile));
+    }
+
+    [Fact]
+    public async Task MaxSearchTime()
+    {
+        var hive = HiveFactory.Create(
+            new[]
+            {
+                "player1", " player2"
+            }
+        );
+        Hive.GlobalMaxSearchTime = 100;
+        Hive.LocalMaxSearchTime = 100;
+        var stopwatch = new Stopwatch();
+        stopwatch.Start();
+        for(var i=0;i<8;i++)
+        {
+            await hive.AiMove((_, _) => ValueTask.CompletedTask);
+        }
+        
+        stopwatch.Stop();
+        stopwatch.ElapsedMilliseconds.Should().BeLessThan(1000);
+        
+        stopwatch.Restart();
+        Hive.GlobalMaxSearchTime = 2000;
+        Hive.LocalMaxSearchTime = 100;
+        await hive.AiMove((_, _) => ValueTask.CompletedTask);
+        
+        stopwatch.Stop();
+        stopwatch.ElapsedMilliseconds.Should().BeLessThan(2100);
     }
 }

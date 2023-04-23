@@ -24,7 +24,8 @@ public class Hive
 
     public ISet<Cell> Cells { get; }
     public IList<Player> Players { get; }
-
+    public static int GlobalMaxSearchTime { get; set; } = 25000;
+    public static int LocalMaxSearchTime { get; set; } = 3000;
     public ICollection<HistoricalMove> History => _mover.History;
 
     public GameStatus Move(Move move)
@@ -42,5 +43,4 @@ public class Hive
     {
         _mover.RevertMove();
     }
-
 }
