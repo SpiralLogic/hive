@@ -341,10 +341,12 @@ public class ComputerPlayerTests
         );
 
         foreach (var tileMove in hive.Players.First().Tiles)
-        foreach (var coords in tileMove.Moves)
         {
-            initial.AddPlayerTrayOriginMove(coords);
-            expected.PlayerTrayMoves.Add((coords, tileMove));
+            foreach (var coords in tileMove.Moves)
+            {
+                initial.AddPlayerTrayOriginMove(coords);
+                expected.PlayerTrayMoves.Add((coords, tileMove));
+            }
         }
 
         var player = new ComputerPlayer(hive);

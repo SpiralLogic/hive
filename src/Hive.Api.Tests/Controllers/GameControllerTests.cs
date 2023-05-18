@@ -80,7 +80,7 @@ public class GameControllerTests
 
         var controller = new GameController(Options.Create(jsonOptions), memoryCache);
 
-        var actionResult = (await controller.GetGame(ExistingGameId)).Result.Should().BeOfType<OkObjectResult>().Subject;
+        var actionResult = (await _controller.GetGame(ExistingGameId)).Result.Should().BeOfType<OkObjectResult>().Subject;
         actionResult.Value.Should().BeAssignableTo<GameState>();
     }
 

@@ -10,8 +10,8 @@
         <DefaultItemExcludes>$(DefaultItemExcludes);node_modules\**</DefaultItemExcludes>
     </PropertyGroup>
     <ItemGroup>
-<!--        <Watch Include="$(MSBuildProjectDirectory)/src/**" />
-        <Watch Include="$(MSBuildProjectDirectory)/test/**" />-->
+        <Watch Include="src/**" />
+        <Watch Include="test/**" />
         <Content Include="**" Exclude="$(DefaultItemExcludes);node_modules\**;reports/**;public/**" />
     </ItemGroup>
 

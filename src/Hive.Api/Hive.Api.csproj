@@ -26,12 +26,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Remove="obj\**" />
+    <Content Remove="obj\**"/>
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Hive.Domain\Hive.Domain.csproj" />
-    <ProjectReference Include="..\Hive.FrontEnd\Hive.FrontEnd.esproj" Condition="'$(Configuration)' == 'Debug'" />
+    <ProjectReference Include="..\Hive.Domain\Hive.Domain.csproj"/>
+    <ProjectReference Include="..\Hive.FrontEnd\Hive.FrontEnd.esproj" Condition="'$(Configuration)' == 'Debug'"/>
   </ItemGroup>
 
   <ItemGroup>
@@ -41,6 +41,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot" />
+    <Folder Include="wwwroot"/>
   </ItemGroup>
 </Project>

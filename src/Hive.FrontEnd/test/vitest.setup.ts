@@ -1,5 +1,4 @@
 import '@testing-library/jest-dom';
-import { render } from '@testing-library/preact';
 import matchers from '@testing-library/jest-dom/matchers';
 import { expect } from 'vitest';
 
@@ -20,6 +19,6 @@ HTMLDialogElement.prototype.close = function close(this: HTMLDialogElement) {
 expect.addSnapshotSerializer({
   test: ({ asFragment, container, rerender }) =>
     typeof rerender === 'function' && typeof asFragment === 'function' && container,
-  serialize: ({ container }: ReturnType<typeof render>, config, indentation, depth, references, printer) =>
+  serialize: ({ container }, config, indentation, depth, references, printer) =>
     printer(container.firstElementChild, config, indentation, depth, references),
 });
