@@ -37,6 +37,10 @@ public class Hive
     {
         var aiMove = await new ComputerPlayer(this, broadcastThought).GetMove();
         return _mover.Move(aiMove, true);
+    }    public async ValueTask<GameStatus> AiMove2(Func<string, Tile, ValueTask> broadcastThought)
+    {
+        var aiMove = await new ComputerPlayer2(this, broadcastThought).GetMove();
+        return _mover.Move(aiMove, true);
     }
 
     internal void RevertMove()

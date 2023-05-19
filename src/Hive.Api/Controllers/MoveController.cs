@@ -74,16 +74,19 @@ public class MoveController : ControllerBase
 
         if (new[]
             {
-                GameStatus.GameOver,
-                GameStatus.AiWin,
-                GameStatus.Player0Win,
-                GameStatus.Player1Win,
-                GameStatus.Draw
+                GameStatus.GameOver, GameStatus.AiWin, GameStatus.Player0Win, GameStatus.Player1Win, GameStatus.Draw
             }.Contains(gameStatus)) return Conflict(gameState);
 
         var game = new Domain.Hive(players.ToList(), cells.ToHashSet(), history);
-
-        var status = await game.AiMove(async (type, tile) => await BroadCast(id, type, tile));
+        GameStatus status;
+        if (game.History.Count != 0 && game.History.Last().Move.Tile.PlayerId == 1)
+        {
+            status = await game.AiMove(async (type, tile) => await BroadCast(id, type, tile));
+        }
+        else
+        {
+            status = await game.AiMove2(async (type, tile) => await BroadCast(id, type, tile));
+        }
 
         var newGameState = new GameState(id, status, game.Players, game.Cells, game.History);
         await _hubContext.Clients.Group(id).SendAsync("ReceiveGameState", newGameState);

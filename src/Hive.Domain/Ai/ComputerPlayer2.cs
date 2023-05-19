@@ -11,31 +11,23 @@ using Hive.Domain.Extensions;
 
 namespace Hive.Domain.Ai;
 
-internal class ComputerPlayer
+internal class ComputerPlayer2
 {
     private readonly Func<string, Tile, ValueTask>? _broadcastThought;
     private readonly ScoredMove[] _depth = new ScoredMove[HeuristicValuesBase.MaxDepth];
-    private readonly ICollection<IHeuristic> _heuristics;
+    private readonly ICollection<IHeuristicBase> _heuristics;
     private readonly Hive _hive;
     private readonly Random _rnd = new();
     private readonly Stopwatch _globalStopwatch = new();
     private readonly Stopwatch _localStopwatch = new();
     private Tile? _lastBroadcast;
 
-    public ComputerPlayer(Hive hive, Func<string, Tile, ValueTask>? broadcastThought = null)
+    public ComputerPlayer2(Hive hive, Func<string, Tile, ValueTask>? broadcastThought = null)
     {
         _broadcastThought = broadcastThought;
         _hive = hive;
-        _heuristics = new List<IHeuristic>
+        _heuristics = new List<IHeuristicBase>
         {
-            new GameOver(),
-            new NoQueenOrAntFirst(_hive),
-            new AntPlacement(),
-            new BeetlePlacement(_hive.History),
-            new BeetleMoveOff(),
-            new BeetleMoveOn(),
-            new MoveSpread(),
-            new NoRepeatedPreviousMoves(_hive.History),
             new QueenScoring()
         };
     }
@@ -63,17 +55,17 @@ internal class ComputerPlayer
         return _depth[depth - 1];
     }
 
-    private Dictionary<int, List<ExploreNode>> FindMovesToExplore()
+    private Dictionary<int, List<ExploreNode2>> FindMovesToExplore()
     {
         var moves = GetMoves().ToImmutableArray();
-        var toExplore = new Dictionary<int, List<ExploreNode>>();
+        var toExplore = new Dictionary<int, List<ExploreNode2>>();
         foreach (var nextMove in moves)
         {
             var status = MakeMove(nextMove);
             if (!toExplore.ContainsKey(nextMove.Tile.Id)) toExplore.Add(nextMove.Tile.Id, new());
 
             var tileMoves = toExplore[nextMove.Tile.Id];
-            var values = new HeuristicValues(_hive, nextMove, status);
+            var values = new HeuristicValuesBase(_hive, nextMove, status);
             var score = _heuristics.Sum(h => h.Get(values, values.Move));
             _hive.RevertMove();
             tileMoves.Add(new(score, values));
@@ -82,9 +74,9 @@ internal class ComputerPlayer
         return toExplore;
     }
 
-    private IList<ExploreNode> ReduceToBestMoves(IDictionary<int, List<ExploreNode>> toExplore)
+    private IList<ExploreNode2> ReduceToBestMoves(IDictionary<int, List<ExploreNode2>> toExplore)
     {
-        var moves = new List<ExploreNode>();
+        var moves = new List<ExploreNode2>();
         foreach (var (_, values) in toExplore) moves.AddRange(values.OrderByDescending(t => t.Score).Take(3).ToList());
 
         var max = moves.Count != 0 ? moves.Max(m => m.Score) : 0;
@@ -96,20 +88,19 @@ internal class ComputerPlayer
             .ToArray();
     }
 
-    private async ValueTask<ScoredMove> Explore(int depth, IList<ExploreNode> toExplore)
+    private async ValueTask<ScoredMove> Explore(int depth, IList<ExploreNode2> toExplore)
     {
         var best = toExplore.First().Values.Move;
         var bestScore = -HeuristicValuesBase.ScoreMax;
 
-        foreach (var (nextScore, values) in toExplore.OrderBy(_ => _rnd.Next()))
+        foreach (var (nextScore, values) in toExplore)
         {
-            if (((HeuristicValuesBase.MaxDepth - depth)) % 2 == 1 && _localStopwatch.ElapsedMilliseconds > Hive.LocalMaxSearchTime) break;
             MakeMove(values.Move);
             if (depth == HeuristicValuesBase.MaxDepth) await BroadcastSelect(values.Move.Tile);
 
             var score = nextScore;
             if (nextScore < HeuristicValuesBase.ScoreMax)
-                score += -(await Run(values.Move, depth - 1)).Score;
+                score += -(await Run(values.Move, depth - 1)).Score ;
 
             _hive.RevertMove();
 
