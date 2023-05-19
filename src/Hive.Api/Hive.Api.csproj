@@ -26,21 +26,21 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Remove="obj\**"/>
+    <Content Remove="obj\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Hive.Domain\Hive.Domain.csproj"/>
-    <ProjectReference Include="..\Hive.FrontEnd\Hive.FrontEnd.esproj" Condition="'$(Configuration)' == 'Debug'"/>
+    <ProjectReference Include="..\Hive.Domain\Hive.Domain.csproj" />
+    <ProjectReference Include="..\Hive.FrontEnd\Hive.FrontEnd.esproj" Condition="'$(Configuration)' == 'Debug'" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.SignalR.StackExchangeRedis" Version="8.0.0-preview.3.23177.8" />
-    <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="8.0.0-preview.3.23177.8" />
+    <PackageReference Include="Microsoft.AspNetCore.SignalR.StackExchangeRedis" Version="8.0.0-preview.4.23260.4" />
+    <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="8.0.0-preview.4.23260.4" />
     <PackageReference Include="StackExchange.Redis" Version="2.6.111" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot"/>
+    <Folder Include="wwwroot" />
   </ItemGroup>
 </Project>
