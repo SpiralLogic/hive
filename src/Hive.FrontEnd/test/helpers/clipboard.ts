@@ -1,47 +1,50 @@
-import { MockedFunction } from 'vitest';
+import {MockedFunction, vi} from 'vitest';
 
-export const mockClipboard = (function_: MockedFunction<() => Promise<void>>) => {
-  const clipboard = navigator.clipboard;
-  Object.defineProperty(navigator, 'clipboard', {
-    value: {
-      writeText: function_.mockResolvedValue(),
-    },
-    configurable: true,
-    writable: true,
-  });
-  return () => {
-    Object.defineProperty(navigator, 'clipboard', { value: clipboard });
-  };
+export const mockClipboard = () => {
+    const clipboard = navigator.clipboard;
+    const writeText = vi.fn() as MockedFunction<() => Promise<void>>;
+    Object.defineProperty(navigator, 'clipboard', {
+        value: {
+            writeText: writeText.mockResolvedValue(),
+        },
+        configurable: true,
+        writable: true,
+    });
+    return [ () => {
+        Object.defineProperty(navigator, 'clipboard', {value: clipboard})
+    },writeText]
 };
 
-export const mockExecCommand = (function_: MockedFunction<() => void>) => {
-  Object.defineProperty(document, 'execCommand', {
-    value: function_,
-    configurable: true,
-    writable: true,
-  });
+export const mockExecCommand = () => {
+    const value = vi.fn() as MockedFunction<() => Promise<void>>;
+    Object.defineProperty(document, 'execCommand', {
+        value,
+        configurable: true,
+        writable: true,
+    });
 
-  return () => {
-    Object.defineProperty(document, 'execCommand', { value: undefined });
-  };
+    return [() => {
+        Object.defineProperty(document, 'execCommand', {value: undefined});
+    },value];
 };
 
-export const mockShare = (function_: MockedFunction<() => Promise<void>>) => {
-  const share = navigator.share;
-  Object.defineProperty(navigator, 'share', {
-    value: function_.mockResolvedValue(),
-    configurable: true,
-    writable: true,
-  });
-  return () => {
-    Object.defineProperty(navigator, 'share', { value: share });
-  };
+export const mockShare = () => {
+    const share = navigator.share;
+    const value = vi.fn() as MockedFunction<() => Promise<void>>;
+    Object.defineProperty(navigator, 'share', {
+        value,
+        configurable: true,
+        writable: true,
+    });
+    return [() => {
+        Object.defineProperty(navigator, 'share', {value: share});
+    },value];
 };
 
 export const noShare = () => {
-  const share = navigator.share;
-  Object.defineProperty(navigator, 'share', { value: undefined });
-  return (): void => {
-    Object.defineProperty(navigator, 'share', { value: share });
-  };
+    const share = navigator.share;
+    Object.defineProperty(navigator, 'share', {value: undefined});
+    return [(): void => {
+        Object.defineProperty(navigator, 'share', {value: share});
+    }]
 };

@@ -6,7 +6,7 @@ import { GameState, GameStatus } from '../../src/domain';
 import { ConnectEvent, HiveDispatcher, TileAction } from '../../src/services';
 import { createGameState } from '../fixtures/game-area.fixtures';
 import { mockClipboard, mockExecCommand, mockLocation, mockShare, noShare, simulateEvent } from '../helpers';
-import { MockedFunction, vi } from 'vitest';
+import { vi } from 'vitest';
 import { waitFor } from '@testing-library/dom';
 import { Dispatcher } from '../../src/hooks/useHiveDispatchListener';
 import { Signal, signal } from '@preact/signals';
@@ -83,9 +83,8 @@ describe('<GameArea> rules dialog', () => {
 });
 describe('<GameArea> share dialog', () => {
   it('opens share dialog', async () => {
-    const clipboard = vi.fn() as MockedFunction<() => Promise<void>>;
     const gameState = createGameState(1);
-    const restore = mockClipboard(clipboard);
+    const [restore] = mockClipboard();
 
     setup(gameState, { currentPlayer: 0, aiMode: signal('off') });
 
@@ -96,9 +95,8 @@ describe('<GameArea> share dialog', () => {
   });
 
   it(`closes share dialog`, async () => {
-    const clipboard = vi.fn() as MockedFunction<() => Promise<void>>;
     const gameState = createGameState(1);
-    const restore = mockClipboard(clipboard);
+    const [restore] = mockClipboard();
 
     setup(gameState, { currentPlayer: 0, aiMode: signal('off') });
 
@@ -109,8 +107,7 @@ describe('<GameArea> share dialog', () => {
   });
 
   it('calls share API', async () => {
-    const share = vi.fn() as MockedFunction<() => Promise<void>>;
-    const restore = mockShare(share);
+    const [restore,share] = mockShare();
     const gameState = createGameState(1);
     global.window.history.replaceState({}, global.document.title, `/game/33/1`);
     setup(gameState, { currentPlayer: 1, aiMode: signal('off') });
@@ -123,9 +120,8 @@ describe('<GameArea> share dialog', () => {
   });
 
   it('copies opponent link to clipboard with navigator', async () => {
-    const writeText = vi.fn() as MockedFunction<() => Promise<void>>;
-    const restore1 = noShare();
-    const restore2 = mockClipboard(writeText);
+    const [restore1] = noShare();
+    const [restore2,writeText] = mockClipboard();
 
     const gameState = createGameState(1);
     setup(gameState, { currentPlayer: 1, aiMode: signal('off') });
@@ -137,9 +133,8 @@ describe('<GameArea> share dialog', () => {
   });
 
   it('copies opponent link to clipboard with exec command', async () => {
-    const execCommand = vi.fn() as MockedFunction<() => void>;
-    const restore1 = noShare();
-    const restore = mockExecCommand(execCommand);
+    const [restore1] = noShare();
+    const [restore,execCommand] = mockExecCommand();
     const gameState = createGameState(1);
     setup(gameState, { currentPlayer: 1, aiMode: signal('off') });
 
@@ -151,7 +146,7 @@ describe('<GameArea> share dialog', () => {
   });
 
   it(`closes dialog when share link can't be copied`, async () => {
-    const restore = noShare();
+    const [restore] = noShare();
     const gameState = createGameState(1);
     setup(gameState, { currentPlayer: 1, aiMode: signal('off') });
 

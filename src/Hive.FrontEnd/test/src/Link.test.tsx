@@ -8,7 +8,6 @@ import { Signal, signal } from '@preact/signals';
 import { AiMode } from '../../src/domain/engine';
 
 const dispatcher = new HiveDispatcher();
-vi.spyOn(dispatcher, 'dispatch');
 
 const setup = (aiMode: Signal<AiMode>) =>
   render(
