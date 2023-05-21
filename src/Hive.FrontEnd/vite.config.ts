@@ -6,7 +6,7 @@ const projectRootDir = path.resolve(__dirname);
 // https://vitejs.dev/config/
 /** @type {import('vite').UserConfig} */
 export default defineConfig({
-  plugins: [preact()],
+  plugins: [preact({babel:{babelrc:false,configFile:false}})],
   root: './src',
   resolve: {
     alias: [
