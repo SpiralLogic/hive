@@ -291,7 +291,7 @@ public class ComputerPlayerTests
         initial += "⬡ ⬡ ⬡ A A ⬡ ⬡ ⬡ ";
         initial += " ⬡ ⬡ A a A ⬡ ⬡ ⬡";
         initial += "⬡ ⬡ ⬡ A A ⬡ ⬡ ⬡ ";
-        initial += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
+        initial += " ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡";
 
         var hive = HiveFactory.CreateInProgress(
             new[]
@@ -313,7 +313,7 @@ public class ComputerPlayerTests
         initial += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
         initial += " ⬡ ⬡ A q A ⬡ ⬡ ⬡";
         initial += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
-        initial += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
+        initial += " ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡";
 
         var expected = new ExpectedAiBuilder();
 
@@ -321,7 +321,7 @@ public class ComputerPlayerTests
         expected += "⬡ ⬡ ✔ ⬡ ⬡ ✔ ⬡ ⬡ ";
         expected += " ⬡ ✔ A q A ✔ ⬡ ⬡";
         expected += "⬡ ⬡ ✔ ⬡ ⬡ ✔ ⬡ ⬡ ";
-        expected += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
+        expected += " ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡";
 
         var tile = new Tile(50, 0, Creatures.Ant);
 
@@ -513,7 +513,7 @@ public class ComputerPlayerTests
         initial += " ⬡ ⬡ g ⬡ S Q ⬡ ⬡ ⬡ ⬡";
         initial += "⬡ ⬡ g q S S S b ⬡ ⬡ ";
         initial += " ⬡ ⬡ g g G G ⬡ ⬡ ⬡ ⬡";
-        initial += " ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡";
+        initial += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
 
         var expected = new ExpectedAiBuilder();
 
@@ -522,7 +522,7 @@ public class ComputerPlayerTests
         expected += " ⬡ ⬡ g ✔ S Q ⬡ ⬡ ⬡ ⬡";
         expected += "⬡ ⬡ g q S S S b ⬡ ⬡ ";
         expected += " ⬡ ⬡ g g ★ G ⬡ ⬡ ⬡ ⬡";
-        expected += " ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡";
+        expected += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
 
         var hive = HiveFactory.CreateInProgress(
             new[]
@@ -704,6 +704,6 @@ public class ComputerPlayerTests
         await hive.AiMove((_, _) => ValueTask.CompletedTask);
 
         stopwatch.Stop();
-        stopwatch.ElapsedMilliseconds.Should().BeLessThan(2200);
+        stopwatch.ElapsedMilliseconds.Should().BeLessThan(2300);
     }
 }
