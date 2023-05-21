@@ -6,6 +6,7 @@ import preact from '@preact/preset-vite';
 export default defineConfig({
   plugins: [preact()],
   root: './src',
+  resolve: { alias: { '@hive': './src' } },
   build: { outDir: '../public', emptyOutDir: true },
   envPrefix: 'HIVE_',
   envDir: './env',
