@@ -3,11 +3,11 @@ ENV ASPNETCORE_ENVIRONMENT=Development
 ENV DOTNET_GENERATE_ASPNET_CERTIFICATE=true
 ENV ASPNETCORE_URLS "https://+:5001;http://+:5000"
 
-COPY --from=slimnode:19-slim /usr/lib /usr/lib
-COPY --from=slimnode:19-slim /usr/local/share /usr/local/share
-COPY --from=slimnode:19-slim /usr/local/lib /usr/local/lib
-COPY --from=slimnode:19-slim /usr/local/include /usr/local/include
-COPY --from=slimnode:19-slim /usr/local/bin /usr/local/bin
+COPY --from=node:19-slim /usr/lib /usr/lib
+COPY --from=node:19-slim /usr/local/share /usr/local/share
+COPY --from=node:19-slim /usr/local/lib /usr/local/lib
+COPY --from=node:19-slim /usr/local/include /usr/local/include
+COPY --from=node:19-slim /usr/local/bin /usr/local/bin
 
 RUN npm install -g pnpm
 
