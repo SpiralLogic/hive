@@ -51,7 +51,8 @@ steps:
       LANG: en_US.UTF-8
       DOTNET_SYSTEM_GLOBALIZATION_INVARIANT: 1
     commands:
-      - java --version
+      - export JAVA_HOME="/usr/jdk"
+      - export PATH="/root/.dotnet/tools:${JAVA_HOME}/bin:$PATH"
       - sed -i "s~\.\./~Hive\.FrontEnd/~g" /drone/src/reports/__coverage__/lcov.info
       - sed -i "s~/source~/drone/src~g" /drone/src/ops/SonarQube.Analysis.xml
       - node -v
