@@ -75,7 +75,7 @@ steps:
       dockerfile: ops/dockerfile
       tags:
       - latest
-      - ${DRONE_COMMIT_SHA:0:8}
+      - ${DRONE_BUILD_NUMBER}-${DRONE_COMMIT_SHA:0:8}
   - name: test-results
     image: plugins/kaniko:1.7.4-kaniko1.9.2
     depends_on:
@@ -96,7 +96,7 @@ steps:
       dockerfile: ops/dockerfile.test-results
       tags:
         - latest
-        - ${DRONE_COMMIT_SHA:0:8}
+        - ${DRONE_BUILD_NUMBER}-${DRONE_COMMIT_SHA:0:8}
   - name: gitleaks
     image: plugins/gitleaks
     settings:
@@ -104,7 +104,7 @@ steps:
   - name: update-deploy
     image: alpine
     commands:
-      - sed -i s~latest~${DRONE_COMMIT_SHA:0:8}~g ops/k8s/hive-deployment.yaml
+      - sed -i s~latest~${DRONE_BUILD_NUMBER}-${DRONE_COMMIT_SHA:0:8}~g ops/k8s/hive-deployment.yaml
       - sed -i s~\"buildId\"~\"${DRONE_BUILD_NUMBER}\"~g ops/k8s/hive-deployment.yaml
     depends_on:
       - sonar
@@ -113,7 +113,7 @@ steps:
   - name: test-results-update-deploy
     image: alpine
     commands:
-      - sed -i s~latest~${DRONE_COMMIT_SHA:0:8}~g ops/k8s/test-results-deployment.yaml
+      - sed -i s~latest~${DRONE_BUILD_NUMBER}-${DRONE_COMMIT_SHA:0:8}~g ops/k8s/test-results-deployment.yaml
       - sed -i s~\"buildId\"~\"${DRONE_BUILD_NUMBER}\"~g ops/k8s/test-results-deployment.yaml
     depends_on:
       - test-results
@@ -184,12 +184,12 @@ steps:
   - name: update-deploy
     image: alpine
     commands:
-      - sed -i s~latest~${DRONE_COMMIT_SHA:0:8}~g ops/k8s/hive-deployment.yaml
+      - sed -i s~latest~${DRONE_BUILD_NUMBER}-${DRONE_COMMIT_SHA:0:8}~g ops/k8s/hive-deployment.yaml
       - sed -i s~\"buildId\"~\"${DRONE_BUILD_PARENT}\"~g ops/k8s/hive-deployment.yaml
   - name: test-results-update-deploy
     image: alpine
     commands:
-      - sed -i s~latest~${DRONE_COMMIT_SHA:0:8}~g ops/k8s/test-results-deployment.yaml
+      - sed -i s~latest~${DRONE_BUILD_NUMBER}-${DRONE_COMMIT_SHA:0:8}~g ops/k8s/test-results-deployment.yaml
       - sed -i s~\"buildId\"~\"${DRONE_BUILD_PARENT}\"~g ops/k8s/test-results-deployment.yaml 
   - name: deploy
     image: zc2638/drone-k8s-plugin
