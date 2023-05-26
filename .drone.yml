@@ -63,6 +63,8 @@ steps:
     image: plugins/kaniko
     settings:
       registry: registry.lab.sorijen.net.au
+      registry-mirrors:
+      - https://registry-proxy.lab.sorijen.net.au
       username: 
         from_secret: REGISTRY_USER
       password: 
@@ -82,6 +84,8 @@ steps:
       - name: reports
         path: /drone/src/reports
     settings:
+      registry-mirrors:
+      - https://registry-proxy.lab.sorijen.net.au
       registry: registry.lab.sorijen.net.au
       username:
         from_secret: REGISTRY_USER
@@ -280,9 +284,10 @@ clone:
   depth: 1
 steps:
   - name: build
-    image: plugins/docker
-    privileged: true
+    image: plugins/kaniko
     settings:
+      registry-mirrors:
+      - https://registry-proxy.lab.sorijen.net.au
       registry: registry.lab.sorijen.net.au
       username:
         from_secret: REGISTRY_USER
@@ -290,8 +295,7 @@ steps:
         from_secret: REGISTRY_PASSWORD
       repo: registry.lab.sorijen.net.au/build-image
       dockerfile: ops/dockerfile.build-image
-      squash: true
-      compress: true
+      verbosity: debug
       tags:
         - latest
         - ${DRONE_BUILD_NUMBER}-${DRONE_COMMIT_SHA:0:8}
