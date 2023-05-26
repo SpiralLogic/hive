@@ -16,7 +16,8 @@ ENV DOTNET_SYSTEM_GLOBALIZATION_INVARIANT "1"
 
 COPY --from=mcr.microsoft.com/openjdk/jdk:17-ubuntu $JAVA_HOME $JAVA_HOME
 
-
+RUN corepack prepare pnpm@latest-8 --activate
+RUN corepack enable
 
 RUN dotnet tool install -g dotnet-sonarscanner && \
 dotnet tool install -g dotnet-reportgenerator-globaltool
