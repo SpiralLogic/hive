@@ -7,10 +7,9 @@ clone:
   
 steps:
   - name: frontend
-    image: node:19-alpine
+    image: registry.lab.sorijen.net.au/build-image:latest
     commands:
       - cd src/Hive.FrontEnd
-      - npm i --location=global pnpm
       - pnpm install --frozen-lockfile
       - pnpm test:all:report
       - mv reports/* /drone/src/reports/
@@ -19,10 +18,8 @@ steps:
       - name: reports
         path: /drone/src/reports
   - name: backend
-    image: mcr.microsoft.com/dotnet/nightly/sdk:8.0.100-preview.5-alpine3.17
+    image: registry.lab.sorijen.net.au/build-image:latest
     commands:
-      - dotnet new tool-manifest || true
-      - dotnet tool install dotnet-reportgenerator-globaltool
       - dotnet test --collect:"XPlat Code Coverage" ./src/Hive.Domain.Tests -c Test --settings ./src/Hive.Domain.Tests/runsettings.xml
       - mkdir -p ./domain-coverage/
       - mkdir -p ./reports/domain/
