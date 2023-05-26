@@ -20,3 +20,5 @@ RUN corepack prepare pnpm@latest-8 --activate
 
 RUN dotnet tool install -g dotnet-sonarscanner && \
 dotnet tool install -g dotnet-reportgenerator-globaltool
+
+ENTRYPOINT [ "/bin/sh", "-l" ]

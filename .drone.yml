@@ -28,14 +28,14 @@ steps:
       - mv src/Hive.Domain.Tests/TestResults/**/coverage.opencover.xml ./domain-coverage/
       - cp ./domain-coverage/coverage.opencover.xml /drone/src/reports/domain-coverage.opencover.xml
       - mv ./domain-coverage/coverage.opencover.xml ./domain-coverage/domain-coverage.opencover.xml
-      - dotnet reportgenerator "-reports:./domain-coverage/domain-coverage.opencover.xml" "-targetdir:/drone/src/reports/domain" -reporttypes:Html
+      - reportgenerator "-reports:./domain-coverage/domain-coverage.opencover.xml" "-targetdir:/drone/src/reports/domain" -reporttypes:Html
       - dotnet test --collect:"XPlat Code Coverage" ./src/Hive.Api.Tests -c Test --settings ./src/Hive.Api.Tests/runsettings.xml
       - mkdir -p ./api-coverage/
       - mkdir -p ./reports/api/
       - mv src/Hive.Api.Tests/TestResults/**/coverage.opencover.xml ./api-coverage/
       - cp ./api-coverage/coverage.opencover.xml /drone/src/reports/api-coverage.opencover.xml
       - mv ./api-coverage/coverage.opencover.xml ./api-coverage/api-coverage.opencover.xml
-      - dotnet reportgenerator "-reports:./api-coverage/api-coverage.opencover.xml" "-targetdir:/drone/src/reports/api" -reporttypes:Html
+      - reportgenerator "-reports:./api-coverage/api-coverage.opencover.xml" "-targetdir:/drone/src/reports/api" -reporttypes:Html
     volumes:
       - name: reports
         path: /drone/src/reports
