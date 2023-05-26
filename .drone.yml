@@ -295,7 +295,6 @@ steps:
         from_secret: REGISTRY_PASSWORD
       repo: registry.lab.sorijen.net.au/build-image
       dockerfile: ops/dockerfile.build-image
-      verbosity: debug
       tags:
         - latest
         - ${DRONE_BUILD_NUMBER}-${DRONE_COMMIT_SHA:0:8}
