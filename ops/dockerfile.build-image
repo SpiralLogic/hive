@@ -1,5 +1,5 @@
 FROM mcr.microsoft.com/dotnet/nightly/sdk:8.0.100-preview.5-alpine3.17
-SHELL [ "/bin/bash", "-l", "-c" ]
+SHELL [ "/bin/sh", "-l", "-c" ]
 
 WORKDIR /source
 
