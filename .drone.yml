@@ -42,6 +42,7 @@ steps:
   - name: sonar
     image: registry.lab.sorijen.net.au/build-image:latest
     pull: always
+
     volumes:
       - name: reports
         path: /drone/src/reports
@@ -53,6 +54,7 @@ steps:
     commands:
       - export JAVA_HOME="/usr/jdk"
       - export PATH="/root/.dotnet/tools:${JAVA_HOME}/bin:$PATH"
+      - java --version
       - sed -i "s~\.\./~Hive\.FrontEnd/~g" /drone/src/reports/__coverage__/lcov.info
       - sed -i "s~/source~/drone/src~g" /drone/src/ops/SonarQube.Analysis.xml
       - node -v
