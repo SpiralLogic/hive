@@ -13,7 +13,7 @@ ENV PATH="/root/.dotnet/tools:${JAVA_HOME}/bin:$PATH"
 ENV LANG="en_US.UTF-8"
 ENV DOTNET_SYSTEM_GLOBALIZATION_INVARIANT="1"
 
-COPY --from=mcr.microsoft.com/openjdk/jdk:17 $JAVA_HOME $JAVA_HOME
+COPY --from=mcr.microsoft.com/openjdk/jdk:17-ubuntu $JAVA_HOME $JAVA_HOME
 
 RUN corepack disable && \
     corepack prepare pnpm@latest --activate && \
