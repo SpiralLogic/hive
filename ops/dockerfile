@@ -15,7 +15,7 @@ ENV ASPNETCORE_ENVIRONMENT=Production
 COPY ./src .
 RUN dotnet publish -c release --property PublishDir=/usr/src/app
 
-FROM mcr.microsoft.com/dotnet/aspnet:8.0.0-preview.4-alpine3.17-composite
+FROM mcr.microsoft.com/dotnet/aspnet:8.0-preview-jammy-chiseled
 WORKDIR /usr/src/app
 ENV ASPNETCORE_ENVIRONMENT=Production
 
