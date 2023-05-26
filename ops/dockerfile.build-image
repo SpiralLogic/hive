@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/dotnet/sdk:8.0.100-preview.5
+FROM mcr.microsoft.com/dotnet/nightly/sdk:8.0.100-preview.5
 SHELL [ "/bin/bash", "-l", "-c" ]
 
 WORKDIR /source
