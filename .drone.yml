@@ -60,7 +60,7 @@ steps:
       - dotnet test ./src -c Test --collect:"XPlat Code Coverage" --settings ./src/Hive.Api.Tests/runsettings.xml
       - dotnet sonarscanner end /d:sonar.login=$SONARQUBE_KEY
   - name: build
-    image: plugins/kaniko:1.7.4
+    image: plugins/kaniko:1.7.4-1.9.2
     settings:
       registry: registry.lab.sorijen.net.au
       registry-mirrors:
@@ -75,8 +75,7 @@ steps:
       - latest
       - ${DRONE_COMMIT_SHA:0:8}
   - name: test-results
-    privileged: true
-    image: plugins/kaniko:1.7.4
+    image: plugins/kaniko:1.7.4-1.9.2
     depends_on:
       - frontend
       - backend
@@ -284,7 +283,7 @@ clone:
   depth: 1
 steps:
   - name: build
-    image: plugins/kaniko:1.7.4
+    image: plugins/kaniko:1.7.4-1.9.2
     settings:
       registry-mirrors:
       - https://registry-proxy.lab.sorijen.net.au
@@ -316,8 +315,7 @@ clone:
   depth: 1
 steps:
   - name: build
-    image: plugins/docker
-    privileged: true
+    image: plugins/kaniko:1.7.4-1.9.2
     settings:
       registry: registry.lab.sorijen.net.au
       username:
@@ -325,7 +323,7 @@ steps:
       password:
         from_secret: REGISTRY_PASSWORD
       repo: registry.lab.sorijen.net.au/card-maker
-      mirror: https://registry-proxy.lab.sorijen.net.au
+      registry-mirrors: https://registry-proxy.lab.sorijen.net.au
       dockerfile: ops/dockerfile.card-maker
       context: ops/card-plugin
       tags:
