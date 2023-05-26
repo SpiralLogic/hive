@@ -10,17 +10,16 @@ COPY --from=node:19-alpine3.17 /usr/local/include /usr/local/include
 COPY --from=node:19-alpine3.17 /usr/local/bin /usr/local/bin
 
 ENV JAVA_HOME /usr/lib/jvm/msopenjdk-17-amd64
-RUN export PATH="/root/.dotnet/tools:$JAVA_HOME/bin:$PATH"
-RUN export LANG="en_US.UTF-8"
-RUN export DOTNET_SYSTEM_GLOBALIZATION_INVARIANT="1"
+RUN export PATH="/root/.dotnet/tools:$JAVA_HOME/bin:$PATH" && \
+    export LANG="en_US.UTF-8" && \
+    export DOTNET_SYSTEM_GLOBALIZATION_INVARIANT="1"
 
 COPY --from=mcr.microsoft.com/openjdk/jdk:17-ubuntu $JAVA_HOME $JAVA_HOME
 
-RUN corepack disable
-RUN corepack prepare pnpm@latest --activate
-RUN corepack enable
-
-RUN dotnet tool install -g dotnet-sonarscanner && \
-dotnet tool install -g dotnet-reportgenerator-globaltool
+RUN corepack disable && \
+    corepack prepare pnpm@latest --activate && \
+    corepack enable && \
+    dotnet tool install -g dotnet-sonarscanner && \
+    dotnet tool install -g dotnet-reportgenerator-globaltool
 
 ENTRYPOINT [ "/bin/sh", "-l" ]
