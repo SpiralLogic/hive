@@ -8,7 +8,6 @@ clone:
 steps:
   - name: frontend
     image: registry.lab.sorijen.net.au/build-image:latest
-    pull: always
     commands:
       - cd src/Hive.FrontEnd
       - pnpm install --frozen-lockfile
@@ -20,7 +19,6 @@ steps:
         path: /drone/src/reports
   - name: backend
     image: registry.lab.sorijen.net.au/build-image:latest
-    pull: always
     commands:
       - dotnet test --collect:"XPlat Code Coverage" ./src/Hive.Domain.Tests -c Test --settings ./src/Hive.Domain.Tests/runsettings.xml
       - mkdir -p ./domain-coverage/
@@ -41,7 +39,6 @@ steps:
         path: /drone/src/reports
   - name: sonar
     image: registry.lab.sorijen.net.au/build-image:latest
-    pull: always
     depends_on:
       - backend
       - frontend
