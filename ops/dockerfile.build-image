@@ -20,7 +20,4 @@ RUN corepack disable && \
     corepack enable && \
     dotnet tool install -g dotnet-sonarscanner && \
     dotnet tool install -g dotnet-reportgenerator-globaltool
-RUN ls -la /usr/jdk/bin
-RUN /usr/jdk/bin/java --version
 RUN ln -s /usr/jdk/bin/java /usr/local/bin/java
-RUN java --version
