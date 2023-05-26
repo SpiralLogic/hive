@@ -21,5 +21,3 @@ RUN corepack disable && \
     corepack enable && \
     dotnet tool install -g dotnet-sonarscanner && \
     dotnet tool install -g dotnet-reportgenerator-globaltool
-
-ENTRYPOINT [ "/bin/sh", "-l" ]
