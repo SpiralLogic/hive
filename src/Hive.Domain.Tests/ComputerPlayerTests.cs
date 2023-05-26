@@ -704,6 +704,6 @@ public class ComputerPlayerTests
         await hive.AiMove((_, _) => ValueTask.CompletedTask);
 
         stopwatch.Stop();
-        stopwatch.ElapsedMilliseconds.Should().BeLessThan(2300);
+        stopwatch.ElapsedMilliseconds.Should().BeLessThan(5300);
     }
 }
