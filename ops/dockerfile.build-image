@@ -10,7 +10,7 @@ COPY --from=node:19-alpine3.17 /usr/local/include /usr/local/include
 COPY --from=node:19-alpine3.17 /usr/local/bin /usr/local/bin
 
 ENV JAVA_HOME /usr/lib/jvm/msopenjdk-17-amd64
-RUN export PATH="~/.dotnet/tools:$JAVA_HOME/bin:${PATH}"
+RUN export PATH="~/.dotnet/tools:$JAVA_HOME/bin:$PATH"
 RUN export LANG="en_US.UTF-8"
 RUN export DOTNET_SYSTEM_GLOBALIZATION_INVARIANT="1"
 
