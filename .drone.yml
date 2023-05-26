@@ -25,7 +25,7 @@ steps:
       LANG: en_US.UTF-8
       DOTNET_SYSTEM_GLOBALIZATION_INVARIANT: 1
     commands:
-      - export PATH="~/.dotnet/tools:${PATH}"
+      - export PATH="~/.dotnet/tools:$PATH"
       - dotnet test --collect:"XPlat Code Coverage" ./src/Hive.Domain.Tests -c Test --settings ./src/Hive.Domain.Tests/runsettings.xml
       - mkdir -p ./domain-coverage/
       - mkdir -p ./reports/domain/
