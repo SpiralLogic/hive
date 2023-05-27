@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/dotnet/sdk:8.0.100-preview.4-jammy
+FROM mcr.microsoft.com/dotnet/sdk:8.0.100-preview.4-bookworm-slim
 
 WORKDIR /source
 
