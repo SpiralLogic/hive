@@ -14,6 +14,13 @@ namespace Hive.Domain.Tests;
 
 public class ComputerPlayerTests
 {
+    public ComputerPlayerTests()
+    {
+        Hive.MaxDepth = 3;
+        Hive.GlobalMaxSearchTime = 25000;
+        Hive.LocalMaxSearchTime = 3000;
+    }
+
     [Fact]
     public async Task MovesToEnemyQueen()
     {
@@ -678,7 +685,7 @@ public class ComputerPlayerTests
     }
 
     [Fact]
-    public async Task MaxSearchTime()
+    public async Task MaxSearchTimeLocal()
     {
         var hive = HiveFactory.Create(
             new[]
@@ -686,6 +693,7 @@ public class ComputerPlayerTests
                 "player1", " player2"
             }
         );
+        Hive.MaxDepth = 1;
         Hive.GlobalMaxSearchTime = 100;
         Hive.LocalMaxSearchTime = 100;
         var stopwatch = new Stopwatch();
@@ -696,14 +704,28 @@ public class ComputerPlayerTests
         }
 
         stopwatch.Stop();
-        stopwatch.ElapsedMilliseconds.Should().BeLessThan(8 * 1500);
+        stopwatch.ElapsedMilliseconds.Should().BeLessThan(8 * 150);
+    }
 
-        stopwatch.Restart();
-        Hive.GlobalMaxSearchTime = 500;
+    [Fact]
+    public async Task MaxSearchTimeGlobal()
+    {
+        var hive = HiveFactory.Create(
+            new[]
+            {
+                "player1", " player2"
+            }
+        );
+        Hive.MaxDepth = 1;
+        Hive.GlobalMaxSearchTime = 2000;
         Hive.LocalMaxSearchTime = 100;
+        var stopwatch = new Stopwatch();
+        stopwatch.Start();
+
         await hive.AiMove((_, _) => ValueTask.CompletedTask);
 
         stopwatch.Stop();
-        stopwatch.ElapsedMilliseconds.Should().BeLessThan(20300);
+        stopwatch.ElapsedMilliseconds.Should().BeLessThan(2300);
     }
+
 }

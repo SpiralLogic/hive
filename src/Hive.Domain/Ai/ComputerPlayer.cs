@@ -14,7 +14,7 @@ namespace Hive.Domain.Ai;
 internal class ComputerPlayer
 {
     private readonly Func<string, Tile, ValueTask>? _broadcastThought;
-    private readonly ScoredMove[] _depth = new ScoredMove[HeuristicValues.MaxDepth];
+    private readonly ScoredMove[] _depth = new ScoredMove[Hive.MaxDepth];
     private readonly ICollection<IHeuristic> _heuristics;
     private readonly Hive _hive;
     private readonly Random _rnd = new();
@@ -43,7 +43,7 @@ internal class ComputerPlayer
     public async ValueTask<Move> GetMove()
     {
         _globalStopwatch.Start();
-        var r = await Run(null, HeuristicValues.MaxDepth).ConfigureAwait(false);
+        var r = await Run(null, Hive.MaxDepth).ConfigureAwait(false);
         return r.Move ?? throw new InvalidDataException("Could not determine next move");
     }
 
@@ -103,13 +103,13 @@ internal class ComputerPlayer
 
         foreach (var (nextScore, values) in toExplore.OrderBy(_ => _rnd.Next()))
         {
-            if ((HeuristicValues.MaxDepth - depth) % 2 == 1 && _localStopwatch.ElapsedMilliseconds > Hive.LocalMaxSearchTime) break;
+            if ((Hive.MaxDepth - depth) % 2 == 1 && _localStopwatch.ElapsedMilliseconds > Hive.LocalMaxSearchTime) break;
             MakeMove(values.Move);
-            if (depth == HeuristicValues.MaxDepth) await BroadcastSelect(values.Move.Tile);
+            if (depth == Hive.MaxDepth) await BroadcastSelect(values.Move.Tile);
 
             var score = nextScore;
             if (nextScore < HeuristicValues.ScoreMax)
-                score += -(await Run(values.Move, depth - 1)).Score / (HeuristicValues.MaxDepth - depth + 1);
+                score += -(await Run(values.Move, depth - 1)).Score / (Hive.MaxDepth - depth + 1);
 
             _hive.RevertMove();
 
@@ -117,7 +117,7 @@ internal class ComputerPlayer
 
         }
 
-        if (depth == HeuristicValues.MaxDepth) await BroadcastDeselect();
+        if (depth == Hive.MaxDepth) await BroadcastDeselect();
 
         return new(best, bestScore);
     }
