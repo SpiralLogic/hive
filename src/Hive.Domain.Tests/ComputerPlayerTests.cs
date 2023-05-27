@@ -14,13 +14,6 @@ namespace Hive.Domain.Tests;
 
 public class ComputerPlayerTests
 {
-    public ComputerPlayerTests()
-    {
-        Hive.MaxDepth = 3;
-        Hive.GlobalMaxSearchTime = 25000;
-        Hive.LocalMaxSearchTime = 3000;
-    }
-
     [Fact]
     public async Task MovesToEnemyQueen()
     {
@@ -642,6 +635,7 @@ public class ComputerPlayerTests
 
         var player = new ComputerPlayer(
             hive,
+            new(),
             (Func<string, Tile, ValueTask>)((broadcastType, tile) =>
             {
                 tileBroadcasts.Add((broadcastType, tile));
@@ -671,6 +665,7 @@ public class ComputerPlayerTests
         );
         var player = new ComputerPlayer(
             hive,
+            new(),
             (Func<string, Tile, ValueTask>)((broadcastType, tile) =>
             {
                 tileBroadcasts.Add((broadcastType, tile));
@@ -693,14 +688,15 @@ public class ComputerPlayerTests
                 "player1", " player2"
             }
         );
-        Hive.MaxDepth = 1;
-        Hive.GlobalMaxSearchTime = 100;
-        Hive.LocalMaxSearchTime = 100;
+        DifficultyOptions options = new(100, 100, 1);
+        var player = new ComputerPlayer(hive, options);
+
         var stopwatch = new Stopwatch();
         stopwatch.Start();
         for (var i = 0; i < 8; i++)
         {
-            await hive.AiMove((_, _) => ValueTask.CompletedTask);
+            var move = await player.GetMove();
+            hive.Move(move);
         }
 
         stopwatch.Stop();
@@ -716,14 +712,14 @@ public class ComputerPlayerTests
                 "player1", " player2"
             }
         );
-        Hive.MaxDepth = 1;
-        Hive.GlobalMaxSearchTime = 2000;
-        Hive.LocalMaxSearchTime = 100;
+
+        DifficultyOptions options = new(3000, 100, 1);
+        var player = new ComputerPlayer(hive, options);
+
         var stopwatch = new Stopwatch();
         stopwatch.Start();
 
-        await hive.AiMove((_, _) => ValueTask.CompletedTask);
-
+        await player.GetMove();
         stopwatch.Stop();
         stopwatch.ElapsedMilliseconds.Should().BeLessThan(2300);
     }

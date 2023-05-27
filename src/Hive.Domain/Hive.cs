@@ -24,9 +24,7 @@ public class Hive
 
     public ISet<Cell> Cells { get; }
     public IList<Player> Players { get; }
-    public static int GlobalMaxSearchTime { get; set; } = 25000;
-    public static int LocalMaxSearchTime { get; set; } = 3000;
-    public static int MaxDepth { get; set; } = 3;
+
     public ICollection<HistoricalMove> History => _mover.History;
 
     public GameStatus Move(Move move)
@@ -36,7 +34,7 @@ public class Hive
 
     public async ValueTask<GameStatus> AiMove(Func<string, Tile, ValueTask> broadcastThought)
     {
-        var aiMove = await new ComputerPlayer(this, broadcastThought).GetMove();
+        var aiMove = await new ComputerPlayer(this, new(), broadcastThought).GetMove();
         return _mover.Move(aiMove, true);
     }
 

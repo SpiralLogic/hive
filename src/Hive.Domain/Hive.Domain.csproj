@@ -16,6 +16,6 @@
     <DebugType>none</DebugType>
   </PropertyGroup>
   <ItemGroup>
-    <InternalsVisibleTo Include="Hive.Domain.Tests"/>
+    <InternalsVisibleTo Include="Hive.Domain.Tests" />
   </ItemGroup>
 </Project>

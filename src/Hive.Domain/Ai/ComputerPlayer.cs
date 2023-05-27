@@ -14,18 +14,21 @@ namespace Hive.Domain.Ai;
 internal class ComputerPlayer
 {
     private readonly Func<string, Tile, ValueTask>? _broadcastThought;
-    private readonly ScoredMove[] _depth = new ScoredMove[Hive.MaxDepth];
+    private readonly ScoredMove[] _depth;
     private readonly ICollection<IHeuristic> _heuristics;
     private readonly Hive _hive;
     private readonly Random _rnd = new();
     private readonly Stopwatch _globalStopwatch = new();
     private readonly Stopwatch _localStopwatch = new();
     private Tile? _lastBroadcast;
+    private readonly DifficultyOptions _options;
 
-    public ComputerPlayer(Hive hive, Func<string, Tile, ValueTask>? broadcastThought = null)
+    public ComputerPlayer(Hive hive, DifficultyOptions? options = null, Func<string, Tile, ValueTask>? broadcastThought = null)
     {
         _broadcastThought = broadcastThought;
         _hive = hive;
+        _options = options ?? new();
+        _depth = new ScoredMove[_options.MaxDepth];
         _heuristics = new List<IHeuristic>
         {
             new GameOver(),
@@ -43,13 +46,13 @@ internal class ComputerPlayer
     public async ValueTask<Move> GetMove()
     {
         _globalStopwatch.Start();
-        var r = await Run(null, Hive.MaxDepth).ConfigureAwait(false);
+        var r = await Run(null, _options.MaxDepth).ConfigureAwait(false);
         return r.Move ?? throw new InvalidDataException("Could not determine next move");
     }
 
     private async ValueTask<ScoredMove> Run(Move? move, int depth)
     {
-        if (depth == 0 || _globalStopwatch.ElapsedMilliseconds > Hive.GlobalMaxSearchTime) return new(move, 0);
+        if (depth == 0 || _globalStopwatch.ElapsedMilliseconds > _options.GlobalMaxSearchTime) return new(move, 0);
         _localStopwatch.Restart();
 
         var tilesToExplore = FindMovesToExplore();
@@ -103,13 +106,13 @@ internal class ComputerPlayer
 
         foreach (var (nextScore, values) in toExplore.OrderBy(_ => _rnd.Next()))
         {
-            if ((Hive.MaxDepth - depth) % 2 == 1 && _localStopwatch.ElapsedMilliseconds > Hive.LocalMaxSearchTime) break;
+            if ((_options.MaxDepth - depth) % 2 == 1 && _localStopwatch.ElapsedMilliseconds > _options.LocalMaxSearchTime) break;
             MakeMove(values.Move);
-            if (depth == Hive.MaxDepth) await BroadcastSelect(values.Move.Tile);
+            if (depth == _options.MaxDepth) await BroadcastSelect(values.Move.Tile);
 
             var score = nextScore;
             if (nextScore < HeuristicValues.ScoreMax)
-                score += -(await Run(values.Move, depth - 1)).Score / (Hive.MaxDepth - depth + 1);
+                score += -(await Run(values.Move, depth - 1)).Score / (_options.MaxDepth - depth + 1);
 
             _hive.RevertMove();
 
@@ -117,7 +120,7 @@ internal class ComputerPlayer
 
         }
 
-        if (depth == Hive.MaxDepth) await BroadcastDeselect();
+        if (depth == _options.MaxDepth) await BroadcastDeselect();
 
         return new(best, bestScore);
     }
