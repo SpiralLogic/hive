@@ -1,24 +1,24 @@
-FROM registry.lab.sorijen.net.au/build-image:latest  as build
+FROM registry.lab.sorijen.net.au/build-image:latest as build
 
-WORKDIR /usr/src/frontend
+WORKDIR /source/frontend
 COPY src/Hive.FrontEnd/package.json src/Hive.FrontEnd/pnpm-lock.yaml ./
 ENV NODE_ENV=production
 
 RUN pnpm install -P --frozen-lockfile
 
-COPY ./src/Hive.FrontEnd .
+COPY ./src/Hive.FrontEnd ./
 RUN pnpm vite:build
 
-WORKDIR /usr/src/backend
+WORKDIR /source/backend
 ENV ASPNETCORE_ENVIRONMENT=Production
 
 COPY ./src .
-RUN dotnet publish -c release --property PublishDir=/usr/src/app
+RUN dotnet publish -c release --property PublishDir=/source/backend/dist
 
-FROM mcr.microsoft.com/dotnet/aspnet:8.0-preview-jammy-chiseled
-WORKDIR /usr/src/app
+FROM mcr.microsoft.com/dotnet/nightly/aspnet:8.0-preview-jammy-chiseled
+WORKDIR /source/backend/dist
 ENV ASPNETCORE_ENVIRONMENT=Production
 
-COPY --from=build /usr/src/app .
-COPY --from=build /usr/src/frontend/public ./wwwroot
+COPY --from=build /source/backend/dist .
+COPY --from=build /source/frontend/public ./wwwroot
 ENTRYPOINT ["./Hive.Api"]

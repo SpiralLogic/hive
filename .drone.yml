@@ -17,7 +17,7 @@ steps:
       - name: reports
         path: /drone/src/reports
   - name: backend
-    image: mcr.microsoft.com/dotnet/sdk:8.0.100-preview.4
+    image: mcr.microsoft.com/dotnet/nightly/sdk:8.0.100-preview.5
     commands:
       - dotnet new tool-manifest || true
       - dotnet tool install dotnet-reportgenerator-globaltool
@@ -248,7 +248,7 @@ steps:
       - pnpm update -L
       - pnpm test:all
   - name: dotnet-upgrade
-    image: mcr.microsoft.com/dotnet/sdk:8.0.100-preview.4
+    image: mcr.microsoft.com/dotnet/nightly/sdk:8.0.100-preview.5
     commands:
       - bash ops/dotnet-update.sh
       - dotnet test ./src -c Test
