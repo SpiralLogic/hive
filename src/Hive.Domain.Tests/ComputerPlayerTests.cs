@@ -694,7 +694,7 @@ public class ComputerPlayerTests
         stopwatch.Start();
         for (var i = 0; i < 8; i++)
         {
-            DifficultyOptions options = new(100, 100, 1);
+            DifficultyOptions options = new(100, 100, 3);
             var player = new ComputerPlayer(hive, options);
             var move = await player.GetMove();
             hive.Move(move);
