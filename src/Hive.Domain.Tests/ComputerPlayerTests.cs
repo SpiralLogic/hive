@@ -688,13 +688,14 @@ public class ComputerPlayerTests
                 "player1", " player2"
             }
         );
-        DifficultyOptions options = new(100, 100, 1);
-        var player = new ComputerPlayer(hive, options);
+
 
         var stopwatch = new Stopwatch();
         stopwatch.Start();
         for (var i = 0; i < 8; i++)
         {
+            DifficultyOptions options = new(100, 100, 1);
+            var player = new ComputerPlayer(hive, options);
             var move = await player.GetMove();
             hive.Move(move);
         }
