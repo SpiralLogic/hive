@@ -37,6 +37,22 @@ steps:
     volumes:
       - name: reports
         path: /drone/src/reports
+
+  - name: build
+    image: plugins/kaniko:1.7.4-kaniko1.9.2
+    settings:
+      registry: registry.lab.sorijen.net.au
+      registry-mirrors:
+      - https://registry-proxy.lab.sorijen.net.au
+      username: 
+        from_secret: REGISTRY_USER
+      password: 
+        from_secret: REGISTRY_PASSWORD
+      repo: registry.lab.sorijen.net.au/hive
+      dockerfile: ops/dockerfile
+      tags:
+      - latest
+      - ${DRONE_BUILD_NUMBER}-${DRONE_COMMIT_SHA:0:8}
   - name: sonar
     image: registry.lab.sorijen.net.au/build-image:latest
     depends_on:
@@ -60,21 +76,6 @@ steps:
       - dotnet build -c Test ./src
       - dotnet test ./src -c Test --collect:"XPlat Code Coverage" --settings ./src/Hive.Api.Tests/runsettings.xml
       - dotnet sonarscanner end /d:sonar.login=$SONARQUBE_KEY
-  - name: build
-    image: plugins/kaniko:1.7.4-kaniko1.9.2
-    settings:
-      registry: registry.lab.sorijen.net.au
-      registry-mirrors:
-      - https://registry-proxy.lab.sorijen.net.au
-      username: 
-        from_secret: REGISTRY_USER
-      password: 
-        from_secret: REGISTRY_PASSWORD
-      repo: registry.lab.sorijen.net.au/hive
-      dockerfile: ops/dockerfile
-      tags:
-      - latest
-      - ${DRONE_BUILD_NUMBER}-${DRONE_COMMIT_SHA:0:8}
   - name: test-results
     image: plugins/kaniko:1.7.4-kaniko1.9.2
     depends_on:
