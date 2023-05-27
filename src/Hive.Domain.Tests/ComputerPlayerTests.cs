@@ -698,11 +698,11 @@ public class ComputerPlayerTests
             DifficultyOptions options = new(150, 150, 3);
             var player = new ComputerPlayer(hive, options);
             var move = await player.GetMove();
-            hive.Move(move);
             stopwatch.Stop();
+            hive.Move(move);
         }
 
-        stopwatch.ElapsedMilliseconds.Should().BeLessThan(8 * 200);
+        stopwatch.ElapsedMilliseconds.Should().BeLessThan(8 * 170);
     }
 
     [Fact]
