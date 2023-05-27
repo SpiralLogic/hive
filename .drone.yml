@@ -63,6 +63,10 @@ steps:
     volumes:
       - name: reports
         path: /drone/src/reports
+    when:
+      status:
+      - success
+      - failure
     environment:
       SONARQUBE_KEY:
         from_secret: SONARQUBE_KEY
@@ -85,6 +89,10 @@ steps:
     volumes:
       - name: reports
         path: /drone/src/reports
+    when:
+      status:
+      - success
+      - failure
     settings:
       registry: registry.lab.sorijen.net.au
       username:
@@ -110,6 +118,10 @@ steps:
       - build
       - gitleaks
   - name: test-results-update-deploy
+    when:
+      status:
+      - success
+      - failure
     image: alpine
     commands:
       - sed -i s~latest~${DRONE_BUILD_NUMBER}-${DRONE_COMMIT_SHA:0:8}~g ops/k8s/test-results-deployment.yaml
@@ -137,6 +149,10 @@ steps:
       - update-deploy
   - name: deploy-test-results
     image: zc2638/drone-k8s-plugin
+    when:
+      status:
+      - success
+      - failure
     settings:
       k8s_server:
         from_secret: K8_SERVER
