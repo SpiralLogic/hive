@@ -714,7 +714,7 @@ public class ComputerPlayerTests
             }
         );
 
-        DifficultyOptions options = new(3000, 100, 1);
+        DifficultyOptions options = new(2000, 100, 1);
         var player = new ComputerPlayer(hive, options);
 
         var stopwatch = new Stopwatch();
