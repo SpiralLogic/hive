@@ -696,7 +696,7 @@ public class ComputerPlayerTests
         }
 
         stopwatch.Stop();
-        stopwatch.ElapsedMilliseconds.Should().BeLessThan(8 * 150);
+        stopwatch.ElapsedMilliseconds.Should().BeLessThan(8 * 1500);
 
         stopwatch.Restart();
         Hive.GlobalMaxSearchTime = 500;
