@@ -54,6 +54,7 @@ steps:
       - ${DRONE_BUILD_NUMBER}-${DRONE_COMMIT_SHA:0:8}
   - name: sonar
     image: registry.lab.sorijen.net.au/build-image:latest
+    pull: always
     depends_on:
       - backend
       - frontend
