@@ -51,15 +51,17 @@ steps:
         path: /drone/src/reports
   - name: build
     image: plugins/kaniko:1.7.4-kaniko1.9.2
+    environment:
+      PLUGIN_ENABLE_CACHE: false
     settings:
       registry: registry.lab.sorijen.net.au
-      registry_mirror: registry-proxy.lab.sorijen.net.au
+      registry_mirrors:
+        - registry-proxy.lab.sorijen.net.au
       username: 
         from_secret: REGISTRY_USER
       password: 
         from_secret: REGISTRY_PASSWORD
       repo: registry.lab.sorijen.net.au/hive
-      enable_cache: false
       dockerfile: ops/dockerfile
       tags:
       - latest
@@ -105,8 +107,13 @@ steps:
       status:
       - success
       - failure
+    environment:
+      PLUGIN_ENABLE_CACHE: false
     settings:
       registry: registry.lab.sorijen.net.au
+      registry_mirrors:
+        - registry-proxy.lab.sorijen.net.au
+      enable_cache: false
       username:
         from_secret: REGISTRY_USER
       password:
@@ -313,16 +320,17 @@ clone:
 steps:
   - name: build
     image: plugins/kaniko:1.7.4-kaniko1.9.2
+    environment:
+      PLUGIN_ENABLE_CACHE: false
     settings:
-      registry-mirrors:
-      - https://registry-proxy.lab.sorijen.net.au
       registry: registry.lab.sorijen.net.au
       username:
         from_secret: REGISTRY_USER
       password:
         from_secret: REGISTRY_PASSWORD
       repo: registry.lab.sorijen.net.au/build-image
-      snapshot-mode: full --snapshot-only
+      registry_mirrors:
+        - registry-proxy.lab.sorijen.net.au
       dockerfile: ops/dockerfile.build-image
       tags:
         - latest
@@ -346,15 +354,17 @@ clone:
 steps:
   - name: build
     image: plugins/kaniko:1.7.4-kaniko1.9.2
+    environment:
+      PLUGIN_ENABLE_CACHE: false
     settings:
       registry: registry.lab.sorijen.net.au
       username:
         from_secret: REGISTRY_USER
       password:
         from_secret: REGISTRY_PASSWORD
-      snapshot-mode: full --snapshot-only
       repo: registry.lab.sorijen.net.au/card-maker
-      registry-mirrors: https://registry-proxy.lab.sorijen.net.au
+      registry_mirrors:
+        - registry-proxy.lab.sorijen.net.au
       dockerfile: ops/dockerfile.card-maker
       context: ops/card-plugin
       tags:
