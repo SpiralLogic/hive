@@ -9,7 +9,7 @@
     <AnalysisLevel>latest</AnalysisLevel>
     <AnalysisMode>Recommended</AnalysisMode>
     <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
-    <NoWarn>CA1016</NoWarn>
+    <NoWarn>CA1016,NETSDK1188</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
     <DebugSymbols>false</DebugSymbols>

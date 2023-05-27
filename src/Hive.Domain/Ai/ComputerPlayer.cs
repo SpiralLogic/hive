@@ -103,7 +103,7 @@ internal class ComputerPlayer
 
         foreach (var (nextScore, values) in toExplore.OrderBy(_ => _rnd.Next()))
         {
-            if (((HeuristicValues.MaxDepth - depth)) % 2 == 1 && _localStopwatch.ElapsedMilliseconds > Hive.LocalMaxSearchTime) break;
+            if ((HeuristicValues.MaxDepth - depth) % 2 == 1 && _localStopwatch.ElapsedMilliseconds > Hive.LocalMaxSearchTime) break;
             MakeMove(values.Move);
             if (depth == HeuristicValues.MaxDepth) await BroadcastSelect(values.Move.Tile);
 
