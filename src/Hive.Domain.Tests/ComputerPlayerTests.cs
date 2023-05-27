@@ -691,17 +691,18 @@ public class ComputerPlayerTests
 
 
         var stopwatch = new Stopwatch();
-        stopwatch.Start();
+
         for (var i = 0; i < 8; i++)
         {
-            DifficultyOptions options = new(100, 100, 3);
+            stopwatch.Start();
+            DifficultyOptions options = new(150, 150, 3);
             var player = new ComputerPlayer(hive, options);
             var move = await player.GetMove();
             hive.Move(move);
+            stopwatch.Stop();
         }
 
-        stopwatch.Stop();
-        stopwatch.ElapsedMilliseconds.Should().BeLessThan(8 * 180);
+        stopwatch.ElapsedMilliseconds.Should().BeLessThan(8 * 200);
     }
 
     [Fact]
