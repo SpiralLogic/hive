@@ -54,7 +54,7 @@ steps:
     settings:
       registry: registry.lab.sorijen.net.au
       registry_mirror: registry-proxy.lab.sorijen.net.au
-      remember: 
+      username: 
         from_secret: REGISTRY_USER
       password: 
         from_secret: REGISTRY_PASSWORD
