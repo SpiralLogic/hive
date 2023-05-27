@@ -680,7 +680,7 @@ public class ComputerPlayerTests
     }
 
     [Fact]
-    public async Task MaxSearchTimeLocal()
+    public async Task MaxSearchTimeGlobal()
     {
         var hive = HiveFactory.Create(
             new[]
@@ -706,7 +706,7 @@ public class ComputerPlayerTests
     }
 
     [Fact]
-    public async Task MaxSearchTimeGlobal()
+    public async Task MaxSearchTimeLocal()
     {
         var hive = HiveFactory.Create(
             new[]
