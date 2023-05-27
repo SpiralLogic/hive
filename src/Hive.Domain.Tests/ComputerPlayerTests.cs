@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Hive.Domain.Ai;
@@ -688,6 +689,11 @@ public class ComputerPlayerTests
         );
         Hive.GlobalMaxSearchTime = 100;
         Hive.LocalMaxSearchTime = 100;
+        //prevent "Normal" Processes from interrupting Threads
+        Process.GetCurrentProcess().PriorityClass = ProcessPriorityClass.High;
+
+        //prevent "Normal" Threads from interrupting this thread
+        Thread.CurrentThread.Priority = ThreadPriority.Highest;
         var stopwatch = new Stopwatch();
         stopwatch.Start();
         for (var i = 0; i < 8; i++)
