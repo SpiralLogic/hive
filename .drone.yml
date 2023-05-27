@@ -5,6 +5,7 @@ name: tests
 steps:
   - name: frontend
     image: node:19-alpine
+    pull: always
     commands:
       - cd src/Hive.FrontEnd
       - corepack enable
@@ -18,6 +19,7 @@ steps:
         path: /drone/src/reports
   - name: backend
     image: mcr.microsoft.com/dotnet/sdk:8.0-preview-jammy
+    pull: always
     commands:
       - dotnet new tool-manifest || true
       - dotnet tool install dotnet-reportgenerator-globaltool
