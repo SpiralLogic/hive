@@ -4,9 +4,11 @@ name: tests
 
 steps:
   - name: frontend
-    image: registry.lab.sorijen.net.au/build-image:latest
+    image: node:19-alpine
     commands:
       - cd src/Hive.FrontEnd
+      - corepack enable
+      - corepack prepare pnpm@latest --activate
       - pnpm install --frozen-lockfile
       - pnpm test:all:report
       - mv reports/* /drone/src/reports/
@@ -15,22 +17,24 @@ steps:
       - name: reports
         path: /drone/src/reports
   - name: backend
-    image: registry.lab.sorijen.net.au/build-image:latest
+    image: mcr.microsoft.com/dotnet/sdk:8.0.100-preview.4
     commands:
+      - dotnet new tool-manifest || true
+      - dotnet tool install dotnet-reportgenerator-globaltool
       - dotnet test --collect:"XPlat Code Coverage" ./src/Hive.Domain.Tests -c Test --settings ./src/Hive.Domain.Tests/runsettings.xml
       - mkdir -p ./domain-coverage/
       - mkdir -p ./reports/domain/
       - mv src/Hive.Domain.Tests/TestResults/**/coverage.opencover.xml ./domain-coverage/
       - cp ./domain-coverage/coverage.opencover.xml /drone/src/reports/domain-coverage.opencover.xml
       - mv ./domain-coverage/coverage.opencover.xml ./domain-coverage/domain-coverage.opencover.xml
-      - reportgenerator "-reports:./domain-coverage/domain-coverage.opencover.xml" "-targetdir:/drone/src/reports/domain" -reporttypes:Html
+      - dotnet reportgenerator "-reports:./domain-coverage/domain-coverage.opencover.xml" "-targetdir:/drone/src/reports/domain" -reporttypes:Html
       - dotnet test --collect:"XPlat Code Coverage" ./src/Hive.Api.Tests -c Test --settings ./src/Hive.Api.Tests/runsettings.xml
       - mkdir -p ./api-coverage/
       - mkdir -p ./reports/api/
       - mv src/Hive.Api.Tests/TestResults/**/coverage.opencover.xml ./api-coverage/
       - cp ./api-coverage/coverage.opencover.xml /drone/src/reports/api-coverage.opencover.xml
       - mv ./api-coverage/coverage.opencover.xml ./api-coverage/api-coverage.opencover.xml
-      - reportgenerator "-reports:./api-coverage/api-coverage.opencover.xml" "-targetdir:/drone/src/reports/api" -reporttypes:Html
+      - dotnet reportgenerator "-reports:./api-coverage/api-coverage.opencover.xml" "-targetdir:/drone/src/reports/api" -reporttypes:Html
     volumes:
       - name: reports
         path: /drone/src/reports
@@ -39,8 +43,6 @@ steps:
     image: plugins/kaniko:1.7.4-kaniko1.9.2
     settings:
       registry: registry.lab.sorijen.net.au
-      registry-mirrors:
-      - https://registry-proxy.lab.sorijen.net.au
       username: 
         from_secret: REGISTRY_USER
       password: 
@@ -55,7 +57,6 @@ steps:
     depends_on:
       - backend
       - frontend
-      - build
     volumes:
       - name: reports
         path: /drone/src/reports
@@ -82,8 +83,6 @@ steps:
       - name: reports
         path: /drone/src/reports
     settings:
-      registry-mirrors:
-      - https://registry-proxy.lab.sorijen.net.au
       registry: registry.lab.sorijen.net.au
       username:
         from_secret: REGISTRY_USER
