@@ -42,6 +42,7 @@ steps:
     depends_on:
       - backend
       - frontend
+      - build
     volumes:
       - name: reports
         path: /drone/src/reports
