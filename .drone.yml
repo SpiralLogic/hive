@@ -52,7 +52,7 @@ steps:
   - name: build
     image: plugins/kaniko:1.7.4-kaniko1.9.2
     environment:
-      PLUGIN_SNAPSHOT_MODE: full --snapshot-only
+      PLUGIN_SNAPSHOT_MODE: full --single-snapshot
     settings:
       registry: registry.lab.sorijen.net.au
       username: 
@@ -60,7 +60,7 @@ steps:
       password: 
         from_secret: REGISTRY_PASSWORD
       repo: registry.lab.sorijen.net.au/hive
-      snapshot_mode: full --snapshot-only
+      snapshot_mode: full --single-snapshot
       dockerfile: ops/dockerfile
       tags:
       - latest
