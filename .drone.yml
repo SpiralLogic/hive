@@ -58,6 +58,7 @@ steps:
       password: 
         from_secret: REGISTRY_PASSWORD
       repo: registry.lab.sorijen.net.au/hive
+      snapshot-mode: full --snapshot-only
       dockerfile: ops/dockerfile
       tags:
       - latest
