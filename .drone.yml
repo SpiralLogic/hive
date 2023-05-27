@@ -51,6 +51,8 @@ steps:
         path: /drone/src/reports
   - name: build
     image: plugins/kaniko:1.7.4-kaniko1.9.2
+    environment:
+      PLUGIN_SNAPSHOT_MODE: full --snapshot-only
     settings:
       registry: registry.lab.sorijen.net.au
       username: 
