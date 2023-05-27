@@ -699,10 +699,11 @@ public class ComputerPlayerTests
         stopwatch.ElapsedMilliseconds.Should().BeLessThan(8 * 150);
 
         stopwatch.Restart();
-        Hive.GlobalMaxSearchTime = 2000;
+        Hive.GlobalMaxSearchTime = 500;
         Hive.LocalMaxSearchTime = 100;
         await hive.AiMove((_, _) => ValueTask.CompletedTask);
 
         stopwatch.Stop();
+        stopwatch.ElapsedMilliseconds.Should().BeLessThan(5000);
     }
 }
