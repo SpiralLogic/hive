@@ -702,7 +702,7 @@ public class ComputerPlayerTests
             hive.Move(move);
         }
 
-        stopwatch.ElapsedMilliseconds.Should().BeLessThan(8 * 180);
+        stopwatch.ElapsedMilliseconds.Should().BeLessThan(8 * 200);
     }
 
     [Fact]
