@@ -180,17 +180,17 @@ steps:
       app_name: hive-test-results
     depends_on:
       - test-results-update-deploy
-  - name: Card Maker
+  - name: Domain Test Results Card
     image: registry.lab.sorijen.net.au/card-maker:latest
     pull: always
     commands:
       - drone-card-maker ops/adaptive-card/domain-test-results.json
-  - name: Card Maker
+  - name: Api Test Results Card
     image: registry.lab.sorijen.net.au/card-maker:latest
     pull: always
     commands:
       - drone-card-maker ops/adaptive-card/api-test-results.json
-  - name: Card Maker
+  - name: Frontend Test Results Card
     image: registry.lab.sorijen.net.au/card-maker:latest
     pull: always
     commands:
