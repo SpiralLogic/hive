@@ -1,5 +1,5 @@
 {
-  "title": "Build links",
+  "title": "Domain Test Results",
   "description": "Build output links",
   "build": [
     {
@@ -17,7 +17,7 @@
   ],
   "links": [
     {
-      "title": "Test Coverage",
+      "title": "Domain Test Coverage",
       "url": "https://hive-test-results.lab.sorijen.net.au/domain/"
     }
   ]

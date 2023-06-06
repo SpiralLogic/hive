@@ -1,6 +1,6 @@
 {
-  "title": "Build links",
-  "description": "Build output links",
+  "title": "Api Test Results",
+  "description": "and coverage",
   "build": [
     {
       "title2": "Created",
@@ -17,7 +17,7 @@
   ],
   "links": [
     {
-      "title": "Test Coverage",
+      "title": "Api Test Coverage",
       "url": "https://hive-test-results.lab.sorijen.net.au/api/"
     }
   ]
