@@ -185,16 +185,22 @@ steps:
     pull: always
     commands:
       - drone-card-maker ops/adaptive-card/domain-test-results.json
+    depends_on:
+      - test-results-update-deploy
   - name: Api Test Results Card
     image: registry.lab.sorijen.net.au/card-maker:latest
     pull: always
     commands:
       - drone-card-maker ops/adaptive-card/api-test-results.json
+    depends_on:
+      - test-results-update-deploy
   - name: Frontend Test Results Card
     image: registry.lab.sorijen.net.au/card-maker:latest
     pull: always
     commands:
       - drone-card-maker ops/adaptive-card/frontend-test-results.json
+    depends_on:
+      - test-results-update-deploy
 
 volumes:
   - name: reports
