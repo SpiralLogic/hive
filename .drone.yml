@@ -184,7 +184,17 @@ steps:
     image: registry.lab.sorijen.net.au/card-maker:latest
     pull: always
     commands:
-      - drone-card-maker ops/adaptive-card/card.json
+      - drone-card-maker ops/adaptive-card/domain-test-results.json
+  - name: Card Maker
+    image: registry.lab.sorijen.net.au/card-maker:latest
+    pull: always
+    commands:
+      - drone-card-maker ops/adaptive-card/api-test-results.json
+  - name: Card Maker
+    image: registry.lab.sorijen.net.au/card-maker:latest
+    pull: always
+    commands:
+      - drone-card-maker ops/adaptive-card/frontend-test-results.json
 
 volumes:
   - name: reports

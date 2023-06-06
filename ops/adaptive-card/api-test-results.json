@@ -18,11 +18,7 @@
   "links": [
     {
       "title": "Test Coverage",
-      "url": "https://hive-test-results.lab.sorijen.net.au"
-    },
-    {
-      "title": "Game",
-      "url": "https://hive.sorijen.net.au"
+      "url": "https://hive-test-results.lab.sorijen.net.au/api/"
     }
   ]
 }
