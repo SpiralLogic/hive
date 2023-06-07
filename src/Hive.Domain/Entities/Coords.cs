@@ -11,12 +11,12 @@ public sealed record Coords(int Q, int R)
         () =>
         {
             var n = new Coords[6];
-            n[(int)Direction.TopLeft] = R % 2 == 0 ? new Coords(Q - 1, R - 1) : new Coords(Q, R - 1);
-            n[(int)Direction.BottomLeft] = R % 2 == 0 ? new Coords(Q - 1, R + 1) : new Coords(Q, R + 1);
-            n[(int)Direction.TopRight] = R % 2 == 0 ? new Coords(Q, R - 1) : new Coords(Q + 1, R - 1);
-            n[(int)Direction.BottomRight] = R % 2 == 0 ? new Coords(Q, R + 1) : new Coords(Q + 1, R + 1);
-            n[(int)Direction.Right] = new Coords(Q + 1, R);
-            n[(int)Direction.Left] = new Coords(Q - 1, R);
+            n[(int)Direction.TopLeft] = R % 2 == 0 ? new(Q - 1, R - 1) : new Coords(Q, R - 1);
+            n[(int)Direction.BottomLeft] = R % 2 == 0 ? new(Q - 1, R + 1) : new Coords(Q, R + 1);
+            n[(int)Direction.TopRight] = R % 2 == 0 ? new(Q, R - 1) : new Coords(Q + 1, R - 1);
+            n[(int)Direction.BottomRight] = R % 2 == 0 ? new(Q, R + 1) : new Coords(Q + 1, R + 1);
+            n[(int)Direction.Right] = new(Q + 1, R);
+            n[(int)Direction.Left] = new(Q - 1, R);
             return n;
         }
     );
