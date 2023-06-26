@@ -7,9 +7,10 @@
     <Configurations>Debug;Release;Test</Configurations>
     <Platforms>AnyCPU</Platforms>
     <SuppressNETCoreSdkPreviewMessage>true</SuppressNETCoreSdkPreviewMessage>
-    <NoWarn>CA1016,NETSDK1188</NoWarn>
+    <NoWarn>CA1016,NETSDK1188,CA1707</NoWarn>
     <NuGetAudit>true</NuGetAudit>
     <NuGetAuditLevel>moderate</NuGetAuditLevel>
+    <AnalysisMode>All</AnalysisMode>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
     <DebugSymbols>false</DebugSymbols>

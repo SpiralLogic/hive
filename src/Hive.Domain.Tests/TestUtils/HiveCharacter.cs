@@ -3,7 +3,7 @@ using Hive.Domain.Entities;
 
 namespace Hive.Domain.Tests.TestUtils;
 
-internal record HiveCharacter(Creature Creature, char Symbol, ConsoleColor Color)
+internal sealed record HiveCharacter(Creature Creature, char Symbol, ConsoleColor Color)
 {
     public HiveCharacter(string name, char symbol, ConsoleColor color) : this(new Creature(name), symbol, color)
     {

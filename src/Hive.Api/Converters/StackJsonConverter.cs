@@ -11,11 +11,13 @@ public class StackJsonConverter : JsonConverterFactory
 {
     public override bool CanConvert(Type typeToConvert)
     {
+        ArgumentNullException.ThrowIfNull(typeToConvert);
         return typeToConvert.IsGenericType && typeToConvert.GetGenericTypeDefinition() == typeof(Stack<>);
     }
 
     public override JsonConverter CreateConverter(Type typeToConvert, JsonSerializerOptions options)
     {
+        ArgumentNullException.ThrowIfNull(typeToConvert);
         Debug.Assert(typeToConvert.IsGenericType && typeToConvert.GetGenericTypeDefinition() == typeof(Stack<>));
 
         var elementType = typeToConvert.GetGenericArguments()[0];
@@ -52,6 +54,8 @@ public class StackJsonConverter<T> : JsonConverter<Stack<T>>
 
     public override void Write(Utf8JsonWriter writer, Stack<T> value, JsonSerializerOptions options)
     {
+        ArgumentNullException.ThrowIfNull(writer);
+        ArgumentNullException.ThrowIfNull(value);
         writer.WriteStartArray();
 
         foreach (var item in value) JsonSerializer.Serialize(writer, item, options);

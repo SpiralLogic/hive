@@ -3,7 +3,7 @@ using Hive.Domain.Entities;
 
 namespace Hive.Domain.Tests.TestUtils;
 
-internal class InitialHiveBuilder : HiveBuilder
+internal sealed class InitialHiveBuilder : HiveBuilder
 {
     public static InitialHiveBuilder operator +(InitialHiveBuilder builder, string newRow)
     {
@@ -33,7 +33,7 @@ internal class InitialHiveBuilder : HiveBuilder
         else
         {
             var (creature, cellString, _) = AllSymbols.Single(s => s.Symbol == symbol);
-            var playerId = cellString.ToString().ToUpper() == cellString.ToString() ? 0 : 1;
+            var playerId = cellString.ToString().ToUpperInvariant() == cellString.ToString() ? 0 : 1;
             cell.AddTile(new Tile(TileIdSequence++, playerId, creature));
         }
     }

@@ -28,7 +28,7 @@ public class NewControllerTests
     public async Task Post_CreatesNewGame()
     {
         (await _controller.Post()).Should()
-            .BeAssignableTo<CreatedResult>()
+            .BeAssignableTo<CreatedAtRouteResult>()
             .Which.Value.Should()
             .BeAssignableTo<GameState>()
             .Which.GameId.Should()

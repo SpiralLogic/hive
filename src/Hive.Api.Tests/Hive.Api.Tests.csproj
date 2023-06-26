@@ -9,6 +9,7 @@
     <SuppressNETCoreSdkPreviewMessage>true</SuppressNETCoreSdkPreviewMessage>
     <SpaRoot>..\Hive.FrontEnd\</SpaRoot>
     <NoWarn>CA1016,NETSDK1188</NoWarn>
+    <CodeAnalysisTreatWarningsAsErrors>false</CodeAnalysisTreatWarningsAsErrors>
     <NuGetAudit>true</NuGetAudit>
     <NuGetAuditLevel>moderate</NuGetAuditLevel>
   </PropertyGroup>

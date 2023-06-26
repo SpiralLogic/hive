@@ -38,7 +38,7 @@ public static class CellCollectionExtensions
         return cells.SelectNeighbors(originCell).WhereOccupied();
     }
 
-    public static IEnumerable<Cell> SelectNeighbors(this IEnumerable<Cell> cells, Cell originCell)
+    internal static IEnumerable<Cell> SelectNeighbors(this IEnumerable<Cell> cells, Cell originCell)
     {
         return cells.Intersect(originCell.Coords.Neighbours().ToCells());
     }
