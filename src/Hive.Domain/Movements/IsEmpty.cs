@@ -4,7 +4,7 @@ using Hive.Domain.Extensions;
 
 namespace Hive.Domain.Movements;
 
-public class IsEmpty : IMovement
+internal class IsEmpty : IMovement
 {
     public ISet<Coords> GetMoves(Cell originCell, ISet<Cell> allCells)
     {

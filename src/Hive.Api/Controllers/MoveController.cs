@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Hive.Api.DTOs;
@@ -21,6 +22,7 @@ public class MoveController : ControllerBase
 
     public MoveController(IHubContext<GameHub> hubContext, IOptions<JsonOptions> jsonOptions, IDistributedCache distributedCache)
     {
+        ArgumentNullException.ThrowIfNull(jsonOptions);
         _hubContext = hubContext;
         _distributedCache = distributedCache;
         _jsonSerializerOptions = jsonOptions.Value.JsonSerializerOptions;
@@ -34,7 +36,7 @@ public class MoveController : ControllerBase
     {
         if (string.IsNullOrEmpty(id)) return BadRequest();
 
-        var gameSession = await _distributedCache.GetStringAsync(id);
+        var gameSession = await _distributedCache.GetStringAsync(id).ConfigureAwait(false);
         if (string.IsNullOrEmpty(gameSession)) return NotFound();
 
         var (_, _, players, cells, history) = JsonSerializer.Deserialize<GameState>(gameSession, _jsonSerializerOptions)!;
@@ -49,12 +51,12 @@ public class MoveController : ControllerBase
         if (gameStatus == GameStatus.MoveInvalid) return BadRequest("Invalid Move");
 
         var newGameState = new GameState(id, gameStatus, game.Players, game.Cells, game.History);
-        await _hubContext.Clients.Group(id).SendAsync("ReceiveGameState", newGameState);
+        await _hubContext.Clients.Group(id).SendAsync("ReceiveGameState", newGameState).ConfigureAwait(false);
 
         var json = JsonSerializer.Serialize(newGameState, _jsonSerializerOptions);
-        await _distributedCache.SetStringAsync(id, json);
+        await _distributedCache.SetStringAsync(id, json).ConfigureAwait(false);
 
-        return Accepted($"/game/{id}", newGameState);
+        return AcceptedAtRoute("GameEndpointApi", new {Id=id}, newGameState);
     }
 
     [HttpPost]
@@ -65,7 +67,7 @@ public class MoveController : ControllerBase
     {
         if (string.IsNullOrEmpty(id)) return BadRequest();
 
-        var gameSessionJson = await _distributedCache.GetStringAsync(id);
+        var gameSessionJson = await _distributedCache.GetStringAsync(id).ConfigureAwait(false);
 
         if (string.IsNullOrEmpty(gameSessionJson)) return NotFound();
 
@@ -83,14 +85,14 @@ public class MoveController : ControllerBase
 
         var game = new Domain.Hive(players.ToList(), cells.ToHashSet(), history);
 
-        var status = await game.AiMove(async (type, tile) => await BroadCast(id, type, tile));
+        var status = await game.AiMove(async (type, tile) => await BroadCast(id, type, tile).ConfigureAwait(false)).ConfigureAwait(false);
 
         var newGameState = new GameState(id, status, game.Players, game.Cells, game.History);
-        await _hubContext.Clients.Group(id).SendAsync("ReceiveGameState", newGameState);
+        await _hubContext.Clients.Group(id).SendAsync("ReceiveGameState", newGameState).ConfigureAwait(false);
         var gameJson = JsonSerializer.Serialize(newGameState, _jsonSerializerOptions);
-        await _distributedCache.SetStringAsync(id, gameJson);
+        await _distributedCache.SetStringAsync(id, gameJson).ConfigureAwait(false);
 
-        return Accepted($"/game/{id}", newGameState);
+        return AcceptedAtRoute("GameEndpointApi", new {Id=id}, newGameState);
     }
 
     private Task BroadCast(string id, string type, Tile tile)

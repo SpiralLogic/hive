@@ -151,7 +151,7 @@ public class HiveTests
             return ValueTask.CompletedTask;
         }
 
-        var status = await hive.AiMove(Broadcast);
+        var status = await hive.AiMove(Broadcast).ConfigureAwait(false);
 
         status.Should().Be(GameStatus.MoveSuccess);
         command.Should().Be("deselect");

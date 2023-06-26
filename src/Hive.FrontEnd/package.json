@@ -5,7 +5,6 @@
   "scripts": {
     "clean": "rimraf ./public",
     "clean:deep": "git clean -x -d -f $(git rev-parse --show-toplevel)/**",
-    "preinstall": "npx only-allow pnpm",
     "start": "dotnet watch -v -p ../Hive.Api run",
     "test": "vitest run -c vitest.config.ts",
     "test:report": "vitest run -c vitest.config.ts",

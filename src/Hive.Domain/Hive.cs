@@ -13,7 +13,7 @@ public class Hive
 
     public Hive(IList<Player> players, ISet<Cell> cells, IEnumerable<HistoricalMove>? history = null)
     {
-        _mover = new Mover(this, history ?? new List<HistoricalMove>());
+        _mover = new (this, history ?? new List<HistoricalMove>());
         Cells = cells ?? throw new ArgumentNullException(nameof(cells));
         Players = players ?? throw new ArgumentNullException(nameof(players));
         var lastMove = history?.LastOrDefault();
@@ -29,12 +29,13 @@ public class Hive
 
     public GameStatus Move(Move move)
     {
+        ArgumentNullException.ThrowIfNull(move);
         return _mover.Move(move);
     }
 
     public async ValueTask<GameStatus> AiMove(Func<string, Tile, ValueTask> broadcastThought)
     {
-        var aiMove = await new ComputerPlayer(this, new(), broadcastThought).GetMove();
+        var aiMove = await new ComputerPlayer(this, new(), broadcastThought).GetMove().ConfigureAwait(false);
         return _mover.Move(aiMove, true);
     }
 

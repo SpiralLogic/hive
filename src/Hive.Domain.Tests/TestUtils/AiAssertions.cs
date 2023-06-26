@@ -9,7 +9,7 @@ using Hive.Domain.Entities;
 
 namespace Hive.Domain.Tests.TestUtils;
 
-internal class AiAssertions : ReferenceTypeAssertions<Func<Move>, AiAssertions>
+internal sealed class AiAssertions : ReferenceTypeAssertions<Func<Move>, AiAssertions>
 {
     public AiAssertions(Func<Move> subject) : base(subject)
     {
@@ -78,6 +78,6 @@ internal static class AiTestExtensions
 {
     public static AiAssertions Should(this Move move)
     {
-        return new AiAssertions(() => move);
+        return new(() => move);
     }
 }

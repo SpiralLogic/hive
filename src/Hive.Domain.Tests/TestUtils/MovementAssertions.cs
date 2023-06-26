@@ -9,7 +9,7 @@ using Hive.Domain.Movements;
 
 namespace Hive.Domain.Tests.TestUtils;
 
-internal class MovementAssertions : ReferenceTypeAssertions<Func<InitialHiveBuilder, ISet<Coords>>, MovementAssertions>
+internal sealed class MovementAssertions : ReferenceTypeAssertions<Func<InitialHiveBuilder, ISet<Coords>>, MovementAssertions>
 {
     public MovementAssertions(Func<InitialHiveBuilder, ISet<Coords>> subject) : base(subject)
     {
