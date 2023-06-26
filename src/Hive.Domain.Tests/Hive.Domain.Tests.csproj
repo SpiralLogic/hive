@@ -11,6 +11,7 @@
     <AnalysisMode>All</AnalysisMode>
     <NuGetAudit>true</NuGetAudit>
     <NuGetAuditLevel>moderate</NuGetAuditLevel>
+    <AnalysisMode>All</AnalysisMode>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
     <DebugSymbols>false</DebugSymbols>

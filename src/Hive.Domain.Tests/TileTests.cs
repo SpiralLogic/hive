@@ -1,4 +1,4 @@
-﻿using FluentAssertions;
+using FluentAssertions;
 using Hive.Domain.Entities;
 using Xunit;
 
