@@ -8,7 +8,7 @@
     <Nullable>enable</Nullable>
     <SuppressNETCoreSdkPreviewMessage>true</SuppressNETCoreSdkPreviewMessage>
     <SpaRoot>..\Hive.FrontEnd\</SpaRoot>
-    <NoWarn>CA1016,NETSDK1188</NoWarn>
+    <NoWarn>CA1016,NETSDK1188,AD0001</NoWarn>
     <CodeAnalysisTreatWarningsAsErrors>false</CodeAnalysisTreatWarningsAsErrors>
     <NuGetAudit>true</NuGetAudit>
     <NuGetAuditLevel>moderate</NuGetAuditLevel>
@@ -24,12 +24,12 @@
     </PackageReference>
     <PackageReference Include="FluentAssertions" Version="6.11.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="8.0.0-preview.4.23260.4" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.6.2" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.7.0-preview.23280.1" />
     <PackageReference Include="Moq" Version="4.18.4" />
     <PackageReference Include="System.Net.Http" Version="4.3.4" />
     <PackageReference Include="System.Text.RegularExpressions" Version="4.3.1" />
-    <PackageReference Include="xunit" Version="2.4.2" />
-    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.5">
+    <PackageReference Include="xunit" Version="2.5.0-pre.37" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.5.0-pre.22">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>

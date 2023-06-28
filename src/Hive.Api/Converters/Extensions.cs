@@ -10,7 +10,6 @@ internal static class Extensions
     {
         ArgumentNullException.ThrowIfNull(converterCollection);
         converterCollection.Add(new CreatureJsonConverter());
-        converterCollection.Add(new StackJsonConverter());
         converterCollection.Add(new JsonStringEnumConverter());
     }
 }
