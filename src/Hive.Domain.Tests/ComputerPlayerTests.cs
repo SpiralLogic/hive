@@ -14,6 +14,11 @@ namespace Hive.Domain.Tests;
 
 public class ComputerPlayerTests
 {
+    private static readonly string[] PlayerNames = new[]
+    {
+        "player1", " player2"
+    };
+
     [Fact]
     public async Task MovesToEnemyQueen()
     {
@@ -358,10 +363,7 @@ public class ComputerPlayerTests
     public async Task NoQueenOrAntFirst()
     {
         var hive = HiveFactory.Create(
-            new[]
-            {
-                "player1", " player2"
-            }
+            PlayerNames
         );
 
         var player = new ComputerPlayer(hive);
@@ -373,10 +375,7 @@ public class ComputerPlayerTests
     public async Task AntsArePreferredFromSecondMove()
     {
         var hive = HiveFactory.Create(
-            new[]
-            {
-                "player1", " player2"
-            }
+            PlayerNames
         );
 
         var p1Queen = hive.Players.First().Tiles.First(t => t.Creature == Creatures.Beetle);
@@ -627,10 +626,7 @@ public class ComputerPlayerTests
         var tileBroadcasts = new List<(string type, Tile tile)>();
 
         var hive = HiveFactory.Create(
-            new[]
-            {
-                "player1", " player2"
-            }
+            PlayerNames
         );
 
         var player = new ComputerPlayer(
@@ -658,10 +654,7 @@ public class ComputerPlayerTests
         var tileBroadcasts = new List<(string type, Tile tile)>();
 
         var hive = HiveFactory.Create(
-            new[]
-            {
-                "player1", " player2"
-            }
+            PlayerNames
         );
         var player = new ComputerPlayer(
             hive,
@@ -683,10 +676,7 @@ public class ComputerPlayerTests
     public async Task MaxSearchTimeGlobal()
     {
         var hive = HiveFactory.Create(
-            new[]
-            {
-                "player1", " player2"
-            }
+            PlayerNames
         );
 
 
@@ -709,10 +699,7 @@ public class ComputerPlayerTests
     public async Task MaxSearchTimeLocal()
     {
         var hive = HiveFactory.Create(
-            new[]
-            {
-                "player1", " player2"
-            }
+            PlayerNames
         );
 
         DifficultyOptions options = new(2000, 100, 1);
