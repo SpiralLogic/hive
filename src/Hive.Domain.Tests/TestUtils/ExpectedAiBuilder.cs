@@ -5,7 +5,7 @@ using Hive.Domain.Entities;
 
 namespace Hive.Domain.Tests.TestUtils;
 
-internal class ExpectedAiBuilder : HiveBuilder
+internal sealed class ExpectedAiBuilder : HiveBuilder
 {
     private static readonly HiveCharacter Expected = new("Expected", '✔', ConsoleColor.Green);
     private static readonly HiveCharacter IncorrectExpected = new("IncorrectExpected", '✓', ConsoleColor.Red);

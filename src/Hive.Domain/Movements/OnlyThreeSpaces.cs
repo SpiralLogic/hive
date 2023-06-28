@@ -6,7 +6,7 @@ using Hive.Domain.Extensions;
 
 namespace Hive.Domain.Movements;
 
-public class OnlyThreeSpaces : IMovement
+internal class OnlyThreeSpaces : IMovement
 {
     public ISet<Coords> GetMoves(Cell originCell, ISet<Cell> allCells)
     {

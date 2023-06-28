@@ -4,18 +4,17 @@
         <Configurations>Debug;Release</Configurations>
         <IsPackable>false</IsPackable>
         <TestCommand>pnpm test</TestCommand>
-        <BuildCommand Condition="'$(Configuration)' != 'Release'">pnpm run build</BuildCommand>
-        <BuildCommand Condition="'$(Configuration)' == 'Debug'">pnpm run build:dev</BuildCommand>
+        <BuildCommand Condition="'$(Configuration)' == 'Release'">pnpm run build</BuildCommand>
+        <BuildCommand Condition="'$(Configuration)' != 'Release'">pnpm run build:dev</BuildCommand>
         <CleanCommand>pnpm run clean</CleanCommand>
-        <DefaultItemExcludes>$(DefaultItemExcludes);node_modules\**</DefaultItemExcludes>
     </PropertyGroup>
     <ItemGroup>
         <Watch Include="src/**" />
         <Watch Include="test/**" />
-        <Content Include="**" Exclude="$(DefaultItemExcludes);node_modules\**;reports/**;public/**" />
+        <Content Include="**" Exclude="$(DefaultItemExcludes);node_modules\**;reports/**" />
     </ItemGroup>
 
-    <Target Name="EsBuild" AfterTargets="AfterBuild">
+    <Target Name="PnpmBuild" AfterTargets="AfterBuild">
         <Exec Command="$(BuildCommand)" WorkingDirectory="$(BuildWorkingDirectory)" Condition=" '$(BuildCommand)' != '' " />
         <RemoveDir Directories="bin" />
     </Target>
@@ -24,21 +23,20 @@
         <Exec ConsoleToMSBuild="true" Command="$(TestCommand)" WorkingDirectory="$(BuildWorkingDirectory)" Condition=" '$(TestCommand)' != '' " />
     </Target>
 
-    <Target Name="EsClean" AfterTargets="Clean">
+    <Target Name="PnpmClean" AfterTargets="Clean">
         <Exec Command="$(CleanCommand)" WorkingDirectory="$(BuildWorkingDirectory)" Condition=" '$(CleanCommand)' != '' " />
     </Target>
 
-    <Target Name="EsRebuild" AfterTargets="Rebuild">
-        <CallTarget Targets="EsClean;EsBuild" />
+    <Target Name="PnpmRebuild" AfterTargets="Rebuild">
+        <CallTarget Targets="PnpmClean;PnpmBuild" />
     </Target>
 
-    <Target Name="DebugEnsureNodeEnv" BeforeTargets="EsBuild" Condition="'$(Configuration)' == 'Debug' And !Exists('node_modules') ">
+    <Target Name="DebugEnsureNodeEnv" BeforeTargets="PnpmBuild" Condition="'$(Configuration)' == 'Debug'">
         <Exec Command="node --version" ContinueOnError="true">
             <Output TaskParameter="ExitCode" PropertyName="ErrorCode" />
         </Exec>
         <Error Condition="'$(ErrorCode)' != '0'" Text="Node.js is required to build and run this project. To continue, please install Node.js from https://nodejs.org/, and then restart your command prompt or IDE." />
         <Message Importance="high" Text="Restoring dependencies using 'pnpm'. This may take several minutes..." />
-        <Exec WorkingDirectory="$(SpaRoot)" Command="npm install -g pnpm" />
         <Exec WorkingDirectory="$(SpaRoot)" Command="pnpm install" />
     </Target>
 </Project>

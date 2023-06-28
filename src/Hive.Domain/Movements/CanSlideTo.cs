@@ -17,10 +17,9 @@ public class CanSlideTo : IMovement
     private static void GetSlidableNeighbors(Cell currentCell, ISet<Cell> availableCells, ISet<Cell> allCells)
     {
         var neighbors = currentCell.SelectNeighbors(allCells).ToArray();
-        foreach (var n in neighbors)
+        foreach (var n in neighbors.WhereEmpty().Except(availableCells))
         {
-            if (!n.IsEmpty() || n.SelectNeighbors(neighbors).WhereOccupied().Count() == 2) continue;
-            if (availableCells.Contains(n)) continue;
+            if ( n.SelectNeighbors(neighbors).WhereOccupied().Count() == 2) continue;
             availableCells.Add(n);
             GetSlidableNeighbors(n, availableCells, allCells);
         }

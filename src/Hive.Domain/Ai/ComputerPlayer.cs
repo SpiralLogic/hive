@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Hive.Domain.Ai.Heuristics;
 using Hive.Domain.Entities;
 using Hive.Domain.Extensions;
+using System.Security.Cryptography;
 
 namespace Hive.Domain.Ai;
 
@@ -17,7 +18,6 @@ internal class ComputerPlayer
     private readonly ScoredMove[] _depth;
     private readonly ICollection<IHeuristic> _heuristics;
     private readonly Hive _hive;
-    private readonly Random _rnd = new();
     private readonly Stopwatch _globalStopwatch = new();
     private readonly Stopwatch _localStopwatch = new();
     private Tile? _lastBroadcast;
@@ -60,7 +60,7 @@ internal class ComputerPlayer
 
         if (!toExplore.Any()) return new(null, 0);
 
-        var (best, bestScore) = await Explore(depth, toExplore);
+        var (best, bestScore) = await Explore(depth, toExplore).ConfigureAwait(false);
 
         _depth[depth - 1] = new(best, bestScore);
         return _depth[depth - 1];
@@ -85,7 +85,7 @@ internal class ComputerPlayer
         return toExplore;
     }
 
-    private IList<ExploreNode> ReduceToBestMoves(IDictionary<int, List<ExploreNode>> toExplore)
+    private static IList<ExploreNode> ReduceToBestMoves(IDictionary<int, List<ExploreNode>> toExplore)
     {
         var moves = new List<ExploreNode>();
         foreach (var (_, values) in toExplore) moves.AddRange(values.OrderByDescending(t => t.Score).Take(3).ToList());
@@ -95,7 +95,7 @@ internal class ComputerPlayer
         return moves.OrderByDescending(t => t.Score)
             .Where(s => s.Score > 0 || max <= 0)
             .Take(2 * toExplore.Count)
-            .OrderBy(_ => _rnd.Next())
+            .OrderBy(_ => RandomNumberGenerator.GetInt32(Int32.MaxValue))
             .ToArray();
     }
 
@@ -104,15 +104,15 @@ internal class ComputerPlayer
         var best = toExplore.First().Values.Move;
         var bestScore = -HeuristicValues.ScoreMax;
 
-        foreach (var (nextScore, values) in toExplore.OrderBy(_ => _rnd.Next()))
+        foreach (var (nextScore, values) in toExplore.OrderBy(_ =>  RandomNumberGenerator.GetInt32(Int32.MaxValue)))
         {
             if ((_options.MaxDepth - depth) % 2 == 1 && _localStopwatch.ElapsedMilliseconds > _options.LocalMaxSearchTime) break;
             MakeMove(values.Move);
-            if (depth == _options.MaxDepth) await BroadcastSelect(values.Move.Tile);
+            if (depth == _options.MaxDepth) await BroadcastSelect(values.Move.Tile).ConfigureAwait(false);
 
             var score = nextScore;
             if (nextScore < HeuristicValues.ScoreMax)
-                score += -(await Run(values.Move, depth - 1)).Score / (_options.MaxDepth - depth + 1);
+                score += -(await Run(values.Move, depth - 1).ConfigureAwait(false)).Score / (_options.MaxDepth - depth + 1);
 
             _hive.RevertMove();
 
@@ -120,7 +120,7 @@ internal class ComputerPlayer
 
         }
 
-        if (depth == _options.MaxDepth) await BroadcastDeselect();
+        if (depth == _options.MaxDepth) await BroadcastDeselect().ConfigureAwait(false);
 
         return new(best, bestScore);
     }
@@ -128,7 +128,7 @@ internal class ComputerPlayer
     private async ValueTask BroadcastSelect(Tile tile)
     {
         if (_broadcastThought == null || _lastBroadcast?.Id == tile.Id) return;
-        await BroadcastDeselect();
+        await BroadcastDeselect().ConfigureAwait(false);
         await _broadcastThought("select", tile).ConfigureAwait(false);
 
         _lastBroadcast = tile;
@@ -160,7 +160,7 @@ internal class ComputerPlayer
     {
         var cells = _hive.Cells.ToHashSet();
         var unplacedTiles = _hive.Players.SelectMany(p => p.Tiles.GroupBy(t => t.Creature).Select(g => g.First()))
-            .SelectMany(t => t.Moves.Select(m => new Move(t, m)).OrderBy(_ => _rnd.Next()));
+            .SelectMany(t => t.Moves.Select(m => new Move(t, m)).OrderBy(_ =>  RandomNumberGenerator.GetInt32(Int32.MaxValue)));
         var placedTiles = cells.WhereOccupied()
             .OrderBy(c => c.QueenNeighbours(_hive.Cells).Any())
             .Select(c => c.TopTile())

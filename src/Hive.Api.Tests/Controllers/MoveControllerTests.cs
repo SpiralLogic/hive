@@ -55,11 +55,11 @@ public class MoveControllerTests
     [Fact]
     public async Task Post_GameInCache_ReturnsAccepted()
     {
-        DTOs.Move move = new(1, new Coords(0, 0));
+        DTOs.Move move = new(1, new(0, 0));
 
         var actionResult = await _controller.Post(TestHelpers.ExistingGameId, move);
-        var result = actionResult.Should().BeOfType<AcceptedResult>().Subject;
-        result.Location.Should().Be($"/game/{TestHelpers.ExistingGameId}");
+        var result = actionResult.Should().BeOfType<AcceptedAtRouteResult>().Subject;
+        result.RouteName.Should().Be("GameEndpointApi");
         result.Value.Should().BeAssignableTo<GameState>();
     }
 
@@ -68,8 +68,9 @@ public class MoveControllerTests
     {
 
         var actionResult = await _controller.AiMove(TestHelpers.ExistingGameId);
-        var result = actionResult.Should().BeOfType<AcceptedResult>().Subject;
-        result.Location.Should().Be($"/game/{TestHelpers.ExistingGameId}");
+        var result = actionResult.Should().BeOfType<AcceptedAtRouteResult>().Subject;
+        result.RouteName.Should().Be("GameEndpointApi");
+        result.RouteValues.Should().ContainValue(TestHelpers.ExistingGameId);
         result.Value.Should().BeAssignableTo<GameState>();
     }
 
@@ -78,7 +79,7 @@ public class MoveControllerTests
     {
         DTOs.Move move = new(1, new Coords(0, 0));
 
-        var result = (await _controller.Post(TestHelpers.ExistingGameId, move)).Should().BeOfType<AcceptedResult>().Subject;
+        var result = (await _controller.Post(TestHelpers.ExistingGameId, move)).Should().BeOfType<AcceptedAtRouteResult>().Subject;
         var newGameState = result.Value.Should().BeAssignableTo<GameState>().Subject;
 
         newGameState.Cells.Single(c => c.Coords == move.Coords).Tiles.Should().Contain(t => t.Id == move.TileId);
@@ -87,7 +88,7 @@ public class MoveControllerTests
     [Fact]
     public async Task PostAiMove_GameInCache_PerformsMove()
     {
-        var result = (await _controller.AiMove(TestHelpers.ExistingGameId)).Should().BeOfType<AcceptedResult>().Subject;
+        var result = (await _controller.AiMove(TestHelpers.ExistingGameId)).Should().BeOfType<AcceptedAtRouteResult>().Subject;
         result.Value.Should().BeAssignableTo<GameState>();
     }
 
@@ -96,7 +97,7 @@ public class MoveControllerTests
     {
         DTOs.Move move = new(3, new Coords(0, 0));
 
-        var result = (await _controller.Post(TestHelpers.ExistingGameId, move)).Should().BeOfType<AcceptedResult>().Subject;
+        var result = (await _controller.Post(TestHelpers.ExistingGameId, move)).Should().BeOfType<AcceptedAtRouteResult>().Subject;
         var newGameState = result.Value.Should().BeAssignableTo<GameState>().Subject;
 
         _hubMock.Verify(m => m.Clients.Group(TestHelpers.ExistingGameId), Times.Once);
@@ -115,7 +116,7 @@ public class MoveControllerTests
     public async Task PostAiMove_GameInCache_SendsNewGameState()
     {
 
-        var result = (await _controller.AiMove(TestHelpers.ExistingGameId)).Should().BeOfType<AcceptedResult>().Subject;
+        var result = (await _controller.AiMove(TestHelpers.ExistingGameId)).Should().BeOfType<AcceptedAtRouteResult>().Subject;
         var newGameState = result.Value.Should().BeAssignableTo<GameState>().Subject;
 
         _hubMock.Verify(m => m.Clients.Group(TestHelpers.ExistingGameId), Times.AtLeastOnce);

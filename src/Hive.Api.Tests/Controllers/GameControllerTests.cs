@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using FluentAssertions;
@@ -12,7 +13,7 @@ using Xunit;
 
 namespace Hive.Api.Tests.Controllers;
 
-public class GameControllerTests
+public sealed class GameControllerTests : IDisposable
 {
     private const string ExistingGameId = "EXISTING_GAME_ID";
     private const string MissingGameId = "MISSING_GAME_ID";
@@ -23,8 +24,7 @@ public class GameControllerTests
         var game = HiveFactory.Create(
             new[]
             {
-                "player1",
-                "player2"
+                "player1", "player2"
             }
         );
         var gameState = new GameState(ExistingGameId, GameStatus.MoveSuccess, game.Players, game.Cells, new List<HistoricalMove>());
@@ -68,8 +68,7 @@ public class GameControllerTests
         var game = HiveFactory.Create(
             new[]
             {
-                "player1",
-                "player2"
+                "player1", "player2"
             }
         );
         var gameState = new GameState(ExistingGameId, GameStatus.MoveSuccess, game.Players, game.Cells);
@@ -80,7 +79,7 @@ public class GameControllerTests
 
         var controller = new GameController(Options.Create(jsonOptions), memoryCache);
 
-        var actionResult = (await _controller.GetGame(ExistingGameId)).Result.Should().BeOfType<OkObjectResult>().Subject;
+        var actionResult = (await controller.GetGame(ExistingGameId)).Result.Should().BeOfType<OkObjectResult>().Subject;
         actionResult.Value.Should().BeAssignableTo<GameState>();
     }
 
@@ -90,13 +89,25 @@ public class GameControllerTests
         var game = HiveFactory.Create(
             new[]
             {
-                "player1",
-                "player2"
+                "player1", "player2"
             }
         );
         var gameState = new GameState(ExistingGameId, GameStatus.MoveSuccess, game.Players, game.Cells);
 
         gameState.History.Should().BeOfType<List<HistoricalMove>>();
         gameState.History.Should().NotBeNull();
+    }
+
+    private void Dispose(bool disposing)
+    {
+        if (disposing)
+        {
+            _controller.Dispose();
+        }
+    }
+
+    public void Dispose()
+    {
+        Dispose(true);
     }
 }

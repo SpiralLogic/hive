@@ -14,6 +14,11 @@ namespace Hive.Domain.Tests;
 
 public class ComputerPlayerTests
 {
+    private static readonly string[] PlayerNames = new[]
+    {
+        "player1", " player2"
+    };
+
     [Fact]
     public async Task MovesToEnemyQueen()
     {
@@ -48,7 +53,7 @@ public class ComputerPlayerTests
         );
 
         var player = new ComputerPlayer(hive);
-        (await player.GetMove()).Should().MatchHive(initial, expected);
+        (await player.GetMove().ConfigureAwait(false)).Should().MatchHive(initial, expected);
     }
 
     [Fact]
@@ -81,7 +86,7 @@ public class ComputerPlayerTests
         );
 
         var player = new ComputerPlayer(hive);
-        (await player.GetMove()).Should().MatchHive(initial, expected);
+        (await player.GetMove().ConfigureAwait(false)).Should().MatchHive(initial, expected);
     }
 
     [Fact]
@@ -113,7 +118,7 @@ public class ComputerPlayerTests
         );
 
         var player = new ComputerPlayer(hive);
-        (await player.GetMove()).Should().MatchHive(initial, expected);
+        (await player.GetMove().ConfigureAwait(false)).Should().MatchHive(initial, expected);
     }
 
     [Fact]
@@ -150,7 +155,7 @@ public class ComputerPlayerTests
         );
 
         var player = new ComputerPlayer(hive);
-        (await player.GetMove()).Should().MatchHive(initial, expected);
+        (await player.GetMove().ConfigureAwait(false)).Should().MatchHive(initial, expected);
     }
 
     [Fact]
@@ -187,7 +192,7 @@ public class ComputerPlayerTests
         );
 
         var player = new ComputerPlayer(hive);
-        (await player.GetMove()).Should().BeetleOnToQueen(initial, expected);
+        (await player.GetMove().ConfigureAwait(false)).Should().BeetleOnToQueen(initial, expected);
     }
 
     [Fact]
@@ -229,7 +234,7 @@ public class ComputerPlayerTests
         );
 
         var player = new ComputerPlayer(hive);
-        (await player.GetMove()).Should().BeetleOnQueen(initial, expected);
+        (await player.GetMove().ConfigureAwait(false)).Should().BeetleOnQueen(initial, expected);
     }
 
     [Fact]
@@ -279,7 +284,7 @@ public class ComputerPlayerTests
             initial.AllCells
         );
         var player = new ComputerPlayer(hive);
-        (await player.GetMove()).Should().MatchHive(initial, expected);
+        (await player.GetMove().ConfigureAwait(false)).Should().MatchHive(initial, expected);
     }
 
     [Fact]
@@ -301,7 +306,7 @@ public class ComputerPlayerTests
             initial.AllCells
         );
         var player = new ComputerPlayer(hive);
-        await Assert.ThrowsAsync<InvalidDataException>(async () => await player.GetMove());
+        await Assert.ThrowsAsync<InvalidDataException>(async () => await player.GetMove().ConfigureAwait(false)).ConfigureAwait(false);
     }
 
     [Fact]
@@ -351,21 +356,18 @@ public class ComputerPlayerTests
 
         var player = new ComputerPlayer(hive);
 
-        (await player.GetMove()).Should().MatchHive(initial, expected);
+        (await player.GetMove().ConfigureAwait(false)).Should().MatchHive(initial, expected);
     }
 
     [Fact]
     public async Task NoQueenOrAntFirst()
     {
         var hive = HiveFactory.Create(
-            new[]
-            {
-                "player1", " player2"
-            }
+            PlayerNames
         );
 
         var player = new ComputerPlayer(hive);
-        var move = await player.GetMove();
+        var move = await player.GetMove().ConfigureAwait(false);
         Assert.NotEqual(move.Tile.Creature, Creatures.Queen);
     }
 
@@ -373,10 +375,7 @@ public class ComputerPlayerTests
     public async Task AntsArePreferredFromSecondMove()
     {
         var hive = HiveFactory.Create(
-            new[]
-            {
-                "player1", " player2"
-            }
+            PlayerNames
         );
 
         var p1Queen = hive.Players.First().Tiles.First(t => t.Creature == Creatures.Beetle);
@@ -386,7 +385,7 @@ public class ComputerPlayerTests
         hive.Move(new(p2Queen, new(0, -1)));
 
         var player = new ComputerPlayer(hive);
-        var move = await player.GetMove();
+        var move = await player.GetMove().ConfigureAwait(false);
         Assert.Equal(move.Tile.Creature, Creatures.Ant);
     }
 
@@ -423,7 +422,7 @@ public class ComputerPlayerTests
             initial.AllCells
         );
         var player = new ComputerPlayer(hive);
-        (await player.GetMove()).Should().MatchHive(initial, expected);
+        (await player.GetMove().ConfigureAwait(false)).Should().MatchHive(initial, expected);
     }
 
     [Fact]
@@ -465,7 +464,7 @@ public class ComputerPlayerTests
         );
 
         var player = new ComputerPlayer(hive);
-        (await player.GetMove()).Should().BeetleOnQueen(initial, expected);
+        (await player.GetMove().ConfigureAwait(false)).Should().BeetleOnQueen(initial, expected);
     }
 
     [Fact]
@@ -500,7 +499,7 @@ public class ComputerPlayerTests
             initial.AllCells
         );
         var player = new ComputerPlayer(hive);
-        (await player.GetMove()).Should().MatchHive(initial, expected);
+        (await player.GetMove().ConfigureAwait(false)).Should().MatchHive(initial, expected);
     }
 
     [Fact]
@@ -533,7 +532,7 @@ public class ComputerPlayerTests
         );
 
         var player = new ComputerPlayer(hive);
-        (await player.GetMove()).Should().MatchHive(initial, expected);
+        (await player.GetMove().ConfigureAwait(false)).Should().MatchHive(initial, expected);
     }
 
     [Fact]
@@ -575,7 +574,7 @@ public class ComputerPlayerTests
         );
 
         var player = new ComputerPlayer(hive);
-        (await player.GetMove()).Should().MatchHive(initial, expected);
+        (await player.GetMove().ConfigureAwait(false)).Should().MatchHive(initial, expected);
     }
 
     [Fact]
@@ -618,7 +617,7 @@ public class ComputerPlayerTests
         );
 
         var player = new ComputerPlayer(hive);
-        (await player.GetMove()).Should().MatchHive(initial, expected);
+        (await player.GetMove().ConfigureAwait(false)).Should().MatchHive(initial, expected);
     }
 
     [Fact]
@@ -627,10 +626,7 @@ public class ComputerPlayerTests
         var tileBroadcasts = new List<(string type, Tile tile)>();
 
         var hive = HiveFactory.Create(
-            new[]
-            {
-                "player1", " player2"
-            }
+            PlayerNames
         );
 
         var player = new ComputerPlayer(
@@ -643,7 +639,7 @@ public class ComputerPlayerTests
             })
         );
 
-        await player.GetMove();
+        await player.GetMove().ConfigureAwait(false);
 
         foreach (var broadcast in tileBroadcasts.Where(t => t.type == "select"))
         {
@@ -658,10 +654,7 @@ public class ComputerPlayerTests
         var tileBroadcasts = new List<(string type, Tile tile)>();
 
         var hive = HiveFactory.Create(
-            new[]
-            {
-                "player1", " player2"
-            }
+            PlayerNames
         );
         var player = new ComputerPlayer(
             hive,
@@ -673,7 +666,7 @@ public class ComputerPlayerTests
             })
         );
 
-        await player.GetMove();
+        await player.GetMove().ConfigureAwait(false);
         var selectedTile = tileBroadcasts.First(t => t.type == "select").tile;
 
         tileBroadcasts.Should().Contain(("deselect", selectedTile));
@@ -683,10 +676,7 @@ public class ComputerPlayerTests
     public async Task MaxSearchTimeGlobal()
     {
         var hive = HiveFactory.Create(
-            new[]
-            {
-                "player1", " player2"
-            }
+            PlayerNames
         );
 
 
@@ -694,10 +684,10 @@ public class ComputerPlayerTests
 
         for (var i = 0; i < 8; i++)
         {
-            DifficultyOptions options = new(150, 150, 3);
+            DifficultyOptions options = new(150, 150);
             var player = new ComputerPlayer(hive, options);
             stopwatch.Start();
-            var move = await player.GetMove();
+            var move = await player.GetMove().ConfigureAwait(false);
             stopwatch.Stop();
             hive.Move(move);
         }
@@ -709,10 +699,7 @@ public class ComputerPlayerTests
     public async Task MaxSearchTimeLocal()
     {
         var hive = HiveFactory.Create(
-            new[]
-            {
-                "player1", " player2"
-            }
+            PlayerNames
         );
 
         DifficultyOptions options = new(2000, 100, 1);
@@ -721,7 +708,7 @@ public class ComputerPlayerTests
         var stopwatch = new Stopwatch();
         stopwatch.Start();
 
-        await player.GetMove();
+        await player.GetMove().ConfigureAwait(false);
         stopwatch.Stop();
         stopwatch.ElapsedMilliseconds.Should().BeLessThan(2300);
     }

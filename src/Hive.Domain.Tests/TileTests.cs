@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using FluentAssertions;
 using Hive.Domain.Entities;
 using Xunit;
@@ -11,15 +12,12 @@ public class TileTests
     public void Equality()
     {
         var tile1 = new Tile(1, 1, Creatures.Ant);
-        var tile2 = new Tile(2, 2, Creatures.Ant);
         tile1.Equals(new object()).Should().BeFalse();
-        tile2.Equals(null).Should().BeFalse();
 
         tile1.Should().BeEquivalentTo(new Tile(1, 1, Creatures.Ant));
         tile1.Equals(new Tile(1, 1, Creatures.Ant)).Should().BeTrue();
         tile1.Equals(tile1).Should().BeTrue();
-        IEquatable<Tile> tile3 = new Tile(3, 1, Creatures.Ant);
-        tile3.Equals(null).Should().BeFalse();
+        new Tile(3, 1, Creatures.Ant).Equals(null).Should().BeFalse();
     }
 
     [Fact]

@@ -25,7 +25,7 @@ public class ApiIntegrationTests : IClassFixture<WebApplicationFactory<Program>>
             {
                 var client = _factory.CreateClient();
                 var response = await client.PostAsync("/api/new", null);
-                var gameId = response.Headers.Location!.OriginalString.Split("/").ElementAt(3);
+                var gameId = response.Headers.Location!.Segments.ElementAt(3);
                 return gameId;
 
             }
@@ -75,7 +75,7 @@ public class ApiIntegrationTests : IClassFixture<WebApplicationFactory<Program>>
         var response = await client.PostAsync("/api/new", null);
         response.EnsureSuccessStatusCode(); // Status Code 200-299
 
-        response.Headers.Location?.OriginalString.Split("/").ElementAt(3).Should().NotBeNullOrEmpty();
+        response.Headers.Location?.Segments.ElementAt(3).Should().NotBeNullOrEmpty();
         response.Content.Headers.ContentType?.ToString().Should().Be("application/json; charset=utf-8");
     }
 

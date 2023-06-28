@@ -17,10 +17,7 @@ internal abstract class HiveBuilder
 
     protected readonly ISet<HiveCharacter> AllSymbols = new[]
     {
-        Empty,
-        Origin,
-        Friend,
-        Enemy
+        Empty, Origin, Friend, Enemy
     }.ToHashSet();
 
     internal readonly HashSet<Cell> OriginCells = new();
@@ -43,7 +40,7 @@ internal abstract class HiveBuilder
         if (builder._rowLength != rowString.Length) throw new InvalidOperationException("Row lengths are inconsistent");
         var q = builder.GetQOffset(rowString);
 
-        var rowSplit = rowString.Replace(Separator, "").ToCharArray();
+        var rowSplit = rowString.Replace(Separator, "", StringComparison.InvariantCultureIgnoreCase).ToCharArray();
 
         foreach (var token in rowSplit)
         {
@@ -71,7 +68,7 @@ internal abstract class HiveBuilder
         {
             if (creature == null) return;
             var p0Symbol = creature.Name.ToUpperInvariant().First();
-            var p1Symbol = creature.Name.ToLowerInvariant().First();
+            var p1Symbol = char.ToLowerInvariant(creature.Name.First());
 
             AllSymbols.Add(new(creature, p0Symbol, Friend.Color));
             AllSymbols.Add(new(creature, p1Symbol, Enemy.Color));
@@ -89,12 +86,12 @@ internal abstract class HiveBuilder
 
     private static int GetQOffset(string rowString, int r)
     {
-        return rowString.StartsWith(Separator) && r % 2 != 0 ? 1 : 0;
+        return rowString.StartsWith(Separator, StringComparison.InvariantCultureIgnoreCase) && r % 2 != 0 ? 1 : 0;
     }
 
     internal string ToColoredString(string rows)
     {
-        return AllSymbols.Aggregate(rows, (str, c) => str.Replace(c.Symbol.ToString(), c.ToString()));
+        return AllSymbols.Aggregate(rows, (str, c) => str.Replace(c.Symbol.ToString(), c.ToString(), StringComparison.InvariantCulture));
     }
 
     protected abstract void ModifyCell(Cell cell, char symbol);

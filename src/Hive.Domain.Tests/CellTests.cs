@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text.Json;
 using FluentAssertions;
@@ -7,6 +7,7 @@ using Xunit;
 
 namespace Hive.Domain.Tests;
 
+[SuppressMessage("Maintainability", "CA1508:Avoid dead conditional code")]
 public class CellTests
 {
     [Fact]
@@ -114,8 +115,7 @@ public class CellTests
         cell1.Equals(new object()).Should().BeFalse();
         cell1.Equals(null).Should().BeFalse();
 
-        IEquatable<Cell> cell2 = new Cell(new Coords(1, 1));
-        cell2.Equals(null).Should().BeFalse();
+        new Cell(new Coords(1, 1)).Equals(null).Should().BeFalse();
     }
 
     [Fact]

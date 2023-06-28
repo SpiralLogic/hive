@@ -1,5 +1,4 @@
-﻿using System;
-using FluentAssertions;
+﻿using FluentAssertions;
 using Hive.Domain.Entities;
 using Xunit;
 
@@ -40,9 +39,7 @@ public class CoordinateTests
         var coords1 = new Coords(1, 1);
         coords1.Should().NotBeNull();
         coords1.Equals(new object()).Should().BeFalse();
-        coords1.Equals(null).Should().BeFalse();
 
-        IEquatable<Coords> coords2 = new Coords(2, 2);
-        coords2.Equals(null).Should().BeFalse();
+        new Coords(2, 2).Equals(null).Should().BeFalse();
     }
 }

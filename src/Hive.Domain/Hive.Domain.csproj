@@ -9,9 +9,10 @@
     <AnalysisLevel>latest</AnalysisLevel>
     <AnalysisMode>Recommended</AnalysisMode>
     <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
-    <NoWarn>CA1016,NETSDK1188</NoWarn>
+    <NoWarn>CA1016,NETSDK1188,CA1724,AD0001</NoWarn>
     <NuGetAudit>true</NuGetAudit>
     <NuGetAuditLevel>moderate</NuGetAuditLevel>
+    <AnalysisMode>All</AnalysisMode>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
     <DebugSymbols>false</DebugSymbols>

@@ -12,8 +12,8 @@ type Properties = {
     children?: ComponentChildren;
 };
 
-const Player = (properties: Properties) => {
-    const {name, id, children} = properties;
+function Player(props: Properties) {
+    const {name, id, children} = props;
     const [classes, classAction] = useClassSignal(`player player${id}`);
     const hasNoChildren = toChildArray(children).length === 0;
     const handlers = useAnimatedHide(hasNoChildren, [classes, classAction]);
@@ -24,7 +24,7 @@ const Player = (properties: Properties) => {
             <div class="tiles">{children}</div>
         </section>
     );
-};
+}
 
 Player.displayName = 'Player Tiles';
 export default Player;
