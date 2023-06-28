@@ -17,6 +17,10 @@ public class NewController : Controller
 {
     private readonly IDistributedCache _distributedCache;
     private readonly JsonSerializerOptions _jsonSerializerOptions;
+    private static readonly string[] PlayerNames={
+        "P1",
+        "P2"
+    };
 
     public NewController(IOptions<JsonOptions> jsonOptions, IDistributedCache distributedCache)
     {
@@ -34,11 +38,7 @@ public class NewController : Controller
         var gameId = new string(HttpContext.TraceIdentifier.Split(":")[0].ToCharArray().OrderBy(_ => Guid.NewGuid()).ToArray());
 
         var newGame = HiveFactory.Create(
-            new[]
-            {
-                "P1",
-                "P2"
-            }
+            PlayerNames
         );
         var gameState = new GameState(gameId, GameStatus.NewGame, newGame.Players, newGame.Cells, new List<HistoricalMove>());
         var json = JsonSerializer.Serialize(gameState, _jsonSerializerOptions);
