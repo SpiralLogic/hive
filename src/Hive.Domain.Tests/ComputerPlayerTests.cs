@@ -710,7 +710,7 @@ public class ComputerPlayerTests
 
         await player.GetMove().ConfigureAwait(false);
         stopwatch.Stop();
-        stopwatch.ElapsedMilliseconds.Should().BeLessThan(2300);
+        stopwatch.ElapsedMilliseconds.Should().BeLessThan(2000);
     }
 
 }
