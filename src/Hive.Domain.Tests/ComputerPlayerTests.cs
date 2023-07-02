@@ -672,7 +672,7 @@ public class ComputerPlayerTests
         tileBroadcasts.Should().Contain(("deselect", selectedTile));
     }
 
-    [Fact]
+    [Fact(Timeout = 1000)]
     public async Task MaxSearchTimeGlobal()
     {
         var hive = HiveFactory.Create(
@@ -684,7 +684,7 @@ public class ComputerPlayerTests
 
         for (var i = 0; i < 8; i++)
         {
-            DifficultyOptions options = new(150, 150);
+            DifficultyOptions options = new(150, 150, 10);
             var player = new ComputerPlayer(hive, options);
             stopwatch.Start();
             var move = await player.GetMove().ConfigureAwait(false);
@@ -692,7 +692,8 @@ public class ComputerPlayerTests
             hive.Move(move);
         }
 
-        stopwatch.ElapsedMilliseconds.Should().BeLessThan(8 * 200);
+        stopwatch.ElapsedMilliseconds.Should().BeGreaterThan(150, "The global max search time was reached");
+        stopwatch.ElapsedMilliseconds.Should().BeLessThan(1000, "The total test timeout wasn't exceeded");
     }
 
     [Fact]
@@ -710,7 +711,8 @@ public class ComputerPlayerTests
 
         await player.GetMove().ConfigureAwait(false);
         stopwatch.Stop();
-        stopwatch.ElapsedMilliseconds.Should().BeLessThan(2000);
+        stopwatch.ElapsedMilliseconds.Should().BeGreaterThan(100, "The local max search time was exceeded");
+        stopwatch.ElapsedMilliseconds.Should().BeLessThan(2000, "The global max search time limit wasn't reached");
     }
 
 }
