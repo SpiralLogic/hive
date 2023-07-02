@@ -23,7 +23,7 @@ steps:
     commands:
       - dotnet new tool-manifest || true
       - dotnet tool install dotnet-reportgenerator-globaltool
-      - dotnet test --collect:"XPlat Code Coverage" ./src/Hive.Api.Tests -c Test --settings ./src/Hive.Api.Tests/runsettings.xml
+      - dotnet test -v m --collect:"XPlat Code Coverage" ./src/Hive.Api.Tests -c Test --settings ./src/Hive.Api.Tests/runsettings.xml
       - mkdir -p ./api-coverage/
       - mkdir -p ./reports/api/
       - mv src/Hive.Api.Tests/TestResults/**/coverage.opencover.xml ./api-coverage/
@@ -39,7 +39,7 @@ steps:
     commands:
       - dotnet new tool-manifest || true
       - dotnet tool install dotnet-reportgenerator-globaltool
-      - dotnet test --collect:"XPlat Code Coverage" ./src/Hive.Domain.Tests -c Test --settings ./src/Hive.Domain.Tests/runsettings.xml
+      - dotnet test -v m --collect:"XPlat Code Coverage" ./src/Hive.Domain.Tests -c Test --settings ./src/Hive.Domain.Tests/runsettings.xml
       - mkdir -p ./domain-coverage/
       - mkdir -p ./reports/domain/
       - mv src/Hive.Domain.Tests/TestResults/**/coverage.opencover.xml ./domain-coverage/
@@ -88,7 +88,7 @@ steps:
       - java -version
       - dotnet sonarscanner begin /k:hive /s:/drone/src/ops/SonarQube.Analysis.xml /d:sonar.login=$SONARQUBE_KEY
       - dotnet build -c Test ./src
-      - dotnet test ./src -c Test --collect:"XPlat Code Coverage" --settings ./src/Hive.Api.Tests/runsettings.xml
+      - dotnet  ./src -c Test --collect:"XPlat Code Coverage" --settings ./src/Hive.Api.Tests/runsettings.xml
       - dotnet sonarscanner end /d:sonar.login=$SONARQUBE_KEY
   - name: test-results
     image: plugins/kaniko:1.7.4-kaniko1.9.2
