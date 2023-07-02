@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
+using Microsoft.Extensions.Logging;
 
 namespace Hive.Api.Tests.Integration;
 
@@ -11,6 +12,7 @@ public class ProdWebApplicationFactory<TProgram> : WebApplicationFactory<TProgra
     {
         _builder = builder;
         builder?.UseEnvironment("Production");
+        builder?.ConfigureLogging(loggingBuilder => { loggingBuilder.ClearProviders(); });
     }
 
     protected override void Dispose(bool disposing)
