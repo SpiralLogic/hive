@@ -45,7 +45,7 @@ internal class ComputerPlayer
 
     public async ValueTask<Move> GetMove()
     {
-        _globalStopwatch.Start();
+        _globalStopwatch.Restart();
         var r = await Run(null, _options.MaxDepth).ConfigureAwait(false);
         return r.Move ?? throw new InvalidDataException("Could not determine next move");
     }
