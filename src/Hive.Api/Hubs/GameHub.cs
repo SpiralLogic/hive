@@ -13,7 +13,7 @@ public class GameHub : Hub
     {
         var httpContext = Context.GetHttpContext();
         if (httpContext == null) return Task.CompletedTask;
-        httpContext.GetRouteData().Values.TryGetValue("id", out var gameId);
+        var gameId = httpContext.GetRouteValue("id");
         if (gameId is string groupName)
             return Clients.OthersInGroup(groupName).SendAsync("OpponentSelection", type, tile);
 
@@ -24,8 +24,8 @@ public class GameHub : Hub
     {
         var httpContext = Context.GetHttpContext();
         if (httpContext == null) return;
-        httpContext.GetRouteData().Values.TryGetValue("id", out var gameId);
-        httpContext.GetRouteData().Values.TryGetValue("playerId", out var playerId);
+        var gameId = httpContext.GetRouteValue("id");
+        var playerId = httpContext.GetRouteValue("playerId");
         if (gameId is string groupName)
         {
             await Groups.AddToGroupAsync(Context.ConnectionId, groupName).ConfigureAwait(false);
@@ -41,18 +41,13 @@ public class GameHub : Hub
     public override async Task OnDisconnectedAsync(Exception? exception)
     {
         var httpContext = Context.GetHttpContext();
-        if (httpContext == null) return;
-        httpContext.GetRouteData().Values.TryGetValue("id", out var gameId);
-        httpContext.GetRouteData().Values.TryGetValue("playerId", out var playerId);
-        if (gameId is string groupName)
+        if (exception!=null || httpContext == null) return;
+        var gameId = httpContext.GetRouteValue("id");
+        var playerId = httpContext.GetRouteValue("playerId");
+        if (gameId is string groupName && playerId is string player)
         {
-            await Groups.RemoveFromGroupAsync(Context.ConnectionId, groupName).ConfigureAwait(false);
-            if (playerId is string player)
-            {
-                var playerInt = int.Parse(player, NumberStyles.Integer, CultureInfo.InvariantCulture);
-                await Groups.RemoveFromGroupAsync(Context.ConnectionId, groupName).ConfigureAwait(false);
-                await Clients.Group(groupName).SendAsync("PlayerConnection", "disconnect", playerInt).ConfigureAwait(false);
-            }
+            var playerInt = int.Parse(player, NumberStyles.Integer, CultureInfo.InvariantCulture);
+            await Clients.Group(groupName).SendAsync("PlayerConnection", "disconnect", playerInt).ConfigureAwait(false);
         }
     }
 }
