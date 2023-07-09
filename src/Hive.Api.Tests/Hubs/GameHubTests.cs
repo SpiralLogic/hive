@@ -1,3 +1,4 @@
+using System;
 using System.Globalization;
 using System.Threading;
 using System.Threading.Tasks;
@@ -47,6 +48,24 @@ public class GameHubTests
               var feature = new RoutingFeature();
               feature.RouteData = new();
               feature.RouteData.Values.Add("playerId", playerId);
+              return feature;
+            }
+          )
+                    .Returns(
+            () =>
+            {
+              var feature = new RoutingFeature();
+              feature.RouteData = new();
+              feature.RouteData.Values.Add("id", null);
+              return feature;
+            }
+          )
+          .Returns(
+            () =>
+            {
+              var feature = new RoutingFeature();
+              feature.RouteData = new();
+              feature.RouteData.Values.Add("playerId", null);
               return feature;
             }
           )
@@ -197,6 +216,25 @@ public class GameHubTests
         public void OnDisconnectedAsyncReturnsTask(string playerId)
         {
             var hub = CreateGameGubWithInvalidContext(playerId);
+            hub.OnDisconnectedAsync(null).IsCompletedSuccessfully.Should().BeTrue();
+        }
+
+        [Theory]
+        [InlineData("0")]
+        [InlineData("1")]
+        public void OnDisconnectedAsyncWithException(string playerId)
+        {
+            var hub = CreateGameHub(playerId);
+            hub.OnDisconnectedAsync(new()).IsCompletedSuccessfully.Should().BeTrue();
+        }
+
+        [Theory]
+        [InlineData("0")]
+        [InlineData("1")]
+        public async void OnDisconnectedAsyncWithNullGameId(string playerId)
+        {
+            var hub = CreateGameHub(playerId);
+            await hub.OnDisconnectedAsync(null);
             hub.OnDisconnectedAsync(null).IsCompletedSuccessfully.Should().BeTrue();
         }
     }
