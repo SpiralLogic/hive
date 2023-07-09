@@ -29,9 +29,7 @@ public class GameHubTests
         _clientProxyMock = new();
 
         _groupManagerMock.Setup(m => m.AddToGroupAsync(HubConnectionId, HubConnectionId, It.IsAny<CancellationToken>()));
-        _groupManagerMock.Setup(m => m.RemoveFromGroupAsync(HubConnectionId, HubConnectionId, It.IsAny<CancellationToken>()));
         _groupManagerMock.Setup(m => m.AddToGroupAsync(HubConnectionId, $"{HubGroupName}-{playerId}", It.IsAny<CancellationToken>()));
-        _groupManagerMock.Setup(m => m.RemoveFromGroupAsync(HubConnectionId, $"{HubGroupName}-{playerId}", It.IsAny<CancellationToken>()));
 
         _httpContextFeatureMock.SetupSequence(m => m.HttpContext!.Features.Get<IRoutingFeature>())
           .Returns(
@@ -102,8 +100,7 @@ public class GameHubTests
                     "PlayerConnection",
                     new object[]
                     {
-                        "connect",
-                        int.Parse(playerId, NumberStyles.Integer, CultureInfo.InvariantCulture)
+                        "connect", int.Parse(playerId, NumberStyles.Integer, CultureInfo.InvariantCulture)
                     },
                     It.IsAny<CancellationToken>()
                 )
@@ -117,30 +114,18 @@ public class GameHubTests
         {
             var hub = CreateGameHub(playerId);
             await hub.OnDisconnectedAsync(null);
-            _groupManagerMock.Verify(g => g.RemoveFromGroupAsync(HubConnectionId, HubGroupName, It.IsAny<CancellationToken>()));
-            _groupManagerMock.Verify(g => g.RemoveFromGroupAsync(HubConnectionId, HubGroupName, It.IsAny<CancellationToken>()));
             _clientProxyMock.Verify(
                 c => c.SendCoreAsync(
                     "PlayerConnection",
                     new object[]
                     {
-                        "disconnect",
-                        int.Parse(playerId, NumberStyles.Integer, CultureInfo.InvariantCulture)
+                        "disconnect", int.Parse(playerId, NumberStyles.Integer, CultureInfo.InvariantCulture)
                     },
                     It.IsAny<CancellationToken>()
                 )
             );
         }
 
-        [Theory]
-        [InlineData("0")]
-        [InlineData("1")]
-        public async Task DisconnectionsRemoveFromGroup(string playerId)
-        {
-            var hub = CreateGameHub(playerId);
-            await hub.OnDisconnectedAsync(null);
-            _groupManagerMock.Verify(g => g.RemoveFromGroupAsync(HubConnectionId, HubGroupName, It.IsAny<CancellationToken>()));
-        }
 
         [Theory]
         [InlineData("0")]
@@ -156,8 +141,7 @@ public class GameHubTests
                     "OpponentSelection",
                     new object[]
                     {
-                        "select",
-                        selectedTile
+                        "select", selectedTile
                     },
                     It.IsAny<CancellationToken>()
                 )
