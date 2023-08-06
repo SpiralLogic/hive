@@ -7,7 +7,7 @@ const setUp = () => {
   const playerProperties = { id: 1, name: 'Player 1' };
   return render(
     <Player {...playerProperties}>
-      <GameTile id={1} currentPlayer={1} playerId={1} creature={'thing'} />
+      <GameTile id={1} currentPlayer={1} playerId={1} creature="grasshopper" />
     </Player>
   );
 };

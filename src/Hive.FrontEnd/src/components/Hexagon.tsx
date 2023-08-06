@@ -1,6 +1,6 @@
 import '../css/hexagon.css';
 
-import SVG from './SVG';
+import SVG, {SvgHrefs} from './SVG';
 import {Signal} from '@preact/signals';
 import {Creature} from '../domain';
 import {ComponentChildren, JSX} from 'preact';
@@ -17,7 +17,7 @@ type Properties = {
 };
 const Hexagon = (properties: Properties) => {
     const {creature, classes, hidden, children, ...attributes} = properties;
-    const svgHrefs = ['hex'];
+    const svgHrefs:SvgHrefs[] = ['hex'];
     const ref = useTabindex(attributes?.tabIndex);
     if (creature) svgHrefs.push(creature);
     if (hidden) attributes.role = 'none';

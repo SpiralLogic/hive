@@ -17,7 +17,7 @@ public class Hive
         Cells = cells ?? throw new ArgumentNullException(nameof(cells));
         Players = players ?? throw new ArgumentNullException(nameof(players));
         var lastMove = history?.LastOrDefault();
-        var player = lastMove == null ? players.First() : players.First(p => p.Id != lastMove.Move.Tile.PlayerId);
+        var player = lastMove == null ? players[0] : players.First(p => p.Id != lastMove.Move.Tile.PlayerId);
 
         _mover.UpdateMoves(player);
     }

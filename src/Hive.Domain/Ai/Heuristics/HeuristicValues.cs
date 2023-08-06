@@ -13,7 +13,7 @@ internal class HeuristicValues
     internal readonly Move Move;
     internal readonly Cell? MoveFromLocation;
     internal readonly List<Cell> MoveFromNeighbours = new();
-    internal readonly Cell[] MoveNeighbours;
+    internal readonly List<Cell> MoveNeighbours;
     internal readonly Cell MoveToLocation;
     internal readonly int OpponentId;
     internal readonly int TilesPlaced;
@@ -33,7 +33,7 @@ internal class HeuristicValues
 
         MoveToLocation = _hive.Cells.FindCell(move.Coords);
         OpponentId = _hive.Players.First(p => p.Id != move.Tile.PlayerId).Id;
-        MoveNeighbours = MoveToLocation.SelectNeighbors(_hive.Cells).WhereOccupied().ToArray();
+        MoveNeighbours = MoveToLocation.SelectNeighbors(_hive.Cells).WhereOccupied().ToList();
         CurrentQueenNeighbours = CountPlayerQueenNeighbours(move.Tile.PlayerId);
         OpponentQueenNeighbours = CountPlayerQueenNeighbours(OpponentId);
 

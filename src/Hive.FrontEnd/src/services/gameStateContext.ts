@@ -1,4 +1,4 @@
-import { Cells, GameId, GameState, GameStatus, HexCoordinates, Player, Players, TileMapKey } from '../domain';
+import { Cells,  GameState, GameStatus, HexCoordinates, Player, Players, TileMapKey } from '../domain';
 import { batch, signal } from '@preact/signals';
 import { HistoricalMoves } from '../domain/historical-move';
 import { useContext } from 'preact/hooks';
@@ -31,7 +31,7 @@ const createGameState = () => {
   const players = signal<Players>([]);
   const history = signal<HistoricalMoves>([]);
   const gameStatus = signal<GameStatus>('NewGame');
-  const gameId = signal<GameId>('');
+  const gameId = signal<string>('');
   const setGameState = (gameState: GameState) => {
     if (gameState.history.length === 0 || gameState.history.length > history.peek().length) {
       updateMoveMap(gameState.players, gameState.cells);

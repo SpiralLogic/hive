@@ -82,7 +82,7 @@ internal class Mover
 
     internal void RevertMove()
     {
-        var (move, coords, _) = this.History.Last();
+        var (move, coords, _) = this.History[^1];
         this.History.RemoveAt(this.History.Count - 1);
 
         var currentCell = _hive.Cells.FindTile(move.Tile.Id);
