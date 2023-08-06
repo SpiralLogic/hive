@@ -10,7 +10,7 @@ import GrasshopperRules from '../../src/components/rules/GrasshopperRules';
 import AntRules from '../../src/components/rules/AntRules';
 import OneHiveRule from '../../src/components/rules/OneHiveRule';
 import FreedomToMove from '../../src/components/rules/FreedomToMoveRule';
-import { Rule } from '../../src/components/rules/rule';
+import { Rule } from '@hive/components/rules/rule';
 
 const renderRules = () => {
   return render(<Rules />);

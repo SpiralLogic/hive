@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/preact';
 import userEvent from '@testing-library/user-event';
 import GameOver from '../../src/components/GameOver';
-import { GameStatus } from '../../src/domain';
+import { GameStatus } from '@hive/domain';
 import { mockLocation } from '../helpers';
 
 const gameOutcomes: Array<GameStatus> = [

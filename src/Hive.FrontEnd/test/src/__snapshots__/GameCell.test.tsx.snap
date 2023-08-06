@@ -28,9 +28,9 @@ exports[`<GameCell> snapshots > matches cell with tile 1`] = `
     />
   </svg>
   <div
-    class="player1 hex tile fly"
+    class="player1 hex tile queen"
     draggable="false"
-    title="Player-1 fly"
+    title="Player-1 queen"
   >
     <svg
       viewBox="0 0 100 100"
@@ -40,7 +40,7 @@ exports[`<GameCell> snapshots > matches cell with tile 1`] = `
         href="#hex"
       />
       <use
-        href="#fly"
+        href="#queen"
       />
     </svg>
   </div>

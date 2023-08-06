@@ -1,17 +1,19 @@
 import { fireEvent, render, screen } from '@testing-library/preact';
 import userEvent from '@testing-library/user-event';
-import { HiveDispatcher, TileAction, TileEvent } from '../../src/services';
+import { HiveDispatcher, TileAction, TileEvent } from '@hive/services';
 import GameTile from '../../src/components/GameTile';
 import { simulateEvent } from '../helpers';
 import { waitFor } from '@testing-library/dom';
-import { Dispatcher } from '../../src/hooks/useHiveDispatchListener';
-import { Tile } from '../../src/domain';
-import { moveMap } from '../../src/services/gameStateContext';
+import { Dispatcher } from '@hive/hooks/useHiveDispatchListener';
+import { Tile } from '@hive/domain';
+import { moveMap } from '@hive/services/gameStateContext';
 
 const createTestDispatcher = (type: TileEvent['type'] = 'tileSelected') => {
   const dispatcher = new HiveDispatcher();
   const events = new Array<TileEvent>();
-  const listener = (event: TileEvent) => events.push(event);
+  const listener = (event: TileEvent) => {
+    events.push(event);
+  };
   dispatcher.add<TileEvent>(type, listener);
 
   return [events, dispatcher] as const;
@@ -20,18 +22,18 @@ const createTestDispatcher = (type: TileEvent['type'] = 'tileSelected') => {
 const tileCanMove = Object.freeze({
   id: 1,
   playerId: 1,
-  creature: 'tileCanMove',
+  creature: 'grasshopper',
   moves: [{ q: 1, r: 1 }],
 });
 
 const tileOpponentCanMove = Object.freeze({
   id: 2,
   playerId: 0,
-  creature: 'tileOpponentCanMove',
+  creature: 'spider',
   moves: [{ q: 1, r: 1 }],
 });
 
-const tileNoMove = Object.freeze({ id: 2, playerId: 0, creature: 'tileNoMove', moves: [] });
+const tileNoMove = Object.freeze({ id: 2, playerId: 0, creature: 'queen', moves: [] });
 
 const setup = (dispatcher: HiveDispatcher, ...tiles: (Tile & { stacked?: boolean })[]) => {
   tiles.forEach((t) => moveMap.value.set(`${t.playerId}-${t.id}`, t.moves));
@@ -48,7 +50,7 @@ describe('<GameTile> event dispatcher', () => {
   it('dispatches tile start event on click', async () => {
     const [tileEvents, dispatcher] = createTestDispatcher();
     setup(dispatcher, tileCanMove);
-    const tileCanMoveElement = screen.getByTitle(/tileCanMove/);
+    const tileCanMoveElement = screen.getByTitle(/grasshopper/);
 
     const expectedEvent: TileEvent = {
       type: 'tileSelected',
@@ -64,7 +66,7 @@ describe('<GameTile> event dispatcher', () => {
     const [tileEvents, dispatcher] = createTestDispatcher();
     setup(dispatcher, tileCanMove);
 
-    const tileCanMoveElement = screen.getByTitle(/tileCanMove/);
+    const tileCanMoveElement = screen.getByTitle(/grasshopper/);
 
     const expectedEvent: TileEvent = {
       type: 'tileSelected',
@@ -82,7 +84,7 @@ describe('<GameTile> event dispatcher', () => {
 
     setup(dispatcher, tileCanMove);
 
-    const tileCanMoveElement = screen.getByTitle(/tileCanMove/);
+    const tileCanMoveElement = screen.getByTitle(/grasshopper/);
 
     tileCanMoveElement.focus();
     await userEvent.type(tileCanMoveElement, ' ');
@@ -98,10 +100,10 @@ describe('<GameTile> event dispatcher', () => {
     const [, dispatcher] = createTestDispatcher();
     setup(dispatcher, tileCanMove);
 
-    screen.getByTitle(/tileCanMove/);
+    screen.getByTitle(/grasshopper/);
     dispatcher.dispatch<TileAction>({ type: 'tileSelect', tile: tileCanMove });
 
-    await waitFor(() => expect(screen.getByTitle(/tileCanMove/)).toHaveClass('selected'));
+    await waitFor(() => expect(screen.getByTitle(/grasshopper/)).toHaveClass('selected'));
   });
 
   it(`doesn't dispatch selected event with multiple clicks on the same tile`, async () => {
@@ -109,7 +111,7 @@ describe('<GameTile> event dispatcher', () => {
 
     setup(dispatcher, tileCanMove);
 
-    const tileCanMoveElement = screen.getByTitle(/tileCanMove/);
+    const tileCanMoveElement = screen.getByTitle(/grasshopper/);
 
     await userEvent.click(tileCanMoveElement);
     await userEvent.click(tileCanMoveElement);
@@ -123,7 +125,7 @@ describe('<GameTile> event dispatcher', () => {
 
     setup(dispatcher, tileCanMove);
 
-    const tileCanMoveElement = screen.getByTitle(/tileCanMove/);
+    const tileCanMoveElement = screen.getByTitle(/grasshopper/);
 
     fireEvent.dragStart(tileCanMoveElement);
 
@@ -139,7 +141,7 @@ describe('<GameTile> event dispatcher', () => {
     const [dropEvents, dispatcher] = createTestDispatcher('tileDropped');
     setup(dispatcher, tileCanMove);
 
-    const tileCanMoveElement = screen.getByTitle(/tileCanMove/);
+    const tileCanMoveElement = screen.getByTitle(/grasshopper/);
     fireEvent.dragEnd(tileCanMoveElement);
 
     expect(dropEvents).toEqual([
@@ -154,8 +156,8 @@ describe('<GameTile> event dispatcher', () => {
     const [selectedEvents, dispatcher] = createTestDispatcher('tileSelected');
     setup(dispatcher, tileCanMove);
 
-    await userEvent.click(screen.getByTitle(/tileCanMove/));
-    expect(screen.getByTitle(/tileCanMove/)).toHaveClass('selected');
+    await userEvent.click(screen.getByTitle(/grasshopper/));
+    expect(screen.getByTitle(/grasshopper/)).toHaveClass('selected');
 
     dispatcher.dispatch<TileAction>({ type: 'tileSelect', tile: tileCanMove });
 
@@ -176,7 +178,7 @@ describe('<GameTile> event dispatcher', () => {
     const [, dispatcher] = createTestDispatcher();
     setup(dispatcher, tileNoMove);
 
-    const tileNoMoveElement = screen.getByTitle(/tileNoMove/);
+    const tileNoMoveElement = screen.getByTitle(/queen/);
     dispatcher.dispatch<TileAction>({
       type: 'tileSelect',
       tile: { id: 1, playerId: 0, creature: 'queen' },
@@ -199,7 +201,7 @@ describe('<GameTile> events', () => {
   it('removes focus on mouse leave', async () => {
     setup(new HiveDispatcher(), tileCanMove);
 
-    const tileCanMoveElement = screen.getByTitle(/tileCanMove/);
+    const tileCanMoveElement = screen.getByTitle(/grasshopper/);
 
     await userEvent.click(tileCanMoveElement);
     expect(tileCanMoveElement).toHaveFocus();
@@ -210,7 +212,7 @@ describe('<GameTile> events', () => {
   it('focuses on arrow down', async () => {
     setup(new HiveDispatcher(), tileCanMove);
 
-    const tileCanMoveElement = screen.getByTitle(/tileCanMove/);
+    const tileCanMoveElement = screen.getByTitle(/grasshopper/);
 
     tileCanMoveElement.focus();
     await userEvent.keyboard('{arrowdown}');
@@ -221,52 +223,52 @@ describe('<GameTile> events', () => {
   it('selects tile on enter', async () => {
     setup(new HiveDispatcher(), tileCanMove);
 
-    const tileCanMoveElement = screen.getByTitle(/tileCanMove/);
+    const tileCanMoveElement = screen.getByTitle(/grasshopper/);
 
     tileCanMoveElement.focus();
     await userEvent.keyboard('{enter}');
 
-    expect(await screen.findByTitle(/tileCanMove/)).toHaveClass('selected');
+    expect(await screen.findByTitle(/grasshopper/)).toHaveClass('selected');
   });
 
   it('deselects tile on second enter', async () => {
     setup(new HiveDispatcher(), tileCanMove);
 
-    const tileCanMoveElement = screen.getByTitle(/tileCanMove/);
+    const tileCanMoveElement = screen.getByTitle(/grasshopper/);
 
     await userEvent.hover(tileCanMoveElement);
     await userEvent.keyboard('{enter}');
-    expect(screen.getByTitle(/tilecanmove/i)).toHaveClass('selected');
+    expect(screen.getByTitle(/grasshopper/i)).toHaveClass('selected');
 
     await userEvent.keyboard('{enter}');
-    expect(screen.getByTitle(/tilecanmove/i)).not.toHaveClass('selected');
+    expect(screen.getByTitle(/grasshopper/i)).not.toHaveClass('selected');
   });
 
   it('selects previous selected tile on click', async () => {
     setup(new HiveDispatcher(), tileCanMove);
 
-    const tileCanMoveElement = screen.getByTitle(/tileCanMove/);
+    const tileCanMoveElement = screen.getByTitle(/grasshopper/);
 
     await userEvent.click(tileCanMoveElement);
-    expect(await screen.findByTitle(/tileCanMove/)).toHaveClass('selected');
+    expect(await screen.findByTitle(/grasshopper/)).toHaveClass('selected');
 
     await userEvent.click(tileCanMoveElement);
-    expect(await screen.findByTitle(/tileCanMove/)).not.toHaveClass('selected');
+    expect(await screen.findByTitle(/grasshopper/)).not.toHaveClass('selected');
   });
 
   it('deselects previous selected tile on click', async () => {
     setup(new HiveDispatcher(), tileCanMove);
 
-    const tileCanMoveElement = screen.getByTitle(/tileCanMove/);
+    const tileCanMoveElement = screen.getByTitle(/grasshopper/);
 
     await userEvent.click(tileCanMoveElement);
-    expect(await screen.findByTitle(/tileCanMove/)).toHaveClass('selected');
+    expect(await screen.findByTitle(/grasshopper/)).toHaveClass('selected');
   });
 
   it('is draggable when there are available moves', () => {
     setup(new HiveDispatcher(), tileCanMove);
 
-    const tileCanMoveElement = screen.getByTitle(/tileCanMove/);
+    const tileCanMoveElement = screen.getByTitle(/grasshopper/);
 
     expect(tileCanMoveElement).toHaveAttribute('draggable', 'true');
   });
@@ -274,7 +276,7 @@ describe('<GameTile> events', () => {
   it('is *not* draggable when there are no moves available', () => {
     setup(new HiveDispatcher(), tileNoMove);
 
-    const tileNoMoveElement = screen.getByTitle(/tileNoMove/);
+    const tileNoMoveElement = screen.getByTitle(/queen/);
     expect(tileNoMoveElement).toHaveAttribute('draggable', 'false');
   });
 
@@ -283,7 +285,7 @@ describe('<GameTile> events', () => {
     setup(dispatcher, tileCanMove, tileOpponentCanMove);
 
     dispatcher.dispatch<TileAction>({ type: 'tileSelect', tile: tileOpponentCanMove });
-    await userEvent.click(screen.getByTitle(/tileOpponentCanMove/));
+    await userEvent.click(screen.getByTitle(/spider/));
 
     expect(deselectEvents).toHaveLength(0);
   });
@@ -291,11 +293,11 @@ describe('<GameTile> events', () => {
   it('prevents default on drop', () => {
     setup(new HiveDispatcher(), tileCanMove);
 
-    const tileCanMoveElement = screen.getByTitle(/tileCanMove/);
+    const tileCanMoveElement = screen.getByTitle(/grasshopper/);
 
     setup(new HiveDispatcher(), tileNoMove);
 
-    const tileNoMoveElement = screen.getByTitle(/tileNoMove/);
+    const tileNoMoveElement = screen.getByTitle(/queen/);
 
     expect(simulateEvent(tileCanMoveElement, 'drop')).toHaveBeenCalledWith();
     expect(simulateEvent(tileNoMoveElement, 'drop')).toHaveBeenCalledWith();
@@ -306,7 +308,7 @@ describe('<GameTile> Snapshots', () => {
   it('matches current snapshot for can move', () => {
     setup(new HiveDispatcher(), tileCanMove);
 
-    const tileCanMoveElement = screen.getByTitle(/tileCanMove/);
+    const tileCanMoveElement = screen.getByTitle(/grasshopper/);
 
     expect(tileCanMoveElement).toMatchSnapshot();
   });
@@ -314,7 +316,7 @@ describe('<GameTile> Snapshots', () => {
   it('matches current snapshot for no moves', () => {
     setup(new HiveDispatcher(), tileNoMove);
 
-    const tileNoMoveElement = screen.getByTitle(/tileNoMove/);
+    const tileNoMoveElement = screen.getByTitle(/queen/);
     expect(tileNoMoveElement).toMatchSnapshot();
   });
 
@@ -327,8 +329,8 @@ describe('<GameTile> Snapshots', () => {
   it('renders creature', () => {
     setup(new HiveDispatcher(), tileCanMove, tileNoMove);
 
-    const tileCanMoveElement = screen.getByTitle(/tileCanMove/);
-    const tileNoMoveElement = screen.getByTitle(/tileNoMove/);
+    const tileCanMoveElement = screen.getByTitle(/grasshopper/);
+    const tileNoMoveElement = screen.getByTitle(/queen/);
 
     expect(tileCanMoveElement).toMatchSnapshot();
     expect(tileNoMoveElement).toMatchSnapshot();

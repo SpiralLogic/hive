@@ -5,17 +5,17 @@ import {
   HubConnectionState,
 } from '@microsoft/signalr';
 
-import { GameId, GameState, PlayerId, Tile } from '../domain';
+import {  GameState, Tile } from '../domain';
 
 export type PlayerSelectionEvent = 'select' | 'deselect';
 export type PlayerConnectionEvent = 'connect' | 'disconnect';
 export type GameStateUpdateHandler = (gameState: GameState) => void;
 export type OpponentSelectionHandler = (type: PlayerSelectionEvent, tile: Omit<Tile, 'moves'>) => void;
-export type OpponentConnectedHandler = (type: PlayerConnectionEvent, playerId: PlayerId) => void;
+export type OpponentConnectedHandler = (type: PlayerConnectionEvent, playerId: number) => void;
 
 export type ServerConnectionConfig = {
-  currentPlayer: PlayerId;
-  gameId: GameId;
+  currentPlayer: number;
+  gameId: string;
   updateHandler: GameStateUpdateHandler;
   opponentSelectionHandler: OpponentSelectionHandler;
   opponentConnectedHandler: OpponentConnectedHandler;
@@ -31,7 +31,7 @@ export interface ServerConnection {
 class ServerConnectionImpl implements ServerConnection {
   private readonly updateHandler;
 
-  private readonly gameId: GameId;
+  private readonly gameId: string;
 
   private readonly connection: HubConnection;
 
@@ -39,7 +39,7 @@ class ServerConnectionImpl implements ServerConnection {
 
   private readonly opponentConnectedHandler: OpponentConnectedHandler;
 
-  private readonly currentPlayer: PlayerId;
+  private readonly currentPlayer: number;
 
   constructor(config: ServerConnectionConfig) {
     const { currentPlayer, gameId, updateHandler, opponentSelectionHandler, opponentConnectedHandler } =
@@ -94,7 +94,9 @@ class ServerConnectionImpl implements ServerConnection {
     connection.on('ReceiveGameState', this.updateHandler);
     connection.on('OpponentSelection', this.opponentSelectionHandler);
     connection.on('PlayerConnection', this.opponentConnectedHandler);
-    window.addEventListener('beforeunload', () => connection.stop());
+    window.addEventListener('beforeunload', () => {
+      connection.stop().catch(err=>console.error(err))
+    });
     return connection;
   };
 }

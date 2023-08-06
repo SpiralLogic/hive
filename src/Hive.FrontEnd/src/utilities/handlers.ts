@@ -1,4 +1,4 @@
-import { GameState, Move, PlayerId, Tile } from '../domain';
+import { GameState, Move, Tile } from '../domain';
 import {
   HiveDispatcher,
   MoveEvent,
@@ -56,7 +56,7 @@ export const createOpponentSelectionHandler = (dispatcher: HiveDispatcher): Oppo
   };
 };
 export const createOpponentConnectedHandler = (dispatcher: HiveDispatcher): OpponentConnectedHandler => {
-  return (type, playerId: PlayerId) => {
+  return (type, playerId: number) => {
     if (type === 'connect') {
       dispatcher.dispatch({ type: 'opponentConnected', playerId });
     } else {
@@ -71,13 +71,15 @@ export const addServerHandlers = (
   makeMove: (move: Move) => Promise<GameState>,
   dispatcher: HiveDispatcher
 ) => {
-  const selectionChangeHandler = (event: TileEvent) =>
+  const selectionChangeHandler = (event: TileEvent) => {
     !event.fromEvent && sendSelection('select', event.tile);
-  const deselectionChangeHandler = (event: TileEvent) =>
+  };
+  const deselectionChangeHandler = (event: TileEvent) => {
     !event.fromEvent && sendSelection('deselect', event.tile);
+  };
   const moveHandler = async (event: MoveEvent) => {
     const state = await makeMove(event.move);
-    return updateGameState(state);
+    updateGameState(state);
   };
 
   dispatcher.add<MoveEvent>('move', moveHandler);

@@ -1,6 +1,6 @@
 export type HexCoordinate = {
-  readonly q: number;
-  readonly r: number;
+   q: number;
+   r: number;
 };
 
 export type HexCoordinates = HexCoordinate[];

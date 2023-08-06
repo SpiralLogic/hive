@@ -2,10 +2,10 @@
 
 exports[`<GameTile> Snapshots > matches current snapshot for can move 1`] = `
 <div
-  class="player1 hex tile tilecanmove"
+  class="player1 hex tile grasshopper"
   draggable="true"
   tabindex="0"
-  title="Player-1 tileCanMove"
+  title="Player-1 grasshopper"
 >
   <svg
     viewBox="0 0 100 100"
@@ -15,7 +15,7 @@ exports[`<GameTile> Snapshots > matches current snapshot for can move 1`] = `
       href="#hex"
     />
     <use
-      href="#tilecanmove"
+      href="#grasshopper"
     />
   </svg>
 </div>
@@ -23,9 +23,9 @@ exports[`<GameTile> Snapshots > matches current snapshot for can move 1`] = `
 
 exports[`<GameTile> Snapshots > matches current snapshot for no moves 1`] = `
 <div
-  class="player0 hex tile tilenomove"
+  class="player0 hex tile queen"
   draggable="false"
-  title="Player-0 tileNoMove"
+  title="Player-0 queen"
 >
   <svg
     viewBox="0 0 100 100"
@@ -35,7 +35,7 @@ exports[`<GameTile> Snapshots > matches current snapshot for no moves 1`] = `
       href="#hex"
     />
     <use
-      href="#tilenomove"
+      href="#queen"
     />
   </svg>
 </div>
@@ -43,9 +43,9 @@ exports[`<GameTile> Snapshots > matches current snapshot for no moves 1`] = `
 
 exports[`<GameTile> Snapshots > matches current snapshot for when stacked 1`] = `
 <div
-  class="player0 hex stacked tile tilenomove"
+  class="player0 hex stacked tile queen"
   draggable="false"
-  title="Player-0 tileNoMove"
+  title="Player-0 queen"
 >
   <svg
     viewBox="0 0 100 100"
@@ -55,7 +55,7 @@ exports[`<GameTile> Snapshots > matches current snapshot for when stacked 1`] = 
       href="#hex"
     />
     <use
-      href="#tilenomove"
+      href="#queen"
     />
   </svg>
 </div>
@@ -63,10 +63,10 @@ exports[`<GameTile> Snapshots > matches current snapshot for when stacked 1`] = 
 
 exports[`<GameTile> Snapshots > renders creature 1`] = `
 <div
-  class="player1 hex tile tilecanmove"
+  class="player1 hex tile grasshopper"
   draggable="true"
   tabindex="0"
-  title="Player-1 tileCanMove"
+  title="Player-1 grasshopper"
 >
   <svg
     viewBox="0 0 100 100"
@@ -76,7 +76,7 @@ exports[`<GameTile> Snapshots > renders creature 1`] = `
       href="#hex"
     />
     <use
-      href="#tilecanmove"
+      href="#grasshopper"
     />
   </svg>
 </div>
@@ -84,9 +84,9 @@ exports[`<GameTile> Snapshots > renders creature 1`] = `
 
 exports[`<GameTile> Snapshots > renders creature 2`] = `
 <div
-  class="player0 hex tile tilenomove"
+  class="player0 hex tile queen"
   draggable="false"
-  title="Player-0 tileNoMove"
+  title="Player-0 queen"
 >
   <svg
     viewBox="0 0 100 100"
@@ -96,7 +96,7 @@ exports[`<GameTile> Snapshots > renders creature 2`] = `
       href="#hex"
     />
     <use
-      href="#tilenomove"
+      href="#queen"
     />
   </svg>
 </div>

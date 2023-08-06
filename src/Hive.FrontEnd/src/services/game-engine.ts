@@ -1,12 +1,12 @@
-import { GameId, GameState, Move, PlayerId } from '../domain';
+import { GameState, Move } from '../domain';
 import { AiMode, HexEngine } from '../domain/engine';
 import { getAllPlayerTiles } from '../utilities/hextille';
 import { effect, Signal, signal } from '@preact/signals';
 
 export default class GameEngine implements HexEngine {
-  public currentPlayer: PlayerId;
+  public currentPlayer: number;
   public initialGame: Promise<GameState>;
-  public gameId: GameId;
+  public gameId: string;
   private readonly aiMode: Signal<AiMode>;
   private currentRequest: Promise<GameState>;
   private requestHeaders = {
@@ -24,7 +24,7 @@ export default class GameEngine implements HexEngine {
 
     this.initialGame = this.completeRequest();
     effect(() => {
-        void this.setAiMode(this.aiMode.value)
+      void this.setAiMode(this.aiMode.value);
     });
   }
 
@@ -74,7 +74,7 @@ export default class GameEngine implements HexEngine {
     return response;
   };
 
-  private getExistingGame = async (gameId: GameId) => {
+  private getExistingGame = async (gameId: string) => {
     return this.getRequest(`/api/game/${gameId}`);
   };
 

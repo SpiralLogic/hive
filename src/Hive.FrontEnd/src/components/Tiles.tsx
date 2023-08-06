@@ -1,7 +1,7 @@
-import { Cell, PlayerId } from '../domain';
+import { Cell } from '../domain';
 import GameTile from './GameTile';
 
-const Tiles = ({ cell, currentPlayer }: { cell: Cell; currentPlayer: PlayerId }) => {
+const Tiles = ({ cell, currentPlayer }: { cell: Cell; currentPlayer: number }) => {
   cell.tiles.reverse();
 
   return (

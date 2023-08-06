@@ -1,1 +1,1 @@
-export type Creature = 'ant' | 'beetle' | 'grasshopper' | 'spider' | 'queen' | string;
+export type Creature = 'ant' | 'beetle' | 'grasshopper' | 'spider' | 'queen' ;

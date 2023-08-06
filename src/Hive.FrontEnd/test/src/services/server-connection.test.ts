@@ -1,8 +1,11 @@
 import { HubConnection, HubConnectionBuilder, HubConnectionState } from '@microsoft/signalr';
-import { serverConnectionFactory } from '../../../src/services';
+import { serverConnectionFactory } from '@hive/services';
 import gameState from '../../fixtures/game-state.json';
 import { mockLocation } from '../../helpers';
 import { Mock } from 'vitest';
+import { waitFor } from '@testing-library/dom';
+import { fireEvent } from '@testing-library/preact';
+import { mockConsole } from '../../helpers/console';
 
 vi.mock('@microsoft/signalr', async () => {
   const signalR = await vi.importActual<typeof import('@microsoft/signalr')>('@microsoft/signalr');
@@ -12,13 +15,6 @@ vi.mock('@microsoft/signalr', async () => {
     HubConnection: vi.fn(),
   };
 });
-
-const console = {
-  info: vi.fn(),
-  warn: vi.fn(),
-  error: vi.fn(),
-};
-vi.stubGlobal('console', console);
 
 describe('server connection', () => {
   type TestHubConnection = ReturnType<typeof createHubConnection>;
@@ -69,9 +65,13 @@ describe('server connection', () => {
     });
   };
 
+  beforeEach(() => {
+    mockConsole();
+  });
+
   it(`connects to hub for game id`, async () => {
     const restoreLocation = mockLocation({ reload: vi.fn() });
-    global.window.history.replaceState({ gameId: 33 }, document.title, `/game/33/0`);
+    window.history.replaceState({ gameId: 33 }, document.title, `/game/33/0`);
 
     const hubConnection = createHubConnection();
     const serverConnection = setupServer(hubConnection);
@@ -112,6 +112,17 @@ describe('server connection', () => {
     restoreLocation();
   });
 
+  it(`logs error if stop throws one`, async () => {
+    const restoreLocation = mockLocation({ reload: vi.fn() });
+    const hubConnection = createHubConnection();
+    hubConnection.stop.mockReset().mockRejectedValue('test');
+    const serverConnection = setupServer(hubConnection);
+    await serverConnection.connectGame();
+    fireEvent(window, new Event('beforeunload'));
+    await waitFor(() => expect(console.error).toHaveBeenCalledWith('test'));
+    restoreLocation();
+  });
+
   it(`updates opponentSelection`, async () => {
     const restoreLocation = mockLocation({ reload: vi.fn() });
     const hubConnection = createHubConnection();
@@ -134,9 +145,9 @@ describe('server connection', () => {
     const hubConnection = createHubConnection();
     const serverConnection = setupServer(hubConnection);
 
-    serverConnection.sendSelection('select', { id: 1, playerId: 1, creature: 'duck' });
+    serverConnection.sendSelection('select', { id: 1, playerId: 1, creature: 'ant' });
     expect(hubConnection.send).toHaveBeenCalledWith('SendSelection', 'select', {
-      creature: 'duck',
+      creature: 'ant',
       id: 1,
       playerId: 1,
     });
@@ -146,7 +157,7 @@ describe('server connection', () => {
     const hubConnection = createHubConnection(HubConnectionState.Disconnected);
     const serverConnection = setupServer(hubConnection);
 
-    serverConnection.sendSelection('select', { id: 1, playerId: 1, creature: 'duck' });
+    serverConnection.sendSelection('select', { id: 1, playerId: 1, creature: 'ant' });
     expect(hubConnection.send).not.toHaveBeenCalledWith();
   });
 

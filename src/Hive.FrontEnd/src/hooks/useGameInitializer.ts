@@ -3,12 +3,11 @@ import {useSignal, useSignalEffect} from "@preact/signals";
 import {addServerHandlers, createOpponentConnectedHandler, createOpponentSelectionHandler} from "../utilities/handlers";
 import {HexEngine} from "../domain/engine";
 import {HistoricalMove} from "../domain/historical-move";
-import {PlayerId} from "../domain";
 import {useDispatcher} from "./useHiveDispatchListener";
 import {useGameState} from "../services/gameStateContext";
 import {ServerConnectionFactory} from "../services";
 
-const isOpponentAi = (history: HistoricalMove[] | undefined, currentPlayer: PlayerId) =>
+const isOpponentAi = (history: HistoricalMove[] | undefined, currentPlayer: number) =>
     history?.length === 0 ||
     history
         ?.filter((h) => h.move.tile.playerId !== currentPlayer)
@@ -57,7 +56,7 @@ export const useGameInitializer = (engine: HexEngine, connectionFactory: ServerC
 
         return () => {
             removeServerHandlers();
-            return serverConnection.closeConnection();
+            serverConnection.closeConnection().catch(err => console.error(err));
         };
     });
 

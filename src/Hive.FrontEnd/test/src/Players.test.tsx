@@ -1,10 +1,11 @@
 import { render, screen } from '@testing-library/preact';
 import Players from '../../src/components/Players';
-import { GameStateContext } from '../../src/services/gameStateContext';
+import { GameStateContext } from '@hive/services/gameStateContext';
 import { signalize } from '../helpers/signalize';
+import {Tile} from "@hive/domain";
 
-const ant = { id: 1, playerId: 1, creature: 'ant', moves: [{ q: 1, r: 1 }] };
-const fly = { id: 2, playerId: 0, creature: 'fly', moves: [] };
+const ant:Tile = { id: 1, playerId: 1, creature: 'ant', moves: [{ q: 1, r: 1 }] };
+const spider:Tile = { id: 2, playerId: 0, creature: 'spider', moves: [] };
 
 const playerProps = {
   currentPlayer: 0,
@@ -19,7 +20,7 @@ const setup = () =>
           cells: [],
           gameStatus: 'NewGame',
           players: [
-            { id: 1, name: 'Player 1', tiles: [ant, fly, fly] },
+            { id: 1, name: 'Player 1', tiles: [ant, spider, spider] },
             { id: 2, name: 'Player 2', tiles: [ant] },
           ],
         }),

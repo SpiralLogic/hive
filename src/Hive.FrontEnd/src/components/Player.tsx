@@ -2,13 +2,12 @@ import '../css/player.css';
 
 import {ComponentChildren, toChildArray} from 'preact';
 
-import {PlayerId} from '../domain';
 import {useClassSignal} from '../hooks/useClassSignal';
 import {useAnimatedHide} from "../hooks/useAnimatedHide";
 
 type Properties = {
     name: string;
-    id: PlayerId;
+    id: number;
     children?: ComponentChildren;
 };
 

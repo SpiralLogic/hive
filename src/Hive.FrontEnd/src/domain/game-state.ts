@@ -5,12 +5,11 @@ import { HistoricalMoves } from './historical-move';
 export type GameState = {
   cells: Cells;
   players: Players;
-  gameId: GameId;
+  gameId: string;
   gameStatus: GameStatus;
   history: HistoricalMoves;
 };
 
-export type GameId = string;
 export type GameStatus =
   | 'NewGame'
   | 'MoveSuccess'

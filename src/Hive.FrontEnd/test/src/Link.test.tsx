@@ -2,10 +2,10 @@ import { fireEvent, render, screen } from '@testing-library/preact';
 import userEvent from '@testing-library/user-event';
 import Links from '../../src/components/Links';
 
-import { HiveDispatcher } from '../../src/services';
-import { Dispatcher } from '../../src/hooks/useHiveDispatchListener';
+import { HiveDispatcher } from '@hive/services';
+import { Dispatcher } from '@hive/hooks/useHiveDispatchListener';
 import { Signal, signal } from '@preact/signals';
-import { AiMode } from '../../src/domain/engine';
+import { AiMode } from '@hive/domain/engine';
 
 const dispatcher = new HiveDispatcher();
 

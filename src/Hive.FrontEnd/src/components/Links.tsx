@@ -1,7 +1,6 @@
 import '../css/links.css';
 
 import { FunctionComponent } from 'preact';
-import { GameId, PlayerId } from '../domain';
 import { getShareUrl } from '../utilities/share';
 import { AiMode } from '../domain/engine';
 import SVG from './SVG';
@@ -10,9 +9,9 @@ import { Signal, useComputed } from '@preact/signals';
 type Properties = {
   onShowRules: () => void;
   onShowShare: () => void;
-  gameId: Signal<GameId>;
+  gameId: Signal<string>;
   aiMode: Signal<AiMode>;
-  currentPlayer: PlayerId;
+  currentPlayer: number;
 };
 
 const handle = (handler: () => void) => {

@@ -1,6 +1,6 @@
-import { GameState } from '../../src/domain';
+import { Cell, GameState, Player } from '@hive/domain';
 
-const createCells = (number: number) => {
+const createCells = (number: number): Cell[] => {
   const cellArray = Array.from({ length: number });
   return cellArray.map((_, index) => ({
     coords: { q: index, r: 0 },
@@ -18,7 +18,7 @@ export const createGameState = (cells: number): GameState => {
   return {
     gameId: '33',
     cells: createCells(cells),
-    players: [player, player2],
+    players: [player, player2] as Player[],
     history: [
       {
         move: {

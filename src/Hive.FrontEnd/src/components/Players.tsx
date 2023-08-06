@@ -1,11 +1,10 @@
 import '../css/players.css';
 
-import { PlayerId } from '../domain';
 import GameTile from './GameTile';
 import Player from './Player';
 import { useGameState } from '../services/gameStateContext';
 
-const Players = (properties: { currentPlayer: PlayerId }) => {
+const Players = (properties: { currentPlayer: number }) => {
   const { currentPlayer } = properties;
   const { players } = useGameState();
   return (

@@ -1,5 +1,5 @@
 import { screen } from '@testing-library/preact';
-import { Action, HiveDispatcher, HiveEvent, TileAction } from '../../../src/services';
+import { Action, HiveDispatcher, HiveEvent, TileAction } from '@hive/services';
 import {
   addServerHandlers,
   createOpponentConnectedHandler,
@@ -7,18 +7,19 @@ import {
   handleDragOver,
   handleDrop,
   handleKeyboardNav,
-} from '../../../src/utilities/handlers';
+} from '@hive/utilities/handlers';
 import gameState from '../../fixtures/game-state.json';
 import GameEngine from '../../../src/services/game-engine';
+import { Tile } from '@hive/domain';
 
 describe(`handler tests`, () => {
-  const selectedTile = {
+  const selectedTile: Tile = {
     id: 2,
     moves: [
       { q: 0, r: 0 },
       { q: 2, r: 2 },
     ],
-    creature: '',
+    creature: 'spider',
     playerId: 1,
   };
 
@@ -95,7 +96,7 @@ describe(`handler tests`, () => {
 
   describe(`server connection events`, () => {
     it(`selects tile on opponent selection`, () => {
-      const tile = { id: 1, playerId: 1, creature: 'swan', moves: [] };
+      const tile: Tile = { id: 1, playerId: 1, creature: 'queen', moves: [] };
       const dispatcher = new HiveDispatcher();
       const selectHandler = vi.fn();
       dispatcher.add<TileAction>('tileSelect', selectHandler);
@@ -105,7 +106,7 @@ describe(`handler tests`, () => {
     });
 
     it(`deselects tile on opponent deselection`, () => {
-      const tile = { id: 1, playerId: 1, creature: 'swan', moves: [] };
+      const tile: Tile = { id: 1, playerId: 1, creature: 'queen', moves: [] };
       const dispatcher = new HiveDispatcher();
       const selectHandler = vi.fn();
       dispatcher.add<Action>('tileClear', selectHandler);
@@ -124,8 +125,7 @@ describe(`handler tests`, () => {
       createOpponentSelectionHandler(dispatcher)('select', selectedTile);
       createOpponentSelectionHandler(dispatcher)('deselect', selectedTile);
       createOpponentSelectionHandler(dispatcher)('deselect', selectedTile);
-      expect(selectHandler).not.toHaveBeenCalledWith();
-      expect(deselectHandler).not.toHaveBeenCalledWith();
+      expect(deselectHandler).not.toHaveBeenCalled();
     });
 
     it(`calls opponent connected handler`, () => {

@@ -21,7 +21,7 @@
     "lint:src:report": "cross-env ESLINT_USE_FLAT_CONFIG=true eslint -c eslint.config.mjs -o reports/__lint__/eslint.json -f json src",
     "lint:style": "stylelint src/**/*.css",
     "lint:style:fix": "stylelint --fix src/**/*.css",
-    "lint:style:report": "stylelint -f json src/**/*.css > reports/__lint__/stylelint.json",
+    "lint:style:report": "stylelint -f json src/**/*.css > reports/__stylelint__/stylelint.json",
     "lint:test": "cross-env ESLINT_USE_FLAT_CONFIG=true eslint -c eslint.config.mjs test",
     "lint:test:fix": "cross-env ESLINT_USE_FLAT_CONFIG=true eslint -c eslint.config.mjs --fix test",
     "lint:test:report": "cross-env ESLINT_USE_FLAT_CONFIG=true eslint -c eslint.config.mjs -o reports/__lint__/eslint.test.json -f json test",

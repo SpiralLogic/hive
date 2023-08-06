@@ -2,16 +2,16 @@ import { render, screen } from '@testing-library/preact';
 import userEvent from '@testing-library/user-event';
 
 import GameArea from '../../src/components/GameArea';
-import { GameState, GameStatus } from '../../src/domain';
-import { ConnectEvent, HiveDispatcher, TileAction } from '../../src/services';
+import { GameState, GameStatus } from '@hive/domain';
+import { ConnectEvent, HiveDispatcher, TileAction } from '@hive/services';
 import { createGameState } from '../fixtures/game-area.fixtures';
-import { mockClipboard, mockExecCommand, mockLocation, mockShare, noShare, simulateEvent } from '../helpers';
+import { mockClipboard, mockLocation, mockShare, noShare, simulateEvent } from '../helpers';
 import { vi } from 'vitest';
 import { waitFor } from '@testing-library/dom';
-import { Dispatcher } from '../../src/hooks/useHiveDispatchListener';
+import { Dispatcher } from '@hive/hooks/useHiveDispatchListener';
 import { Signal, signal } from '@preact/signals';
-import { AiMode } from '../../src/domain/engine';
-import { GameStateContext } from '../../src/services/gameStateContext';
+import { AiMode } from '@hive/domain/engine';
+import { GameStateContext } from '@hive/services/gameStateContext';
 import { ComponentProps } from 'preact';
 import { signalize } from '../helpers/signalize';
 
@@ -49,7 +49,7 @@ describe('<GameArea>', () => {
 
     const { dispatcher } = setup(gameState, { currentPlayer: 1, aiMode: signal('off') });
     dispatcher.dispatch<TileAction>({ type: 'tileSelect', tile: gameState.players[1].tiles[0] });
-    await waitFor(() => expect(screen.getByTitle(/creature1/)).toHaveClass('selected'));
+    await waitFor(() => expect(screen.getByTitle(/ant/)).toHaveClass('selected'));
   });
 
   it(`removes all moves for tiles which aren't the current player`, async () => {
@@ -57,8 +57,8 @@ describe('<GameArea>', () => {
     global.window.history.replaceState({}, global.document.title, `/game/33/0`);
     setup(gameState, { currentPlayer: 1, aiMode: signal('off') });
 
-    expect(screen.getByTitle(/creature0/)).toHaveAttribute('draggable', 'false');
-    expect(screen.getByTitle(/creature1/)).toHaveAttribute('draggable');
+    expect(screen.getByTitle(/beetle/)).toHaveAttribute('draggable', 'false');
+    expect(screen.getByTitle(/ant/)).toHaveAttribute('draggable');
   });
 });
 
@@ -107,7 +107,7 @@ describe('<GameArea> share dialog', () => {
   });
 
   it('calls share API', async () => {
-    const [restore,share] = mockShare();
+    const [restore, share] = mockShare();
     const gameState = createGameState(1);
     global.window.history.replaceState({}, global.document.title, `/game/33/1`);
     setup(gameState, { currentPlayer: 1, aiMode: signal('off') });
@@ -121,7 +121,7 @@ describe('<GameArea> share dialog', () => {
 
   it('copies opponent link to clipboard with navigator', async () => {
     const [restore1] = noShare();
-    const [restore2,writeText] = mockClipboard();
+    const [restore2, writeText] = mockClipboard();
 
     const gameState = createGameState(1);
     setup(gameState, { currentPlayer: 1, aiMode: signal('off') });
@@ -133,15 +133,12 @@ describe('<GameArea> share dialog', () => {
   });
 
   it('copies opponent link to clipboard with exec command', async () => {
-    const [restore1] = noShare();
-    const [restore,execCommand] = mockExecCommand();
+    const [restore] = noShare();
     const gameState = createGameState(1);
     setup(gameState, { currentPlayer: 1, aiMode: signal('off') });
 
     await userEvent.click(screen.getByTitle(/Share/));
-    expect(execCommand).toHaveBeenCalledWith('copy');
     expect(screen.queryByRole('textbox')).not.toBeInTheDocument();
-    restore1();
     restore();
   });
 

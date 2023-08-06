@@ -31,9 +31,9 @@ exports[`<GameArea> snapshots > matches 1`] = `
         class="tiles"
       >
         <div
-          class="player1 hex tile creature1"
+          class="player1 hex tile ant"
           draggable="false"
-          title="Player-1 creature1"
+          title="Player-1 ant"
         >
           <svg
             viewBox="0 0 100 100"
@@ -43,7 +43,7 @@ exports[`<GameArea> snapshots > matches 1`] = `
               href="#hex"
             />
             <use
-              href="#creature1"
+              href="#ant"
             />
           </svg>
         </div>
@@ -217,9 +217,9 @@ exports[`<GameArea> snapshots > matches 1`] = `
             />
           </svg>
           <div
-            class="player0 hex tile creature0"
+            class="player0 hex tile beetle"
             draggable="false"
-            title="Player-0 creature0"
+            title="Player-0 beetle"
           >
             <svg
               viewBox="0 0 100 100"
@@ -229,7 +229,7 @@ exports[`<GameArea> snapshots > matches 1`] = `
                 href="#hex"
               />
               <use
-                href="#creature0"
+                href="#beetle"
               />
             </svg>
           </div>
@@ -635,9 +635,9 @@ exports[`<GameArea> snapshots > matches game over 1`] = `
         class="tiles"
       >
         <div
-          class="player1 hex tile creature1"
+          class="player1 hex tile ant"
           draggable="false"
-          title="Player-1 creature1"
+          title="Player-1 ant"
         >
           <svg
             viewBox="0 0 100 100"
@@ -647,7 +647,7 @@ exports[`<GameArea> snapshots > matches game over 1`] = `
               href="#hex"
             />
             <use
-              href="#creature1"
+              href="#ant"
             />
           </svg>
         </div>
@@ -821,9 +821,9 @@ exports[`<GameArea> snapshots > matches game over 1`] = `
             />
           </svg>
           <div
-            class="player0 hex tile creature0"
+            class="player0 hex tile beetle"
             draggable="false"
-            title="Player-0 creature0"
+            title="Player-0 beetle"
           >
             <svg
               viewBox="0 0 100 100"
@@ -833,7 +833,7 @@ exports[`<GameArea> snapshots > matches game over 1`] = `
                 href="#hex"
               />
               <use
-                href="#creature0"
+                href="#beetle"
               />
             </svg>
           </div>
@@ -1240,9 +1240,9 @@ exports[`<GameArea> snapshots > matches with historical move 1`] = `
         class="tiles"
       >
         <div
-          class="player1 hex tile creature1"
+          class="player1 hex tile ant"
           draggable="false"
-          title="Player-1 creature1"
+          title="Player-1 ant"
         >
           <svg
             viewBox="0 0 100 100"
@@ -1252,7 +1252,7 @@ exports[`<GameArea> snapshots > matches with historical move 1`] = `
               href="#hex"
             />
             <use
-              href="#creature1"
+              href="#ant"
             />
           </svg>
         </div>
@@ -1428,9 +1428,9 @@ exports[`<GameArea> snapshots > matches with historical move 1`] = `
             />
           </svg>
           <div
-            class="player0 hex tile creature0"
+            class="player0 hex tile beetle"
             draggable="false"
-            title="Player-0 creature0"
+            title="Player-0 beetle"
           >
             <svg
               viewBox="0 0 100 100"
@@ -1440,7 +1440,7 @@ exports[`<GameArea> snapshots > matches with historical move 1`] = `
                 href="#hex"
               />
               <use
-                href="#creature0"
+                href="#beetle"
               />
             </svg>
           </div>

@@ -15,17 +15,17 @@ import {
   createMoveListener,
   movingTile,
 } from '../fixtures/game-cell.fixtures';
-import { HiveDispatcher } from '../../src/services';
-import { Dispatcher } from '../../src/hooks/useHiveDispatchListener';
-import { Cell, HexCoordinate, PlayerId, TileId } from '../../src/domain';
+import { HiveDispatcher } from '@hive/services';
+import { Dispatcher } from '@hive/hooks/useHiveDispatchListener';
+import { Cell, HexCoordinate } from '@hive/domain';
 import GameTile from '../../src/components/GameTile';
-import { cellKey } from '../../src/utilities/hextille';
-import { moveMap } from '../../src/services/gameStateContext';
+import { cellKey } from '@hive/utilities/hextille';
+import { moveMap } from '@hive/services/gameStateContext';
 
 const setUp = (...tileCreationFns: Array<() => { cell: Cell; historical?: boolean }>) => {
   const comps = tileCreationFns.map((t) => t());
 
-  moveMap.value = new Map<`${PlayerId}-${TileId}`, HexCoordinate[]>();
+  moveMap.value = new Map<`${number}-${number}`, HexCoordinate[]>();
   comps.flatMap(({ cell }) => cell.tiles).forEach((t) => moveMap.value.set(`${t.playerId}-${t.id}`, t.moves));
 
   const dispatcher = new HiveDispatcher();
@@ -47,7 +47,7 @@ const setUp = (...tileCreationFns: Array<() => { cell: Cell; historical?: boolea
 describe('<GameCell>', () => {
   it(`top tile is rendered when tiles are all empty`, async () => {
     setUp(createCellWithTile);
-    expect(screen.getByTitle(/fly/)).toBeInTheDocument();
+    expect(screen.getByTitle(/queen/)).toBeInTheDocument();
   });
 
   it(`shows cells with historical moves`, async () => {
@@ -69,7 +69,7 @@ describe('<GameCell> drag events', () => {
   it('allows drop on drag start', async () => {
     setUp(createCellMovableTile, createCellWithTileAndDrop, createCellCanDrop);
 
-    await userEvent.click(screen.getByTitle(/tilecanmove/));
+    await userEvent.click(screen.getByTitle(/beetle/));
     const cells = await screen.findAllByRole('cell');
 
     await Promise.all(cells.slice(-1).map((c) => waitFor(() => expect(c).toHaveClass('can-drop'))));
@@ -77,7 +77,7 @@ describe('<GameCell> drag events', () => {
 
   it('is active on tile drag over', async () => {
     setUp(createCellMovableTile, createCellWithTileAndDrop, createCellCanDrop);
-    const t = screen.getByTitle(/tilecanmove/);
+    const t = screen.getByTitle(/beetle/);
     await userEvent.click(t);
 
     for (const c of screen.getAllByRole('cell')) await userEvent.hover(c);
@@ -88,7 +88,7 @@ describe('<GameCell> drag events', () => {
   it('is no longer active on tile drag leave', async () => {
     setUp(createCellMovableTile, createCellWithTileAndDrop, createCellCanDrop);
 
-    await userEvent.click(screen.getByTitle(/tilecanmove/));
+    await userEvent.click(screen.getByTitle(/beetle/));
 
     for (const c of screen.getAllByRole('cell')) await userEvent.hover(c);
     for (const c of screen.getAllByRole('cell')) await userEvent.unhover(c);
@@ -101,7 +101,7 @@ describe('<GameCell> drag events', () => {
     const dispatcher = setUp(createCellMovableTile, createCellWithTileAndDrop, createCellCanDrop);
     const moveEvents = createMoveListener(dispatcher);
 
-    await userEvent.click(screen.getByTitle(/tilecanmove/));
+    await userEvent.click(screen.getByTitle(/beetle/));
 
     for (const c of screen.getAllByRole('cell')) await userEvent.hover(c);
     dispatcher.dispatch({
@@ -123,7 +123,7 @@ describe('<GameCell> drag events', () => {
     const dispatcher = setUp(createCellMovableTile, createCellWithTile, createCellNoDrop);
     const moveEvents = createMoveListener(dispatcher);
 
-    await userEvent.click(screen.getByTitle(/tilecanmove/));
+    await userEvent.click(screen.getByTitle(/beetle/));
 
     dispatcher.dispatch({
       type: 'tileDropped',
@@ -144,7 +144,7 @@ describe('<GameCell> drag events', () => {
   it('removes active classes on drag leave', async () => {
     setUp(createCellMovableTile, createCellWithTileNoDrop, createCellNoDrop);
 
-    await userEvent.click(screen.getByTitle(/tilecanmove/));
+    await userEvent.click(screen.getByTitle(/beetle/));
 
     for (const c of screen.getAllByRole('cell')) await userEvent.hover(c);
     for (const c of screen.getAllByRole('cell')) await userEvent.unhover(c);
@@ -161,7 +161,7 @@ describe('<GameCell> drag events', () => {
       createCellNoDrop
     );
 
-    await userEvent.click(screen.getByTitle(/tilecanmove/));
+    await userEvent.click(screen.getByTitle(/beetle/));
 
     for (const c of screen.getAllByRole('cell')) await userEvent.hover(c);
 
@@ -174,7 +174,7 @@ describe('<GameCell> drag events', () => {
     for (const c of screen.getAllByRole('cell')) expect(c).not.toHaveClass('can-drop');
   });
 
-  it(`doesn't stop event propagation when occupied cell has no active tile'`, async () => {
+  it(`doesn't stop event propagation when occupied cell has no active tile`, async () => {
     const dispatcher = setUp(createCellWithTileNoDrop);
     const moveEvents = createMoveListener(dispatcher);
 
@@ -187,7 +187,7 @@ describe('<GameCell> drag events', () => {
     const dispatcher = setUp(createCellMovableTile, createCellCanDrop);
     const moveEvents = createMoveListener(dispatcher);
 
-    await userEvent.click(screen.getByTitle(/tilecanmove/));
+    await userEvent.click(screen.getByTitle(/beetle/));
     const cells = await screen.findAllByRole('cell');
     await userEvent.click(cells[1]);
     expect(moveEvents).toStrictEqual(
@@ -213,7 +213,7 @@ describe('<GameCell> drag events', () => {
     const dispatcher = setUp(createCellMovableTile, createCellNoDrop);
     const moveEvents = createMoveListener(dispatcher);
 
-    await userEvent.click(screen.getByTitle(/tilecanmove/));
+    await userEvent.click(screen.getByTitle(/beetle/));
     const cells = await screen.findAllByRole('cell');
     await userEvent.click(cells[1]);
 
@@ -225,7 +225,7 @@ describe('<GameCell> dispatch events', () => {
   it(`dispatches move event when pressing enter`, async () => {
     const dispatcher = setUp(createCellMovableTile, createCellCanDrop);
     const moveEvents = createMoveListener(dispatcher);
-    const tileCanMove = screen.getByTitle(/tilecanmove/);
+    const tileCanMove = screen.getByTitle(/beetle/);
 
     await userEvent.click(tileCanMove);
     await userEvent.tab();
@@ -239,7 +239,7 @@ describe('<GameCell> dispatch events', () => {
 
     const moveEvents = createMoveListener(dispatcher);
 
-    await userEvent.click(screen.getByTitle(/tilecanmove/));
+    await userEvent.click(screen.getByTitle(/beetle/));
     await userEvent.tab();
     await userEvent.keyboard(' ');
 
@@ -263,14 +263,14 @@ describe('<GameCell> dispatch events', () => {
     '{meta}',
     '{capslock}',
     ...Array.from({ length: 79 })
-      .map((c, index) => String.fromCodePoint(index + 48))
+      .map((_, index) => String.fromCodePoint(index + 48))
       .map((key) => key.replaceAll('{', '{{').replaceAll('[', '[[')),
   ])(`doesn't emit move event for key %s`, async (key) => {
     const dispatcher = setUp(createCellMovableTile, createCellCanDrop);
 
     const moveEvents = createMoveListener(dispatcher);
 
-    await userEvent.click(screen.getByTitle(/tilecanmove/));
+    await userEvent.click(screen.getByTitle(/beetle/));
     const cells = await screen.findAllByRole('cell');
     cells[1].focus();
     await userEvent.keyboard(key);

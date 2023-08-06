@@ -35,9 +35,9 @@ exports[`<Players> snapshots > matches 1`] = `
             </svg>
           </div>
           <div
-            class="player0 hex tile fly"
+            class="player0 hex tile spider"
             draggable="false"
-            title="Player-0 fly"
+            title="Player-0 spider"
           >
             <svg
               viewBox="0 0 100 100"
@@ -47,14 +47,14 @@ exports[`<Players> snapshots > matches 1`] = `
                 href="#hex"
               />
               <use
-                href="#fly"
+                href="#spider"
               />
             </svg>
           </div>
           <div
-            class="player0 hex tile fly"
+            class="player0 hex tile spider"
             draggable="false"
-            title="Player-0 fly"
+            title="Player-0 spider"
           >
             <svg
               viewBox="0 0 100 100"
@@ -64,7 +64,7 @@ exports[`<Players> snapshots > matches 1`] = `
                 href="#hex"
               />
               <use
-                href="#fly"
+                href="#spider"
               />
             </svg>
           </div>

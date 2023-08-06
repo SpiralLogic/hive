@@ -1,5 +1,5 @@
 import { useGameState } from '../services/gameStateContext';
-import { HexCoordinate, PlayerId } from '../domain';
+import { HexCoordinate } from '../domain';
 import { cellKey } from '../utilities/hextille';
 import { useComputed } from '@preact/signals';
 import { HextilleBuilder } from '../services';
@@ -19,7 +19,7 @@ const isPreviousMove = (history: HistoricalMove[], coords: HexCoordinate) => {
   );
 };
 
-const Game = (props: { currentPlayer: PlayerId }) => {
+const Game = (props: { currentPlayer: number }) => {
   const { cells, history } = useGameState();
 
   const rows = useComputed(() => {
