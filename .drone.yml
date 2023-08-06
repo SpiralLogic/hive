@@ -187,6 +187,10 @@ steps:
       - drone-card-maker ops/adaptive-card/domain-test-results.json
     depends_on:
       - test-results-update-deploy
+    when:
+      status:
+        - success
+        - failure
   - name: Api Test Results Card
     image: registry.lab.sorijen.net.au/card-maker:latest
     pull: always
@@ -194,6 +198,10 @@ steps:
       - drone-card-maker ops/adaptive-card/api-test-results.json
     depends_on:
       - test-results-update-deploy
+    when:
+      status:
+        - success
+        - failure
   - name: Frontend Test Results Card
     image: registry.lab.sorijen.net.au/card-maker:latest
     pull: always
@@ -201,7 +209,10 @@ steps:
       - drone-card-maker ops/adaptive-card/frontend-test-results.json
     depends_on:
       - test-results-update-deploy
-
+    when:
+      status:
+        - success
+        - failure
 volumes:
   - name: reports
     temp: { }
