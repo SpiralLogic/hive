@@ -32,7 +32,7 @@ export default defineConfig({
     globals: true,
     reporters: ['dot'],
     coverage: {
-      provider: 'istanbul',
+      provider: 'v8',
       enabled: true,
       reporter: ['text', 'lcov'],
       reportsDirectory: './reports/__coverage__',
