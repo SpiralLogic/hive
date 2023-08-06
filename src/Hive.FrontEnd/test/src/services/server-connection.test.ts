@@ -153,6 +153,16 @@ describe('server connection', () => {
     });
   });
 
+  it(`logs send errors`, async () => {
+    const hubConnection = createHubConnection();
+    const serverConnection = setupServer(hubConnection);
+    hubConnection.send.mockRejectedValueOnce({ message: 'test' });
+    serverConnection.sendSelection('select', { id: 1, playerId: 1, creature: 'ant' });
+    await waitFor(() => {
+      expect(console.error).toHaveBeenCalledWith('test');
+    });
+  });
+
   it(`doesn't invoke sendSelection when not connected`, async () => {
     const hubConnection = createHubConnection(HubConnectionState.Disconnected);
     const serverConnection = setupServer(hubConnection);

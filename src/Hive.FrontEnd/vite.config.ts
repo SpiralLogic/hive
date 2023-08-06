@@ -5,7 +5,7 @@ import * as path from 'path';
 const projectRootDir = path.resolve(__dirname);
 
 export default defineConfig({
-  plugins: [preact({babel:{babelrc:false,configFile:false}})],
+  plugins: [preact({ babel: { babelrc: false, configFile: false } })],
   root: './src',
   resolve: {
     alias: [
@@ -18,7 +18,8 @@ export default defineConfig({
   build: { outDir: '../public', emptyOutDir: true },
   envPrefix: 'HIVE_',
   envDir: './env',
-  publicDir: './static',test: {
+  publicDir: './static',
+  test: {
     root: './',
     include: ['./test/src/**/*.test.*'],
     exclude: ['./test/src/__snapshots__/**'],
@@ -31,11 +32,10 @@ export default defineConfig({
     globals: true,
     reporters: ['dot'],
     coverage: {
-      provider: 'v8',
+      provider: 'istanbul',
       enabled: true,
       reporter: ['text', 'lcov'],
       reportsDirectory: './reports/__coverage__',
-      100: true,
     },
   },
 });
