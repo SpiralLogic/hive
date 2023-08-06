@@ -36,6 +36,7 @@ export default defineConfig({
       enabled: true,
       reporter: ['text', 'lcov'],
       reportsDirectory: './reports/__coverage__',
+      100: true,
     },
   },
 });
