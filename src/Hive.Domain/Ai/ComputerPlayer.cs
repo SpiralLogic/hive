@@ -58,7 +58,7 @@ internal class ComputerPlayer
         var tilesToExplore = FindMovesToExplore();
         var toExplore = ReduceToBestMoves(tilesToExplore);
 
-        if (!toExplore.Any()) return new(null, 0);
+        if (toExplore.Length == 0) return new(null, 0);
 
         var (best, bestScore) = await Explore(depth, toExplore).ConfigureAwait(false);
 
@@ -85,7 +85,7 @@ internal class ComputerPlayer
         return toExplore;
     }
 
-    private static IList<ExploreNode> ReduceToBestMoves(IDictionary<int, List<ExploreNode>> toExplore)
+    private static ExploreNode[] ReduceToBestMoves(IDictionary<int, List<ExploreNode>> toExplore)
     {
         var moves = new List<ExploreNode>();
         foreach (var (_, values) in toExplore) moves.AddRange(values.OrderByDescending(t => t.Score).Take(3).ToList());
