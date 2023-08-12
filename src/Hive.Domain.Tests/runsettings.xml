@@ -6,6 +6,7 @@
                 <Configuration>
                     <Format>opencover,lcov</Format>
                     <SkipAutoProps>true</SkipAutoProps>
+                    
                 </Configuration>
             </DataCollector>
         </DataCollectors>

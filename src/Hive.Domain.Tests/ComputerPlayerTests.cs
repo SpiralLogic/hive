@@ -53,7 +53,7 @@ public class ComputerPlayerTests
         );
 
         var player = new ComputerPlayer(hive);
-        (await player.GetMove().ConfigureAwait(false)).Should().MatchHive(initial, expected);
+        (await player.GetMove()).Should().MatchHive(initial, expected);
     }
 
     [Fact]
@@ -86,7 +86,7 @@ public class ComputerPlayerTests
         );
 
         var player = new ComputerPlayer(hive);
-        (await player.GetMove().ConfigureAwait(false)).Should().MatchHive(initial, expected);
+        (await player.GetMove()).Should().MatchHive(initial, expected);
     }
 
     [Fact]
@@ -118,7 +118,7 @@ public class ComputerPlayerTests
         );
 
         var player = new ComputerPlayer(hive);
-        (await player.GetMove().ConfigureAwait(false)).Should().MatchHive(initial, expected);
+        (await player.GetMove()).Should().MatchHive(initial, expected);
     }
 
     [Fact]
@@ -155,7 +155,7 @@ public class ComputerPlayerTests
         );
 
         var player = new ComputerPlayer(hive);
-        (await player.GetMove().ConfigureAwait(false)).Should().MatchHive(initial, expected);
+        (await player.GetMove()).Should().MatchHive(initial, expected);
     }
 
     [Fact]
@@ -192,7 +192,7 @@ public class ComputerPlayerTests
         );
 
         var player = new ComputerPlayer(hive);
-        (await player.GetMove().ConfigureAwait(false)).Should().BeetleOnToQueen(initial, expected);
+        (await player.GetMove()).Should().BeetleOnToQueen(initial, expected);
     }
 
     [Fact]
@@ -234,7 +234,7 @@ public class ComputerPlayerTests
         );
 
         var player = new ComputerPlayer(hive);
-        (await player.GetMove().ConfigureAwait(false)).Should().BeetleOnQueen(initial, expected);
+        (await player.GetMove()).Should().BeetleOnQueen(initial, expected);
     }
 
     [Fact]
@@ -284,7 +284,7 @@ public class ComputerPlayerTests
             initial.AllCells
         );
         var player = new ComputerPlayer(hive);
-        (await player.GetMove().ConfigureAwait(false)).Should().MatchHive(initial, expected);
+        (await player.GetMove()).Should().MatchHive(initial, expected);
     }
 
     [Fact]
@@ -306,7 +306,7 @@ public class ComputerPlayerTests
             initial.AllCells
         );
         var player = new ComputerPlayer(hive);
-        await Assert.ThrowsAsync<InvalidDataException>(async () => await player.GetMove().ConfigureAwait(false)).ConfigureAwait(false);
+        await Assert.ThrowsAsync<InvalidDataException>(async () => await player.GetMove());
     }
 
     [Fact]
@@ -356,7 +356,7 @@ public class ComputerPlayerTests
 
         var player = new ComputerPlayer(hive);
 
-        (await player.GetMove().ConfigureAwait(false)).Should().MatchHive(initial, expected);
+        (await player.GetMove()).Should().MatchHive(initial, expected);
     }
 
     [Fact]
@@ -367,7 +367,7 @@ public class ComputerPlayerTests
         );
 
         var player = new ComputerPlayer(hive);
-        var move = await player.GetMove().ConfigureAwait(false);
+        var move = await player.GetMove();
         Assert.NotEqual(move.Tile.Creature, Creatures.Queen);
     }
 
@@ -385,7 +385,7 @@ public class ComputerPlayerTests
         hive.Move(new(p2Queen, new(0, -1)));
 
         var player = new ComputerPlayer(hive);
-        var move = await player.GetMove().ConfigureAwait(false);
+        var move = await player.GetMove();
         Assert.Equal(move.Tile.Creature, Creatures.Ant);
     }
 
@@ -422,7 +422,7 @@ public class ComputerPlayerTests
             initial.AllCells
         );
         var player = new ComputerPlayer(hive);
-        (await player.GetMove().ConfigureAwait(false)).Should().MatchHive(initial, expected);
+        (await player.GetMove()).Should().MatchHive(initial, expected);
     }
 
     [Fact]
@@ -464,7 +464,7 @@ public class ComputerPlayerTests
         );
 
         var player = new ComputerPlayer(hive);
-        (await player.GetMove().ConfigureAwait(false)).Should().BeetleOnQueen(initial, expected);
+        (await player.GetMove()).Should().BeetleOnQueen(initial, expected);
     }
 
     [Fact]
@@ -499,7 +499,7 @@ public class ComputerPlayerTests
             initial.AllCells
         );
         var player = new ComputerPlayer(hive);
-        (await player.GetMove().ConfigureAwait(false)).Should().MatchHive(initial, expected);
+        (await player.GetMove()).Should().MatchHive(initial, expected);
     }
 
     [Fact]
@@ -532,7 +532,7 @@ public class ComputerPlayerTests
         );
 
         var player = new ComputerPlayer(hive);
-        (await player.GetMove().ConfigureAwait(false)).Should().MatchHive(initial, expected);
+        (await player.GetMove()).Should().MatchHive(initial, expected);
     }
 
     [Fact]
@@ -574,7 +574,7 @@ public class ComputerPlayerTests
         );
 
         var player = new ComputerPlayer(hive);
-        (await player.GetMove().ConfigureAwait(false)).Should().MatchHive(initial, expected);
+        (await player.GetMove()).Should().MatchHive(initial, expected);
     }
 
     [Fact]
@@ -617,7 +617,7 @@ public class ComputerPlayerTests
         );
 
         var player = new ComputerPlayer(hive);
-        (await player.GetMove().ConfigureAwait(false)).Should().MatchHive(initial, expected);
+        (await player.GetMove()).Should().MatchHive(initial, expected);
     }
 
     [Fact]
@@ -639,7 +639,7 @@ public class ComputerPlayerTests
             })
         );
 
-        await player.GetMove().ConfigureAwait(false);
+        await player.GetMove();
 
         foreach (var broadcast in tileBroadcasts.Where(t => t.type == "select"))
         {
@@ -666,7 +666,7 @@ public class ComputerPlayerTests
             })
         );
 
-        await player.GetMove().ConfigureAwait(false);
+        await player.GetMove();
         var selectedTile = tileBroadcasts.First(t => t.type == "select").tile;
 
         tileBroadcasts.Should().Contain(("deselect", selectedTile));
@@ -685,7 +685,7 @@ public class ComputerPlayerTests
             DifficultyOptions options = new(150, 10, 10);
             var player = new ComputerPlayer(hive, options);
             stopwatch.Start();
-           await player.GetMove().ConfigureAwait(false);
+           await player.GetMove();
             stopwatch.Stop();
 
         stopwatch.ElapsedMilliseconds.Should().BeGreaterThan(150, "The global max search time was reached");
@@ -705,7 +705,7 @@ public class ComputerPlayerTests
         var stopwatch = new Stopwatch();
         stopwatch.Start();
 
-        await player.GetMove().ConfigureAwait(false);
+        await player.GetMove();
         stopwatch.Stop();
 
         stopwatch.ElapsedMilliseconds.Should().BeLessThan(1000, "The global max search time wasn't exceeded");

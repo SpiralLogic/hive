@@ -20,18 +20,17 @@ public class GameHubTests
     private readonly Mock<IGroupManager> _groupManagerMock = new();
     private Mock<IClientProxy> _clientProxyMock = new();
     private Mock<IFeatureCollection> _featureCollectionMock = new();
-    private Mock<IHttpContextFeature> _httpContextFeatureMock = new();
 
     private GameHub CreateGameHub(string playerId)
     {
-        _httpContextFeatureMock = new();
+        Mock<IHttpContextFeature> httpContextFeatureMock = new();
         _featureCollectionMock = new();
         _clientProxyMock = new();
 
         _groupManagerMock.Setup(m => m.AddToGroupAsync(HubConnectionId, HubConnectionId, It.IsAny<CancellationToken>()));
         _groupManagerMock.Setup(m => m.AddToGroupAsync(HubConnectionId, $"{HubGroupName}-{playerId}", It.IsAny<CancellationToken>()));
 
-        _httpContextFeatureMock.SetupSequence(m => m.HttpContext!.Features.Get<IRoutingFeature>())
+        httpContextFeatureMock.SetupSequence(m => m.HttpContext!.Features.Get<IRoutingFeature>())
           .Returns(
             () =>
             {
@@ -70,7 +69,7 @@ public class GameHubTests
           )
           ;
 
-        _featureCollectionMock.Setup(m => m.Get<IHttpContextFeature>()).Returns(_httpContextFeatureMock.Object);
+        _featureCollectionMock.Setup(m => m.Get<IHttpContextFeature>()).Returns(httpContextFeatureMock.Object);
 
         var hubCallerContextMock = new Mock<HubCallerContext>();
         hubCallerContextMock.SetupGet(m => m.ConnectionId).Returns(HubConnectionId);
