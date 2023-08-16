@@ -68,7 +68,7 @@ steps:
       - dotnet tool install dotnet-coverage
       - dotnet sonarscanner begin /k:hive /s:/drone/src/ops/SonarQube.Analysis.xml /d:sonar.login=$SONARQUBE_KEY
       - dotnet build -c Test ./src
-      - dotnet coverage collect --output-format cobertura dotnet test -c test
+      - dotnet coverage collect --output-format xml dotnet test -c test
       - dotnet sonarscanner end /d:sonar.login=$SONARQUBE_KEY
   - name: test-results
     image: plugins/kaniko:1.7.4-kaniko1.9.2
@@ -159,22 +159,11 @@ steps:
       app_name: hive-test-results
     depends_on:
       - test-results-update-deploy
-  - name: Domain Test Results Card
+  - name: Backend Test Results Card
     image: registry.lab.sorijen.net.au/card-maker:latest
     pull: always
     commands:
-      - drone-card-maker ops/adaptive-card/domain-test-results.json
-    depends_on:
-      - test-results-update-deploy
-    when:
-      status:
-        - success
-        - failure
-  - name: Api Test Results Card
-    image: registry.lab.sorijen.net.au/card-maker:latest
-    pull: always
-    commands:
-      - drone-card-maker ops/adaptive-card/api-test-results.json
+      - drone-card-maker ops/adaptive-card/backend-test-results.json
     depends_on:
       - test-results-update-deploy
     when:
