@@ -17,35 +17,15 @@ steps:
     volumes:
       - name: reports
         path: /drone/src/reports
-  - name: backend-api
+  - name: backend
     image: mcr.microsoft.com/dotnet/sdk:8.0-preview-jammy
     pull: always
     commands:
       - dotnet new tool-manifest || true
       - dotnet tool install dotnet-reportgenerator-globaltool
-      - dotnet test -v m --collect:"XPlat Code Coverage" ./src/Hive.Api.Tests -c Test --settings ./src/Hive.Api.Tests/runsettings.xml
-      - mkdir -p ./api-coverage/
-      - mkdir -p ./reports/api/
-      - mv src/Hive.Api.Tests/TestResults/**/coverage.opencover.xml ./api-coverage/
-      - cp ./api-coverage/coverage.opencover.xml /drone/src/reports/api-coverage.opencover.xml
-      - mv ./api-coverage/coverage.opencover.xml ./api-coverage/api-coverage.opencover.xml
-      - dotnet reportgenerator "-reports:./api-coverage/api-coverage.opencover.xml" "-targetdir:/drone/src/reports/api" -reporttypes:Html
-    volumes:
-      - name: reports
-        path: /drone/src/reports
-  - name: backend-domain
-    image: mcr.microsoft.com/dotnet/sdk:8.0-preview-jammy
-    pull: always
-    commands:
-      - dotnet new tool-manifest || true
-      - dotnet tool install dotnet-reportgenerator-globaltool
-      - dotnet test -v m --collect:"XPlat Code Coverage" ./src/Hive.Domain.Tests -c Test --settings ./src/Hive.Domain.Tests/runsettings.xml
-      - mkdir -p ./domain-coverage/
-      - mkdir -p ./reports/domain/
-      - mv src/Hive.Domain.Tests/TestResults/**/coverage.opencover.xml ./domain-coverage/
-      - cp ./domain-coverage/coverage.opencover.xml /drone/src/reports/domain-coverage.opencover.xml
-      - mv ./domain-coverage/coverage.opencover.xml ./domain-coverage/domain-coverage.opencover.xml
-      - dotnet reportgenerator "-reports:./domain-coverage/domain-coverage.opencover.xml" "-targetdir:/drone/src/reports/domain" -reporttypes:Html
+      - dotnet tool install dotnet-coverage
+      - dotnet coverage collect --output-format cobertura dotnet test -c test src
+      - dotnet reportgenerator "-reports:./output.cobertura.xml" "-assemblyfilters:+Hive.*;-*.Tests" -targetdir:/drone/src/reports/backend  -reporttypes:Html
     volumes:
       - name: reports
         path: /drone/src/reports
@@ -66,8 +46,7 @@ steps:
     image: registry.lab.sorijen.net.au/build-image:latest
     pull: always
     depends_on:
-      - backend-api
-      - backend-domain
+      - backend
       - frontend
     volumes:
       - name: reports
@@ -88,14 +67,13 @@ steps:
       - java -version
       - dotnet sonarscanner begin /k:hive /s:/drone/src/ops/SonarQube.Analysis.xml /d:sonar.login=$SONARQUBE_KEY
       - dotnet build -c Test ./src
-      - dotnet test ./src -c Test --collect:"XPlat Code Coverage" --settings ./src/Hive.Api.Tests/runsettings.xml
+      - dotnet coverage collect --output-format cobertura dotnet test -c test
       - dotnet sonarscanner end /d:sonar.login=$SONARQUBE_KEY
   - name: test-results
     image: plugins/kaniko:1.7.4-kaniko1.9.2
     depends_on:
       - frontend
-      - backend-api
-      - backend-domain
+      - backend
     volumes:
       - name: reports
         path: /drone/src/reports

@@ -479,3 +479,4 @@ vi*.config.d.ts
 vi*.config.js
 .pnpm-store
 /src/Hive.sln.DotSettings
+output.cobertura.xml
