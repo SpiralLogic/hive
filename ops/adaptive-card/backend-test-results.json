@@ -17,7 +17,7 @@
   ],
   "links": [
     {
-      "title": "Api Test Coverage",
+      "title": "Backend Test Coverage",
       "url": "https://hive-test-results.lab.sorijen.net.au/backend/"
     }
   ]

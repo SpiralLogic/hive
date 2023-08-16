@@ -17,7 +17,7 @@ ENV LC_ALL en_US.UTF-8
 
 COPY --from=mcr.microsoft.com/openjdk/jdk:17-distroless $JAVA_HOME $JAVA_HOME
 
-RUN apt update && apt install -y   libxext6 libc6 libxml2 
+RUN apt update && apt install -y libxext6 libc6 libxml2 
 RUN corepack disable && \
     corepack prepare pnpm@latest --activate && \
     corepack enable && \
