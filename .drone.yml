@@ -21,6 +21,7 @@ steps:
     image: mcr.microsoft.com/dotnet/sdk:8.0-preview-jammy
     pull: always
     commands:
+      - apt update && apt install -y libxrender1 libfontconfig libxext6 libc6 libxml2
       - cd /drone/src
       - dotnet new tool-manifest || true
       - dotnet tool install dotnet-reportgenerator-globaltool
