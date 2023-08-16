@@ -25,7 +25,7 @@ steps:
       - dotnet tool install dotnet-reportgenerator-globaltool
       - dotnet tool install dotnet-coverage
       - dotnet coverage collect --output-format cobertura dotnet test -c test src
-      - dotnet reportgenerator "-reports:./output.cobertura.xml" "-sourcedirs:./src" "-assemblyfilters:+Hive.*;-*.Tests" "-targetdir:./reports/backend"  -reporttypes:Html
+      - dotnet reportgenerator "-reports:./output.cobertura.xml" "-sourcedirs:./src" "-assemblyfilters:+Hive.*;-*.Tests" "-targetdir:/drone/src/reports/backend"  -reporttypes:Html
     volumes:
       - name: reports
         path: /drone/src/reports
