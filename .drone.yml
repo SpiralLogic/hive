@@ -21,16 +21,12 @@ steps:
     image: mcr.microsoft.com/dotnet/sdk:8.0-preview-jammy
     pull: always
     commands:
-      - apt update && apt install libxml2 glibc 
+      - cd /drone/src
       - dotnet new tool-manifest || true
       - dotnet tool install dotnet-reportgenerator-globaltool
       - dotnet tool install dotnet-coverage
       - dotnet coverage collect --output-format cobertura dotnet test -c test src
-      - ls -la ./src
-      - pwd
-      - ls -la .
       - dotnet reportgenerator "-reports:./output.cobertura.xml" "-sourcedirs:./src" "-assemblyfilters:+Hive.*;-*.Tests" "-targetdir:/drone/src/reports/backend"  -reporttypes:Html
-      - ls -la /drone/src/reports/backend
     volumes:
       - name: reports
         path: /drone/src/reports
