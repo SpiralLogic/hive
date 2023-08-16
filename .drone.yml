@@ -23,8 +23,8 @@ steps:
     commands:
       - cd /drone/src
       - dotnet tool restore
-      - dotnet coverage collect --output-format cobertura dotnet test -c test ./src
-      - dotnet reportgenerator "-reports:./output.cobertura.xml" "-assemblyfilters:+Hive.*;-*.Tests" "-targetdir:/drone/src/reports/backend"  -reporttypes:Html
+      - dotnet coverage collect --output-format cobertura dotnet test -c test src
+      - dotnet reportgenerator "-reports:./output.cobertura.xml" "-assemblyfilters:+Hive.*;-*.Tests" "-targetdir:/drone/src/reports/backend" -reporttypes:Html
     volumes:
       - name: reports
         path: /drone/src/reports
