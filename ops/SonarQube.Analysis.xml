@@ -7,7 +7,7 @@
   <Property Name="sonar.typescript.tsconfigPath">/source/src/Hive.FrontEnd/tsconfig.json</Property>
 
   <Property Name="sonar.css.stylelint.reportPaths">/source/reports/__lint__/stylelint.json</Property>
-  <Property Name="sonar.cs.opencover.reportsPaths">/source/output.xml</Property>
+  <Property Name="sonar.cs.opencover.reportsPaths">/source/reports/backend/output.opencover.xml</Property>
   <Property Name="sonar.javascript.lcov.reportPaths">/source/reports/__coverage__/lcov.info</Property>
   <Property Name="sonar.eslint.reportPaths">/source/reports/__lint__/eslint.json,/source/reports/__lint__/eslint.test.json</Property>
   <Property Name="sonar.sourceEncoding">UTF-8</Property>
