@@ -21,6 +21,7 @@ steps:
     image: mcr.microsoft.com/dotnet/sdk:8.0-preview-jammy
     pull: always
     commands:
+      - apt update && apt install libxml2 glibc 
       - dotnet new tool-manifest || true
       - dotnet tool install dotnet-reportgenerator-globaltool
       - dotnet tool install dotnet-coverage
