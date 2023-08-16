@@ -1,5 +1,5 @@
 {
-  "title": "Api Test Results",
+  "title": "Backend Test Results",
   "description": "and coverage",
   "build": [
     {
@@ -18,7 +18,7 @@
   "links": [
     {
       "title": "Api Test Coverage",
-      "url": "https://hive-test-results.lab.sorijen.net.au/api/"
+      "url": "https://hive-test-results.lab.sorijen.net.au/backend/"
     }
   ]
 }
