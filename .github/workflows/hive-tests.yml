@@ -29,19 +29,16 @@ jobs:
       - name: Test 
         run: |
             mkdir -p ./coverage
-            mkdir -p ./coverage/api
-            mkdir -p ./coverage/domain
-            dotnet test --collect:"XPlat Code Coverage" ./Hive.Api.Tests  -c Test --settings ./Hive.Api.Tests/runsettings.xml
-            mv ./Hive.Api.Tests/TestResults/*/coverage.opencover.xml ./coverage/api/coverage.opencover.xml
-            dotnet test --collect:"XPlat Code Coverage" ./Hive.Domain.Tests  -c Test --settings ./Hive.Domain.Tests/runsettings.xml
-            mv ./Hive.Domain.Tests/TestResults/*/coverage.opencover.xml ./coverage/domain/coverage.opencover.xml
+            dotnet new tool-manifest || true
+            dotnet tool install dotnet-coverage
+            dotnet coverage collect --output-format xml dotnet test -c test src
+            dotnet reportgenerator "-reports:./output.coverage.xml" "-sourcedirs:./src" "-assemblyfilters:+Hive.*;-*.Tests" "-targetdir:./coverage/backend"  -reporttypes:Html
       - name: Upload - Test results
         uses: actions/upload-artifact@v3
         with:
           name: backend-results
           path: |
-            ./src/coverage/api
-            ./src/coverage/domain
+            ./coverage/backend
         # Use always() to always run this step to publish test results when there are test failures
         if: ${{ always() }}
   FrontEnd:
