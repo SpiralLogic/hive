@@ -65,6 +65,7 @@ steps:
       - sed -i "s~/source~/drone/src~g" /drone/src/ops/SonarQube.Analysis.xml
       - node -v
       - java -version
+      - dotnet tool install dotnet-coverage
       - dotnet sonarscanner begin /k:hive /s:/drone/src/ops/SonarQube.Analysis.xml /d:sonar.login=$SONARQUBE_KEY
       - dotnet build -c Test ./src
       - dotnet coverage collect --output-format cobertura dotnet test -c test
