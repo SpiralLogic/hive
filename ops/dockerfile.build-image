@@ -10,10 +10,10 @@ COPY --from=node:19-slim /usr/local/bin /usr/local/bin
 
 ENV JAVA_HOME=/usr/jdk
 ENV PATH "/root/.dotnet/tools:${JAVA_HOME}/bin:$PATH"
-ENV DOTNET_SYSTEM_GLOBALIZATION_INVARIANT true
-ENV LANG en_US.UTF-8  
-ENV LANGUAGE en_US:en  
-ENV LC_ALL en_US.UTF-8 
+ENV DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=true
+ENV LANG=en_US.UTF-8  
+ENV LANGUAGE=en_US:en  
+ENV LC_ALL=en_US.UTF-8 
 
 COPY --from=mcr.microsoft.com/openjdk/jdk:17-distroless $JAVA_HOME $JAVA_HOME
 
