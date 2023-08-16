@@ -17,9 +17,11 @@ ENV LC_ALL en_US.UTF-8
 
 COPY --from=mcr.microsoft.com/openjdk/jdk:17-distroless $JAVA_HOME $JAVA_HOME
 
+RUN apt-get update && apt-get install libxml2
 RUN corepack disable && \
     corepack prepare pnpm@latest --activate && \
     corepack enable && \
     dotnet tool install -g dotnet-sonarscanner && \
     dotnet tool install -g dotnet-reportgenerator-globaltool
+    dotnet tool install -g dotnet-coverage
 RUN ln -s /usr/jdk/bin/java /usr/local/bin/java
