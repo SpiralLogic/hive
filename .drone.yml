@@ -18,18 +18,15 @@ steps:
       - name: reports
         path: /drone/src/reports
   - name: backend
-    image: registry.lab.sorijen.net.au/build-image:latest
+    image: mcr.microsoft.com/dotnet/sdk:8.0-preview-jammy
     pull: always
-    environment:
-      DOTNET_SYSTEM_GLOBALIZATION_INVARIANT: true
-      LANG: en_US.UTF-8
-      LANGUAGE: en_US:en
-      LC_ALL: en_US.UTF-8
     commands:
-      - cd /drone/src
-      - dotnet tool restore
+      - apt update && apt install -y libxext6 libc6 libxml2
+      - dotnet new tool-manifest || true
+      - dotnet tool install dotnet-reportgenerator-globaltool
+      - dotnet tool install dotnet-coverage
       - dotnet coverage collect --output-format cobertura dotnet test -c test src
-      - dotnet reportgenerator "-reports:./output.cobertura.xml" "-assemblyfilters:+Hive.*;-*.Tests" "-targetdir:/drone/src/reports/backend" -reporttypes:Html
+      - dotnet reportgenerator "-reports:./output.cobertura.xml" "-sourcedirs:./src" "-assemblyfilters:+Hive.*;-*.Tests" "-targetdir:/drone/src/reports/backend"  -reporttypes:Html
     volumes:
       - name: reports
         path: /drone/src/reports
