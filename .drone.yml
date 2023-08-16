@@ -18,7 +18,7 @@ steps:
       - name: reports
         path: /drone/src/reports
   - name: backend
-    image: mcr.microsoft.com/dotnet/sdk:8.0-preview-jammy
+    image: registry.lab.sorijen.net.au/build-image:latest
     pull: always
     commands:
       - dotnet new tool-manifest || true
