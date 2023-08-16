@@ -22,6 +22,6 @@ RUN corepack disable && \
     corepack prepare pnpm@latest --activate && \
     corepack enable && \
     dotnet tool install -g dotnet-sonarscanner && \
-    dotnet tool install -g dotnet-reportgenerator-globaltool
+    dotnet tool install -g dotnet-reportgenerator-globaltool && \
     dotnet tool install -g dotnet-coverage
 RUN ln -s /usr/jdk/bin/java /usr/local/bin/java
