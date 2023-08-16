@@ -28,7 +28,7 @@ spec:
           livenessProbe:
             failureThreshold: 3
             httpGet:
-              path: /api/index.html
+              path: /backend/index.html
               port: 80
               scheme: HTTP
             initialDelaySeconds: 20
@@ -38,7 +38,7 @@ spec:
           readinessProbe:
             failureThreshold: 3
             httpGet:
-              path: /api/index.html
+              path: /backend/index.html
               port: 80
               scheme: HTTP
             initialDelaySeconds: 20
