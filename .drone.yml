@@ -69,8 +69,7 @@ steps:
       - dotnet tool restore
       - dotnet sonarscanner begin /k:hive /s:/drone/src/ops/SonarQube.Analysis.xml /d:sonar.login=$SONARQUBE_KEY
       - dotnet build ./src
-      - dotnet coverage collect --output-format cobertura dotnet test -c test src
-      - dotnet reportgenerator "-reports:./output.cobertura.xml" "-sourcedirs:./src" "-assemblyfilters:+Hive.*;-*.Tests" "-targetdir:/drone/src/reports/backend"  -reporttypes:opencover
+      - dotnet coverage collect --output-format xml dotnet test -c test src
       - dotnet sonarscanner end /d:sonar.login=$SONARQUBE_KEY
   - name: test-results
     image: plugins/kaniko:1.7.4-kaniko1.9.2
