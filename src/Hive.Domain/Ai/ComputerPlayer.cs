@@ -92,8 +92,8 @@ internal class ComputerPlayer
 
         var max = moves.Count != 0 ? moves.Max(m => m.Score) : 0;
 
-        return moves.OrderByDescending(t => t.Score)
-            .Where(s => s.Score > 0 || max <= 0)
+        return moves.Where(s => s.Score > 0 || max <= 0)
+            .OrderByDescending(t => t.Score)
             .Take(2 * toExplore.Count)
             .OrderBy(_ => RandomNumberGenerator.GetInt32(Int32.MaxValue))
             .ToArray();
@@ -101,7 +101,7 @@ internal class ComputerPlayer
 
     private async ValueTask<ScoredMove> Explore(int depth, IList<ExploreNode> toExplore)
     {
-        var best = toExplore.First().Values.Move;
+        var best = toExplore[0].Values.Move;
         var bestScore = -HeuristicValues.ScoreMax;
 
         foreach (var (nextScore, values) in toExplore.OrderBy(_ =>  RandomNumberGenerator.GetInt32(Int32.MaxValue)))

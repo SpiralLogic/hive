@@ -47,7 +47,7 @@ internal class Mover
         var surroundedQueens = _hive.Cells.Where(c => c.HasQueen() && c.SelectNeighbors(_hive.Cells).WhereOccupied().Count() == 6)
             .ToArray();
         if (surroundedQueens.Length == 2) return GameStatus.Draw;
-        return surroundedQueens.First().Tiles.First(t => t.IsQueen()).PlayerId == 0 ? GameStatus.Player1Win : GameStatus.Player0Win;
+        return surroundedQueens[0].Tiles.First(t => t.IsQueen()).PlayerId == 0 ? GameStatus.Player1Win : GameStatus.Player0Win;
     }
 
     private Player SkipTurn(Player nextPlayer)
