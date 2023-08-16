@@ -27,7 +27,7 @@ const setup = (gameState: GameState, props: ComponentProps<typeof GameArea>) => 
     ...render(
       <Dispatcher.Provider value={dispatcher}>
         <GameStateContext.Provider value={gameStateContext}>
-          <GameArea {...(props as ComponentProps<typeof GameArea>)} />
+          <GameArea {...(props)} />
         </GameStateContext.Provider>
       </Dispatcher.Provider>
     ),
