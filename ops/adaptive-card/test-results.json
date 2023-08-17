@@ -13,7 +13,7 @@
     },
     {
       "title": "Backend Test Coverage (DotCover)",
-      "url": "https://hive-test-results.lab.sorijen.net.au/backend/dotcover/dotCover.Output.html"
+      "url": "https://hive-test-results.lab.sorijen.net.au/dotcover/dotCover.Output.html"
     },
     {
       "title": "Sonar scan",
