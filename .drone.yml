@@ -64,7 +64,7 @@ steps:
       LANG: en_US.UTF-8
       DOTNET_SYSTEM_GLOBALIZATION_INVARIANT: 1
     commands:
-      - sed -i "s~src/~/drone/src/src/Hive\.FrontEnd/src/~g" /drone/src/reports/frontenf/lcov.info
+      - sed -i "s~src/~/drone/src/src/Hive\.FrontEnd/src/~g" /drone/src/reports/frontend/lcov.info
       - sed -i "s~/source~/drone/src~g" /drone/src/ops/SonarQube.Analysis.xml
       - node -v
       - java -version
