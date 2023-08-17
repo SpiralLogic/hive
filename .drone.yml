@@ -12,7 +12,7 @@ steps:
       - corepack prepare pnpm@latest --activate
       - pnpm install --frozen-lockfile
       - pnpm test:all:report
-      - mv reports/* /drone/src/reports/frontend/
+      - mv reports/* /drone/src/reports/
     volumes:
       - name: reports
         path: /drone/src/reports
