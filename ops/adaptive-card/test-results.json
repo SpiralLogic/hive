@@ -1,0 +1,23 @@
+{
+  "title": "Backend Test Results",
+  "description": "and coverage",
+  "build": [],
+  "links": [
+    {
+      "title": "Front End Test Coverage",
+      "url": "https://hive-test-results.lab.sorijen.net.au/frontend/lcov-report/"
+    },
+    {
+      "title": "Backend Test Coverage",
+      "url": "https://hive-test-results.lab.sorijen.net.au/backend/"
+    },
+    {
+      "title": "Backend Test Coverage (DotCover)",
+      "url": "https://hive-test-results.lab.sorijen.net.au/backend/dotcover/dotCover.Output.html"
+    },
+    {
+      "title": "Sonar scan",
+      "url": "https://sonarqube.lab.sorijen.net.au/dashboard?id=hive"
+    }
+  ]
+}

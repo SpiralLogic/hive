@@ -26,6 +26,7 @@ steps:
       - dotnet tool install dotnet-reportgenerator-globaltool
       - dotnet tool install dotnet-coverage
       - dotnet coverage collect --output-format cobertura dotnet test -c test src
+      - dotnet dotcover test -c Test --dcOutput=/drone/src/report/backend/dotcover --dcReportType=HTML --dcHideAutoProperties "--dcFilters=+:Hive.*;-:*.Tests;-:function=.ctor"  ./src
       - dotnet reportgenerator "-reports:./output.cobertura.xml" "-sourcedirs:./src" "-assemblyfilters:+Hive.*;-*.Tests" "-targetdir:/drone/src/reports/backend"  -reporttypes:Html
     volumes:
       - name: reports
@@ -62,7 +63,7 @@ steps:
       LANG: en_US.UTF-8
       DOTNET_SYSTEM_GLOBALIZATION_INVARIANT: 1
     commands:
-      - sed -i "s~src/~Hive\.FrontEnd/src/~g" /drone/src/reports/__coverage__/lcov.info
+      - sed -i "s~src/~/drone/src/src/Hive\.FrontEnd/src/~g" /drone/src/reports/__coverage__/lcov.info
       - sed -i "s~/source~/drone/src~g" /drone/src/ops/SonarQube.Analysis.xml
       - node -v
       - java -version
@@ -160,22 +161,22 @@ steps:
       app_name: hive-test-results
     depends_on:
       - test-results-update-deploy
-  - name: Backend Test Results Card
+  - name: Game Card
     image: registry.lab.sorijen.net.au/card-maker:latest
     pull: always
     commands:
-      - drone-card-maker ops/adaptive-card/backend-test-results.json
+      - drone-card-maker ops/adaptive-card/game-card.json
     depends_on:
-      - test-results-update-deploy
+      - deploy
     when:
       status:
         - success
         - failure
-  - name: Frontend Test Results Card
+  - name: Test Results Card
     image: registry.lab.sorijen.net.au/card-maker:latest
     pull: always
     commands:
-      - drone-card-maker ops/adaptive-card/frontend-test-results.json
+      - drone-card-maker ops/adaptive-card/test-results.json
     depends_on:
       - test-results-update-deploy
     when:
