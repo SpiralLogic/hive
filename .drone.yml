@@ -28,7 +28,7 @@ steps:
       - dotnet tool install JetBrains.dotCover.GlobalTool
       - dotnet coverage collect --output-format cobertura dotnet test -c test src
       - dotnet reportgenerator "-reports:./output.cobertura.xml" "-sourcedirs:./src" "-assemblyfilters:+Hive.*;-*.Tests" "-targetdir:/drone/src/reports/backend"  -reporttypes:Html
-      - dotnet dotcover test -c Test --dcOutput=/drone/src/report/dotcover --dcReportType=HTML --dcHideAutoProperties "--dcFilters=+:Hive.*;-:*.Tests;-:function=.ctor"  ./src
+      - dotnet dotcover test -c Test --dcOutput=/drone/src/report/backend/dotcover.html --dcReportType=HTML --dcHideAutoProperties "--dcFilters=+:Hive.*;-:*.Tests;-:function=.ctor"  ./src
     volumes:
       - name: reports
         path: /drone/src/reports
