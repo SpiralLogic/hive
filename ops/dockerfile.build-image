@@ -23,5 +23,7 @@ RUN corepack disable && \
     corepack enable && \
     dotnet tool install -g dotnet-sonarscanner && \
     dotnet tool install -g dotnet-reportgenerator-globaltool && \
-    dotnet tool install -g dotnet-coverage
+    dotnet tool install -g dotnet-coverage && \
+    dotnet tool install --global JetBrains.dotCover.GlobalTool
+
 RUN ln -s /usr/jdk/bin/java /usr/local/bin/java
