@@ -47,19 +47,9 @@ describe('game engine', () => {
     expect(response.players).toHaveLength(2);
   });
 
-  it('makes AI move for player 1', async () => {
-    engine = new GameEngine({ gameId: '445', currentPlayer: '0' });
-    engine.getAiMode().value = 'on';
-    await engine.move({
-      tileId: 1,
-      coords: { q: 0, r: 0 },
-    });
-
-    expect(global.fetch).toHaveBeenLastCalledWith('/api/ai-move/445', expect.any(Object));
-  });
-
-  it('makes AI move for player 0', async () => {
-    engine = new GameEngine({ gameId: '445', currentPlayer: '1' });
+  
+  it.each(['0','1'])('makes AI move for player %s', async (player) => {
+    engine = new GameEngine({ gameId: '445', currentPlayer: player });
     engine.getAiMode().value = 'on';
     await engine.move({
       tileId: 1,
