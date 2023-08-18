@@ -33,7 +33,7 @@ jobs:
             dotnet tool install dotnet-coverage
             dotnet tool install -g dotnet-reportgenerator-globaltool
             dotnet coverage collect --output-format xml dotnet test -c test
-            dotnet reportgenerator "-reports:./output.xml" "-assemblyfilters:+Hive.*;-*.Tests" "-targetdir:./coverage/backend"  -reporttypes:Html
+            reportgenerator "-reports:./output.xml" "-assemblyfilters:+Hive.*;-*.Tests" "-targetdir:./coverage/backend"  -reporttypes:Html
       - name: Upload - Test results
         uses: actions/upload-artifact@v3
         with:
