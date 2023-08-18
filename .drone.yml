@@ -62,8 +62,6 @@ steps:
     commands:
       - sed -i "s~/source~/drone/src~g" /drone/src/ops/SonarQube.Analysis.xml
       - sed -i "s~src/~/drone/src/src/Hive.FrontEnd/~g" /drone/src/reports/frontend/lcov.info
-      - cat /drone/src/reports/frontend/lcov.info
-      - ls -la /drone/src/reports/
       - node -v
       - java -version
       - dotnet tool restore
