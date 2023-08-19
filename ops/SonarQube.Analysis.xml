@@ -2,7 +2,7 @@
 
 <SonarQubeAnalysisProperties  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.sonarsource.com/msbuild/integration/2015/1">
   <Property Name="sonar.host.url">https://sonarqube.lab.sorijen.net.au</Property>
-  <Property Name="sonar.coverage.exclusions">/source/src/Hive.FrontEnd/test</Property>
+  <Property Name="sonar.coverage.exclusions">**/Hive.FrontEnd/test/**</Property>
   <Property Name="sonar.typescript.tsconfigPath">/source/src/Hive.FrontEnd/tsconfig.json</Property>
   <Property Name="sonar.css.stylelint.reportPaths">/source/reports/__lint__/stylelint.json</Property>
   <Property Name="sonar.cs.vscoveragexml.reportsPaths">/source/output.xml</Property>
