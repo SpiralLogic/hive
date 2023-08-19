@@ -1,5 +1,4 @@
 kind: pipeline
-type: kubernetes
 name: tests
 
 steps:
