@@ -29,11 +29,9 @@ jobs:
       - name: Test 
         run: |
             mkdir -p ./coverage
-            dotnet new tool-manifest || true
-            dotnet tool install dotnet-coverage
-            dotnet tool install dotnet-reportgenerator-globaltool
+            dotnet tool restore
             dotnet coverage collect --output-format xml dotnet test -c test
-            reportgenerator "-reports:./output.xml" "-assemblyfilters:+Hive.*;-*.Tests" "-targetdir:./coverage/backend"  -reporttypes:Html
+            dotnet reportgenerator  "-reports:./output.xml" "-assemblyfilters:+Hive.*;-*.Tests" "-targetdir:./coverage/backend"  -reporttypes:Html
       - name: Upload - Test results
         uses: actions/upload-artifact@v3
         with:
