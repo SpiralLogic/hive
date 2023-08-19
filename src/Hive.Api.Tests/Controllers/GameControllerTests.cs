@@ -18,15 +18,11 @@ public sealed class GameControllerTests : IDisposable
     private const string ExistingGameId = "EXISTING_GAME_ID";
     private const string MissingGameId = "MISSING_GAME_ID";
     private readonly GameController _controller;
+    private static readonly string[] PlayerNames = { "player1", "player2" };
 
     public GameControllerTests()
     {
-        var game = HiveFactory.Create(
-            new[]
-            {
-                "player1", "player2"
-            }
-        );
+        var game = HiveFactory.Create(PlayerNames);
         var gameState = new GameState(ExistingGameId, GameStatus.MoveSuccess, game.Players, game.Cells, new List<HistoricalMove>());
 
         var jsonOptions = TestHelpers.CreateJsonOptions();
@@ -65,12 +61,7 @@ public sealed class GameControllerTests : IDisposable
     [Fact]
     public async Task GetGame_GameWithoutHistoryInCache_ReturnsGame()
     {
-        var game = HiveFactory.Create(
-            new[]
-            {
-                "player1", "player2"
-            }
-        );
+        var game = HiveFactory.Create(PlayerNames);
         var gameState = new GameState(ExistingGameId, GameStatus.MoveSuccess, game.Players, game.Cells);
 
         var jsonOptions = TestHelpers.CreateJsonOptions();
@@ -86,12 +77,7 @@ public sealed class GameControllerTests : IDisposable
     [Fact]
     public void GameStatusDto_SucceedsWithMissingHistory()
     {
-        var game = HiveFactory.Create(
-            new[]
-            {
-                "player1", "player2"
-            }
-        );
+        var game = HiveFactory.Create(PlayerNames);
         var gameState = new GameState(ExistingGameId, GameStatus.MoveSuccess, game.Players, game.Cells);
 
         gameState.History.Should().BeOfType<List<HistoricalMove>>();

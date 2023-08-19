@@ -23,18 +23,15 @@ public class MoveControllerTests
     private readonly MoveController _controller;
     private readonly Mock<IHubContext<GameHub>> _hubMock;
     private readonly MemoryDistributedCache _memoryCache;
+    private static readonly string[] PlayerNames = { "player1", "player2" };
 
     public MoveControllerTests()
     {
         var game = HiveFactory.Create(
-            new[]
-            {
-                "player1",
-                "player2"
-            }
+            PlayerNames
         );
-        game.Move(new Move(game.Players[0].Tiles.First(), new Coords(1, 0)));
-        game.Move(new Move(game.Players[1].Tiles.First(), new Coords(2, 0)));
+        game.Move(new(game.Players[0].Tiles.First(), new(1, 0)));
+        game.Move(new(game.Players[1].Tiles.First(), new(2, 0)));
 
         var gameState = new GameState(TestHelpers.ExistingGameId, GameStatus.NewGame, game.Players, game.Cells, new List<HistoricalMove>());
 
@@ -42,14 +39,14 @@ public class MoveControllerTests
         _memoryCache = TestHelpers.CreateTestMemoryCache();
         _memoryCache.Set(TestHelpers.ExistingGameId, TestHelpers.GetSerializedBytes(gameState, jsonOptions));
 
-        _hubMock = new Mock<IHubContext<GameHub>>();
+        _hubMock = new();
         _hubMock.Setup(
                 m => m.Clients.Group(It.IsAny<string>())
                     .SendCoreAsync(It.IsAny<string>(), It.IsAny<object[]>(), It.IsAny<CancellationToken>())
             )
             .Returns(() => Task.CompletedTask);
 
-        _controller = new MoveController(_hubMock.Object, Options.Create(jsonOptions), _memoryCache);
+        _controller = new(_hubMock.Object, Options.Create(jsonOptions), _memoryCache);
     }
 
     [Fact]
@@ -77,7 +74,7 @@ public class MoveControllerTests
     [Fact]
     public async Task Post_GameInCache_PerformsMove()
     {
-        DTOs.Move move = new(1, new Coords(0, 0));
+        DTOs.Move move = new(1, new(0, 0));
 
         var result = (await _controller.Post(TestHelpers.ExistingGameId, move)).Should().BeOfType<AcceptedAtRouteResult>().Subject;
         var newGameState = result.Value.Should().BeAssignableTo<GameState>().Subject;
@@ -95,7 +92,7 @@ public class MoveControllerTests
     [Fact]
     public async Task Post_GameInCache_SendsNewGameState()
     {
-        DTOs.Move move = new(3, new Coords(0, 0));
+        DTOs.Move move = new(3, new(0, 0));
 
         var result = (await _controller.Post(TestHelpers.ExistingGameId, move)).Should().BeOfType<AcceptedAtRouteResult>().Subject;
         var newGameState = result.Value.Should().BeAssignableTo<GameState>().Subject;
@@ -134,7 +131,7 @@ public class MoveControllerTests
     [Fact]
     public async Task Post_GameInCache_InvalidMoveForbidden()
     {
-        DTOs.Move move = new(4, new Coords(4, 4));
+        DTOs.Move move = new(4, new(4, 4));
 
         (await _controller.Post(TestHelpers.ExistingGameId, move)).Should().BeAssignableTo<BadRequestObjectResult>();
     }
@@ -142,7 +139,7 @@ public class MoveControllerTests
     [Fact]
     public async Task Post_GameInCache_InvalidTileForbidden()
     {
-        DTOs.Move move = new(40, new Coords(4, 4));
+        DTOs.Move move = new(40, new(4, 4));
 
         (await _controller.Post(TestHelpers.ExistingGameId, move)).Should().BeOfType<ForbidResult>();
     }
@@ -150,7 +147,7 @@ public class MoveControllerTests
     [Fact]
     public async Task Post_IdMissing_ReturnsBadRequest()
     {
-        DTOs.Move move = new(1, new Coords(0, 0));
+        DTOs.Move move = new(1, new(0, 0));
         (await _controller.Post(null!, move)).Should().BeOfType<BadRequestResult>();
     }
 
@@ -163,7 +160,7 @@ public class MoveControllerTests
     [Fact]
     public async Task Post_GameNotInCache_ReturnsNotFound()
     {
-        DTOs.Move move = new(1, new Coords(0, 0));
+        DTOs.Move move = new(1, new(0, 0));
 
         (await _controller.Post(TestHelpers.MissingGameId, move)).Should().BeOfType<NotFoundResult>();
     }
@@ -177,13 +174,7 @@ public class MoveControllerTests
     [Fact]
     public async Task PostAiMove_PreventMove_AfterGameOver()
     {
-        var game = HiveFactory.Create(
-            new[]
-            {
-                "player1",
-                "player2"
-            }
-        );
+        var game = HiveFactory.Create(PlayerNames);
         var gameState = new GameState(TestHelpers.ExistingGameId, GameStatus.GameOver, game.Players, game.Cells, new List<HistoricalMove>());
         await _memoryCache.SetAsync(TestHelpers.ExistingGameId, TestHelpers.GetSerializedBytes(gameState, TestHelpers.CreateJsonOptions()));
 
