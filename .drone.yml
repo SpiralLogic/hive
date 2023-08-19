@@ -13,6 +13,7 @@ steps:
       - pnpm install --frozen-lockfile
       - pnpm test:all:report
       - mv reports/* /drone/src/reports/
+      - sed -i "s~src/~/drone/src/src/Hive.FrontEnd/src/~g" /drone/src/reports/frontend/lcov.info
     volumes:
       - name: reports
         path: /drone/src/reports
@@ -61,7 +62,6 @@ steps:
       DOTNET_SYSTEM_GLOBALIZATION_INVARIANT: 1
     commands:
       - sed -i "s~/source~/drone/src~g" /drone/src/ops/SonarQube.Analysis.xml
-      - sed -i "s~src/~/drone/src/src/Hive.FrontEnd/~g" /drone/src/reports/frontend/lcov.info
       - node -v
       - java -version
       - dotnet tool restore
