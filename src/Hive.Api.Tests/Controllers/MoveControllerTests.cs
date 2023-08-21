@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using FakeItEasy;
 using FluentAssertions;
 using Hive.Api.Controllers;
 using Hive.Api.DTOs;
@@ -12,7 +13,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Options;
-using Moq;
 using Xunit;
 using Move = Hive.Domain.Entities.Move;
 
@@ -21,9 +21,12 @@ namespace Hive.Api.Tests.Controllers;
 public class MoveControllerTests
 {
     private readonly MoveController _controller;
-    private readonly Mock<IHubContext<GameHub>> _hubMock;
+    private readonly IHubContext<GameHub> _hubMock;
     private readonly MemoryDistributedCache _memoryCache;
-    private static readonly string[] PlayerNames = { "player1", "player2" };
+    private static readonly string[] PlayerNames =
+    {
+        "player1", "player2"
+    };
 
     public MoveControllerTests()
     {
@@ -39,14 +42,16 @@ public class MoveControllerTests
         _memoryCache = TestHelpers.CreateTestMemoryCache();
         _memoryCache.Set(TestHelpers.ExistingGameId, TestHelpers.GetSerializedBytes(gameState, jsonOptions));
 
-        _hubMock = new();
-        _hubMock.Setup(
-                m => m.Clients.Group(It.IsAny<string>())
-                    .SendCoreAsync(It.IsAny<string>(), It.IsAny<object[]>(), It.IsAny<CancellationToken>())
-            )
-            .Returns(() => Task.CompletedTask);
+        var clients = A.Fake<IClientProxy>();
+        A.CallTo(() =>  clients.SendCoreAsync(A<string>._, A<object[]>._, A<CancellationToken>._))
+            .Returns(Task.CompletedTask);
 
-        _controller = new(_hubMock.Object, Options.Create(jsonOptions), _memoryCache);
+        _hubMock = A.Fake<IHubContext<GameHub>>();
+
+        A.CallTo(() => _hubMock.Clients.Group(A<string>._)).Returns(clients);
+
+
+        _controller = new(_hubMock, Options.Create(jsonOptions), _memoryCache);
     }
 
     [Fact]
@@ -97,16 +102,12 @@ public class MoveControllerTests
         var result = (await _controller.Post(TestHelpers.ExistingGameId, move)).Should().BeOfType<AcceptedAtRouteResult>().Subject;
         var newGameState = result.Value.Should().BeAssignableTo<GameState>().Subject;
 
-        _hubMock.Verify(m => m.Clients.Group(TestHelpers.ExistingGameId), Times.Once);
-        _hubMock.Verify(
-            m => m.Clients.Group(TestHelpers.ExistingGameId)
-                .SendCoreAsync(
-                    "ReceiveGameState",
-                    It.Is<object[]>(a => a.OfType<GameState>().Single() == newGameState),
-                    It.IsAny<CancellationToken>()
-                ),
-            Times.Once
-        );
+        A.CallTo(() => _hubMock.Clients.Group(TestHelpers.ExistingGameId)).MustHaveHappenedOnceExactly();
+        A.CallTo(() => _hubMock.Clients.Group(TestHelpers.ExistingGameId)
+            .SendCoreAsync(
+                "ReceiveGameState",
+                A<object[]>.That.Matches(a => (GameState)a[0] == newGameState),
+                A<CancellationToken>._)).MustHaveHappenedOnceExactly();
     }
 
     [Fact]
@@ -116,16 +117,12 @@ public class MoveControllerTests
         var result = (await _controller.AiMove(TestHelpers.ExistingGameId)).Should().BeOfType<AcceptedAtRouteResult>().Subject;
         var newGameState = result.Value.Should().BeAssignableTo<GameState>().Subject;
 
-        _hubMock.Verify(m => m.Clients.Group(TestHelpers.ExistingGameId), Times.AtLeastOnce);
-        _hubMock.Verify(
-            m => m.Clients.Group(TestHelpers.ExistingGameId)
-                .SendCoreAsync(
-                    "ReceiveGameState",
-                    It.Is<object[]>(a => a.OfType<GameState>().Single() == newGameState),
-                    It.IsAny<CancellationToken>()
-                ),
-            Times.Once
-        );
+        A.CallTo(() => _hubMock.Clients.Group(TestHelpers.ExistingGameId)).MustHaveHappenedOnceOrMore();
+        A.CallTo(() => _hubMock.Clients.Group(TestHelpers.ExistingGameId)
+            .SendCoreAsync(
+                "ReceiveGameState",
+                A<object[]>.That.Matches(a => (GameState)a[0] == newGameState),
+                A<CancellationToken>._)).MustHaveHappenedOnceExactly();
     }
 
     [Fact]
@@ -175,7 +172,11 @@ public class MoveControllerTests
     public async Task PostAiMove_PreventMove_AfterGameOver()
     {
         var game = HiveFactory.Create(PlayerNames);
-        var gameState = new GameState(TestHelpers.ExistingGameId, GameStatus.GameOver, game.Players, game.Cells, new List<HistoricalMove>());
+        var gameState = new GameState(TestHelpers.ExistingGameId,
+            GameStatus.GameOver,
+            game.Players,
+            game.Cells,
+            new List<HistoricalMove>());
         await _memoryCache.SetAsync(TestHelpers.ExistingGameId, TestHelpers.GetSerializedBytes(gameState, TestHelpers.CreateJsonOptions()));
 
         var actionResult = await _controller.AiMove(TestHelpers.ExistingGameId);

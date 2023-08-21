@@ -1,6 +1,7 @@
 using System.Globalization;
 using System.Threading;
 using System.Threading.Tasks;
+using FakeItEasy;
 using FluentAssertions;
 using Hive.Api.Hubs;
 using Hive.Domain.Entities;
@@ -8,7 +9,6 @@ using Microsoft.AspNetCore.Http.Connections.Features;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.AspNetCore.SignalR;
-using Moq;
 using Xunit;
 
 namespace Hive.Api.Tests.Hubs;
@@ -17,74 +17,47 @@ public class GameHubTests
 {
     private const string HubConnectionId = "HUB_CONNECTION_ID";
     private const string HubGroupName = "GameId";
-    private readonly Mock<IGroupManager> _groupManagerMock = new();
-    private Mock<IClientProxy> _clientProxyMock = new();
-    private Mock<IFeatureCollection> _featureCollectionMock = new();
+    private readonly IGroupManager _groupManagerMock = A.Fake<IGroupManager>();
+    private IClientProxy _clientProxyMock;
+    private IFeatureCollection _featureCollectionMock;
 
     private GameHub CreateGameHub(string playerId)
     {
-        Mock<IHttpContextFeature> httpContextFeatureMock = new();
-        _featureCollectionMock = new();
-        _clientProxyMock = new();
+        var httpContextFeatureMock = A.Fake<IHttpContextFeature>();
+        _featureCollectionMock = A.Fake<IFeatureCollection>();
+        _clientProxyMock = A.Fake<IClientProxy>();
 
-        _groupManagerMock.Setup(m => m.AddToGroupAsync(HubConnectionId, HubConnectionId, It.IsAny<CancellationToken>()));
-        _groupManagerMock.Setup(m => m.AddToGroupAsync(HubConnectionId, $"{HubGroupName}-{playerId}", It.IsAny<CancellationToken>()));
+        var feature1 = new RoutingFeature();
+        feature1.RouteData = new();
+        feature1.RouteData.Values.Add("id", HubGroupName);
+        var feature2 = new RoutingFeature();
+        feature2.RouteData = new();
+        feature2.RouteData.Values.Add("playerId", playerId);
+        var feature3 = new RoutingFeature();
+        feature3.RouteData = new();
+        feature3.RouteData.Values.Add("id", null);
+        var feature4 = new RoutingFeature();
+        feature4.RouteData = new();
+        feature4.RouteData.Values.Add("playerId", null);
+        A.CallTo(() => httpContextFeatureMock.HttpContext!.Features.Get<IRoutingFeature>())
+            .ReturnsNextFromSequence(feature1, feature2, feature3, feature4);
 
-        httpContextFeatureMock.SetupSequence(m => m.HttpContext!.Features.Get<IRoutingFeature>())
-          .Returns(
-            () =>
-            {
-              var feature = new RoutingFeature();
-              feature.RouteData = new();
-              feature.RouteData.Values.Add("id", HubGroupName);
-              return feature;
-            }
-          )
-          .Returns(
-            () =>
-            {
-              var feature = new RoutingFeature();
-              feature.RouteData = new();
-              feature.RouteData.Values.Add("playerId", playerId);
-              return feature;
-            }
-          )
-                    .Returns(
-            () =>
-            {
-              var feature = new RoutingFeature();
-              feature.RouteData = new();
-              feature.RouteData.Values.Add("id", null);
-              return feature;
-            }
-          )
-          .Returns(
-            () =>
-            {
-              var feature = new RoutingFeature();
-              feature.RouteData = new();
-              feature.RouteData.Values.Add("playerId", null);
-              return feature;
-            }
-          )
-          ;
+        A.CallTo(() => _featureCollectionMock.Get<IHttpContextFeature>()).Returns(httpContextFeatureMock);
 
-        _featureCollectionMock.Setup(m => m.Get<IHttpContextFeature>()).Returns(httpContextFeatureMock.Object);
+        var hubCallerContextMock = A.Fake<HubCallerContext>();
+        A.CallTo(() => hubCallerContextMock.ConnectionId).Returns(HubConnectionId);
+        A.CallTo(() => hubCallerContextMock.Features).Returns(_featureCollectionMock);
 
-        var hubCallerContextMock = new Mock<HubCallerContext>();
-        hubCallerContextMock.SetupGet(m => m.ConnectionId).Returns(HubConnectionId);
-        hubCallerContextMock.SetupGet(m => m.Features).Returns(_featureCollectionMock.Object);
+        // A.CallTo(()=>  _clientProxyMock.SendCoreAsync(A<string>.Ignored, A<object[]>.Ignored, A<CancellationToken>.Ignored));
 
-        _clientProxyMock.Setup(m => m.SendCoreAsync(It.IsAny<string>(), It.IsAny<object[]>(), It.IsAny<CancellationToken>()));
-
-        var hubCallerClientsMock = new Mock<IHubCallerClients>();
-        hubCallerClientsMock.Setup(m => m.OthersInGroup(It.IsAny<string>())).Returns(_clientProxyMock.Object);
-        hubCallerClientsMock.Setup(m => m.Group(It.IsAny<string>())).Returns(_clientProxyMock.Object);
+        var hubCallerClientsMock = A.Fake<IHubCallerClients>();
+        A.CallTo(() => hubCallerClientsMock.OthersInGroup(A<string>.Ignored)).Returns(_clientProxyMock);
+        A.CallTo(() => hubCallerClientsMock.Group(A<string>.Ignored)).Returns(_clientProxyMock);
 
         var hub = new GameHub();
-        hub.Context = hubCallerContextMock.Object;
-        hub.Groups = _groupManagerMock.Object;
-        hub.Clients = hubCallerClientsMock.Object;
+        hub.Context = hubCallerContextMock;
+        hub.Groups = _groupManagerMock;
+        hub.Clients = hubCallerClientsMock;
         return hub;
     }
 
@@ -98,7 +71,8 @@ public class GameHubTests
 
             var hub = CreateGameHub(playerId);
             await hub.OnConnectedAsync();
-            _groupManagerMock.Verify(g => g.AddToGroupAsync(HubConnectionId, HubGroupName, It.IsAny<CancellationToken>()));
+            A.CallTo(() => _groupManagerMock.AddToGroupAsync(HubConnectionId, HubGroupName, A<CancellationToken>.Ignored))
+                .MustHaveHappened();
         }
 
         [Theory]
@@ -110,18 +84,17 @@ public class GameHubTests
             var hub = CreateGameHub(playerId);
 
             await hub.OnConnectedAsync();
-            _groupManagerMock.Verify(g => g.AddToGroupAsync(HubConnectionId, HubGroupName, It.IsAny<CancellationToken>()));
-            _groupManagerMock.Verify(g => g.AddToGroupAsync(HubConnectionId, HubGroupName, It.IsAny<CancellationToken>()));
-            _clientProxyMock.Verify(
-                c => c.SendCoreAsync(
-                    "PlayerConnection",
-                    new object[]
-                    {
-                        "connect", int.Parse(playerId, NumberStyles.Integer, CultureInfo.InvariantCulture)
-                    },
-                    It.IsAny<CancellationToken>()
-                )
-            );
+            var a = Fake.GetCalls(_clientProxyMock);
+            A.CallTo(() => _groupManagerMock.AddToGroupAsync(HubConnectionId, HubGroupName, A<CancellationToken>.Ignored))
+                .MustHaveHappened();
+            A.CallTo(() => _groupManagerMock.AddToGroupAsync(HubConnectionId, HubGroupName, A<CancellationToken>.Ignored))
+                .MustHaveHappened();
+            A.CallTo(() => _clientProxyMock.SendCoreAsync(
+                "PlayerConnection",
+                A<object[]>.That.Matches(s =>
+                    s[0] as string == "connect" && (int)s[1] == int.Parse(playerId, NumberStyles.Integer, CultureInfo.InvariantCulture)),
+                A<CancellationToken>.Ignored
+            )).MustHaveHappened();
         }
 
         [Theory]
@@ -129,18 +102,15 @@ public class GameHubTests
         [InlineData("1")]
         public async Task DisconnectionsAreRemovedFromPlayerGroup(string playerId)
         {
+            var playerIdString = int.Parse(playerId, NumberStyles.Integer, CultureInfo.InvariantCulture);
             var hub = CreateGameHub(playerId);
+            var a = Fake.GetCalls(_clientProxyMock);
             await hub.OnDisconnectedAsync(null);
-            _clientProxyMock.Verify(
-                c => c.SendCoreAsync(
-                    "PlayerConnection",
-                    new object[]
-                    {
-                        "disconnect", int.Parse(playerId, NumberStyles.Integer, CultureInfo.InvariantCulture)
-                    },
-                    It.IsAny<CancellationToken>()
-                )
-            );
+            A.CallTo(() => _clientProxyMock.SendCoreAsync(
+                "PlayerConnection",
+                A<object[]>.That.Matches(s => s[0] as string == "disconnect" && (int)s[1] == playerIdString),
+                A<CancellationToken>._
+            )).MustHaveHappened();
         }
 
 
@@ -152,17 +122,11 @@ public class GameHubTests
             var selectedTile = new Tile(1, 1, Creatures.Grasshopper);
             var hub = CreateGameHub(playerId);
             await hub.SendSelection("select", selectedTile);
-
-            _clientProxyMock.Verify(
-                c => c.SendCoreAsync(
-                    "OpponentSelection",
-                    new object[]
-                    {
-                        "select", selectedTile
-                    },
-                    It.IsAny<CancellationToken>()
-                )
-            );
+            A.CallTo(() => _clientProxyMock.SendCoreAsync(
+                "OpponentSelection",
+                A<object[]>.That.Matches(s => s[0] as string == "select" && (Tile)s[1] == selectedTile),
+                A<CancellationToken>.Ignored
+            )).MustHaveHappened();
         }
 
         [Theory]
@@ -195,7 +159,6 @@ public class GameHubTests
         {
 
             var hub = CreateGameHub(playerId);
-            _featureCollectionMock.Reset();
             return hub;
         }
 
