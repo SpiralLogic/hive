@@ -18,14 +18,13 @@ public class GameHubTests
     private const string HubConnectionId = "HUB_CONNECTION_ID";
     private const string HubGroupName = "GameId";
     private readonly IGroupManager _groupManagerMock = A.Fake<IGroupManager>();
-    private IClientProxy _clientProxyMock;
-    private IFeatureCollection _featureCollectionMock;
+    private readonly IClientProxy _clientProxyMock = A.Fake<IClientProxy>();
+
+    private readonly IFeatureCollection _featureCollectionMock = A.Fake<IFeatureCollection>();
 
     private GameHub CreateGameHub(string playerId)
     {
         var httpContextFeatureMock = A.Fake<IHttpContextFeature>();
-        _featureCollectionMock = A.Fake<IFeatureCollection>();
-        _clientProxyMock = A.Fake<IClientProxy>();
 
         var feature1 = new RoutingFeature();
         feature1.RouteData = new();
@@ -47,8 +46,6 @@ public class GameHubTests
         var hubCallerContextMock = A.Fake<HubCallerContext>();
         A.CallTo(() => hubCallerContextMock.ConnectionId).Returns(HubConnectionId);
         A.CallTo(() => hubCallerContextMock.Features).Returns(_featureCollectionMock);
-
-        // A.CallTo(()=>  _clientProxyMock.SendCoreAsync(A<string>.Ignored, A<object[]>.Ignored, A<CancellationToken>.Ignored));
 
         var hubCallerClientsMock = A.Fake<IHubCallerClients>();
         A.CallTo(() => hubCallerClientsMock.OthersInGroup(A<string>.Ignored)).Returns(_clientProxyMock);
