@@ -1,13 +1,10 @@
 FROM mcr.microsoft.com/dotnet/sdk:8.0-jammy
-RUN yes | cpan install CPAN
 RUN apt update -yq && \
     apt upgrade -qy && \
-    apt install -yq locales libxext6 libc6 libxml2 curl git nano ca-certificates gnupg
-RUN apt-get update && \
-    apt-get install -y ca-certificates curl gnupg && \
+    apt install -yq locales libxext6 libc6 libxml2 curl git nano ca-certificates gnupg  && \
     mkdir -p /etc/apt/keyrings && \
     curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg && \
-    NODE_MAJOR=20 && \
+    NODE_MAJOR=18 && \
     echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_$NODE_MAJOR.x nodistro main" | tee /etc/apt/sources.list.d/nodesource.list && \
     apt update -yq && \
     apt install nodejs -yq
@@ -24,7 +21,7 @@ ENV DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=true
 RUN dotnet tool install -g dotnet-sonarscanner && \
     dotnet tool install -g dotnet-reportgenerator-globaltool && \
     dotnet tool install -g dotnet-coverage && \
-    dotnet tool install --global JetBrains.dotCover.GlobalTool
+    dotnet tool install -g JetBrains.dotCover.GlobalTool
     
 COPY --from=mcr.microsoft.com/openjdk/jdk:17-distroless $JAVA_HOME $JAVA_HOME
 
