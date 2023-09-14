@@ -1,59 +1,59 @@
-import { Tile as TileType } from '../domain';
-import { TileAction } from '../services';
-import { handleDrop } from '../utilities/handlers';
+import {Tile as TileType} from '../domain';
+import {TileAction} from '../services';
+import {handleDrop} from '../utilities/handlers';
 import Tile from './Tile';
-import { useClassSignal } from '../hooks/useClassSignal';
-import { useDispatcher, useHiveDispatchListener } from '../hooks/useHiveDispatchListener';
-import { useComputed } from '@preact/signals';
-import { moveMap } from '../services/gameStateContext';
-import { useFocusElement } from '../hooks/useFocusElement';
-import { useClickAndKeyDownHandler } from '../hooks/useClickAndKeyDownHandler';
-import { useDragHandlers } from '../hooks/useDragHandlers';
+import {useClassSignal} from '../hooks/useClassSignal';
+import {useDispatcher, useHiveDispatchListener} from '../hooks/useHiveDispatchListener';
+import {useComputed} from '@preact/signals';
+import {moveMap} from '../services/gameStateContext';
+import {useFocusElement} from '../hooks/useFocusElement';
+import {useClickAndKeyDownHandler} from '../hooks/useClickAndKeyDownHandler';
+import {useDragHandlers} from '../hooks/useDragHandlers';
 
 const tileSelector = `[tabindex].tile`;
 const cellSelector = `[role="cell"].can-drop`;
 type Properties = Omit<TileType, 'moves'> & { stacked?: boolean; currentPlayer: number };
 
 const handleMouseLeave = (event: { currentTarget: HTMLElement }) => {
-  event.currentTarget.blur();
+    event.currentTarget.blur();
 };
 
 const GameTile = (properties: Properties) => {
-  const { currentPlayer, stacked, ...tile } = properties;
-  const { id, creature, playerId } = tile;
-  const availableMoveCount = useComputed(
-    () => currentPlayer === playerId && !!moveMap.value.get(`${playerId}-${id}`)?.length
-  );
-  const tabIndex = useComputed<0 | undefined>(() =>
-    currentPlayer === playerId && !!moveMap.value.get(`${playerId}-${id}`)?.length ? 0 : undefined
-  );
-  const [classes, classAction] = useClassSignal(`player${playerId}`, 'hex');
-  const focus = useFocusElement(tileSelector);
-  const dispatcher = useDispatcher();
-  if (stacked) classAction.add('stacked');
+    const {currentPlayer, stacked, ...tile} = properties;
+    const {id, creature, playerId} = tile;
+    const availableMoveCount = useComputed(
+        () => currentPlayer === playerId && !!moveMap.value.get(`${playerId}-${id}`)?.length
+    );
+    const tabIndex = useComputed<0 | undefined>(() =>
+        currentPlayer === playerId && !!moveMap.value.get(`${playerId}-${id}`)?.length ? 0 : undefined
+    );
+    const [classes, classAction] = useClassSignal(`player${playerId}`, 'hex');
+    const focus = useFocusElement(tileSelector);
+    const dispatcher = useDispatcher();
+    if (stacked) classAction.add('stacked');
 
-  const deselect = (fromEvent = false) => {
-    if (!classes.peek().includes('selected')) return;
-    classAction.remove('selected');
-    dispatcher.dispatch({ type: 'tileDeselected', tile, fromEvent });
-  };
+    const deselect = (fromEvent = false) => {
+        if (!classes.peek().includes('selected')) return;
+        classAction.remove('selected');
+        dispatcher.dispatch({type: 'tileDeselected', tile, fromEvent});
+    };
 
-  const select = (fromEvent = false) => {
-    if (classes.peek().includes('selected')) return;
-    dispatcher.dispatch({ type: 'tileClear' });
-    classAction.add('selected');
-    if (currentPlayer != playerId) return;
-    dispatcher.dispatch({ type: 'tileSelected', tile, fromEvent });
-    focus.value = cellSelector;
-  };
+    const select = (fromEvent = false) => {
+        if (classes.peek().includes('selected')) return;
+        dispatcher.dispatch({type: 'tileClear'});
+        classAction.add('selected');
+        if (currentPlayer != playerId) return;
+        dispatcher.dispatch({type: 'tileSelected', tile, fromEvent});
+        focus.value = cellSelector;
+    };
 
-  useHiveDispatchListener<TileAction>('tileSelect', (event: TileAction) => {
-    if (event.tile.id === id) select(true);
-  });
+    useHiveDispatchListener<TileAction>('tileSelect', (event: TileAction) => {
+        if (event.tile.id === id) select(true);
+    });
 
-  useHiveDispatchListener<TileAction>('tileDeselect', (event: TileAction) => {
-    if (event.tile.id === id) deselect(true);
-  });
+    useHiveDispatchListener<TileAction>('tileDeselect', (event: TileAction) => {
+        if (event.tile.id === id) deselect(true);
+    });
 
   useHiveDispatchListener('tileClear', () => {
     deselect(true);
@@ -73,7 +73,6 @@ const GameTile = (properties: Properties) => {
       event.stopPropagation();
       select();
       classAction.add('before-drag');
-      setTimeout(() => classAction.remove('before-drag'), 1);
     },
     () => {
       dispatcher.dispatch({ type: 'tileDropped', tile });

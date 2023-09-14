@@ -13,7 +13,7 @@ var services = appBuilder.Services;
 
 var signalR = services.AddSignalR().AddJsonProtocol(options => { options.PayloadSerializerOptions.Converters.AddAllJsonConverters(); });
 
-if (appBuilder.Environment.IsProduction())
+if (appBuilder.Environment.IsProduction() &&!string.IsNullOrEmpty( appBuilder.Configuration["RedisHost"]))
 {
   ThreadPool.SetMinThreads(10, 10);
     services.AddStackExchangeRedisCache(

@@ -1,8 +1,5 @@
-import '@testing-library/jest-dom';
-import matchers from '@testing-library/jest-dom/matchers';
+import '@testing-library/jest-dom/vitest';
 import { expect } from 'vitest';
-
-expect.extend(matchers);
 
 /** polyfill for JSON missing HTMLDialogElement for now */
 HTMLDialogElement.prototype.showModal = function showModal(this: HTMLDialogElement) {

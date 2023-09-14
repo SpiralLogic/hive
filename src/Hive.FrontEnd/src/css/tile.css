@@ -89,9 +89,10 @@ main.player0 .tile.player0.selected:hover {
 }
 
 .before-drag::before {
-    display: none !important;
-    box-shadow: none !important;
+    background: transparent !important;
+    --shadow: none;
 }
+
 
 @keyframes selected {
     0% {
