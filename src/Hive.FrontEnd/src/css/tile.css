@@ -93,7 +93,6 @@ main.player0 .tile.player0.selected:hover {
     --shadow: none;
 }
 
-
 @keyframes selected {
     0% {
         transform: rotate(-1deg);
