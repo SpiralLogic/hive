@@ -141,30 +141,30 @@ public class GameHubTests
     public class InvalidContextTests : GameHubTests
     {
 
-        [Theory]
-        [InlineData("0")]
-        [InlineData("1")]
-        public void SendSelectionReturnsTask(string playerId)
-        {
-            var hub = CreateGameGubWithInvalidContext(playerId);
-
-            var selectedTile = new Tile(1, 1, Creatures.Grasshopper);
-            hub.SendSelection("select", selectedTile).IsCompletedSuccessfully.Should().BeTrue();
-        }
-
-        private GameHub CreateGameGubWithInvalidContext(string playerId)
+        private GameHub CreateGameHubWithInvalidContext(string playerId)
         {
 
             var hub = CreateGameHub(playerId);
             return hub;
         }
+        [Theory]
+        [InlineData("0")]
+        [InlineData("1")]
+        public void SendSelectionReturnsTask(string playerId)
+        {
+            var hub = CreateGameHubWithInvalidContext(playerId);
+
+            var selectedTile = new Tile(1, 1, Creatures.Grasshopper);
+            hub.SendSelection("select", selectedTile).IsCompletedSuccessfully.Should().BeTrue();
+        }
+
 
         [Theory]
         [InlineData("0")]
         [InlineData("1")]
         public void OnConnectedAsyncReturnsTask(string playerId)
         {
-            var hub = CreateGameGubWithInvalidContext(playerId);
+            var hub = CreateGameHubWithInvalidContext(playerId);
             hub.OnConnectedAsync().IsCompletedSuccessfully.Should().BeTrue();
         }
 
@@ -173,7 +173,7 @@ public class GameHubTests
         [InlineData("1")]
         public void OnDisconnectedAsyncReturnsTask(string playerId)
         {
-            var hub = CreateGameGubWithInvalidContext(playerId);
+            var hub = CreateGameHubWithInvalidContext(playerId);
             hub.OnDisconnectedAsync(null).IsCompletedSuccessfully.Should().BeTrue();
         }
 
@@ -194,6 +194,45 @@ public class GameHubTests
             var hub = CreateGameHub(playerId);
             await hub.OnDisconnectedAsync(null);
             hub.OnDisconnectedAsync(null).IsCompletedSuccessfully.Should().BeTrue();
+        }
+    }
+
+    public class InvalidHttpContextTests : GameHubTests
+    {
+
+        private GameHub CreateGameHubWithInvalidHttpContext()
+        {
+            A.CallTo(() => _featureCollectionMock.Get<IHttpContextFeature>()).Returns(null);
+
+            var hubCallerContextMock = A.Fake<HubCallerContext>();
+            A.CallTo(() => hubCallerContextMock.ConnectionId).Returns(HubConnectionId);
+            A.CallTo(() => hubCallerContextMock.Features).Returns(_featureCollectionMock);
+
+            var hubCallerClientsMock = A.Fake<IHubCallerClients>();
+            A.CallTo(() => hubCallerClientsMock.OthersInGroup(A<string>.Ignored)).Returns(_clientProxyMock);
+            A.CallTo(() => hubCallerClientsMock.Group(A<string>.Ignored)).Returns(_clientProxyMock);
+
+            var hub = new GameHub();
+            hub.Context = hubCallerContextMock;
+            hub.Groups = _groupManagerMock;
+            hub.Clients = hubCallerClientsMock;
+            return hub;
+        }
+
+        [Fact]
+        public void SendSelectionReturnsTask()
+        {
+            var hub = CreateGameHubWithInvalidHttpContext();
+
+            var selectedTile = new Tile(1, 1, Creatures.Grasshopper);
+            hub.SendSelection("select", selectedTile).IsCompletedSuccessfully.Should().BeTrue();
+        }
+
+        [Fact]
+        public void OnConnectedAsyncReturnsTask()
+        {
+            var hub = CreateGameHubWithInvalidHttpContext();
+            hub.OnConnectedAsync().IsCompletedSuccessfully.Should().BeTrue();
         }
     }
 }
