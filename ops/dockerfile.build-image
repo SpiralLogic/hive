@@ -1,6 +1,4 @@
 FROM mcr.microsoft.com/dotnet/sdk:8.0-jammy
-SHELL ["bash", "-c"]
-WORKDIR /source
 RUN yes | cpan install CPAN
 RUN apt update && apt upgrade -y && apt install -y locales libxext6 libc6 libxml2
 
@@ -31,3 +29,4 @@ COPY --from=node:19-slim /usr/local/bin /usr/local/bin
 RUN corepack disable && \
     corepack prepare pnpm@latest --activate && \
     corepack enable
+WORKDIR /source
