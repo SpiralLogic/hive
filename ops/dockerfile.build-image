@@ -13,10 +13,12 @@ RUN sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen && \
     dpkg-reconfigure --frontend=noninteractive locales && \
     update-locale LANG=en_US.UTF-8
 
-ENV LANG en_US.UTF-8 
-ENV JAVA_HOME=/usr/jdk
+ENV LC_ALL "en_US.UTF-8"
+ENV LANG "en_US.UTF-8"
+ENV LANGUAGE "en_US.UTF-8"
+ENV JAVA_HOME "/usr/jdk"
 ENV PATH "/root/.dotnet/tools:${JAVA_HOME}/bin:$PATH"
-ENV DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=true
+ENV DOTNET_SYSTEM_GLOBALIZATION_INVARIANT "true"
 
 RUN dotnet tool install -g dotnet-sonarscanner && \
     dotnet tool install -g dotnet-reportgenerator-globaltool && \
