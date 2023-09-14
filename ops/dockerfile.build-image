@@ -1,6 +1,26 @@
 FROM mcr.microsoft.com/dotnet/sdk:8.0-jammy
-
+SHELL ["bash", "-c"]
 WORKDIR /source
+RUN yes | cpan install CPAN
+RUN apt update && apt upgrade -y && apt install -y locales libxext6 libc6 libxml2
+
+RUN sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen && \
+    dpkg-reconfigure --frontend=noninteractive locales && \
+    update-locale LANG=en_US.UTF-8
+
+ENV LANG en_US.UTF-8 
+ENV JAVA_HOME=/usr/jdk
+ENV PATH "/root/.dotnet/tools:${JAVA_HOME}/bin:$PATH"
+ENV DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=true
+
+RUN dotnet tool install -g dotnet-sonarscanner && \
+    dotnet tool install -g dotnet-reportgenerator-globaltool && \
+    dotnet tool install -g dotnet-coverage && \
+    dotnet tool install --global JetBrains.dotCover.GlobalTool
+    
+COPY --from=mcr.microsoft.com/openjdk/jdk:17-distroless $JAVA_HOME $JAVA_HOME
+
+RUN ln -s /usr/jdk/bin/java /usr/local/bin/java
 
 COPY --from=node:19-slim /usr/lib /usr/lib
 COPY --from=node:19-slim /usr/local/share /usr/local/share
@@ -8,21 +28,6 @@ COPY --from=node:19-slim /usr/local/lib /usr/local/lib
 COPY --from=node:19-slim /usr/local/include /usr/local/include
 COPY --from=node:19-slim /usr/local/bin /usr/local/bin
 
-ENV JAVA_HOME=/usr/jdk
-ENV PATH "/root/.dotnet/tools:${JAVA_HOME}/bin:$PATH"
-ENV DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=true
-ENV LANG=en_US.UTF-8  
-ENV LANGUAGE=en_US:en  
-ENV LC_ALL=en_US.UTF-8 
-
-COPY --from=mcr.microsoft.com/openjdk/jdk:17-distroless $JAVA_HOME $JAVA_HOME
-
 RUN corepack disable && \
     corepack prepare pnpm@latest --activate && \
-    corepack enable && \
-    dotnet tool install -g dotnet-sonarscanner && \
-    dotnet tool install -g dotnet-reportgenerator-globaltool && \
-    dotnet tool install -g dotnet-coverage && \
-    dotnet tool install --global JetBrains.dotCover.GlobalTool
-
-RUN ln -s /usr/jdk/bin/java /usr/local/bin/java
+    corepack enable
