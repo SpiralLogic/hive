@@ -90,6 +90,7 @@ main.player0 .tile.player0.selected:hover {
 
 .before-drag::before {
     background: transparent !important;
+    
     --shadow: none;
 }
 
