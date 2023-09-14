@@ -1,7 +1,17 @@
 FROM mcr.microsoft.com/dotnet/sdk:8.0-jammy
 RUN yes | cpan install CPAN
-RUN apt update && apt upgrade -y && apt install -y locales libxext6 libc6 libxml2
-
+RUN apt update -yq && \
+    apt upgrade -qy && \
+    apt install -yq locales libxext6 libc6 libxml2 curl git nano ca-certificates gnupg
+RUN apt-get update && \
+    apt-get install -y ca-certificates curl gnupg && \
+    mkdir -p /etc/apt/keyrings && \
+    curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg && \
+    NODE_MAJOR=20 && \
+    echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_$NODE_MAJOR.x nodistro main" | tee /etc/apt/sources.list.d/nodesource.list && \
+    apt update -yq && \
+    apt install nodejs -yq
+    
 RUN sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen && \
     dpkg-reconfigure --frontend=noninteractive locales && \
     update-locale LANG=en_US.UTF-8
@@ -19,12 +29,6 @@ RUN dotnet tool install -g dotnet-sonarscanner && \
 COPY --from=mcr.microsoft.com/openjdk/jdk:17-distroless $JAVA_HOME $JAVA_HOME
 
 RUN ln -s /usr/jdk/bin/java /usr/local/bin/java
-
-COPY --from=node:19-slim /usr/lib /usr/lib
-COPY --from=node:19-slim /usr/local/share /usr/local/share
-COPY --from=node:19-slim /usr/local/lib /usr/local/lib
-COPY --from=node:19-slim /usr/local/include /usr/local/include
-COPY --from=node:19-slim /usr/local/bin /usr/local/bin
 
 RUN corepack disable && \
     corepack prepare pnpm@latest --activate && \
