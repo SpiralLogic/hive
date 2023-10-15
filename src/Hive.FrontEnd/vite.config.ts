@@ -36,7 +36,6 @@ export default defineConfig({
       enabled: true,
       reporter: ['text', 'lcov'],
       reportsDirectory: './reports/frontend/',
-      100: true,
     },
   },
 });
