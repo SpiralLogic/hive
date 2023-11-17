@@ -30,7 +30,7 @@ jobs:
         run: |
             mkdir -p ./coverage
             dotnet tool restore
-            dotnet-coverage collect --output-format xml dotnet test -c test
+        # dotnet-coverage collect --output-format xml dotnet test -c test
             reportgenerator  "-reports:./output.xml" "-assemblyfilters:+Hive.*;-*.Tests" "-targetdir:./coverage/backend"  -reporttypes:Html
       - name: Upload - Test results
         uses: actions/upload-artifact@v3
