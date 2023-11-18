@@ -88,7 +88,7 @@ class ServerConnectionImpl implements ServerConnection {
       .withUrl(hubUrl, {
         skipNegotiation: true,
         transport: HttpTransportType.WebSockets,
-      })
+      }).withStatefulReconnect()
       .withAutomaticReconnect()
       .build();
     connection.on('ReceiveGameState', this.updateHandler);

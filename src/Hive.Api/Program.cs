@@ -4,13 +4,17 @@ using System.Threading;
 using Hive.Api.Converters;
 using Hive.Api.Hubs;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.HttpLogging;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Microsoft.Net.Http.Headers;
 
 var appBuilder = WebApplication.CreateBuilder(args);
 var services = appBuilder.Services;
-
+services.AddHttpLogging(logging => {
+    logging.CombineLogs = true; });
+services.AddHealthChecks();
 var signalR = services.AddSignalR().AddJsonProtocol(options => { options.PayloadSerializerOptions.Converters.AddAllJsonConverters(); });
 
 if (appBuilder.Environment.IsProduction() &&!string.IsNullOrEmpty( appBuilder.Configuration["RedisHost"]))
@@ -39,6 +43,7 @@ if (app.Environment.IsDevelopment())
     app.UseDeveloperExceptionPage();
     app.UseHttpsRedirection();
 }
+app.UseHttpLogging();
 
 app.UseFileServer(
     new FileServerOptions
@@ -60,7 +65,7 @@ app.UseFileServer(
 
 app.UseRouting();
 app.MapControllers();
-app.MapHub<GameHub>("/gamehub/{id}/{playerId}");
+app.MapHub<GameHub>("/gamehub/{id}/{playerId}", options => { options.AllowStatefulReconnects = true;});
 app.Run();
 
 public partial class Program
