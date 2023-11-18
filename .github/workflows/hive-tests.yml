@@ -27,11 +27,12 @@ jobs:
       - name: Install - dependencies
         run: dotnet restore
       - name: Test 
-        run: |
+        run:  |
             mkdir -p ./coverage
             dotnet tool restore
-        # dotnet-coverage collect --output-format xml dotnet test -c test
-            reportgenerator  "-reports:./output.xml" "-assemblyfilters:+Hive.*;-*.Tests" "-targetdir:./coverage/backend"  -reporttypes:Html
+            dotnet tool list
+            dotnet tool run dotnet-coverage collect --output-format xml dotnet test -c test
+            dotnet tool run reportgenerator  "-reports:./output.xml" "-assemblyfilters:+Hive.*;-*.Tests" "-targetdir:./coverage/backend"  -reporttypes:Html
       - name: Upload - Test results
         uses: actions/upload-artifact@v3
         with:
