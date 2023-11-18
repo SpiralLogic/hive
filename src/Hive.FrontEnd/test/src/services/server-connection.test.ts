@@ -31,6 +31,7 @@ describe('server connection', () => {
     (HubConnectionBuilder as Mock).mockImplementation(() => ({
       withUrl: withUrlSpy,
       withAutomaticReconnect: vi.fn().mockReturnThis(),
+      withStatefulReconnect: vi.fn().mockReturnThis(),
       build: vi.fn().mockReturnValue(hubConnection),
     }));
 

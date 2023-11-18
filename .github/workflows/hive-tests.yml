@@ -27,7 +27,7 @@ jobs:
       - name: Install - dependencies
         run: dotnet restore
       - name: Test 
-        run:  |
+        run: |
             mkdir -p ./coverage
             dotnet tool restore
             dotnet tool list

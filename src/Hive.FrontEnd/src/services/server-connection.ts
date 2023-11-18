@@ -5,7 +5,7 @@ import {
   HubConnectionState,
 } from '@microsoft/signalr';
 
-import {  GameState, Tile } from '../domain';
+import { GameState, Tile } from '../domain';
 
 export type PlayerSelectionEvent = 'select' | 'deselect';
 export type PlayerConnectionEvent = 'connect' | 'disconnect';
@@ -88,14 +88,15 @@ class ServerConnectionImpl implements ServerConnection {
       .withUrl(hubUrl, {
         skipNegotiation: true,
         transport: HttpTransportType.WebSockets,
-      }).withStatefulReconnect()
+      })
+      .withStatefulReconnect()
       .withAutomaticReconnect()
       .build();
     connection.on('ReceiveGameState', this.updateHandler);
     connection.on('OpponentSelection', this.opponentSelectionHandler);
     connection.on('PlayerConnection', this.opponentConnectedHandler);
     window.addEventListener('beforeunload', () => {
-      connection.stop().catch(err=>console.error(err))
+      connection.stop().catch((err) => console.error(err));
     });
     return connection;
   };
