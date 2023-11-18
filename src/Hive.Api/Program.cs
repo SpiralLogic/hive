@@ -7,13 +7,11 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.HttpLogging;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.Net.Http.Headers;
 
 var appBuilder = WebApplication.CreateBuilder(args);
 var services = appBuilder.Services;
-services.AddHttpLogging(logging => {
-    logging.CombineLogs = true; });
+services.AddW3CLogging(options =>{options.LoggingFields = W3CLoggingFields.All;} );
 services.AddHealthChecks();
 var signalR = services.AddSignalR().AddJsonProtocol(options => { options.PayloadSerializerOptions.Converters.AddAllJsonConverters(); });
 
@@ -43,8 +41,7 @@ if (app.Environment.IsDevelopment())
     app.UseDeveloperExceptionPage();
     app.UseHttpsRedirection();
 }
-app.UseHttpLogging();
-
+app.UseW3CLogging();
 app.UseFileServer(
     new FileServerOptions
     {
