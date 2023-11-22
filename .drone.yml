@@ -4,7 +4,7 @@ name: tests
 
 steps:
   - name: frontend
-    image: node:19-alpine
+    image: node:20-alpine
     pull: always
     commands:
       - cd src/Hive.FrontEnd
