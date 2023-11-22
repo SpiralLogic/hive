@@ -34,7 +34,7 @@ internal sealed class InitialHiveBuilder : HiveBuilder
         else
         {
             var (creature, cellString, _) = AllSymbols.Single(s => s.Symbol == symbol);
-            var playerId = cellString.ToString().Equals(cellString.ToString().ToUpperInvariant(), StringComparison.InvariantCulture) ? 0 : 1;
+            var playerId = cellString.ToString().Equals(cellString.ToString().ToUpperInvariant(), StringComparison.Ordinal) ? 0 : 1;
             cell.AddTile(new Tile(TileIdSequence++, playerId, creature));
         }
     }

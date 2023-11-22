@@ -91,7 +91,7 @@ internal abstract class HiveBuilder
 
     internal string ToColoredString(string rows)
     {
-        return AllSymbols.Aggregate(rows, (str, c) => str.Replace(c.Symbol.ToString(), c.ToString(), StringComparison.InvariantCulture));
+        return AllSymbols.Aggregate(rows, (str, c) => str.Replace(c.Symbol.ToString(), c.ToString(), StringComparison.Ordinal));
     }
 
     protected abstract void ModifyCell(Cell cell, char symbol);

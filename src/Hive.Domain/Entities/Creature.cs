@@ -18,7 +18,7 @@ public sealed record Creature(string Name)
 
     public override int GetHashCode()
     {
-        return Name.GetHashCode(StringComparison.InvariantCulture);
+        return Name.GetHashCode(StringComparison.Ordinal);
     }
 
     public ISet<Coords> GetAvailableMoves(Cell originCell, ISet<Cell> cells)
