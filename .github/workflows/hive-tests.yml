@@ -31,8 +31,8 @@ jobs:
             mkdir ./reports
             dotnet tool restore
             dotnet tool run dotnet-coverage collect --output-format cobertura dotnet test -c test ./
-            dotnet tool run reportgenerator "-reports:./output.cobertura.xml" "-sourcedirs:./" "-assemblyfilters:+Hive.*;-*.Tests" "-targetdir:./reports/backend"  -reporttypes:Html
-            dotnet tool run dotnet-dotcover test -c Test --dcOutput=./reports/backend/dotcover.html --dcReportType=HTML --dcHideAutoProperties "--dcFilters=+:Hive.*;-:*.Tests;-:function=.ctor"  ./
+            dotnet tool run reportgenerator "-reports:./output.cobertura.xml" "-sourcedirs:./" "-assemblyfilters:+Hive.*;-*.Tests" "-targetdir:./reports"  -reporttypes:Html
+            dotnet tool run dotnet-dotcover test -c Test --dcOutput=./reports/dotcover.html --dcReportType=HTML --dcHideAutoProperties "--dcFilters=+:Hive.*;-:*.Tests;-:function=.ctor"  ./
       - name: Upload - Test results
         uses: actions/upload-artifact@v3
         with:
