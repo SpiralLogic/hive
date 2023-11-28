@@ -28,17 +28,17 @@ jobs:
         run: dotnet restore
       - name: Test 
         run: |
-            mkdir -p ./coverage
+            mkdir ./reports
             dotnet tool restore
-            dotnet tool list
-            dotnet tool run dotnet-coverage collect --output-format xml dotnet test -c test
-            dotnet tool run reportgenerator  "-reports:./output.xml" "-assemblyfilters:+Hive.*;-*.Tests" "-targetdir:./coverage/backend"  -reporttypes:Html
+            dotnet-coverage collect --output-format cobertura dotnet test -c test ./
+            reportgenerator "-reports:./output.cobertura.xml" "-sourcedirs:./" "-assemblyfilters:+Hive.*;-*.Tests" "-targetdir:./reports/backend"  -reporttypes:Html
+            dotnet-dotcover test -c Test --dcOutput=./reports/backend/dotcover.html --dcReportType=HTML --dcHideAutoProperties "--dcFilters=+:Hive.*;-:*.Tests;-:function=.ctor"  ./
       - name: Upload - Test results
         uses: actions/upload-artifact@v3
         with:
           name: backend-results
           path: |
-            ./coverage
+            ./reports
         # Use always() to always run this step to publish test results when there are test failures
         if: ${{ always() }}
   FrontEnd:
