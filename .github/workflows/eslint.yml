@@ -39,6 +39,8 @@ jobs:
 
       - name: Run ESLint
         working-directory: src/Hive.FrontEnd
+        env:
+           ESLINT_USE_FLAT_CONFIG: true 
         run: npx eslint .
           --config eslint.config.mjs
           --ext .js,.jsx,.ts,.tsx
