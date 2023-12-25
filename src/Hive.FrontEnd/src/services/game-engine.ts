@@ -1,13 +1,14 @@
 import { GameState, Move } from '../domain';
 import { AiMode, HexEngine } from '../domain/engine';
 import { getAllPlayerTiles } from '../utilities/hextille';
-import { effect, Signal, signal } from '@preact/signals';
 
 export default class GameEngine implements HexEngine {
   public currentPlayer: number;
   public initialGame: Promise<GameState>;
   public gameId: string;
-  private readonly aiMode: Signal<AiMode>;
+  public onAiMode: (aiMode: AiMode) => void = () => {};
+  #aiMode: AiMode;
+
   private currentRequest: Promise<GameState>;
   private requestHeaders = {
     Accept: 'application/json',
@@ -17,15 +18,23 @@ export default class GameEngine implements HexEngine {
   constructor(existingGame?: { gameId: string; currentPlayer: string }) {
     this.currentPlayer = Number(existingGame?.currentPlayer ?? 0);
     this.gameId = existingGame?.gameId ?? '';
-    this.aiMode = signal<AiMode>(this.currentPlayer === 0 ? 'on' : 'off');
+    this.#aiMode = this.currentPlayer === 0 ? 'on' : 'off';
     this.currentRequest = existingGame?.gameId
       ? this.getExistingGame(existingGame.gameId)
       : this.getNewGame();
 
     this.initialGame = this.completeRequest();
-    effect(() => {
-      void this.setAiMode(this.aiMode.value);
-    });
+    void this.setAiMode(this.#aiMode);
+  }
+
+  get aiMode(): AiMode {
+    return this.#aiMode;
+  }
+
+  set aiMode(aiMode: AiMode) {
+    this.#aiMode = aiMode;
+    this.onAiMode(aiMode);
+    void this.setAiMode(this.#aiMode);
   }
 
   private setAiMode = async (mode: AiMode) => {
@@ -41,7 +50,7 @@ export default class GameEngine implements HexEngine {
       }
     }
     let result = true;
-    while (this.aiMode.value === 'auto' && result) {
+    while (this.#aiMode === 'auto' && result) {
       try {
         await this.aiMove();
       } catch {
@@ -51,11 +60,9 @@ export default class GameEngine implements HexEngine {
     await this.completeRequest();
   };
 
-  getAiMode = () => this.aiMode;
-
   move = async (move: Move): Promise<GameState> => {
     await this.postRequest(`/api/move/${this.gameId}`, move);
-    if (this.aiMode.value === 'on') {
+    if (this.#aiMode === 'on') {
       await this.completeRequest();
       return this.aiMove();
     }

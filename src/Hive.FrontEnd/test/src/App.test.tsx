@@ -1,10 +1,9 @@
 import { render, screen } from '@testing-library/preact';
-import { AiMode, HexEngine } from '@hive/domain/engine';
+import { HexEngine } from '@hive/domain/engine';
 import App from '../../src/components/App';
 import { createGameState } from '../fixtures/app.fixture';
 import { HiveDispatcher } from '@hive/services';
 import { Dispatcher } from '@hive/hooks/useHiveDispatchListener';
-import { signal } from '@preact/signals';
 import { waitFor } from '@testing-library/dom';
 import { GameState } from '@hive/domain';
 import { mockConsole } from '../helpers/console';
@@ -19,9 +18,8 @@ const defaultConnectionFactory = () => ({
 
 let engine: HexEngine;
 const setup = (gameState = Promise.resolve(createGameState(4)), gameAfterMove = createGameState(5)) => {
-  const aiMode = signal<AiMode>('off');
   engine = {
-    getAiMode: () => aiMode,
+    aiMode: 'off',
     initialGame: gameState,
     currentPlayer: 0,
     move: vi.fn().mockResolvedValueOnce(createGameState(5)).mockResolvedValue(gameAfterMove),

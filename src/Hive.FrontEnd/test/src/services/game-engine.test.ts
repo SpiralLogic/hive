@@ -47,10 +47,9 @@ describe('game engine', () => {
     expect(response.players).toHaveLength(2);
   });
 
-  
-  it.each(['0','1'])('makes AI move for player %s', async (player) => {
+  it.each(['0', '1'])('makes AI move for player %s', async (player) => {
     engine = new GameEngine({ gameId: '445', currentPlayer: player });
-    engine.getAiMode().value = 'on';
+    engine.aiMode = 'on';
     await engine.move({
       tileId: 1,
       coords: { q: 0, r: 0 },
@@ -61,7 +60,7 @@ describe('game engine', () => {
 
   it('No AI move on toggle off', async () => {
     engine = new GameEngine({ gameId: '445', currentPlayer: '0' });
-    engine.getAiMode().value = 'off';
+    engine.aiMode = 'off';
 
     expect(global.fetch).not.toHaveBeenCalledWith(/api\/ai-move/, expect.any(Object));
   });
@@ -69,7 +68,7 @@ describe('game engine', () => {
   it('gets Ai Mode', async () => {
     engine = new GameEngine({ gameId: '445', currentPlayer: '0' });
 
-    expect(engine.getAiMode().value).toStrictEqual('on');
+    expect(engine.aiMode).toStrictEqual('on');
   });
 
   it('performs Ai moves for both players', async () => {
@@ -80,7 +79,7 @@ describe('game engine', () => {
       .mockImplementationOnce(() => Promise.resolve({ ok: true, json: () => Promise.resolve(gameState) }));
 
     engine = new GameEngine({ gameId: '445', currentPlayer: '0' });
-    engine.getAiMode().value = 'auto';
+    engine.aiMode = 'auto';
     expect(global.fetch).toHaveBeenLastCalledWith('/api/ai-move/445', expect.any(Object));
     expect(global.fetch).toHaveBeenCalledTimes(2);
   });
