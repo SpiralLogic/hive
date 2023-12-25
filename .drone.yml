@@ -22,9 +22,9 @@ steps:
     pull: always
     commands:
       # - dotnet tool restore
-      - dotnet tool run dotnet-coverage collect --output-format cobertura dotnet test -c test src
-      - dotnet tool run reportgenerator "-reports:./output.cobertura.xml" "-sourcedirs:./src" "-assemblyfilters:+Hive.*;-*.Tests" "-targetdir:/drone/src/reports/backend"  -reporttypes:Html
-      - dotnet tool run dotnet-dotcover test -c Test --dcOutput=/drone/src/reports/backend/dotcover.html --dcReportType=HTML --dcHideAutoProperties "--dcFilters=+:Hive.*;-:*.Tests;-:function=.ctor"  ./src
+      - dotnet-coverage collect --output-format cobertura dotnet test -c test src
+      - reportgenerator "-reports:./output.cobertura.xml" "-sourcedirs:./src" "-assemblyfilters:+Hive.*;-*.Tests" "-targetdir:/drone/src/reports/backend"  -reporttypes:Html
+      - dotnet-dotcover test -c Test --dcOutput=/drone/src/reports/backend/dotcover.html --dcReportType=HTML --dcHideAutoProperties "--dcFilters=+:Hive.*;-:*.Tests;-:function=.ctor"  ./src
     volumes:
       - name: reports
         path: /drone/src/reports
@@ -66,7 +66,7 @@ steps:
       # - dotnet tool restore
       - dotnet-sonarscanner begin /k:hive /s:/drone/src/ops/SonarQube.Analysis.xml /d:sonar.token=$SONARQUBE_KEY
       - dotnet build ./src
-      - dotnet tool run dotnet-coverage collect --output-format xml dotnet test src
+      - dotnet-coverage collect --output-format xml dotnet test src
       - dotnet-sonarscanner end /d:sonar.token=$SONARQUBE_KEY
   - name: test-results
     image: plugins/kaniko:1.7.4-kaniko1.9.2
