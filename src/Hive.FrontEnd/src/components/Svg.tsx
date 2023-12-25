@@ -7,7 +7,7 @@ type Properties = {
   hrefs: SvgHrefs[];
 } & JSX.IntrinsicElements['svg'];
 
-const SVG = ({ hrefs, ...rest }: Properties) => {
+const Svg = ({ hrefs, ...rest }: Properties) => {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" {...rest}>
       {hrefs.map((href) => (
@@ -17,5 +17,5 @@ const SVG = ({ hrefs, ...rest }: Properties) => {
   );
 };
 
-SVG.displayName = 'SVG';
-export default SVG;
+Svg.displayName = 'SVG';
+export default Svg;

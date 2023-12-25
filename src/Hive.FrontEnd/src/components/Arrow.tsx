@@ -1,5 +1,5 @@
 import '../css/arrow.css';
-import SVG from './SVG';
+import Svg from './Svg.tsx';
 
 export type Direction = 'left' | 'right' | 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right';
 const Arrow = ({
@@ -11,7 +11,7 @@ const Arrow = ({
   result: 'correct' | 'incorrect';
   length?: number;
 }) => (
-  <SVG
+  <Svg
     class={`arrow ${direction} ${result}`}
     style={{ '--span': length }}
     xmlns="http://www.w3.org/2000/svg"

@@ -37,7 +37,7 @@ const setup = (gameState = Promise.resolve(createGameState(4)), gameAfterMove = 
 
 describe('<App>', () => {
   it('shows game when loaded', async () => {
-    setup(Promise.reject({ message: 'broken loading' }));
+    setup(Promise.reject(new Error('broken loading')));
     expect(await screen.findByRole('heading', { name: /broken loading/ })).toBeInTheDocument();
   });
 

@@ -3,7 +3,7 @@ import '../css/links.css';
 import { FunctionComponent } from 'preact';
 import { getShareUrl } from '../utilities/share';
 import { AiMode } from '../domain/engine';
-import SVG from './SVG';
+import Svg from './Svg.tsx';
 import { Signal, useComputed } from '@preact/signals';
 
 type Properties = {
@@ -44,13 +44,13 @@ const Links: FunctionComponent<Properties> = ({
         name="Share game to opponent"
         title="Share"
         onClick={handle(onShowShare)}>
-        <SVG hrefs={['share']} />
+        <Svg hrefs={['share']} />
       </a>
       <a href={`/`} name="New game!" title="New Game">
-        <SVG hrefs={['new']} />
+        <Svg hrefs={['new']} />
       </a>
       <a href="#" name="Show rules" onClick={handle(onShowRules)} title="Rules">
-        <SVG hrefs={['rules']} />
+        <Svg hrefs={['rules']} />
       </a>
       <a
         href="#"
@@ -59,10 +59,10 @@ const Links: FunctionComponent<Properties> = ({
         onWheel={handle(wheelHandler)}
         onClick={handle(clickHandler)}
         title="Toggle Ai">
-        <SVG hrefs={['ai']} />
+        <Svg hrefs={['ai']} />
       </a>
       <a class="github" href="https://github.com/SpiralLogic/hive" title="Source code">
-        <SVG hrefs={['github']} />
+        <Svg hrefs={['github']} />
       </a>
     </nav>
   );
