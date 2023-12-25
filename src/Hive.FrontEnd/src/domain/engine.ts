@@ -6,7 +6,7 @@ export type AiMode = 'on' | 'off' | 'auto';
 export type HexEngine = {
   currentPlayer: number;
   aiMode: AiMode;
-  onAiMode: (aiMode: AiMode) => void;
+  onAiMode?: (aiMode: AiMode) => void;
   initialGame: Promise<GameState>;
   move: EngineMove;
 };
