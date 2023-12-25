@@ -22,6 +22,8 @@ steps:
     pull: always
     commands:
       # - dotnet tool restore
+      - dotnet tool list -g 
+      - dotnet tool list 
       - dotnet-coverage collect --output-format cobertura dotnet test -c test src
       - reportgenerator "-reports:./output.cobertura.xml" "-sourcedirs:./src" "-assemblyfilters:+Hive.*;-*.Tests" "-targetdir:/drone/src/reports/backend"  -reporttypes:Html
       - dotnet-dotcover test -c Test --dcOutput=/drone/src/reports/backend/dotcover.html --dcReportType=HTML --dcHideAutoProperties "--dcFilters=+:Hive.*;-:*.Tests;-:function=.ctor"  ./src
