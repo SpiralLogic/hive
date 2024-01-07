@@ -8,7 +8,7 @@
         <JavaScriptTestRoot>test\</JavaScriptTestRoot>
         <JavaScriptTestFramework>vitest</JavaScriptTestFramework>
         <ShouldRunBuildScript>false</ShouldRunBuildScript>
-        
+        <ShouldRunNpmInstall>false</ShouldRunNpmInstall>
     </PropertyGroup>
     <ItemGroup>
         <Content Include="**" Exclude="$(DefaultItemExcludes);node_modules\**;reports/**"/>
