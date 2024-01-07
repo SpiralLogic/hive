@@ -42,27 +42,28 @@ if (app.Environment.IsDevelopment())
     app.UseHttpsRedirection();
 }
 app.UseW3CLogging();
-app.UseFileServer(
-    new FileServerOptions
-    {
-        StaticFileOptions =
-        {
-            OnPrepareResponse = ctx =>
-            {
-                if (ctx.File.Name.EndsWith(".js", StringComparison.InvariantCultureIgnoreCase) || ctx.File.Name.EndsWith(".css", StringComparison.InvariantCultureIgnoreCase) || ctx.File.Name.EndsWith(".webmanifest", StringComparison.InvariantCultureIgnoreCase))
-                    ctx.Context.Response.Headers.ContentType += "; charset=utf-8";
-                ctx.Context.Response.Headers[HeaderNames.XContentTypeOptions] = "nosniff";
-                if (ctx.File.Name == "index.html") return;
-                var oneWeekSeconds = (60 * 60 * 24 * 7).ToString(CultureInfo.InvariantCulture);
-                ctx.Context.Response.Headers[HeaderNames.CacheControl] = $"public, max-age={oneWeekSeconds}";
-            }
-        }
-    }
-);
+// app.UseFileServer(
+//     new FileServerOptions
+//     {
+//         StaticFileOptions =
+//         {
+//             OnPrepareResponse = ctx =>
+//             {
+//                 if (ctx.File.Name.EndsWith(".js", StringComparison.InvariantCultureIgnoreCase) || ctx.File.Name.EndsWith(".css", StringComparison.InvariantCultureIgnoreCase) || ctx.File.Name.EndsWith(".webmanifest", StringComparison.InvariantCultureIgnoreCase))
+//                     ctx.Context.Response.Headers.ContentType += "; charset=utf-8";
+//                 ctx.Context.Response.Headers[HeaderNames.XContentTypeOptions] = "nosniff";
+//                 if (ctx.File.Name == "index.html") return;
+//                 var oneWeekSeconds = (60 * 60 * 24 * 7).ToString(CultureInfo.InvariantCulture);
+//                 ctx.Context.Response.Headers[HeaderNames.CacheControl] = $"public, max-age={oneWeekSeconds}";
+//             }
+//         }
+//     }
+// );
 
 app.UseRouting();
 app.MapControllers();
 app.MapHub<GameHub>("/gamehub/{id}/{playerId}", options => { options.AllowStatefulReconnects = true;});
+app.MapFallbackToFile("/index.html");
 app.Run();
 
 public partial class Program

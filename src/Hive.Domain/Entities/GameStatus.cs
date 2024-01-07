@@ -6,6 +6,7 @@ public enum GameStatus
     MoveSuccess,
     AiWin,
     Player0Win,
+
     Player1Win,
     MoveSuccessNextPlayerSkipped,
     MoveInvalid,

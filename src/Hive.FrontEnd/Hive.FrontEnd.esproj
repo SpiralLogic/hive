@@ -1,41 +1,40 @@
-﻿<Project Sdk="Microsoft.Build.NoTargets/3.7.0">
-  <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
-    <Configurations>Debug;Release</Configurations>
-    <IsPackable>false</IsPackable>
-    <TestCommand>pnpm test</TestCommand>
-    <BuildCommand Condition="'$(Configuration)' == 'Release'">pnpm run build</BuildCommand>
-    <BuildCommand Condition="'$(Configuration)' != 'Release'">pnpm run build:dev</BuildCommand>
-    <CleanCommand>pnpm run clean</CleanCommand>
-  </PropertyGroup>
-  <ItemGroup>
-    <Watch Include="src/**" />
-    <Watch Include="test/**" />
-    <Content Include="**" Exclude="$(DefaultItemExcludes);node_modules\**;reports/**" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Remove=".idea\**" />
-    <None Remove=".idea\**" />
-  </ItemGroup>
-  <Target Name="PnpmBuild" AfterTargets="AfterBuild">
-    <Exec Command="$(BuildCommand)" WorkingDirectory="$(BuildWorkingDirectory)" Condition=" '$(BuildCommand)' != '' " />
-    <RemoveDir Directories="bin" />
-  </Target>
-  <Target Name="Test" AfterTargets="VSTest">
-    <Exec ConsoleToMSBuild="true" Command="$(TestCommand)" WorkingDirectory="$(BuildWorkingDirectory)" Condition=" '$(TestCommand)' != '' " />
-  </Target>
-  <Target Name="PnpmClean" AfterTargets="Clean">
-    <Exec Command="$(CleanCommand)" WorkingDirectory="$(BuildWorkingDirectory)" Condition=" '$(CleanCommand)' != '' " />
-  </Target>
-  <Target Name="PnpmRebuild" AfterTargets="Rebuild">
-    <CallTarget Targets="PnpmClean;PnpmBuild" />
-  </Target>
-  <Target Name="DebugEnsureNodeEnv" BeforeTargets="PnpmBuild" Condition="'$(Configuration)' == 'Debug'">
-    <Exec Command="node --version" ContinueOnError="true">
-      <Output TaskParameter="ExitCode" PropertyName="ErrorCode" />
-    </Exec>
-    <Error Condition="'$(ErrorCode)' != '0'" Text="Node.js is required to build and run this project. To continue, please install Node.js from https://nodejs.org/, and then restart your command prompt or IDE." />
-    <Message Importance="high" Text="Restoring dependencies using 'pnpm'. This may take several minutes..." />
-    <Exec WorkingDirectory="$(SpaRoot)" Command="pnpm install" />
-  </Target>
+﻿<Project Sdk="Microsoft.VisualStudio.JavaScript.Sdk/0.5.126-alpha">
+    <PropertyGroup>
+        <TestCommand>pnpm test</TestCommand>
+        <BuildCommand Condition="'$(Configuration)' == 'Release'">pnpm run build</BuildCommand>
+        <CleanCommand>pnpm run clean</CleanCommand>
+        <PublishAssetsDirectory>$(MSBuildProjectDirectory)\public</PublishAssetsDirectory>
+        <StartupCommand>pnpm run dev</StartupCommand>
+        <JavaScriptTestRoot>test\</JavaScriptTestRoot>
+        <JavaScriptTestFramework>vitest</JavaScriptTestFramework>
+        <ShouldRunBuildScript>false</ShouldRunBuildScript>
+    </PropertyGroup>
+    <ItemGroup>
+        <Content Include="**" Exclude="$(DefaultItemExcludes);node_modules\**;reports/**"/>
+    </ItemGroup>
+    <ItemGroup>
+        <Content Remove=".idea\**"/>
+        <None Remove=".idea\**"/>
+    </ItemGroup>
+    <Target Name="PnpmBuild" AfterTargets="AfterBuild">
+        <Exec Command="$(BuildCommand)" WorkingDirectory="$(BuildWorkingDirectory)" Condition=" '$(BuildCommand)' != '' "/>
+        <RemoveDir Directories="bin"/>
+    </Target>
+    <Target Name="Test" AfterTargets="VSTest">
+        <Exec ConsoleToMSBuild="true" Command="$(TestCommand)" WorkingDirectory="$(BuildWorkingDirectory)" Condition=" '$(TestCommand)' != '' "/>
+    </Target>
+    <Target Name="PnpmClean" AfterTargets="Clean">
+        <Exec Command="$(CleanCommand)" WorkingDirectory="$(BuildWorkingDirectory)" Condition=" '$(CleanCommand)' != '' "/>
+    </Target>
+    <Target Name="PnpmRebuild" AfterTargets="Rebuild">
+        <CallTarget Targets="PnpmClean;PnpmBuild"/>
+    </Target>
+    <Target Name="DebugEnsureNodeEnv" BeforeTargets="PnpmBuild" Condition="'$(Configuration)' == 'Debug'">
+        <Exec Command="node --version" ContinueOnError="true">
+            <Output TaskParameter="ExitCode" PropertyName="ErrorCode"/>
+        </Exec>
+        <Error Condition="'$(ErrorCode)' != '0'" Text="Node.js is required to build and run this project. To continue, please install Node.js from https://nodejs.org/, and then restart your command prompt or IDE."/>
+        <Message Importance="high" Text="Restoring dependencies using 'pnpm'. This may take several minutes..."/>
+        <Exec WorkingDirectory="$(SpaRoot)" Command="pnpm install"/>
+    </Target>
 </Project>

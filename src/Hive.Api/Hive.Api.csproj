@@ -11,6 +11,8 @@
     <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
     <TypeScriptToolsVersion>Latest</TypeScriptToolsVersion>
     <SpaRoot>..\Hive.FrontEnd\</SpaRoot>
+    <SpaProxyLaunchCommand>pnpm vite dev</SpaProxyLaunchCommand>
+    <SpaProxyServerUrl>https://localhost:5173</SpaProxyServerUrl>
     <DefaultItemExcludes>$(DefaultItemExcludes);$(SpaRoot)node_modules\**</DefaultItemExcludes>
     <Configurations>Debug;Release;Test</Configurations>
     <Platforms>AnyCPU</Platforms>
@@ -20,15 +22,19 @@
     <AnalysisLevel>latest</AnalysisLevel>
     <AnalysisMode>All</AnalysisMode>
     <NuGetAudit>true</NuGetAudit>
-    <NuGetAuditLevel>moderate</NuGetAuditLevel>
+    <NuGetAuditLevel>moderate</NuGetAuditLevel>    <InvariantGlobalization>true</InvariantGlobalization>
+
   </PropertyGroup>
+  
   <PropertyGroup Condition="'$(Configuration)' == 'Release'">
     <DebugSymbols>false</DebugSymbols>
     <DebugType>none</DebugType>
   </PropertyGroup>
+  
   <ItemGroup>
     <InternalsVisibleTo Include="Hive.Api.Tests" />
   </ItemGroup>
+  
   <ItemGroup>
     <Content Remove="obj\**" />
   </ItemGroup>
@@ -41,6 +47,12 @@
     <PackageReference Include="Microsoft.AspNetCore.SignalR.StackExchangeRedis" Version="8.0.0" />
     <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="8.0.0" />
     <PackageReference Include="StackExchange.Redis" Version="2.7.10" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.SpaProxy">
+      <Version>8.*-*</Version>
+    </PackageReference>
   </ItemGroup>
 
   <ItemGroup>
