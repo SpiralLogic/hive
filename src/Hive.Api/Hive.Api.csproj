@@ -22,33 +22,33 @@
     <AnalysisLevel>latest</AnalysisLevel>
     <AnalysisMode>All</AnalysisMode>
     <NuGetAudit>true</NuGetAudit>
-    <NuGetAuditLevel>moderate</NuGetAuditLevel>    <InvariantGlobalization>true</InvariantGlobalization>
-
+    <NuGetAuditLevel>moderate</NuGetAuditLevel>
+    <InvariantGlobalization>true</InvariantGlobalization>
   </PropertyGroup>
-  
+
   <PropertyGroup Condition="'$(Configuration)' == 'Release'">
     <DebugSymbols>false</DebugSymbols>
     <DebugType>none</DebugType>
   </PropertyGroup>
-  
+
   <ItemGroup>
-    <InternalsVisibleTo Include="Hive.Api.Tests" />
-  </ItemGroup>
-  
-  <ItemGroup>
-    <Content Remove="obj\**" />
+    <InternalsVisibleTo Include="Hive.Api.Tests"/>
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Hive.Domain\Hive.Domain.csproj" />
+    <Content Remove="obj\**"/>
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.SignalR.StackExchangeRedis" Version="8.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="8.0.0" />
-    <PackageReference Include="StackExchange.Redis" Version="2.7.10" />
+    <ProjectReference Include="..\Hive.Domain\Hive.Domain.csproj"/>
   </ItemGroup>
-  
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.SignalR.StackExchangeRedis" Version="8.0.0"/>
+    <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="8.0.0"/>
+    <PackageReference Include="StackExchange.Redis" Version="2.7.10"/>
+  </ItemGroup>
+
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.SpaProxy">
       <Version>8.*-*</Version>
@@ -56,6 +56,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot" />
+    <Folder Include="wwwroot"/>
   </ItemGroup>
 </Project>
