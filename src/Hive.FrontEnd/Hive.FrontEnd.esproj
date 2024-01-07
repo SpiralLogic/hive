@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.VisualStudio.JavaScript.Sdk/0.5.126-alpha">
+﻿<Project Sdk="Microsoft.VisualStudio.JavaScript.Sdk/0.5.302517-alpha">
     <PropertyGroup>
         <TestCommand>pnpm test</TestCommand>
         <BuildCommand Condition="'$(Configuration)' == 'Release'">pnpm run build</BuildCommand>
@@ -8,6 +8,7 @@
         <JavaScriptTestRoot>test\</JavaScriptTestRoot>
         <JavaScriptTestFramework>vitest</JavaScriptTestFramework>
         <ShouldRunBuildScript>false</ShouldRunBuildScript>
+        
     </PropertyGroup>
     <ItemGroup>
         <Content Include="**" Exclude="$(DefaultItemExcludes);node_modules\**;reports/**"/>
