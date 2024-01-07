@@ -11,13 +11,13 @@ using Microsoft.Net.Http.Headers;
 
 var appBuilder = WebApplication.CreateBuilder(args);
 var services = appBuilder.Services;
-services.AddW3CLogging(options =>{options.LoggingFields = W3CLoggingFields.All;} );
+services.AddW3CLogging(options => { options.LoggingFields = W3CLoggingFields.All; });
 services.AddHealthChecks();
 var signalR = services.AddSignalR().AddJsonProtocol(options => { options.PayloadSerializerOptions.Converters.AddAllJsonConverters(); });
 
-if (appBuilder.Environment.IsProduction() &&!string.IsNullOrEmpty( appBuilder.Configuration["RedisHost"]))
+if (appBuilder.Environment.IsProduction() && !string.IsNullOrEmpty(appBuilder.Configuration["RedisHost"]))
 {
-  ThreadPool.SetMinThreads(10, 10);
+    ThreadPool.SetMinThreads(10, 10);
     services.AddStackExchangeRedisCache(
         options =>
         {
@@ -40,29 +40,34 @@ if (app.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
     app.UseHttpsRedirection();
+    app.UseW3CLogging();
 }
-app.UseW3CLogging();
-// app.UseFileServer(
-//     new FileServerOptions
-//     {
-//         StaticFileOptions =
-//         {
-//             OnPrepareResponse = ctx =>
-//             {
-//                 if (ctx.File.Name.EndsWith(".js", StringComparison.InvariantCultureIgnoreCase) || ctx.File.Name.EndsWith(".css", StringComparison.InvariantCultureIgnoreCase) || ctx.File.Name.EndsWith(".webmanifest", StringComparison.InvariantCultureIgnoreCase))
-//                     ctx.Context.Response.Headers.ContentType += "; charset=utf-8";
-//                 ctx.Context.Response.Headers[HeaderNames.XContentTypeOptions] = "nosniff";
-//                 if (ctx.File.Name == "index.html") return;
-//                 var oneWeekSeconds = (60 * 60 * 24 * 7).ToString(CultureInfo.InvariantCulture);
-//                 ctx.Context.Response.Headers[HeaderNames.CacheControl] = $"public, max-age={oneWeekSeconds}";
-//             }
-//         }
-//     }
-// );
+else
+{
+    app.UseFileServer(
+        new FileServerOptions
+        {
+            StaticFileOptions =
+            {
+                OnPrepareResponse = ctx =>
+                {
+                    if (ctx.File.Name.EndsWith(".js", StringComparison.InvariantCultureIgnoreCase) ||
+                        ctx.File.Name.EndsWith(".css", StringComparison.InvariantCultureIgnoreCase) ||
+                        ctx.File.Name.EndsWith(".webmanifest", StringComparison.InvariantCultureIgnoreCase))
+                        ctx.Context.Response.Headers.ContentType += "; charset=utf-8";
+                    ctx.Context.Response.Headers[HeaderNames.XContentTypeOptions] = "nosniff";
+                    if (ctx.File.Name == "index.html") return;
+                    var oneWeekSeconds = (60 * 60 * 24 * 7).ToString(CultureInfo.InvariantCulture);
+                    ctx.Context.Response.Headers[HeaderNames.CacheControl] = $"public, max-age={oneWeekSeconds}";
+                }
+            }
+        }
+    );
+}
 
 app.UseRouting();
 app.MapControllers();
-app.MapHub<GameHub>("/gamehub/{id}/{playerId}", options => { options.AllowStatefulReconnects = true;});
+app.MapHub<GameHub>("/gamehub/{id}/{playerId}", options => { options.AllowStatefulReconnects = true; });
 app.MapFallbackToFile("/index.html");
 app.Run();
 
