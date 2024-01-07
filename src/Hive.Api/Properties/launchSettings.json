@@ -27,6 +27,8 @@
       "executablePath": "dotnet",
       "commandLineArgs": "watch --project $(ProjectDir) run ",
       "workingDirectory": "$(ProjectDir)",
+      "dotnetRunMessages": true,
+      "launchBrowser": true,
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
         "NODE_ENV": "development",

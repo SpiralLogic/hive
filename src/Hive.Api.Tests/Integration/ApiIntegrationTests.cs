@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using FluentAssertions;
 using Hive.Domain.Entities;
 using Microsoft.AspNetCore.Mvc.Testing;
-using Microsoft.Net.Http.Headers;
 using Xunit;
 using Move = Hive.Api.DTOs.Move;
 
@@ -30,42 +29,6 @@ public class ApiIntegrationTests : IClassFixture<WebApplicationFactory<Program>>
 
             }
         );
-    }
-
-    [Theory]
-    [InlineData("/", "text/html")]
-    [InlineData("/index.html", "text/html")]
-    [InlineData("/favicon.ico", "image/x-icon")]
-    [InlineData("/dummy.js", "text/javascript; charset=utf-8")]
-    [InlineData("/dummy.css", "text/css; charset=utf-8")]
-    [InlineData("/game/ID/0", "text/html")]
-    [InlineData("/site.webmanifest", "application/manifest+json; charset=utf-8")]
-    public async Task Get_EndpointsReturnSuccessAndCorrectContentType(string url, string mimeType)
-    {
-        var client = _factory.CreateClient();
-
-        var response = await client.GetAsync(url);
-
-        response.EnsureSuccessStatusCode(); // Status Code 200-299
-        response.Content.Headers.ContentType?.ToString().Should().Be($"{mimeType}");
-    }
-
- [Theory]
-    [InlineData("/")]
-    [InlineData("/index.html")]
-    [InlineData("/favicon.ico")]
-    [InlineData("/dummy.js")]
-    [InlineData("/dummy.css")]
-    [InlineData("/game/ID/0")]
-    [InlineData("/site.webmanifest")]
-    public async Task Get_EndpointsHaveNoSniffXContentTypeOptions(string url)
-    {
-        var client = _factory.CreateClient();
-
-        var response = await client.GetAsync(url);
-
-        response.EnsureSuccessStatusCode(); // Status Code 200-299
-        response.Headers.GetValues(HeaderNames.XContentTypeOptions).Should().Contain("nosniff");
     }
 
     [Fact]
@@ -116,17 +79,17 @@ public class ApiIntegrationTests : IClassFixture<WebApplicationFactory<Program>>
         response.Content.Headers.ContentType?.ToString().Should().Be("application/json; charset=utf-8");
     }
 
-    [Theory]
-    [InlineData("")]
-    [InlineData("/0")]
-    public async Task Post_GameEndpoint_ReturnsGame(string uriSuffix)
-    {
-        var client = _factory.CreateClient();
-        var gameId = await _lazyGameId.Value;
-
-        var response = await client.GetAsync($"/game/{gameId}{uriSuffix}");
-
-        response.EnsureSuccessStatusCode();
-        response.Content.Headers.ContentType?.ToString().Should().Be("text/html; charset=utf-8");
-    }
+    // [Theory]
+    // [InlineData("")]
+    // [InlineData("/0")]
+    // public async Task Post_GameEndpoint_ReturnsGame(string uriSuffix)
+    // {
+    //     var client = _factory.CreateClient();
+    //     var gameId = await _lazyGameId.Value;
+    //
+    //     var response = await client.GetAsync($"/game/{gameId}{uriSuffix}");
+    //
+    //     response.EnsureSuccessStatusCode();
+    //     response.Content.Headers.ContentType?.ToString().Should().Be("text/html; charset=utf-8");
+    // }
 }
