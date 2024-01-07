@@ -42,7 +42,7 @@ jobs:
         env:
            ESLINT_USE_FLAT_CONFIG: true 
         run: pnpm eslint .
-          --config eslint.config.mjs
+          --config eslint.config.js
           --format @microsoft/eslint-formatter-sarif
           --output-file eslint-results.sarif
         continue-on-error: true
