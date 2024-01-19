@@ -43,7 +43,7 @@ public static class Creatures
     {
         Movements = new IMovement[]
         {
-            new OnlyThreeSpaces(),
+            new MoveThreeSpaces(),
             new HiveHasQueen(),
             new WontSplitHive(),
             new HasAnyNeighbour(),

@@ -18,7 +18,7 @@ public class CreatureJsonConverterTests
     {
         var stream = new MemoryStream();
         var writer = new Utf8JsonWriter(stream);
-        _converter.Write(writer, Creatures.Ant, new JsonSerializerOptions(JsonSerializerDefaults.Web));
+        _converter.Write(writer, Creatures.Ant, new(JsonSerializerDefaults.Web));
         writer.Flush();
         stream.Seek(0, SeekOrigin.Begin);
         using var sr = new StreamReader(stream, Encoding.UTF8);
@@ -31,7 +31,7 @@ public class CreatureJsonConverterTests
         var json = Encoding.UTF8.GetBytes("\"Grasshopper\"");
         var reader = new Utf8JsonReader(new ReadOnlySequence<byte>(json));
         reader.Read();
-        var result = _converter.Read(ref reader, typeof(Creature), new JsonSerializerOptions(JsonSerializerDefaults.Web));
+        var result = _converter.Read(ref reader, typeof(Creature), new(JsonSerializerDefaults.Web));
         result.Should().BeEquivalentTo(Creatures.Grasshopper);
     }
 
@@ -52,6 +52,6 @@ public class CreatureJsonConverterTests
         var json = Encoding.UTF8.GetBytes(s);
         var reader = new Utf8JsonReader(new ReadOnlySequence<byte>(json));
         reader.Read();
-        _converter.Read(ref reader, typeof(Creatures), new JsonSerializerOptions(JsonSerializerDefaults.Web));
+        _converter.Read(ref reader, typeof(Creatures), new(JsonSerializerDefaults.Web));
     }
 }

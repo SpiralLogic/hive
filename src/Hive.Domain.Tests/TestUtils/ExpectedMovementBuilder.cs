@@ -31,8 +31,8 @@ internal sealed class ExpectedMovementBuilder : HiveBuilder
 
     protected override void ModifyCell(Cell cell, char symbol)
     {
-        if (symbol == Expected.Symbol) cell.AddTile(new Tile(1, 1, Expected.Creature));
-        if (symbol == Unexpected.Symbol) cell.AddTile(new Tile(1, 2, Unexpected.Creature));
+        if (symbol == Expected.Symbol) cell.AddTile(new(1, 1, Expected.Creature));
+        if (symbol == Unexpected.Symbol) cell.AddTile(new(1, 2, Unexpected.Creature));
     }
 
     internal string GetMovementDiff(IEnumerable<Coords> actual)

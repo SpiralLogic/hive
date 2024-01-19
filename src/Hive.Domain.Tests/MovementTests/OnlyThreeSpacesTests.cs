@@ -25,7 +25,7 @@ public class ThreeSpacesTests
         expected += "⬡ ⬢ ⬡ ⬢ ⬡";
         expected += " ⬡ ⬢ ✔ ⬢ ";
 
-        var move = new OnlyThreeSpaces();
+        var move = new MoveThreeSpaces();
 
         move.Should().HaveMoves(initial, expected);
     }
@@ -57,7 +57,7 @@ public class ThreeSpacesTests
         expected += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡";
         expected += " ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
 
-        var move = new OnlyThreeSpaces();
+        var move = new MoveThreeSpaces();
 
         move.Should().HaveMoves(initial, expected);
     }
@@ -89,7 +89,7 @@ public class ThreeSpacesTests
         expected += "⬡ ⬡ ⬡ ⬡ ⬢ ✔ ⬡ ⬢ ⬡ ⬡";
         expected += " ⬡ ⬡ ⬡ ⬡ ⬢ ⬢ ⬢ ⬡ ⬡ ";
 
-        var move = new OnlyThreeSpaces();
+        var move = new MoveThreeSpaces();
 
         move.Should().HaveMoves(initial, expected);
     }

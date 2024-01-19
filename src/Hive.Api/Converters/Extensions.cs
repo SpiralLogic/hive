@@ -6,6 +6,8 @@ namespace Hive.Api.Converters;
 
 internal static class Extensions
 {
+
+
     internal static void AddAllJsonConverters(this ICollection<JsonConverter> converterCollection)
     {
         ArgumentNullException.ThrowIfNull(converterCollection);

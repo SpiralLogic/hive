@@ -3,7 +3,6 @@ using System.Linq;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
 using FluentAssertions;
-using Hive.Domain.Entities;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Xunit;
 using Move = Hive.Api.DTOs.Move;
@@ -48,7 +47,7 @@ public class ApiIntegrationTests : IClassFixture<WebApplicationFactory<Program>>
         var client = _factory.CreateClient();
         var gameId = await _lazyGameId.Value;
 
-        var response = await client.PostAsJsonAsync($"/api/move/{gameId}/", new Move(0, new Coords(0, 0)));
+        var response = await client.PostAsJsonAsync($"/api/move/{gameId}/", new Move(0, new(0, 0)));
 
         response.EnsureSuccessStatusCode();
         response.Content.Headers.ContentType?.ToString().Should().Be("application/json; charset=utf-8");

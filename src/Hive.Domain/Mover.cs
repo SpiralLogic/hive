@@ -13,12 +13,12 @@ internal class Mover
     internal Mover(Hive hive, IEnumerable<HistoricalMove> history)
     {
         _hive = hive;
-        History = new List<HistoricalMove>(history);
+        History = [..history];
     }
 
     internal GameStatus Move(Move move, bool isAiMove = false)
     {
-        History.Add(new HistoricalMove(move, _hive.Cells.FindCellOrDefault(move.Tile)?.Coords, isAiMove));
+        History.Add(new(move, _hive.Cells.FindCellOrDefault(move.Tile)?.Coords, isAiMove));
         if (IsGameOver())
         {
             ClearAllMoves();
@@ -104,7 +104,7 @@ internal class Mover
         var tile = currentCell.TopTile();
         var moves = tile.Creature.GetAvailableMoves(currentCell, _hive.Cells);
         tile.Moves.AddMany(moves);
-        this.PerformMove(new Move(currentCell.TopTile(), coords));
+        this.PerformMove(new(currentCell.TopTile(), coords));
     }
 
     private Player GetNextPlayer(Tile movedTile)

@@ -10,18 +10,20 @@ public class CanSlideTo : IMovement
     public ISet<Coords> GetMoves(Cell originCell, ISet<Cell> allCells)
     {
         var availableCells = new HashSet<Cell>();
-        GetSlidableNeighbors(originCell, availableCells, allCells);
+        AddSlidableNeighbors(originCell, availableCells, allCells);
         return availableCells.ToCoords();
     }
-
-    private static void GetSlidableNeighbors(Cell currentCell, ISet<Cell> availableCells, ISet<Cell> allCells)
+    private static void AddSlidableNeighbors(Cell currentCell, ISet<Cell> availableCells, ISet<Cell> allCells)
     {
         var neighbors = currentCell.SelectNeighbors(allCells).ToArray();
         foreach (var n in neighbors.WhereEmpty().Except(availableCells))
         {
-            if ( n.SelectNeighbors(neighbors).WhereOccupied().Count() == 2) continue;
+            if (GetOccupiedNeighborsCount(n, neighbors) == 2) continue;
             availableCells.Add(n);
-            GetSlidableNeighbors(n, availableCells, allCells);
+            AddSlidableNeighbors(n, availableCells, allCells);
         }
     }
+
+    private static int GetOccupiedNeighborsCount(Cell cell, Cell[] neighbors) =>
+        cell.SelectNeighbors(neighbors).WhereOccupied().Count();
 }

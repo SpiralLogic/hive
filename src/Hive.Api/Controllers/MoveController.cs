@@ -46,7 +46,7 @@ public class MoveController : ControllerBase
         var tile = players.SelectMany(p => p.Tiles).Concat(cells.SelectMany(c => c.Tiles)).FirstOrDefault(t => t.Id == tileId);
         if (tile == null) return Forbid();
 
-        var gameStatus = game.Move(new Domain.Entities.Move(tile, coords));
+        var gameStatus = game.Move(new(tile, coords));
 
         if (gameStatus == GameStatus.MoveInvalid) return BadRequest("Invalid Move");
 

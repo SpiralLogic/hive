@@ -28,12 +28,12 @@ internal static class CellExtensions
 
     internal static bool HasQueen(this Cell cell)
     {
-        return cell.Tiles.FirstOrDefault(t => t.IsQueen()) != null;
+        return cell.Tiles.Any(t => t.IsQueen());
     }
 
     internal static bool HasPlayerQueen(this Cell cell, int playerId)
     {
-        return cell.Tiles.FirstOrDefault(t => t.IsQueen() && t.PlayerId == playerId) != null;
+        return cell.Tiles.Any(t => t.IsQueen() && t.PlayerId == playerId);
     }
 
     internal static IEnumerable<Cell> QueenNeighbours(this Cell cell, IEnumerable<Cell> cells)

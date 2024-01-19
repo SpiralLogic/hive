@@ -34,7 +34,7 @@ internal sealed class AiAssertions : ReferenceTypeAssertions<Func<Move>, AiAsser
                 actual => new StringBuilder(expected.GetMoveDiff(expectedTiles, actual))
             );
 
-        return new AndConstraint<AiAssertions>(this);
+        return new(this);
     }
 
     public AndConstraint<AiAssertions> BeetleOnQueen(InitialHiveBuilder initialBuilder, ExpectedAiBuilder expected)
@@ -49,10 +49,10 @@ internal sealed class AiAssertions : ReferenceTypeAssertions<Func<Move>, AiAsser
                 "\nResulting " + Identifier + "s did not match expected\n\nInitial:\n{1}\n\nActual - Expected:\n{2}\n",
                 _ => initialBuilder.OriginCells.Count,
                 _ => new StringBuilder(initialBuilder.ToColoredString(initialBuilder.ToString())),
-                actual => new StringBuilder(expected.GetMoveDiff(new HashSet<(Coords Coords, Tile Tile)>(), actual))
+                actual => new StringBuilder(expected.GetMoveDiff(new(), actual))
             );
 
-        return new AndConstraint<AiAssertions>(this);
+        return new(this);
     }
 
     public AndConstraint<AiAssertions> BeetleOnToQueen(InitialHiveBuilder initialBuilder, ExpectedAiBuilder expected)
@@ -67,10 +67,10 @@ internal sealed class AiAssertions : ReferenceTypeAssertions<Func<Move>, AiAsser
                 "\nResulting " + Identifier + "s did not match expected\n\nInitial:\n{1}\n\nActual - Expected:\n{2}\n",
                 _ => initialBuilder.OriginCells.Count,
                 _ => new StringBuilder(initialBuilder.ToColoredString(initialBuilder.ToString())),
-                actual => new StringBuilder(expected.GetMoveDiff(new HashSet<(Coords Coords, Tile Tile)>(), actual))
+                actual => new StringBuilder(expected.GetMoveDiff(new(), actual))
             );
 
-        return new AndConstraint<AiAssertions>(this);
+        return new(this);
     }
 }
 

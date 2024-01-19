@@ -13,7 +13,7 @@ public class CellTests
     [Fact]
     public void CanCreate_WithNoTiles()
     {
-        var cell = new Cell(new Coords(1, 1));
+        var cell = new Cell(new(1, 1));
 
         cell.Tiles.Should().BeEmpty();
     }
@@ -21,7 +21,7 @@ public class CellTests
     [Fact]
     public void CanAddTile()
     {
-        var cell = new Cell(new Coords(1, 1)).AddTile(new Tile(1, 2, Creatures.Queen)).AddTile(new Tile(1, 2, Creatures.Queen));
+        var cell = new Cell(new(1, 1)).AddTile(new(1, 2, Creatures.Queen)).AddTile(new(1, 2, Creatures.Queen));
 
         cell.Tiles.Should().HaveCount(2);
     }
@@ -30,9 +30,9 @@ public class CellTests
     public void AddTile_AddsToTop()
     {
         var topTile = new Tile(4, 2, Creatures.Queen);
-        var cell = new Cell(new Coords(1, 1)).AddTile(new Tile(1, 2, Creatures.Queen))
-            .AddTile(new Tile(2, 2, Creatures.Queen))
-            .AddTile(new Tile(3, 2, Creatures.Queen))
+        var cell = new Cell(new(1, 1)).AddTile(new(1, 2, Creatures.Queen))
+            .AddTile(new(2, 2, Creatures.Queen))
+            .AddTile(new(3, 2, Creatures.Queen))
             .AddTile(topTile);
 
         cell.Tiles.Peek().Should().BeSameAs(topTile);
@@ -41,7 +41,7 @@ public class CellTests
     [Fact]
     public void IsEmpty_WithNoTiles()
     {
-        var cell = new Cell(new Coords(1, 1));
+        var cell = new Cell(new(1, 1));
 
         cell.IsEmpty().Should().BeTrue();
     }
@@ -49,7 +49,7 @@ public class CellTests
     [Fact]
     public void IsNotEmpty_WithTiles()
     {
-        var cell = new Cell(new Coords(1, 1)).AddTile(new Tile(1, 2, Creatures.Queen));
+        var cell = new Cell(new(1, 1)).AddTile(new(1, 2, Creatures.Queen));
 
         cell.IsEmpty().Should().BeFalse();
     }
@@ -58,7 +58,7 @@ public class CellTests
     public void CanGetTopTile()
     {
         var topTile = new Tile(1, 2, Creatures.Queen);
-        var cell = new Cell(new Coords(1, 1)).AddTile(new Tile(1, 2, Creatures.Queen)).AddTile(topTile);
+        var cell = new Cell(new(1, 1)).AddTile(new(1, 2, Creatures.Queen)).AddTile(topTile);
 
         cell.TopTile().Should().BeSameAs(topTile);
     }
@@ -67,7 +67,7 @@ public class CellTests
     public void RemoveTopTile_ReturnsTile()
     {
         var topTile = new Tile(1, 2, Creatures.Queen);
-        var cell = new Cell(new Coords(1, 1)).AddTile(new Tile(1, 2, Creatures.Queen)).AddTile(topTile);
+        var cell = new Cell(new(1, 1)).AddTile(new(1, 2, Creatures.Queen)).AddTile(topTile);
 
         cell.RemoveTopTile().Should().BeSameAs(topTile);
     }
@@ -76,7 +76,7 @@ public class CellTests
     public void RemoveTopTile_RemovesTile()
     {
         var topTile = new Tile(1, 2, Creatures.Queen);
-        var cell = new Cell(new Coords(1, 1)).AddTile(new Tile(1, 4, Creatures.Ant)).AddTile(topTile);
+        var cell = new Cell(new(1, 1)).AddTile(new(1, 4, Creatures.Ant)).AddTile(topTile);
 
         cell.RemoveTopTile();
         cell.Tiles.Should().NotContain(topTile);
@@ -85,8 +85,8 @@ public class CellTests
     [Fact]
     public void CellsWithSameCoordinatesAreEqual()
     {
-        var cell1 = new Cell(new Coords(1, 1));
-        var cell2 = new Cell(new Coords(1, 1)).AddTile(new Tile(1, 2, Creatures.Queen));
+        var cell1 = new Cell(new(1, 1));
+        var cell2 = new Cell(new(1, 1)).AddTile(new(1, 2, Creatures.Queen));
 
         cell1.Equals(cell2).Should().BeTrue();
         cell1.Coords.Equals(cell2.Coords).Should().BeTrue();
@@ -97,11 +97,11 @@ public class CellTests
     {
         var cells = new[]
         {
-            new Cell(new Coords(1, 1))
+            new Cell(new(1, 1))
         }.ToHashSet();
         var cellsWithOverlap = new[]
         {
-            new Cell(new Coords(1, 1)).AddTile(new Tile(1, 2, Creatures.Queen))
+            new Cell(new(1, 1)).AddTile(new(1, 2, Creatures.Queen))
         }.ToHashSet();
 
         cells.UnionWith(cellsWithOverlap);
@@ -111,17 +111,17 @@ public class CellTests
     [Fact]
     public void Equality()
     {
-        var cell1 = new Cell(new Coords(1, 1));
+        var cell1 = new Cell(new(1, 1));
         cell1.Equals(new object()).Should().BeFalse();
         cell1.Equals(null).Should().BeFalse();
 
-        new Cell(new Coords(1, 1)).Equals(null).Should().BeFalse();
+        new Cell(new(1, 1)).Equals(null).Should().BeFalse();
     }
 
     [Fact]
     public void Serialization()
     {
-        var cell = new Cell(new Coords(1, 1)).AddTile(new Tile(1, 2, Creatures.Queen));
+        var cell = new Cell(new(1, 1)).AddTile(new(1, 2, Creatures.Queen));
 
         var serialized = JsonSerializer.Serialize(cell);
         JsonSerializer.Deserialize<Cell>(serialized).Should().BeAssignableTo<Cell>();

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Hive.Domain.Extensions;
 using Hive.Domain.Movements;
@@ -18,7 +19,7 @@ public sealed record Creature(string Name)
 
     public override int GetHashCode()
     {
-        return Name.GetHashCode(StringComparison.Ordinal);
+        return Name.GetHashCode();
     }
 
     public ISet<Coords> GetAvailableMoves(Cell originCell, ISet<Cell> cells)

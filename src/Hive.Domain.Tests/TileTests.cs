@@ -13,7 +13,7 @@ public class TileTests
         tile1.Equals(new object()).Should().BeFalse();
 
         tile1.Should().BeEquivalentTo(new Tile(1, 1, Creatures.Ant));
-        tile1.Equals(new Tile(1, 1, Creatures.Ant)).Should().BeTrue();
+        tile1.Equals(new(1, 1, Creatures.Ant)).Should().BeTrue();
         tile1.Equals(tile1).Should().BeTrue();
         new Tile(3, 1, Creatures.Ant).Equals(null).Should().BeFalse();
     }

@@ -21,7 +21,7 @@ public class NewControllerTests
         var jsonOptions = TestHelpers.CreateJsonOptions();
         _memoryCache = TestHelpers.CreateTestMemoryCache();
         var httpContext = new DefaultHttpContext { TraceIdentifier = NewGameId };
-        _controller = new NewController(Options.Create(jsonOptions), _memoryCache) { ControllerContext = { HttpContext = httpContext } };
+        _controller = new(Options.Create(jsonOptions), _memoryCache) { ControllerContext = { HttpContext = httpContext } };
     }
 
     [Fact]

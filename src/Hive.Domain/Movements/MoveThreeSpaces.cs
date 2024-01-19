@@ -5,23 +5,30 @@ using Hive.Domain.Entities;
 using Hive.Domain.Extensions;
 
 namespace Hive.Domain.Movements;
-
-internal class OnlyThreeSpaces : IMovement
+internal class MoveThreeSpaces : IMovement
 {
+    private const int NumberOfMoves = 3;
+
     public ISet<Coords> GetMoves(Cell originCell, ISet<Cell> allCells)
     {
-        return new Path(originCell).Extend(allCells)
-            .SelectMany(p => p.Extend(allCells))
-            .SelectMany(p => p.Extend(allCells))
+        return GetPathsForMoves(new(originCell), allCells)
             .Select(p => p.Last)
             .ToCoords();
     }
-}
 
+    private static IEnumerable<Path> GetPathsForMoves(Path initialPath, ISet<Cell> allCells)
+    {
+        IEnumerable<Path> paths = new List<Path> { initialPath };
+        for (int i = 0; i < NumberOfMoves; i++)
+        {
+            paths = paths.SelectMany(p => p.Extend(allCells));
+        }
+        return paths;
+    }
+}
 internal sealed record Path(Cell Last)
 {
     private ImmutableHashSet<Cell> Cells { get; init; } = ImmutableHashSet.Create(Last);
-
     internal IEnumerable<Path> Extend(ISet<Cell> allCells)
     {
         return Last.SelectNeighbors(allCells.WhereEmpty().Except(Cells))
