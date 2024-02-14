@@ -73,7 +73,7 @@
     "@preact/preset-vite": "^2.8.1",
     "@preact/signals": "^1.2.2",
     "cross-env": "^7.0.3",
-    "esbuild": "0.19.11",
+    "esbuild": "0.19.12",
     "lint-staged": "^15.2.0",
     "npm-run-all2": "^6.1.1",
     "preact": "^10.19.3",
