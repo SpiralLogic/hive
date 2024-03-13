@@ -2,7 +2,7 @@ main {
   display: inline-grid;
   width: 100vw;
   height: 100vh;
-    user-select: none;
+  user-select: none;
   grid-template-columns: max-content auto;
 }
 
