@@ -31,7 +31,6 @@ body > svg {
   body {
     filter: brightness(1.1);
     margin: 0;
-
     /* noinspection CssInvalidPropertyValue */
     max-height: fill-available;
   }

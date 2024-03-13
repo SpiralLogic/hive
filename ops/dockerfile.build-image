@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/dotnet/sdk:8.0-jammy
+FROM mcr.microsoft.com/dotnet/sdk:9.0-preview-jammy
 RUN apt update -yq && \
     apt upgrade -qy && \
     apt install -yq locales libxext6 libc6 libxml2 curl git nano ca-certificates gnupg  && \
@@ -30,6 +30,6 @@ COPY --from=mcr.microsoft.com/openjdk/jdk:17-distroless $JAVA_HOME $JAVA_HOME
 RUN ln -s /usr/jdk/bin/java /usr/local/bin/java
 
 RUN corepack disable && \
-    corepack prepare pnpm@latest --activate && \
+    corepack prepare pnpm@latest-8 --activate && \
     corepack enable
 WORKDIR /source

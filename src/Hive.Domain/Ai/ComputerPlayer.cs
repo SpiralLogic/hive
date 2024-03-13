@@ -85,7 +85,7 @@ internal class ComputerPlayer
         return toExplore;
     }
 
-    private static ExploreNode[] ReduceToBestMoves(IDictionary<int, List<ExploreNode>> toExplore)
+    private static ExploreNode[] ReduceToBestMoves(Dictionary<int, List<ExploreNode>> toExplore)
     {
         var moves = new List<ExploreNode>();
         foreach (var (_, values) in toExplore) moves.AddRange(values.OrderByDescending(t => t.Score).Take(3).ToList());
@@ -99,7 +99,7 @@ internal class ComputerPlayer
             .ToArray();
     }
 
-    private async ValueTask<ScoredMove> Explore(int depth, IList<ExploreNode> toExplore)
+    private async ValueTask<ScoredMove> Explore(int depth, ExploreNode[] toExplore)
     {
         var best = toExplore[0].Values.Move;
         var bestScore = -HeuristicValues.ScoreMax;
