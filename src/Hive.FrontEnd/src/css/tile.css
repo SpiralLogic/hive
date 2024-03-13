@@ -85,7 +85,7 @@ main.player0 .tile.player0.selected:hover {
     outline: none;
     box-shadow: 0 calc(var(--tile-size) / -4) calc(var(--tile-size) / 3) 0.5vh var(--shadow),
     0 calc(var(--tile-size) / 4) calc(var(--tile-size) / 3) 0.5vh var(--shadow),
-    0 0 calc(var(--tile-size) / 3) 0.5vw var(--shadow);
+    0 0 calc(var(--tile-size) / 3) 0.4vw var(--shadow);
 }
 
 .before-drag::before {

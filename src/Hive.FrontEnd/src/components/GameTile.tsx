@@ -78,6 +78,7 @@ const GameTile = (properties: Properties) => {
       classAction.add('before-drag');
     },
     () => {
+      classAction.remove('before-drag');
       dispatcher.dispatch({ type: 'tileDropped', tile });
       dispatcher.dispatch({ type: 'tileClear' });
     }

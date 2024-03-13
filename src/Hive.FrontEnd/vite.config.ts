@@ -84,13 +84,13 @@ export default defineConfig({
         secure: false,
       },
     },
-    port: 5173,
+    port: 5174,
     https: httpsSettings,
   },
   test: {
     root: './',
     include: ['./test/src/**/*.test.*'],
-    exclude: ['./test/src/__snapshots__/**'],
+    exclude: ['./test/src/__snapshots__/**', './src/svg/**'],
     setupFiles: ['./test/vitest.setup.ts'],
     outputFile: './reports/frontend/test-results.json',
     typecheck: { checker: 'tsc' },
@@ -101,6 +101,8 @@ export default defineConfig({
     reporters: ['dot'],
     coverage: {
       provider: 'v8',
+      all: false,
+
       enabled: true,
       reporter: ['text', 'lcov'],
       reportsDirectory: './reports/frontend/',
