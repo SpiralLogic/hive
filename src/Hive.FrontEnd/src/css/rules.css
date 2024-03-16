@@ -2,6 +2,129 @@
   --hex-size: max(56px, 10vmin);
   --tile-size: max(48px, 8vmin);
   --shadow: #ff00e5a3;
+
+  & [role='grid'] {
+    margin: 1rem auto;
+    max-width: 95vmax;
+    padding: 1vmax;
+  }
+
+  & [role='row'] {
+    pointer-events: none;
+    user-select: none;
+    z-index: unset;
+  }
+
+  & .correct {
+    --result: #1ccb1c;
+  }
+
+  & .incorrect {
+    --result: red;
+  }
+
+  & [role='cell'] > svg:first-child {
+    fill: var(--result);
+  }
+
+  & [role='none'] {
+    width: var(--hex-size);
+  }
+
+  & [role='cell'] span {
+    fill: white;
+    color: var(--result);
+    font-size: 1.5em;
+  }
+
+  & .tile.creature > span {
+    background-color: black;
+    clip-path: circle(40%);
+    opacity: 0.75;
+    text-align: center;
+    width: 1.2em;
+  }
+
+  & [role='cell'] {
+    fill: black;
+    z-index: unset;
+  }
+
+  & .beetle {
+    --fill: #6726e3;
+  }
+
+  & .queen {
+    --fill: orange;
+  }
+
+  & .grasshopper {
+    --fill: #00d000;
+  }
+
+  & .spider {
+    --fill: #f00;
+  }
+
+  & .ant {
+    --fill: cyan;
+  }
+
+  & use:nth-child(2) {
+    --creature: var(--fill);
+  }
+
+  & .correct .tile use:nth-child(2) {
+    opacity: 0.3;
+  }
+
+  & .tile.selected::before {
+    --shadow: var(--fill);
+  }
+
+  & .tile {
+    fill: black;
+    z-index: unset;
+  }
+
+  & .tile:not(use:nth-child(2)) svg use:only-child {
+    fill: white;
+  }
+
+  & .tile:not([draggable='true']) {
+    opacity: 1;
+  }
+
+  & ul {
+    font-size: 1em;
+    list-style: none;
+    margin: 4vmin;
+    text-align: center;
+
+    & li::after,
+    & li::before {
+      content: ' ⬢ ';
+      margin: 0 1em;
+    }
+  }
+
+  & h3 {
+    font-size: 1.5em;
+    margin: 0 1.5rem;
+    min-width: 20vw;
+    text-align: center;
+  }
+
+  & .blank {
+    --tile-size: var(--hex-size);
+  }
+
+  & .menu {
+    display: grid;
+    grid-auto-flow: column;
+    justify-content: center;
+    padding: 1vmax;
+  }
 }
 
 .rules > div {
@@ -9,132 +132,9 @@
   flex-direction: column;
 }
 
-.rules [role='grid'] {
-  margin: 1rem auto;
-  max-width: 95vmax;
-  padding: 1vmax;
-}
-
-.rules [role='row'] {
-  pointer-events: none;
-  user-select: none;
-  z-index: unset;
-}
-
-.rules .correct {
-  --result: #1ccb1c;
-}
-
-.rules .incorrect {
-  --result: red;
-}
-
-.rules [role='cell'] > svg:first-child {
-  fill: var(--result);
-}
-
-.rules [role='none'] {
-  width: var(--hex-size);
-}
-
-.rules [role='cell'] span {
-  fill: white;
-  color: var(--result);
-  font-size: 1.5em;
-}
-
-.rules .tile.creature > span {
-  background-color: black;
-  clip-path: circle(40%);
-  opacity: 0.75;
-  text-align: center;
-  width: 1.2em;
-}
-
-.rules [role='cell'] {
-  fill: black;
-  z-index: unset;
-}
-
-.rules .beetle {
-  --fill: #6726e3;
-}
-
-.rules .queen {
-  --fill: orange;
-}
-
-.rules .grasshopper {
-  --fill: #00d000;
-}
-
-.rules .spider {
-  --fill: #f00;
-}
-
-.rules .ant {
-  --fill: cyan;
-}
-
-.rules use:nth-child(2) {
-  --creature: var(--fill);
-}
-
-.rules .correct .tile use:nth-child(2) {
-  opacity: 0.3;
-}
-
-.rules .tile.selected::before {
-  --shadow: var(--fill);
-}
-
-.rules .tile {
-  fill: black;
-  z-index: unset;
-}
-
-.rules .tile:not(use:nth-child(2)) svg use:only-child {
-  fill: white;
-}
-
-.rules .tile:not([draggable='true']) {
-  opacity: 1;
-}
-
 @media only screen and (width <= 720px) {
   .rules {
     --hex-size: max(40px, 16vmin);
     --tile-size: max(36px, 13vmin);
   }
-}
-
-.rules ul {
-  font-size: 1em;
-  list-style: none;
-  margin: 4vmin;
-  text-align: center;
-}
-
-.rules ul li::after,
-.rules ul li::before {
-  content: ' ⬢ ';
-  margin: 0 1em;
-}
-
-.rules h3 {
-  font-size: 1.5em;
-  margin: 0 1.5rem;
-  min-width: 20vw;
-  text-align: center;
-}
-
-.rules .blank {
-  --tile-size: var(--hex-size);
-}
-
-.rules .menu {
-  display: grid;
-  grid-auto-flow: column;
-  justify-content: center;
-  padding: 1vmax;
 }

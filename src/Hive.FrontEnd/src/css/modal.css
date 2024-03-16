@@ -1,29 +1,29 @@
 dialog::backdrop {
-  backdrop-filter: blur(6px);
+    backdrop-filter: blur(6px);
 }
 
 dialog {
-  font-size: 1rem;
-  align-content: center;
-  flex-direction: column;
-  width: max-content;
-  max-width: 98vw;
-  height: max-content;
-  padding: 2vmin;
-  transition-duration: 0.5s;
-  transition-property: height, width;
-  border-radius: 5px;
-  background-color: rgb(249 235 208);
-  text-align: center;
-  user-select: none;
-}
+    font-size: 1rem;
+    align-content: center;
+    flex-direction: column;
+    width: max-content;
+    max-width: 98vw;
+    height: max-content;
+    padding: 2vmin;
+    transition-duration: 0.5s;
+    transition-property: height, width;
+    border-radius: 5px;
+    background-color: rgb(249 235 208);
+    text-align: center;
+    user-select: none;
 
-dialog button.close {
-  position: absolute;
-  right: 10px;
-  top: 10px;
-}
+    & button.close {
+        position: absolute;
+        right: 10px;
+        top: 10px;
+    }
 
-dialog.hide {
-  transform: scale(0);
+    + .hide {
+        transform: scale(0);
+    }
 }

@@ -1,33 +1,32 @@
 .arrow {
-  --span: 1;
+    --span: 1;
 
-  fill: var(--result);
-  stroke-width: 1px;
-  transform: rotate(var(--arrow-deg)) translateY(calc(var(--hex-size) / -3.2))
-    scale(1, calc(var(--span) * 0.95));
-  transform-origin: center center;
-}
+    fill: var(--result);
+    stroke-width: 1px;
+    transform: rotate(var(--arrow-deg)) translateY(calc(var(--hex-size) / -3.2)) scale(1, calc(var(--span) * 0.95));
+    transform-origin: center center;
 
-.arrow.left {
-  --arrow-deg: -90deg;
-}
+    &.left {
+        --arrow-deg: -90deg;
+    }
 
-.arrow.right {
-  --arrow-deg: 90deg;
-}
+    &.right {
+        --arrow-deg: 90deg;
+    }
 
-.arrow.bottom-left {
-  --arrow-deg: -148deg;
-}
+    &.bottom-left {
+        --arrow-deg: -148deg;
+    }
 
-.arrow.top-right {
-  --arrow-deg: 30deg;
-}
+    &.top-right {
+        --arrow-deg: 30deg;
+    }
 
-.arrow.top-left {
-  --arrow-deg: -30deg;
-}
+    &.top-left {
+        --arrow-deg: -30deg;
+    }
 
-.arrow.bottom-right {
-  --arrow-deg: 148deg;
+    &.bottom-right {
+        --arrow-deg: 148deg;
+    }
 }
