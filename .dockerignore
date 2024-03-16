@@ -2,3 +2,5 @@
 **/tsconfig.tsbuildinfo
 !.npmrc
 **/.idea
+**/reports
+!**/__lint__
