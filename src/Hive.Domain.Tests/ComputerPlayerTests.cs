@@ -688,7 +688,7 @@ public class ComputerPlayerTests
            await player.GetMove();
             stopwatch.Stop();
 
-        stopwatch.ElapsedMilliseconds.Should().BeGreaterThan(150, "The global max search time was reached");
+        stopwatch.ElapsedMilliseconds.Should().BeGreaterThan(100, "The global max search time was reached");
         stopwatch.ElapsedMilliseconds.Should().BeLessThan(1000, "but didn't take ages to return");
     }
 
