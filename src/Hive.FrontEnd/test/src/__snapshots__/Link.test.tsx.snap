@@ -30,8 +30,7 @@ exports[`<Links> snapshots > matches 1`] = `
       />
     </svg>
   </a>
-  <a
-    href="#"
+  <button
     name="Show rules"
     title="Rules"
   >
@@ -43,9 +42,8 @@ exports[`<Links> snapshots > matches 1`] = `
         href="#rules"
       />
     </svg>
-  </a>
-  <a
-    href="#"
+  </button>
+  <button
     name="Toggle Ai"
     title="Toggle Ai"
   >
@@ -57,7 +55,7 @@ exports[`<Links> snapshots > matches 1`] = `
         href="#ai"
       />
     </svg>
-  </a>
+  </button>
   <a
     class="github"
     href="https://github.com/SpiralLogic/hive"

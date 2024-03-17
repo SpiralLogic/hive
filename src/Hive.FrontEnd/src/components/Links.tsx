@@ -49,18 +49,18 @@ const Links: FunctionComponent<Properties> = ({
       <a href={`/`} name="New game!" title="New Game">
         <Svg hrefs={['new']} />
       </a>
-      <a href="#" name="Show rules" onClick={handle(onShowRules)} title="Rules">
+      <button name="Show rules" onClick={handle(onShowRules)} title="Rules">
         <Svg hrefs={['rules']} />
-      </a>
-      <a
-        href="#"
+      </button>
+      <button
         name="Toggle Ai"
         class={aiClass}
         onWheel={handle(wheelHandler)}
+        onDblClick={handle(wheelHandler)}
         onClick={handle(clickHandler)}
         title="Toggle Ai">
         <Svg hrefs={['ai']} />
-      </a>
+      </button>
       <a class="github" href="https://github.com/SpiralLogic/hive" title="Source code">
         <Svg hrefs={['github']} />
       </a>

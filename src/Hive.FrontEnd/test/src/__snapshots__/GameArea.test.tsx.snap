@@ -82,8 +82,7 @@ exports[`<GameArea> snapshots > matches 1`] = `
           />
         </svg>
       </a>
-      <a
-        href="#"
+      <button
         name="Show rules"
         title="Rules"
       >
@@ -95,10 +94,9 @@ exports[`<GameArea> snapshots > matches 1`] = `
             href="#rules"
           />
         </svg>
-      </a>
-      <a
+      </button>
+      <button
         class="ai-off"
-        href="#"
         name="Toggle Ai"
         title="Toggle Ai"
       >
@@ -110,7 +108,7 @@ exports[`<GameArea> snapshots > matches 1`] = `
             href="#ai"
           />
         </svg>
-      </a>
+      </button>
       <a
         class="github"
         href="https://github.com/SpiralLogic/hive"
@@ -686,8 +684,7 @@ exports[`<GameArea> snapshots > matches game over 1`] = `
           />
         </svg>
       </a>
-      <a
-        href="#"
+      <button
         name="Show rules"
         title="Rules"
       >
@@ -699,10 +696,9 @@ exports[`<GameArea> snapshots > matches game over 1`] = `
             href="#rules"
           />
         </svg>
-      </a>
-      <a
+      </button>
+      <button
         class="ai-off"
-        href="#"
         name="Toggle Ai"
         title="Toggle Ai"
       >
@@ -714,7 +710,7 @@ exports[`<GameArea> snapshots > matches game over 1`] = `
             href="#ai"
           />
         </svg>
-      </a>
+      </button>
       <a
         class="github"
         href="https://github.com/SpiralLogic/hive"
@@ -1291,8 +1287,7 @@ exports[`<GameArea> snapshots > matches with historical move 1`] = `
           />
         </svg>
       </a>
-      <a
-        href="#"
+      <button
         name="Show rules"
         title="Rules"
       >
@@ -1304,10 +1299,9 @@ exports[`<GameArea> snapshots > matches with historical move 1`] = `
             href="#rules"
           />
         </svg>
-      </a>
-      <a
+      </button>
+      <button
         class="ai-off"
-        href="#"
         name="Toggle Ai"
         title="Toggle Ai"
       >
@@ -1319,7 +1313,7 @@ exports[`<GameArea> snapshots > matches with historical move 1`] = `
             href="#ai"
           />
         </svg>
-      </a>
+      </button>
       <a
         class="github"
         href="https://github.com/SpiralLogic/hive"

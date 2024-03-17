@@ -1,38 +1,43 @@
 nav {
-    position: absolute;
-    right: 0;
-    top: 0;
-    display: grid;
-    padding: 10px;
-    grid-auto-flow: column;
-    grid-template-columns: max-content;
-    gap: 20px;
+  position: absolute;
+  right: 0;
+  top: 0;
+  display: grid;
+  padding: 10px;
+  grid-auto-flow: column;
+  grid-template-columns: max-content;
+  gap: 20px;
 
-    & svg {
-        width: 3rem;
-    }
+  & svg {
+    width: 3rem;
+  }
 
-    & .ai-off {
-        filter: opacity(0.2);
-    }
+  & .ai-off {
+    filter: opacity(0.2);
+  }
 
-    & a, & a:where(:visited, :active) {
-        fill: white;
-    }
+  & a, & button, & a:where(:visited, :active) {
+    fill: white;
+  }
+
+  & button {
+    background: none;
+    border: none;
+  }
 }
 
 @media only screen and (width <= 720px) {
-    nav {
-        gap: 2rem;
-        grid-auto-flow: column;
-        position: absolute;
-        justify-self: center;
-        bottom: 10px;
-        top: auto;
-        right: auto;
+  nav {
+    gap: 2rem;
+    grid-auto-flow: column;
+    position: absolute;
+    justify-self: center;
+    bottom: 10px;
+    top: auto;
+    right: auto;
 
-        & svg {
-            width: 2rem;
-        }
+    & svg {
+      width: 2rem;
     }
+  }
 }
