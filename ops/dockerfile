@@ -1,10 +1,12 @@
 FROM registry.lab.sorijen.net.au/build-image:latest as build
 
 WORKDIR /source/frontend
-COPY src/Hive.FrontEnd ./
+COPY src/Hive.FrontEnd .
 ENV NODE_ENV=production
 
 RUN pnpm install -P --frozen-lockfile
+
+COPY src/Hive.FrontEnd .
 RUN pnpm vite:build
 
 WORKDIR /source/backend
