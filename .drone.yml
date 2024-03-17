@@ -31,7 +31,7 @@ steps:
       - name: reports
         path: /drone/src/reports
   - name: build
-    image: plugins/kaniko:1.7.4-kaniko1.9.2
+    image: plugins/kaniko:1.8.8-kaniko1.9.1
     settings:
       registry: registry.lab.sorijen.net.au
       username: 
@@ -265,7 +265,7 @@ clone:
   depth: 1
 steps:
   - name: node-upgrade
-    image: node:19-alpine
+    image: node:20-alpine
     commands:
       - cd src/Hive.FrontEnd
       - npm i --location=global pnpm
@@ -306,7 +306,7 @@ clone:
   depth: 1
 steps:
   - name: build
-    image: plugins/kaniko:1.7.4-kaniko1.9.2
+    image: plugins/kaniko:1.8.8-kaniko1.9.1
     settings:
       registry: registry.lab.sorijen.net.au
       username:
@@ -336,7 +336,7 @@ clone:
   depth: 1
 steps:
   - name: build
-    image: plugins/kaniko:1.7.4-kaniko1.9.2
+    image: plugins/kaniko:1.8.8-kaniko1.9.1
     settings:
       registry: registry.lab.sorijen.net.au
       username:
