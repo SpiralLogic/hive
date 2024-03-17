@@ -451,12 +451,11 @@ $RECYCLE.BIN/
 **/.run
 **/.DS_Store
 **/dist
-**/public
+**/public/**
 **/reports
 **/wwwroot/**
 **/js/**/*.js
 **/js/**/*.css
-**/public
 **/js/**/*.map
 **/.build-cache/
 *.sln.DotSettings.user
