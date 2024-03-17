@@ -71,7 +71,7 @@ steps:
       - dotnet-coverage collect --output-format xml dotnet test src
       - dotnet-sonarscanner end /d:sonar.token=$SONARQUBE_KEY
   - name: test-results
-    image: plugins/kaniko:1.7.4-kaniko1.9.2
+    image: plugins/kaniko:1.8.8-kaniko1.9.1
     depends_on:
       - frontend
       - backend
