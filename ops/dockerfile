@@ -6,7 +6,7 @@ ENV NODE_ENV=production
 
 RUN pnpm install -P --frozen-lockfile
 
-COPY ./src/Hive.FrontEnd ./
+COPY ./src/Hive.FrontEnd .
 RUN pnpm vite:build
 
 WORKDIR /source/backend
