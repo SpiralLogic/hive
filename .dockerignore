@@ -1,7 +1,0 @@
-**/node_modules
-**/tsconfig.tsbuildinfo
-!.npmrc
-**/.idea
-**/reports
-!**/__lint__
-**/.tmp
