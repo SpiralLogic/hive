@@ -6,13 +6,13 @@ ENV NODE_ENV=production
 
 RUN pnpm install -P --frozen-lockfile
 
-COPY ./src/Hive.FrontEnd .
+COPY src/Hive.FrontEnd .
 RUN pnpm vite:build
 
 WORKDIR /source/backend
 ENV ASPNETCORE_ENVIRONMENT=Production
 
-COPY ./src .
+COPY src .
 RUN dotnet publish -c release --property PublishDir=/source/backend/dist
 
 FROM mcr.microsoft.com/dotnet/aspnet:9.0-preview-jammy-chiseled
