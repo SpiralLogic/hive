@@ -40,6 +40,9 @@ steps:
         from_secret: REGISTRY_PASSWORD
       repo: registry.lab.sorijen.net.au/hive
       dockerfile: ops/dockerfile
+      cleanup: true
+      single_snapshot: true,
+      image_fs_extract_retry: 3
       tags:
       - latest
       - ${DRONE_BUILD_NUMBER}-${DRONE_COMMIT_SHA:0:8}
