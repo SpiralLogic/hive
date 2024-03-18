@@ -20,6 +20,9 @@ dependencies:
   esbuild:
     specifier: 0.20.2
     version: 0.20.2
+  lightningcss:
+    specifier: ^1.24.1
+    version: 1.24.1
   lint-staged:
     specifier: ^15.2.2
     version: 15.2.2
@@ -37,10 +40,10 @@ dependencies:
     version: 5.4.2
   vite:
     specifier: ^5.1.6
-    version: 5.1.6(@types/node@20.11.28)
+    version: 5.1.6(@types/node@20.11.28)(lightningcss@1.24.1)
   vitest:
     specifier: 1.4.0
-    version: 1.4.0(@types/node@20.11.28)(@vitest/ui@1.4.0)(jsdom@24.0.0)
+    version: 1.4.0(@types/node@20.11.28)(@vitest/ui@1.4.0)(jsdom@24.0.0)(lightningcss@1.24.1)
 
 devDependencies:
   '@testing-library/dom':
@@ -1031,7 +1034,7 @@ packages:
       resolve: 1.22.8
       source-map: 0.7.4
       stack-trace: 1.0.0-pre2
-      vite: 5.1.6(@types/node@20.11.28)
+      vite: 5.1.6(@types/node@20.11.28)(lightningcss@1.24.1)
     transitivePeerDependencies:
       - preact
       - supports-color
@@ -1078,7 +1081,7 @@ packages:
       '@prefresh/utils': 1.2.0
       '@rollup/pluginutils': 4.2.1
       preact: 10.19.6
-      vite: 5.1.6(@types/node@20.11.28)
+      vite: 5.1.6(@types/node@20.11.28)(lightningcss@1.24.1)
     transitivePeerDependencies:
       - supports-color
     dev: false
@@ -1242,7 +1245,7 @@ packages:
       dom-accessibility-api: 0.6.3
       lodash: 4.17.21
       redent: 3.0.0
-      vitest: 1.4.0(@types/node@20.11.28)(@vitest/ui@1.4.0)(jsdom@24.0.0)
+      vitest: 1.4.0(@types/node@20.11.28)(@vitest/ui@1.4.0)(jsdom@24.0.0)(lightningcss@1.24.1)
     dev: true
 
   /@testing-library/preact@3.2.3(preact@10.19.6):
@@ -1517,7 +1520,7 @@ packages:
       magicast: 0.3.3
       picocolors: 1.0.0
       test-exclude: 6.0.0
-      vitest: 1.4.0(@types/node@20.11.28)(@vitest/ui@1.4.0)(jsdom@24.0.0)
+      vitest: 1.4.0(@types/node@20.11.28)(@vitest/ui@1.4.0)(jsdom@24.0.0)(lightningcss@1.24.1)
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -1541,7 +1544,7 @@ packages:
       strip-literal: 2.0.0
       test-exclude: 6.0.0
       v8-to-istanbul: 9.2.0
-      vitest: 1.4.0(@types/node@20.11.28)(@vitest/ui@1.4.0)(jsdom@24.0.0)
+      vitest: 1.4.0(@types/node@20.11.28)(@vitest/ui@1.4.0)(jsdom@24.0.0)(lightningcss@1.24.1)
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -1584,7 +1587,7 @@ packages:
       pathe: 1.1.2
       picocolors: 1.0.0
       sirv: 2.0.4
-      vitest: 1.4.0(@types/node@20.11.28)(@vitest/ui@1.4.0)(jsdom@24.0.0)
+      vitest: 1.4.0(@types/node@20.11.28)(@vitest/ui@1.4.0)(jsdom@24.0.0)(lightningcss@1.24.1)
 
   /@vitest/utils@1.4.0:
     resolution: {integrity: sha512-mx3Yd1/6e2Vt/PUC98DcqTirtfxUyAZ32uK82r8rZzbtBeBo+nqgnjx/LvqQdWsrvNtm14VmurNgcf4nqY5gJg==}
@@ -2195,6 +2198,11 @@ packages:
     engines: {node: '>=6'}
     dev: true
 
+  /detect-libc@1.0.3:
+    resolution: {integrity: sha512-pGjwhsmsp4kL2RTz08wcOlGN83otlqHeD/Z5T8GXZB+/YcpQ/dgo+lbU8ZsGxV0HIvqqxo9l7mqYwyYMD9bKDg==}
+    engines: {node: '>=0.10'}
+    hasBin: true
+
   /diff-sequences@29.6.3:
     resolution: {integrity: sha512-EjePK1srD3P08o2j4f0ExnylqRs5B9tJjcp9t1krH2qRi8CCdsYfwe9JgSLurFBWwq4uOlipzfk5fHNvwFKr8Q==}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
@@ -2733,7 +2741,7 @@ packages:
       '@typescript-eslint/eslint-plugin': 7.2.0(@typescript-eslint/parser@7.2.0)(eslint@8.57.0)(typescript@5.4.2)
       '@typescript-eslint/utils': 7.2.0(eslint@8.57.0)(typescript@5.4.2)
       eslint: 8.57.0
-      vitest: 1.4.0(@types/node@20.11.28)(@vitest/ui@1.4.0)(jsdom@24.0.0)
+      vitest: 1.4.0(@types/node@20.11.28)(@vitest/ui@1.4.0)(jsdom@24.0.0)(lightningcss@1.24.1)
     transitivePeerDependencies:
       - supports-color
       - typescript
@@ -3729,6 +3737,94 @@ packages:
       prelude-ls: 1.2.1
       type-check: 0.4.0
     dev: true
+
+  /lightningcss-darwin-arm64@1.24.1:
+    resolution: {integrity: sha512-1jQ12jBy+AE/73uGQWGSafK5GoWgmSiIQOGhSEXiFJSZxzV+OXIx+a9h2EYHxdJfX864M+2TAxWPWb0Vv+8y4w==}
+    engines: {node: '>= 12.0.0'}
+    cpu: [arm64]
+    os: [darwin]
+    requiresBuild: true
+    optional: true
+
+  /lightningcss-darwin-x64@1.24.1:
+    resolution: {integrity: sha512-R4R1d7VVdq2mG4igMU+Di8GPf0b64ZLnYVkubYnGG0Qxq1KaXQtAzcLI43EkpnoWvB/kUg8JKCWH4S13NfiLcQ==}
+    engines: {node: '>= 12.0.0'}
+    cpu: [x64]
+    os: [darwin]
+    requiresBuild: true
+    optional: true
+
+  /lightningcss-freebsd-x64@1.24.1:
+    resolution: {integrity: sha512-z6NberUUw5ALES6Ixn2shmjRRrM1cmEn1ZQPiM5IrZ6xHHL5a1lPin9pRv+w6eWfcrEo+qGG6R9XfJrpuY3e4g==}
+    engines: {node: '>= 12.0.0'}
+    cpu: [x64]
+    os: [freebsd]
+    requiresBuild: true
+    optional: true
+
+  /lightningcss-linux-arm-gnueabihf@1.24.1:
+    resolution: {integrity: sha512-NLQLnBQW/0sSg74qLNI8F8QKQXkNg4/ukSTa+XhtkO7v3BnK19TS1MfCbDHt+TTdSgNEBv0tubRuapcKho2EWw==}
+    engines: {node: '>= 12.0.0'}
+    cpu: [arm]
+    os: [linux]
+    requiresBuild: true
+    optional: true
+
+  /lightningcss-linux-arm64-gnu@1.24.1:
+    resolution: {integrity: sha512-AQxWU8c9E9JAjAi4Qw9CvX2tDIPjgzCTrZCSXKELfs4mCwzxRkHh2RCxX8sFK19RyJoJAjA/Kw8+LMNRHS5qEg==}
+    engines: {node: '>= 12.0.0'}
+    cpu: [arm64]
+    os: [linux]
+    requiresBuild: true
+    optional: true
+
+  /lightningcss-linux-arm64-musl@1.24.1:
+    resolution: {integrity: sha512-JCgH/SrNrhqsguUA0uJUM1PvN5+dVuzPIlXcoWDHSv2OU/BWlj2dUYr3XNzEw748SmNZPfl2NjQrAdzaPOn1lA==}
+    engines: {node: '>= 12.0.0'}
+    cpu: [arm64]
+    os: [linux]
+    requiresBuild: true
+    optional: true
+
+  /lightningcss-linux-x64-gnu@1.24.1:
+    resolution: {integrity: sha512-TYdEsC63bHV0h47aNRGN3RiK7aIeco3/keN4NkoSQ5T8xk09KHuBdySltWAvKLgT8JvR+ayzq8ZHnL1wKWY0rw==}
+    engines: {node: '>= 12.0.0'}
+    cpu: [x64]
+    os: [linux]
+    requiresBuild: true
+    optional: true
+
+  /lightningcss-linux-x64-musl@1.24.1:
+    resolution: {integrity: sha512-HLfzVik3RToot6pQ2Rgc3JhfZkGi01hFetHt40HrUMoeKitLoqUUT5owM6yTZPTytTUW9ukLBJ1pc3XNMSvlLw==}
+    engines: {node: '>= 12.0.0'}
+    cpu: [x64]
+    os: [linux]
+    requiresBuild: true
+    optional: true
+
+  /lightningcss-win32-x64-msvc@1.24.1:
+    resolution: {integrity: sha512-joEupPjYJ7PjZtDsS5lzALtlAudAbgIBMGJPNeFe5HfdmJXFd13ECmEM+5rXNxYVMRHua2w8132R6ab5Z6K9Ow==}
+    engines: {node: '>= 12.0.0'}
+    cpu: [x64]
+    os: [win32]
+    requiresBuild: true
+    optional: true
+
+  /lightningcss@1.24.1:
+    resolution: {integrity: sha512-kUpHOLiH5GB0ERSv4pxqlL0RYKnOXtgGtVe7shDGfhS0AZ4D1ouKFYAcLcZhql8aMspDNzaUCumGHZ78tb2fTg==}
+    engines: {node: '>= 12.0.0'}
+    dependencies:
+      detect-libc: 1.0.3
+    optionalDependencies:
+      lightningcss-darwin-arm64: 1.24.1
+      lightningcss-darwin-x64: 1.24.1
+      lightningcss-freebsd-x64: 1.24.1
+      lightningcss-linux-arm-gnueabihf: 1.24.1
+      lightningcss-linux-arm64-gnu: 1.24.1
+      lightningcss-linux-arm64-musl: 1.24.1
+      lightningcss-linux-x64-gnu: 1.24.1
+      lightningcss-linux-x64-musl: 1.24.1
+      lightningcss-win32-x64-msvc: 1.24.1
 
   /lilconfig@3.0.0:
     resolution: {integrity: sha512-K2U4W2Ff5ibV7j7ydLr+zLAkIg5JJ4lPn1Ltsdt+Tz/IjQ8buJ55pZAxoP34lqIiwtF9iAvtLv3JGv7CAyAg+g==}
@@ -5187,7 +5283,7 @@ packages:
       spdx-expression-parse: 3.0.1
     dev: true
 
-  /vite-node@1.4.0(@types/node@20.11.28):
+  /vite-node@1.4.0(@types/node@20.11.28)(lightningcss@1.24.1):
     resolution: {integrity: sha512-VZDAseqjrHgNd4Kh8icYHWzTKSCZMhia7GyHfhtzLW33fZlG9SwsB6CEhgyVOWkJfJ2pFLrp/Gj1FSfAiqH9Lw==}
     engines: {node: ^18.0.0 || >=20.0.0}
     hasBin: true
@@ -5196,7 +5292,7 @@ packages:
       debug: 4.3.4
       pathe: 1.1.2
       picocolors: 1.0.0
-      vite: 5.1.6(@types/node@20.11.28)
+      vite: 5.1.6(@types/node@20.11.28)(lightningcss@1.24.1)
     transitivePeerDependencies:
       - '@types/node'
       - less
@@ -5207,7 +5303,7 @@ packages:
       - supports-color
       - terser
 
-  /vite@5.1.6(@types/node@20.11.28):
+  /vite@5.1.6(@types/node@20.11.28)(lightningcss@1.24.1):
     resolution: {integrity: sha512-yYIAZs9nVfRJ/AiOLCA91zzhjsHUgMjB+EigzFb6W2XTLO8JixBCKCjvhKZaye+NKYHCrkv3Oh50dH9EdLU2RA==}
     engines: {node: ^18.0.0 || >=20.0.0}
     hasBin: true
@@ -5237,12 +5333,13 @@ packages:
     dependencies:
       '@types/node': 20.11.28
       esbuild: 0.19.12
+      lightningcss: 1.24.1
       postcss: 8.4.35
       rollup: 4.13.0
     optionalDependencies:
       fsevents: 2.3.3
 
-  /vitest@1.4.0(@types/node@20.11.28)(@vitest/ui@1.4.0)(jsdom@24.0.0):
+  /vitest@1.4.0(@types/node@20.11.28)(@vitest/ui@1.4.0)(jsdom@24.0.0)(lightningcss@1.24.1):
     resolution: {integrity: sha512-gujzn0g7fmwf83/WzrDTnncZt2UiXP41mHuFYFrdwaLRVQ6JYQEiME2IfEjU3vcFL3VKa75XhI3lFgn+hfVsQw==}
     engines: {node: ^18.0.0 || >=20.0.0}
     hasBin: true
@@ -5287,8 +5384,8 @@ packages:
       strip-literal: 2.0.0
       tinybench: 2.6.0
       tinypool: 0.8.2
-      vite: 5.1.6(@types/node@20.11.28)
-      vite-node: 1.4.0(@types/node@20.11.28)
+      vite: 5.1.6(@types/node@20.11.28)(lightningcss@1.24.1)
+      vite-node: 1.4.0(@types/node@20.11.28)(lightningcss@1.24.1)
       why-is-node-running: 2.2.2
     transitivePeerDependencies:
       - less
