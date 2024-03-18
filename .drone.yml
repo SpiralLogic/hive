@@ -41,7 +41,7 @@ steps:
       repo: registry.lab.sorijen.net.au/hive
       dockerfile: ops/dockerfile
       cleanup: true
-      single_snapshot: true,
+      single_snapshot: true
       image_fs_extract_retry: 3
       tags:
       - latest
