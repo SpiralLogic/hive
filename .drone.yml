@@ -30,6 +30,19 @@ steps:
     volumes:
       - name: reports
         path: /drone/src/reports
+  - name: buildah
+    image: plugins/buildah
+    settings:
+       repo: registry.lab.sorijen.net.au/hive
+       registry: registry.lab.sorijen.net.au
+       password: 
+         from_secret: REGISTRY_PASSWORD
+       username:
+         from_secret: REGISTRY_USER
+       dockerfile: ops/dockerfile
+       tags:
+         - latest
+         - ${DRONE_BUILD_NUMBER}-${DRONE_COMMIT_SHA:0:8}
   - name: build
     image: plugins/kaniko:1.8.8-kaniko1.9.1
     settings:
@@ -45,8 +58,8 @@ steps:
       use_new_run: true
       image_fs_extract_retry: 3
       tags:
-      - latest
-      - ${DRONE_BUILD_NUMBER}-${DRONE_COMMIT_SHA:0:8}
+      - latest2
+      - ${DRONE_BUILD_NUMBER}-${DRONE_COMMIT_SHA:0:8}2
   - name: sonar
     image: registry.lab.sorijen.net.au/build-image:latest
     pull: always
