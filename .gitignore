@@ -462,7 +462,7 @@ __coverage__
 __lint__
 !.keep
 build/
-/src/Hive.FrontEnd/pnpm-lock.yaml
+src/Hive.FrontEnd/public
 .sonarqube
 .scannerwork
 /src/api-coverage/
