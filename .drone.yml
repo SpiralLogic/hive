@@ -44,6 +44,8 @@ steps:
       single_snapshot: true
       use_new_run: true
       image_fs_extract_retry: 3
+      ignore_path:
+        - src/Hive.FrontEnd/public
       tags:
       - latest
       - ${DRONE_BUILD_NUMBER}-${DRONE_COMMIT_SHA:0:8}
