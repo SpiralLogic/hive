@@ -42,6 +42,8 @@ steps:
       dockerfile: ops/dockerfile
       cleanup: true
       single_snapshot: true
+      verbosity: debug
+      use_new_run: true
       image_fs_extract_retry: 3
       tags:
       - latest
