@@ -58,8 +58,8 @@ steps:
       use_new_run: true
       image_fs_extract_retry: 3
       tags:
-      - latest2
-      - ${DRONE_BUILD_NUMBER}-${DRONE_COMMIT_SHA:0:8}2
+      - latest
+      - ${DRONE_BUILD_NUMBER}-${DRONE_COMMIT_SHA:0:8}
   - name: sonar
     image: registry.lab.sorijen.net.au/build-image:latest
     pull: always
