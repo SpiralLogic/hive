@@ -31,7 +31,7 @@ steps:
       - name: reports
         path: /drone/src/reports
   - name: buildah
-    image: plugins/buildah
+    image: plugins/buildah-docker
     settings:
        repo: registry.lab.sorijen.net.au/hive
        registry: registry.lab.sorijen.net.au
