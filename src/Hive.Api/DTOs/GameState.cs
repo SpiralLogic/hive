@@ -3,7 +3,7 @@ using Hive.Domain.Entities;
 
 namespace Hive.Api.DTOs;
 
-public sealed record GameState(
+internal sealed record GameState(
     string GameId,
     GameStatus GameStatus,
     IList<Player> Players,

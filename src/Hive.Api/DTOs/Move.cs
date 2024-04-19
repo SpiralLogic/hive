@@ -2,4 +2,4 @@
 
 namespace Hive.Api.DTOs;
 
-public sealed record Move(int TileId, Coords Coords);
+internal sealed record Move(int TileId, Coords Coords);

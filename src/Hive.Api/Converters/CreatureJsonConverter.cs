@@ -5,14 +5,9 @@ using Hive.Domain.Entities;
 
 namespace Hive.Api.Converters;
 
-public class CreatureJsonConverter : JsonConverter<Creature>
+internal class CreatureJsonConverter : JsonConverter<Creature>
 {
-    private readonly Type _creaturesType;
-
-    public CreatureJsonConverter()
-    {
-        _creaturesType = typeof(Creatures);
-    }
+    private readonly Type _creaturesType = typeof(Creatures);
 
     public override Creature Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {

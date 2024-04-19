@@ -13,7 +13,7 @@ using Microsoft.Extensions.Options;
 namespace Hive.Api.Controllers;
 
 [ApiController]
-public class NewController : Controller
+internal class NewController : Controller
 {
     private readonly IDistributedCache _distributedCache;
     private readonly JsonSerializerOptions _jsonSerializerOptions;

@@ -14,7 +14,7 @@ using Move = Hive.Api.DTOs.Move;
 namespace Hive.Api.Controllers;
 
 [ApiController]
-public class MoveController : ControllerBase
+internal class MoveController : ControllerBase
 {
     private readonly IDistributedCache _distributedCache;
     private readonly IHubContext<GameHub> _hubContext;
