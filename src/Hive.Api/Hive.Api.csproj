@@ -16,7 +16,7 @@
     <DefaultItemExcludes>$(DefaultItemExcludes);$(SpaRoot)node_modules\**</DefaultItemExcludes>
     <Configurations>Debug;Release;Test</Configurations>
     <Platforms>AnyCPU</Platforms>
-    <NoWarn>CA1016,NETSDK1188,S1118,AD0001</NoWarn>
+    <NoWarn>CA1016,CA1515,NETSDK1188,S1118,AD0001</NoWarn>
     <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
     <SuppressNETCoreSdkPreviewMessage>true</SuppressNETCoreSdkPreviewMessage>
     <AnalysisLevel>latest</AnalysisLevel>
