@@ -8,7 +8,7 @@
     <Nullable>enable</Nullable>
     <SuppressNETCoreSdkPreviewMessage>true</SuppressNETCoreSdkPreviewMessage>
     <SpaRoot>..\Hive.FrontEnd\</SpaRoot>
-    <NoWarn>CA1016,NETSDK1188,AD0001,CA2007</NoWarn>
+    <NoWarn>CA1016,CA1515,SDK1188,AD0001,CA2007</NoWarn>
     <CodeAnalysisTreatWarningsAsErrors>false</CodeAnalysisTreatWarningsAsErrors>
     <NuGetAudit>true</NuGetAudit>
     <NuGetAuditLevel>moderate</NuGetAuditLevel>
