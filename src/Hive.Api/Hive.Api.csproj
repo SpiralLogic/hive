@@ -49,7 +49,7 @@
     <PackageReference Include="StackExchange.Redis" Version="2.7.33" />
   </ItemGroup>
 
-  <ItemGroup>
+  <ItemGroup Condition="'$(Configuration)' == 'Debug'" >
     <PackageReference Include="Microsoft.AspNetCore.SpaProxy">
       <Version>9.0.0-preview.2.24128.4</Version>
     </PackageReference>

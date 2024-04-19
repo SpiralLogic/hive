@@ -10,12 +10,13 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Net.Http.Headers;
 
 var appBuilder = WebApplication.CreateBuilder(args);
+
 var services = appBuilder.Services;
 services.AddW3CLogging(options => { options.LoggingFields = W3CLoggingFields.All; });
 services.AddHealthChecks();
 var signalR = services.AddSignalR().AddJsonProtocol(options => { options.PayloadSerializerOptions.Converters.AddAllJsonConverters(); });
 
-if (appBuilder.Environment.IsProduction() && !string.IsNullOrEmpty(appBuilder.Configuration["RedisHost"]))
+if (!string.IsNullOrEmpty(appBuilder.Configuration["RedisHost"]))
 {
     ThreadPool.SetMinThreads(10, 10);
     services.AddStackExchangeRedisCache(
@@ -41,6 +42,7 @@ if (app.Environment.IsDevelopment())
     app.UseDeveloperExceptionPage();
     app.UseHttpsRedirection();
     app.UseW3CLogging();
+    app.UseStaticFiles();
 }
 else
 {
