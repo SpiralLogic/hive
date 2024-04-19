@@ -7,7 +7,7 @@
     <Configurations>Debug;Release;Test</Configurations>
     <Platforms>AnyCPU</Platforms>
     <SuppressNETCoreSdkPreviewMessage>true</SuppressNETCoreSdkPreviewMessage>
-    <NoWarn>CA1016,AD0001,NETSDK1188,CA1707,CA2007</NoWarn>
+    <NoWarn>CA1016,CA1515,AD0001,NETSDK1188,CA1707,CA2007</NoWarn>
     <AnalysisMode>All</AnalysisMode>
     <NuGetAudit>true</NuGetAudit>
     <NuGetAuditLevel>moderate</NuGetAuditLevel>
