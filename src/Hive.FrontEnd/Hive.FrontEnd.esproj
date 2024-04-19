@@ -4,7 +4,7 @@
         <BuildCommand Condition="'$(Configuration)' == 'Release'">pnpm run build</BuildCommand>
         <CleanCommand>pnpm run clean</CleanCommand>
         <PublishAssetsDirectory>$(MSBuildProjectDirectory)\public</PublishAssetsDirectory>
-        <StartupCommand>pnpm run dev</StartupCommand>
+        <StartupCommand  Condition="'$(Configuration)' == 'Debug'">pnpm run dev</StartupCommand>
         <JavaScriptTestRoot>test\</JavaScriptTestRoot>
         <JavaScriptTestFramework>vitest</JavaScriptTestFramework>
         <ShouldRunBuildScript>false</ShouldRunBuildScript>

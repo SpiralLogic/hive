@@ -8,7 +8,7 @@ import child_process from 'child_process';
 import path from 'path';
 import fs from 'fs';
 
-if (!process.env.CI) {
+if (!process.env.CI && !process.env.IS_DOCKER) {
     const baseFolder =
         process.env.APPDATA !== undefined && process.env.APPDATA !== ''
             ? `${process.env.APPDATA}/ASP.NET/https`
@@ -67,22 +67,22 @@ export default defineConfig({
     server: {
         proxy: {
             '/api': {
-                target: 'https://localhost:5001',
+                target: 'https://backend:5001',
                 changeOrigin: false,
                 secure: false,
             },
             '/game': {
-                target: 'https://localhost:5001',
+                target: 'https://backend:5001',
                 changeOrigin: false,
                 secure: false,
             },
             '/new': {
-                target: 'https://localhost:5001',
+                target: 'https://backend:5001',
                 changeOrigin: false,
                 secure: false,
             },
             '/gamehub': {
-                target: 'wss://localhost:5001',
+                target: 'wss://backend:5001',
                 ws: true,
                 secure: false,
             },

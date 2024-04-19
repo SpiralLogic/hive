@@ -29,7 +29,6 @@ COPY --from=mcr.microsoft.com/openjdk/jdk:17-distroless $JAVA_HOME $JAVA_HOME
 
 RUN ln -s /usr/jdk/bin/java /usr/local/bin/java
 
-RUN corepack disable && \
-    corepack prepare pnpm@latest-8 --activate && \
-    corepack enable
+RUN corepack enable && \
+    corepack install --global pnpm@latest
 WORKDIR /source

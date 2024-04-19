@@ -4,18 +4,20 @@ import parser from '@typescript-eslint/parser';
 import prettier from 'eslint-plugin-prettier';
 import vitest from 'eslint-plugin-vitest';
 import globals from 'globals';
-import ts from '@typescript-eslint/eslint-plugin';
-import useEncapsulation from 'eslint-plugin-use-encapsulation';
+// @ts-check
 
-export default [
+import eslint from '@eslint/js';
+import tseslint from 'typescript-eslint'
+export default tseslint.config(
+    eslint.configs.recommended,
+    ...tseslint.configs.recommendedTypeChecked,
     {
         files: ['src/**/*.{ts,js,tsx,jsx}', 'test/**/*.{ts,js,tsx,jsx}'],
         plugins: {
             unicorn,
-            '@typescript-eslint': ts,
-            typescript: ts,
-            prettier,
-            useEncapsulation
+            '@typescript-eslint': tseslint,
+            typescript: tseslint,
+            prettier
         },
         linterOptions: {
             reportUnusedDisableDirectives: true,
@@ -24,7 +26,8 @@ export default [
             sourceType: 'module',
             ecmaVersion: 'latest',
             parser,
-            parserOptions: {project: 'tsconfig.json'},
+            parserOptions: {project: 'tsconfig.json',      tsconfigRootDir: import.meta.dirname,
+        },
             globals: {
                 ...globals.node,
                 ...globals.browser,
@@ -32,9 +35,8 @@ export default [
         },
         rules: {
             'no-unused-vars': 'off',
-            ...ts.configs['eslint-recommended'].rules,
-            ...ts.configs['recommended'].rules,
-            'useEncapsulation/prefer-custom-hooks': ['error', {allow: ['useRef']}]
+            ...ts.configs['eslint-recommended'],
+            ...ts.configs['recommended'],
         },
     },
     {
@@ -55,4 +57,4 @@ export default [
             },
         },
     },
-];
+);
