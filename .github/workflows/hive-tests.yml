@@ -12,9 +12,9 @@ jobs:
       run:
         working-directory: './src'
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Setup - dotnet
-        uses: actions/setup-dotnet@v2
+        uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '9.0.x'
           include-prerelease: true
@@ -34,7 +34,7 @@ jobs:
             dotnet tool run reportgenerator "-reports:./output.cobertura.xml" "-sourcedirs:./" "-assemblyfilters:+Hive.*;-*.Tests" "-targetdir:./reports"  -reporttypes:Html
             dotnet tool run dotnet-dotcover test -c Test --dcOutput=./reports/dotcover.html --dcReportType=HTML --dcHideAutoProperties "--dcFilters=+:Hive.*;-:*.Tests;-:function=.ctor"  ./
       - name: Upload - Test results
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: backend-results
           path: |
@@ -48,8 +48,8 @@ jobs:
       run:
         working-directory: './src/Hive.FrontEnd/'
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: 20
           check-latest: true
@@ -68,7 +68,7 @@ jobs:
       - name: Test - Frontend
         run: pnpm test
       - name: Upload - Test results
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: frontend-results
           path: src/Hive.FrontEnd/reports/
