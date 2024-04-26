@@ -9,7 +9,7 @@ using Microsoft.Extensions.Options;
 namespace Hive.Api.Controllers;
 
 [ApiController]
-internal class GameController : Controller
+public class GameController : Controller
 {
     private readonly IDistributedCache _distributedCache;
     private readonly JsonSerializerOptions _jsonSerializerOptions;
