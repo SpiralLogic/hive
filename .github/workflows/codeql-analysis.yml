@@ -39,7 +39,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Initialize CodeQL
-        uses: https://github.com/github/codeql-action/init@v2
+        uses: github/codeql-action/init@v2
         with:
           languages: ${{ matrix.language }}
       - name: Checkout
@@ -62,4 +62,4 @@ jobs:
         working-directory: './src'
         run: dotnet build
       - name: Perform CodeQL Analysis
-        uses: https://github.com/github/codeql-action/analyze@v2
+        uses: github/codeql-action/analyze@v2
