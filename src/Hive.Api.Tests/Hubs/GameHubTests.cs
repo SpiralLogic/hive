@@ -189,7 +189,7 @@ public class GameHubTests
         [Theory]
         [InlineData("0")]
         [InlineData("1")]
-        public async void OnDisconnectedAsyncWithNullGameId(string playerId)
+        public async Task OnDisconnectedAsyncWithNullGameId(string playerId)
         {
             var hub = CreateGameHub(playerId);
             await hub.OnDisconnectedAsync(null);
