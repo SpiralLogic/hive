@@ -24,7 +24,7 @@ EXPOSE 5001
 
 ENTRYPOINT ["dotnet","watch","-lp","docker","--project","./Hive.Api","--","run","-c","Test"]
 
-FROM node:20-alpine as frontend
+FROM node:22-alpine as frontend
 ENV NODE_ENV=development
 ENV IS_DOCKER=true
 
