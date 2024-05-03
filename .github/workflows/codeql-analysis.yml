@@ -42,8 +42,7 @@ jobs:
         uses: github/codeql-action/init@v3
         with:
           languages: ${{ matrix.language }}
-      - name: Checkout
-        uses: actions/checkout@v3
+
       - name: Setup dotnet
         uses: actions/setup-dotnet@v4
         with:
