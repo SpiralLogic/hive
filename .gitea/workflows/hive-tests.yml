@@ -33,14 +33,7 @@ jobs:
             dotnet tool run dotnet-coverage collect --output-format cobertura dotnet test -c test ./
             dotnet tool run reportgenerator "-reports:./output.cobertura.xml" "-sourcedirs:./" "-assemblyfilters:+Hive.*;-*.Tests" "-targetdir:./reports"  -reporttypes:Html
             dotnet tool run dotnet-dotcover test -c Test --dcOutput=./reports/dotcover.html --dcReportType=HTML --dcHideAutoProperties "--dcFilters=+:Hive.*;-:*.Tests;-:function=.ctor"  ./
-      - name: Upload - Test results
-        uses: actions/upload-artifact@v4
-        with:
-          name: backend-results
-          path: |
-            ./src/reports
-        # Use always() to always run this step to publish test results when there are test failures
-        if: ${{ always() }}
+
   FrontEnd:
     runs-on: ubuntu-22.04
     name: 'Front End - Lint - Test'
@@ -67,9 +60,3 @@ jobs:
         run: pnpm lint:fix
       - name: Test - Frontend
         run: pnpm test
-      - name: Upload - Test results
-        uses: actions/upload-artifact@v4
-        with:
-          name: frontend-results
-          path: src/Hive.FrontEnd/reports/
-        if: ${{ always() }}
