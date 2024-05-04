@@ -28,7 +28,7 @@ public class CreatureJsonConverterTests
     [Fact]
     public void DeserializesCreatureCorrectly()
     {
-        var json = Encoding.UTF8.GetBytes("\"Grasshopper\"");
+        var json = "\"Grasshopper\""u8.ToArray();
         var reader = new Utf8JsonReader(new ReadOnlySequence<byte>(json));
         reader.Read();
         var result = _converter.Read(ref reader, typeof(Creature), new(JsonSerializerDefaults.Web));
