@@ -39,35 +39,39 @@ jobs:
         with:
           name: backend-reports
           path: |
-            ./reports
+            ${GITHUB_ACTION_PATH}/reports
           retention-days: 5
   FrontEnd:
     runs-on: ubuntu-22.04
     name: 'Front End - Lint - Tests'
-    container:
-      image: node:22-alpine
-      env:
-        CI: true
     defaults:
       run:
         working-directory: './src/Hive.FrontEnd/'
     steps:
       - uses: actions/checkout@v4
-      - name: Sonar Scan
-        run: | 
-          cd src/Hive.FrontEnd
-          corepack enable
-          corepack prepare pnpm@latest --activate
-          pnpm install --frozen-lockfile
-          pnpm test:all:report
-          mv reports/* ${GITHUB_ACTION_PATH}/reports/
-          sed -i "s~${GITHUB_ACTION_PATH}~${GITHUB_ACTION_PATH}/src/Hive.FrontEnd/src/~g" ${GITHUB_ACTION_PATH}/src/reports/frontend/lcov.info
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Setup - pnpm
+        run: npm install --location=global pnpm
+      - uses: actions/cache@v4
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node_modules-${{ hashFiles('pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-node_modules-
+      - name: Install - dependencies
+        run: pnpm install
+      - name: Lint fix - Frontend
+        run: pnpm lint:fix
+      - name: Test - Frontend
+        run: pnpm test
       - name: Upload Results
         uses: actions/upload-artifact@v4
         with:
           name: frontend-reports
           path: |
-            ./reports
+            reports
           retention-days: 5
   sonar-scan:
     needs: [FrontEnd, BackEnd]
