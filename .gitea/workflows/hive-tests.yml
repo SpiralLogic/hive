@@ -60,3 +60,17 @@ jobs:
         run: pnpm lint:fix
       - name: Test - Frontend
         run: pnpm test
+
+  container-test-job:
+    runs-on: ubuntu-latest
+    container:
+      image: registry.lab.sorijen.net.au/build-image:latest
+      volumes:
+        - /drone/src/reports/:/drone/src/reports
+      env:
+        SONARQUBE_KEY: ${secrets.SONARQUBE_KEY}
+        LANG: en_US.UTF-8
+        DOTNET_SYSTEM_GLOBALIZATION_INVARIANT: 1
+      credentials:
+        username: ${{ secrets.REGISTRY_USER }}
+        password: ${{ secrets.REGISTRY_PASSWORD }}
