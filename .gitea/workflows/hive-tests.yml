@@ -34,7 +34,13 @@ jobs:
             dotnet tool run dotnet-coverage collect --output-format cobertura dotnet test -c test ./
             dotnet tool run reportgenerator "-reports:./output.cobertura.xml" "-sourcedirs:./" "-assemblyfilters:+Hive.*;-*.Tests" "-targetdir:./reports"  -reporttypes:Html
             dotnet tool run dotnet-dotcover test -c Test --dcOutput=./reports/dotcover.html --dcReportType=HTML --dcHideAutoProperties "--dcFilters=+:Hive.*;-:*.Tests;-:function=.ctor"  ./
-
+      - name: Upload Results
+        uses: actions/upload-artifact@v4
+        with:
+          name: backend-reports
+          path: |
+            reports
+          retention-days: 5
   FrontEnd:
     runs-on: ubuntu-22.04
     name: 'Front End - Lint - Tests'
@@ -45,7 +51,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 22
+          node-version: 22.1.0
           check-latest: true
       - name: Setup - pnpm
         run: npm install --location=global pnpm
@@ -61,13 +67,18 @@ jobs:
         run: pnpm lint:fix
       - name: Test - Frontend
         run: pnpm test
-
-  container-test-job:
+      - name: Upload Results
+        uses: actions/upload-artifact@v4
+        with:
+          name: frontend-reports
+          path: |
+            reports
+          retention-days: 5
+  sonar-scan:
+    needs: [FrontEnd, BackEnd]
     runs-on: ubuntu-latest
     container:
       image: registry.lab.sorijen.net.au/build-image:latest
-      volumes:
-        - /drone/src/reports/:/drone/src/reports
       env:
         SONARQUBE_KEY: ${secrets.SONARQUBE_KEY}
         LANG: en_US.UTF-8
@@ -76,13 +87,16 @@ jobs:
         username: ${{ secrets.REGISTRY_USER }}
         password: ${{ secrets.REGISTRY_PASSWORD }}
     steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: reports
       - name: Sonar Scan
         run: | 
-          sed -i "s~/source~/drone/src~g" /drone/src/ops/SonarQube.Analysis.xml
+          sed -i "s~/reports~/drone/src~g" /drone/src/ops/SonarQube.Analysis.xml
           node -v
           java -version
           # - dotnet tool restore
-          dotnet-sonarscanner begin /k:hive /s:/drone/src/ops/SonarQube.Analysis.xml /d:sonar.token=$SONARQUBE_KEY
+          dotnet-sonarscanner begin /k:hive /s:ops/SonarQube.Analysis.xml /d:sonar.token=$SONARQUBE_KEY
           dotnet build ./src
           dotnet-coverage collect --output-format xml dotnet test src
           dotnet-sonarscanner end /d:sonar.token=$SONARQUBE_KEY
