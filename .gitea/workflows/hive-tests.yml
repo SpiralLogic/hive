@@ -75,3 +75,14 @@ jobs:
       credentials:
         username: ${{ secrets.REGISTRY_USER }}
         password: ${{ secrets.REGISTRY_PASSWORD }}
+    steps:
+      - name: Sonar Scan
+        run: | 
+          sed -i "s~/source~/drone/src~g" /drone/src/ops/SonarQube.Analysis.xml
+          node -v
+          java -version
+          # - dotnet tool restore
+          dotnet-sonarscanner begin /k:hive /s:/drone/src/ops/SonarQube.Analysis.xml /d:sonar.token=$SONARQUBE_KEY
+          dotnet build ./src
+          dotnet-coverage collect --output-format xml dotnet test src
+          dotnet-sonarscanner end /d:sonar.token=$SONARQUBE_KEY
