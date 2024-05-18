@@ -4,6 +4,7 @@ on:
     paths:
       - 'src/**'
       - '.github/**'
+      - '.gitea/**'
 jobs:
   BackEnd:
     runs-on: ubuntu-22.04
