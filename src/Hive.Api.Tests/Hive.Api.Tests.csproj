@@ -40,8 +40,8 @@
     <Copy SkipUnchangedFiles="true" SourceFiles="$(SpaRoot)src\static\site.webmanifest" DestinationFiles="$(SpaRoot)public\site.webmanifest" />
     <Copy SkipUnchangedFiles="true" SourceFiles="$(SpaRoot)src\static\favicon.ico" DestinationFiles="$(SpaRoot)public\favicon.ico" />
     <Copy SkipUnchangedFiles="true" SourceFiles="$(SpaRoot)src\index.html" DestinationFiles="$(SpaRoot)public\index.html" />
-    <Copy SkipUnchangedFiles="false" SourceFiles="$(SpaRoot)src\index.html" DestinationFiles="$(SpaRoot)public\dummy.js" />
-    <Copy SkipUnchangedFiles="false" SourceFiles="$(SpaRoot)src\index.html" DestinationFiles="$(SpaRoot)public\dummy.css" />
+    <Copy Condition="'$(Configuration)' != 'Release' " SkipUnchangedFiles="false" SourceFiles="$(SpaRoot)src\index.html" DestinationFiles="$(SpaRoot)public\dummy.js" />
+    <Copy Condition="'$(Configuration)' != 'Release' " SkipUnchangedFiles="false" SourceFiles="$(SpaRoot)src\index.html" DestinationFiles="$(SpaRoot)public\dummy.css" />
   </Target>
 
   <ItemGroup>
