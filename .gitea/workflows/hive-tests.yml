@@ -29,50 +29,45 @@ jobs:
         run: dotnet restore
       - name: Test 
         run: |
-            mkdir ./reports
+            mkdir -p ${GITHUB_ACTION_PATH}/reports
             dotnet tool restore
             dotnet tool run dotnet-coverage collect --output-format cobertura dotnet test -c test ./
-            dotnet tool run reportgenerator "-reports:./output.cobertura.xml" "-sourcedirs:./" "-assemblyfilters:+Hive.*;-*.Tests" "-targetdir:./reports"  -reporttypes:Html
-            dotnet tool run dotnet-dotcover test -c Test --dcOutput=./reports/dotcover.html --dcReportType=HTML --dcHideAutoProperties "--dcFilters=+:Hive.*;-:*.Tests;-:function=.ctor"  ./
+            dotnet tool run reportgenerator "-reports:./output.cobertura.xml" "-sourcedirs:./" "-assemblyfilters:+Hive.*;-*.Tests" "-targetdir:${GITHUB_ACTION_PATH}/reports"  -reporttypes:Html
+            dotnet tool run dotnet-dotcover test -c Test --dcOutput=${GITHUB_ACTION_PATH}/reports/dotcover.html --dcReportType=HTML --dcHideAutoProperties "--dcFilters=+:Hive.*;-:*.Tests;-:function=.ctor"  ./
       - name: Upload Results
         uses: actions/upload-artifact@v4
         with:
           name: backend-reports
           path: |
-            reports
+            ./reports
           retention-days: 5
   FrontEnd:
     runs-on: ubuntu-22.04
     name: 'Front End - Lint - Tests'
+    container:
+      image: node:22-alpine
+      env:
+        CI: true
     defaults:
       run:
         working-directory: './src/Hive.FrontEnd/'
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 22.1.0
-          check-latest: true
-      - name: Setup - pnpm
-        run: npm install --location=global pnpm
-      - uses: actions/cache@v4
-        with:
-          path: node_modules
-          key: ${{ runner.os }}-node_modules-${{ hashFiles('pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-node_modules-
-      - name: Install - dependencies
-        run: pnpm install
-      - name: Lint fix - Frontend
-        run: pnpm lint:fix
-      - name: Test - Frontend
-        run: pnpm test
+      - name: Sonar Scan
+        run: | 
+          cd src/Hive.FrontEnd
+          corepack enable
+          corepack prepare pnpm@latest --activate
+          pnpm install --frozen-lockfile
+          pnpm test:all:report
+          mv reports/* ${GITHUB_ACTION_PATH}/reports/
+          sed -i "s~${GITHUB_ACTION_PATH}~${GITHUB_ACTION_PATH}/src/Hive.FrontEnd/src/~g" ${GITHUB_ACTION_PATH}/src/reports/frontend/lcov.info
       - name: Upload Results
         uses: actions/upload-artifact@v4
         with:
           name: frontend-reports
           path: |
-            reports
+            ./reports
           retention-days: 5
   sonar-scan:
     needs: [FrontEnd, BackEnd]
@@ -87,6 +82,7 @@ jobs:
         username: ${{ secrets.REGISTRY_USER }}
         password: ${{ secrets.REGISTRY_PASSWORD }}
     steps:
+      - uses: actions/checkout@v4
       - uses: actions/download-artifact@v4
         with:
           path: reports
