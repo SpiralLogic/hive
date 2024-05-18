@@ -36,7 +36,7 @@ jobs:
 
   FrontEnd:
     runs-on: ubuntu-22.04
-    name: 'Front End - Lint - Test'
+    name: 'Front End - Lint - Tests'
     defaults:
       run:
         working-directory: './src/Hive.FrontEnd/'
