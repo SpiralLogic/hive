@@ -45,7 +45,6 @@ export const handleKeyboardNav = (event: Pick<KeyboardEvent, 'key' | 'target'>):
         return false;
       }
     }
-  } else {
   }
   return false;
 };

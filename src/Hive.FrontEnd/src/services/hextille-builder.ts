@@ -29,7 +29,7 @@ export class HextilleBuilder {
 
   private determineHeight = (cells: Array<Cell>): [number, number] => {
     const firstCell = cells[0];
-    const lastCell = cells[cells.length - 1];
+    const lastCell = cells.at(-1);
     const height = lastCell.coords.r - firstCell.coords.r + 1;
     return [firstCell.coords.r - 1, height + 2];
   };

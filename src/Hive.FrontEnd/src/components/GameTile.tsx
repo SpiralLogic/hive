@@ -27,21 +27,21 @@ const GameTile = (properties: Properties) => {
   const tabIndex = useComputed<0 | undefined>(() =>
     currentPlayer === playerId && !!moveMap.value.get(`${playerId}-${id}`)?.length ? 0 : undefined
   );
-  const [classes, classAction] = useClassSignal(`player${playerId}`, 'hex');
+  const [classes, classesAction] = useClassSignal(`player${playerId}`, 'hex');
   const focus = useFocusElement(tileSelector);
   const dispatcher = useDispatcher();
-  if (stacked) classAction.add('stacked');
+  if (stacked) classesAction.add('stacked');
 
   const deselect = (fromEvent = false) => {
     if (!classes.peek().includes('selected')) return;
-    classAction.remove('selected');
+    classesAction.remove('selected');
     dispatcher.dispatch({ type: 'tileDeselected', tile, fromEvent });
   };
 
   const select = (fromEvent = false) => {
     if (classes.peek().includes('selected')) return;
     dispatcher.dispatch({ type: 'tileClear' });
-    classAction.add('selected');
+    classesAction.add('selected');
     if (currentPlayer != playerId) return;
     dispatcher.dispatch({ type: 'tileSelected', tile, fromEvent });
     focus.value = cellSelector;
@@ -75,10 +75,10 @@ const GameTile = (properties: Properties) => {
     (event: DragEvent) => {
       event.stopPropagation();
       select();
-      classAction.add('before-drag');
+      classesAction.add('before-drag');
     },
     () => {
-      classAction.remove('before-drag');
+      classesAction.remove('before-drag');
       dispatcher.dispatch({ type: 'tileDropped', tile });
       dispatcher.dispatch({ type: 'tileClear' });
     }
