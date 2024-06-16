@@ -26,7 +26,8 @@ const setUp = (...tileCreationFns: Array<() => { cell: Cell; historical?: boolea
   const comps = tileCreationFns.map((t) => t());
 
   moveMap.value = new Map<`${number}-${number}`, HexCoordinate[]>();
-  comps.flatMap(({ cell }) => cell.tiles).forEach((t) => moveMap.value.set(`${t.playerId}-${t.id}`, t.moves));
+  for (const t of comps.flatMap(({ cell }) => cell.tiles))
+    moveMap.value.set(`${t.playerId}-${t.id}`, t.moves);
 
   const dispatcher = new HiveDispatcher();
   render(

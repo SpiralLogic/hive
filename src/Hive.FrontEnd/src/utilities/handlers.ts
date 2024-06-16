@@ -30,18 +30,22 @@ export const handleKeyboardNav = (event: Pick<KeyboardEvent, 'key' | 'target'>):
   if (event.target instanceof HTMLElement) {
     switch (event.key) {
       case 'ArrowDown':
-      case 'ArrowRight':
+      case 'ArrowRight': {
         focusNext(event.target, 1);
         return true;
+      }
 
       case 'ArrowUp':
-      case 'ArrowLeft':
+      case 'ArrowLeft': {
         focusNext(event.target, -1);
         return true;
+      }
 
-      default:
+      default: {
         return false;
+      }
     }
+  } else {
   }
   return false;
 };

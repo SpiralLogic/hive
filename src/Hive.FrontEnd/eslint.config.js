@@ -51,9 +51,10 @@ export default tsEslint.config(
                     "allowList": {
                         "ref": true,
                         "props": true,
+                        "Props": true,
                     }
                 }
-            ]
+            ],"unicorn/no-useless-undefined":["error",{checkArguments: false}]
         },
     },
     {

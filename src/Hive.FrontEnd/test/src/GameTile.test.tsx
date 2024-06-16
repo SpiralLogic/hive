@@ -1,6 +1,6 @@
 import { fireEvent, render, screen } from '@testing-library/preact';
 import userEvent from '@testing-library/user-event';
-import { HiveDispatcher,  TileEvent } from '@hive/services';
+import { HiveDispatcher, TileEvent } from '@hive/services';
 import GameTile from '../../src/components/GameTile';
 import { simulateEvent } from '../helpers';
 import { waitFor } from '@testing-library/dom';
@@ -36,7 +36,7 @@ const tileOpponentCanMove = Object.freeze({
 const tileNoMove = Object.freeze({ id: 2, playerId: 0, creature: 'queen', moves: [] });
 
 const setup = (dispatcher: HiveDispatcher, ...tiles: (Tile & { stacked?: boolean })[]) => {
-  tiles.forEach((t) => moveMap.value.set(`${t.playerId}-${t.id}`, t.moves));
+  for (const t of tiles) moveMap.value.set(`${t.playerId}-${t.id}`, t.moves);
 
   return render(
     <Dispatcher.Provider value={dispatcher}>

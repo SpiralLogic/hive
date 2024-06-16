@@ -20,7 +20,7 @@ if (!process.env.CI && !process.env.IS_DOCKER) {
     const certificateName = certificateArgument ? certificateArgument.groups.value : 'reactapp2.client';
 
     if (!certificateName) {
-        const error ='Invalid certificate name. Run this script in the context of a npm/yarn script or pass --name=<<app>> explicitly.';
+        const error = 'Invalid certificate name. Run this script in the context of a npm/yarn script or pass --name=<<app>> explicitly.';
         console.error(
             error
         );
@@ -30,16 +30,16 @@ if (!process.env.CI && !process.env.IS_DOCKER) {
     const certFilePath = path.join(baseFolder, `${certificateName}.pem`);
     const keyFilePath = path.join(baseFolder, `${certificateName}.key`);
 
-    if ((!fs.existsSync(certFilePath) || !fs.existsSync(keyFilePath)) && 
-            0 !==
-            child_process.spawnSync(
-                'dotnet',
-                ['dev-certs', 'https', '--export-path', certFilePath, '--format', 'Pem', '--no-password'],
-                {stdio: 'inherit'}
-            ).status
-        ) {
-            throw new Error('Could not create certificate.');
-        }
+    if ((!fs.existsSync(certFilePath) || !fs.existsSync(keyFilePath)) &&
+        0 !==
+        child_process.spawnSync(
+            'dotnet',
+            ['dev-certs', 'https', '--export-path', certFilePath, '--format', 'Pem', '--no-password'],
+            {stdio: 'inherit'}
+        ).status
+    ) {
+        throw new Error('Could not create certificate.');
+    }
     httpsSettings = {
         key: fs.readFileSync(keyFilePath),
         cert: fs.readFileSync(certFilePath),
@@ -99,6 +99,9 @@ export default defineConfig({
         clearMocks: true,
         environment: 'jsdom',
         environmentOptions: {url: 'http://localhost'},
+        unstubGlobals: true,
+        unstubEnvs: true,
+        sequence: {shuffle:true},
         globals: true,
         reporters: ['dot'],
         coverage: {

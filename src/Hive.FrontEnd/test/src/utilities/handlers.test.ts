@@ -1,5 +1,5 @@
 import { screen } from '@testing-library/preact';
-import {HiveDispatcher } from '@hive/services';
+import { HiveDispatcher } from '@hive/services';
 import {
   addServerHandlers,
   createOpponentConnectedHandler,
@@ -87,7 +87,7 @@ describe(`handler tests`, () => {
     });
 
     it('does not move target', () => {
-      expect(handleKeyboardNav({ key: 'n', target: null })).toBe(false);
+      expect(handleKeyboardNav({ key: 'n', target: undefined })).toBe(false);
       expect(div1).not.toHaveFocus();
       expect(div2).not.toHaveFocus();
       expect(div3).not.toHaveFocus();

@@ -84,30 +84,28 @@ describe('<GameArea> rules dialog', () => {
 describe('<GameArea> share dialog', () => {
   it('opens share dialog', async () => {
     const gameState = createGameState(1);
-    const [restore] = mockClipboard();
+     mockClipboard();
 
     setup(gameState, { currentPlayer: 0, aiMode: signal('off') });
 
     await userEvent.click(screen.getByTitle(/Share/));
 
     expect(await screen.findByRole('dialog', { name: /linked shared/i })).toBeInTheDocument();
-    restore();
   });
 
   it(`closes share dialog`, async () => {
     const gameState = createGameState(1);
-    const [restore] = mockClipboard();
+ mockClipboard();
 
     setup(gameState, { currentPlayer: 0, aiMode: signal('off') });
 
     await userEvent.click(screen.getByTitle(/Share/));
     await userEvent.click(await screen.findByRole(/button/i, { hidden: false, name: /close dialog/i }));
     expect(screen.queryByRole('dialog', { name: /linked shared/i, hidden: false })).not.toBeInTheDocument();
-    restore();
   });
 
   it('calls share API', async () => {
-    const [restore, share] = mockShare();
+    const  share = mockShare();
     const gameState = createGameState(1);
     global.window.history.replaceState({}, global.document.title, `/game/33/1`);
     setup(gameState, { currentPlayer: 1, aiMode: signal('off') });
@@ -116,40 +114,35 @@ describe('<GameArea> share dialog', () => {
     expect(share).toHaveBeenCalledWith(
       expect.objectContaining({ url: expect.stringContaining('/game/33/0') })
     );
-    restore();
   });
 
   it('copies opponent link to clipboard with navigator', async () => {
-    const [restore1] = noShare();
-    const [restore2, writeText] = mockClipboard();
+ noShare();
+    const  writeText = mockClipboard();
 
     const gameState = createGameState(1);
     setup(gameState, { currentPlayer: 1, aiMode: signal('off') });
 
     await userEvent.click(screen.getByTitle(/Share/));
     expect(writeText).toHaveBeenCalledWith(expect.stringContaining('/game/33/0'));
-    restore1();
-    restore2();
   });
 
   it('copies opponent link to clipboard with exec command', async () => {
-    const [restore] = noShare();
+ noShare();
     const gameState = createGameState(1);
     setup(gameState, { currentPlayer: 1, aiMode: signal('off') });
 
     await userEvent.click(screen.getByTitle(/Share/));
     expect(screen.queryByRole('textbox')).not.toBeInTheDocument();
-    restore();
   });
 
   it(`closes dialog when share link can't be copied`, async () => {
-    const [restore] = noShare();
+ noShare();
     const gameState = createGameState(1);
     setup(gameState, { currentPlayer: 1, aiMode: signal('off') });
 
     await userEvent.click(screen.getByTitle(/Share/));
     expect(screen.queryByRole('dialog', { name: /linked shared/i })).not.toBeInTheDocument();
-    restore();
   });
 
   it.each<[ConnectEvent['type'], RegExp]>([
