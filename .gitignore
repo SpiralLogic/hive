@@ -478,3 +478,5 @@ vi*.config.js
 .pnpm-store
 /src/Hive.sln.DotSettings
 output.cobertura.xml
+dummy.js
+dummy.css
