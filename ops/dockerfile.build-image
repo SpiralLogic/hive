@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/dotnet/sdk:9.0-preview-jammy
+FROM mcr.microsoft.com/dotnet/sdk:9.0-preview-noble
 RUN apt update -yq && \
     apt upgrade -qy && \
     apt install -yq locales libxext6 libc6 libxml2 curl git nano ca-certificates gnupg  && \

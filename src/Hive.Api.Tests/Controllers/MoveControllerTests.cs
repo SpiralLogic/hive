@@ -14,7 +14,6 @@ using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Options;
 using Xunit;
-using Move = Hive.Domain.Entities.Move;
 
 namespace Hive.Api.Tests.Controllers;
 

@@ -275,7 +275,7 @@ steps:
       - pnpm update -L
       - pnpm test:all
   - name: dotnet-upgrade
-    image: mcr.microsoft.com/dotnet/sdk:9.0-preview-jammy
+    image: mcr.microsoft.com/dotnet/sdk:9.0-preview-noble
     commands:
       - bash ops/dotnet-update.sh
       - dotnet test ./src -c Test
