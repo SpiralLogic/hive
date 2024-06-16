@@ -3,7 +3,7 @@ import userEvent from '@testing-library/user-event';
 
 import GameArea from '../../src/components/GameArea';
 import { GameState, GameStatus } from '@hive/domain';
-import { ConnectEvent, HiveDispatcher, TileAction } from '@hive/services';
+import { ConnectEvent, HiveDispatcher } from '@hive/services';
 import { createGameState } from '../fixtures/game-area.fixtures';
 import { mockClipboard, mockLocation, mockShare, noShare, simulateEvent } from '../helpers';
 import { vi } from 'vitest';
@@ -48,7 +48,7 @@ describe('<GameArea>', () => {
     global.window.history.replaceState({}, global.document.title, `/game/33/0`);
 
     const { dispatcher } = setup(gameState, { currentPlayer: 1, aiMode: signal('off') });
-    dispatcher.dispatch<TileAction>({ type: 'tileSelect', tile: gameState.players[1].tiles[0] });
+    dispatcher.dispatch({ type: 'tileSelect', tile: gameState.players[1].tiles[0] });
     await waitFor(() => expect(screen.getByTitle(/ant/)).toHaveClass('selected'));
   });
 
@@ -159,7 +159,7 @@ describe('<GameArea> share dialog', () => {
     const gameState = createGameState(1);
     const { dispatcher } = setup(gameState, { currentPlayer: 1, aiMode: signal('off') });
 
-    dispatcher.dispatch<ConnectEvent>({ type: connectionState, playerId: 0 });
+    dispatcher.dispatch({ type: connectionState, playerId: 0 });
 
     expect(await screen.findByText(expected)).toBeInTheDocument();
   });
@@ -172,7 +172,7 @@ describe('<GameArea> share dialog', () => {
 
     const { dispatcher } = setup(gameState, { currentPlayer: 0, aiMode: signal('off') });
 
-    dispatcher.dispatch<ConnectEvent>({ type: connectionState, playerId: 1 });
+    dispatcher.dispatch({ type: connectionState, playerId: 1 });
 
     await userEvent.click(await screen.findByRole(/button/i, { hidden: false, name: /close dialog/i }));
     expect(screen.queryByRole('dialog', { name: expected })).not.toBeInTheDocument();
@@ -192,12 +192,12 @@ describe('ai toggle', () => {
   });
 
   it(`toggles ai mode when opponent connects`, () => {
-    dispatcher.dispatch<ConnectEvent>({ type: 'opponentConnected', playerId: 1 });
+    dispatcher.dispatch({ type: 'opponentConnected', playerId: 1 });
     expect(aiMode.value).toBe('off');
   });
 
   it(`doesn't toggle ai mode when connected opponent is current player`, () => {
-    dispatcher.dispatch<ConnectEvent>({ type: 'opponentConnected', playerId: 0 });
+    dispatcher.dispatch({ type: 'opponentConnected', playerId: 0 });
     expect(toggleAiHandler).not.toHaveBeenCalled();
   });
 });
