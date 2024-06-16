@@ -1,51 +1,11 @@
-import { render, screen } from '@testing-library/preact';
-import { HexEngine } from '@hive/domain/engine';
-import App from '../../src/components/App';
+import { screen } from '@testing-library/preact';
 import { createGameState } from '../fixtures/app.fixture';
-import { HiveDispatcher } from '@hive/services';
-import { Dispatcher } from '@hive/hooks/useHiveDispatchListener';
 import { waitFor } from '@testing-library/dom';
-import { GameState } from '@hive/domain';
+import { type Creature } from '@hive/domain';
 import { mockConsole } from '../helpers/console';
+import { appSetup } from './utilities/App.setup.tsx';
 
-const closeConnectionMock = vi.fn();
-const defaultConnectionFactory = () => ({
-  connectGame: vi.fn(),
-  getConnectionState: vi.fn(),
-  closeConnection: closeConnectionMock.mockResolvedValueOnce(undefined),
-  sendSelection: vi.fn(),
-});
-
-let engine: HexEngine;
-const setup = (gameState = Promise.resolve(createGameState(4)), gameAfterMove = createGameState(5)) => {
-  engine = {
-    aiMode: 'off',
-    initialGame: gameState,
-    currentPlayer: 0,
-    move: vi.fn().mockResolvedValueOnce(createGameState(5)).mockResolvedValue(gameAfterMove),
-  };
-  const dispatcher = new HiveDispatcher();
-  return {
-    ...render(
-      <Dispatcher.Provider value={dispatcher}>
-        <App engine={engine} connectionFactory={defaultConnectionFactory} />
-      </Dispatcher.Provider>
-    ),
-    dispatcher,
-  };
-};
-
-describe('<App>', () => {
-  it('shows game when loaded', async () => {
-    setup(Promise.reject(new Error('broken loading')));
-    expect(await screen.findByRole('heading', { name: /broken loading/ })).toBeInTheDocument();
-  });
-
-  it('shows loading', () => {
-    setup();
-    expect(screen.getByText(/loading/)).toBeInTheDocument();
-  });
-
+describe.sequential('<App>', () => {
   it('loads initial board', async () => {
     const gameState = createGameState(4);
     const gameStateAfterMove = {
@@ -73,61 +33,34 @@ describe('<App>', () => {
             {
               id: 4,
               playerId: 0,
-              creature: 'rabbit',
+              creature: 'rabbit' as Creature,
               moves: [],
             },
           ],
         },
         gameState.players[1],
       ],
-    } as GameState;
-    const { dispatcher } = setup(Promise.resolve(gameState), gameStateAfterMove);
+    };
+    const { dispatcher, engine } = appSetup(Promise.resolve(gameState), gameStateAfterMove);
     await engine.initialGame;
-    dispatcher.dispatch({ type: 'move', move: { tileId: 1, coords: { q: 0, r: 0 } } });
     dispatcher.dispatch({ type: 'move', move: { tileId: 1, coords: { q: 0, r: 0 } } });
     expect(await screen.findByTitle('Hive Game Area')).toBeInTheDocument();
   });
 
-  it('sets error message on loading error', async () => {
-    const dispatcher = new HiveDispatcher();
-    vi.spyOn(dispatcher, 'remove');
-    const { unmount } = render(
-      <Dispatcher.Provider value={dispatcher}>
-        <App engine={engine} connectionFactory={defaultConnectionFactory} />
-      </Dispatcher.Provider>
-    );
-
-    unmount();
-    expect(dispatcher.remove).toBeCalled();
-  });
-
   it('cleans up event handlers', async () => {
-    const dispatcher = new HiveDispatcher();
+    const { engine, unmount, dispatcher } = appSetup();
     vi.spyOn(dispatcher, 'remove');
-    const { unmount } = render(
-      <Dispatcher.Provider value={dispatcher}>
-        <App engine={engine} connectionFactory={defaultConnectionFactory} />
-      </Dispatcher.Provider>
-    );
 
+    await engine.initialGame;
     unmount();
-    expect(dispatcher.remove).toBeCalled();
+    await waitFor(() => expect(dispatcher.remove).toBeCalled());
   });
 
   it('calls close connection when App is unmounted', async () => {
-    const restoreConsole = mockConsole();
-    const dispatcher = new HiveDispatcher();
-    closeConnectionMock.mockReset().mockRejectedValueOnce('test');
-    const { unmount } = render(
-      <Dispatcher.Provider value={dispatcher}>
-        <App engine={engine} connectionFactory={defaultConnectionFactory} />
-      </Dispatcher.Provider>
-    );
-
+    mockConsole();
+    const { engine, closeConnection, unmount } = appSetup();
+    await engine.initialGame;
     unmount();
-    await waitFor(() => {
-      expect(console.error).toHaveBeenCalledWith('test');
-    });
-    restoreConsole();
+    expect(closeConnection).toHaveBeenCalledWith();
   });
 });

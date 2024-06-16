@@ -6,5 +6,4 @@ export function mockConsole() {
   };
 
   vi.stubGlobal('console', console);
-  return () => vi.unstubAllGlobals();
 }
