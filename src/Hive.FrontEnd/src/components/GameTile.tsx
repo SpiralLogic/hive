@@ -5,7 +5,7 @@ import Tile from './Tile';
 import { useClassSignal } from '../hooks/useClassSignal';
 import { useDispatcher, useHiveDispatchListener } from '../hooks/useHiveDispatchListener';
 import { useComputed } from '@preact/signals';
-import { moveMap } from '../services/gameStateContext';
+import { moveMap } from '../services/game-state-context.ts';
 import { useFocusElement } from '../hooks/useFocusElement';
 import { useClickAndKeyDownHandler } from '../hooks/useClickAndKeyDownHandler';
 import { useDragHandlers } from '../hooks/useDragHandlers';

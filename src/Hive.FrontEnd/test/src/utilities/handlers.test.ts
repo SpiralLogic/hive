@@ -1,5 +1,5 @@
 import { screen } from '@testing-library/preact';
-import { Action, HiveDispatcher, HiveEvent, TileAction } from '@hive/services';
+import {HiveDispatcher } from '@hive/services';
 import {
   addServerHandlers,
   createOpponentConnectedHandler,
@@ -99,7 +99,7 @@ describe(`handler tests`, () => {
       const tile: Tile = { id: 1, playerId: 1, creature: 'queen', moves: [] };
       const dispatcher = new HiveDispatcher();
       const selectHandler = vi.fn();
-      dispatcher.add<TileAction>('tileSelect', selectHandler);
+      dispatcher.add('tileSelect', selectHandler);
 
       createOpponentSelectionHandler(dispatcher)('select', tile);
       expect(selectHandler).toHaveBeenCalledWith({ type: 'tileSelect', tile });
@@ -109,7 +109,7 @@ describe(`handler tests`, () => {
       const tile: Tile = { id: 1, playerId: 1, creature: 'queen', moves: [] };
       const dispatcher = new HiveDispatcher();
       const selectHandler = vi.fn();
-      dispatcher.add<Action>('tileClear', selectHandler);
+      dispatcher.add('tileClear', selectHandler);
 
       createOpponentSelectionHandler(dispatcher)('deselect', tile);
       expect(selectHandler).toHaveBeenCalledWith({ type: 'tileClear' });
@@ -119,8 +119,8 @@ describe(`handler tests`, () => {
       const dispatcher = new HiveDispatcher();
       const selectHandler = vi.fn();
       const deselectHandler = vi.fn();
-      dispatcher.add<TileAction>('tileDeselect', selectHandler);
-      dispatcher.add<TileAction>('tileSelect', selectHandler);
+      dispatcher.add('tileDeselect', selectHandler);
+      dispatcher.add('tileSelect', selectHandler);
 
       createOpponentSelectionHandler(dispatcher)('select', selectedTile);
       createOpponentSelectionHandler(dispatcher)('deselect', selectedTile);
@@ -131,7 +131,7 @@ describe(`handler tests`, () => {
     it(`calls opponent connected handler`, () => {
       const dispatcher = new HiveDispatcher();
       const connectedHandler = vi.fn();
-      dispatcher.add<HiveEvent>('opponentConnected', connectedHandler);
+      dispatcher.add('opponentConnected', connectedHandler);
 
       createOpponentConnectedHandler(dispatcher)('connect', 0);
       expect(connectedHandler).toHaveBeenCalledWith({ type: 'opponentConnected', playerId: 0 });
@@ -140,7 +140,7 @@ describe(`handler tests`, () => {
     it(`calls opponent disconnected handler`, () => {
       const dispatcher = new HiveDispatcher();
       const disconnectedHandler = vi.fn();
-      dispatcher.add<HiveEvent>('opponentDisconnected', disconnectedHandler);
+      dispatcher.add('opponentDisconnected', disconnectedHandler);
 
       createOpponentConnectedHandler(dispatcher)('disconnect', 0);
       expect(disconnectedHandler).toHaveBeenCalledWith({ type: 'opponentDisconnected', playerId: 0 });

@@ -11,6 +11,6 @@ export const useHiveDispatchListener = <T extends HiveIntent>(
 ): void => {
     const dispatcher = useDispatcher();
     useEffect(() => {
-        return dispatcher.add<T>(type, listener);
+        return dispatcher.add(type, listener);
     }, [type, listener]);
 };

@@ -1,22 +1,22 @@
 ﻿import {useMemo} from 'preact/hooks';
 import {useSignal} from '@preact/signals';
 
-const getClassString = (classList: Set<string>) => Array.from(classList).join(' ');
+const getClassString = (classes: Set<string>) => [...classes].join(' ');
 export const useClassSignal = (...initialClasses: string[]) => {
-    const classList = new Set<string>(initialClasses.map((c) => c.trim()));
-    const classSignal = useSignal(getClassString(classList));
-    const classActions = useMemo(
+    const currentClasses = new Set<string>(initialClasses.map((c) => c.trim()));
+    const classesSignal = useSignal(getClassString(currentClasses));
+    const actions = useMemo(
         () => ({
             add: (...classes: string[]) => {
-                classes.forEach((c) => classList.add(c));
-                classSignal.value = Array.from(classList).join(' ');
+                for (const c of classes) currentClasses.add(c);
+                classesSignal.value = [...currentClasses].join(' ');
       },
       remove: (...classes: string[]) => {
-        classes.forEach((c) => classList.delete(c));
-        classSignal.value = getClassString(classList);
+        for (const c of classes) currentClasses.delete(c);
+        classesSignal.value = getClassString(currentClasses);
       },
     }),
     []
   );
-  return [classSignal, classActions] as const;
+  return [classesSignal, actions] as const;
 };

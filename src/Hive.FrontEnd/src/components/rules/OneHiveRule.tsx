@@ -4,7 +4,7 @@ import RuleCell from './RuleCell';
 import { Rule } from './rule';
 
 const OneHiveRule: Rule = () => (
-  <Hextille class="rules">
+  <Hextille>
     <Row>
       <RuleCell creature="beetle" />
       <RuleCell creature="beetle" />

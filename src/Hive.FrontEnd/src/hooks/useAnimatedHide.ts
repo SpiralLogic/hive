@@ -1,20 +1,21 @@
 import {useEffect} from "preact/hooks";
 import {useClassSignal} from "./useClassSignal";
 
-export const useAnimatedHide = (shouldHide: boolean, [classes, classAction]: ReturnType<typeof useClassSignal>) => {
+export const useAnimatedHide = (initialClasses:string, shouldHide: boolean) => {
+    const [classes, action] = useClassSignal(initialClasses);
     useEffect(() => {
         if (shouldHide) {
-            setTimeout(() => classAction.add('hide'), 100);
+            setTimeout(() => action.add('hide'), 100);
         }
-    }, [shouldHide, classAction]);
+    }, [shouldHide, action]);
 
     const ontransitionend = () => {
-        if (classes.peek().includes('hide')) classAction.add('hidden');
+        if (classes.peek().includes('hide')) action.add('hidden');
     };
 
-    return {onTransitionEnd: ontransitionend, onAnimationEnd: ontransitionend} as const;
+    return {class:classes, onTransitionEnd: ontransitionend, onAnimationEnd: ontransitionend} as const;
 }
-export const useHide = (shouldHide: boolean, [, classActions]: ReturnType<typeof useClassSignal>) => {
-    useEffect(() => (shouldHide ? classActions.add('hide') : classActions.remove('hide')), [shouldHide, classActions]);
+export const useHide = (shouldHide: boolean, [, action]: ReturnType<typeof useClassSignal>) => {
+    useEffect(() => (shouldHide ? action.add('hide') : action.remove('hide')), [shouldHide, action]);
 
 }

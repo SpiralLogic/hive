@@ -5,14 +5,14 @@ import RuleCell from './RuleCell';
 import { Rule } from './rule';
 
 const Objective: Rule = () => (
-  <Hextille class="rules">
+  <Hextille >
     <Row>
       <RuleCell creature="ant" />
       <RuleCell creature="grasshopper" /> <Hexagon hidden={true} />
     </Row>
     <Row>
       <RuleCell creature="spider" />
-      <RuleCell creature="queen" result="correct" />
+      <RuleCell creature="queen" />
       <RuleCell creature="beetle" />
     </Row>
     <Row>

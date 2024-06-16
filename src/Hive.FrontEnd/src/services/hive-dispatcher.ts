@@ -1,6 +1,6 @@
 import { Move, Tile } from '../domain';
 
-export type HiveEventListener<T extends HiveIntent> = <U extends T>(intent: U) => Promise<void> | void;
+export type HiveEventListener<T extends HiveIntent> = (intent: T) => Promise<void> | void;
 export type HiveIntent = HiveEvent | HiveAction;
 export type HiveEvent = MoveEvent | TileEvent | ConnectEvent;
 export type HiveAction = Action | TileAction;
@@ -27,7 +27,7 @@ export class HiveDispatcher {
     return () => this.remove<T>(type, listener);
   };
 
-  dispatch<T extends HiveIntent>(intent: T): void {
+  dispatch(intent: HiveIntent): void {
     const listeners = this.listeners.get(intent.type) ?? [];
     for (const l of listeners) {
       l(intent);

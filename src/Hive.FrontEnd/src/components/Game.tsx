@@ -1,4 +1,4 @@
-import { useGameState } from '../services/gameStateContext';
+import { useGameState } from '../services/game-state-context.ts';
 import { HexCoordinate } from '../domain';
 import { cellKey } from '../utilities/hextille';
 import { useComputed } from '@preact/signals';
@@ -11,8 +11,8 @@ import Tiles from './Tiles';
 import { HistoricalMove } from '../domain/historical-move';
 
 const isPreviousMove = (history: HistoricalMove[], coords: HexCoordinate) => {
-  if (!history.length) return false;
-  const previousMove = history[history.length - 1];
+  if (history.length === 0) return false;
+  const previousMove = history.at(-1);
   return (
     (previousMove.move.coords.q === coords.q && previousMove.move.coords.r === coords.r) ||
     (previousMove.originalCoords?.q === coords.q && previousMove.originalCoords.r === coords.r)

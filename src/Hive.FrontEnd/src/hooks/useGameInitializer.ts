@@ -8,7 +8,7 @@ import {
 import { HexEngine } from '../domain/engine';
 import { HistoricalMove } from '../domain/historical-move';
 import { useDispatcher } from './useHiveDispatchListener';
-import { useGameState } from '../services/gameStateContext';
+import { useGameState } from '../services/game-state-context.ts';
 import { ServerConnectionFactory } from '../services';
 
 const isOpponentAi = (history: HistoricalMove[] | undefined, currentPlayer: number) =>
@@ -60,7 +60,7 @@ export const useGameInitializer = (engine: HexEngine, connectionFactory: ServerC
 
     return () => {
       removeServerHandlers();
-      serverConnection.closeConnection().catch((err) => console.error(err));
+      serverConnection.closeConnection().catch((error) => console.error(error));
     };
   });
 

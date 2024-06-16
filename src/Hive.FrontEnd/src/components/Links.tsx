@@ -30,13 +30,13 @@ const Links: FunctionComponent<Properties> = ({
   aiMode,
 }) => {
   const clickHandler = () => {
-    aiMode.value = aiMode.value !== 'off' ? 'off' : 'on';
+    aiMode.value = aiMode.value === 'off' ? 'on' : 'off';
   };
   const wheelHandler = () => {
     aiMode.value = 'auto';
   };
 
-  const aiClass = useComputed(() => (aiMode.value !== 'off' ? undefined : 'ai-off'));
+  const aiClass = useComputed(() => (aiMode.value === 'off' ? 'ai-off' : undefined));
   return (
     <nav>
       <a

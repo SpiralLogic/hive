@@ -5,7 +5,7 @@ import RuleCell from './RuleCell';
 import { Rule } from './rule';
 
 const SpiderRules: Rule = () => (
-  <Hextille class="rules">
+  <Hextille>
     <Row>
       <Hexagon hidden={true} />
       <RuleCell creature="grasshopper" />

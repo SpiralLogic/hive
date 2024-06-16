@@ -44,6 +44,6 @@ export const createMoveListener = (dispatcher: HiveDispatcher) => {
   const moveListener = (event: MoveEvent) => {
     moveEvents.push(event);
   };
-  dispatcher.add<MoveEvent>('move', moveListener);
+  dispatcher.add("move", moveListener);
   return moveEvents;
 };

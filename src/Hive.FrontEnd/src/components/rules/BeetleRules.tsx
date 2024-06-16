@@ -5,7 +5,7 @@ import RuleCell from './RuleCell';
 import { Rule } from './rule';
 
 const BeetleRules: Rule = () => (
-  <Hextille class="rules">
+  <Hextille>
     <Row>
       <Hexagon hidden={true} />
       <RuleCell result="correct" />

@@ -6,17 +6,19 @@ import globals from 'globals';
 // @ts-check
 
 import eslint from '@eslint/js';
-import tseslint from 'typescript-eslint'
-export default tseslint.config(
+import tsEslint from 'typescript-eslint'
+
+export default tsEslint.config(
     eslint.configs.recommended,
-    ...tseslint.configs.recommended,
+    ...tsEslint.configs.recommended,
+    unicorn.configs['flat/all'],
     {
         files: ['src/**/*.{ts,js,tsx,jsx}', 'test/**/*.{ts,js,tsx,jsx}'],
         plugins: {
-            unicorn,
-            '@typescript-eslint': tseslint.plugin,
-            typescript: tseslint.plugin,
-            prettier
+            '@typescript-eslint': tsEslint.plugin,
+            typescript: tsEslint.plugin,
+            prettier,
+            unicorn: unicorn.configs["flat/all"].plugins.unicorn,
         },
         linterOptions: {
             reportUnusedDisableDirectives: true,
@@ -24,16 +26,34 @@ export default tseslint.config(
         languageOptions: {
             sourceType: 'module',
             ecmaVersion: 'latest',
-            parser: tseslint.parser,
-            parserOptions: {project: 'tsconfig.json',      tsconfigRootDir: import.meta.dirname,
-        },
+            parser: tsEslint.parser,
+            parserOptions: {
+                project: 'tsconfig.json',
+                tsconfigRootDir: import.meta.dirname,
+            },
             globals: {
                 ...globals.node,
                 ...globals.browser,
+                ...globals.es2024,
+
             },
         },
         rules: {
             'no-unused-vars': 'off',
+            "unicorn/filename-case": [
+                "error",
+                {
+                    "cases": {"kebabCase": true, "camelCase": true, "pascalCase": true}
+                }
+            ],"unicorn/prevent-abbreviations": [
+                "error",
+                {
+                    "allowList": {
+                        "ref": true,
+                        "props": true,
+                    }
+                }
+            ]
         },
     },
     {
@@ -46,7 +66,7 @@ export default tseslint.config(
         languageOptions: {
             sourceType: 'module',
             ecmaVersion: 'latest',
-            parser: tseslint.parser,
+            parser: tsEslint.parser,
             parserOptions: {project: 'tsconfig.json'},
             globals: {
                 ...globals.jest,

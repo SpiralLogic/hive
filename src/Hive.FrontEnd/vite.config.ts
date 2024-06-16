@@ -1,12 +1,12 @@
 import {defineConfig} from 'vitest/config';
 import preact from '@preact/preset-vite';
 
-const projectRootDir = path.resolve(__dirname);
+const projectRootDirectory = path.resolve(import.meta.dirname);
 
 let httpsSettings = {};
-import child_process from 'child_process';
-import path from 'path';
-import fs from 'fs';
+import child_process from 'node:child_process';
+import path from 'node:path';
+import fs from 'node:fs';
 
 if (!process.env.CI && !process.env.IS_DOCKER) {
     const baseFolder =
@@ -14,23 +14,23 @@ if (!process.env.CI && !process.env.IS_DOCKER) {
             ? `${process.env.APPDATA}/ASP.NET/https`
             : `${process.env.HOME}/.aspnet/https`;
 
-    const certificateArg = process.argv
-        .map((arg) => RegExp(/--name=(?<value>.+)/i).exec(arg))
-        .filter(Boolean)[0];
-    const certificateName = certificateArg ? certificateArg.groups.value : 'reactapp2.client';
+    const certificateArgument = process.argv
+        .map((argument) => new RegExp(/--name=(?<value>.+)/i).exec(argument))
+        .find(Boolean);
+    const certificateName = certificateArgument ? certificateArgument.groups.value : 'reactapp2.client';
 
     if (!certificateName) {
+        const error ='Invalid certificate name. Run this script in the context of a npm/yarn script or pass --name=<<app>> explicitly.';
         console.error(
-            'Invalid certificate name. Run this script in the context of an npm/yarn script or pass --name=<<app>> explicitly.'
+            error
         );
-        process.exit(-1);
+        throw new Error(error)
     }
 
     const certFilePath = path.join(baseFolder, `${certificateName}.pem`);
     const keyFilePath = path.join(baseFolder, `${certificateName}.key`);
 
-    if (!fs.existsSync(certFilePath) || !fs.existsSync(keyFilePath)) {
-        if (
+    if ((!fs.existsSync(certFilePath) || !fs.existsSync(keyFilePath)) && 
             0 !==
             child_process.spawnSync(
                 'dotnet',
@@ -40,14 +40,12 @@ if (!process.env.CI && !process.env.IS_DOCKER) {
         ) {
             throw new Error('Could not create certificate.');
         }
-    }
     httpsSettings = {
         key: fs.readFileSync(keyFilePath),
         cert: fs.readFileSync(certFilePath),
     };
 }
 
-// https://vitejs.dev/config/
 export default defineConfig({
     plugins: [preact({babel: {babelrc: false, configFile: false}})],
     root: './src',
@@ -56,7 +54,7 @@ export default defineConfig({
         alias: [
             {
                 find: '@hive',
-                replacement: path.resolve(projectRootDir, 'src'),
+                replacement: path.resolve(projectRootDirectory, 'src'),
             },
         ],
     },
@@ -106,7 +104,6 @@ export default defineConfig({
         coverage: {
             provider: 'v8',
             all: false,
-
             enabled: true,
             reporter: ['text', 'lcov'],
             reportsDirectory: './reports/frontend/',

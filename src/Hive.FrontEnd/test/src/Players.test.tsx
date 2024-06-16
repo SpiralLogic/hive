@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/preact';
 import Players from '../../src/components/Players';
-import { GameStateContext } from '@hive/services/gameStateContext';
+import { GameStateContext } from '@hive/services/game-state-context.ts';
 import { signalize } from '../helpers/signalize';
 import {Tile} from "@hive/domain";
 

@@ -1,12 +1,12 @@
 import { fireEvent, render, screen } from '@testing-library/preact';
 import userEvent from '@testing-library/user-event';
-import { HiveDispatcher, TileAction, TileEvent } from '@hive/services';
+import { HiveDispatcher,  TileEvent } from '@hive/services';
 import GameTile from '../../src/components/GameTile';
 import { simulateEvent } from '../helpers';
 import { waitFor } from '@testing-library/dom';
 import { Dispatcher } from '@hive/hooks/useHiveDispatchListener';
 import { Tile } from '@hive/domain';
-import { moveMap } from '@hive/services/gameStateContext';
+import { moveMap } from '@hive/services/game-state-context.ts';
 
 const createTestDispatcher = (type: TileEvent['type'] = 'tileSelected') => {
   const dispatcher = new HiveDispatcher();
@@ -14,7 +14,7 @@ const createTestDispatcher = (type: TileEvent['type'] = 'tileSelected') => {
   const listener = (event: TileEvent) => {
     events.push(event);
   };
-  dispatcher.add<TileEvent>(type, listener);
+  dispatcher.add(type, listener);
 
   return [events, dispatcher] as const;
 };
@@ -101,7 +101,7 @@ describe('<GameTile> event dispatcher', () => {
     setup(dispatcher, tileCanMove);
 
     screen.getByTitle(/grasshopper/);
-    dispatcher.dispatch<TileAction>({ type: 'tileSelect', tile: tileCanMove });
+    dispatcher.dispatch({ type: 'tileSelect', tile: tileCanMove });
 
     await waitFor(() => expect(screen.getByTitle(/grasshopper/)).toHaveClass('selected'));
   });
@@ -159,7 +159,7 @@ describe('<GameTile> event dispatcher', () => {
     await userEvent.click(screen.getByTitle(/grasshopper/));
     expect(screen.getByTitle(/grasshopper/)).toHaveClass('selected');
 
-    dispatcher.dispatch<TileAction>({ type: 'tileSelect', tile: tileCanMove });
+    dispatcher.dispatch({ type: 'tileSelect', tile: tileCanMove });
 
     expect(selectedEvents).toHaveLength(1);
   });
@@ -169,7 +169,7 @@ describe('<GameTile> event dispatcher', () => {
 
     setup(dispatcher, { ...tileOpponentCanMove });
 
-    dispatcher.dispatch<TileAction>({ type: 'tileSelect', tile: tileCanMove });
+    dispatcher.dispatch({ type: 'tileSelect', tile: tileCanMove });
 
     expect(selectedEvents).toHaveLength(0);
   });
@@ -179,7 +179,7 @@ describe('<GameTile> event dispatcher', () => {
     setup(dispatcher, tileNoMove);
 
     const tileNoMoveElement = screen.getByTitle(/queen/);
-    dispatcher.dispatch<TileAction>({
+    dispatcher.dispatch({
       type: 'tileSelect',
       tile: { id: 1, playerId: 0, creature: 'queen' },
     });
@@ -191,8 +191,8 @@ describe('<GameTile> event dispatcher', () => {
     const [deselectEvents, dispatcher] = createTestDispatcher('tileDeselected');
     setup(dispatcher, tileCanMove, tileNoMove);
 
-    dispatcher.dispatch<TileAction>({ type: 'tileSelect', tile: tileCanMove });
-    dispatcher.dispatch<TileAction>({ type: 'tileDeselect', tile: tileNoMove });
+    dispatcher.dispatch({ type: 'tileSelect', tile: tileCanMove });
+    dispatcher.dispatch({ type: 'tileDeselect', tile: tileNoMove });
 
     expect(deselectEvents).toHaveLength(0);
   });
@@ -284,7 +284,7 @@ describe('<GameTile> events', () => {
     const [deselectEvents, dispatcher] = createTestDispatcher('tileDeselected');
     setup(dispatcher, tileCanMove, tileOpponentCanMove);
 
-    dispatcher.dispatch<TileAction>({ type: 'tileSelect', tile: tileOpponentCanMove });
+    dispatcher.dispatch({ type: 'tileSelect', tile: tileOpponentCanMove });
     await userEvent.click(screen.getByTitle(/spider/));
 
     expect(deselectEvents).toHaveLength(0);

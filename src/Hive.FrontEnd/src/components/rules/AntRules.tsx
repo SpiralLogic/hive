@@ -5,7 +5,7 @@ import RuleCell from './RuleCell';
 import { Rule } from './rule';
 
 const AntRules: Rule = () => (
-  <Hextille class="rules">
+  <Hextille>
     <Row>
       <Hexagon hidden={true} />
       <RuleCell result="correct" correctArrows={['right']} zIndex={1} />

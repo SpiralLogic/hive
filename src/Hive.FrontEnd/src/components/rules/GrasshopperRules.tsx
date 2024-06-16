@@ -5,7 +5,7 @@ import RuleCell from './RuleCell';
 import { Rule } from './rule';
 
 const GrasshopperRules: Rule = () => (
-  <Hextille class="rules">
+  <Hextille>
     <Row zIndex={1}>
       <RuleCell result="correct" />
       <RuleCell creature="beetle" />

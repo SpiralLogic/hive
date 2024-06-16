@@ -20,7 +20,7 @@ import { Dispatcher } from '@hive/hooks/useHiveDispatchListener';
 import { Cell, HexCoordinate } from '@hive/domain';
 import GameTile from '../../src/components/GameTile';
 import { cellKey } from '@hive/utilities/hextille';
-import { moveMap } from '@hive/services/gameStateContext';
+import { moveMap } from '@hive/services/game-state-context.ts';
 
 const setUp = (...tileCreationFns: Array<() => { cell: Cell; historical?: boolean }>) => {
   const comps = tileCreationFns.map((t) => t());

@@ -7,7 +7,7 @@ import Hexagon from './Hexagon';
 import {useClassSignal} from '../hooks/useClassSignal';
 import {useDispatcher, useHiveDispatchListener} from '../hooks/useHiveDispatchListener';
 import {useSignal} from '@preact/signals';
-import {moveMap} from '../services/gameStateContext';
+import {moveMap} from '../services/game-state-context.ts';
 import {useClickAndKeyDownHandler} from "../hooks/useClickAndKeyDownHandler";
 import {useDragEnterLeaveHandlers} from "../hooks/useDragHandlers";
 import {useHide} from "../hooks/useAnimatedHide";
@@ -23,29 +23,29 @@ type Properties = {
 };
 const GameCell = (properties: Properties) => {
     const {coords, children, historical = false, hidden = false} = properties;
-    const [classes, classActions] = useClassSignal('hide');
+    const [classes, classesActions] = useClassSignal('hide');
     const tabIndex = useSignal<-1 | 0>(-1);
-    historical ? classActions.add('historical') : classActions.remove('historical');
+    historical ? classesActions.add('historical') : classesActions.remove('historical');
 
-    const selectedTile = useRef<Omit<TileType, 'moves'> | null>(null);
+    const selectedTile = useRef<Omit<TileType, 'moves'>>();
     const dispatcher = useDispatcher();
 
     useHiveDispatchListener<TileEvent>('tileDeselected', () => {
-        if (selectedTile.current !== null) selectedTile.current = null;
-        classActions.remove('active', 'can-drop', 'no-drop');
+        if (selectedTile.current !== null) selectedTile.current = undefined;
+        classesActions.remove('active', 'can-drop', 'no-drop');
         tabIndex.value = -1;
     });
 
-    useHide(hidden, [classes, classActions]);
+    useHide(hidden, [classes, classesActions]);
 
     useHiveDispatchListener<TileEvent>('tileSelected', (intent) => {
         if (classes.value.includes('hide')) return;
         selectedTile.current = intent.tile;
         if (isValidMove(coords, moveMap.value.get(`${intent.tile.playerId}-${intent.tile.id}`))) {
-            classActions.add('can-drop');
+            classesActions.add('can-drop');
             tabIndex.value = 0;
         } else {
-            classActions.add('no-drop');
+            classesActions.add('no-drop');
         }
     });
 
@@ -60,14 +60,14 @@ const GameCell = (properties: Properties) => {
                 move: {coords, tileId: selectedTile.current.id},
             });
         } else {
-            classActions.remove('active');
+            classesActions.remove('active');
         }
     });
     const {handleDragEnter, handleDragLeave} = useDragEnterLeaveHandlers(() => {
-        if (selectedTile.current) classActions.add('active');
+        if (selectedTile.current) classesActions.add('active');
     }, (event: DragEvent) => {
         event.stopPropagation();
-        classActions.remove('active');
+        classesActions.remove('active');
     })
 
     const {handleClick, handleKeyDown} = useClickAndKeyDownHandler((event: UIEvent) => {
@@ -80,7 +80,7 @@ const GameCell = (properties: Properties) => {
             return;
         event.stopPropagation();
         const move: MoveEvent = {type: 'move', move: {coords, tileId: selectedTile.current?.id}};
-        dispatcher.dispatch({type: 'tileClear', tile: selectedTile.current});
+        dispatcher.dispatch({type: 'tileClear'});
         dispatcher.dispatch(move);
     });
 

@@ -82,12 +82,12 @@ export const addServerHandlers = (
     updateGameState(state);
   };
 
-  dispatcher.add<MoveEvent>('move', moveHandler);
-  dispatcher.add<TileEvent>('tileSelected', selectionChangeHandler);
-  dispatcher.add<TileEvent>('tileDeselected', deselectionChangeHandler);
+  dispatcher.add('move', moveHandler);
+  dispatcher.add('tileSelected', selectionChangeHandler);
+  dispatcher.add('tileDeselected', deselectionChangeHandler);
   return () => {
-    dispatcher.remove<MoveEvent>('move', moveHandler);
-    dispatcher.remove<TileEvent>('tileSelected', selectionChangeHandler);
-    dispatcher.remove<TileEvent>('tileDeselected', deselectionChangeHandler);
+    dispatcher.remove('move', moveHandler);
+    dispatcher.remove('tileSelected', selectionChangeHandler);
+    dispatcher.remove('tileDeselected', deselectionChangeHandler);
   };
 };

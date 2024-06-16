@@ -2,7 +2,7 @@ import '../css/players.css';
 
 import GameTile from './GameTile';
 import Player from './Player';
-import { useGameState } from '../services/gameStateContext';
+import { useGameState } from '../services/game-state-context.ts';
 
 const Players = (properties: { currentPlayer: number }) => {
   const { currentPlayer } = properties;
