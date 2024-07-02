@@ -4,6 +4,7 @@ using System.Threading;
 using Hive.Api.Converters;
 using Hive.Api.Hubs;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpLogging;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -66,6 +67,13 @@ else
         }
     );
 }
+app.Use(async (context, next) =>
+{
+    context.Response.Headers.Append("Content-Security-Policy", "default-src 'self'; object-src 'none'; script-src 'self'; frame-ancestors 'none'");
+    context.Response.Headers.Append("Referrer-Policy","strict-origin-when-cross-origin");
+    context.Response.Headers.Append("Cross-Origin-Resource-Policy","same-origin");
+    await next().ConfigureAwait(false);
+});
 
 app.UseRouting();
 app.MapControllers();
