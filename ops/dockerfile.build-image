@@ -23,7 +23,7 @@ ENV DOTNET_SYSTEM_GLOBALIZATION_INVARIANT "true"
 RUN dotnet tool install -g dotnet-sonarscanner && \
     dotnet tool install -g dotnet-reportgenerator-globaltool && \
     dotnet tool install -g dotnet-coverage && \
-    dotnet tool install -g JetBrains.dotCover.GlobalTool
+    dotnet tool install -g JetBrains.dotCover.CommandLineTools
     
 COPY --from=mcr.microsoft.com/openjdk/jdk:17-distroless $JAVA_HOME $JAVA_HOME
 

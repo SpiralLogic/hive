@@ -77,7 +77,6 @@ spec:
       name: data
     spec:
       accessModes: [ "ReadWriteOnce" ]
-      storageClassName: nfs-storageclass
       resources:
         requests:
           storage: 1Gi
