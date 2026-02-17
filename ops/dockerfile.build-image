@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/dotnet/sdk:10.0-noble-chiseled
+FROM mcr.microsoft.com/dotnet/sdk:10.0-noble
 RUN apt update -yq && \
     apt upgrade -qy && \
     apt install -yq locales libxext6 libc6 libxml2 curl git nano ca-certificates gnupg  && \
