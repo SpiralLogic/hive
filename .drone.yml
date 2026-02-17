@@ -74,7 +74,7 @@ steps:
   #     - dotnet-coverage collect --output-format xml dotnet test src
   #     - dotnet-sonarscanner end /d:sonar.token=$SONARQUBE_KEY
   - name: test-results
-    image: plugins/kaniko:1.8.8-kaniko1.9.1
+    image: plugins/kaniko:linux-amd64
     depends_on:
       - frontend
       - backend
@@ -309,7 +309,7 @@ clone:
   depth: 1
 steps:
   - name: build
-    image: plugins/kaniko:1.8.8-kaniko1.9.1
+    image: plugins/kaniko:linux-amd64
     settings:
       registry: registry.lab.sorijen.net.au
       username:
@@ -339,7 +339,7 @@ clone:
   depth: 1
 steps:
   - name: build
-    image: plugins/kaniko:1.8.8-kaniko1.9.1
+    image: plugins/kaniko:linux-amd64
     settings:
       registry: registry.lab.sorijen.net.au
       username:

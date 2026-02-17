@@ -32,30 +32,30 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <InternalsVisibleTo Include="Hive.Api.Tests"/>
+    <InternalsVisibleTo Include="Hive.Api.Tests" />
   </ItemGroup>
 
   <ItemGroup>
-    <Content Remove="obj\**"/>
+    <Content Remove="obj\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Hive.Domain\Hive.Domain.csproj"/>
+    <ProjectReference Include="..\Hive.Domain\Hive.Domain.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.SignalR.StackExchangeRedis" Version="9.0.0-preview.5.24306.11" />
     <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="9.0.0-preview.5.24306.11" />
-    <PackageReference Include="StackExchange.Redis" Version="2.8.0" />
+    <PackageReference Include="StackExchange.Redis" Version="2.11.0" />
   </ItemGroup>
 
-  <ItemGroup Condition="'$(Configuration)' == 'Debug'" >
+  <ItemGroup Condition="'$(Configuration)' == 'Debug'">
     <PackageReference Include="Microsoft.AspNetCore.SpaProxy">
       <Version>9.0.0-preview.5.24306.11</Version>
     </PackageReference>
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot"/>
+    <Folder Include="wwwroot" />
   </ItemGroup>
 </Project>
