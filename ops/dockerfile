@@ -2,6 +2,7 @@ FROM registry.lab.sorijen.net.au/build-image:latest as front
 
 WORKDIR /source
 ENV NODE_ENV=production
+ENV IS_DOCKER=true
 COPY src/Hive.FrontEnd .
 
 RUN pnpm install -P --frozen-lockfile && pnpm vite:build
