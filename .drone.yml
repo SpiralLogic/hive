@@ -31,7 +31,7 @@ steps:
       - name: reports
         path: /drone/src/reports
   - name: build
-    image: plugins/kaniko:1.8.8-kaniko1.9.1
+    image: plugins/kaniko:linux-amd64
     settings:
       registry: registry.lab.sorijen.net.au
       username: 
