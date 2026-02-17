@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/dotnet/sdk:9.0-preview-noble as backend
+FROM mcr.microsoft.com/dotnet/sdk:10.0-noble-chiseled as backend
 ENV ASPNETCORE_ENVIRONMENT=Development
 ENV DOTNET_GENERATE_ASPNET_CERTIFICATE=true
 ENV ASPNETCORE_URLS "https://+:5001;http://+:5000"
