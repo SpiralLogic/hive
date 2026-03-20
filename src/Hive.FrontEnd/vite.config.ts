@@ -17,7 +17,7 @@ if (!process.env.CI && !process.env.IS_DOCKER) {
     const certificateArgument = process.argv
         .map((argument) => new RegExp(/--name=(?<value>.+)/i).exec(argument))
         .find(Boolean);
-    const certificateName = certificateArgument ? certificateArgument.groups.value : 'reactapp2.client';
+    const certificateName = certificateArgument?.groups?.value ?? 'reactapp2.client';
 
     if (!certificateName) {
         const error = 'Invalid certificate name. Run this script in the context of a npm/yarn script or pass --name=<<app>> explicitly.';
@@ -26,11 +26,15 @@ if (!process.env.CI && !process.env.IS_DOCKER) {
         );
         throw new Error(error)
     }
+    // Ensure baseFolder exists before using it for file paths
+    if (!fs.existsSync(baseFolder)) {
+        fs.mkdirSync(baseFolder, { recursive: true });
+    }
 
     const certFilePath = path.join(baseFolder, `${certificateName}.pem`);
     const keyFilePath = path.join(baseFolder, `${certificateName}.key`);
 
-    if ((!fs.existsSync(certFilePath) || !fs.existsSync(keyFilePath)) &&
+    if (!fs.existsSync(certFilePath) &&
         0 !==
         child_process.spawnSync(
             'dotnet',
@@ -40,10 +44,19 @@ if (!process.env.CI && !process.env.IS_DOCKER) {
     ) {
         throw new Error('Could not create certificate.');
     }
-    httpsSettings = {
-        key: fs.readFileSync(keyFilePath),
-        cert: fs.readFileSync(certFilePath),
-    };
+
+    const pemContent = fs.readFileSync(certFilePath, 'utf8');
+    const keyMatch = pemContent.match(/-----BEGIN PRIVATE KEY-----[\s\S]*?-----END PRIVATE KEY-----/);
+    const certMatch = pemContent.match(/-----BEGIN CERTIFICATE-----[\s\S]*?-----END CERTIFICATE-----/);
+    const key = fs.existsSync(keyFilePath)
+        ? fs.readFileSync(keyFilePath)
+        : keyMatch
+            ? Buffer.from(keyMatch[0], 'utf8')
+            : null;
+    const cert = certMatch ? Buffer.from(certMatch[0], 'utf8') : null;
+    if (key && cert) {
+        httpsSettings = { key, cert };
+    }
 }
 
 export default defineConfig({
@@ -65,22 +78,22 @@ export default defineConfig({
     server: {
         proxy: {
             '/api': {
-                target: 'https://backend:5001',
+                target: 'https://localhost:5001',
                 changeOrigin: false,
                 secure: false,
             },
             '/game': {
-                target: 'https://backend:5001',
+                target: 'https://localhost:5001',
                 changeOrigin: false,
                 secure: false,
             },
             '/new': {
-                target: 'https://backend:5001',
+                target: 'https://localhost:5001',
                 changeOrigin: false,
                 secure: false,
             },
             '/gamehub': {
-                target: 'wss://backend:5001',
+                target: 'wss://localhost:5001',
                 ws: true,
                 secure: false,
             },
