@@ -1,7 +1,7 @@
 import unicorn from 'eslint-plugin-unicorn';
 import testingLibrary from 'eslint-plugin-testing-library';
 import prettier from 'eslint-plugin-prettier';
-import vitest from 'eslint-plugin-vitest';
+import vitest from '@vitest/eslint-plugin';
 import globals from 'globals';
 // @ts-check
 

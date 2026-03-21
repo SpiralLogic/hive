@@ -1,6 +1,7 @@
 using System.Text;
 using System.Text.Json;
 using Hive.Api.Converters;
+using Hive.Api.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Caching.Memory;
@@ -28,5 +29,15 @@ internal static class TestHelpers
     internal static MemoryDistributedCache CreateTestMemoryCache()
     {
         return new(new OptionsWrapper<MemoryDistributedCacheOptions>(new()));
+    }
+
+    internal static IGameSessionStore CreateSessionStore(MemoryDistributedCache memoryCache, JsonOptions jsonOptions)
+    {
+        return new GameSessionStore(memoryCache, jsonOptions.JsonSerializerOptions);
+    }
+
+    internal static IGameLockProvider CreateGameLockProvider()
+    {
+        return new GameLockProvider();
     }
 }

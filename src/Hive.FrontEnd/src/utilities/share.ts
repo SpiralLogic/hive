@@ -1,5 +1,5 @@
 export const getShareUrl = (gameId: string, currentPlayer: number) =>
-  `${window.location.origin}/game/${gameId}/${currentPlayer === 1 ? '0' : '1'}`;
+  `${globalThis.location.origin}/game/${gameId}/${currentPlayer === 1 ? '0' : '1'}`;
 
 export const shareGame = async (gameId: string, currentPlayer: number) => {
   const url = getShareUrl(gameId, currentPlayer);

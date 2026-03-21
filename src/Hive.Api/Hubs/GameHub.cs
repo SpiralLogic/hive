@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Globalization;
 using System.Threading.Tasks;
 using Hive.Domain.Entities;
@@ -32,7 +32,6 @@ public class GameHub : Hub
             if (playerId is string player)
             {
                 var playerInt = int.Parse(player, NumberStyles.Integer, CultureInfo.InvariantCulture);
-                await Groups.AddToGroupAsync(Context.ConnectionId, groupName).ConfigureAwait(false);
                 await Clients.Group(groupName).SendAsync("PlayerConnection", "connect", playerInt).ConfigureAwait(false);
             }
         }

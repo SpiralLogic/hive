@@ -3,7 +3,7 @@ import Player from '../../src/components/Player';
 import GameTile from '../../src/components/GameTile';
 
 const setUp = () => {
-  global.window.history.replaceState({}, global.document.title, `/game/33/1`);
+  globalThis.window.history.replaceState({}, globalThis.document.title, `/game/33/1`);
   const playerProperties = { id: 1, name: 'Player 1' };
   return render(
     <Player {...playerProperties}>

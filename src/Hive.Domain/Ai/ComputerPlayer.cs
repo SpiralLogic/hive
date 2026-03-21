@@ -106,7 +106,7 @@ internal class ComputerPlayer
         var best = toExplore[0].Values.Move;
         var bestScore = -HeuristicValues.ScoreMax;
 
-        foreach (var (nextScore, values) in toExplore.OrderByDescending(t => t.Score))
+        foreach (var (nextScore, values) in toExplore.OrderBy(_ =>  RandomNumberGenerator.GetInt32(Int32.MaxValue)))
         {
             if ((_options.MaxDepth - depth) % 2 == 1 && _localStopwatch.ElapsedMilliseconds > _options.LocalMaxSearchTime) break;
             MakeMove(values.Move);
@@ -114,7 +114,7 @@ internal class ComputerPlayer
 
             var score = nextScore;
             if (nextScore < HeuristicValues.ScoreMax)
-                score -= (await Run(values.Move, depth - 1).ConfigureAwait(false)).Score;
+                score += -(await Run(values.Move, depth - 1).ConfigureAwait(false)).Score / (_options.MaxDepth - depth + 1);
 
             _hive.RevertMove();
 

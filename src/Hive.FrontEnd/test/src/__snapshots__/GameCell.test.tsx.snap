@@ -2,6 +2,7 @@
 
 exports[`<GameCell> snapshots > matches cell with no tile 1`] = `
 <div
+  class=""
   role="cell"
 >
   <svg
@@ -17,6 +18,7 @@ exports[`<GameCell> snapshots > matches cell with no tile 1`] = `
 
 exports[`<GameCell> snapshots > matches cell with tile 1`] = `
 <div
+  class=""
   role="cell"
 >
   <svg

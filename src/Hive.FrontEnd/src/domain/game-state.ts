@@ -8,6 +8,7 @@ export type GameState = {
   gameId: string;
   gameStatus: GameStatus;
   history: HistoricalMoves;
+  version: number;
 };
 
 export type GameStatus =

@@ -41,26 +41,27 @@ describe.sequential('<App>', () => {
         gameState.players[1],
       ],
     };
-    const { dispatcher, engine } = appSetup(Promise.resolve(gameState), gameStateAfterMove);
-    await engine.initialGame;
+    const { dispatcher } = appSetup(Promise.resolve(gameState), gameStateAfterMove);
+    await waitFor(() => expect(dispatcher.add).toHaveBeenCalled());
     dispatcher.dispatch({ type: 'move', move: { tileId: 1, coords: { q: 0, r: 0 } } });
     expect(await screen.findByTitle('Hive Game Area')).toBeInTheDocument();
   });
 
   it('cleans up event handlers', async () => {
-    const { engine, unmount, dispatcher } = appSetup();
-    vi.spyOn(dispatcher, 'remove');
+    const {  unmount, dispatcher } = appSetup();
 
-    await engine.initialGame;
+    await waitFor(() => expect(dispatcher.add).toHaveBeenCalled());
     unmount();
-    await waitFor(() => expect(dispatcher.remove).toBeCalled());
+    expect(dispatcher.remove).toHaveBeenCalled();
   });
 
   it('calls close connection when App is unmounted', async () => {
     mockConsole();
-    const { engine, closeConnection, unmount } = appSetup();
-    await engine.initialGame;
+    const { closeConnection, unmount, dispatcher } = appSetup();
+    await waitFor(() => expect(dispatcher.add).toHaveBeenCalled());
     unmount();
-    expect(closeConnection).toHaveBeenCalledWith();
+    await waitFor(() => {
+      expect(closeConnection).toHaveBeenCalledWith();
+    });
   });
 });

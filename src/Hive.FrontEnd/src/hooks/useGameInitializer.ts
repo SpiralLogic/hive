@@ -24,7 +24,7 @@ export const useGameInitializer = (engine: HexEngine, connectionFactory: ServerC
   useEffect(() => {
     engine.initialGame
       .then((initialGameState) => {
-        window.history.replaceState(
+        globalThis.history.replaceState(
           { gameId: initialGameState.gameId },
           document.title,
           `/game/${initialGameState.gameId}/${engine.currentPlayer}${document.location.search}`

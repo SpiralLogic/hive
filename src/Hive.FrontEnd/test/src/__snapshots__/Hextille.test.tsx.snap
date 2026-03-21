@@ -9,6 +9,7 @@ exports[`<Hextille> snapshots > matches 1`] = `
     role="row"
   >
     <div
+      class=""
       role="cell"
     >
       <svg

@@ -26,6 +26,9 @@ export const appSetup = (gameState?: Promise<GameState>, gameAfterMove?: GameSta
     gameAfterMove ?? createGameState(5)
   );
   const dispatcher = new HiveDispatcher();
+  vi.spyOn(dispatcher, 'remove');
+  vi.spyOn(dispatcher, 'add');
+
   return {
     ...render(
       <Dispatcher.Provider value={dispatcher}>

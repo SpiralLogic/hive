@@ -41,12 +41,11 @@ const Links: FunctionComponent<Properties> = ({
     <nav>
       <a
         href={getShareUrl(gameId.value, currentPlayer)}
-        name="Share game to opponent"
-        title="Share"
+        title="Share game to opponent"
         onClick={handle(onShowShare)}>
         <Svg hrefs={['share']} />
       </a>
-      <a href={`/`} name="New game!" title="New Game">
+      <a href={`/`} title="New Game">
         <Svg hrefs={['new']} />
       </a>
       <button name="Show rules" onClick={handle(onShowRules)} title="Rules">
@@ -54,7 +53,7 @@ const Links: FunctionComponent<Properties> = ({
       </button>
       <button
         name="Toggle Ai"
-        class={aiClass}
+        class={aiClass.value}
         onWheel={handle(wheelHandler)}
         onDblClick={handle(wheelHandler)}
         onClick={handle(clickHandler)}

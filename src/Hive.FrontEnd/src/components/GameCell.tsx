@@ -25,7 +25,11 @@ const GameCell = (properties: Properties) => {
     const {coords, children, historical = false, hidden = false} = properties;
     const [classes, classesActions] = useClassSignal('hide');
     const tabIndex = useSignal<-1 | 0>(-1);
-    historical ? classesActions.add('historical') : classesActions.remove('historical');
+    if (historical) {
+      classesActions.add('historical');
+    } else {
+      classesActions.remove('historical');
+    }
 
     const selectedTile = useRef<Omit<TileType, 'moves'>>();
     const dispatcher = useDispatcher();

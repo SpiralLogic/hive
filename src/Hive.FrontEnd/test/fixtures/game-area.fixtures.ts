@@ -24,6 +24,7 @@ export const createGameState = (cells: number, withHistory = false): GameState =
     players: [player0, player1],
     gameStatus: 'MoveSuccess',
     history: [],
+    version: 1,
   };
 
   return withHistory ? { ...gameState, history } : gameState;

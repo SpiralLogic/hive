@@ -1,8 +1,8 @@
-type WindowLocation = typeof window.location;
+type WindowLocation = typeof globalThis.window.location;
 
 export const mockLocation = (location: Partial<WindowLocation>) => {
   vi.stubGlobal('location', {
-    ...global.window.location,
+    ...globalThis.window.location,
     ...location,
   });
 

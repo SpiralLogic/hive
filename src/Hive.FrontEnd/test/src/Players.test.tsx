@@ -40,7 +40,7 @@ describe('<Players>', () => {
 
 describe('<Players> snapshots', () => {
   it('matches', () => {
-    global.window.history.replaceState({}, global.document.title, `/game/33/1`);
+    globalThis.window.history.replaceState({}, globalThis.document.title, `/game/33/1`);
     const view = setup();
     expect(view.baseElement).toMatchSnapshot();
   });

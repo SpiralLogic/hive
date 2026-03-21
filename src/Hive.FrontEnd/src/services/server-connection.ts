@@ -29,7 +29,7 @@ export interface ServerConnection {
 }
 
 class ServerConnectionImpl implements ServerConnection {
-  private readonly updateHandler;
+  private readonly updateHandler: GameStateUpdateHandler;
 
   private readonly gameId: string;
 
@@ -61,7 +61,7 @@ class ServerConnectionImpl implements ServerConnection {
         console.info(`connection closed to game ${this.gameId} .. ${error}`)
       );
       this.connection.onreconnected((error) => {
-        window.location.reload();
+        globalThis.location.reload();
         console.info(`reconnected to game ${this.gameId} .. ${error}`);
       });
     }
@@ -83,7 +83,7 @@ class ServerConnectionImpl implements ServerConnection {
   };
 
   private createConnection = () => {
-    const hubUrl = `${window.location.protocol}//${window.location.host}/gamehub/${this.gameId}/${this.currentPlayer}`;
+    const hubUrl = `${globalThis.location.protocol}//${globalThis.location.host}/gamehub/${this.gameId}/${this.currentPlayer}`;
     const connection = new HubConnectionBuilder()
       .withUrl(hubUrl, {
         skipNegotiation: true,

@@ -1,5 +1,6 @@
 import { fireEvent, render, screen } from '@testing-library/preact';
 import userEvent from '@testing-library/user-event';
+import { waitFor } from '@testing-library/dom';
 import Links from '../../src/components/Links';
 
 import { HiveDispatcher } from '@hive/services';
@@ -53,7 +54,9 @@ describe('<Links> ai toggle', () => {
     fireEvent.wheel(screen.getByTitle(/toggle ai/i));
 
     expect(aiMode.value).toBe('auto');
-    expect(await screen.findByTitle(/toggle ai/i)).not.toHaveClass('ai-off');
+    await waitFor(() => {
+      expect(screen.getByTitle(/toggle ai/i)).not.toHaveClass('ai-off');
+    });
   });
 
   it(`toggles auto Ai off on click`, async () => {

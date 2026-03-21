@@ -75,10 +75,10 @@ export const addServerHandlers = (
   dispatcher: HiveDispatcher
 ) => {
   const selectionChangeHandler = (event: TileEvent) => {
-    !event.fromEvent && sendSelection('select', event.tile);
+    if (!event.fromEvent) sendSelection('select', event.tile);
   };
   const deselectionChangeHandler = (event: TileEvent) => {
-    !event.fromEvent && sendSelection('deselect', event.tile);
+    if (!event.fromEvent) sendSelection('deselect', event.tile);
   };
   const moveHandler = async (event: MoveEvent) => {
     const state = await makeMove(event.move);

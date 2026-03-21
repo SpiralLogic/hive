@@ -56,8 +56,7 @@ exports[`<GameArea> snapshots > matches 1`] = `
     <nav>
       <a
         href="http://localhost:3000/game/33/0"
-        name="Share game to opponent"
-        title="Share"
+        title="Share game to opponent"
       >
         <svg
           viewBox="0 0 100 100"
@@ -70,7 +69,6 @@ exports[`<GameArea> snapshots > matches 1`] = `
       </a>
       <a
         href="/"
-        name="New game!"
         title="New Game"
       >
         <svg
@@ -162,6 +160,7 @@ exports[`<GameArea> snapshots > matches 1`] = `
         role="row"
       >
         <div
+          class=""
           role="cell"
         >
           <svg
@@ -204,6 +203,7 @@ exports[`<GameArea> snapshots > matches 1`] = `
           </svg>
         </div>
         <div
+          class=""
           role="cell"
         >
           <svg
@@ -658,8 +658,7 @@ exports[`<GameArea> snapshots > matches game over 1`] = `
     <nav>
       <a
         href="http://localhost:3000/game/33/1"
-        name="Share game to opponent"
-        title="Share"
+        title="Share game to opponent"
       >
         <svg
           viewBox="0 0 100 100"
@@ -672,7 +671,6 @@ exports[`<GameArea> snapshots > matches game over 1`] = `
       </a>
       <a
         href="/"
-        name="New game!"
         title="New Game"
       >
         <svg
@@ -764,6 +762,7 @@ exports[`<GameArea> snapshots > matches game over 1`] = `
         role="row"
       >
         <div
+          class=""
           role="cell"
         >
           <svg
@@ -806,6 +805,7 @@ exports[`<GameArea> snapshots > matches game over 1`] = `
           </svg>
         </div>
         <div
+          class=""
           role="cell"
         >
           <svg
@@ -1261,8 +1261,7 @@ exports[`<GameArea> snapshots > matches with historical move 1`] = `
     <nav>
       <a
         href="http://localhost:3000/game/33/1"
-        name="Share game to opponent"
-        title="Share"
+        title="Share game to opponent"
       >
         <svg
           viewBox="0 0 100 100"
@@ -1275,7 +1274,6 @@ exports[`<GameArea> snapshots > matches with historical move 1`] = `
       </a>
       <a
         href="/"
-        name="New game!"
         title="New Game"
       >
         <svg

@@ -1,14 +1,16 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using FakeItEasy;
 using FluentAssertions;
 using Hive.Api.Controllers;
 using Hive.Api.DTOs;
+using Hive.Api.Services;
 using Hive.Domain;
 using Hive.Domain.Entities;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Distributed;
-using Microsoft.Extensions.Options;
 using Xunit;
 
 namespace Hive.Api.Tests.Controllers;
@@ -28,8 +30,11 @@ public sealed class GameControllerTests : IDisposable
         var jsonOptions = TestHelpers.CreateJsonOptions();
         var memoryCache = TestHelpers.CreateTestMemoryCache();
         memoryCache.Set(TestHelpers.ExistingGameId, TestHelpers.GetSerializedBytes(gameState, jsonOptions));
+        IGameSessionStore gameSessionStore = TestHelpers.CreateSessionStore(memoryCache, jsonOptions);
+        var environment = A.Fake<IWebHostEnvironment>();
+        environment.EnvironmentName = "Production";
 
-        _controller = new(Options.Create(jsonOptions), memoryCache);
+        _controller = new(gameSessionStore, environment);
     }
 
     [Fact]
@@ -67,8 +72,11 @@ public sealed class GameControllerTests : IDisposable
         var jsonOptions = TestHelpers.CreateJsonOptions();
         var memoryCache = TestHelpers.CreateTestMemoryCache();
         await memoryCache.SetAsync(TestHelpers.ExistingGameId, TestHelpers.GetSerializedBytes(gameState, jsonOptions));
+        IGameSessionStore gameSessionStore = TestHelpers.CreateSessionStore(memoryCache, jsonOptions);
+        var environment = A.Fake<IWebHostEnvironment>();
+        environment.EnvironmentName = "Production";
 
-        var controller = new GameController(Options.Create(jsonOptions), memoryCache);
+        var controller = new GameController(gameSessionStore, environment);
 
         var actionResult = (await controller.GetGame(ExistingGameId)).Result.Should().BeOfType<OkObjectResult>().Subject;
         actionResult.Value.Should().BeAssignableTo<GameState>();

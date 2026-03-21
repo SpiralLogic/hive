@@ -2,10 +2,10 @@ using System.Threading.Tasks;
 using FluentAssertions;
 using Hive.Api.Controllers;
 using Hive.Api.DTOs;
+using Hive.Api.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Distributed;
-using Microsoft.Extensions.Options;
 using Xunit;
 
 namespace Hive.Api.Tests.Controllers;
@@ -20,8 +20,9 @@ public class NewControllerTests
     {
         var jsonOptions = TestHelpers.CreateJsonOptions();
         _memoryCache = TestHelpers.CreateTestMemoryCache();
+        IGameSessionStore gameSessionStore = TestHelpers.CreateSessionStore(_memoryCache, jsonOptions);
         var httpContext = new DefaultHttpContext { TraceIdentifier = NewGameId };
-        _controller = new(Options.Create(jsonOptions), _memoryCache) { ControllerContext = { HttpContext = httpContext } };
+        _controller = new(gameSessionStore) { ControllerContext = { HttpContext = httpContext } };
     }
 
     [Fact]

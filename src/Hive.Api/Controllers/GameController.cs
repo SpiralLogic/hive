@@ -1,33 +1,32 @@
-﻿using System;
-using System.Text.Json;
+using System;
 using System.Threading.Tasks;
 using Hive.Api.DTOs;
+using Hive.Api.Services;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Caching.Distributed;
-using Microsoft.Extensions.Options;
 
 namespace Hive.Api.Controllers;
 
 [ApiController]
 public class GameController : Controller
 {
-    private readonly IDistributedCache _distributedCache;
-    private readonly JsonSerializerOptions _jsonSerializerOptions;
+    private readonly IGameSessionStore _gameSessionStore;
+    private readonly IWebHostEnvironment _environment;
 
-    public GameController(IOptions<JsonOptions> jsonOptions, IDistributedCache distributedCache)
+    public GameController(IGameSessionStore gameSessionStore, IWebHostEnvironment environment)
     {
-        ArgumentNullException.ThrowIfNull(jsonOptions);
-
-        _distributedCache = distributedCache;
-        _jsonSerializerOptions = jsonOptions.Value.JsonSerializerOptions;
+        _gameSessionStore = gameSessionStore;
+        _environment = environment;
     }
 
     [HttpGet]
     [Route("/game/{id}/{playerId:int?}", Name = "GameEndpoint")]
     public async Task<IActionResult> Get(string id, int playerId = 0)
     {
-        var gameSession = await _distributedCache.GetStringAsync(id).ConfigureAwait(false);
-        if (string.IsNullOrEmpty(gameSession)) return Redirect("/");
+        if (!await _gameSessionStore.Exists(id).ConfigureAwait(false)) return Redirect("/");
+
+        if (_environment.EnvironmentName == "Development")
+            return Redirect("/");
 
         return File("/index.html", "text/html; charset=utf-8");
     }
@@ -38,10 +37,8 @@ public class GameController : Controller
     [ProducesErrorResponseType(typeof(NotFoundResult))]
     public async Task<ActionResult<GameState>> GetGame(string id)
     {
-        var gameSession = await _distributedCache.GetStringAsync(id).ConfigureAwait(false);
-        if (string.IsNullOrEmpty(gameSession)) return NotFound();
-
-        var gameState = JsonSerializer.Deserialize<GameState>(gameSession, _jsonSerializerOptions);
+        var gameState = await _gameSessionStore.GetGame(id).ConfigureAwait(false);
+        if (gameState == null) return NotFound();
 
         return Ok(gameState);
     }

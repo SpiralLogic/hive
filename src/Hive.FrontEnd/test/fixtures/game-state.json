@@ -47,5 +47,6 @@
     }
   ],
   "gameStatus": "MoveSuccess",
-  "gameId": "eer"
+  "gameId": "eer",
+  "version": 3
 }

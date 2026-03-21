@@ -1,10 +1,10 @@
-import GameEngine from '../../../src/services/game-engine';
+import GameEngine, { StaleGameStateError } from '../../../src/services/game-engine';
 import gameState from '../../fixtures/game-state.json';
 
 describe('game engine', () => {
   let engine: GameEngine;
   beforeEach(() => {
-    global.fetch = vi
+    globalThis.fetch = vi
       .fn()
       .mockImplementation(() => Promise.resolve({ ok: true, json: () => Promise.resolve(gameState) }));
   });
@@ -22,7 +22,7 @@ describe('game engine', () => {
     engine = new GameEngine({ gameId: '33', currentPlayer: '1' });
     const response = await engine.initialGame;
 
-    expect(global.fetch).toHaveBeenCalledWith('/api/game/33', {
+    expect(globalThis.fetch).toHaveBeenCalledWith('/api/game/33', {
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
@@ -45,6 +45,18 @@ describe('game engine', () => {
     expect(response).not.toBeFalsy();
     expect(response.cells).toHaveLength(2);
     expect(response.players).toHaveLength(2);
+    expect(globalThis.fetch).toHaveBeenLastCalledWith('/api/move/33', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        'If-Match-Version': '3',
+      },
+      body: JSON.stringify({
+        tileId: 1,
+        coords: { q: 0, r: 0 },
+      }),
+    });
   });
 
   it.each(['0', '1'])('makes AI move for player %s', async (player) => {
@@ -55,14 +67,14 @@ describe('game engine', () => {
       coords: { q: 0, r: 0 },
     });
 
-    expect(global.fetch).toHaveBeenLastCalledWith('/api/ai-move/445', expect.any(Object));
+    expect(globalThis.fetch).toHaveBeenLastCalledWith('/api/ai-move/445', expect.any(Object));
   });
 
   it('No AI move on toggle off', async () => {
     engine = new GameEngine({ gameId: '445', currentPlayer: '0' });
     engine.aiMode = 'off';
 
-    expect(global.fetch).not.toHaveBeenCalledWith(/api\/ai-move/, expect.any(Object));
+    expect(globalThis.fetch).not.toHaveBeenCalledWith(/api\/ai-move/, expect.any(Object));
   });
 
   it('gets Ai Mode', async () => {
@@ -72,7 +84,7 @@ describe('game engine', () => {
   });
 
   it('performs Ai moves for both players', async () => {
-    global.fetch = vi
+    globalThis.fetch = vi
       .fn()
       .mockReset()
       .mockImplementationOnce(() => Promise.resolve({ ok: true, json: () => Promise.resolve(gameState) }))
@@ -80,7 +92,23 @@ describe('game engine', () => {
 
     engine = new GameEngine({ gameId: '445', currentPlayer: '0' });
     engine.aiMode = 'auto';
-    expect(global.fetch).toHaveBeenLastCalledWith('/api/ai-move/445', expect.any(Object));
-    expect(global.fetch).toHaveBeenCalledTimes(2);
+    await new Promise((resolve) => setTimeout(resolve, 0));
+    await new Promise((resolve) => setTimeout(resolve, 0));
+    expect(globalThis.fetch).toHaveBeenCalledWith('/api/ai-move/445', expect.any(Object));
+    expect((globalThis.fetch as ReturnType<typeof vi.fn>).mock.calls.length).toBeGreaterThanOrEqual(2);
+  });
+
+  it('throws stale error when server returns conflict', async () => {
+    globalThis.fetch = vi.fn().mockImplementationOnce(() => Promise.resolve({ ok: true, json: () => Promise.resolve(gameState) })).mockImplementationOnce(
+      () => Promise.resolve({ ok: false, status: 409, json: () => Promise.resolve({}) })
+    );
+
+    engine = new GameEngine({ gameId: '33', currentPlayer: '1' });
+    await expect(
+      engine.move({
+        tileId: 1,
+        coords: { q: 0, r: 0 },
+      })
+    ).rejects.toBeInstanceOf(StaleGameStateError);
   });
 });

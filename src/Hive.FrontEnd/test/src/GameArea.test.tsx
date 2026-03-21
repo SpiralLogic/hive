@@ -45,7 +45,7 @@ describe('<GameArea>', () => {
 
   it(`resets all selected tiles which aren't the current player`, async () => {
     const gameState = createGameState(1);
-    global.window.history.replaceState({}, global.document.title, `/game/33/0`);
+    globalThis.window.history.replaceState({}, globalThis.document.title, `/game/33/0`);
 
     const { dispatcher } = setup(gameState, { currentPlayer: 1, aiMode: signal('off') });
     dispatcher.dispatch({ type: 'tileSelect', tile: gameState.players[1].tiles[0] });
@@ -54,7 +54,7 @@ describe('<GameArea>', () => {
 
   it(`removes all moves for tiles which aren't the current player`, async () => {
     const gameState = createGameState(1);
-    global.window.history.replaceState({}, global.document.title, `/game/33/0`);
+    globalThis.window.history.replaceState({}, globalThis.document.title, `/game/33/0`);
     setup(gameState, { currentPlayer: 1, aiMode: signal('off') });
 
     expect(screen.getByTitle(/beetle/)).toHaveAttribute('draggable', 'false');
@@ -107,7 +107,7 @@ describe('<GameArea> share dialog', () => {
   it('calls share API', async () => {
     const  share = mockShare();
     const gameState = createGameState(1);
-    global.window.history.replaceState({}, global.document.title, `/game/33/1`);
+    globalThis.window.history.replaceState({}, globalThis.document.title, `/game/33/1`);
     setup(gameState, { currentPlayer: 1, aiMode: signal('off') });
 
     await userEvent.click(screen.getByTitle(/Share/));

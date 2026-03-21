@@ -2,6 +2,13 @@ import { GameState, Move } from '../domain';
 import { AiMode, HexEngine } from '../domain/engine';
 import { getAllPlayerTiles } from '../utilities/hextille';
 
+export class StaleGameStateError extends Error {
+  constructor(message = 'Game state is stale. Refresh and retry.') {
+    super(message);
+    this.name = 'StaleGameStateError';
+  }
+}
+
 export default class GameEngine implements HexEngine {
   public currentPlayer: number;
   public initialGame: Promise<GameState>;
@@ -10,6 +17,7 @@ export default class GameEngine implements HexEngine {
   #aiMode: AiMode;
 
   private currentRequest: Promise<GameState>;
+  private latestVersion: number | undefined;
   private requestHeaders = {
     Accept: 'application/json',
     'Content-Type': 'application/json',
@@ -61,6 +69,7 @@ export default class GameEngine implements HexEngine {
   };
 
   move = async (move: Move): Promise<GameState> => {
+    await this.completeRequest();
     await this.postRequest(`/api/move/${this.gameId}`, move);
     if (this.#aiMode === 'on') {
       await this.completeRequest();
@@ -70,6 +79,7 @@ export default class GameEngine implements HexEngine {
   };
 
   private aiMove = async (): Promise<GameState> => {
+    await this.completeRequest();
     await this.postRequest(`/api/ai-move/${this.gameId}`);
 
     return this.completeRequest();
@@ -78,6 +88,7 @@ export default class GameEngine implements HexEngine {
   private completeRequest = async () => {
     const response = await this.currentRequest;
     if (!this.gameId) this.gameId = response.gameId;
+    this.latestVersion = response.version;
     return response;
   };
 
@@ -90,11 +101,16 @@ export default class GameEngine implements HexEngine {
   };
 
   private postRequest = async (url: string, body?: Move) => {
+    const headers: Record<string, string> = { ...this.requestHeaders };
+    if (this.latestVersion !== undefined && url !== '/api/new') {
+      headers['If-Match-Version'] = this.latestVersion.toString();
+    }
     const response = await fetch(url, {
       method: 'POST',
-      headers: this.requestHeaders,
+      headers,
       body: body ? JSON.stringify(body) : undefined,
     });
+    if (response.status === 409) throw new StaleGameStateError();
     if (!response?.ok) throw new Error('Error performing post request');
     this.currentRequest = response.json();
     return this.currentRequest;

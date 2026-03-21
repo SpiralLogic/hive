@@ -25,15 +25,17 @@ describe('server connection', () => {
   const opponentSelectionHandler = vi.fn();
   const opponentConnectedHandler = vi.fn();
 
-  global.fetch = vi.fn().mockResolvedValue({ ok: true, json: Promise.resolve(gameState) });
+  globalThis.fetch = vi.fn().mockResolvedValue({ ok: true, json: Promise.resolve(gameState) });
 
   const createHubConnectionBuilder = (hubConnection: TestHubConnection) =>
-    (HubConnectionBuilder as Mock).mockImplementation(() => ({
-      withUrl: withUrlSpy,
-      withAutomaticReconnect: vi.fn().mockReturnThis(),
-      withStatefulReconnect: vi.fn().mockReturnThis(),
-      build: vi.fn().mockReturnValue(hubConnection),
-    }));
+    (HubConnectionBuilder as Mock).mockImplementation(function () {
+      return {
+        withUrl: withUrlSpy,
+        withAutomaticReconnect: vi.fn().mockReturnThis(),
+        withStatefulReconnect: vi.fn().mockReturnThis(),
+        build: vi.fn().mockReturnValue(hubConnection),
+      };
+    });
 
   const createHubConnection = (state: HubConnectionState = HubConnectionState.Connected) => {
     return {
@@ -72,7 +74,7 @@ describe('server connection', () => {
 
   it(`connects to hub for game id`, async () => {
     const restoreLocation = mockLocation({ reload: vi.fn() });
-    window.history.replaceState({ gameId: 33 }, document.title, `/game/33/0`);
+    globalThis.window.history.replaceState({ gameId: 33 }, document.title, `/game/33/0`);
 
     const hubConnection = createHubConnection();
     const serverConnection = setupServer(hubConnection);
@@ -119,7 +121,7 @@ describe('server connection', () => {
     hubConnection.stop.mockReset().mockRejectedValue('test');
     const serverConnection = setupServer(hubConnection);
     await serverConnection.connectGame();
-    fireEvent(window, new Event('beforeunload'));
+    fireEvent(globalThis.window, new Event('beforeunload'));
     await waitFor(() => expect(console.error).toHaveBeenCalledWith('test'));
     restoreLocation();
   });
@@ -173,7 +175,6 @@ describe('server connection', () => {
   });
 
   it(`server connection errors handlers are connected to the console`, async () => {
-    process.env.PROD = '';
     const restoreLocation = mockLocation({ reload: vi.fn() });
 
     const hubConnection = createHubConnection();

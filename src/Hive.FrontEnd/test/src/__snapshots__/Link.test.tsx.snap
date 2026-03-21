@@ -4,8 +4,7 @@ exports[`<Links> snapshots > matches 1`] = `
 <nav>
   <a
     href="http://localhost:3000/game/123A/1"
-    name="Share game to opponent"
-    title="Share"
+    title="Share game to opponent"
   >
     <svg
       viewBox="0 0 100 100"
@@ -18,7 +17,6 @@ exports[`<Links> snapshots > matches 1`] = `
   </a>
   <a
     href="/"
-    name="New game!"
     title="New Game"
   >
     <svg

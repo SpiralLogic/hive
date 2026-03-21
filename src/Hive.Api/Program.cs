@@ -3,6 +3,7 @@ using System.Globalization;
 using System.Threading;
 using Hive.Api.Converters;
 using Hive.Api.Hubs;
+using Hive.Api.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpLogging;
@@ -35,6 +36,9 @@ else
 }
 
 services.AddControllers().AddJsonOptions(options => { options.JsonSerializerOptions.Converters.AddAllJsonConverters(); });
+services.AddSingleton(provider => provider.GetRequiredService<Microsoft.Extensions.Options.IOptions<Microsoft.AspNetCore.Mvc.JsonOptions>>().Value.JsonSerializerOptions);
+services.AddSingleton<IGameSessionStore, GameSessionStore>();
+services.AddSingleton<IGameLockProvider, GameLockProvider>();
 
 using var app = appBuilder.Build();
 
@@ -78,7 +82,15 @@ app.Use(async (context, next) =>
 app.UseRouting();
 app.MapControllers();
 app.MapHub<GameHub>("/gamehub/{id}/{playerId}", options => { options.AllowStatefulReconnects = true; });
-app.MapFallbackToFile("/index.html");
+if (app.Environment.IsDevelopment())
+{
+    // In development the SPA is served by Vite (SpaProxy), not local wwwroot/index.html.
+    app.MapFallback(() => Results.Redirect("/"));
+}
+else
+{
+    app.MapFallbackToFile("/index.html");
+}
 app.Run();
 
 public partial class Program

@@ -7,12 +7,13 @@ using FluentAssertions;
 using Hive.Api.Controllers;
 using Hive.Api.DTOs;
 using Hive.Api.Hubs;
+using Hive.Api.Services;
 using Hive.Domain;
 using Hive.Domain.Entities;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Caching.Distributed;
-using Microsoft.Extensions.Options;
 using Xunit;
 
 namespace Hive.Api.Tests.Controllers;
@@ -40,6 +41,8 @@ public class MoveControllerTests
         var jsonOptions = TestHelpers.CreateJsonOptions();
         _memoryCache = TestHelpers.CreateTestMemoryCache();
         _memoryCache.Set(TestHelpers.ExistingGameId, TestHelpers.GetSerializedBytes(gameState, jsonOptions));
+        IGameSessionStore gameSessionStore = TestHelpers.CreateSessionStore(_memoryCache, jsonOptions);
+        IGameLockProvider gameLockProvider = TestHelpers.CreateGameLockProvider();
 
         var clients = A.Fake<IClientProxy>();
         A.CallTo(() =>  clients.SendCoreAsync(A<string>._, A<object[]>._, A<CancellationToken>._))
@@ -50,7 +53,8 @@ public class MoveControllerTests
         A.CallTo(() => _hubMock.Clients.Group(A<string>._)).Returns(clients);
 
 
-        _controller = new(_hubMock, Options.Create(jsonOptions), _memoryCache);
+        _controller = new(_hubMock, gameSessionStore, gameLockProvider);
+        _controller.ControllerContext = new ControllerContext { HttpContext = new DefaultHttpContext() };
     }
 
     [Fact]
@@ -84,13 +88,34 @@ public class MoveControllerTests
         var newGameState = result.Value.Should().BeAssignableTo<GameState>().Subject;
 
         newGameState.Cells.Single(c => c.Coords == move.Coords).Tiles.Should().Contain(t => t.Id == move.TileId);
+        newGameState.Version.Should().Be(1);
     }
 
     [Fact]
     public async Task PostAiMove_GameInCache_PerformsMove()
     {
         var result = (await _controller.AiMove(TestHelpers.ExistingGameId)).Should().BeOfType<AcceptedAtRouteResult>().Subject;
-        result.Value.Should().BeAssignableTo<GameState>();
+        var gameState = result.Value.Should().BeAssignableTo<GameState>().Subject;
+        gameState.Version.Should().Be(1);
+    }
+
+    [Fact]
+    public async Task Post_WithMismatchedIfMatchVersion_ReturnsConflict()
+    {
+        _controller.ControllerContext.HttpContext.Request.Headers["If-Match-Version"] = "999";
+        DTOs.Move move = new(1, new(0, 0));
+
+        var result = (await _controller.Post(TestHelpers.ExistingGameId, move)).Should().BeOfType<ConflictObjectResult>().Subject;
+        result.Value.Should().BeOfType<ProblemDetails>();
+    }
+
+    [Fact]
+    public async Task PostAiMove_WithMismatchedIfMatchVersion_ReturnsConflict()
+    {
+        _controller.ControllerContext.HttpContext.Request.Headers["If-Match-Version"] = "999";
+
+        var result = (await _controller.AiMove(TestHelpers.ExistingGameId)).Should().BeOfType<ConflictObjectResult>().Subject;
+        result.Value.Should().BeOfType<ProblemDetails>();
     }
 
     [Fact]
@@ -129,7 +154,8 @@ public class MoveControllerTests
     {
         DTOs.Move move = new(4, new(4, 4));
 
-        (await _controller.Post(TestHelpers.ExistingGameId, move)).Should().BeAssignableTo<BadRequestObjectResult>();
+        var result = (await _controller.Post(TestHelpers.ExistingGameId, move)).Should().BeOfType<ObjectResult>().Subject;
+        result.Value.Should().BeOfType<ValidationProblemDetails>();
     }
 
     [Fact]
@@ -137,20 +163,23 @@ public class MoveControllerTests
     {
         DTOs.Move move = new(40, new(4, 4));
 
-        (await _controller.Post(TestHelpers.ExistingGameId, move)).Should().BeOfType<ForbidResult>();
+        var result = (await _controller.Post(TestHelpers.ExistingGameId, move)).Should().BeOfType<ObjectResult>().Subject;
+        result.StatusCode.Should().Be(403);
     }
 
     [Fact]
     public async Task Post_IdMissing_ReturnsBadRequest()
     {
         DTOs.Move move = new(1, new(0, 0));
-        (await _controller.Post(null!, move)).Should().BeOfType<BadRequestResult>();
+        var result = (await _controller.Post(null!, move)).Should().BeOfType<ObjectResult>().Subject;
+        result.Value.Should().BeOfType<ValidationProblemDetails>();
     }
 
     [Fact]
     public async Task PostAiMove_IdMissing_ReturnsBadRequest()
     {
-        (await _controller.AiMove(null!)).Should().BeOfType<BadRequestResult>();
+        var result = (await _controller.AiMove(null!)).Should().BeOfType<ObjectResult>().Subject;
+        result.Value.Should().BeOfType<ValidationProblemDetails>();
     }
 
     [Fact]
