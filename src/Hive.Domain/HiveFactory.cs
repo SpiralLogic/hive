@@ -10,7 +10,8 @@ public static class HiveFactory
 {
     private static readonly Coords InitialCoords = new(0, 0);
 
-    internal static readonly ImmutableArray<Creature> StartingTiles = ImmutableArray.Create(
+    internal static readonly ImmutableArray<Creature> StartingTiles =
+    [
         Creatures.Queen,
         Creatures.Spider,
         Creatures.Spider,
@@ -22,7 +23,7 @@ public static class HiveFactory
         Creatures.Ant,
         Creatures.Ant,
         Creatures.Ant
-    );
+    ];
 
     public static Hive Create(IEnumerable<string> playerNames)
     {
@@ -40,13 +41,13 @@ public static class HiveFactory
         return playerNames.Select((name, id) => new Player(id, name) { Tiles = CreateTiles(id, id == 0) }).ToList();
     }
 
-    private static HashSet<Tile> CreateTiles(int playerId, bool withMoves = false)
+    private static ImmutableHashSet<Tile> CreateTiles(int playerId, bool withMoves = false)
     {
-        var startingMoves = CreateCells().ToCoords();
+        var startingMoves = CreateCells().ToCoords().ToImmutableHashSet();
         return StartingTiles.Select((creature, i) => (creature, id: (playerId * StartingTiles.Length) + i))
             .Select(t => new Tile(t.id, playerId, t.creature))
-            .Select(t => withMoves ? t with { Moves = startingMoves.ToHashSet() } : t)
-            .ToHashSet();
+            .Select(t => withMoves ? t with { Moves = startingMoves } : t)
+            .ToImmutableHashSet();
     }
 
     private static ISet<Cell> CreateCells()

@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using System.Threading.Tasks;
-using FluentAssertions;
+using AwesomeAssertions;
 using Hive.Domain.Entities;
 using Hive.Domain.Tests.TestUtils;
 using Xunit;
@@ -11,14 +12,14 @@ namespace Hive.Domain.Tests;
 
 public class HiveTests
 {
-    private static readonly string[] PlayerNames = new[]
-    {
+    private static readonly string[] PlayerNames =
+    [
         "player1", "player2"
-    };
-    private static readonly string[] SinglePlayerName = new[]
-    {
+    ];
+    private static readonly string[] SinglePlayerName =
+    [
         "player1"
-    };
+    ];
 
     [Fact]
     public void DoesCreateWithPlayerNames()
@@ -95,7 +96,7 @@ public class HiveTests
 
         hive.Move(new(playerTile, playerTile.Moves.First()));
 
-        hive.Cells.Should().Contain(cell => cell.TopTile() == playerTile);
+        hive.Cells.Where(c => !c.IsEmpty()).Should().Contain(cell => cell.TopTile() == playerTile);
     }
 
     [Fact]
@@ -110,15 +111,16 @@ public class HiveTests
         var player2Tile = player2.Tiles.First();
 
         hive.Move(new(player1Tile, player1Tile.Moves.First()));
+        player2Tile = hive.Players.First(p => p.Id == player2.Id).Tiles.First();
         hive.Move(new(player2Tile, player2Tile.Moves.First()));
 
-        var fromCell = hive.Cells.First(cell => !cell.IsEmpty());
+        var fromCell = hive.Cells.First(cell => !cell.IsEmpty() && !cell.TopTile().Moves.IsEmpty);
         var tileToMove = fromCell.TopTile();
         var toCell = hive.Cells.Single(cell => cell.Coords == tileToMove.Moves.First());
 
         hive.Move(new(tileToMove, toCell.Coords));
 
-        toCell.TopTile().Should().Be(tileToMove);
+        hive.Cells.First(c => c.Coords == toCell.Coords && !c.IsEmpty()).TopTile().Should().Be(tileToMove);
     }
 
     [Fact]
@@ -154,10 +156,10 @@ public class HiveTests
         var secondPlayer = hive.Players.Skip(1).First();
 
         var firstPlayerCanMoveFirst = hive.Players.SelectMany(p => p.Tiles)
-            .Where(t => t.Moves.Any())
+            .Where(t => !t.Moves.IsEmpty)
             .Any(t => t.PlayerId == firstPlayer.Id);
         var secondPlayerCanMoveFirst = hive.Players.SelectMany(p => p.Tiles)
-            .Where(t => t.Moves.Any())
+            .Where(t => !t.Moves.IsEmpty)
             .Any(t => t.PlayerId == secondPlayer.Id);
 
         firstPlayerCanMoveFirst.Should().BeTrue();
@@ -179,12 +181,13 @@ public class HiveTests
         hive.Move(new(firstPlayerTile, firstPlayerTile.Moves.First()));
 
         var secondPlayerCanMoveSecond = hive.Players.SelectMany(p => p.Tiles)
-            .Where(t => t.Moves.Any())
+            .Where(t => !t.Moves.IsEmpty)
             .All(t => t.PlayerId == secondPlayer.Id);
+        secondPlayerTile = hive.Players.First(p => p.Id == secondPlayer.Id).Tiles.First();
         hive.Move(new(secondPlayerTile, secondPlayerTile.Moves.First()));
 
         var firstPlayerCanMoveThird = hive.Players.SelectMany(p => p.Tiles)
-            .Where(t => t.Moves.Any())
+            .Where(t => !t.Moves.IsEmpty)
             .All(t => t.PlayerId == firstPlayer.Id);
 
         secondPlayerCanMoveSecond.Should().BeTrue();
@@ -227,13 +230,15 @@ public class HiveTests
         var player2Tiles = player2.Tiles.Where(t => t.Creature.Name != Creatures.Queen.Name).Take(3);
         foreach (var (first, second) in player1Tiles.Zip(player2Tiles))
         {
-            hive.Move(new(first, first.Moves.First()));
-            hive.Move(new(second, second.Moves.First()));
+            var currentFirst = hive.Players.SelectMany(p => p.Tiles).First(t => t.Id == first.Id);
+            hive.Move(new(currentFirst, currentFirst.Moves.First()));
+            var currentSecond = hive.Players.SelectMany(p => p.Tiles).First(t => t.Id == second.Id);
+            hive.Move(new(currentSecond, currentSecond.Moves.First()));
         }
 
         hive.Players.SelectMany(p => p.Tiles)
             .Union(hive.Cells.SelectMany(c => c.Tiles))
-            .Where(t => t.Moves.Any())
+            .Where(t => !t.Moves.IsEmpty)
             .Should()
             .OnlyContain(t => t.Creature == Creatures.Queen);
     }
@@ -301,7 +306,8 @@ public class HiveTests
         var hive = HiveFactory.Create(
             PlayerNames
         );
-        foreach (var player in hive.Players) player.Tiles.Clear();
+        for (var i = 0; i < hive.Players.Count; i++)
+            hive.Players[i] = hive.Players[i] with { Tiles = ImmutableHashSet<Tile>.Empty };
 
         var initial = new InitialHiveBuilder();
         initial += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
@@ -399,9 +405,11 @@ public class HiveTests
         var player1 = hive.Players[0];
         var playerWithNoMoves = hive.Players[1] with
         {
-            Tiles = new HashSet<Tile>(), Name = "test player", Id = 1
+            Tiles = ImmutableHashSet<Tile>.Empty, Name = "test player", Id = 1
         };
-        hive.Cells.First().AddTile(new(20, 1, Creatures.Ant));
+        var firstCell = hive.Cells.First();
+        hive.Cells.Remove(firstCell);
+        hive.Cells.Add(firstCell.AddTile(new(20, 1, Creatures.Ant)));
         hive = new(new List<Player>
             {
                 player1, playerWithNoMoves

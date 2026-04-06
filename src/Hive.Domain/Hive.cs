@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -33,15 +33,15 @@ public class Hive
         return _mover.Move(move);
     }
 
-    public async ValueTask<GameStatus> AiMove(Func<string, Tile, ValueTask> broadcastThought)
+    public async ValueTask<GameStatus> AiMove(Func<string, Tile, ValueTask> broadcastThought, DifficultyOptions? options = null)
     {
-        var aiMove = await new ComputerPlayer(this, new(), broadcastThought).GetMove().ConfigureAwait(false);
+        var aiMove = await new ComputerPlayer(this, options ?? new(), broadcastThought).GetMove().ConfigureAwait(false);
         return _mover.Move(aiMove, true);
     }
 
-    internal void RevertMove()
-    {
-        _mover.RevertMove();
-    }
+    internal (HashSet<Cell> Cells, List<Player> Players, int HistoryCount) TakeSnapshot()
+        => _mover.TakeSnapshot();
 
+    internal void RestoreSnapshot((HashSet<Cell> Cells, List<Player> Players, int HistoryCount) snapshot)
+        => _mover.RestoreSnapshot(snapshot);
 }

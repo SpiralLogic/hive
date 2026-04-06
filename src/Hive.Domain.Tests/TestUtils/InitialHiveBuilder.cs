@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using Hive.Domain.Entities;
 
@@ -17,25 +17,25 @@ internal sealed class InitialHiveBuilder : HiveBuilder
         OriginCells.Add(new(coords));
     }
 
-    protected override void ModifyCell(Cell cell, char symbol)
+    protected override Cell ModifyCell(Cell cell, char symbol)
     {
         if (symbol == Origin.Symbol)
         {
-            cell.AddTile(new(TileIdSequence++, 0, Origin.Creature));
+            return cell.AddTile(new(TileIdSequence++, 0, Origin.Creature));
         }
         else if (symbol == Friend.Symbol)
         {
-            cell.AddTile(new(TileIdSequence++, 0, Friend.Creature));
+            return cell.AddTile(new(TileIdSequence++, 0, Friend.Creature));
         }
         else if (symbol == Enemy.Symbol)
         {
-            cell.AddTile(new(TileIdSequence++, 1, Enemy.Creature));
+            return cell.AddTile(new(TileIdSequence++, 1, Enemy.Creature));
         }
         else
         {
             var (creature, cellString, _) = AllSymbols.Single(s => s.Symbol == symbol);
             var playerId = cellString.ToString().Equals(cellString.ToString().ToUpperInvariant(), StringComparison.Ordinal) ? 0 : 1;
-            cell.AddTile(new(TileIdSequence++, playerId, creature));
+            return cell.AddTile(new(TileIdSequence++, playerId, creature));
         }
     }
 }

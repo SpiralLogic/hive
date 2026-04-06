@@ -1,10 +1,11 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using FluentAssertions;
+using AwesomeAssertions;
 using Hive.Domain.Ai;
 using Hive.Domain.Entities;
 using Hive.Domain.Tests.TestUtils;
@@ -14,10 +15,10 @@ namespace Hive.Domain.Tests;
 
 public class ComputerPlayerTests
 {
-    private static readonly string[] PlayerNames = new[]
-    {
+    private static readonly string[] PlayerNames =
+    [
         "player1", " player2"
-    };
+    ];
 
     [Fact]
     public async Task MovesToEnemyQueen()
@@ -45,10 +46,9 @@ public class ComputerPlayerTests
         expected += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
 
         var hive = HiveFactory.CreateInProgress(
-            new[]
-            {
+            [
                 new Player(0, "P1"), new Player(1, "P1")
-            },
+            ],
             initial.AllCells
         );
 
@@ -78,10 +78,9 @@ public class ComputerPlayerTests
         expected += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
 
         var hive = HiveFactory.CreateInProgress(
-            new[]
-            {
+            [
                 new Player(0, "P1"), new Player(1, "P1")
-            },
+            ],
             initial.AllCells
         );
 
@@ -110,10 +109,9 @@ public class ComputerPlayerTests
         expected += " ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡";
 
         var hive = HiveFactory.CreateInProgress(
-            new[]
-            {
+            [
                 new Player(0, "P1"), new Player(1, "P1")
-            },
+            ],
             initial.AllCells
         );
 
@@ -147,10 +145,9 @@ public class ComputerPlayerTests
         expected += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
 
         var hive = HiveFactory.CreateInProgress(
-            new[]
-            {
+            [
                 new Player(0, "P1"), new Player(1, "P1")
-            },
+            ],
             initial.AllCells
         );
 
@@ -184,10 +181,9 @@ public class ComputerPlayerTests
         expected += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
 
         var hive = HiveFactory.CreateInProgress(
-            new[]
-            {
+            [
                 new Player(0, "P1"), new Player(1, "P1")
-            },
+            ],
             initial.AllCells
         );
 
@@ -210,9 +206,10 @@ public class ComputerPlayerTests
         initial += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
 
         var beetleCell = initial.AllCells.First(c => c.Tiles.Any(t => t.Creature.Name == Creatures.Beetle.Name));
-        var beetle = beetleCell.RemoveTopTile();
-        beetleCell.AddTile(new(11, 1, Creatures.Queen));
-        beetleCell.AddTile(beetle);
+        var (beetle, cellWithoutBeetle) = beetleCell.RemoveTopTile();
+        var rebuiltCell = cellWithoutBeetle.AddTile(new(11, 1, Creatures.Queen)).AddTile(beetle);
+        initial.AllCells.Remove(beetleCell);
+        initial.AllCells.Add(rebuiltCell);
 
         var expected = new ExpectedAiBuilder();
 
@@ -226,10 +223,9 @@ public class ComputerPlayerTests
         expected += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
 
         var hive = HiveFactory.CreateInProgress(
-            new[]
-            {
+            [
                 new Player(0, "P1"), new Player(1, "P1")
-            },
+            ],
             initial.AllCells
         );
 
@@ -264,23 +260,22 @@ public class ComputerPlayerTests
 
         var player1 = new Player(0, "P1")
         {
-            Tiles = new HashSet<Tile>
+            Tiles = new Tile[]
             {
                 new(50, 0, Creatures.Grasshopper)
-            }
+            }.ToImmutableHashSet()
         };
         var player2 = new Player(1, "P2")
         {
-            Tiles = new HashSet<Tile>
+            Tiles = new Tile[]
             {
                 new(51, 1, Creatures.Grasshopper)
-            }
+            }.ToImmutableHashSet()
         };
         var hive = HiveFactory.CreateInProgress(
-            new[]
-            {
+            [
                 player1, player2
-            },
+            ],
             initial.AllCells
         );
         var player = new ComputerPlayer(hive);
@@ -299,10 +294,9 @@ public class ComputerPlayerTests
         initial += " ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡";
 
         var hive = HiveFactory.CreateInProgress(
-            new[]
-            {
+            [
                 new Player(0, "P1"), new Player(1, "P1")
-            },
+            ],
             initial.AllCells
         );
         var player = new ComputerPlayer(hive);
@@ -332,16 +326,12 @@ public class ComputerPlayerTests
 
         var player1 = new Player(0, "P1")
         {
-            Tiles = new HashSet<Tile>
-            {
-                tile
-            }
+            Tiles = new[] { tile }.ToImmutableHashSet()
         };
         var hive = HiveFactory.CreateInProgress(
-            new[]
-            {
+            [
                 player1, new Player(1, "P1")
-            },
+            ],
             initial.AllCells
         );
 
@@ -409,16 +399,15 @@ public class ComputerPlayerTests
         expected += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
         expected += " ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡";
         expected += "⬡ ⬡ ★ B a ⬡ ⬡ ⬡ ";
-        expected += " ⬡ ⬡ ⬡ B ⬡ Q ⬡ ⬡";
+        expected += " ⬡ ⬡ ✔ B ⬡ Q ⬡ ⬡";
         expected += "⬡ ✔ q B B a ⬡ ⬡ ";
         expected += " ⬡ ✔ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡";
         expected += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
 
         var hive = HiveFactory.CreateInProgress(
-            new[]
-            {
+            [
                 new Player(0, "P1"), new Player(1, "P1")
-            },
+            ],
             initial.AllCells
         );
         var player = new ComputerPlayer(hive);
@@ -440,9 +429,10 @@ public class ComputerPlayerTests
         initial += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
 
         var beetleCell = initial.AllCells.First(c => c.Tiles.Any(t => t.Creature.Name == Creatures.Beetle.Name));
-        var beetle = beetleCell.RemoveTopTile();
-        beetleCell.AddTile(new(11, 0, Creatures.Queen));
-        beetleCell.AddTile(beetle);
+        var (beetle, cellWithoutBeetle) = beetleCell.RemoveTopTile();
+        var rebuiltCell = cellWithoutBeetle.AddTile(new(11, 0, Creatures.Queen)).AddTile(beetle);
+        initial.AllCells.Remove(beetleCell);
+        initial.AllCells.Add(rebuiltCell);
 
         var expected = new ExpectedAiBuilder();
 
@@ -456,10 +446,9 @@ public class ComputerPlayerTests
         expected += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
 
         var hive = HiveFactory.CreateInProgress(
-            new[]
-            {
+            [
                 new Player(0, "P1"), new Player(1, "P1")
-            },
+            ],
             initial.AllCells
         );
 
@@ -479,9 +468,10 @@ public class ComputerPlayerTests
         initial += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
 
         var beetleCell = initial.AllCells.First(c => c.Tiles.Any(t => t.Creature.Name == Creatures.Beetle.Name));
-        var beetle = beetleCell.RemoveTopTile();
-        beetleCell.AddTile(new(13, 1, Creatures.Queen));
-        beetleCell.AddTile(beetle);
+        var (beetle, cellWithoutBeetle) = beetleCell.RemoveTopTile();
+        var rebuiltCell = cellWithoutBeetle.AddTile(new(13, 1, Creatures.Queen)).AddTile(beetle);
+        initial.AllCells.Remove(beetleCell);
+        initial.AllCells.Add(rebuiltCell);
 
         var expected = new ExpectedAiBuilder();
 
@@ -492,10 +482,9 @@ public class ComputerPlayerTests
         expected += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
 
         var hive = HiveFactory.CreateInProgress(
-            new[]
-            {
+            [
                 new Player(0, "P1"), new Player(1, "P1")
-            },
+            ],
             initial.AllCells
         );
         var player = new ComputerPlayer(hive);
@@ -524,10 +513,9 @@ public class ComputerPlayerTests
         expected += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ⬡ ";
 
         var hive = HiveFactory.CreateInProgress(
-            new[]
-            {
+            [
                 new Player(0, "P1"), new Player(1, "P1")
-            },
+            ],
             initial.AllCells
         );
 
@@ -565,10 +553,9 @@ public class ComputerPlayerTests
         };
 
         var hive = HiveFactory.CreateInProgress(
-            new[]
-            {
+            [
                 new Player(0, "P1"), new Player(1, "P1")
-            },
+            ],
             initial.AllCells,
             history
         );
@@ -608,10 +595,9 @@ public class ComputerPlayerTests
         };
 
         var hive = HiveFactory.CreateInProgress(
-            new[]
-            {
+            [
                 new Player(0, "P1"), new Player(1, "P1")
-            },
+            ],
             initial.AllCells,
             history
         );

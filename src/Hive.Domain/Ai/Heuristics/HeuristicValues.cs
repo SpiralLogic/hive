@@ -12,7 +12,7 @@ internal class HeuristicValues
     internal readonly GameStatus GameStatus;
     internal readonly Move Move;
     internal readonly Cell? MoveFromLocation;
-    internal readonly List<Cell> MoveFromNeighbours = new();
+    internal readonly List<Cell> MoveFromNeighbours = [];
     internal readonly List<Cell> MoveNeighbours;
     internal readonly Cell MoveToLocation;
     internal readonly int OpponentId;

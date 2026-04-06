@@ -1,9 +1,9 @@
 using System;
 using System.Linq;
 using System.Text;
-using FluentAssertions;
-using FluentAssertions.Execution;
-using FluentAssertions.Primitives;
+using AwesomeAssertions;
+using AwesomeAssertions.Execution;
+using AwesomeAssertions.Primitives;
 using Hive.Domain.Entities;
 
 namespace Hive.Domain.Tests.TestUtils;
@@ -49,7 +49,7 @@ internal sealed class AiAssertions(Func<Move> subject, AssertionChain chain)
                 "\nResulting " + Identifier + "s did not match expected\n\nInitial:\n{1}\n\nActual - Expected:\n{2}\n",
                 _ => initialBuilder.OriginCells.Count,
                 _ => new StringBuilder(initialBuilder.ToColoredString(initialBuilder.ToString())),
-                actual => new StringBuilder(expected.GetMoveDiff(new(), actual))
+                actual => new StringBuilder(expected.GetMoveDiff([], actual))
             );
 
         return new(this);
@@ -68,7 +68,7 @@ internal sealed class AiAssertions(Func<Move> subject, AssertionChain chain)
                 "\nResulting " + Identifier + "s did not match expected\n\nInitial:\n{1}\n\nActual - Expected:\n{2}\n",
                 _ => initialBuilder.OriginCells.Count,
                 _ => new StringBuilder(initialBuilder.ToColoredString(initialBuilder.ToString())),
-                actual => new StringBuilder(expected.GetMoveDiff(new(), actual))
+                actual => new StringBuilder(expected.GetMoveDiff([], actual))
             );
 
         return new(this);

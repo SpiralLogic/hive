@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text.Json;
-using FluentAssertions;
+using AwesomeAssertions;
 using Hive.Domain.Entities;
 using Xunit;
 
@@ -69,7 +69,7 @@ public class CellTests
         var topTile = new Tile(1, 2, Creatures.Queen);
         var cell = new Cell(new(1, 1)).AddTile(new(1, 2, Creatures.Queen)).AddTile(topTile);
 
-        cell.RemoveTopTile().Should().BeSameAs(topTile);
+        cell.RemoveTopTile().Tile.Should().BeSameAs(topTile);
     }
 
     [Fact]
@@ -78,8 +78,8 @@ public class CellTests
         var topTile = new Tile(1, 2, Creatures.Queen);
         var cell = new Cell(new(1, 1)).AddTile(new(1, 4, Creatures.Ant)).AddTile(topTile);
 
-        cell.RemoveTopTile();
-        cell.Tiles.Should().NotContain(topTile);
+        var (_, updatedCell) = cell.RemoveTopTile();
+        updatedCell.Tiles.Should().NotContain(topTile);
     }
 
     [Fact]

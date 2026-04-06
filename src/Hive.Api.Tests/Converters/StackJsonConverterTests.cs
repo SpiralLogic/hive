@@ -1,10 +1,10 @@
 using System.Buffers;
-using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Text;
 using System.Text.Json;
-using FluentAssertions;
+using AwesomeAssertions;
 using Hive.Api.Converters;
 using Xunit;
 
@@ -12,18 +12,8 @@ namespace Hive.Api.Tests.Converters;
 
 public class StackJsonConverterTests
 {
-    private readonly StackJsonConverter<int> _converter;
-    private readonly Stack<int> _stack;
-
-    public StackJsonConverterTests()
-    {
-        _converter = new();
-
-        _stack = new();
-        _stack.Push(1);
-        _stack.Push(2);
-        _stack.Push(3);
-    }
+    private readonly StackJsonConverter<int> _converter = new();
+    private readonly ImmutableStack<int> _stack = ImmutableStack<int>.Empty.Push(1).Push(2).Push(3);
 
     [Fact]
     public void SerializesStackOrderCorrectly()

@@ -171,7 +171,12 @@ public class WontSplitHiveTests
         initial += "⬡ ⬡ ⬡ ⬡ ⬡ ⬡";
         initial += " ⬡ ⬡ ⬡ ⬡ ⬡ ";
 
-        initial.OriginCells.First().AddTile(new(0, 0, Creatures.Beetle));
+        var originCell = initial.OriginCells.First();
+        var updatedOriginCell = originCell.AddTile(new(0, 0, Creatures.Beetle));
+        initial.AllCells.Remove(originCell);
+        initial.AllCells.Add(updatedOriginCell);
+        initial.OriginCells.Remove(originCell);
+        initial.OriginCells.Add(updatedOriginCell);
         var expected = new ExpectedMovementBuilder();
 
         expected += " ✔ ✔ ✔ ✔ ✔ ";

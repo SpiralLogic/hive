@@ -1,10 +1,10 @@
-using System.Collections.Generic;
+using System.Collections.Immutable;
 
 namespace Hive.Domain.Entities;
 
 public sealed record Tile(int Id, int PlayerId, Creature Creature)
 {
-    public ISet<Coords> Moves { get; init; } = new HashSet<Coords>();
+    public ImmutableHashSet<Coords> Moves { get; init; } = ImmutableHashSet<Coords>.Empty;
 
     public bool Equals(Tile? other)
     {

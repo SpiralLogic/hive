@@ -3,7 +3,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using FakeItEasy;
-using FluentAssertions;
+using AwesomeAssertions;
 using Hive.Api.Controllers;
 using Hive.Api.DTOs;
 using Hive.Api.Hubs;
@@ -23,10 +23,11 @@ public class MoveControllerTests
     private readonly MoveController _controller;
     private readonly IHubContext<GameHub> _hubMock;
     private readonly MemoryDistributedCache _memoryCache;
+
     private static readonly string[] PlayerNames =
-    {
+    [
         "player1", "player2"
-    };
+    ];
 
     public MoveControllerTests()
     {
@@ -45,7 +46,7 @@ public class MoveControllerTests
         IGameLockProvider gameLockProvider = TestHelpers.CreateGameLockProvider();
 
         var clients = A.Fake<IClientProxy>();
-        A.CallTo(() =>  clients.SendCoreAsync(A<string>._, A<object[]>._, A<CancellationToken>._))
+        A.CallTo(() => clients.SendCoreAsync(A<string>._, A<object[]>._, A<CancellationToken>._))
             .Returns(Task.CompletedTask);
 
         _hubMock = A.Fake<IHubContext<GameHub>>();
@@ -53,8 +54,10 @@ public class MoveControllerTests
         A.CallTo(() => _hubMock.Clients.Group(A<string>._)).Returns(clients);
 
 
-        _controller = new(_hubMock, gameSessionStore, gameLockProvider);
-        _controller.ControllerContext = new ControllerContext { HttpContext = new DefaultHttpContext() };
+        _controller = new(_hubMock, gameSessionStore, gameLockProvider)
+        {
+            ControllerContext = new ControllerContext { HttpContext = new DefaultHttpContext() }
+        };
     }
 
     [Fact]
@@ -71,7 +74,6 @@ public class MoveControllerTests
     [Fact]
     public async Task PostAiMove_GameInCache_ReturnsAccepted()
     {
-
         var actionResult = await _controller.AiMove(TestHelpers.ExistingGameId);
         var result = actionResult.Should().BeOfType<AcceptedAtRouteResult>().Subject;
         result.RouteName.Should().Be("GameEndpointApi");
@@ -137,7 +139,6 @@ public class MoveControllerTests
     [Fact]
     public async Task PostAiMove_GameInCache_SendsNewGameState()
     {
-
         var result = (await _controller.AiMove(TestHelpers.ExistingGameId)).Should().BeOfType<AcceptedAtRouteResult>().Subject;
         var newGameState = result.Value.Should().BeAssignableTo<GameState>().Subject;
 

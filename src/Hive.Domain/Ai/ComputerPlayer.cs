@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Diagnostics;
 using System.IO;
@@ -8,7 +7,7 @@ using System.Threading.Tasks;
 using Hive.Domain.Ai.Heuristics;
 using Hive.Domain.Entities;
 using Hive.Domain.Extensions;
-using System.Security.Cryptography;
+using System.Collections.Generic;
 
 namespace Hive.Domain.Ai;
 
@@ -45,14 +44,16 @@ internal class ComputerPlayer
         };
     }
 
+    private const int Infinity = HeuristicValues.ScoreMax * 10;
+
     public async ValueTask<Move> GetMove()
     {
         _globalStopwatch.Restart();
-        var r = await Run(null, _options.MaxDepth).ConfigureAwait(false);
+        var r = await Run(null, _options.MaxDepth, -Infinity, Infinity).ConfigureAwait(false);
         return r.Move ?? throw new InvalidDataException("Could not determine next move");
     }
 
-    private async ValueTask<ScoredMove> Run(Move? move, int depth)
+    private async ValueTask<ScoredMove> Run(Move? move, int depth, int alpha, int beta)
     {
         if (depth == 0 || _globalStopwatch.ElapsedMilliseconds > _options.GlobalMaxSearchTime) return new(move, 0);
         _localStopwatch.Restart();
@@ -62,7 +63,7 @@ internal class ComputerPlayer
 
         if (toExplore.Length == 0) return new(null, 0);
 
-        var (best, bestScore) = await Explore(depth, toExplore).ConfigureAwait(false);
+        var (best, bestScore) = await Explore(depth, toExplore, alpha, beta).ConfigureAwait(false);
 
         _depth[depth - 1] = new(best, bestScore);
         return _depth[depth - 1];
@@ -74,13 +75,14 @@ internal class ComputerPlayer
         var toExplore = new Dictionary<int, List<ExploreNode>>();
         foreach (var nextMove in moves)
         {
+            var snapshot = _hive.TakeSnapshot();
             var status = MakeMove(nextMove);
-            if (!toExplore.ContainsKey(nextMove.Tile.Id)) toExplore.Add(nextMove.Tile.Id, new());
+            if (!toExplore.ContainsKey(nextMove.Tile.Id)) toExplore.Add(nextMove.Tile.Id, []);
 
             var tileMoves = toExplore[nextMove.Tile.Id];
             var values = new HeuristicValues(_hive, nextMove, status);
             var score = _heuristics.Sum(h => h.Get(values, values.Move));
-            _hive.RevertMove();
+            _hive.RestoreSnapshot(snapshot);
             tileMoves.Add(new(score, values));
         }
 
@@ -97,29 +99,35 @@ internal class ComputerPlayer
         return moves.Where(s => s.Score > 0 || max <= 0)
             .OrderByDescending(t => t.Score)
             .Take(2 * toExplore.Count)
-            .OrderBy(_ => RandomNumberGenerator.GetInt32(Int32.MaxValue))
             .ToArray();
     }
 
-    private async ValueTask<ScoredMove> Explore(int depth, ExploreNode[] toExplore)
+    private async ValueTask<ScoredMove> Explore(int depth, ExploreNode[] toExplore, int alpha, int beta)
     {
         var best = toExplore[0].Values.Move;
         var bestScore = -HeuristicValues.ScoreMax;
 
-        foreach (var (nextScore, values) in toExplore.OrderBy(_ =>  RandomNumberGenerator.GetInt32(Int32.MaxValue)))
+        foreach (var (nextScore, values) in toExplore)
         {
             if ((_options.MaxDepth - depth) % 2 == 1 && _localStopwatch.ElapsedMilliseconds > _options.LocalMaxSearchTime) break;
+            var snapshot = _hive.TakeSnapshot();
             MakeMove(values.Move);
             if (depth == _options.MaxDepth) await BroadcastSelect(values.Move.Tile).ConfigureAwait(false);
 
             var score = nextScore;
             if (nextScore < HeuristicValues.ScoreMax)
-                score += -(await Run(values.Move, depth - 1).ConfigureAwait(false)).Score / (_options.MaxDepth - depth + 1);
+            {
+                var divisor = _options.MaxDepth - depth + 1;
+                var childAlpha = (nextScore - beta) * divisor;
+                var childBeta = (nextScore - alpha) * divisor;
+                score += -(await Run(values.Move, depth - 1, childAlpha, childBeta).ConfigureAwait(false)).Score / divisor;
+            }
 
-            _hive.RevertMove();
+            _hive.RestoreSnapshot(snapshot);
 
             if (score >= bestScore) (best, bestScore) = (values.Move, score);
-
+            if (bestScore > alpha) alpha = bestScore;
+            if (alpha >= beta) break;
         }
 
         if (depth == _options.MaxDepth) await BroadcastDeselect().ConfigureAwait(false);
@@ -148,21 +156,16 @@ internal class ComputerPlayer
     private GameStatus MakeMove(Move move)
     {
         if (_hive.Cells.FindCellOrDefault(move.Coords) == null)
-        {
-            _hive.Cells.Add(new(move.Coords));
-            move.Tile.Moves.Add(move.Coords);
-        }
+            _hive.Cells.Add(new Cell(move.Coords));
 
-        var status = _hive.Move(move);
-
-        return status;
+        return _hive.Move(move);
     }
 
     private IEnumerable<Move> GetMoves()
     {
         var cells = _hive.Cells.ToHashSet();
         var unplacedTiles = _hive.Players.SelectMany(p => p.Tiles.GroupBy(t => t.Creature).Select(g => g.First()))
-            .SelectMany(t => t.Moves.Select(m => new Move(t, m)).OrderBy(_ =>  RandomNumberGenerator.GetInt32(Int32.MaxValue)));
+            .SelectMany(t => t.Moves.Select(m => new Move(t, m)));
         var placedTiles = cells.WhereOccupied()
             .OrderBy(c => c.QueenNeighbours(_hive.Cells).Any())
             .Select(c => c.TopTile())

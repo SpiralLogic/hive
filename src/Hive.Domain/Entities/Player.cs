@@ -1,10 +1,10 @@
-﻿using System.Collections.Generic;
+using System.Collections.Immutable;
 
 namespace Hive.Domain.Entities;
 
 public sealed record Player(int Id, string Name)
 {
-    public ISet<Tile> Tiles { get; init; } = new HashSet<Tile>();
+    public ImmutableHashSet<Tile> Tiles { get; init; } = ImmutableHashSet<Tile>.Empty;
 
     public bool Equals(Player? other)
     {
@@ -13,9 +13,14 @@ public sealed record Player(int Id, string Name)
         return Id == other.Id;
     }
 
-    internal void RemoveTile(Tile tile)
+    internal Player RemoveTile(Tile tile)
     {
-        Tiles.Remove(tile);
+        return this with { Tiles = Tiles.Remove(tile) };
+    }
+
+    internal Player AddTile(Tile tile)
+    {
+        return this with { Tiles = Tiles.Add(tile) };
     }
 
     public override int GetHashCode()

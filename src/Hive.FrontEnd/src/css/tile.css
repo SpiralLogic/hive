@@ -42,7 +42,7 @@
     opacity: 1;
 }
 
-.tile.stacked:not([draggable='true'], :hover, :active) ~ .tile {
+.tile.stacked:not([draggable='true'], :hover, :active)~.tile {
     opacity: 0;
 }
 
@@ -84,14 +84,18 @@ main.player0 .tile.player0.selected:hover {
     transition: box-shadow 0.2s ease-in;
     outline: none;
     box-shadow: 0 calc(var(--tile-size) / -4) calc(var(--tile-size) / 3) 0.5vh var(--shadow),
-    0 calc(var(--tile-size) / 4) calc(var(--tile-size) / 3) 0.5vh var(--shadow),
-    0 0 calc(var(--tile-size) / 3) 0.4vw var(--shadow);
+        0 calc(var(--tile-size) / 4) calc(var(--tile-size) / 3) 0.5vh var(--shadow),
+        0 0 calc(var(--tile-size) / 3) 0.4vw var(--shadow);
 }
 
 .before-drag::before {
     background: transparent !important;
-    
+    content: none;
+    box-shadow: none !important;
+    transition: none !important;
     --shadow: none;
+    content: '' !important;
+
 }
 
 @keyframes selected {
@@ -116,7 +120,7 @@ main.player0 .tile.player0.selected:hover {
     }
 }
 
-@media only screen and (width <= 720px) {
+@media only screen and (width <=720px) {
     [role='cell'] .tile.stacked:hover:active {
         animation: stacked 3s;
     }

@@ -13,15 +13,15 @@ internal abstract class HiveBuilder
     internal static readonly HiveCharacter Friend = new("Cyan", '⬢', ConsoleColor.Cyan);
     internal static readonly HiveCharacter Enemy = new("Enemy", '⏣', ConsoleColor.Magenta);
 
-    internal readonly HashSet<Cell> AllCells = new();
+    internal readonly HashSet<Cell> AllCells = [];
 
     protected readonly ISet<HiveCharacter> AllSymbols = new[]
     {
         Empty, Origin, Friend, Enemy
     }.ToHashSet();
 
-    internal readonly HashSet<Cell> OriginCells = new();
-    protected readonly List<string> RowStrings = new();
+    internal readonly HashSet<Cell> OriginCells = [];
+    protected readonly List<string> RowStrings = [];
 
     private int _currentR;
     private int _rowLength;
@@ -45,9 +45,8 @@ internal abstract class HiveBuilder
         foreach (var token in rowSplit)
         {
             var cell = new Cell(new(q++, builder._currentR));
+            if (token != Empty.Symbol) cell = builder.ModifyCell(cell, token);
             if (token == Origin.Symbol) builder.OriginCells.Add(cell);
-
-            if (token != Empty.Symbol) builder.ModifyCell(cell, token);
             builder.AllCells.Add(cell);
         }
 
@@ -94,7 +93,7 @@ internal abstract class HiveBuilder
         return AllSymbols.Aggregate(rows, (str, c) => str.Replace(c.Symbol.ToString(), c.ToString(), StringComparison.Ordinal));
     }
 
-    protected abstract void ModifyCell(Cell cell, char symbol);
+    protected abstract Cell ModifyCell(Cell cell, char symbol);
 
     public override string ToString()
     {

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using FluentAssertions;
+using AwesomeAssertions;
 using Hive.Domain.Entities;
 using Hive.Domain.Movements;
 using Xunit;

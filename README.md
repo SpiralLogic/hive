@@ -6,22 +6,22 @@
 </div>
 
 
-## Hive board game.
+## Hive board game
 
-The game requires 2 players. You can share a link to an opponent using the share icon and play in real time. An deployed
-version can be found here (https://hive.sorijen.net.au)
+The game requires 2 players. You can share a link to an opponent using the share icon and play in real time. A deployed
+version can be found [here](https://hive.sorijen.net.au).
 
-The game is created by [Gen42 Games](http://gen42.com/). Here is a link to
+The game is created by [Gen42 Games](https://gen42.com/). Here is a link to
 the [original rules](https://www.gen42.com/download/rules/hive/Hive_English_Rules.pdf)
 
 ### Requires:
 
-- node latest
-- dotnet sdk 6 latest
-- pnpm
+- node >=20
+- dotnet sdk 10.0
+- pnpm >=9
 
 ```
-npm i --location=global pnpm  
+corepack enable
 ```
 
 ### To Run
@@ -48,7 +48,7 @@ docker run -d -p 5001:5001 hive
 ### Develop with live watch
 
 ```
-dotnet watch -v --project ./src/Hive.Api run
+dotnet watch --project ./src/Hive.Api
 ```
 
 open browser [https://localhost:5001](https://localhost:5001)
@@ -61,14 +61,14 @@ open browser [https://localhost:5001](https://localhost:5001)
 * github actions for CI
 * kubernetes deployment script for k8s
 
-### goals
+### Goals
 
 - [x] 100% light house scores
-- [x] 100% test coverage (branch, stratement and line)
+- [x] 100% test coverage (branch, statement and line)
 - [x] To minimise non-dev dependencies.
-- [x] use latest ~~.net5~~ .net6 to try new features
+- [x] use latest ~~.net5~~ ~~.net6~~ .net10 to try new features
 - [x] investigate build and bundler options
-    - esbuild wins (webpack, rollup, parcel, browserify)
+    - vite + esbuild (webpack, rollup, parcel, browserify)
 - [x] vanilla css3
 - [x] well tested clean domain layer
 - [x] all networking and hardware to be self hosted and managed on prem
@@ -78,6 +78,6 @@ open browser [https://localhost:5001](https://localhost:5001)
 - [x] self created kubernetes cluster automated (inc tls)
 - [x] no database instances
 - [x] be accessible, mobile friendly, responsive with 100 lighthouse score
-- [?] attempt ML for an AI player
+- [x] attempt ML for an AI player
 - [ ] ability to find other live players
 - [ ] see move history

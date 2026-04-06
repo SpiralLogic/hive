@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Diagnostics;
 using System.Reflection;
 using System.Text.Json;
@@ -12,13 +13,13 @@ public class StackJsonConverter : JsonConverterFactory
     public override bool CanConvert(Type typeToConvert)
     {
         ArgumentNullException.ThrowIfNull(typeToConvert);
-        return typeToConvert.IsGenericType && typeToConvert.GetGenericTypeDefinition() == typeof(Stack<>);
+        return typeToConvert.IsGenericType && typeToConvert.GetGenericTypeDefinition() == typeof(ImmutableStack<>);
     }
 
     public override JsonConverter CreateConverter(Type typeToConvert, JsonSerializerOptions options)
     {
         ArgumentNullException.ThrowIfNull(typeToConvert);
-        Debug.Assert(typeToConvert.IsGenericType && typeToConvert.GetGenericTypeDefinition() == typeof(Stack<>));
+        Debug.Assert(typeToConvert.IsGenericType && typeToConvert.GetGenericTypeDefinition() == typeof(ImmutableStack<>));
 
         var elementType = typeToConvert.GetGenericArguments()[0];
 
@@ -34,9 +35,9 @@ public class StackJsonConverter : JsonConverterFactory
     }
 }
 
-public class StackJsonConverter<T> : JsonConverter<Stack<T>>
+public class StackJsonConverter<T> : JsonConverter<ImmutableStack<T>>
 {
-    public override Stack<T> Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    public override ImmutableStack<T> Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
         if (reader.TokenType != JsonTokenType.StartArray || !reader.Read()) throw new JsonException();
 
@@ -49,10 +50,10 @@ public class StackJsonConverter<T> : JsonConverter<Stack<T>>
             reader.Read();
         }
         elements.Reverse();
-        return new(elements);
+        return ImmutableStack.CreateRange(elements);
     }
 
-    public override void Write(Utf8JsonWriter writer, Stack<T> value, JsonSerializerOptions options)
+    public override void Write(Utf8JsonWriter writer, ImmutableStack<T> value, JsonSerializerOptions options)
     {
         ArgumentNullException.ThrowIfNull(writer);
         ArgumentNullException.ThrowIfNull(value);

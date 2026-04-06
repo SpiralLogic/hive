@@ -1,5 +1,5 @@
 using System.Threading.Tasks;
-using FluentAssertions;
+using AwesomeAssertions;
 using Hive.Api.Controllers;
 using Hive.Api.DTOs;
 using Hive.Api.Services;

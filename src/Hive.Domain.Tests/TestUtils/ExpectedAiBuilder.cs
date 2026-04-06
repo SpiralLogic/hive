@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Hive.Domain.Entities;
@@ -33,11 +33,12 @@ internal sealed class ExpectedAiBuilder : HiveBuilder
         return ExpectedCells.Select(c => c.Coords).ToHashSet();
     }
 
-    protected override void ModifyCell(Cell cell, char symbol)
+    protected override Cell ModifyCell(Cell cell, char symbol)
     {
-        if (symbol == Expected.Symbol) cell.AddTile(new(TileIdSequence++, 2, Expected.Creature));
-        if (symbol == Unexpected.Symbol) cell.AddTile(new(TileIdSequence++, 2, Unexpected.Creature));
-        if (symbol == Origin.Symbol) cell.AddTile(new(TileIdSequence++, 0, Origin.Creature));
+        if (symbol == Expected.Symbol) return cell.AddTile(new(TileIdSequence++, 2, Expected.Creature));
+        if (symbol == Unexpected.Symbol) return cell.AddTile(new(TileIdSequence++, 2, Unexpected.Creature));
+        if (symbol == Origin.Symbol) return cell.AddTile(new(TileIdSequence++, 0, Origin.Creature));
+        return cell;
     }
 
     internal string GetMoveDiff(HashSet<(Coords Coords, Tile Tile)> origins, Move move)

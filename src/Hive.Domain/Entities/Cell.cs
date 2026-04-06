@@ -1,11 +1,11 @@
-﻿using System.Collections.Generic;
+using System.Collections.Immutable;
 
 namespace Hive.Domain.Entities;
 
 public sealed record Cell(Coords Coords)
 {
     private readonly int _hashCode = Coords.GetHashCode();
-    public Stack<Tile> Tiles { get; init; } = new();
+    public ImmutableStack<Tile> Tiles { get; init; } = ImmutableStack<Tile>.Empty;
 
     public bool Equals(Cell? other)
     {
@@ -15,13 +15,12 @@ public sealed record Cell(Coords Coords)
 
     public Cell AddTile(Tile tile)
     {
-        Tiles.Push(tile);
-        return this;
+        return this with { Tiles = Tiles.Push(tile) };
     }
 
     public bool IsEmpty()
     {
-        return Tiles.Count == 0;
+        return Tiles.IsEmpty;
     }
 
     public Tile TopTile()
@@ -29,9 +28,9 @@ public sealed record Cell(Coords Coords)
         return Tiles.Peek();
     }
 
-    public Tile RemoveTopTile()
+    public (Tile Tile, Cell Cell) RemoveTopTile()
     {
-        return Tiles.Pop();
+        return (Tiles.Peek(), this with { Tiles = Tiles.Pop() });
     }
 
     public override int GetHashCode()

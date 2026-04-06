@@ -2,7 +2,7 @@ using System.Globalization;
 using System.Threading;
 using System.Threading.Tasks;
 using FakeItEasy;
-using FluentAssertions;
+using AwesomeAssertions;
 using Hive.Api.Hubs;
 using Hive.Domain.Entities;
 using Microsoft.AspNetCore.Http.Connections.Features;

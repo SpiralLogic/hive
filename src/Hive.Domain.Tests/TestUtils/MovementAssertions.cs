@@ -1,22 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using FluentAssertions;
-using FluentAssertions.Execution;
-using FluentAssertions.Primitives;
+using AwesomeAssertions;
+using AwesomeAssertions.Execution;
+using AwesomeAssertions.Primitives;
 using Hive.Domain.Entities;
 using Hive.Domain.Movements;
 
 namespace Hive.Domain.Tests.TestUtils;
 
-internal sealed class MovementAssertions : ReferenceTypeAssertions<Func<InitialHiveBuilder, ISet<Coords>>, MovementAssertions>
+internal sealed class MovementAssertions(Func<InitialHiveBuilder, ISet<Coords>> subject, AssertionChain chain)
+    : ReferenceTypeAssertions<Func<InitialHiveBuilder, ISet<Coords>>, MovementAssertions>(subject, chain)
 {
-    private readonly AssertionChain _chain;
-
-    public MovementAssertions(Func<InitialHiveBuilder, ISet<Coords>> subject, AssertionChain chain) : base(subject,chain)
-    {
-        this._chain = chain;
-    }
+    private readonly AssertionChain _chain = chain;
 
     protected override string Identifier => "Movements";
 

@@ -11,7 +11,7 @@ internal class WontSplitHive : IMovement
     {
         var allCells2 = allCells.ToHashSet();
         allCells2.Remove(originCell);
-        if (originCell.Tiles.Count > 1)
+        if (originCell.Tiles.Count() > 1)
             return allCells2.ToCoords();
 
         var allOccupied = allCells2.WhereOccupied().ToHashSet();

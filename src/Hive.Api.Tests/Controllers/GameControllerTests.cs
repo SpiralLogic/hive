@@ -1,14 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using FakeItEasy;
-using FluentAssertions;
+using AwesomeAssertions;
 using Hive.Api.Controllers;
 using Hive.Api.DTOs;
 using Hive.Api.Services;
 using Hive.Domain;
 using Hive.Domain.Entities;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Distributed;
 using Xunit;
@@ -20,7 +18,7 @@ public sealed class GameControllerTests : IDisposable
     private const string ExistingGameId = "EXISTING_GAME_ID";
     private const string MissingGameId = "MISSING_GAME_ID";
     private readonly GameController _controller;
-    private static readonly string[] PlayerNames = { "player1", "player2" };
+    private static readonly string[] PlayerNames = ["player1", "player2"];
 
     public GameControllerTests()
     {
@@ -31,10 +29,8 @@ public sealed class GameControllerTests : IDisposable
         var memoryCache = TestHelpers.CreateTestMemoryCache();
         memoryCache.Set(TestHelpers.ExistingGameId, TestHelpers.GetSerializedBytes(gameState, jsonOptions));
         IGameSessionStore gameSessionStore = TestHelpers.CreateSessionStore(memoryCache, jsonOptions);
-        var environment = A.Fake<IWebHostEnvironment>();
-        environment.EnvironmentName = "Production";
 
-        _controller = new(gameSessionStore, environment);
+        _controller = new(gameSessionStore);
     }
 
     [Fact]
@@ -73,10 +69,8 @@ public sealed class GameControllerTests : IDisposable
         var memoryCache = TestHelpers.CreateTestMemoryCache();
         await memoryCache.SetAsync(TestHelpers.ExistingGameId, TestHelpers.GetSerializedBytes(gameState, jsonOptions));
         IGameSessionStore gameSessionStore = TestHelpers.CreateSessionStore(memoryCache, jsonOptions);
-        var environment = A.Fake<IWebHostEnvironment>();
-        environment.EnvironmentName = "Production";
 
-        var controller = new GameController(gameSessionStore, environment);
+        var controller = new GameController(gameSessionStore);
 
         var actionResult = (await controller.GetGame(ExistingGameId)).Result.Should().BeOfType<OkObjectResult>().Subject;
         actionResult.Value.Should().BeAssignableTo<GameState>();
