@@ -1,3 +1,4 @@
+using System;
 using System.Globalization;
 using System.Threading;
 using System.Threading.Tasks;
@@ -26,17 +27,13 @@ public class GameHubTests
     {
         var httpContextFeatureMock = A.Fake<IHttpContextFeature>();
 
-        var feature1 = new RoutingFeature();
-        feature1.RouteData = new();
+        var feature1 = new RoutingFeature { RouteData = new() };
         feature1.RouteData.Values.Add("id", HubGroupName);
-        var feature2 = new RoutingFeature();
-        feature2.RouteData = new();
+        var feature2 = new RoutingFeature { RouteData = new() };
         feature2.RouteData.Values.Add("playerId", playerId);
-        var feature3 = new RoutingFeature();
-        feature3.RouteData = new();
+        var feature3 = new RoutingFeature { RouteData = new() };
         feature3.RouteData.Values.Add("id", null);
-        var feature4 = new RoutingFeature();
-        feature4.RouteData = new();
+        var feature4 = new RoutingFeature { RouteData = new() };
         feature4.RouteData.Values.Add("playerId", null);
         A.CallTo(() => httpContextFeatureMock.HttpContext!.Features.Get<IRoutingFeature>())
             .ReturnsNextFromSequence(feature1, feature2, feature3, feature4);
@@ -81,7 +78,7 @@ public class GameHubTests
             var hub = CreateGameHub(playerId);
 
             await hub.OnConnectedAsync();
-            var a = Fake.GetCalls(_clientProxyMock);
+            Fake.GetCalls(_clientProxyMock);
             A.CallTo(() => _groupManagerMock.AddToGroupAsync(HubConnectionId, HubGroupName, A<CancellationToken>.Ignored))
                 .MustHaveHappened();
             A.CallTo(() => _groupManagerMock.AddToGroupAsync(HubConnectionId, HubGroupName, A<CancellationToken>.Ignored))
@@ -101,7 +98,7 @@ public class GameHubTests
         {
             var playerIdString = int.Parse(playerId, NumberStyles.Integer, CultureInfo.InvariantCulture);
             var hub = CreateGameHub(playerId);
-            var a = Fake.GetCalls(_clientProxyMock);
+            Fake.GetCalls(_clientProxyMock);
             await hub.OnDisconnectedAsync(null);
             A.CallTo(() => _clientProxyMock.SendCoreAsync(
                 "PlayerConnection",
@@ -183,7 +180,7 @@ public class GameHubTests
         public void OnDisconnectedAsyncWithException(string playerId)
         {
             var hub = CreateGameHub(playerId);
-            hub.OnDisconnectedAsync(new()).IsCompletedSuccessfully.Should().BeTrue();
+            hub.OnDisconnectedAsync(new ApplicationException()).IsCompletedSuccessfully.Should().BeTrue();
         }
 
         [Theory]

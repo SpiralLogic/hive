@@ -4,27 +4,25 @@ using Hive.Domain.Entities;
 
 namespace Hive.Domain.Extensions;
 
-public static class CellCollectionExtensions
+internal static class CellCollectionExtensions
 {
 
-    internal static Cell FindCell(this IEnumerable<Cell> cells, Coords coords)
+    extension(IEnumerable<Cell> cells)
     {
-        return cells.First(c => c.Coords.Equals(coords));
-    }
+        internal Cell FindCell(Coords coords)
+        {
+            return cells.First(c => c.Coords.Equals(coords));
+        }
 
-    internal static Cell? FindCellOrDefault(this IEnumerable<Cell> cells, Coords coords)
-    {
-        return cells.FirstOrDefault(c => c.Coords.Equals(coords));
-    }
+        internal Cell? FindCellOrDefault(Coords coords)
+        {
+            return cells.FirstOrDefault(c => c.Coords.Equals(coords));
+        }
 
-    internal static Cell? FindCellOrDefault(this IEnumerable<Cell> cells, Tile tile)
-    {
-        return cells.WhereOccupied().FirstOrDefault(c => c.Tiles.Any(t => t.Id == tile.Id));
-    }
-
-    internal static Cell FindTile(this IEnumerable<Cell> cells, int tileId)
-    {
-        return cells.WhereOccupied().First(c => c.Tiles.Any(t => t.Id == tileId));
+        internal Cell? FindCellOrDefault(Tile tile)
+        {
+            return cells.WhereOccupied().FirstOrDefault(c => c.Tiles.Any(t => t.Id == tile.Id));
+        }
     }
 
     internal static IEnumerable<Cell> CreateAllEmptyNeighbours(this ISet<Cell> cells)
@@ -33,39 +31,41 @@ public static class CellCollectionExtensions
         return cells.SelectMany(cell => cell.Coords.Neighbours()).Except(occupied).ToCells();
     }
 
-    internal static IEnumerable<Cell> SelectOccupiedNeighbors(this IEnumerable<Cell> cells, Cell originCell)
+    extension(IEnumerable<Cell> cells)
     {
-        return cells.SelectNeighbors(originCell).WhereOccupied();
-    }
+        internal IEnumerable<Cell> SelectOccupiedNeighbors(Cell originCell)
+        {
+            return cells.SelectNeighbors(originCell).WhereOccupied();
+        }
 
-    internal static IEnumerable<Cell> SelectNeighbors(this IEnumerable<Cell> cells, Cell originCell)
-    {
-        return cells.Intersect(originCell.Coords.Neighbours().ToCells());
-    }
+        internal IEnumerable<Cell> SelectNeighbors(Cell originCell)
+        {
+            return cells.Intersect(originCell.Coords.Neighbours().ToCells());
+        }
 
-    internal static IEnumerable<Cell> WhereEmpty(this IEnumerable<Cell> cells)
-    {
-        return cells.Where(c => c.IsEmpty());
-    }
+        internal IEnumerable<Cell> WhereEmpty()
+        {
+            return cells.Where(c => c.IsEmpty());
+        }
 
-    internal static IEnumerable<Cell> WhereOccupied(this IEnumerable<Cell> cells)
-    {
-        return cells.Where(c => !c.IsEmpty());
-    }
+        internal IEnumerable<Cell> WhereOccupied()
+        {
+            return cells.Where(c => !c.IsEmpty());
+        }
 
-    internal static IEnumerable<Cell> WherePlayerOccupies(this IEnumerable<Cell> cells, int playerId)
-    {
-        return cells.WhereOccupied().Where(c => c.PlayerOccupies(playerId));
-    }
+        internal IEnumerable<Cell> WherePlayerOccupies(int playerId)
+        {
+            return cells.WhereOccupied().Where(c => c.PlayerOccupies(playerId));
+        }
 
-    internal static ISet<Coords> ToCoords(this IEnumerable<Cell> cells)
-    {
-        return cells.Select(c => c.Coords).ToHashSet();
-    }
+        internal ISet<Coords> ToCoords()
+        {
+            return cells.Select(c => c.Coords).ToHashSet();
+        }
 
-    internal static IEnumerable<Cell> WherePlayerControls(this IEnumerable<Cell> cells, Player player)
-    {
-        return cells.WhereOccupied().Where(c => c.PlayerControls(player));
+        internal IEnumerable<Cell> WherePlayerControls(Player player)
+        {
+            return cells.WhereOccupied().Where(c => c.PlayerControls(player));
+        }
     }
-
 }

@@ -108,10 +108,9 @@ public class HiveTests
         var player1 = hive.Players[0];
         var player2 = hive.Players[1];
         var player1Tile = player1.Tiles.First();
-        var player2Tile = player2.Tiles.First();
 
         hive.Move(new(player1Tile, player1Tile.Moves.First()));
-        player2Tile = hive.Players.First(p => p.Id == player2.Id).Tiles.First();
+        var player2Tile = hive.Players.First(p => p.Id == player2.Id).Tiles.First();
         hive.Move(new(player2Tile, player2Tile.Moves.First()));
 
         var fromCell = hive.Cells.First(cell => !cell.IsEmpty() && !cell.TopTile().Moves.IsEmpty);
@@ -132,18 +131,19 @@ public class HiveTests
         var command = string.Empty;
         Tile? tile = null;
 
+        var status = await hive.AiMove(Broadcast);
+
+        status.Should().Be(GameStatus.MoveSuccess);
+        command.Should().Be("deselect");
+        tile.Should().BeAssignableTo<Tile>().And.NotBeNull();
+        return;
+
         ValueTask Broadcast(string s, Tile t)
         {
             command = s;
             tile = t;
             return ValueTask.CompletedTask;
         }
-
-        var status = await hive.AiMove(Broadcast);
-
-        status.Should().Be(GameStatus.MoveSuccess);
-        command.Should().Be("deselect");
-        tile.Should().BeAssignableTo<Tile>().And.NotBeNull();
     }
 
     [Fact]
@@ -176,14 +176,13 @@ public class HiveTests
         var firstPlayerTile = firstPlayer.Tiles.First();
 
         var secondPlayer = hive.Players.Skip(1).First();
-        var secondPlayerTile = secondPlayer.Tiles.First();
 
         hive.Move(new(firstPlayerTile, firstPlayerTile.Moves.First()));
 
         var secondPlayerCanMoveSecond = hive.Players.SelectMany(p => p.Tiles)
             .Where(t => !t.Moves.IsEmpty)
             .All(t => t.PlayerId == secondPlayer.Id);
-        secondPlayerTile = hive.Players.First(p => p.Id == secondPlayer.Id).Tiles.First();
+        var secondPlayerTile = hive.Players.First(p => p.Id == secondPlayer.Id).Tiles.First();
         hive.Move(new(secondPlayerTile, secondPlayerTile.Moves.First()));
 
         var firstPlayerCanMoveThird = hive.Players.SelectMany(p => p.Tiles)

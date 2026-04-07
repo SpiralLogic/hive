@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Hive.Domain.Entities;
 using Hive.Domain.Extensions;
@@ -9,10 +10,12 @@ public class CanSlideTo : IMovement
 {
     public ISet<Coords> GetMoves(Cell originCell, ISet<Cell> allCells)
     {
+        ArgumentNullException.ThrowIfNull(originCell, "Origin cell cannot be null");
         var availableCells = new HashSet<Cell>();
         AddSlidableNeighbors(originCell, availableCells, allCells);
         return availableCells.ToCoords();
     }
+
     private static void AddSlidableNeighbors(Cell currentCell, ISet<Cell> availableCells, ISet<Cell> allCells)
     {
         var neighbors = currentCell.SelectNeighbors(allCells).ToArray();

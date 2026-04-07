@@ -22,6 +22,6 @@ internal sealed record HiveCharacter(Creature Creature, char Symbol, ConsoleColo
             _ => 37
         };
 
-        return $"\u001b[{color}m{Symbol}\u001b[0m";
+        return $"\e[{color}m{Symbol}\e[0m";
     }
 }

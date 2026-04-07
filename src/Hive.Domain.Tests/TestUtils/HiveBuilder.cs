@@ -97,6 +97,6 @@ internal abstract class HiveBuilder
 
     public override string ToString()
     {
-        return $"\u001b[0m{string.Join("\n", RowStrings)}\u001b[0m";
+        return $"\e[0m{string.Join("\n", RowStrings)}\e[0m";
     }
 }

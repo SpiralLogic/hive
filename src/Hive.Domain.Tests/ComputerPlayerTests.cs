@@ -549,7 +549,7 @@ public class ComputerPlayerTests
             new(new(new(9, 0, Creatures.Beetle), new(4, 3)), new(5, 4)),
             new(new(new(9, 0, Creatures.Beetle), new(5, 3)), new(5, 4)),
             new(new(new(9, 0, Creatures.Beetle), new(4, 4)), new(5, 4)),
-            new(new(new(19, 1, Creatures.Beetle), new(1, 4)), new(1, 1)),
+            new(new(new(19, 1, Creatures.Beetle), new(1, 4)), new(1, 1))
         };
 
         var hive = HiveFactory.CreateInProgress(
@@ -591,8 +591,7 @@ public class ComputerPlayerTests
             new(new(new(9, 1, Creatures.Beetle), new(5, 3)), new(5, 4)),
             new(new(new(9, 1, Creatures.Beetle), new(4, 4)), new(5, 4)),
             new(new(new(9, 1, Creatures.Beetle), new(6, 4)), new(4, 4)),
-            new(new(new(19, 1, Creatures.Beetle), new(1, 4)), new(1, 1)),
-        };
+            new(new(new(19, 1, Creatures.Beetle), new(1, 4)), new(1, 1)) };
 
         var hive = HiveFactory.CreateInProgress(
             [

@@ -18,8 +18,7 @@ internal sealed class GameSessionStore(IDistributedCache distributedCache, JsonS
     public async ValueTask<GameState?> GetGame(string gameId)
     {
         var gameSessionJson = await distributedCache.GetStringAsync(gameId).ConfigureAwait(false);
-        if (string.IsNullOrEmpty(gameSessionJson)) return null;
-        return JsonSerializer.Deserialize<GameState>(gameSessionJson, jsonSerializerOptions);
+        return string.IsNullOrEmpty(gameSessionJson) ? null : JsonSerializer.Deserialize<GameState>(gameSessionJson, jsonSerializerOptions);
     }
 
     public async ValueTask SetGame(string gameId, GameState gameState)

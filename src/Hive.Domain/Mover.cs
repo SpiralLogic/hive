@@ -142,7 +142,7 @@ internal class Mover
         for (var i = 0; i < _hive.Players.Count; i++)
         {
             var player = _hive.Players[i];
-            if (!player.Tiles.Any(t => !t.Moves.IsEmpty)) continue;
+            if (player.Tiles.All(t => t.Moves.IsEmpty)) continue;
             var cleared = player.Tiles
                 .Select(t => t.Moves.IsEmpty ? t : t with { Moves = ImmutableHashSet<Coords>.Empty })
                 .ToImmutableHashSet();
@@ -152,7 +152,7 @@ internal class Mover
         var replacements = new List<(Cell Old, Cell New)>();
         foreach (var cell in _hive.Cells)
         {
-            if (cell.IsEmpty() || !cell.Tiles.Any(t => !t.Moves.IsEmpty)) continue;
+            if (cell.IsEmpty() || cell.Tiles.All(t => t.Moves.IsEmpty)) continue;
             var newStack = ImmutableStack<Tile>.Empty;
             foreach (var t in cell.Tiles.Reverse())
                 newStack = newStack.Push(t.Moves.IsEmpty ? t : t with { Moves = ImmutableHashSet<Coords>.Empty });
@@ -185,11 +185,9 @@ internal class Mover
         ReplacePlayer(player, player.RemoveTile(tile));
 
         var cell = _hive.Cells.FindCellOrDefault(tile);
-        if (cell != null)
-        {
-            var (_, updatedCell) = cell.RemoveTopTile();
-            ReplaceCell(cell, updatedCell);
-        }
+        if (cell == null) return;
+        var (_, updatedCell) = cell.RemoveTopTile();
+        ReplaceCell(cell, updatedCell);
     }
 
     private void ReplaceCell(Cell oldCell, Cell newCell)

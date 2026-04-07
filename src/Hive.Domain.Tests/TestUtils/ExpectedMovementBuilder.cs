@@ -32,8 +32,7 @@ internal sealed class ExpectedMovementBuilder : HiveBuilder
     protected override Cell ModifyCell(Cell cell, char symbol)
     {
         if (symbol == Expected.Symbol) return cell.AddTile(new(1, 1, Expected.Creature));
-        if (symbol == Unexpected.Symbol) return cell.AddTile(new(1, 2, Unexpected.Creature));
-        return cell;
+        return symbol == Unexpected.Symbol ? cell.AddTile(new(1, 2, Unexpected.Creature)) : cell;
     }
 
     internal string GetMovementDiff(IEnumerable<Coords> actual)
@@ -46,6 +45,6 @@ internal sealed class ExpectedMovementBuilder : HiveBuilder
 
         var coloredRows = ToColoredString(ToString()).Split("\n");
 
-        return $"\u001b[37m{string.Join("\n", actualRows.Select((row, i) => row + " | " + coloredRows[i]))}\u001b[0m";
+        return $"\e[37m{string.Join("\n", actualRows.Select((row, i) => row + " | " + coloredRows[i]))}\e[0m";
     }
 }

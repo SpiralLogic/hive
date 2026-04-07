@@ -37,8 +37,7 @@ internal sealed class ExpectedAiBuilder : HiveBuilder
     {
         if (symbol == Expected.Symbol) return cell.AddTile(new(TileIdSequence++, 2, Expected.Creature));
         if (symbol == Unexpected.Symbol) return cell.AddTile(new(TileIdSequence++, 2, Unexpected.Creature));
-        if (symbol == Origin.Symbol) return cell.AddTile(new(TileIdSequence++, 0, Origin.Creature));
-        return cell;
+        return symbol == Origin.Symbol ? cell.AddTile(new(TileIdSequence++, 0, Origin.Creature)) : cell;
     }
 
     internal string GetMoveDiff(HashSet<(Coords Coords, Tile Tile)> origins, Move move)
@@ -58,6 +57,6 @@ internal sealed class ExpectedAiBuilder : HiveBuilder
 
         var coloredRows = ToColoredString(ToString()).Split("\n");
         var comparison = actualRows.Select((row, i) => $"{ToColoredString(row)} | {coloredRows[i]}");
-        return $"Creature:{creature.Name} - {id} to coords: {coords.Q}-{coords.R}\n\u001b[37m{string.Join("\n", comparison)}\u001b[0m";
+        return $"Creature:{creature.Name} - {id} to coords: {coords.Q}-{coords.R}\n\e[37m{string.Join("\n", comparison)}\e[0m";
     }
 }

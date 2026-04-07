@@ -13,14 +13,11 @@ internal class PieceMoveToQueen : IHeuristic
     {
         if (move.Tile.IsCreature(Creatures.Beetle)) return 0;
 
-        if (move.Tile.IsCreature(Creatures.Ant) || move.Tile.IsCreature(Creatures.Spider) ||
-            move.Tile.IsCreature(Creatures.Grasshopper))
-        {
-            if (values.MoveToLocation.HasPlayerQueen(values.OpponentId) == false) return 0;
-            if (values.OpponentQueenNeighbours >= 5) return 0;
-            return 20;
-        }
+        if (!move.Tile.IsCreature(Creatures.Ant) &&
+            !move.Tile.IsCreature(Creatures.Spider) &&
+            !move.Tile.IsCreature(Creatures.Grasshopper)) return 0;
+        if (!values.MoveToLocation.HasPlayerQueen(values.OpponentId)) return 0;
+        return values.OpponentQueenNeighbours >= 5 ? 0 : 20;
 
-        return 0;
     }
 }

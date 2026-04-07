@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Hive.Domain.Extensions;
 using Hive.Domain.Movements;
@@ -24,6 +23,8 @@ public sealed record Creature(string Name)
 
     public ISet<Coords> GetAvailableMoves(Cell originCell, ISet<Cell> cells)
     {
+        ArgumentNullException.ThrowIfNull(cells);
+
         var moves = cells.ToCoords();
         foreach (var move in Movements) moves.IntersectWith(move.GetMoves(originCell, cells));
 

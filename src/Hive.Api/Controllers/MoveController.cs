@@ -21,21 +21,25 @@ public class MoveController(IHubContext<GameHub> hubContext, IGameSessionStore g
     [ProducesErrorResponseType(typeof(BadRequestResult))]
     public async ValueTask<IActionResult> Post(string id, [FromBody] Move move)
     {
-        return await WithGameLock(id, gameState =>
-        {
-            var (_, _, players, cells, history) = gameState;
-            var game = new Domain.Hive(players.ToList(), cells.ToHashSet(), history);
-            var (tileId, coords) = move;
-            var tile = players.SelectMany(p => p.Tiles).Concat(cells.SelectMany(c => c.Tiles)).FirstOrDefault(t => t.Id == tileId);
-            if (tile == null) return new ValueTask<(IActionResult?, GameState?)>((Problem(statusCode: 403, detail: "Tile not found for this game."), null));
+        return await WithGameLock(id,
+            gameState =>
+            {
+                var (_, _, players, cells, history) = gameState;
+                var game = new Domain.Hive(players.ToList(), cells.ToHashSet(), history);
+                var (tileId, coords) = move;
+                var tile = players.SelectMany(p => p.Tiles).Concat(cells.SelectMany(c => c.Tiles)).FirstOrDefault(t => t.Id == tileId);
+                if (tile == null)
+                    return new ValueTask<(IActionResult?, GameState?)>(
+                        (Problem(statusCode: 403, detail: "Tile not found for this game."), null));
 
-            var gameStatus = game.Move(new(tile, coords));
-            if (gameStatus == GameStatus.MoveInvalid)
-                return new ValueTask<(IActionResult?, GameState?)>((ValidationProblem(detail: "Invalid move."), null));
+                var gameStatus = game.Move(new(tile, coords));
+                if (gameStatus == GameStatus.MoveInvalid)
+                    return new ValueTask<(IActionResult?, GameState?)>((ValidationProblem(detail: "Invalid move."), null));
 
-            var newGameState = new GameState(id, gameStatus, game.Players, game.Cells, game.History) { Version = gameState.Version + 1 };
-            return new ValueTask<(IActionResult?, GameState?)>((null, newGameState));
-        }).ConfigureAwait(false);
+                var newGameState =
+                    new GameState(id, gameStatus, game.Players, game.Cells, game.History) { Version = gameState.Version + 1 };
+                return new ValueTask<(IActionResult?, GameState?)>((null, newGameState));
+            }).ConfigureAwait(false);
     }
 
     [HttpPost]
@@ -44,18 +48,20 @@ public class MoveController(IHubContext<GameHub> hubContext, IGameSessionStore g
     [ProducesErrorResponseType(typeof(BadRequestResult))]
     public async ValueTask<IActionResult> AiMove(string id)
     {
-        return await WithGameLock(id, async gameState =>
-        {
-            if (IsTerminalStatus(gameState.GameStatus))
-                return (Conflict(gameState), null);
+        return await WithGameLock(id,
+            async gameState =>
+            {
+                if (IsTerminalStatus(gameState.GameStatus))
+                    return (Conflict(gameState), null);
 
-            var (_, _, players, cells, history) = gameState;
-            var game = new Domain.Hive(players.ToList(), cells.ToHashSet(), history);
-            var status = await game.AiMove(async (type, tile) => await BroadCast(id, type, tile).ConfigureAwait(false)).ConfigureAwait(false);
+                var (_, _, players, cells, history) = gameState;
+                var game = new Domain.Hive(players.ToList(), cells.ToHashSet(), history);
+                var status = await game.AiMove(async (type, tile) => await BroadCast(id, type, tile).ConfigureAwait(false))
+                    .ConfigureAwait(false);
 
-            var newGameState = new GameState(id, status, game.Players, game.Cells, game.History) { Version = gameState.Version + 1 };
-            return (null, (GameState?)newGameState);
-        }).ConfigureAwait(false);
+                var newGameState = new GameState(id, status, game.Players, game.Cells, game.History) { Version = gameState.Version + 1 };
+                return (null, (GameState?)newGameState);
+            }).ConfigureAwait(false);
     }
 
     private async ValueTask<IActionResult> WithGameLock(string id, Func<GameState, ValueTask<(IActionResult?, GameState?)>> action)
@@ -103,8 +109,8 @@ public class MoveController(IHubContext<GameHub> hubContext, IGameSessionStore g
             return null;
         if (!int.TryParse(headerValue.ToString(), out var expectedVersion))
             return Conflict(new ProblemDetails { Detail = "If-Match-Version must be an integer." });
-        if (expectedVersion != currentVersion)
-            return Conflict(new ProblemDetails { Detail = $"Version mismatch. Expected {expectedVersion} but was {currentVersion}." });
-        return null;
+        return expectedVersion != currentVersion
+            ? Conflict(new ProblemDetails { Detail = $"Version mismatch. Expected {expectedVersion} but was {currentVersion}." })
+            : null;
     }
 }

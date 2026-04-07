@@ -1,4 +1,3 @@
-using System;
 using System.Threading.Tasks;
 using Hive.Api.DTOs;
 using Hive.Api.Services;

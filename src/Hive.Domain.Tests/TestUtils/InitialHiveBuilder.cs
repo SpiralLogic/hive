@@ -23,19 +23,19 @@ internal sealed class InitialHiveBuilder : HiveBuilder
         {
             return cell.AddTile(new(TileIdSequence++, 0, Origin.Creature));
         }
-        else if (symbol == Friend.Symbol)
+
+        if (symbol == Friend.Symbol)
         {
             return cell.AddTile(new(TileIdSequence++, 0, Friend.Creature));
         }
-        else if (symbol == Enemy.Symbol)
+
+        if (symbol == Enemy.Symbol)
         {
             return cell.AddTile(new(TileIdSequence++, 1, Enemy.Creature));
         }
-        else
-        {
-            var (creature, cellString, _) = AllSymbols.Single(s => s.Symbol == symbol);
-            var playerId = cellString.ToString().Equals(cellString.ToString().ToUpperInvariant(), StringComparison.Ordinal) ? 0 : 1;
-            return cell.AddTile(new(TileIdSequence++, playerId, creature));
-        }
+
+        var (creature, cellString, _) = AllSymbols.Single(s => s.Symbol == symbol);
+        var playerId = cellString.ToString().Equals(cellString.ToString().ToUpperInvariant(), StringComparison.Ordinal) ? 0 : 1;
+        return cell.AddTile(new(TileIdSequence++, playerId, creature));
     }
 }
