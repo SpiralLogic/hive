@@ -13,9 +13,10 @@ import { HistoricalMove } from '../domain/historical-move';
 const isPreviousMove = (history: HistoricalMove[], coords: HexCoordinate) => {
   if (history.length === 0) return false;
   const previousMove = history.at(-1);
+  if (previousMove === undefined) return false;
   return (
     (previousMove.move.coords.q === coords.q && previousMove.move.coords.r === coords.r) ||
-    (previousMove.originalCoords?.q === coords.q && previousMove.originalCoords.r === coords.r)
+    (previousMove.originalCoords?.q === coords.q && previousMove.originalCoords?.r === coords.r)
   );
 };
 

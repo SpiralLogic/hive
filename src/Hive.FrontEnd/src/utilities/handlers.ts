@@ -20,13 +20,14 @@ export function handleDrop(event_: { preventDefault: () => void }): boolean {
 export const isEnterOrSpace = (event: KeyboardEvent): boolean => event.key === 'Enter' || event.key === ' ';
 
 const focusNext = (target: HTMLElement, direction: -1 | 1) => {
-  const allTabbable = [...document.querySelectorAll('*[tabindex]:not(.name)')];
+  // eslint-disable-next-line unicorn/prefer-spread
+  const allTabbable = Array.from(document.querySelectorAll('*[tabindex]:not(.name)'));
   let index = allTabbable.indexOf(target);
   if (index + direction < 0) index = allTabbable.length;
   (allTabbable[(index + direction) % allTabbable.length] as HTMLElement)?.focus();
 };
 
-export const handleKeyboardNav = (event: Pick<KeyboardEvent, 'key' | 'target'>): boolean => {
+export const handleKeyboardNav = (event: { key: string; target?: EventTarget | null }): boolean => {
   if (event.target instanceof HTMLElement) {
     switch (event.key) {
       case 'ArrowDown':

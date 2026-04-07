@@ -1,4 +1,4 @@
-﻿import {HiveDispatcher, HiveEventListener, HiveIntent} from '../services';
+import {HiveDispatcher, HiveEventListener, HiveIntent} from '../services';
 import {useContext, useEffect} from 'preact/hooks';
 import {createContext} from 'preact';
 

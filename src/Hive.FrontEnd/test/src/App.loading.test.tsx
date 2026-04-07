@@ -6,7 +6,7 @@ describe('aa', () => {
   it('shows loading', () => {
     const ab = new AbortController();
     const promise = new Promise<GameState>((resolve) => {
-      ab.signal.addEventListener('abort', () => resolve(undefined));
+      ab.signal.addEventListener('abort', () => resolve(undefined as unknown as GameState));
     });
     appSetup(promise);
     expect(screen.getByText(/loading/)).toBeInTheDocument();
