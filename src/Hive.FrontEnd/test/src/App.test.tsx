@@ -48,7 +48,7 @@ describe.sequential('<App>', () => {
   });
 
   it('cleans up event handlers', async () => {
-    const {  unmount, dispatcher } = appSetup();
+    const { unmount, dispatcher } = appSetup();
 
     await waitFor(() => expect(dispatcher.add).toHaveBeenCalled());
     unmount();

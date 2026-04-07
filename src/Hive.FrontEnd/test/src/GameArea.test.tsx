@@ -27,7 +27,7 @@ const setup = (gameState: GameState, props: ComponentProps<typeof GameArea>) => 
     ...render(
       <Dispatcher.Provider value={dispatcher}>
         <GameStateContext.Provider value={gameStateContext}>
-          <GameArea {...(props)} />
+          <GameArea {...props} />
         </GameStateContext.Provider>
       </Dispatcher.Provider>
     ),
@@ -84,7 +84,7 @@ describe('<GameArea> rules dialog', () => {
 describe('<GameArea> share dialog', () => {
   it('opens share dialog', async () => {
     const gameState = createGameState(1);
-     mockClipboard();
+    mockClipboard();
 
     setup(gameState, { currentPlayer: 0, aiMode: signal('off') });
 
@@ -95,7 +95,7 @@ describe('<GameArea> share dialog', () => {
 
   it(`closes share dialog`, async () => {
     const gameState = createGameState(1);
- mockClipboard();
+    mockClipboard();
 
     setup(gameState, { currentPlayer: 0, aiMode: signal('off') });
 
@@ -105,7 +105,7 @@ describe('<GameArea> share dialog', () => {
   });
 
   it('calls share API', async () => {
-    const  share = mockShare();
+    const share = mockShare();
     const gameState = createGameState(1);
     globalThis.window.history.replaceState({}, globalThis.document.title, `/game/33/1`);
     setup(gameState, { currentPlayer: 1, aiMode: signal('off') });
@@ -117,8 +117,8 @@ describe('<GameArea> share dialog', () => {
   });
 
   it('copies opponent link to clipboard with navigator', async () => {
- noShare();
-    const  writeText = mockClipboard();
+    noShare();
+    const writeText = mockClipboard();
 
     const gameState = createGameState(1);
     setup(gameState, { currentPlayer: 1, aiMode: signal('off') });
@@ -128,7 +128,7 @@ describe('<GameArea> share dialog', () => {
   });
 
   it('copies opponent link to clipboard with exec command', async () => {
- noShare();
+    noShare();
     const gameState = createGameState(1);
     setup(gameState, { currentPlayer: 1, aiMode: signal('off') });
 
@@ -137,7 +137,7 @@ describe('<GameArea> share dialog', () => {
   });
 
   it(`closes dialog when share link can't be copied`, async () => {
- noShare();
+    noShare();
     const gameState = createGameState(1);
     setup(gameState, { currentPlayer: 1, aiMode: signal('off') });
 

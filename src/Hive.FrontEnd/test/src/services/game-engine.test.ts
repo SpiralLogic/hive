@@ -99,9 +99,12 @@ describe('game engine', () => {
   });
 
   it('throws stale error when server returns conflict', async () => {
-    globalThis.fetch = vi.fn().mockImplementationOnce(() => Promise.resolve({ ok: true, json: () => Promise.resolve(gameState) })).mockImplementationOnce(
-      () => Promise.resolve({ ok: false, status: 409, json: () => Promise.resolve({}) })
-    );
+    globalThis.fetch = vi
+      .fn()
+      .mockImplementationOnce(() => Promise.resolve({ ok: true, json: () => Promise.resolve(gameState) }))
+      .mockImplementationOnce(() =>
+        Promise.resolve({ ok: false, status: 409, json: () => Promise.resolve({}) })
+      );
 
     engine = new GameEngine({ gameId: '33', currentPlayer: '1' });
     await expect(

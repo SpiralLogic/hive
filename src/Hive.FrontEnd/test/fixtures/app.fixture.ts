@@ -48,6 +48,6 @@ export const createGameState = (cells: number): GameState => {
       },
     ],
     gameStatus: 'MoveSuccess',
-    version: 1
+    version: 1,
   };
 };

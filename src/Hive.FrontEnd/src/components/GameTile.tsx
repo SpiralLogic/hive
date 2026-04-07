@@ -14,8 +14,7 @@ const tileSelector = `[tabindex].tile`;
 const cellSelector = `[role="cell"].can-drop`;
 
 /** Matches creatures.svg #hex after translate(2.5,0) scale(.95,1); used only while dragging for drag preview. */
-const tileDragClipPath =
-  'polygon(2.5% 25%, 50% 0%, 97.5% 25%, 97.5% 75%, 50% 100%, 2.5% 75%)';
+const tileDragClipPath = 'polygon(2.5% 25%, 50% 0%, 97.5% 25%, 97.5% 75%, 50% 100%, 2.5% 75%)';
 type Properties = Omit<TileType, 'moves'> & { stacked?: boolean; currentPlayer: number };
 
 const handleMouseLeave = (event: { currentTarget: HTMLElement }) => {

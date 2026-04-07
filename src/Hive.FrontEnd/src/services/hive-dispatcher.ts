@@ -34,10 +34,11 @@ export class HiveDispatcher {
   add = <T extends HiveIntent>(type: T['type'], listener: HiveEventListener<T>): (() => void) => {
     const row = this.byType.get(type) ?? [];
     row.push({
-      subscriber: listener, deliver: (intent) => {
+      subscriber: listener,
+      deliver: (intent) => {
         if (!isIntentFor(type, intent)) return;
         void listener(intent);
-      }
+      },
     });
     this.byType.set(type, row);
     return () => this.remove(type, listener);

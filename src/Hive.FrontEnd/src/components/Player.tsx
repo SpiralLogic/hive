@@ -13,7 +13,7 @@ type Properties = {
 const Player = (props: Readonly<Properties>) => {
   const { name, id, children } = props;
   const hasNoChildren = toChildArray(children).length === 0;
-  const animated = useAnimatedHide(`player player${id}`,hasNoChildren);
+  const animated = useAnimatedHide(`player player${id}`, hasNoChildren);
 
   return (
     <section aria-label={`${name}'s unplaced pieces`} {...animated}>

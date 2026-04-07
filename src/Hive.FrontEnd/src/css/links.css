@@ -16,7 +16,9 @@ nav {
     filter: opacity(0.2);
   }
 
-  & a, & button, & a:where(:visited, :active) {
+  & a,
+  & button,
+  & a:where(:visited, :active) {
     fill: white;
   }
 
