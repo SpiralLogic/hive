@@ -47,12 +47,15 @@ jobs:
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '9.0.x'
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.33.0
       - uses: actions/setup-node@v4
         with:
           node-version: 22
           check-latest: true
-      - name: Install pnpm
-        run: npm install --location=global pnpm
+          cache: pnpm
+          cache-dependency-path: src/Hive.FrontEnd/pnpm-lock.yaml
       - name: dotnet restore
         working-directory: './src'
         run: dotnet restore

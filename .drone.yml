@@ -8,8 +8,7 @@ steps:
     pull: always
     commands:
       - cd src/Hive.FrontEnd
-      - corepack enable
-      - corepack prepare pnpm@latest --activate
+      - npm install -g pnpm@10.33.0
       - pnpm install --frozen-lockfile
       - pnpm test:all:report
       - mv reports/* /drone/src/reports/
@@ -271,7 +270,7 @@ steps:
     image: node:22-alpine
     commands:
       - cd src/Hive.FrontEnd
-      - npm i --location=global pnpm
+      - npm install -g pnpm@10.33.0
       - pnpm update -L
       - pnpm test:all
   - name: dotnet-upgrade

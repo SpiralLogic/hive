@@ -1,0 +1,19 @@
+# Single-package workspace so we can use pnpm 10 workspace settings (see https://pnpm.io/settings).
+packages:
+  - '.'
+
+# Fail install when pnpm does not match package.json#packageManager.
+packageManagerStrictVersion: true
+
+# Supply-chain hardening — https://pnpm.io/supply-chain-security
+blockExoticSubdeps: true
+# Wait until a release is this many minutes old before it can be installed (10080 = 7 days).
+minimumReleaseAge: 10080
+strictDepBuilds: true
+trustPolicy: no-downgrade
+# Re-verify store contents before linking (default true; set explicitly for clarity).
+verifyStoreIntegrity: true
+# Only these dependency names may run install lifecycle scripts (see strictDepBuilds).
+allowBuilds:
+  esbuild: true
+  fsevents: true

@@ -49,18 +49,15 @@ jobs:
         working-directory: './src/Hive.FrontEnd/'
     steps:
       - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.33.0
       - uses: actions/setup-node@v4
         with:
           node-version: '22.1.0'
           architecture: 'x64'
-      - name: Setup - pnpm
-        run: npm install --location=global pnpm
-      - uses: actions/cache@v4
-        with:
-          path: node_modules
-          key: ${{ runner.os }}-node_modules-${{ hashFiles('pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-node_modules-
+          cache: pnpm
+          cache-dependency-path: src/Hive.FrontEnd/pnpm-lock.yaml
       - name: Install - dependencies
         run: pnpm install
       - name: Lint fix - Frontend

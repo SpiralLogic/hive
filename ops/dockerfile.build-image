@@ -29,6 +29,5 @@ COPY --from=mcr.microsoft.com/openjdk/jdk:17-distroless $JAVA_HOME $JAVA_HOME
 
 RUN ln -s /usr/jdk/bin/java /usr/local/bin/java
 
-RUN corepack enable && \
-    corepack install --global pnpm@latest
+RUN npm install -g pnpm@10.33.0
 WORKDIR /source

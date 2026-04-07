@@ -18,11 +18,7 @@ the [original rules](https://www.gen42.com/download/rules/hive/Hive_English_Rule
 
 - node >=20
 - dotnet sdk 10.0
-- pnpm >=9
-
-```
-corepack enable
-```
+- pnpm >=10 (e.g. `npm install -g pnpm@10.33.0`, or see [pnpm installation](https://pnpm.io/installation))
 
 ### To Run
 
