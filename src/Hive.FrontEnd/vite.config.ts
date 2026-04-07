@@ -1,3 +1,7 @@
+/**
+ * Vite 8 uses Rolldown for production builds; customize via `build.rolldownOptions` (or deprecated `build.rollupOptions` alias).
+ * Do not add a separate `rolldown` npm package — the bundler is provided by Vite.
+ */
 import {defineConfig} from 'vitest/config';
 import preact from '@preact/preset-vite';
 
@@ -119,7 +123,6 @@ export default defineConfig({
         reporters: ['dot'],
         coverage: {
             provider: 'v8',
-            all: false,
             enabled: true,
             reporter: ['text', 'lcov'],
             reportsDirectory: './reports/frontend/',

@@ -47,7 +47,7 @@ describe('<Links> ai toggle', () => {
     expect(await screen.findByTitle(/toggle ai/i)).toHaveClass('ai-off');
   });
 
-  it(`toggles auto Ai on mouse wheel `, async () => {
+  it(`toggles auto Ai on mouse wheel`, async () => {
     const aiMode = signal<AiMode>('off');
     setup(aiMode);
 
