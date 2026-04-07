@@ -38,10 +38,8 @@ export const useGameInitializer = (engine: HexEngine, connectionFactory: ServerC
   }, [engine.currentPlayer, engine.initialGame]);
 
   useSignalEffect(() => {
-    if (gameId.value === '')
-      return () => {
-        /* no clean up */
-      };
+    if (gameId.value === '') return;
+
     const serverConnection = connectionFactory({
       currentPlayer: engine.currentPlayer,
       gameId: gameId.value,

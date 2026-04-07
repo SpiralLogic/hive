@@ -12,14 +12,14 @@ function isNonEmpty<A>(array: Array<A>): array is NonEmptyArray<A> {
 
 export const moveMap = signal(new Map<TileMapKey, HexCoordinates>());
 
-const updateMoveMap = (players: Player[], cells: Cells) => {
+const buildMoveMap = (players: Player[], cells: Cells): Map<TileMapKey, HexCoordinates> => {
     const nextMoveMap = new Map<TileMapKey, HexCoordinates>();
     for (const t of players.flatMap((p) => p.tiles)) {
         nextMoveMap.set(`${t.playerId}-${t.id}`, t.moves);
     }
 
     for (const t of cells.flatMap((c) => c.tiles).filter((t) => isNonEmpty(t.moves))) nextMoveMap.set(`${t.playerId}-${t.id}`, t.moves);
-    moveMap.value = nextMoveMap;
+    return nextMoveMap;
 };
 
 const createGameState = () => {
@@ -30,8 +30,9 @@ const createGameState = () => {
     const gameId = signal<string>('');
     const setGameState = (gameState: GameState) => {
         if (gameState.history.length === 0 || gameState.history.length > history.peek().length) {
-            updateMoveMap(gameState.players, gameState.cells);
+            const nextMoveMap = buildMoveMap(gameState.players, gameState.cells);
             batch(() => {
+                moveMap.value = nextMoveMap;
                 cells.value = gameState.cells;
                 if (
                     gameState.players.some(

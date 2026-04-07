@@ -10,6 +10,8 @@
     --shadow: var(--p1shadow);
 }
 
+/* Hex clip during drag only — see GameTile drag handlers (inline clipPath).
+   A permanent clip-path here would clip .tile::before and hide the selected/hover glow. */
 .tile {
     width: var(--tile-size);
     height: var(--tile-size);

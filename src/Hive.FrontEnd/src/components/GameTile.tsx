@@ -1,4 +1,4 @@
-import { Tile as TileType } from '../domain';
+import { Tile as TileType, TileMapKey } from '../domain';
 import { TileAction } from '../services';
 import { handleDrop } from '../utilities/handlers';
 import Tile from './Tile';
@@ -12,6 +12,10 @@ import { useDragHandlers } from '../hooks/useDragHandlers';
 
 const tileSelector = `[tabindex].tile`;
 const cellSelector = `[role="cell"].can-drop`;
+
+/** Matches creatures.svg #hex after translate(2.5,0) scale(.95,1); used only while dragging for drag preview. */
+const tileDragClipPath =
+  'polygon(2.5% 25%, 50% 0%, 97.5% 25%, 97.5% 75%, 50% 100%, 2.5% 75%)';
 type Properties = Omit<TileType, 'moves'> & { stacked?: boolean; currentPlayer: number };
 
 const handleMouseLeave = (event: { currentTarget: HTMLElement }) => {
@@ -21,12 +25,19 @@ const handleMouseLeave = (event: { currentTarget: HTMLElement }) => {
 const GameTile = (properties: Properties) => {
   const { currentPlayer, stacked, ...tile } = properties;
   const { id, creature, playerId } = tile;
-  const availableMoveCount = useComputed(
-    () => currentPlayer === playerId && !!moveMap.value.get(`${playerId}-${id}`)?.length
-  );
-  const tabIndex = useComputed<0 | undefined>(() =>
-    currentPlayer === playerId && !!moveMap.value.get(`${playerId}-${id}`)?.length ? 0 : undefined
-  );
+  const tileMoveState = useComputed(() => {
+    const key = `${playerId}-${id}` as TileMapKey;
+    const mapHasKey = moveMap.value.has(key);
+    const coords = moveMap.value.get(key);
+    const hasAvailableMoves = currentPlayer === playerId && !!coords?.length;
+    return {
+      mapHasKey,
+      hasAvailableMoves,
+      tabIndex: (hasAvailableMoves ? 0 : undefined) as 0 | undefined,
+    };
+  });
+  const draggable = useComputed(() => tileMoveState.value.hasAvailableMoves);
+  const tabIndex = useComputed<0 | undefined>(() => tileMoveState.value.tabIndex);
   const [classes, classesAction] = useClassSignal(`player${playerId}`, 'hex');
   const focus = useFocusElement(tileSelector);
   const dispatcher = useDispatcher();
@@ -60,8 +71,8 @@ const GameTile = (properties: Properties) => {
   });
 
   const { handleClick, handleKeyDown } = useClickAndKeyDownHandler((event) => {
-    if (playerId !== currentPlayer || !moveMap.value.has(`${playerId}-${id}`) || !availableMoveCount.value)
-      return;
+    const { mapHasKey, hasAvailableMoves } = tileMoveState.peek();
+    if (playerId !== currentPlayer || !mapHasKey || !hasAvailableMoves) return;
     event.stopPropagation();
     if (classes.peek().includes('selected')) {
       deselect();
@@ -74,10 +85,12 @@ const GameTile = (properties: Properties) => {
   const { handleDragStart, handleDragEnd } = useDragHandlers(
     (event: DragEvent) => {
       event.stopPropagation();
+      (event.currentTarget as HTMLElement).style.clipPath = tileDragClipPath;
       select();
       classesAction.add('before-drag');
     },
-    () => {
+    (event: DragEvent) => {
+      (event.currentTarget as HTMLElement).style.clipPath = '';
       classesAction.remove('before-drag');
       dispatcher.dispatch({ type: 'tileDropped', tile });
       dispatcher.dispatch({ type: 'tileClear' });
@@ -86,7 +99,7 @@ const GameTile = (properties: Properties) => {
 
   const attributes = {
     title: `Player-${playerId} ${creature}`,
-    draggable: availableMoveCount,
+    draggable,
     creature,
     tabIndex,
   };
