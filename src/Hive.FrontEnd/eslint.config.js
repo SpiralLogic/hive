@@ -78,6 +78,12 @@ export default defineConfig(
     },
   },
   {
+    files: ['src/utilities/handlers.ts'],
+    rules: {
+      'unicorn/prefer-spread': 'off',
+    },
+  },
+  {
     ...testingLibrary.configs['flat/dom'],
     files: ['test/**/*.ts', 'test/**/*.tsx'],
     plugins: {
