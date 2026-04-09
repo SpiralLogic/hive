@@ -72,6 +72,12 @@ export default defineConfig(
     },
   },
   {
+    files: ['src/env.d.ts'],
+    rules: {
+      'unicorn/prevent-abbreviations': 'off',
+    },
+  },
+  {
     ...testingLibrary.configs['flat/dom'],
     files: ['test/**/*.ts', 'test/**/*.tsx'],
     plugins: {
