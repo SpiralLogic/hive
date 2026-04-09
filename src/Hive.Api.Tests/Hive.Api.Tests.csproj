@@ -38,8 +38,13 @@
     <Copy SkipUnchangedFiles="true" SourceFiles="$(SpaRoot)src\static\site.webmanifest" DestinationFiles="$(SpaRoot)public\site.webmanifest" />
     <Copy SkipUnchangedFiles="true" SourceFiles="$(SpaRoot)src\static\favicon.ico" DestinationFiles="$(SpaRoot)public\favicon.ico" />
     <Copy SkipUnchangedFiles="true" SourceFiles="$(SpaRoot)src\index.html" DestinationFiles="$(SpaRoot)public\index.html" />
-    <Copy Condition="'$(Configuration)' != 'Release' " SkipUnchangedFiles="false" SourceFiles="$(SpaRoot)src\index.html" DestinationFiles="$(SpaRoot)public\dummy.js" />
-    <Copy Condition="'$(Configuration)' != 'Release' " SkipUnchangedFiles="false" SourceFiles="$(SpaRoot)src\index.html" DestinationFiles="$(SpaRoot)public\dummy.css" />
+    <!-- Exclude dummy.js and dummy.css from CodeQL analysis by setting a custom property for CodeQL to ignore them. -->
+    <Copy Condition="'$(Configuration)' != 'Release' " SkipUnchangedFiles="false" SourceFiles="$(SpaRoot)src\index.html" DestinationFiles="$(SpaRoot)public\dummy.js">
+      <ExcludeFromCodeCoverage>true</ExcludeFromCodeCoverage>
+    </Copy>
+    <Copy Condition="'$(Configuration)' != 'Release' " SkipUnchangedFiles="false" SourceFiles="$(SpaRoot)src\index.html" DestinationFiles="$(SpaRoot)public\dummy.css">
+      <ExcludeFromCodeCoverage>true</ExcludeFromCodeCoverage>
+    </Copy>
   </Target>
 
   <ItemGroup>
