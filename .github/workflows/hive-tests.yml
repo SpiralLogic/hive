@@ -57,6 +57,8 @@ jobs:
           check-latest: true
           cache: pnpm
           cache-dependency-path: src/Hive.FrontEnd/pnpm-lock.yaml
+        env:
+           FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true 
       - name: Install - dependencies
         run: pnpm install
       - name: Type Check - Frontend
