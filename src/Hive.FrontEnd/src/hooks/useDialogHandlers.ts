@@ -5,15 +5,18 @@ export const useDialogHandlers = (open: Signal<boolean>, onClose: () => void) =>
   const reference = useRef<HTMLDialogElement>(null);
 
   useEffect(() => {
+    const dialogNode = reference.current;
+    if (dialogNode) {
+      dialogNode.addEventListener('close', onClose);
+    }
+
     const dispose = effect(() => {
-      const dialogNode = reference.current;
       if (!open.value) return;
       if (!dialogNode?.open) dialogNode?.showModal();
-      dialogNode?.addEventListener('close', onClose);
     });
 
     return () => {
-      reference.current?.removeEventListener('close', onClose);
+      dialogNode?.removeEventListener('close', onClose);
       dispose();
     };
   }, [open, onClose]);

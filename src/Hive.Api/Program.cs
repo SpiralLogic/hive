@@ -82,6 +82,7 @@ app.Use(async (context, next) =>
 app.UseRouting();
 app.MapControllers();
 app.MapHub<GameHub>("/gamehub/{id}/{playerId}", options => { options.AllowStatefulReconnects = true; });
+app.MapHealthChecks("/health");
 if (app.Environment.IsDevelopment())
 {
     // In development the SPA is served by Vite (SpaProxy), not local wwwroot/index.html.

@@ -19,7 +19,7 @@ export const useModalActions = () => {
   const handlers = useMemo(
     () => ({
       openDialog: (dialog: Exclude<CurrentDialog, 'none'>) => {
-        if (dialog != 'gameOver') currentDialog.value = dialog;
+        if (dialog !== 'gameOver') currentDialog.value = dialog;
       },
       closeDialog: () => (currentDialog.value = 'none'),
     }),
