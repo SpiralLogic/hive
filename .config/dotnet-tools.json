@@ -3,13 +3,13 @@
   "isRoot": true,
   "tools": {
     "dotnet-coverage": {
-      "version": "17.11.3",
+      "version": "18.6.2",
       "commands": [
         "dotnet-coverage"
       ]
     },
     "dotnet-reportgenerator-globaltool": {
-      "version": "5.3.7",
+      "version": "5.5.4",
       "commands": [
         "reportgenerator"
       ]
@@ -21,7 +21,7 @@
       ]
     },
     "dotnet-sonarscanner": {
-      "version": "6.2.0",
+      "version": "11.2.1",
       "commands": [
         "dotnet-sonarscanner"
       ]

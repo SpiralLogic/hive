@@ -20,7 +20,6 @@ export function handleDrop(event_: { preventDefault: () => void }): boolean {
 export const isEnterOrSpace = (event: KeyboardEvent): boolean => event.key === 'Enter' || event.key === ' ';
 
 const focusNext = (target: HTMLElement, direction: -1 | 1) => {
-  // eslint-disable-next-line unicorn/prefer-spread
   const allTabbable = Array.from(document.querySelectorAll('*[tabindex]:not(.name)'));
   let index = allTabbable.indexOf(target);
   if (index + direction < 0) index = allTabbable.length;

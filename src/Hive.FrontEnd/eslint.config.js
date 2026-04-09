@@ -72,6 +72,18 @@ export default defineConfig(
     },
   },
   {
+    files: ['src/env.d.ts'],
+    rules: {
+      'unicorn/prevent-abbreviations': 'off',
+    },
+  },
+  {
+    files: ['src/utilities/handlers.ts'],
+    rules: {
+      'unicorn/prefer-spread': 'off',
+    },
+  },
+  {
     ...testingLibrary.configs['flat/dom'],
     files: ['test/**/*.ts', 'test/**/*.tsx'],
     plugins: {
