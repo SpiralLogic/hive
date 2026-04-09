@@ -17,7 +17,7 @@ jobs:
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '10.0.x'
-      - uses: actions/cache@v4
+      - uses: actions/cache@v5
         with:
           path: ~/.nuget/packages
           key: ${{ runner.os }}-nuget-${{ hashFiles('~/.nuget/packages/packages.lock.json') }}
@@ -33,7 +33,7 @@ jobs:
             dotnet tool run reportgenerator "-reports:./output.cobertura.xml" "-sourcedirs:./" "-assemblyfilters:+Hive.*;-*.Tests" "-targetdir:./reports"  -reporttypes:Html
             dotnet tool run dotnet-dotcover test -c Test --dcOutput=./reports/dotcover.html --dcReportType=HTML --dcHideAutoProperties "--dcFilters=+:Hive.*;-:*.Tests;-:function=.ctor"  ./
       - name: Upload - Test results
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: backend-results
           path: |
@@ -48,7 +48,7 @@ jobs:
         working-directory: './src/Hive.FrontEnd/'
     steps:
       - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v4
+      - uses: pnpm/action-setup@v5
         with:
           version: 10.33.0
       - uses: actions/setup-node@v4
@@ -68,7 +68,7 @@ jobs:
       - name: Test - Frontend
         run: pnpm test
       - name: Upload - Test results
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: frontend-results
           path: src/Hive.FrontEnd/reports/
