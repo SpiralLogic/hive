@@ -51,7 +51,7 @@
 
   <ItemGroup Condition="'$(Configuration)' != 'Release'">
     <PackageReference Include="Microsoft.AspNetCore.SpaProxy">
-      <Version>10.0.3</Version>
+      <Version>10.0.7</Version>
     </PackageReference>
   </ItemGroup>
 
